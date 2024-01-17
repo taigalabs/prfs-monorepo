@@ -196,40 +196,36 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     });
   }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
 
-  // const handleClickValidate = React.useCallback(async () => {
-  //   const tweet_url = formData[TWEET_URL];
-  //   const twitter_handle = formData[TWITTER_HANDLE];
-
-  //   const req: ValidateTwitterAccRequest = {
-  //     tweet_url,
-  //     twitter_handle,
-  //   };
-
-  //   setValidationStatus(Status.InProgress);
-  //   const { payload, error } = await validateTwitterAccRequest(req);
-  //   setValidationStatus(Status.Standby);
-
-  //   if (error) {
-  //     console.error(error);
-  //     setValidationMsg(<span className={styles.error}>{error.toString()}</span>);
-  //   }
-
-  //   if (payload) {
-  //     setValidation(payload.validation);
-  //     setValidationMsg(
-  //       <span className={styles.success}>
-  //         <FaCheck />
-  //       </span>,
-  //     );
-  //   }
-  // }, [
-  //   validateTwitterAccRequest,
-  //   formData[TWEET_URL],
-  //   formData[TWITTER_HANDLE],
-  //   setValidation,
-  //   setValidationMsg,
-  //   setValidationStatus,
-  // ]);
+  const handleClickFetchAsset = React.useCallback(async () => {
+    // const tweet_url = formData[TWEET_URL];
+    // const twitter_handle = formData[TWITTER_HANDLE];
+    // const req: ValidateTwitterAccRequest = {
+    //   tweet_url,
+    //   twitter_handle,
+    // };
+    // setValidationStatus(Status.InProgress);
+    // const { payload, error } = await validateTwitterAccRequest(req);
+    // setValidationStatus(Status.Standby);
+    // if (error) {
+    //   console.error(error);
+    //   setValidationMsg(<span className={styles.error}>{error.toString()}</span>);
+    // }
+    // if (payload) {
+    //   setValidation(payload.validation);
+    //   setValidationMsg(
+    //     <span className={styles.success}>
+    //       <FaCheck />
+    //     </span>,
+    //   );
+    // }
+  }, [
+    validateTwitterAccRequest,
+    // formData[TWEET_URL],
+    formData[WALLET_ADDR],
+    setValidation,
+    setValidationMsg,
+    setValidationStatus,
+  ]);
 
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
@@ -314,6 +310,19 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                     value={formData.wallet_addr}
                     handleChangeValue={handleChangeWalletAddr}
                   />
+                  <div className={styles.btnRow}>
+                    <button
+                      className={cn(styles.btn)}
+                      type="button"
+                      onClick={handleClickFetchAsset}
+                    >
+                      {validationStatus === Status.InProgress && (
+                        <Spinner size={20} color={colors.gray_32} borderWidth={2} />
+                      )}
+                      <span>{i18n.fetch_asset}</span>
+                    </button>
+                    <div className={styles.msg}>{validationMsg}</div>
+                  </div>
                 </div>
               </div>
             </li>

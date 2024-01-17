@@ -92,6 +92,7 @@ export default {
   key: "Key",
   value: "Value",
   validate: "Validate",
+  fetch_asset: "Fetch asset",
   meta: "Meta",
   learn: "Learn",
   see_more: "See more",
