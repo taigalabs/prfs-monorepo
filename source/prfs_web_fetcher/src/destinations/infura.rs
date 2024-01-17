@@ -18,7 +18,7 @@ use tokio::net::{TcpListener, TcpStream};
 
 use crate::WebFetcherError;
 
-pub async fn fetch_asset() -> Result<(), WebFetcherError> {
+pub async fn fetch_asset(wallet_addr: &String) -> Result<(), WebFetcherError> {
     println!("fetch()");
 
     let https = HttpsConnector::new();
