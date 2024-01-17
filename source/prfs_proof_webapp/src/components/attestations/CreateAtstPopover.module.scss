@@ -30,20 +30,31 @@
   color: var(--aqua-blue-50);
 }
 
-.connectBtn {
-  padding: 0px 8px;
+.addBtn {
+  padding-left: 16px;
+  padding-right: 20px;
+  height: 56px;
+  border-radius: 16px;
+
+  svg {
+    margin-right: 12px;
+    font-size: 24px;
+  }
+}
+
+.addBtnContent {
   display: flex;
   align-items: center;
 }
 
 .popoverWrapper {
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 .modal {
-  border-radius: 10px;
-  padding: 12px 13px;
-  width: 300px;
+  border-radius: 6px;
+  padding: 5px 0px;
+  min-width: 180px;
   background-color: var(--white-100);
 }
 
@@ -55,36 +66,19 @@
   padding: 11px 0;
 }
 
-.infoLabel {
-  font-weight: 500;
-}
-
 .menu {
   li {
-    padding: 8px 6px;
-    cursor: pointer;
+    display: flex;
   }
 
   li:hover {
     background-color: var(--bright-gray-50);
   }
-}
 
-.wallet {
-  display: flex;
-  align-items: center;
-
-  svg {
-    margin-right: 3px;
+  a {
+    padding: 8px 12px;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
   }
-}
-
-.id {
-  color: white;
-  font-weight: 500;
-}
-
-.value {
-  overflow: hidden;
-  word-wrap: break-word;
 }

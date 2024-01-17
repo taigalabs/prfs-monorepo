@@ -1,46 +1,29 @@
 import React from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { HiPlus } from "@react-icons/all-files/hi/HiPlus";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import cn from "classnames";
+import Link from "next/link";
+import Popover from "@taigalabs/prfs-react-lib/src/popover/Popover";
 
 import styles from "./CreateAtstPopover.module.scss";
-// import localStore from "@/storage/localStore";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import Popover from "@taigalabs/prfs-react-lib/src/popover/Popover";
-import { useAppDispatch } from "@/state/hooks";
-// import { LocalPrfsAccount, signOut } from "@/state/userReducer";
 
 const Modal: React.FC<ModalProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-
-  // const { prfsAccount, walletAddr } = localPrfsAccount;
-
-  // const handleClickSignOut = React.useCallback(() => {
-  //   dispatch(signOut(undefined));
-
-  //   localStore.removePrfsAccount();
-
-  //   router.push(paths.__);
-  // }, []);
+  // const router = useRouter();
 
   return (
     <div className={styles.modal}>
-      base
-      {/* <div className={styles.info}> */}
-      {/*   <p className={styles.infoLabel}>{i18n.signature}</p> */}
-      {/*   <p className={styles.value}>{prfsAccount && prfsAccount.account_id}</p> */}
-      {/* </div> */}
-      {/* <div className={styles.info}> */}
-      {/*   <p className={styles.infoLabel}>{i18n.wallet_addr}</p> */}
-      {/*   <p className={styles.value}>{walletAddr}</p> */}
-      {/* </div> */}
-      {/* <ul className={styles.menu}> */}
-      {/*   <li onClick={handleClickSignOut}>{i18n.sign_out}</li> */}
-      {/* </ul> */}
+      <ul className={styles.menu}>
+        <li>
+          <Link href={paths.attestations__create__twitter}>{i18n.twitter}</Link>
+        </li>
+        <li>
+          <Link href={paths.attestations__create__crypto_size}>{i18n.crypto_asset_size}</Link>
+        </li>
+      </ul>
     </div>
   );
 };
@@ -73,7 +56,7 @@ const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = ({}) => {
     <Popover
       createBase={createBase}
       createPopover={createPopover}
-      offset={10}
+      offset={4}
       popoverClassName={styles.popoverWrapper}
     />
   );

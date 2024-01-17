@@ -10,7 +10,7 @@ import Attestations from "@/components/attestations/Attestations";
 import CreateAttestation from "@/components/create_attestation/CreateAttestation";
 import CreateTwitterAccAtst from "@/components/create_twitter_acc_atst/CreateTwitterAccAtst";
 
-const CreateAttestionPage = () => {
+const CreateTwitterAttestionPage = () => {
   return (
     <DefaultLayout>
       <DefaultBody noMinWidth>
@@ -29,4 +29,4 @@ const CreateAttestionPage = () => {
   );
 };
 
-export default CreateAttestionPage;
+export default CreateTwitterAttestionPage;
