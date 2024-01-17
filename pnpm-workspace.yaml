@@ -29,3 +29,7 @@ packages:
   - "source/shy_webapp"
   - "source/shy_api_server"
   - "source/shy_docs_website"
+
+  # Kfans
+  - "source/kfans_webapp"
+  - "source/kfans_api_server"

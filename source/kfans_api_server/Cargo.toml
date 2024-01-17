@@ -1,0 +1,51 @@
+[package]
+name = "kfans_api_server"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+colored = "2.0"
+ethers-signers = "2.0.10"
+ethers-core = "2.0.10"
+tokio = { version = "1", features = ["full"] }
+tokio-stream = "0.1"
+tokio-postgres = "0.7"
+lazy_static = "1.4"
+http-body-util = "0.1"
+hyper_014 = { package = "hyper", version = "0.14" }
+hyper = { version = "1.1", features = ["full"] }
+hyper-tls-05 = { package = "hyper-tls", version = "0.5.0" }
+hyper-tls = "0.6"
+hyper-util = { version = "0.1", features = ["full"] }
+routerify = "3"
+routerify-cors = "3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_urlencoded = "0.7"
+log = "0.4"
+chrono = "0.4.23"
+hex = "0.4.3"
+dotenvy = "0.15"
+envy = "0.4"
+rust_decimal = { version = "1.29", features = ["db-postgres"] }
+rust_decimal_macros = "1.29"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
+tracing-appender = "0.2"
+uuid = { version = "1.4.1", features = ["v4", "serde"] }
+base62 = "2.0.2"
+csv = "1.2.2"
+git2 = "0.18.1"
+url = "2.5.0"
+
+hyper_utils = { path = "../hyper_utils" }
+prfs_db_interface = { path = "../prfs_db_interface" }
+prfs_tree_maker = { path = "../prfs_tree_maker" }
+prfs_entities = { path = "../prfs_entities" }
+prfs_common_server_state = { path = "../prfs_common_server_state" }
+prfs_web_scraper = { path = "../prfs_web_scraper" }
+
+[[bin]]
+name = "kfans_api_server_seed"
+path = "src/bin/seed/mod.rs"

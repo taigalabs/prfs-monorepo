@@ -1,0 +1,56 @@
+.base {
+  display: inline-flex;
+
+  button {
+    height: 40px;
+    padding: 0 15px;
+    border-radius: 40px;
+  }
+}
+
+.chooseProofTypeBtnInner {
+  display: flex;
+  align-items: center;
+}
+
+.dialogOverlay {
+  background: rgba(74, 71, 81, 0.74);
+  display: grid;
+  place-items: center;
+  z-index: 200;
+  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  position: absolute;
+  inset: 0;
+}
+
+.dialog {
+  background-color: var(--white-100);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 570px;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  padding: 11px 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.3em;
+  padding: 15px 0px;
+}
+
+.title {
+  font-weight: 500;
+}
+
+.topBtnRow {
+  display: flex;
+  align-items: center;
+
+  button {
+    cursor: pointer;
+  }
+}

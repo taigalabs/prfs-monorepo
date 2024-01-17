@@ -1,0 +1,72 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0 8px 14px;
+  width: $leftbar_width;
+
+  /* border: 1px solid blue; */
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.645rem;
+  height: 52px;
+
+  /* border: 1px solid black; */
+
+  a {
+    padding: 12px;
+    height: 38px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.mainMenu {
+  padding-top: 14px;
+
+  .item {
+    font-size: 18px;
+    padding: 12px 0;
+    padding-left: calc(12px + 28px);
+  }
+}
+
+.section {
+  .sectionLabel {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    padding: 12px;
+
+    > svg {
+      font-size: 24px;
+      margin-right: 4px;
+    }
+  }
+}
+
+.credentialSection {
+  display: flex;
+  justify-content: flex-start;
+  padding: 24px 10px 12px;
+}
+
+.postBtn {
+  cursor: pointer;
+  width: 210px;
+  height: 50px;
+  border: 1px solid var(--gray-50);
+  border-radius: 25px;
+  font-size: 16px;
+  margin-top: 20px;
+
+  &:hover {
+    background-color: var(--bright-gray-31);
+  }
+}
