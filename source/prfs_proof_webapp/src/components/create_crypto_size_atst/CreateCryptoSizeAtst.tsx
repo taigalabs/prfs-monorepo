@@ -118,13 +118,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
       const { value, name } = e.target;
 
       if (name === WALLET_ADDR) {
-        if (value.length < 30) {
-          setFormData(oldVal => ({
-            ...oldVal,
-            [name]: value,
-          }));
-        }
-      } else {
         setFormData(oldVal => ({
           ...oldVal,
           [name]: value,
