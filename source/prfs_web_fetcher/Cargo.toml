@@ -1,5 +1,5 @@
 [package]
-name = "prfs_tls_relayer"
+name = "prfs_web_fetcher"
 version = "0.1.0"
 edition = "2021"
 

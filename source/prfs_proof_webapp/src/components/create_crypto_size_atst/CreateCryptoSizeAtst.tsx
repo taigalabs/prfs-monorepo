@@ -38,12 +38,13 @@ import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
 
-const TWITTER_HANDLE = "twitter_handle";
+// const TWITTER_HANDLE = "twitter_handle";
+const WALLET_ADDR = "wallet_addr";
 const TWEET_URL = "tweet_url";
 const CLAIM = "twitter_acc_atst";
 
 enum AttestationStep {
-  INPUT_TWITTER_HANDLE = 0,
+  INPUT_WALLET_ADDR = 0,
   GENERATE_CLAIM,
   POST_TWEET,
   VALIDATE_TWEET,
@@ -57,19 +58,19 @@ enum Status {
 const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  const [formData, setFormData] = React.useState({ [TWITTER_HANDLE]: "", [TWEET_URL]: "" });
+  const [formData, setFormData] = React.useState({ [WALLET_ADDR]: "", [TWEET_URL]: "" });
   const [claimCm, setClaimCm] = React.useState<string | null>(null);
   const claimSecret = React.useMemo(() => {
-    const handle = formData[TWITTER_HANDLE];
+    const handle = formData[WALLET_ADDR];
     return `PRFS_ATTESTATION_${handle}`;
-  }, [formData[TWITTER_HANDLE]]);
+  }, [formData[WALLET_ADDR]]);
   const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
   const [validationStatus, setValidationStatus] = React.useState<Status>(Status.Standby);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
   const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
   const [validation, setValidation] = React.useState<TwitterAccValidation | null>(null);
-  const [step, setStep] = React.useState(AttestationStep.INPUT_TWITTER_HANDLE);
+  const [step, setStep] = React.useState(AttestationStep.INPUT_WALLET_ADDR);
   const { sk, pkHex } = useRandomKeyPair();
   const { mutateAsync: validateTwitterAccRequest } = useMutation({
     mutationFn: (req: ValidateTwitterAccRequest) => {
@@ -85,38 +86,38 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const { openPopup } = usePopup();
 
   React.useEffect(() => {
-    const handle = formData[TWITTER_HANDLE];
+    const handle = formData[WALLET_ADDR];
     if (handle.length > 0) {
       if (step < AttestationStep.GENERATE_CLAIM) {
         setStep(AttestationStep.GENERATE_CLAIM);
       }
     } else {
-      setStep(AttestationStep.INPUT_TWITTER_HANDLE);
+      setStep(AttestationStep.INPUT_WALLET_ADDR);
     }
-  }, [setStep, formData[TWITTER_HANDLE]]);
+  }, [setStep, formData[WALLET_ADDR]]);
 
-  const tweetContent = React.useMemo(() => {
-    if (claimCm) {
-      const attType = "atst001";
-      const destination = "Twitter";
-      const id = formData[TWITTER_HANDLE];
+  // const tweetContent = React.useMemo(() => {
+  //   if (claimCm) {
+  //     const attType = "atst001";
+  //     const destination = "Twitter";
+  //     const id = formData[TWITTER_HANDLE];
 
-      return makeAttestation({
-        attType,
-        destination,
-        id,
-        cm: claimCm,
-      });
-    } else {
-      return null;
-    }
-  }, [formData[TWITTER_HANDLE], claimCm]);
+  //     return makeAttestation({
+  //       attType,
+  //       destination,
+  //       id,
+  //       cm: claimCm,
+  //     });
+  //   } else {
+  //     return null;
+  //   }
+  // }, [formData[TWITTER_HANDLE], claimCm]);
 
-  const handleChangeTwitterHandle = React.useCallback(
+  const handleChangeWalletAddr = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value, name } = e.target;
 
-      if (name === TWITTER_HANDLE) {
+      if (name === WALLET_ADDR) {
         if (value.length < 30) {
           setFormData(oldVal => ({
             ...oldVal,
@@ -195,70 +196,70 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     });
   }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
 
-  const handleClickValidate = React.useCallback(async () => {
-    const tweet_url = formData[TWEET_URL];
-    const twitter_handle = formData[TWITTER_HANDLE];
+  // const handleClickValidate = React.useCallback(async () => {
+  //   const tweet_url = formData[TWEET_URL];
+  //   const twitter_handle = formData[TWITTER_HANDLE];
 
-    const req: ValidateTwitterAccRequest = {
-      tweet_url,
-      twitter_handle,
-    };
+  //   const req: ValidateTwitterAccRequest = {
+  //     tweet_url,
+  //     twitter_handle,
+  //   };
 
-    setValidationStatus(Status.InProgress);
-    const { payload, error } = await validateTwitterAccRequest(req);
-    setValidationStatus(Status.Standby);
+  //   setValidationStatus(Status.InProgress);
+  //   const { payload, error } = await validateTwitterAccRequest(req);
+  //   setValidationStatus(Status.Standby);
 
-    if (error) {
-      console.error(error);
-      setValidationMsg(<span className={styles.error}>{error.toString()}</span>);
-    }
+  //   if (error) {
+  //     console.error(error);
+  //     setValidationMsg(<span className={styles.error}>{error.toString()}</span>);
+  //   }
 
-    if (payload) {
-      setValidation(payload.validation);
-      setValidationMsg(
-        <span className={styles.success}>
-          <FaCheck />
-        </span>,
-      );
-    }
-  }, [
-    validateTwitterAccRequest,
-    formData[TWEET_URL],
-    formData[TWITTER_HANDLE],
-    setValidation,
-    setValidationMsg,
-    setValidationStatus,
-  ]);
+  //   if (payload) {
+  //     setValidation(payload.validation);
+  //     setValidationMsg(
+  //       <span className={styles.success}>
+  //         <FaCheck />
+  //       </span>,
+  //     );
+  //   }
+  // }, [
+  //   validateTwitterAccRequest,
+  //   formData[TWEET_URL],
+  //   formData[TWITTER_HANDLE],
+  //   setValidation,
+  //   setValidationMsg,
+  //   setValidationStatus,
+  // ]);
 
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
   }, [formData, step]);
 
-  const handleClickCopy = React.useCallback(() => {
-    if (tweetContent) {
-      navigator.clipboard.writeText(tweetContent);
-      setIsCopyTooltipVisible(true);
+  // const handleClickCopy = React.useCallback(() => {
+  //   if (tweetContent) {
+  //     navigator.clipboard.writeText(tweetContent);
+  //     setIsCopyTooltipVisible(true);
 
-      setTimeout(() => {
-        setIsCopyTooltipVisible(false);
-      }, 3000);
-    }
-  }, [tweetContent, setIsCopyTooltipVisible]);
+  //     setTimeout(() => {
+  //       setIsCopyTooltipVisible(false);
+  //     }, 3000);
+  //   }
+  // }, [tweetContent, setIsCopyTooltipVisible]);
 
-  const handleClickPostTweet = React.useCallback(() => {
-    if (tweetContent) {
-      const params = encodeURIComponent(tweetContent);
-      const url = `https://twitter.com/intent/tweet?text=${params}`;
-      window.open(url, "_blank");
-    } else {
-      console.error("no tweet content");
-    }
-  }, [tweetContent]);
+  // const handleClickPostTweet = React.useCallback(() => {
+  //   if (tweetContent) {
+  //     const params = encodeURIComponent(tweetContent);
+  //     const url = `https://twitter.com/intent/tweet?text=${params}`;
+  //     window.open(url, "_blank");
+  //   } else {
+  //     console.error("no tweet content");
+  //   }
+  // }, [tweetContent]);
 
   const handleClickCreate = React.useCallback(async () => {
     if (validation && createStatus === Status.Standby) {
       // For now, we don't obfuscate attestation id
-      const acc_atst_id = formData[TWITTER_HANDLE];
+      const acc_atst_id = formData[WALLET_ADDR];
       setCreateMsg(null);
 
       if (acc_atst_id) {
@@ -280,7 +281,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
       }
     }
   }, [
-    formData[TWITTER_HANDLE],
+    formData[WALLET_ADDR],
     step,
     validation,
     attestTwitterAccRequest,
@@ -301,17 +302,17 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
               <div className={styles.no}>1</div>
               <div className={styles.rightCol}>
                 <div className={styles.desc}>
-                  <p className={styles.descTitle}>{i18n.what_is_your_twitter_handle}</p>
-                  <p>{i18n.twitter_handle_example_given}</p>
+                  <p className={styles.descTitle}>{i18n.what_is_your_wallet_address}</p>
+                  <p>{i18n.wallet_address_example_given}</p>
                 </div>
                 <div className={styles.content}>
                   <Input
                     className={styles.input}
-                    name={TWITTER_HANDLE}
+                    name={WALLET_ADDR}
                     error={""}
-                    label={i18n.twitter_handle}
-                    value={formData.twitter_handle}
-                    handleChangeValue={handleChangeTwitterHandle}
+                    label={i18n.wallet_address}
+                    value={formData.wallet_addr}
+                    handleChangeValue={handleChangeWalletAddr}
                   />
                 </div>
               </div>
@@ -351,33 +352,33 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                   <p className={styles.descTitle}>{i18n.post_tweet_with_content}</p>
                   <p>{i18n.try_not_to_close_this_window}</p>
                 </div>
-                <div className={styles.content}>
-                  {tweetContent && (
-                    <div className={styles.tweetContent}>
-                      <div className={styles.box}>
-                        <p>{tweetContent}</p>
-                        <div className={styles.btnArea}>
-                          <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
-                            <button type="button" onClick={handleClickCopy}>
-                              <AiOutlineCopy />
-                            </button>
-                          </Tooltip>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className={cn(styles.tweetContentBtnRow)}>
-                  <button className={styles.btn} type="button" onClick={handleClickPostTweet}>
-                    {i18n.post}
-                  </button>
-                  <p>
-                    <span>{i18n.or} </span>
-                    <a target="_blank" href="https://twitter.com">
-                      {i18n.manually_tweet_at_twitter}
-                    </a>
-                  </p>
-                </div>
+                {/* <div className={styles.content}> */}
+                {/*   {tweetContent && ( */}
+                {/*     <div className={styles.tweetContent}> */}
+                {/*       <div className={styles.box}> */}
+                {/*         <p>{tweetContent}</p> */}
+                {/*         <div className={styles.btnArea}> */}
+                {/*           <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top"> */}
+                {/*             <button type="button" onClick={handleClickCopy}> */}
+                {/*               <AiOutlineCopy /> */}
+                {/*             </button> */}
+                {/*           </Tooltip> */}
+                {/*         </div> */}
+                {/*       </div> */}
+                {/*     </div> */}
+                {/*   )} */}
+                {/* </div> */}
+                {/* <div className={cn(styles.tweetContentBtnRow)}> */}
+                {/*   <button className={styles.btn} type="button" onClick={handleClickPostTweet}> */}
+                {/*     {i18n.post} */}
+                {/*   </button> */}
+                {/*   <p> */}
+                {/*     <span>{i18n.or} </span> */}
+                {/*     <a target="_blank" href="https://twitter.com"> */}
+                {/*       {i18n.manually_tweet_at_twitter} */}
+                {/*     </a> */}
+                {/*   </p> */}
+                {/* </div> */}
               </div>
             </li>
             <li
@@ -388,32 +389,32 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
               <div className={styles.overlay} />
               <div className={styles.no}>4</div>
               <div className={styles.rightCol}>
-                <div className={styles.desc}>
-                  <p className={styles.descTitle}>{i18n.what_is_the_tweet_url}</p>
-                  <p>{i18n.tweet_url_example_given}</p>
-                </div>
-                <div className={styles.content}>
-                  <div className={styles.row}>
-                    <Input
-                      className={styles.input}
-                      name={TWEET_URL}
-                      error={""}
-                      label={i18n.tweet_url}
-                      value={formData.tweet_url}
-                      handleChangeValue={handleChangeTwitterHandle}
-                    />
-                  </div>
-                  <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div>
-                  <div className={styles.validateBtnRow}>
-                    <button className={cn(styles.btn)} type="button" onClick={handleClickValidate}>
-                      {validationStatus === Status.InProgress && (
-                        <Spinner size={20} color={colors.gray_32} borderWidth={2} />
-                      )}
-                      <span>{i18n.validate}</span>
-                    </button>
-                    <div className={styles.msg}>{validationMsg}</div>
-                  </div>
-                </div>
+                {/* <div className={styles.desc}> */}
+                {/*   <p className={styles.descTitle}>{i18n.what_is_the_tweet_url}</p> */}
+                {/*   <p>{i18n.tweet_url_example_given}</p> */}
+                {/* </div> */}
+                {/* <div className={styles.content}> */}
+                {/*   <div className={styles.row}> */}
+                {/*     <Input */}
+                {/*       className={styles.input} */}
+                {/*       name={TWEET_URL} */}
+                {/*       error={""} */}
+                {/*       label={i18n.tweet_url} */}
+                {/*       value={formData.tweet_url} */}
+                {/*       handleChangeValue={handleChangeTwitterHandle} */}
+                {/*     /> */}
+                {/*   </div> */}
+                {/*   <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div> */}
+                {/*   <div className={styles.validateBtnRow}> */}
+                {/*     <button className={cn(styles.btn)} type="button" onClick={handleClickValidate}> */}
+                {/*       {validationStatus === Status.InProgress && ( */}
+                {/*         <Spinner size={20} color={colors.gray_32} borderWidth={2} /> */}
+                {/*       )} */}
+                {/*       <span>{i18n.validate}</span> */}
+                {/*     </button> */}
+                {/*     <div className={styles.msg}>{validationMsg}</div> */}
+                {/*   </div> */}
+                {/* </div> */}
               </div>
             </li>
           </ol>
