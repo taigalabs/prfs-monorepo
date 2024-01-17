@@ -148,6 +148,7 @@ export default {
   share: "Share",
   twitter: "Twitter",
   create_twitter_acc_attestation: "Create X (Twitter) account attestation",
+  create_crypto_asset_size_attestation: "Create crypto asset size attestation",
   twitter_acc_attestations: "X (Twitter) account attestations",
   crypto_asset_size_attestations: "Crypto asset size attestations",
   x_twitter: "X (Twitter)",

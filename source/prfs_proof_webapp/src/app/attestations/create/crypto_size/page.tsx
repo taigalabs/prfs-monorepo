@@ -8,7 +8,7 @@ import DefaultLayout, {
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Attestations from "@/components/attestations/Attestations";
 import CreateAttestation from "@/components/create_attestation/CreateAttestation";
-import CreateTwitterAccAtst from "@/components/create_twitter_acc_atst/CreateTwitterAccAtst";
+import CreateCryptoSizeAttestation from "@/components/create_crypto_size_atst/CreateCryptoSizeAtst";
 
 const CreateCryptoSizeAttestionPage = () => {
   return (
@@ -17,7 +17,7 @@ const CreateCryptoSizeAttestionPage = () => {
         <Suspense>
           <Attestations>
             <CreateAttestation>
-              <CreateTwitterAccAtst />
+              <CreateCryptoSizeAttestation />
             </CreateAttestation>
           </Attestations>
         </Suspense>
