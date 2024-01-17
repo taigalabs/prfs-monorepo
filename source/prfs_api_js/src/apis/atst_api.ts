@@ -6,6 +6,8 @@ import { GetTwitterAccAtstsRequest } from "@taigalabs/prfs-entities/bindings/Get
 import { GetTwitterAccAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstsResponse";
 import { GetTwitterAccAtstRequest } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstRequest";
 import { GetTwitterAccAtstResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstResponse";
+import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
+import { FetchCryptoAssetResponse } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetResponse";
 
 import { api } from "../utils";
 import { PrfsApiResponse } from "../types";
@@ -14,7 +16,8 @@ type RequestName =
   | "attest_twitter_acc"
   | "validate_twitter_acc"
   | "get_twitter_acc_atsts"
-  | "get_twitter_acc_atst";
+  | "get_twitter_acc_atst"
+  | "fetch_crypto_asset";
 
 type Req<T extends RequestName> = //
   T extends "attest_twitter_acc"
@@ -25,6 +28,8 @@ type Req<T extends RequestName> = //
     ? GetTwitterAccAtstsRequest
     : T extends "get_twitter_acc_atst"
     ? GetTwitterAccAtstRequest
+    : T extends "fetch_crypto_asset"
+    ? FetchCryptoAssetRequest
     : never;
 
 type Resp<T extends RequestName> = //
@@ -36,6 +41,8 @@ type Resp<T extends RequestName> = //
     ? PrfsApiResponse<GetTwitterAccAtstsResponse>
     : T extends "get_twitter_acc_atst"
     ? PrfsApiResponse<GetTwitterAccAtstResponse>
+    : T extends "fetch_crypto_asset"
+    ? PrfsApiResponse<FetchCryptoAssetResponse>
     : any;
 
 let endpoint: string;

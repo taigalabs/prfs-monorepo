@@ -37,6 +37,7 @@ import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
+import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 
 // const TWITTER_HANDLE = "twitter_handle";
 const WALLET_ADDR = "wallet_addr";
@@ -72,9 +73,9 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const [validation, setValidation] = React.useState<TwitterAccValidation | null>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_WALLET_ADDR);
   const { sk, pkHex } = useRandomKeyPair();
-  const { mutateAsync: validateTwitterAccRequest } = useMutation({
-    mutationFn: (req: ValidateTwitterAccRequest) => {
-      return atstApi("validate_twitter_acc", req);
+  const { mutateAsync: fetchCryptoAssetRequest } = useMutation({
+    mutationFn: (req: FetchCryptoAssetRequest) => {
+      return atstApi("fetch_crypto_asset", req);
     },
   });
   const { mutateAsync: attestTwitterAccRequest } = useMutation({
@@ -192,12 +193,12 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const handleClickFetchAsset = React.useCallback(async () => {
     const wallet_addr = formData[WALLET_ADDR];
     // const twitter_handle = formData[TWITTER_HANDLE];
-    // const req: ValidateTwitterAccRequest = {
-    //   tweet_url,
-    //   twitter_handle,
-    // };
+    const req: FetchCryptoAssetRequest = {
+      wallet_addr,
+    };
     // setValidationStatus(Status.InProgress);
-    // const { payload, error } = await validateTwitterAccRequest(req);
+    const { payload, error } = await fetchCryptoAssetRequest(req);
+    console.log(123, payload);
     // setValidationStatus(Status.Standby);
     // if (error) {
     //   console.error(error);
@@ -212,7 +213,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     //   );
     // }
   }, [
-    validateTwitterAccRequest,
+    fetchCryptoAssetRequest,
     // formData[TWEET_URL],
     formData[WALLET_ADDR],
     setValidation,
