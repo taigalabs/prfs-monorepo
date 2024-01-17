@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
+import CreateAtstPopover from "./CreateAtstPopover";
 
 const TWITTER = "twitter";
 const CRYPTO_SIZE = "crypto_size";
@@ -32,15 +33,17 @@ const LeftBar: React.FC<LeftBarProps> = () => {
       <ul className={styles.topMenu}>
         <li className={styles.item}>
           <Link href={paths.attestations__create}>
-            <Button
-              variant="light_blue_1"
-              handleClick={() => {}}
-              className={styles.addBtn}
-              contentClassName={styles.addBtnContent}
-            >
-              <HiPlus />
-              <span>{i18n.create_attestation}</span>
-            </Button>
+            <CreateAtstPopover>
+              <Button
+                variant="light_blue_1"
+                handleClick={() => {}}
+                className={styles.addBtn}
+                contentClassName={styles.addBtnContent}
+              >
+                <HiPlus />
+                <span>{i18n.create_attestation}</span>
+              </Button>
+            </CreateAtstPopover>
           </Link>
         </li>
       </ul>

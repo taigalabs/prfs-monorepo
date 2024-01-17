@@ -1,0 +1,90 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.base {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  padding: 0px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: var(--aqua-blue-50);
+    cursor: pointer;
+  }
+
+  .btnArea {
+    align-items: center;
+    display: flex;
+    margin-left: 1px;
+  }
+}
+
+.base.isOpen {
+  color: var(--aqua-blue-50);
+}
+
+.connectBtn {
+  padding: 0px 8px;
+  display: flex;
+  align-items: center;
+}
+
+.popoverWrapper {
+  border-radius: 10px;
+}
+
+.modal {
+  border-radius: 10px;
+  padding: 12px 13px;
+  width: 300px;
+  background-color: var(--white-100);
+}
+
+.info {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gray-20);
+  border-bottom: 1px solid var(--gray-70);
+  padding: 11px 0;
+}
+
+.infoLabel {
+  font-weight: 500;
+}
+
+.menu {
+  li {
+    padding: 8px 6px;
+    cursor: pointer;
+  }
+
+  li:hover {
+    background-color: var(--bright-gray-50);
+  }
+}
+
+.wallet {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 3px;
+  }
+}
+
+.id {
+  color: white;
+  font-weight: 500;
+}
+
+.value {
+  overflow: hidden;
+  word-wrap: break-word;
+}
