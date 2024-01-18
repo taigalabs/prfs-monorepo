@@ -2,7 +2,6 @@
 
 import React from "react";
 import cn from "classnames";
-// import { useSignMessage } from "wagmi";
 import { verifyMessage } from "@taigalabs/prfs-web3-js/viem";
 import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
@@ -15,7 +14,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
   CommitmentType,
-  makeAttestation,
   newPrfsIdMsg,
   API_PATH,
   parseBuffer,
@@ -32,14 +30,14 @@ import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/Attes
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
 import { useAccount, useSignMessage } from "@taigalabs/prfs-web3-js/wagmi";
+import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
+import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 
 import styles from "./CreateCryptoSizeAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
-import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
-import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 
 const WALLET_ADDR = "wallet_addr";
 const SIGNATURE = "signature";

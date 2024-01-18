@@ -13,7 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
   CommitmentType,
-  makeAttestation,
+  makeAccAttestation,
   newPrfsIdMsg,
   API_PATH,
   parseBuffer,
@@ -101,7 +101,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       const destination = "Twitter";
       const id = formData[TWITTER_HANDLE];
 
-      return makeAttestation({
+      return makeAccAttestation({
         attType,
         destination,
         id,
