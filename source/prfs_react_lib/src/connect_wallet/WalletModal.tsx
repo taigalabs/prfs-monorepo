@@ -49,8 +49,9 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
 };
 
 const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChangeAddress }) => {
-  const { address, connector, isConnected } = useAccount();
-  const { data: ensName } = useEnsName({ address });
+  const { isConnected } = useAccount();
+  // const { address, connector, isConnected } = useAccount();
+  // const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error } = useConnect();
   const { disconnect } = useDisconnect();
 
@@ -76,18 +77,18 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
 
   return (
     <div className={styles.wrapper}>
-      {isConnected && connector ? (
-        <ConnectedInfo
-          ensName={ensName}
-          address={address}
-          connector={connector}
-          handleChangeAddress={handleChangeAddress}
-          handleClickDisconnect={handleClickDisconnect}
-          handleClickClose={handleClickClose}
-        />
-      ) : (
-        connectorsElem
-      )}
+      {/* {isConnected && connector ? ( */}
+      {/*   <ConnectedInfo */}
+      {/*     ensName={ensName} */}
+      {/*     address={address} */}
+      {/*     connector={connector} */}
+      {/*     handleChangeAddress={handleChangeAddress} */}
+      {/*     handleClickDisconnect={handleClickDisconnect} */}
+      {/*     handleClickClose={handleClickClose} */}
+      {/*   /> */}
+      {/* ) : ( */}
+      {/*   connectorsElem */}
+      {/* )} */}
       <div></div>
       {error && <div>{error.message}</div>}
     </div>
