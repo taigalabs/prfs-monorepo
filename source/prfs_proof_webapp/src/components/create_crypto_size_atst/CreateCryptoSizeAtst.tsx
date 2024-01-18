@@ -39,6 +39,7 @@ import { envs } from "@/envs";
 import { paths } from "@/paths";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 import { FetchCryptoAssetResponse } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetResponse";
+import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 
 // const TWITTER_HANDLE = "twitter_handle";
 const WALLET_ADDR = "wallet_addr";
@@ -71,7 +72,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [fetchAssetMsg, setFetchAssetMsg] = React.useState<React.ReactNode>(null);
   const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
-  const [cryptoAsset, setCryptoAsset] = React.useState<FetchCryptoAssetResponse | null>(null);
+  const [cryptoAsset, setCryptoAsset] = React.useState<CryptoAsset | null>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_WALLET_ADDR);
   const { sk, pkHex } = useRandomKeyPair();
   const { mutateAsync: fetchCryptoAssetRequest } = useMutation({
@@ -206,8 +207,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
       setFetchAssetMsg(<span className={styles.error}>{error.toString()}</span>);
     }
 
-    if (payload) {
-      setCryptoAsset(payload);
+    if (payload && payload.crypto_asset) {
+      setCryptoAsset(payload.crypto_asset);
       setFetchAssetMsg(
         <span className={styles.success}>
           <FaCheck />
@@ -318,6 +319,22 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                     </button>
                     <div className={styles.msg}>{fetchAssetMsg}</div>
                   </div>
+                  {cryptoAsset && (
+                    <div className={styles.cryptoAsset}>
+                      <div>
+                        <p className={styles.label}>{i18n.wallet_address} :</p>
+                        <p className={styles.value}>{cryptoAsset.wallet_addr}</p>
+                      </div>
+                      <div>
+                        <p className={styles.label}>{i18n.amount} :</p>
+                        <p className={styles.value}>{cryptoAsset.amount.toString()}</p>
+                      </div>
+                      <div>
+                        <p className={styles.label}>{i18n.unit} :</p>
+                        <p className={styles.value}>{cryptoAsset.unit}</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </li>

@@ -376,6 +376,8 @@ export default {
   configure_public_inputs: "Configure public inputs",
   signed: "Signed",
   wallet_address: "Wallet address",
+  amount: "Amount",
+  unit: "Unit",
   create_merkle_proof_guide: "Or use Merkle wizard",
   create_merkle_proof_label: "Create merkle proof for",
   create_merkle_path_label: "Create merkle proof",
