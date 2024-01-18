@@ -37,6 +37,7 @@ import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
+import { Btn, ContentBox } from "../create_attestation/CreateAtstComponents";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -331,10 +332,14 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                   </p>
                 </div>
                 <div className={cn(styles.content, styles.claimCm)}>
-                  <button className={styles.btn} type="button" onClick={handleClickGenerate}>
+                  <Btn type="button" handleClick={handleClickGenerate}>
                     <MdSecurity />
                     <span>{i18n.generate}</span>
-                  </button>
+                  </Btn>
+                  {/* <button className={styles.btn} type="button" onClick={handleClickGenerate}> */}
+                  {/*   <MdSecurity /> */}
+                  {/*   <span>{i18n.generate}</span> */}
+                  {/* </button> */}
                   <p className={styles.value}>{claimCm}</p>
                 </div>
               </div>
@@ -354,7 +359,8 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                 <div className={styles.content}>
                   {tweetContent && (
                     <div className={styles.tweetContent}>
-                      <div className={styles.box}>
+                      {/* <div className={styles.box}> */}
+                      <ContentBox>
                         <p>{tweetContent}</p>
                         <div className={styles.btnArea}>
                           <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
@@ -363,7 +369,8 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                             </button>
                           </Tooltip>
                         </div>
-                      </div>
+                      </ContentBox>
+                      {/* </div> */}
                     </div>
                   )}
                 </div>
@@ -405,12 +412,12 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                   </div>
                   <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div>
                   <div className={styles.validateBtnRow}>
-                    <button className={cn(styles.btn)} type="button" onClick={handleClickValidate}>
+                    <Btn type="button" handleClick={handleClickValidate}>
                       {validationStatus === Status.InProgress && (
                         <Spinner size={20} color={colors.gray_32} borderWidth={2} />
                       )}
                       <span>{i18n.validate}</span>
-                    </button>
+                    </Btn>
                     <div className={styles.msg}>{validationMsg}</div>
                   </div>
                 </div>
