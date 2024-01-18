@@ -3,6 +3,7 @@
 import React from "react";
 import cn from "classnames";
 import { useSignMessage } from "wagmi";
+import { verifyMessage } from "viem";
 import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
@@ -242,25 +243,29 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     const sig = formData[SIGNATURE];
     const wallet_addr = formData[WALLET_ADDR];
 
-    const recoveredAddress = await recoverMessageAddress({
-      message: variables?.message,
-      signature: signMessageData,
-    });
-    setRecoveredAddress(recoveredAddress);
+    if (sig.length > 0 && wallet_addr.length > 0) {
+      const valid = await verifyMessage({
+        address: wallet_addr as any,
+        message: "hello world",
+        signature: sig as any,
+      });
+
+      console.log(123, valid);
+    }
 
     // if (error) {
     //   console.error(error);
     //   setValidationMsg(<span className={styles.error}>{error.toString()}</span>);
     // }
 
-    if (false) {
-      setIsSigValid(true);
-      setValidationMsg(
-        <span className={styles.success}>
-          <FaCheck />
-        </span>,
-      );
-    }
+    // if (false) {
+    //   setIsSigValid(true);
+    //   setValidationMsg(
+    //     <span className={styles.success}>
+    //       <FaCheck />
+    //     </span>,
+    //   );
+    // }
   }, [formData[SIGNATURE], formData[WALLET_ADDR], setIsSigValid, setValidationMsg]);
 
   const handleClickStartOver = React.useCallback(() => {

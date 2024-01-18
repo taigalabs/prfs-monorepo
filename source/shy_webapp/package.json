@@ -54,7 +54,7 @@
     "sass": "^1.63.6",
     "snarkjs": "0.7.0",
     "uuid": "^9.0.0",
-    "wagmi": "^1.4.2"
+    "wagmi": "2.2.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
