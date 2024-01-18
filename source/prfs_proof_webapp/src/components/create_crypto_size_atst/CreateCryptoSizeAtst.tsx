@@ -38,6 +38,7 @@ import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
+import { FetchCryptoAssetResponse } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetResponse";
 
 // const TWITTER_HANDLE = "twitter_handle";
 const WALLET_ADDR = "wallet_addr";
@@ -66,11 +67,11 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     return `PRFS_ATTESTATION_${handle}`;
   }, [formData[WALLET_ADDR]]);
   const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
-  const [validationStatus, setValidationStatus] = React.useState<Status>(Status.Standby);
+  const [fetchAssetStatus, setFetchAssetStatus] = React.useState<Status>(Status.Standby);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
-  const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
+  const [fetchAssetMsg, setFetchAssetMsg] = React.useState<React.ReactNode>(null);
   const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
-  const [validation, setValidation] = React.useState<TwitterAccValidation | null>(null);
+  const [cryptoAsset, setCryptoAsset] = React.useState<FetchCryptoAssetResponse | null>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_WALLET_ADDR);
   const { sk, pkHex } = useRandomKeyPair();
   const { mutateAsync: fetchCryptoAssetRequest } = useMutation({
@@ -196,29 +197,29 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     const req: FetchCryptoAssetRequest = {
       wallet_addr,
     };
-    // setValidationStatus(Status.InProgress);
+    setFetchAssetStatus(Status.InProgress);
     const { payload, error } = await fetchCryptoAssetRequest(req);
-    console.log(123, payload);
-    // setValidationStatus(Status.Standby);
-    // if (error) {
-    //   console.error(error);
-    //   setValidationMsg(<span className={styles.error}>{error.toString()}</span>);
-    // }
-    // if (payload) {
-    //   setValidation(payload.validation);
-    //   setValidationMsg(
-    //     <span className={styles.success}>
-    //       <FaCheck />
-    //     </span>,
-    //   );
-    // }
+    setFetchAssetStatus(Status.Standby);
+
+    if (error) {
+      console.error(error);
+      setFetchAssetMsg(<span className={styles.error}>{error.toString()}</span>);
+    }
+
+    if (payload) {
+      setCryptoAsset(payload);
+      setFetchAssetMsg(
+        <span className={styles.success}>
+          <FaCheck />
+        </span>,
+      );
+    }
   }, [
     fetchCryptoAssetRequest,
-    // formData[TWEET_URL],
     formData[WALLET_ADDR],
-    setValidation,
-    setValidationMsg,
-    setValidationStatus,
+    setCryptoAsset,
+    setFetchAssetMsg,
+    setFetchAssetStatus,
   ]);
 
   const handleClickStartOver = React.useCallback(() => {
@@ -247,33 +248,33 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   // }, [tweetContent]);
 
   const handleClickCreate = React.useCallback(async () => {
-    if (validation && createStatus === Status.Standby) {
+    if (cryptoAsset && createStatus === Status.Standby) {
       // For now, we don't obfuscate attestation id
       const acc_atst_id = formData[WALLET_ADDR];
       setCreateMsg(null);
 
-      if (acc_atst_id) {
-        setCreateStatus(Status.InProgress);
-        const { payload, error } = await attestTwitterAccRequest({
-          acc_atst_id,
-          validation,
-        });
-        setCreateStatus(Status.Standby);
+      // if (acc_atst_id) {
+      //   setCreateStatus(Status.InProgress);
+      //   const { payload, error } = await attestTwitterAccRequest({
+      //     acc_atst_id,
+      //     cryptoAsset,
+      //   });
+      //   setCreateStatus(Status.Standby);
 
-        if (error) {
-          setCreateMsg(<span>{error.toString()}</span>);
-          return;
-        }
+      //   if (error) {
+      //     setCreateMsg(<span>{error.toString()}</span>);
+      //     return;
+      //   }
 
-        if (payload) {
-          router.push(paths.attestations__twitter);
-        }
-      }
+      //   if (payload) {
+      //     router.push(paths.attestations__twitter);
+      //   }
+      // }
     }
   }, [
     formData[WALLET_ADDR],
     step,
-    validation,
+    cryptoAsset,
     attestTwitterAccRequest,
     setCreateMsg,
     setCreateStatus,
@@ -310,12 +311,12 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                       type="button"
                       onClick={handleClickFetchAsset}
                     >
-                      {validationStatus === Status.InProgress && (
+                      {fetchAssetStatus === Status.InProgress && (
                         <Spinner size={20} color={colors.gray_32} borderWidth={2} />
                       )}
                       <span>{i18n.fetch_asset}</span>
                     </button>
-                    <div className={styles.msg}>{validationMsg}</div>
+                    <div className={styles.msg}>{fetchAssetMsg}</div>
                   </div>
                 </div>
               </div>
@@ -438,7 +439,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 handleClick={handleClickCreate}
                 noShadow
                 type="button"
-                disabled={!validation || createStatus === Status.InProgress}
+                disabled={!cryptoAsset || createStatus === Status.InProgress}
               >
                 <div className={styles.content}>
                   {createStatus === Status.InProgress && (

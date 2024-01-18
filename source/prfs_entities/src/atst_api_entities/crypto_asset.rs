@@ -11,6 +11,12 @@ pub struct FetchCryptoAssetRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct FetchCryptoAssetResponse {
+    pub crypto_asset: CryptoAsset,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CryptoAsset {
     pub wallet_addr: String,
     #[ts(type = "bigint")]
     pub amount: Decimal,

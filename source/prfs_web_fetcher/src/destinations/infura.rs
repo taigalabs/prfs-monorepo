@@ -8,15 +8,13 @@ use hyper::Method;
 use hyper::Request;
 use hyper::Uri;
 use hyper_tls::HttpsConnector;
-use hyper_util::rt::TokioIo;
 use hyper_util::{client::legacy::Client, rt::TokioExecutor};
 use hyper_utils::io::full;
+use prfs_entities::atst_api_entities::CryptoAsset;
 use rust_decimal::Decimal;
 use serde::Deserialize;
 use serde::Serialize;
 use serde_json::json;
-use tokio::io::{self, AsyncWriteExt as _};
-use tokio::net::{TcpListener, TcpStream};
 
 use crate::WebFetcherError;
 
@@ -32,13 +30,6 @@ pub struct InfuraResponse<D> {
 pub struct InfuraError {
     code: i32,
     message: String,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct CryptoAsset {
-    pub wallet_addr: String,
-    pub amount: Decimal,
-    pub unit: String,
 }
 
 pub async fn fetch_asset<S: AsRef<str> + Serialize>(
@@ -73,7 +64,7 @@ pub async fn fetch_asset<S: AsRef<str> + Serialize>(
         "method": "eth_getBalance",
         "params": [wallet_addr, block_height.result.unwrap()],
     });
-    println!("get_balance: {}", get_balance);
+    // println!("get_balance: {}", get_balance);
     let req = Request::builder()
         .uri(&url)
         .method(Method::POST)

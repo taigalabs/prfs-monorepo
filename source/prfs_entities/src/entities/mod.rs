@@ -1,6 +1,7 @@
 mod eth_account;
 mod prfs_acc_atst;
 mod prfs_account;
+mod prfs_asset_atst;
 mod prfs_circuit;
 mod prfs_circuit_driver;
 mod prfs_circuit_input_type;
@@ -17,6 +18,7 @@ mod prfs_tree_node;
 pub use eth_account::*;
 pub use prfs_acc_atst::*;
 pub use prfs_account::*;
+pub use prfs_asset_atst::*;
 pub use prfs_circuit::*;
 pub use prfs_circuit_driver::*;
 pub use prfs_circuit_input_type::*;
