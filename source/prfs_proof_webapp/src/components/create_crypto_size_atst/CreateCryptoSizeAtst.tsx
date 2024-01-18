@@ -312,7 +312,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                       type="button"
                       onClick={handleClickFetchAsset}
                     >
-                      {fetchAssetStatus === Status.Standby && (
+                      {fetchAssetStatus === Status.InProgress && (
                         <Spinner size={14} color={colors.gray_32} borderWidth={2} />
                       )}
                       <span>{i18n.fetch_asset}</span>
