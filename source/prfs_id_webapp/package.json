@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ethereumjs/util": "^8.0.3",
     "@floating-ui/react": "^0.24.8",
     "@mdx-js/react": "^2.3.0",
     "@next/mdx": "^13.5.4",
@@ -26,6 +25,7 @@
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-proof-interface": "*",
     "@taigalabs/prfs-i18n": "*",
+    "@taigalabs/prfs-web3-js": "*",
     "@taigalabs/prfs-id-sdk-web": "*",
     "@taigalabs/prfs-id-sdk-react": "*",
     "@taigalabs/prfs-react-lib": "*",

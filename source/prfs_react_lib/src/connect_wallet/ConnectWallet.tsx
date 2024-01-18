@@ -15,7 +15,6 @@ import styles from "./ConnectWallet.module.scss";
 import Fade from "../fade/Fade";
 import { i18nContext } from "../i18n/i18nContext";
 import WalletModal from "./WalletModal";
-import { useAccount } from "wagmi";
 
 const ConnectWallet: React.FC<ConnectWalletProps> = ({ handleChangeAddress, zIndex, children }) => {
   const i18n = React.useContext(i18nContext);
@@ -28,8 +27,6 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ handleChangeAddress, zInd
   const click = useClick(context);
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
-
-  const { isConnected } = useAccount();
 
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
   const headingId = useId();

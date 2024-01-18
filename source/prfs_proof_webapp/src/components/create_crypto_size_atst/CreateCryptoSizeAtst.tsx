@@ -496,42 +496,42 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 {/* </div> */}
               </div>
             </li>
-            <li
-              className={cn(styles.item, {
-                [styles.isDisabled]: step < AttestationStep.POST_TWEET,
-              })}
-            >
-              <div className={styles.overlay} />
-              <div className={styles.no}>4</div>
-              <div className={styles.rightCol}>
-                {/* <div className={styles.desc}> */}
-                {/*   <p className={styles.descTitle}>{i18n.what_is_the_tweet_url}</p> */}
-                {/*   <p>{i18n.tweet_url_example_given}</p> */}
-                {/* </div> */}
-                {/* <div className={styles.content}> */}
-                {/*   <div className={styles.row}> */}
-                {/*     <Input */}
-                {/*       className={styles.input} */}
-                {/*       name={TWEET_URL} */}
-                {/*       error={""} */}
-                {/*       label={i18n.tweet_url} */}
-                {/*       value={formData.tweet_url} */}
-                {/*       handleChangeValue={handleChangeTwitterHandle} */}
-                {/*     /> */}
-                {/*   </div> */}
-                {/*   <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div> */}
-                {/*   <div className={styles.validateBtnRow}> */}
-                {/*     <button className={cn(styles.btn)} type="button" onClick={handleClickValidate}> */}
-                {/*       {validationStatus === Status.InProgress && ( */}
-                {/*         <Spinner size={20} color={colors.gray_32} borderWidth={2} /> */}
-                {/*       )} */}
-                {/*       <span>{i18n.validate}</span> */}
-                {/*     </button> */}
-                {/*     <div className={styles.msg}>{validationMsg}</div> */}
-                {/*   </div> */}
-                {/* </div> */}
-              </div>
-            </li>
+            {/* <li */}
+            {/*   className={cn(styles.item, { */}
+            {/*     [styles.isDisabled]: step < AttestationStep.POST_TWEET, */}
+            {/*   })} */}
+            {/* > */}
+            {/*   <div className={styles.overlay} /> */}
+            {/*   <div className={styles.no}>4</div> */}
+            {/*   <div className={styles.rightCol}> */}
+            {/*     <div className={styles.desc}> */}
+            {/*       <p className={styles.descTitle}>{i18n.what_is_the_tweet_url}</p> */}
+            {/*       <p>{i18n.tweet_url_example_given}</p> */}
+            {/*     </div> */}
+            {/*     <div className={styles.content}> */}
+            {/*       <div className={styles.row}> */}
+            {/*         <Input */}
+            {/*           className={styles.input} */}
+            {/*           name={TWEET_URL} */}
+            {/*           error={""} */}
+            {/*           label={i18n.tweet_url} */}
+            {/*           value={formData.tweet_url} */}
+            {/*           handleChangeValue={handleChangeTwitterHandle} */}
+            {/*         /> */}
+            {/*       </div> */}
+            {/*       <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div> */}
+            {/*       <div className={styles.validateBtnRow}> */}
+            {/*         <button className={cn(styles.btn)} type="button" onClick={handleClickValidate}> */}
+            {/*           {validationStatus === Status.InProgress && ( */}
+            {/*             <Spinner size={20} color={colors.gray_32} borderWidth={2} /> */}
+            {/*           )} */}
+            {/*           <span>{i18n.validate}</span> */}
+            {/*         </button> */}
+            {/*         <div className={styles.msg}>{validationMsg}</div> */}
+            {/*       </div> */}
+            {/*     </div> */}
+            {/*   </div> */}
+            {/* </li> */}
           </ol>
           <div className={cn(styles.btnRow)}>
             <div className={styles.createBtnRow}>
