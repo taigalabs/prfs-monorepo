@@ -2,6 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
+import { useSignMessage } from "wagmi";
 import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
@@ -23,11 +24,10 @@ import {
   ProofGenSuccessPayload,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
+import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
-import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
-import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
 
@@ -36,14 +36,11 @@ import { i18nContext } from "@/i18n/context";
 import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
-import { paths } from "@/paths";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
-import { FetchCryptoAssetResponse } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetResponse";
 import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 
-// const TWITTER_HANDLE = "twitter_handle";
 const WALLET_ADDR = "wallet_addr";
-const TWEET_URL = "tweet_url";
+const SIGNATURE = "signature";
 const CLAIM = "twitter_acc_atst";
 
 enum AttestationStep {
@@ -60,14 +57,17 @@ enum Status {
 
 const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
+  const [isSigValid, setIsSigValid] = React.useState(false);
+  const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
   const router = useRouter();
-  const [formData, setFormData] = React.useState({ [WALLET_ADDR]: "", [TWEET_URL]: "" });
+  const [formData, setFormData] = React.useState({ [WALLET_ADDR]: "", [SIGNATURE]: "" });
   const [claimCm, setClaimCm] = React.useState<string | null>(null);
   const claimSecret = React.useMemo(() => {
     const handle = formData[WALLET_ADDR];
     return `PRFS_ATTESTATION_${handle}`;
   }, [formData[WALLET_ADDR]]);
   const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
+  const { signMessageAsync } = useSignMessage();
   const [fetchAssetStatus, setFetchAssetStatus] = React.useState<Status>(Status.Standby);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [fetchAssetMsg, setFetchAssetMsg] = React.useState<React.ReactNode>(null);
@@ -89,15 +89,14 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const { openPopup } = usePopup();
 
   React.useEffect(() => {
-    const handle = formData[WALLET_ADDR];
-    if (handle.length > 0) {
-      if (step < AttestationStep.GENERATE_CLAIM) {
+    if (cryptoAsset) {
+      if (cryptoAsset.amount !== undefined) {
         setStep(AttestationStep.GENERATE_CLAIM);
       }
     } else {
       setStep(AttestationStep.INPUT_WALLET_ADDR);
     }
-  }, [setStep, formData[WALLET_ADDR]]);
+  }, [setStep, cryptoAsset]);
 
   // const tweetContent = React.useMemo(() => {
   //   if (claimCm) {
@@ -121,6 +120,20 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
       const { value, name } = e.target;
 
       if (name === WALLET_ADDR) {
+        setFormData(oldVal => ({
+          ...oldVal,
+          [name]: value,
+        }));
+      }
+    },
+    [setFormData],
+  );
+
+  const handleChangeSignature = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value, name } = e.target;
+
+      if (name === SIGNATURE) {
         setFormData(oldVal => ({
           ...oldVal,
           [name]: value,
@@ -194,26 +207,28 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
 
   const handleClickFetchAsset = React.useCallback(async () => {
     const wallet_addr = formData[WALLET_ADDR];
-    // const twitter_handle = formData[TWITTER_HANDLE];
-    const req: FetchCryptoAssetRequest = {
-      wallet_addr,
-    };
-    setFetchAssetStatus(Status.InProgress);
-    const { payload, error } = await fetchCryptoAssetRequest(req);
-    setFetchAssetStatus(Status.Standby);
 
-    if (error) {
-      console.error(error);
-      setFetchAssetMsg(<span className={styles.error}>{error.toString()}</span>);
-    }
+    if (wallet_addr.length > 0) {
+      const req: FetchCryptoAssetRequest = {
+        wallet_addr,
+      };
+      setFetchAssetStatus(Status.InProgress);
+      const { payload, error } = await fetchCryptoAssetRequest(req);
+      setFetchAssetStatus(Status.Standby);
 
-    if (payload && payload.crypto_asset) {
-      setCryptoAsset(payload.crypto_asset);
-      setFetchAssetMsg(
-        <span className={styles.success}>
-          <FaCheck />
-        </span>,
-      );
+      if (error) {
+        console.error(error);
+        setFetchAssetMsg(<span className={styles.error}>{error.toString()}</span>);
+      }
+
+      if (payload && payload.crypto_asset) {
+        setCryptoAsset(payload.crypto_asset);
+        setFetchAssetMsg(
+          <span className={styles.success}>
+            <FaCheck />
+          </span>,
+        );
+      }
     }
   }, [
     fetchCryptoAssetRequest,
@@ -223,30 +238,68 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     setFetchAssetStatus,
   ]);
 
+  const handleClickValidate = React.useCallback(async () => {
+    const sig = formData[SIGNATURE];
+    const wallet_addr = formData[WALLET_ADDR];
+
+    const recoveredAddress = await recoverMessageAddress({
+      message: variables?.message,
+      signature: signMessageData,
+    });
+    setRecoveredAddress(recoveredAddress);
+
+    // if (error) {
+    //   console.error(error);
+    //   setValidationMsg(<span className={styles.error}>{error.toString()}</span>);
+    // }
+
+    if (false) {
+      setIsSigValid(true);
+      setValidationMsg(
+        <span className={styles.success}>
+          <FaCheck />
+        </span>,
+      );
+    }
+  }, [formData[SIGNATURE], formData[WALLET_ADDR], setIsSigValid, setValidationMsg]);
+
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
   }, [formData, step]);
 
-  // const handleClickCopy = React.useCallback(() => {
-  //   if (tweetContent) {
-  //     navigator.clipboard.writeText(tweetContent);
-  //     setIsCopyTooltipVisible(true);
+  const handleClickCopy = React.useCallback(() => {
+    if (claimCm) {
+      navigator.clipboard.writeText(claimCm);
+      setIsCopyTooltipVisible(true);
 
-  //     setTimeout(() => {
-  //       setIsCopyTooltipVisible(false);
-  //     }, 3000);
-  //   }
-  // }, [tweetContent, setIsCopyTooltipVisible]);
+      setTimeout(() => {
+        setIsCopyTooltipVisible(false);
+      }, 3000);
+    }
+  }, [claimCm, setIsCopyTooltipVisible]);
 
-  // const handleClickPostTweet = React.useCallback(() => {
-  //   if (tweetContent) {
-  //     const params = encodeURIComponent(tweetContent);
-  //     const url = `https://twitter.com/intent/tweet?text=${params}`;
-  //     window.open(url, "_blank");
-  //   } else {
-  //     console.error("no tweet content");
-  //   }
-  // }, [tweetContent]);
+  const handleChangeAddress = React.useCallback(
+    (address: string) => {
+      setFormData(oldVal => ({
+        ...oldVal,
+        [WALLET_ADDR]: address,
+      }));
+    },
+    [setFormData],
+  );
+
+  const handleClickSign = React.useCallback(async () => {
+    if (claimCm) {
+      const sig = await signMessageAsync({ message: claimCm });
+
+      if (sig) {
+        setFormData(oldVal => ({
+          ...oldVal,
+          [SIGNATURE]: sig,
+        }));
+      }
+    }
+  }, [claimCm, setFormData]);
 
   const handleClickCreate = React.useCallback(async () => {
     if (cryptoAsset && createStatus === Status.Standby) {
@@ -298,6 +351,13 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                   <p>{i18n.wallet_address_example_given}</p>
                 </div>
                 <div className={styles.content}>
+                  <div className={styles.inputBtnRow}>
+                    <ConnectWallet handleChangeAddress={handleChangeAddress}>
+                      <button className={styles.inputBtn} type="button">
+                        {i18n.connect}
+                      </button>
+                    </ConnectWallet>
+                  </div>
                   <Input
                     className={styles.input}
                     name={WALLET_ADDR}
@@ -370,34 +430,61 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
               <div className={styles.no}>3</div>
               <div className={styles.rightCol}>
                 <div className={styles.desc}>
-                  <p className={styles.descTitle}>{i18n.post_tweet_with_content}</p>
-                  <p>{i18n.try_not_to_close_this_window}</p>
+                  <p className={styles.descTitle}>{i18n.make_signature_with_your_crypto_wallet}</p>
+                  {/* <p>{i18n.try_not_to_close_this_window}</p> */}
                 </div>
-                {/* <div className={styles.content}> */}
-                {/*   {tweetContent && ( */}
-                {/*     <div className={styles.tweetContent}> */}
-                {/*       <div className={styles.box}> */}
-                {/*         <p>{tweetContent}</p> */}
-                {/*         <div className={styles.btnArea}> */}
-                {/*           <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top"> */}
-                {/*             <button type="button" onClick={handleClickCopy}> */}
-                {/*               <AiOutlineCopy /> */}
-                {/*             </button> */}
-                {/*           </Tooltip> */}
-                {/*         </div> */}
-                {/*       </div> */}
-                {/*     </div> */}
-                {/*   )} */}
-                {/* </div> */}
-                {/* <div className={cn(styles.tweetContentBtnRow)}> */}
-                {/*   <button className={styles.btn} type="button" onClick={handleClickPostTweet}> */}
-                {/*     {i18n.post} */}
+                <div className={styles.content}>
+                  {claimCm && (
+                    <div className={styles.section}>
+                      <div className={styles.box}>
+                        <p>{claimCm}</p>
+                        <div className={styles.btnArea}>
+                          <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
+                            <button type="button" onClick={handleClickCopy}>
+                              <AiOutlineCopy />
+                            </button>
+                          </Tooltip>
+                        </div>
+                      </div>
+                      <div className={styles.signBox}>
+                        <div className={styles.inputBtnRow}>
+                          <button
+                            className={styles.inputBtn}
+                            type="button"
+                            onClick={handleClickSign}
+                          >
+                            {i18n.sign}
+                          </button>
+                        </div>
+                        <Input
+                          className={cn(styles.input)}
+                          name={WALLET_ADDR}
+                          error={""}
+                          label={i18n.signature}
+                          value={formData.signature}
+                          handleChangeValue={handleChangeWalletAddr}
+                        />
+                      </div>
+                      <div className={styles.validateBtnRow}>
+                        <button
+                          className={cn(styles.btn)}
+                          type="button"
+                          onClick={handleClickValidate}
+                        >
+                          <span>{i18n.validate}</span>
+                        </button>
+                        <div className={styles.msg}>{validationMsg}</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {/* <div className={cn(styles.sectionBtnRow)}> */}
+                {/*   <button className={styles.btn} type="button" onClick={handleClickSign}> */}
+                {/*     {i18n.connect_wallet} */}
                 {/*   </button> */}
                 {/*   <p> */}
                 {/*     <span>{i18n.or} </span> */}
-                {/*     <a target="_blank" href="https://twitter.com"> */}
-                {/*       {i18n.manually_tweet_at_twitter} */}
-                {/*     </a> */}
+                {/*     {i18n.manually_create_a_signature_and_paste_it} */}
                 {/*   </p> */}
                 {/* </div> */}
               </div>
