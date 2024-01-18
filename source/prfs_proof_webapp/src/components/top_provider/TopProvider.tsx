@@ -4,12 +4,7 @@ import React from "react";
 import { Provider as StateProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-lib/src/i18n/i18nContext";
-// import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
-// import { publicProvider } from "wagmi/providers/public";
-// import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
-// import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { PrfsEmbedProvider } from "@taigalabs/prfs-id-sdk-react/src/context";
-
 import { http, createConfig, WagmiProvider } from "@taigalabs/prfs-web3-js/wagmi";
 import { mainnet, sepolia } from "@taigalabs/prfs-web3-js/wagmi/chains";
 
