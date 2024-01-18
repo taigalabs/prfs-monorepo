@@ -312,8 +312,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                       type="button"
                       onClick={handleClickFetchAsset}
                     >
-                      {fetchAssetStatus === Status.InProgress && (
-                        <Spinner size={20} color={colors.gray_32} borderWidth={2} />
+                      {fetchAssetStatus === Status.Standby && (
+                        <Spinner size={14} color={colors.gray_32} borderWidth={2} />
                       )}
                       <span>{i18n.fetch_asset}</span>
                     </button>
@@ -321,16 +321,16 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                   </div>
                   {cryptoAsset && (
                     <div className={styles.cryptoAsset}>
-                      <div>
-                        <p className={styles.label}>{i18n.wallet_address} :</p>
+                      <div className={styles.item}>
+                        <p className={styles.label}>{i18n.wallet_address}:</p>
                         <p className={styles.value}>{cryptoAsset.wallet_addr}</p>
                       </div>
-                      <div>
-                        <p className={styles.label}>{i18n.amount} :</p>
+                      <div className={styles.item}>
+                        <p className={styles.label}>{i18n.amount}:</p>
                         <p className={styles.value}>{cryptoAsset.amount.toString()}</p>
                       </div>
-                      <div>
-                        <p className={styles.label}>{i18n.unit} :</p>
+                      <div className={styles.item}>
+                        <p className={styles.label}>{i18n.unit}:</p>
                         <p className={styles.value}>{cryptoAsset.unit}</p>
                       </div>
                     </div>

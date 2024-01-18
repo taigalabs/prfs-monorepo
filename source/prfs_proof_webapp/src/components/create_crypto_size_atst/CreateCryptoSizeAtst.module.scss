@@ -52,28 +52,6 @@
     font-size: 16px;
   }
 
-  .btn {
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--gray-50);
-    border-radius: 20px;
-    padding: 0 18px;
-    height: 40px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--bright-blue-55);
-    }
-
-    svg {
-      margin-right: 2px;
-    }
-
-    > * + span {
-      margin-left: 2px;
-    }
-  }
-
   .row {
     padding: 1px 0 18px;
   }
@@ -152,8 +130,45 @@
   }
 }
 
+.btn {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--gray-50);
+  border-radius: 20px;
+  padding: 0 18px;
+  height: 40px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--bright-blue-55);
+  }
+
+  svg {
+    margin-right: 2px;
+  }
+
+  > * + span {
+    margin-left: 4px;
+  }
+}
+
 .cryptoAsset {
   padding-top: 18px;
+  font-size: 13px;
+  color: var(--gray-20);
+
+  .item {
+    padding-bottom: 0;
+  }
+
+  .item:not(:first-child) {
+    /* padding-top: 4px; */
+  }
+
+  .label {
+    font-weight: 500;
+    margin-right: 3px;
+  }
 }
 
 .guideRow {
