@@ -3,131 +3,137 @@
 }
 
 .instructions {
-  .overlay {
-    display: none;
-    background-color: rgba(255, 255, 255, 0.5);
-    position: absolute;
-    inset: 0;
-    z-index: 1;
+}
+
+.overlay {
+  display: none;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.item {
+  display: flex;
+  padding-bottom: 24px;
+  position: relative;
+
+  &.isDisabled {
+    .overlay {
+      display: block;
+    }
+  }
+}
+
+.no {
+  width: 78px;
+  flex-shrink: 0;
+  font-size: 16px;
+  padding-left: 44px;
+}
+
+.rightCol {
+  word-break: break-all;
+  flex-grow: 1;
+  padding-right: 60px;
+}
+
+.desc {
+  display: block;
+  word-break: break-all;
+  padding-bottom: 18px;
+  color: var(--gray-20);
+
+  > p:not(:last-child) {
+    padding-bottom: 5px;
+  }
+}
+
+.descTitle {
+  color: var(--black-10);
+  font-size: 16px;
+}
+
+.row {
+  padding: 1px 0 18px;
+}
+
+.section {
+  padding-bottom: 14px;
+  width: 480px;
+}
+
+.box {
+  display: flex;
+  border: 1px solid var(--gray-50);
+  border-radius: 5px;
+  padding: 8px;
+  word-break: break-all;
+
+  p {
+    display: flex;
+    align-items: center;
   }
 
-  .item {
+  .btnArea {
     display: flex;
-    padding-bottom: 24px;
-    position: relative;
+    align-items: center;
+    width: 60px;
+    padding-left: 12px;
+    font-size: 20px;
 
-    &.isDisabled {
-      .overlay {
-        display: block;
+    button {
+      color: var(--gray-20);
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+
+      &:hover {
+        background-color: var(--bright-gray-32);
       }
     }
   }
+}
 
-  .no {
-    width: 78px;
-    flex-shrink: 0;
-    font-size: 16px;
-    padding-left: 44px;
-  }
+.claimCm {
+  display: flex;
 
-  .rightCol {
+  .value {
+    padding-left: 16px;
+    font-size: 13px;
+    width: 300px;
     word-break: break-all;
-    flex-grow: 1;
-    padding-right: 60px;
+  }
+}
+
+.btnRow {
+  padding-top: 18px;
+  display: flex;
+  align-items: center;
+
+  .status {
+    padding-left: 16px;
+  }
+}
+
+.sectionBtnRow {
+  display: flex;
+  align-items: center;
+
+  > p {
+    padding-left: 16px;
   }
 
-  .desc {
-    display: block;
-    word-break: break-all;
-    padding-bottom: 18px;
-    color: var(--gray-20);
-
-    > p:not(:last-child) {
-      padding-bottom: 5px;
-    }
+  a {
+    color: var(--blue-120);
   }
+}
 
-  .descTitle {
-    color: var(--black-10);
-    font-size: 16px;
-  }
-
-  .row {
-    padding: 1px 0 18px;
-  }
-
-  .section {
-    padding-bottom: 14px;
-    width: 480px;
-  }
-
-  .box {
-    display: flex;
-    border: 1px solid var(--gray-50);
-    border-radius: 5px;
-    padding: 8px;
-    word-break: break-all;
-
-    .btnArea {
-      display: flex;
-      align-items: center;
-      width: 60px;
-      padding-left: 12px;
-      font-size: 20px;
-
-      button {
-        color: var(--gray-20);
-        width: 40px;
-        height: 40px;
-        border-radius: 20px;
-        cursor: pointer;
-        display: grid;
-        place-items: center;
-
-        &:hover {
-          background-color: var(--bright-gray-32);
-        }
-      }
-    }
-  }
-
-  .claimCm {
-    display: flex;
-
-    .value {
-      padding-left: 16px;
-      font-size: 13px;
-      width: 300px;
-      word-break: break-all;
-    }
-  }
-
-  .btnRow {
-    padding-top: 18px;
-    display: flex;
-    align-items: center;
-
-    .status {
-      padding-left: 16px;
-    }
-  }
-
-  .sectionBtnRow {
-    display: flex;
-    align-items: center;
-
-    > p {
-      padding-left: 16px;
-    }
-
-    a {
-      color: var(--blue-120);
-    }
-  }
-
-  .msg {
-    padding-left: 10px;
-  }
+.msg {
+  padding-left: 10px;
 }
 
 .btn {
@@ -187,12 +193,9 @@
   padding-bottom: 8px;
 }
 
-.btnRow {
-  padding-top: 4px;
-}
-
 .createBtnRow {
   display: flex;
+  flex-grow: 1;
   justify-content: space-between;
   padding-left: 45px;
   padding-right: 30px;
@@ -240,25 +243,33 @@
 }
 
 @media screen and (max-width: 480px) {
-  .instructions {
-    .tweetContent {
-      width: auto;
-    }
+  .section {
+    width: auto;
+  }
 
-    .claimCm {
-      .value {
-        width: auto;
+  .cryptoAsset {
+    .item {
+      flex-direction: column;
+
+      &:not(:first-child) {
+        padding-top: 4px;
       }
     }
+  }
 
-    .no {
-      width: 32px;
-      padding-left: 4px;
+  .claimCm {
+    .value {
+      width: auto;
     }
+  }
 
-    .rightCol {
-      padding-right: 0;
-    }
+  .no {
+    width: 32px;
+    padding-left: 4px;
+  }
+
+  .rightCol {
+    padding-right: 0;
   }
 
   .createBtnRow {

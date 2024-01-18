@@ -54,6 +54,7 @@
 
   .btn {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     border: 1px solid var(--gray-50);
     border-radius: 20px;
