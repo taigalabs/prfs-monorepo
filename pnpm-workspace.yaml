@@ -8,6 +8,7 @@ packages:
   - "source/prfs_driver_interface"
   - "source/prfs_circuits_circom"
   - "source/prfs_crypto_js"
+  - "source/prfs_web3_js"
   - "source/prfs_entities"
   - "source/prfs_i18n"
   - "source/prfs_env_js"

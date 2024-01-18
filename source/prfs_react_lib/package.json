@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.24.8",
-    "@metamask/providers": "^14.0.0",
     "@phosphor-icons/react": "^2.0.10",
     "@react-icons/all-files": "^4.1.0",
     "@tabler/icons-react": "^2.32.0",
@@ -21,6 +20,7 @@
     "@taigalabs/prfs-i18n": "*",
     "@taigalabs/prfs-id-sdk-web": "*",
     "@taigalabs/prfs-id-sdk-react": "*",
+    "@taigalabs/prfs-web3-js": "*",
     "@tanstack/react-query": "5.17.9",
     "@tanstack/react-table": "8.11.2",
     "@tanstack/react-virtual": "3.0.1",
@@ -28,8 +28,7 @@
     "dayjs": "^1.11.9",
     "next": "14.0.4",
     "qrcode": "^1.5.3",
-    "react": "18.2.0",
-    "wagmi": "2.2.1"
+    "react": "18.2.0"
   },
   "devDependencies": {
     "@types/node": "20.3.1",

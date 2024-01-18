@@ -49,7 +49,7 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
 };
 
 const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChangeAddress }) => {
-  const { isConnected } = useAccount();
+  // const { isConnected } = useAccount();
   // const { address, connector, isConnected } = useAccount();
   // const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error } = useConnect();

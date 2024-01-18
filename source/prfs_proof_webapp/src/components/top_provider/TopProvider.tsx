@@ -10,8 +10,7 @@ import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-lib/src/i
 // import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { PrfsEmbedProvider } from "@taigalabs/prfs-id-sdk-react/src/context";
 
-import { http, createConfig, WagmiProvider } from "wagmi";
-import { mainnet, sepolia } from "wagmi/chains";
+import { http, createConfig, WagmiProvider, mainnet, sepolia } from "@taigalabs/prfs-web3-js/wagmi";
 
 import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";

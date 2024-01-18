@@ -2,8 +2,8 @@
 
 import React from "react";
 import cn from "classnames";
-import { useSignMessage } from "wagmi";
-import { verifyMessage } from "viem";
+// import { useSignMessage } from "wagmi";
+import { verifyMessage } from "@taigalabs/prfs-web3-js/viem";
 import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
@@ -31,6 +31,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
+import { useAccount, useSignMessage } from "@taigalabs/prfs-web3-js/wagmi";
 
 import styles from "./CreateCryptoSizeAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -88,6 +89,9 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   });
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
+
+  const { isConnected } = useAccount();
+  console.log(11, isConnected, window.ethereum);
 
   React.useEffect(() => {
     if (cryptoAsset) {

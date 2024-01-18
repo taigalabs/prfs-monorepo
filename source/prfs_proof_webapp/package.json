@@ -21,6 +21,7 @@
     "@tabler/icons-react": "^2.32.0",
     "@taigalabs/prfs-api-js": "*",
     "@taigalabs/prfs-crypto-js": "*",
+    "@taigalabs/prfs-web3-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@taigalabs/prfs-entities": "*",
@@ -46,9 +47,7 @@
     "readline": "^1.3.0",
     "redux-logger": "^3.0.6",
     "sass": "^1.63.6",
-    "uuid": "^9.0.0",
-    "viem": "2.2.0",
-    "wagmi": "2.2.1"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",

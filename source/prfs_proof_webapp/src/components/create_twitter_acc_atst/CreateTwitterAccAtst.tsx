@@ -64,11 +64,11 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     return `PRFS_ATTESTATION_${handle}`;
   }, [formData[TWITTER_HANDLE]]);
   const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
-  const [validationStatus, setValidationStatus] = React.useState<Status>(Status.Standby);
-  const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
-  const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
-  const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
   const [validation, setValidation] = React.useState<TwitterAccValidation | null>(null);
+  const [validationStatus, setValidationStatus] = React.useState<Status>(Status.Standby);
+  const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
+  const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
+  const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_TWITTER_HANDLE);
   const { sk, pkHex } = useRandomKeyPair();
   const { mutateAsync: validateTwitterAccRequest } = useMutation({
