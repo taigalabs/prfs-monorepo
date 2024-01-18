@@ -2,4 +2,6 @@
 
 export interface FetchCryptoAssetResponse {
   wallet_addr: string;
+  amount: bigint;
+  unit: string;
 }
