@@ -386,16 +386,12 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                     handleChangeValue={handleChangeWalletAddr}
                   />
                   <div className={styles.btnRow}>
-                    <button
-                      className={cn(styles.btn)}
-                      type="button"
-                      onClick={handleClickFetchAsset}
-                    >
+                    <AttestationListItemBtn type="button" handleClick={handleClickFetchAsset}>
                       {fetchAssetStatus === Status.InProgress && (
                         <Spinner size={14} color={colors.gray_32} borderWidth={2} />
                       )}
                       <span>{i18n.fetch_asset}</span>
-                    </button>
+                    </AttestationListItemBtn>
                     <div className={styles.msg}>{fetchAssetMsg}</div>
                   </div>
                   {cryptoAsset && (
@@ -430,10 +426,10 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                   </p>
                 </AttestationListItemDesc>
                 <div className={cn(styles.claimCm)}>
-                  <button className={styles.btn} type="button" onClick={handleClickGenerate}>
+                  <AttestationListItemBtn type="button" handleClick={handleClickGenerate}>
                     <MdSecurity />
                     <span>{i18n.generate}</span>
-                  </button>
+                  </AttestationListItemBtn>
                   <p className={styles.value}>{claimCm}</p>
                 </div>
               </AttestationListRightCol>
@@ -481,11 +477,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                         />
                       </div>
                       <div className={styles.validateBtnRow}>
-                        <AttestationListItemBtn
-                          className={cn(styles.btn)}
-                          type="button"
-                          handleClick={handleClickValidate}
-                        >
+                        <AttestationListItemBtn type="button" handleClick={handleClickValidate}>
                           <span>{i18n.validate}</span>
                         </AttestationListItemBtn>
                         <div className={styles.msg}>{validationMsg}</div>
