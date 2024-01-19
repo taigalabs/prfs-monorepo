@@ -39,11 +39,13 @@ import { envs } from "@/envs";
 import { paths } from "@/paths";
 import {
   AttestationListItem,
+  AttestationListItemDesc,
   AttestationListItemNo,
   AttestationListRightCol,
-  Btn,
-  ContentBox,
-  ContentBoxBtnArea,
+  AttestationListItemBtn,
+  AttestationContentBox,
+  AttestationContentBoxBtnArea,
+  AttestationListItemOverlay,
 } from "@/components/create_attestation/CreateAtstComponents";
 
 const TWITTER_HANDLE = "twitter_handle";
@@ -308,10 +310,10 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
             <AttestationListItem>
               <AttestationListItemNo>1</AttestationListItemNo>
               <AttestationListRightCol>
-                <div className={styles.desc}>
+                <AttestationListItemDesc>
                   <p className={styles.descTitle}>{i18n.what_is_your_twitter_handle}</p>
                   <p>{i18n.twitter_handle_example_given}</p>
-                </div>
+                </AttestationListItemDesc>
                 <div className={styles.content}>
                   <Input
                     className={styles.input}
@@ -324,67 +326,53 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                 </div>
               </AttestationListRightCol>
             </AttestationListItem>
-            <AttestationListItem
-              // className={cn(styles.item, {
-              //   [styles.isDisabled]: step < AttestationStep.GENERATE_CLAIM,
-              // })}
-              isDisabled={step < AttestationStep.GENERATE_CLAIM}
-            >
-              <div className={styles.overlay} />
+            <AttestationListItem isDisabled={step < AttestationStep.GENERATE_CLAIM}>
+              <AttestationListItemOverlay />
               <AttestationListItemNo>2</AttestationListItemNo>
               <AttestationListRightCol>
-                <div className={styles.desc}>
+                <AttestationListItemDesc>
                   <p className={styles.descTitle}>{i18n.generate_a_cryptographic_claim}</p>
                   <p className={styles.claimSecret}>
                     {i18n.claim_secret}: {claimSecret}
                   </p>
-                </div>
+                </AttestationListItemDesc>
                 <div className={cn(styles.content, styles.claimCm)}>
-                  <Btn type="button" handleClick={handleClickGenerate}>
+                  <AttestationListItemBtn type="button" handleClick={handleClickGenerate}>
                     <MdSecurity />
                     <span>{i18n.generate}</span>
-                  </Btn>
-                  {/* <button className={styles.btn} type="button" onClick={handleClickGenerate}> */}
-                  {/*   <MdSecurity /> */}
-                  {/*   <span>{i18n.generate}</span> */}
-                  {/* </button> */}
+                  </AttestationListItemBtn>
                   <p className={styles.value}>{claimCm}</p>
                 </div>
               </AttestationListRightCol>
             </AttestationListItem>
-            <AttestationListItem
-              // className={cn(styles.item, {
-              //   [styles.isDisabled]: step < AttestationStep.POST_TWEET,
-              // })}
-              isDisabled={step < AttestationStep.POST_TWEET}
-            >
-              <div className={styles.overlay} />
+            <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}>
+              <AttestationListItemOverlay />
               <AttestationListItemNo>3</AttestationListItemNo>
               <AttestationListRightCol>
-                <div className={styles.desc}>
+                <AttestationListItemDesc>
                   <p className={styles.descTitle}>{i18n.post_tweet_with_content}</p>
                   <p>{i18n.try_not_to_close_this_window}</p>
-                </div>
+                </AttestationListItemDesc>
                 <div className={styles.content}>
                   {tweetContent && (
                     <div className={styles.tweetContent}>
-                      <ContentBox>
+                      <AttestationContentBox>
                         <p>{tweetContent}</p>
-                        <ContentBoxBtnArea>
+                        <AttestationContentBoxBtnArea>
                           <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
                             <button type="button" onClick={handleClickCopy}>
                               <AiOutlineCopy />
                             </button>
                           </Tooltip>
-                        </ContentBoxBtnArea>
-                      </ContentBox>
+                        </AttestationContentBoxBtnArea>
+                      </AttestationContentBox>
                     </div>
                   )}
                 </div>
                 <div className={cn(styles.tweetContentBtnRow)}>
-                  <Btn type="button" handleClick={handleClickPostTweet}>
+                  <AttestationListItemBtn type="button" handleClick={handleClickPostTweet}>
                     {i18n.post}
-                  </Btn>
+                  </AttestationListItemBtn>
                   <p>
                     <span>{i18n.or} </span>
                     <a target="_blank" href="https://twitter.com">
@@ -394,19 +382,14 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                 </div>
               </AttestationListRightCol>
             </AttestationListItem>
-            <AttestationListItem
-              // className={cn(styles.item, {
-              //   [styles.isDisabled]: step < AttestationStep.POST_TWEET,
-              // })}
-              isDisabled={step < AttestationStep.POST_TWEET}
-            >
-              <div className={styles.overlay} />
+            <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}>
+              <AttestationListItemOverlay />
               <AttestationListItemNo>4</AttestationListItemNo>
               <AttestationListRightCol>
-                <div className={styles.desc}>
+                <AttestationListItemDesc>
                   <p className={styles.descTitle}>{i18n.what_is_the_tweet_url}</p>
                   <p>{i18n.tweet_url_example_given}</p>
-                </div>
+                </AttestationListItemDesc>
                 <div className={styles.content}>
                   <div className={styles.row}>
                     <Input
@@ -420,12 +403,12 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                   </div>
                   <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div>
                   <div className={styles.validateBtnRow}>
-                    <Btn type="button" handleClick={handleClickValidate}>
+                    <AttestationListItemBtn type="button" handleClick={handleClickValidate}>
                       {validationStatus === Status.InProgress && (
                         <Spinner size={20} color={colors.gray_32} borderWidth={2} />
                       )}
                       <span>{i18n.validate}</span>
-                    </Btn>
+                    </AttestationListItemBtn>
                     <div className={styles.msg}>{validationMsg}</div>
                   </div>
                 </div>

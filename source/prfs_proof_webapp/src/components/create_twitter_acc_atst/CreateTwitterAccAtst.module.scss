@@ -3,76 +3,9 @@
 }
 
 .instructions {
-  .overlay {
-    display: none;
-    background-color: rgba(255, 255, 255, 0.5);
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-  }
-
-  .item {
-    display: flex;
-    padding-bottom: 24px;
-    position: relative;
-
-    &.isDisabled {
-      .overlay {
-        display: block;
-      }
-    }
-  }
-
-  .no {
-    width: 78px;
-    flex-shrink: 0;
-    font-size: 16px;
-    padding-left: 44px;
-  }
-
-  .rightCol {
-    word-break: break-all;
-    flex-grow: 1;
-    padding-right: 60px;
-  }
-
-  .desc {
-    display: block;
-    word-break: break-all;
-    padding-bottom: 18px;
-    color: var(--gray-20);
-
-    > p:not(:last-child) {
-      padding-bottom: 5px;
-    }
-  }
-
   .descTitle {
     color: var(--black-10);
     font-size: 16px;
-  }
-
-  .btn {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    border: 1px solid var(--gray-50);
-    border-radius: 20px;
-    padding: 0 18px;
-    height: 40px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--bright-blue-55);
-    }
-
-    svg {
-      margin-right: 2px;
-    }
-
-    > * + span {
-      margin-left: 2px;
-    }
   }
 
   .row {

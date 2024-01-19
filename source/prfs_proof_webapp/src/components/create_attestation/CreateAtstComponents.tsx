@@ -9,13 +9,13 @@ export const AttestationListItem: React.FC<AttestationListItemProps> = ({
   isDisabled,
 }) => {
   return (
-    <div
+    <li
       className={cn(styles.listItem, className, {
         [styles.isDisabled]: isDisabled,
       })}
     >
       {children}
-    </div>
+    </li>
   );
 };
 
@@ -23,23 +23,36 @@ export const AttestationListRightCol: React.FC<ContentBoxProps> = ({ children, c
   return <div className={cn(styles.rightCol, className)}>{children}</div>;
 };
 
+export const AttestationListItemDesc: React.FC<ContentBoxProps> = ({ children, className }) => {
+  return <div className={cn(styles.desc, className)}>{children}</div>;
+};
+
 export const AttestationListItemNo: React.FC<ContentBoxProps> = ({ children, className }) => {
   return <div className={cn(styles.no, className)}>{children}</div>;
 };
 
-export const AttestationOverlay: React.FC<ContentBoxProps> = ({ children, className }) => {
-  return <div className={cn(styles.overlay, className)}>{children}</div>;
+export const AttestationListItemOverlay: React.FC<AttestationListItemOverlayProps> = ({
+  className,
+}) => {
+  return <div className={cn(styles.overlay, className)} />;
 };
 
-export const ContentBox: React.FC<ContentBoxProps> = ({ children, className }) => {
+export const AttestationContentBox: React.FC<ContentBoxProps> = ({ children, className }) => {
   return <div className={cn(styles.contentBox, className)}>{children}</div>;
 };
 
-export const ContentBoxBtnArea: React.FC<ContentBoxProps> = ({ children, className }) => {
+export const AttestationContentBoxBtnArea: React.FC<ContentBoxProps> = ({
+  children,
+  className,
+}) => {
   return <div className={cn(styles.contentBoxBtnArea, className)}>{children}</div>;
 };
 
-export const Btn: React.FC<BtnProps> = ({ children, className, handleClick }) => {
+export const AttestationListItemBtn: React.FC<BtnProps> = ({
+  children,
+  className,
+  handleClick,
+}) => {
   return (
     <div className={cn(styles.btn, className)} onClick={handleClick}>
       {children}
@@ -63,4 +76,8 @@ export interface BtnProps {
   className?: string;
   type?: "submit" | "reset" | "button" | undefined;
   handleClick?: () => void;
+}
+
+export interface AttestationListItemOverlayProps {
+  className?: string;
 }

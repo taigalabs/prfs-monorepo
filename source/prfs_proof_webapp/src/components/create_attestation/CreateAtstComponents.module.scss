@@ -31,6 +31,17 @@
   padding-right: 60px;
 }
 
+.desc {
+  display: block;
+  word-break: break-all;
+  padding-bottom: 18px;
+  color: var(--gray-20);
+
+  > p:not(:last-child) {
+    padding-bottom: 5px;
+  }
+}
+
 .contentBox {
   display: flex;
   border: 1px solid var(--gray-50);
