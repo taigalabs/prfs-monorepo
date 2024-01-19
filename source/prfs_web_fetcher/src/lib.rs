@@ -1,4 +1,3 @@
-pub mod crawler;
 pub mod destinations;
 pub mod tokio;
 

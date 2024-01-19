@@ -1,7 +1,8 @@
 use colored::Colorize;
-use dotenvy::dotenv;
+use dotenvy;
 use lazy_static::lazy_static;
 use serde::Deserialize;
+use std::path::PathBuf;
 
 lazy_static! {
     pub static ref ENVS: Envs = Envs::new();
@@ -14,7 +15,11 @@ pub struct Envs {
 
 impl Envs {
     pub fn new() -> Envs {
-        dotenv().unwrap();
+        let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        let dotenv_path = manifest_dir.join(".env");
+        println!("Prfs web fetcher dotenv_path: {:?}", manifest_dir);
+
+        dotenvy::from_path(dotenv_path).unwrap();
 
         match envy::from_env::<Envs>() {
             Ok(envs) => {

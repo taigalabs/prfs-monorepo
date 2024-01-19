@@ -31,3 +31,4 @@ csv = "1.2.2"
 git2 = "0.18.1"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
+prfs_web_fetcher = { path = "../prfs_web_fetcher" }

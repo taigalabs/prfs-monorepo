@@ -6,6 +6,7 @@ use ethers_signers::{LocalWallet, Signer, Wallet};
 use git2::{Oid, Repository};
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::database2::Database2;
+use prfs_web_fetcher::destinations::infura::InfuraFetcher;
 
 pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
     let repo = match Repository::open(&PATHS.workspace_dir) {
@@ -13,19 +14,26 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
         Err(e) => panic!("failed to init: {}", e),
     };
 
-    let mut revwalk = repo.revwalk().unwrap();
-    revwalk.push_head()?;
-    let commit_hash = revwalk.next().unwrap().unwrap();
+    let commit_hash = {
+        let mut revwalk = repo.revwalk().unwrap();
+        revwalk.push_head()?;
+        let commit_hash = revwalk.next().unwrap().unwrap();
+        commit_hash
+    };
 
-    let pg_endpoint = &ENVS.postgres_endpoint;
-    let pg_username = &ENVS.postgres_username;
-    let pg_pw = &ENVS.postgres_pw;
+    let db2 = {
+        let pg_endpoint = &ENVS.postgres_endpoint;
+        let pg_username = &ENVS.postgres_username;
+        let pg_pw = &ENVS.postgres_pw;
 
-    let db2 = Database2::connect(pg_endpoint, pg_username, pg_pw)
-        .await
-        .unwrap();
+        let db2 = Database2::connect(pg_endpoint, pg_username, pg_pw)
+            .await
+            .unwrap();
+        db2
+    };
+
+    let infura_fetcher = InfuraFetcher::new();
     let wallet = ENVS.prfs_api_private_key.parse::<LocalWallet>()?;
-
     let launch_time: DateTime<Utc> = Utc::now();
 
     println!(
@@ -41,5 +49,6 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
         wallet,
         launch_time,
         commit_hash,
+        infura_fetcher,
     })
 }

@@ -19,9 +19,8 @@ pub async fn fetch_crypto_asset(
 ) -> ApiHandlerResult {
     let req: FetchCryptoAssetRequest = parse_req(req).await;
 
-    let fetcher = InfuraFetcher::new();
-
-    let crypto_asset = fetcher
+    let crypto_asset = state
+        .infura_fetcher
         .fetch_asset(&req.wallet_addr)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_VALIDATE_FAIL, err))?;
