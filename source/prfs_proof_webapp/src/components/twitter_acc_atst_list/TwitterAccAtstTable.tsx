@@ -2,15 +2,14 @@ import React from "react";
 import cn from "classnames";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { GetTwitterAccAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstsResponse";
-import { PrfsApiResponse, atstApi } from "@taigalabs/prfs-api-js";
+import { atstApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 import styles from "./TwitterAccAtstTable.module.scss";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { paths } from "@/paths";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {

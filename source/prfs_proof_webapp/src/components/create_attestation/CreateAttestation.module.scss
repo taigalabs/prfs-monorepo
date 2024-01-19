@@ -1,11 +1,13 @@
-.wrapper {
-  width: 680px;
+@import "@/styles/layouts.module.scss";
 
-  /* border: 1px solid red; */
+.wrapper {
+  width: auto;
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (min-width: $view_port_min_width_big_display) {
   .wrapper {
-    width: auto;
+    width: 680px;
+
+    /* border: 1px solid red; */
   }
 }
