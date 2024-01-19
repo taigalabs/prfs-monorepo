@@ -37,7 +37,14 @@ import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
-import { Btn, ContentBox } from "../create_attestation/CreateAtstComponents";
+import {
+  AttestationListItem,
+  AttestationListItemNo,
+  AttestationListRightCol,
+  Btn,
+  ContentBox,
+  ContentBoxBtnArea,
+} from "@/components/create_attestation/CreateAtstComponents";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -298,9 +305,9 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       <div>
         <form>
           <ol className={styles.instructions}>
-            <li className={styles.item}>
-              <div className={styles.no}>1</div>
-              <div className={styles.rightCol}>
+            <AttestationListItem>
+              <AttestationListItemNo>1</AttestationListItemNo>
+              <AttestationListRightCol>
                 <div className={styles.desc}>
                   <p className={styles.descTitle}>{i18n.what_is_your_twitter_handle}</p>
                   <p>{i18n.twitter_handle_example_given}</p>
@@ -315,16 +322,17 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                     handleChangeValue={handleChangeTwitterHandle}
                   />
                 </div>
-              </div>
-            </li>
-            <li
-              className={cn(styles.item, {
-                [styles.isDisabled]: step < AttestationStep.GENERATE_CLAIM,
-              })}
+              </AttestationListRightCol>
+            </AttestationListItem>
+            <AttestationListItem
+              // className={cn(styles.item, {
+              //   [styles.isDisabled]: step < AttestationStep.GENERATE_CLAIM,
+              // })}
+              isDisabled={step < AttestationStep.GENERATE_CLAIM}
             >
               <div className={styles.overlay} />
-              <div className={styles.no}>2</div>
-              <div className={styles.rightCol}>
+              <AttestationListItemNo>2</AttestationListItemNo>
+              <AttestationListRightCol>
                 <div className={styles.desc}>
                   <p className={styles.descTitle}>{i18n.generate_a_cryptographic_claim}</p>
                   <p className={styles.claimSecret}>
@@ -342,16 +350,17 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                   {/* </button> */}
                   <p className={styles.value}>{claimCm}</p>
                 </div>
-              </div>
-            </li>
-            <li
-              className={cn(styles.item, {
-                [styles.isDisabled]: step < AttestationStep.POST_TWEET,
-              })}
+              </AttestationListRightCol>
+            </AttestationListItem>
+            <AttestationListItem
+              // className={cn(styles.item, {
+              //   [styles.isDisabled]: step < AttestationStep.POST_TWEET,
+              // })}
+              isDisabled={step < AttestationStep.POST_TWEET}
             >
               <div className={styles.overlay} />
-              <div className={styles.no}>3</div>
-              <div className={styles.rightCol}>
+              <AttestationListItemNo>3</AttestationListItemNo>
+              <AttestationListRightCol>
                 <div className={styles.desc}>
                   <p className={styles.descTitle}>{i18n.post_tweet_with_content}</p>
                   <p>{i18n.try_not_to_close_this_window}</p>
@@ -359,25 +368,23 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                 <div className={styles.content}>
                   {tweetContent && (
                     <div className={styles.tweetContent}>
-                      {/* <div className={styles.box}> */}
                       <ContentBox>
                         <p>{tweetContent}</p>
-                        <div className={styles.btnArea}>
+                        <ContentBoxBtnArea>
                           <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
                             <button type="button" onClick={handleClickCopy}>
                               <AiOutlineCopy />
                             </button>
                           </Tooltip>
-                        </div>
+                        </ContentBoxBtnArea>
                       </ContentBox>
-                      {/* </div> */}
                     </div>
                   )}
                 </div>
                 <div className={cn(styles.tweetContentBtnRow)}>
-                  <button className={styles.btn} type="button" onClick={handleClickPostTweet}>
+                  <Btn type="button" handleClick={handleClickPostTweet}>
                     {i18n.post}
-                  </button>
+                  </Btn>
                   <p>
                     <span>{i18n.or} </span>
                     <a target="_blank" href="https://twitter.com">
@@ -385,16 +392,17 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                     </a>
                   </p>
                 </div>
-              </div>
-            </li>
-            <li
-              className={cn(styles.item, {
-                [styles.isDisabled]: step < AttestationStep.POST_TWEET,
-              })}
+              </AttestationListRightCol>
+            </AttestationListItem>
+            <AttestationListItem
+              // className={cn(styles.item, {
+              //   [styles.isDisabled]: step < AttestationStep.POST_TWEET,
+              // })}
+              isDisabled={step < AttestationStep.POST_TWEET}
             >
               <div className={styles.overlay} />
-              <div className={styles.no}>4</div>
-              <div className={styles.rightCol}>
+              <AttestationListItemNo>4</AttestationListItemNo>
+              <AttestationListRightCol>
                 <div className={styles.desc}>
                   <p className={styles.descTitle}>{i18n.what_is_the_tweet_url}</p>
                   <p>{i18n.tweet_url_example_given}</p>
@@ -421,8 +429,8 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                     <div className={styles.msg}>{validationMsg}</div>
                   </div>
                 </div>
-              </div>
-            </li>
+              </AttestationListRightCol>
+            </AttestationListItem>
           </ol>
           <div className={cn(styles.btnRow)}>
             <div className={styles.createBtnRow}>
