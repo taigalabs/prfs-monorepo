@@ -38,6 +38,18 @@ import { i18nContext } from "@/i18n/context";
 import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
+import {
+  AttestationContentBox,
+  AttestationContentBoxBtnArea,
+  AttestationFormBtnRow,
+  AttestationListItem,
+  AttestationListItemBtn,
+  AttestationListItemDesc,
+  AttestationListItemDescTitle,
+  AttestationListItemNo,
+  AttestationListItemOverlay,
+  AttestationListRightCol,
+} from "../create_attestation/CreateAtstComponents";
 
 const WALLET_ADDR = "wallet_addr";
 const SIGNATURE = "signature";
@@ -344,19 +356,19 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
 
   return (
     <>
-      <AttestationsTitle className={styles.title}>
-        {i18n.create_crypto_asset_size_attestation}
-      </AttestationsTitle>
+      <AttestationsTitle>{i18n.create_crypto_asset_size_attestation}</AttestationsTitle>
       <div>
         <form>
-          <ol className={styles.instructions}>
-            <li className={styles.item}>
-              <div className={styles.no}>1</div>
-              <div className={styles.rightCol}>
-                <div className={styles.desc}>
-                  <p className={styles.descTitle}>{i18n.what_is_your_wallet_address}</p>
+          <ol>
+            <AttestationListItem>
+              <AttestationListItemNo>1</AttestationListItemNo>
+              <AttestationListRightCol>
+                <AttestationListItemDesc>
+                  <AttestationListItemDescTitle>
+                    {i18n.what_is_your_wallet_address}
+                  </AttestationListItemDescTitle>
                   <p>{i18n.wallet_address_example_given}</p>
-                </div>
+                </AttestationListItemDesc>
                 <div className={styles.content}>
                   <div className={styles.inputBtnRow}>
                     <ConnectWallet handleChangeAddress={handleChangeAddress}>
@@ -403,56 +415,52 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                     </div>
                   )}
                 </div>
-              </div>
-            </li>
-            <li
-              className={cn(styles.item, {
-                [styles.isDisabled]: step < AttestationStep.GENERATE_CLAIM,
-              })}
-            >
-              <div className={styles.overlay} />
-              <div className={styles.no}>2</div>
-              <div className={styles.rightCol}>
-                <div className={styles.desc}>
-                  <p className={styles.descTitle}>{i18n.generate_a_cryptographic_claim}</p>
+              </AttestationListRightCol>
+            </AttestationListItem>
+            <AttestationListItem isDisabled={step < AttestationStep.GENERATE_CLAIM}>
+              <AttestationListItemOverlay />
+              <AttestationListItemNo>2</AttestationListItemNo>
+              <AttestationListRightCol>
+                <AttestationListItemDesc>
+                  <AttestationListItemDescTitle>
+                    {i18n.generate_a_cryptographic_claim}
+                  </AttestationListItemDescTitle>
                   <p className={styles.claimSecret}>
                     {i18n.claim_secret}: {claimSecret}
                   </p>
-                </div>
-                <div className={cn(styles.content, styles.claimCm)}>
+                </AttestationListItemDesc>
+                <div className={cn(styles.claimCm)}>
                   <button className={styles.btn} type="button" onClick={handleClickGenerate}>
                     <MdSecurity />
                     <span>{i18n.generate}</span>
                   </button>
                   <p className={styles.value}>{claimCm}</p>
                 </div>
-              </div>
-            </li>
-            <li
-              className={cn(styles.item, {
-                [styles.isDisabled]: step < AttestationStep.POST_TWEET,
-              })}
-            >
-              <div className={styles.overlay} />
-              <div className={styles.no}>3</div>
-              <div className={styles.rightCol}>
-                <div className={styles.desc}>
-                  <p className={styles.descTitle}>{i18n.make_signature_with_your_crypto_wallet}</p>
-                  {/* <p>{i18n.try_not_to_close_this_window}</p> */}
-                </div>
-                <div className={styles.content}>
+              </AttestationListRightCol>
+            </AttestationListItem>
+            <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}>
+              <AttestationListItemOverlay />
+              <AttestationListItemNo>3</AttestationListItemNo>
+              <AttestationListRightCol>
+                <AttestationListItemDesc>
+                  <AttestationListItemDescTitle>
+                    {i18n.make_signature_with_your_crypto_wallet}
+                    {/* <p>{i18n.try_not_to_close_this_window}</p> */}
+                  </AttestationListItemDescTitle>
+                </AttestationListItemDesc>
+                <div>
                   {claimCm && (
                     <div className={styles.section}>
-                      <div className={styles.box}>
+                      <AttestationContentBox>
                         <p>{claimCm}</p>
-                        <div className={styles.btnArea}>
+                        <AttestationContentBoxBtnArea>
                           <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
                             <button type="button" onClick={handleClickCopy}>
                               <AiOutlineCopy />
                             </button>
                           </Tooltip>
-                        </div>
-                      </div>
+                        </AttestationContentBoxBtnArea>
+                      </AttestationContentBox>
                       <div className={styles.signBox}>
                         <div className={styles.inputBtnRow}>
                           <button
@@ -473,13 +481,13 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                         />
                       </div>
                       <div className={styles.validateBtnRow}>
-                        <button
+                        <AttestationListItemBtn
                           className={cn(styles.btn)}
                           type="button"
-                          onClick={handleClickValidate}
+                          handleClick={handleClickValidate}
                         >
                           <span>{i18n.validate}</span>
-                        </button>
+                        </AttestationListItemBtn>
                         <div className={styles.msg}>{validationMsg}</div>
                       </div>
                     </div>
@@ -494,46 +502,10 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 {/*     {i18n.manually_create_a_signature_and_paste_it} */}
                 {/*   </p> */}
                 {/* </div> */}
-              </div>
-            </li>
-            {/* <li */}
-            {/*   className={cn(styles.item, { */}
-            {/*     [styles.isDisabled]: step < AttestationStep.POST_TWEET, */}
-            {/*   })} */}
-            {/* > */}
-            {/*   <div className={styles.overlay} /> */}
-            {/*   <div className={styles.no}>4</div> */}
-            {/*   <div className={styles.rightCol}> */}
-            {/*     <div className={styles.desc}> */}
-            {/*       <p className={styles.descTitle}>{i18n.what_is_the_tweet_url}</p> */}
-            {/*       <p>{i18n.tweet_url_example_given}</p> */}
-            {/*     </div> */}
-            {/*     <div className={styles.content}> */}
-            {/*       <div className={styles.row}> */}
-            {/*         <Input */}
-            {/*           className={styles.input} */}
-            {/*           name={TWEET_URL} */}
-            {/*           error={""} */}
-            {/*           label={i18n.tweet_url} */}
-            {/*           value={formData.tweet_url} */}
-            {/*           handleChangeValue={handleChangeTwitterHandle} */}
-            {/*         /> */}
-            {/*       </div> */}
-            {/*       <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div> */}
-            {/*       <div className={styles.validateBtnRow}> */}
-            {/*         <button className={cn(styles.btn)} type="button" onClick={handleClickValidate}> */}
-            {/*           {validationStatus === Status.InProgress && ( */}
-            {/*             <Spinner size={20} color={colors.gray_32} borderWidth={2} /> */}
-            {/*           )} */}
-            {/*           <span>{i18n.validate}</span> */}
-            {/*         </button> */}
-            {/*         <div className={styles.msg}>{validationMsg}</div> */}
-            {/*       </div> */}
-            {/*     </div> */}
-            {/*   </div> */}
-            {/* </li> */}
+              </AttestationListRightCol>
+            </AttestationListItem>
           </ol>
-          <div className={cn(styles.btnRow)}>
+          <AttestationFormBtnRow>
             <div className={styles.createBtnRow}>
               <Button
                 variant="transparent_blue_2"
@@ -561,7 +533,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
               </Button>
             </div>
             {createMsg && <div className={cn(styles.createBtnRow, styles.error)}>{createMsg}</div>}
-          </div>
+          </AttestationFormBtnRow>
         </form>
       </div>
     </>

@@ -65,9 +65,9 @@ export const AttestationListItemBtn: React.FC<BtnProps> = ({
   handleClick,
 }) => {
   return (
-    <div className={cn(styles.btn, className)} onClick={handleClick}>
+    <button className={cn(styles.btn, className)} onClick={handleClick}>
       {children}
-    </div>
+    </button>
   );
 };
 
