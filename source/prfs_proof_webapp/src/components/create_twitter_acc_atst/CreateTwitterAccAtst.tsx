@@ -46,6 +46,8 @@ import {
   AttestationContentBox,
   AttestationContentBoxBtnArea,
   AttestationListItemOverlay,
+  AttestationListItemDescTitle,
+  AttestationFormBtnRow,
 } from "@/components/create_attestation/CreateAtstComponents";
 
 const TWITTER_HANDLE = "twitter_handle";
@@ -306,12 +308,14 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       </AttestationsTitle>
       <div>
         <form>
-          <ol className={styles.instructions}>
+          <ol>
             <AttestationListItem>
               <AttestationListItemNo>1</AttestationListItemNo>
               <AttestationListRightCol>
                 <AttestationListItemDesc>
-                  <p className={styles.descTitle}>{i18n.what_is_your_twitter_handle}</p>
+                  <AttestationListItemDescTitle>
+                    {i18n.what_is_your_twitter_handle}
+                  </AttestationListItemDescTitle>
                   <p>{i18n.twitter_handle_example_given}</p>
                 </AttestationListItemDesc>
                 <div className={styles.content}>
@@ -331,7 +335,9 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
               <AttestationListItemNo>2</AttestationListItemNo>
               <AttestationListRightCol>
                 <AttestationListItemDesc>
-                  <p className={styles.descTitle}>{i18n.generate_a_cryptographic_claim}</p>
+                  <AttestationListItemDescTitle>
+                    {i18n.generate_a_cryptographic_claim}
+                  </AttestationListItemDescTitle>
                   <p className={styles.claimSecret}>
                     {i18n.claim_secret}: {claimSecret}
                   </p>
@@ -350,7 +356,9 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
               <AttestationListItemNo>3</AttestationListItemNo>
               <AttestationListRightCol>
                 <AttestationListItemDesc>
-                  <p className={styles.descTitle}>{i18n.post_tweet_with_content}</p>
+                  <AttestationListItemDescTitle>
+                    {i18n.post_tweet_with_content}
+                  </AttestationListItemDescTitle>
                   <p>{i18n.try_not_to_close_this_window}</p>
                 </AttestationListItemDesc>
                 <div className={styles.content}>
@@ -387,7 +395,9 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
               <AttestationListItemNo>4</AttestationListItemNo>
               <AttestationListRightCol>
                 <AttestationListItemDesc>
-                  <p className={styles.descTitle}>{i18n.what_is_the_tweet_url}</p>
+                  <AttestationListItemDescTitle>
+                    {i18n.what_is_the_tweet_url}
+                  </AttestationListItemDescTitle>
                   <p>{i18n.tweet_url_example_given}</p>
                 </AttestationListItemDesc>
                 <div className={styles.content}>
@@ -415,7 +425,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
               </AttestationListRightCol>
             </AttestationListItem>
           </ol>
-          <div className={cn(styles.btnRow)}>
+          <AttestationFormBtnRow>
             <div className={styles.createBtnRow}>
               <Button
                 variant="transparent_blue_2"
@@ -443,7 +453,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
               </Button>
             </div>
             {createMsg && <div className={cn(styles.createBtnRow, styles.error)}>{createMsg}</div>}
-          </div>
+          </AttestationFormBtnRow>
         </form>
       </div>
     </>

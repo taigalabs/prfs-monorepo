@@ -1,88 +1,47 @@
-.title {
-  /* padding-bottom: 16px; */
+.row {
+  padding: 1px 0 18px;
 }
 
-.instructions {
-  .descTitle {
-    color: var(--black-10);
-    font-size: 16px;
+.tweetContent {
+  padding-bottom: 14px;
+  width: 480px;
+}
+
+.tweetContentBtnRow {
+  display: flex;
+  align-items: center;
+
+  > p {
+    padding-left: 16px;
   }
 
-  .row {
-    padding: 1px 0 18px;
+  a {
+    color: var(--blue-120);
   }
+}
 
-  .tweetContent {
-    padding-bottom: 14px;
-    width: 480px;
+.claimCm {
+  display: flex;
 
-    .box {
-      display: flex;
-      border: 1px solid var(--gray-50);
-      border-radius: 5px;
-      padding: 8px;
-      word-break: break-all;
-
-      .btnArea {
-        display: flex;
-        align-items: center;
-        width: 60px;
-        padding-left: 12px;
-        font-size: 20px;
-
-        button {
-          color: var(--gray-20);
-          width: 40px;
-          height: 40px;
-          border-radius: 20px;
-          cursor: pointer;
-          display: grid;
-          place-items: center;
-
-          &:hover {
-            background-color: var(--bright-gray-32);
-          }
-        }
-      }
-    }
+  .value {
+    padding-left: 16px;
+    font-size: 13px;
+    width: 300px;
+    word-break: break-all;
   }
+}
 
-  .claimCm {
-    display: flex;
+.validateBtnRow {
+  display: flex;
+  align-items: center;
 
-    .value {
-      padding-left: 16px;
-      font-size: 13px;
-      width: 300px;
-      word-break: break-all;
-    }
+  .status {
+    padding-left: 16px;
   }
+}
 
-  .validateBtnRow {
-    display: flex;
-    align-items: center;
-
-    .status {
-      padding-left: 16px;
-    }
-  }
-
-  .tweetContentBtnRow {
-    display: flex;
-    align-items: center;
-
-    > p {
-      padding-left: 16px;
-    }
-
-    a {
-      color: var(--blue-120);
-    }
-  }
-
-  .msg {
-    padding-left: 10px;
-  }
+.msg {
+  padding-left: 10px;
 }
 
 .guideRow {
@@ -144,29 +103,27 @@
 }
 
 @media screen and (max-width: 480px) {
-  .instructions {
-    .tweetContent {
+  .tweetContent {
+    width: auto;
+  }
+
+  .claimCm {
+    .value {
       width: auto;
     }
-
-    .claimCm {
-      .value {
-        width: auto;
-      }
-    }
-
-    .no {
-      width: 32px;
-      padding-left: 4px;
-    }
-
-    .rightCol {
-      padding-right: 0;
-    }
   }
 
-  .createBtnRow {
-    padding-left: 24px;
-    padding-right: 0px;
+  .no {
+    width: 32px;
+    padding-left: 4px;
   }
+
+  .rightCol {
+    padding-right: 0;
+  }
+}
+
+.createBtnRow {
+  padding-left: 24px;
+  padding-right: 0px;
 }

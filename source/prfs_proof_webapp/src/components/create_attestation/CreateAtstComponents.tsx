@@ -27,6 +27,13 @@ export const AttestationListItemDesc: React.FC<ContentBoxProps> = ({ children, c
   return <div className={cn(styles.desc, className)}>{children}</div>;
 };
 
+export const AttestationListItemDescTitle: React.FC<ContentBoxProps> = ({
+  children,
+  className,
+}) => {
+  return <div className={cn(styles.descTitle, className)}>{children}</div>;
+};
+
 export const AttestationListItemNo: React.FC<ContentBoxProps> = ({ children, className }) => {
   return <div className={cn(styles.no, className)}>{children}</div>;
 };
@@ -39,6 +46,10 @@ export const AttestationListItemOverlay: React.FC<AttestationListItemOverlayProp
 
 export const AttestationContentBox: React.FC<ContentBoxProps> = ({ children, className }) => {
   return <div className={cn(styles.contentBox, className)}>{children}</div>;
+};
+
+export const AttestationFormBtnRow: React.FC<ContentBoxProps> = ({ children, className }) => {
+  return <div className={cn(styles.formBtnRow, className)}>{children}</div>;
 };
 
 export const AttestationContentBoxBtnArea: React.FC<ContentBoxProps> = ({
