@@ -10,17 +10,19 @@ import styles from "./CreateAtstPopover.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
-const Modal: React.FC<ModalProps> = () => {
+const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
   const i18n = React.useContext(i18nContext);
-  // const router = useRouter();
+  const handleClickItem = React.useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
 
   return (
     <div className={styles.modal}>
       <ul className={styles.menu}>
-        <li>
+        <li onClick={handleClickItem}>
           <Link href={paths.attestations__create__twitter}>{i18n.twitter}</Link>
         </li>
-        <li>
+        <li onClick={handleClickItem}>
           <Link href={paths.attestations__create__crypto_size}>{i18n.crypto_asset_size}</Link>
         </li>
       </ul>
@@ -28,7 +30,7 @@ const Modal: React.FC<ModalProps> = () => {
   );
 };
 
-const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = ({}) => {
+const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = () => {
   const i18n = React.useContext(i18nContext);
 
   const createBase = React.useCallback((isOpen: boolean) => {

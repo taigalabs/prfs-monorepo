@@ -2,7 +2,6 @@ pub mod crawler;
 pub mod destinations;
 pub mod tokio;
 
-#[cfg(test)]
-pub mod tests;
+pub(crate) mod envs;
 
 pub type WebFetcherError = Box<dyn std::error::Error + Send + Sync>;

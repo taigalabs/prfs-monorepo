@@ -32,17 +32,7 @@ const LeftBar: React.FC<LeftBarProps> = () => {
     <div className={styles.wrapper}>
       <ul className={styles.topMenu}>
         <li className={styles.item}>
-          <CreateAtstPopover>
-            <Button
-              variant="light_blue_1"
-              handleClick={() => {}}
-              className={styles.addBtn}
-              contentClassName={styles.addBtnContent}
-            >
-              <HiPlus />
-              <span>{i18n.create_attestation}</span>
-            </Button>
-          </CreateAtstPopover>
+          <CreateAtstPopover />
         </li>
       </ul>
       <ul className={styles.menu}>
