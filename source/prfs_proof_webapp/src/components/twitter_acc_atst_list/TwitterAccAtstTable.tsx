@@ -28,16 +28,18 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
         <img src={atst.avatar_url} crossOrigin="" />
         <span>{atst.username}</span>
       </div>
-      <div className={cn(styles.accountId, styles.cell, styles.w1120)}>{atst.account_id}</div>
-      <div className={cn(styles.commitment, styles.cell, styles.w1120)}>{cm}</div>
+      <div className={cn(styles.accountId, styles.cell, styles.priority1)}>{atst.account_id}</div>
+      <div className={cn(styles.commitment, styles.cell, styles.priority1)}>{cm}</div>
       <div className={cn(styles.document, styles.cell, styles.w480)}>
         <a href={atst.document_url} target="_blank">
           <span>{i18n.tweet}</span>
           <BiLinkExternal />
         </a>
       </div>
-      <div className={cn(styles.notarized, styles.cell, styles.w1320)}>{i18n.not_available}</div>
-      <div className={cn(styles.onChain, styles.cell, styles.w1320)}>{i18n.not_available}</div>
+      <div className={cn(styles.notarized, styles.cell, styles.priority2)}>
+        {i18n.not_available}
+      </div>
+      <div className={cn(styles.onChain, styles.cell, styles.priority2)}>{i18n.not_available}</div>
     </div>
   );
 };
@@ -106,19 +108,19 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
             })}
           >
             <div className={cn(styles.username, styles.headerCell)}>{i18n.username}</div>
-            <div className={cn(styles.accountId, styles.headerCell, styles.w1120)}>
+            <div className={cn(styles.accountId, styles.headerCell, styles.priority1)}>
               {i18n.account_id}
             </div>
-            <div className={cn(styles.commitment, styles.headerCell, styles.w1120)}>
+            <div className={cn(styles.commitment, styles.headerCell, styles.priority1)}>
               {i18n.commitment}
             </div>
             <div className={cn(styles.document, styles.headerCell, styles.w480)}>
               {i18n.document}
             </div>
-            <div className={cn(styles.notarized, styles.headerCell, styles.w1320)}>
+            <div className={cn(styles.notarized, styles.headerCell, styles.priority2)}>
               {i18n.notarized}
             </div>
-            <div className={cn(styles.onChain, styles.headerCell, styles.w1320)}>
+            <div className={cn(styles.onChain, styles.headerCell, styles.priority2)}>
               {i18n.on_chain}
             </div>
           </div>

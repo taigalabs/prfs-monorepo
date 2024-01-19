@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 $leftbar_width: 284px;
 
 .wrapper {
@@ -55,7 +57,7 @@ $leftbar_width: 284px;
   color: var(--gray-23);
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (max-width: $view_port_min_width_big_display) {
   .leftBarContainer {
     display: none;
   }
