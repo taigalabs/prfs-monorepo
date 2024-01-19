@@ -1,10 +1,12 @@
+@import "@/styles/layouts.module.scss";
+
 .row {
   padding: 1px 0 18px;
 }
 
 .section {
   padding-bottom: 14px;
-  width: 480px;
+  width: auto;
 }
 
 .claimCm {
@@ -14,6 +16,7 @@
     padding-left: 16px;
     font-size: 13px;
     width: 300px;
+    width: auto;
     word-break: break-all;
   }
 }
@@ -51,7 +54,12 @@
   color: var(--gray-20);
 
   .item {
-    padding-bottom: 0;
+    // padding-bottom: 0;
+    flex-direction: column;
+
+    &:not(:first-child) {
+      padding-top: 4px;
+    }
   }
 
   .label {
@@ -94,7 +102,7 @@
 
 .createBtn {
   padding-left: 24px;
-  padding-right: 24px;
+  padding-right: 45px;
 
   .content {
     display: flex;
@@ -128,38 +136,25 @@
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (min-width: $view_port_min_width_big_display) {
   .section {
-    width: auto;
+    width: 480px;
   }
 
   .cryptoAsset {
     .item {
-      flex-direction: column;
-
-      &:not(:first-child) {
-        padding-top: 4px;
-      }
+      flex-direction: row;
     }
   }
 
   .claimCm {
     .value {
-      width: auto;
+      width: 300px;
     }
-  }
-
-  .no {
-    width: 32px;
-    padding-left: 4px;
-  }
-
-  .rightCol {
-    padding-right: 0;
   }
 
   .createBtnRow {
     padding-left: 24px;
-    padding-right: 0px;
+    padding-right: 24px;
   }
 }
