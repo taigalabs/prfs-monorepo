@@ -12,7 +12,7 @@ import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";
 import { envs } from "@/envs";
 
-export const wagmiConfig = createConfig({
+const wagmiConfig = createConfig({
   chains: [mainnet, sepolia],
   transports: {
     [mainnet.id]: http(),
@@ -21,26 +21,6 @@ export const wagmiConfig = createConfig({
 });
 
 const queryClient = new QueryClient();
-
-// const { chains, publicClient, webSocketPublicClient } = configureChains(
-//   [mainnet],
-//   [publicProvider()],
-// );
-
-// const wagmiConfig = createConfig({
-//   autoConnect: true,
-//   connectors: [
-//     new MetaMaskConnector({ chains }),
-//     new CoinbaseWalletConnector({
-//       chains,
-//       options: {
-//         appName: "wagmi",
-//       },
-//     }),
-//   ],
-//   publicClient,
-//   webSocketPublicClient,
-// });
 
 const TopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
