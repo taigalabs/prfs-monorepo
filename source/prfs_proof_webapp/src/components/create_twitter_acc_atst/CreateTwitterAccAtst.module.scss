@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .row {
   padding: 1px 0 18px;
 }
@@ -26,7 +28,7 @@
   .value {
     padding-left: 16px;
     font-size: 13px;
-    width: 300px;
+    /* width: 300px; */
     word-break: break-all;
   }
 }
@@ -102,28 +104,25 @@
   }
 }
 
-@media screen and (max-width: 480px) {
-  .tweetContent {
-    width: auto;
+@media screen and (min-width: $view_port_min_width_big_display) {
+  .section {
+    width: 480px;
+  }
+
+  .cryptoAsset {
+    .item {
+      flex-direction: row;
+    }
   }
 
   .claimCm {
     .value {
-      width: auto;
+      width: 300px;
     }
   }
 
-  .no {
-    width: 32px;
-    padding-left: 4px;
+  .createBtnRow {
+    padding-left: 24px;
+    padding-right: 24px;
   }
-
-  .rightCol {
-    padding-right: 0;
-  }
-}
-
-.createBtnRow {
-  padding-left: 24px;
-  padding-right: 0px;
 }
