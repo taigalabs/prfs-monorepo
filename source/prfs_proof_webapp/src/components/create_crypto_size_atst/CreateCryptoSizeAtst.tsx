@@ -151,7 +151,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
       }
 
       const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: proofGenArgs.app_id }),
+        newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
         prfsEmbed,
       );
       if (resp) {
