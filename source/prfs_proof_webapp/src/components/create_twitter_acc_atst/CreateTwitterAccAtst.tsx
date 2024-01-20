@@ -32,6 +32,7 @@ import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
+import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
@@ -365,7 +366,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                   {tweetContent && (
                     <div className={styles.tweetContent}>
                       <AttestationContentBox>
-                        <p>{tweetContent}</p>
+                        <p className={common.alignItemCenter}>{tweetContent}</p>
                         <AttestationContentBoxBtnArea>
                           <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
                             <button type="button" onClick={handleClickCopy}>
