@@ -45,7 +45,7 @@ impl InfuraFetcher {
     pub async fn fetch_asset<S: AsRef<str> + Serialize>(
         &self,
         wallet_addr: S,
-    ) -> Result<CryptoAsset, WebFetcherError> {
+    ) -> Result<Vec<CryptoAsset>, WebFetcherError> {
         let https = HttpsConnector::new();
         let client = Client::builder(TokioExecutor::new()).build::<_, Full<Bytes>>(https);
         let uri = Uri::builder()
@@ -101,9 +101,11 @@ impl InfuraFetcher {
         let asset = CryptoAsset {
             wallet_addr: String::from(wallet_addr.as_ref()),
             amount: bal,
+            symbol: "ETH".to_string(),
             unit: "wei".to_string(),
         };
 
-        Ok(asset)
+        let assets = vec![asset];
+        Ok(assets)
     }
 }

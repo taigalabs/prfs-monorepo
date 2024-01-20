@@ -80,7 +80,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const [claimCm, setClaimCm] = React.useState<string | null>(null);
   const claimSecret = React.useMemo(() => {
     const handle = formData[WALLET_ADDR];
-    return `PRFS_ATTESTATION_${handle}`;
+    return `PRFS_ATST_${handle}`;
   }, [formData[WALLET_ADDR]]);
   const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
   const { signMessageAsync } = useSignMessage();

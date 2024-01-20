@@ -11,7 +11,7 @@ pub struct FetchCryptoAssetRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct FetchCryptoAssetResponse {
-    pub crypto_asset: CryptoAsset,
+    pub crypto_assets: Vec<CryptoAsset>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -21,6 +21,7 @@ pub struct CryptoAsset {
     #[ts(type = "bigint")]
     pub amount: Decimal,
     pub unit: String,
+    pub symbol: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
