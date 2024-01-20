@@ -13,7 +13,7 @@ VALUES ($1, $2, $3, $4, $5, $6)
 ON CONFLICT (atst_id) DO UPDATE SET (
 atst_type, wallet_addr, cm, crypto_assets, updated_at, status
 ) = (
-excluded.atst_type, excluded.wallet_addr, excluded.cm, excluded.crypto_assets, excluded.unit, 
+excluded.atst_type, excluded.wallet_addr, excluded.cm, excluded.crypto_assets,
 now(), excluded.status
 )
 RETURNING atst_id"#;

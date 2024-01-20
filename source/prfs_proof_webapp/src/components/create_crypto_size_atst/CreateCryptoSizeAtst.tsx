@@ -51,7 +51,7 @@ import {
   AttestationListItemNo,
   AttestationListItemOverlay,
   AttestationListRightCol,
-} from "../create_attestation/CreateAtstComponents";
+} from "@/components/create_attestation/CreateAtstComponents";
 import { paths } from "@/paths";
 
 const WALLET_ADDR = "wallet_addr";
@@ -72,6 +72,7 @@ enum Status {
 
 const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
+  const [isNavigating, setIsNavigating] = React.useState(false);
   const [isSigValid, setIsSigValid] = React.useState(false);
   const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
   const router = useRouter();
@@ -310,17 +311,16 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           atst_type: "crypto_size_1",
           wallet_addr: formData[WALLET_ADDR],
           cm: claimCm,
-          amount: cryptoAssets[0].amount,
-          unit: "ETH",
+          crypto_assets: cryptoAssets,
         });
         setCreateStatus(Status.Standby);
 
         if (error) {
           setCreateMsg(<span>{error.toString()}</span>);
-          return;
         }
 
         if (payload) {
+          setIsNavigating(true);
           router.push(paths.attestations__crypto_size);
         }
       }
@@ -329,6 +329,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     formData[WALLET_ADDR],
     step,
     cryptoAssets,
+    setIsNavigating,
     claimCm,
     createCryptoSizeAtstRequest,
     setCreateMsg,
@@ -336,7 +337,9 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     router,
   ]);
 
-  return (
+  return isNavigating ? (
+    <div>Navigating...</div>
+  ) : (
     <>
       <AttestationsTitle>{i18n.create_crypto_asset_size_attestation}</AttestationsTitle>
       <div>
@@ -384,7 +387,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                     <div className={styles.cryptoAsset}>
                       <div className={styles.item}>
                         <p className={styles.label}>{i18n.wallet_address}:</p>
-                        <p className={styles.value}>{cryptoAssets[0].wallet_addr}</p>
+                        <p className={styles.value}>{formData[WALLET_ADDR]}</p>
                       </div>
                       <div className={styles.item}>
                         <p className={styles.label}>{i18n.amount}:</p>
