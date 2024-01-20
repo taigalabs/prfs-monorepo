@@ -7,6 +7,7 @@ import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
+import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import { atstApi } from "@taigalabs/prfs-api-js";
@@ -29,7 +30,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
-import { useAccount, useSignMessage } from "@taigalabs/prfs-web3-js/wagmi";
+import { useSignMessage } from "@taigalabs/prfs-web3-js/wagmi";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 
@@ -101,9 +102,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
 
-  const { isConnected } = useAccount();
-  console.log(11, isConnected, window.ethereum);
-
   React.useEffect(() => {
     if (cryptoAsset) {
       if (cryptoAsset.amount !== undefined) {
@@ -114,42 +112,11 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     }
   }, [setStep, cryptoAsset]);
 
-  // const tweetContent = React.useMemo(() => {
-  //   if (claimCm) {
-  //     const attType = "atst001";
-  //     const destination = "Twitter";
-  //     const id = formData[TWITTER_HANDLE];
-
-  //     return makeAttestation({
-  //       attType,
-  //       destination,
-  //       id,
-  //       cm: claimCm,
-  //     });
-  //   } else {
-  //     return null;
-  //   }
-  // }, [formData[TWITTER_HANDLE], claimCm]);
-
   const handleChangeWalletAddr = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value, name } = e.target;
 
       if (name === WALLET_ADDR) {
-        setFormData(oldVal => ({
-          ...oldVal,
-          [name]: value,
-        }));
-      }
-    },
-    [setFormData],
-  );
-
-  const handleChangeSignature = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value, name } = e.target;
-
-      if (name === SIGNATURE) {
         setFormData(oldVal => ({
           ...oldVal,
           [name]: value,
@@ -225,6 +192,13 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     const wallet_addr = formData[WALLET_ADDR];
 
     if (wallet_addr.length > 0) {
+      if (!wallet_addr.startsWith("0x")) {
+        setFetchAssetMsg(
+          <span className={styles.error}>{i18n.wallet_address_should_start_with_0x}</span>,
+        );
+        return;
+      }
+
       const req: FetchCryptoAssetRequest = {
         wallet_addr,
       };
@@ -235,6 +209,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
       if (error) {
         console.error(error);
         setFetchAssetMsg(<span className={styles.error}>{error.toString()}</span>);
+        return;
       }
 
       if (payload && payload.crypto_asset) {
@@ -258,30 +233,29 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     const sig = formData[SIGNATURE];
     const wallet_addr = formData[WALLET_ADDR];
 
-    if (sig.length > 0 && wallet_addr.length > 0) {
+    if (claimCm && sig.length > 0 && wallet_addr.length > 0) {
       const valid = await verifyMessage({
         address: wallet_addr as any,
-        message: "hello world",
+        message: claimCm,
         signature: sig as any,
       });
 
-      console.log(123, valid);
+      if (valid) {
+        setValidationMsg(
+          <span className={styles.success}>
+            <FaCheck />
+          </span>,
+        );
+        setIsSigValid(true);
+      } else {
+        setValidationMsg(
+          <span className={styles.error}>
+            <IoClose />
+          </span>,
+        );
+      }
     }
-
-    // if (error) {
-    //   console.error(error);
-    //   setValidationMsg(<span className={styles.error}>{error.toString()}</span>);
-    // }
-
-    // if (false) {
-    //   setIsSigValid(true);
-    //   setValidationMsg(
-    //     <span className={styles.success}>
-    //       <FaCheck />
-    //     </span>,
-    //   );
-    // }
-  }, [formData[SIGNATURE], formData[WALLET_ADDR], setIsSigValid, setValidationMsg]);
+  }, [formData[SIGNATURE], formData[WALLET_ADDR], setIsSigValid, setValidationMsg, claimCm]);
 
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
@@ -327,23 +301,23 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
       const acc_atst_id = formData[WALLET_ADDR];
       setCreateMsg(null);
 
-      // if (acc_atst_id) {
-      //   setCreateStatus(Status.InProgress);
-      //   const { payload, error } = await attestTwitterAccRequest({
-      //     acc_atst_id,
-      //     cryptoAsset,
-      //   });
-      //   setCreateStatus(Status.Standby);
+      if (acc_atst_id) {
+        setCreateStatus(Status.InProgress);
+        const { payload, error } = await attestTwitterAccRequest({
+          acc_atst_id,
+          cryptoAsset,
+        });
+        setCreateStatus(Status.Standby);
 
-      //   if (error) {
-      //     setCreateMsg(<span>{error.toString()}</span>);
-      //     return;
-      //   }
+        if (error) {
+          setCreateMsg(<span>{error.toString()}</span>);
+          return;
+        }
 
-      //   if (payload) {
-      //     router.push(paths.attestations__twitter);
-      //   }
-      // }
+        if (payload) {
+          router.push(paths.attestations__twitter);
+        }
+      }
     }
   }, [
     formData[WALLET_ADDR],
@@ -492,15 +466,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                     </div>
                   )}
                 </div>
-                {/* <div className={cn(styles.sectionBtnRow)}> */}
-                {/*   <button className={styles.btn} type="button" onClick={handleClickSign}> */}
-                {/*     {i18n.connect_wallet} */}
-                {/*   </button> */}
-                {/*   <p> */}
-                {/*     <span>{i18n.or} </span> */}
-                {/*     {i18n.manually_create_a_signature_and_paste_it} */}
-                {/*   </p> */}
-                {/* </div> */}
               </AttestationListRightCol>
             </AttestationListItem>
           </ol>
@@ -521,7 +486,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 handleClick={handleClickCreate}
                 noShadow
                 type="button"
-                disabled={!cryptoAsset || createStatus === Status.InProgress}
+                disabled={!isSigValid || createStatus === Status.InProgress}
               >
                 <div className={styles.content}>
                   {createStatus === Status.InProgress && (

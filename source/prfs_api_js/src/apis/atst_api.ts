@@ -17,7 +17,8 @@ type RequestName =
   | "validate_twitter_acc"
   | "get_twitter_acc_atsts"
   | "get_twitter_acc_atst"
-  | "fetch_crypto_asset";
+  | "fetch_crypto_asset"
+  | "create_crypto_size_atst";
 
 type Req<T extends RequestName> = //
   T extends "attest_twitter_acc"
@@ -29,6 +30,8 @@ type Req<T extends RequestName> = //
     : T extends "get_twitter_acc_atst"
     ? GetTwitterAccAtstRequest
     : T extends "fetch_crypto_asset"
+    ? FetchCryptoAssetRequest
+    : T extends "create_crypto_size_atst"
     ? FetchCryptoAssetRequest
     : never;
 

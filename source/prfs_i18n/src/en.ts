@@ -379,6 +379,7 @@ export default {
   configure_public_inputs: "Configure public inputs",
   signed: "Signed",
   wallet_address: "Wallet address",
+  wallet_address_should_start_with_0x: "Wallet address should start with '0x'",
   amount: "Amount",
   unit: "Unit",
   create_merkle_proof_guide: "Or use Merkle wizard",

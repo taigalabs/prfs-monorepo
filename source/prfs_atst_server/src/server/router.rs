@@ -42,6 +42,9 @@ pub async fn atst_server_routes(
         (&Method::POST, v0_path!("get_twitter_acc_atst")) => {
             twitter::get_twitter_acc_atst(req, state).await
         }
+        (&Method::POST, v0_path!("create_crypto_size_atst")) => {
+            crypto_asset::create_crypto_size_atst(req, state).await
+        }
         _ => {
             println!("{} route not found!, {}", ATST_API, req.uri());
             Ok(Response::builder()
