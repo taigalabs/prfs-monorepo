@@ -15,6 +15,7 @@ use crate::{
         seed_shy_api_data, start_prfs_api_server, start_prfs_asset_server,
         start_prfs_console_webapp, start_prfs_docs_website, start_prfs_embed_webapp,
         start_prfs_id_webapp, start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp,
+        vercel_deploy,
     },
 };
 use chrono::prelude::*;
@@ -72,6 +73,8 @@ fn main() {
         .subcommand(command!("e2e_test_web"))
         // tmux
         .subcommand(command!("tmux").arg(Arg::new("extra_args")))
+        // Vercel
+        .subcommand(command!(vercel_deploy::CMD_NAME).arg(Arg::new("extra_args")))
         .get_matches();
 
     let now = Utc::now();
@@ -186,9 +189,13 @@ fn main() {
         Some(("seed_assets", sub_matches)) => {
             cmds::seed_assets::run(sub_matches);
         }
-        // test
+        // Tmux
         Some(("tmux", sub_matches)) => {
             cmds::tmux::run(sub_matches);
+        }
+        // Vercel
+        Some((vercel_deploy::CMD_NAME, sub_matches)) => {
+            cmds::vercel_deploy::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }

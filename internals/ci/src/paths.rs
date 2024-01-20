@@ -14,6 +14,7 @@ pub struct Paths {
     // ci
     pub internals_ci: PathBuf,
     pub internals__tmux: PathBuf,
+    pub internals__vercel: PathBuf,
 
     // docker
     pub internals_docker: PathBuf,
@@ -64,7 +65,7 @@ impl Paths {
 
         let internals_ci = curr_dir.join("internals/ci");
         let internals__tmux = curr_dir.join("internals/tmux");
-
+        let internals__vercel = curr_dir.join("internals/vercel");
         let internals_docker = curr_dir.join("internals/docker");
         let internals_docker_postgres = curr_dir.join("internals/docker_postgres");
 
@@ -81,7 +82,8 @@ impl Paths {
         let prfs_auth_op_server = curr_dir.join("source/prfs_auth_op_server");
         let prfs_crypto_js = curr_dir.join("source/prfs_crypto_js");
         let prfs_crypto_js__build = curr_dir.join("source/prfs_crypto_js/build");
-
+        let prfs_id_webapp = curr_dir.join("source/prfs_id_webapp");
+        let prfs_embed_webapp = curr_dir.join("source/prfs_embed_webapp");
         let prfs_entities_bindings = curr_dir.join("source/prfs_entities/bindings");
 
         let prfs_driver_spartan_js = curr_dir.join("source/prfs_driver_spartan_js");
@@ -95,16 +97,13 @@ impl Paths {
         let shy_webapp = curr_dir.join("source/shy_webapp");
         let shy_api_server = curr_dir.join("source/shy_api_server");
 
-        let prfs_id_webapp = curr_dir.join("source/prfs_id_webapp");
-
-        let prfs_embed_webapp = curr_dir.join("source/prfs_embed_webapp");
-
         let p = Paths {
             curr_dir,
 
             // internals
             internals_ci,
             internals__tmux,
+            internals__vercel,
             internals_docker,
             internals_docker_postgres,
 

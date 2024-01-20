@@ -44,3 +44,6 @@ pub mod seed_shy_api_data;
 
 // tmux
 pub mod tmux;
+
+// Vercel
+pub mod vercel_deploy;
