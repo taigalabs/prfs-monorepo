@@ -9,6 +9,7 @@ use hyper::Uri;
 use hyper_tls::HttpsConnector;
 use hyper_util::{client::legacy::Client, rt::TokioExecutor};
 use prfs_entities::atst_api_entities::CryptoAsset;
+use prfs_entities::atst_api_entities::FetchCryptoAssetResult;
 use rust_decimal::Decimal;
 use serde::Deserialize;
 use serde::Serialize;
@@ -45,7 +46,7 @@ impl InfuraFetcher {
     pub async fn fetch_asset<S: AsRef<str> + Serialize>(
         &self,
         wallet_addr: S,
-    ) -> Result<Vec<CryptoAsset>, WebFetcherError> {
+    ) -> Result<FetchCryptoAssetResult, WebFetcherError> {
         let https = HttpsConnector::new();
         let client = Client::builder(TokioExecutor::new()).build::<_, Full<Bytes>>(https);
         let uri = Uri::builder()
@@ -99,13 +100,14 @@ impl InfuraFetcher {
         let bal = Decimal::from_str_radix(balance, 16).unwrap();
 
         let asset = CryptoAsset {
-            wallet_addr: String::from(wallet_addr.as_ref()),
             amount: bal,
             symbol: "ETH".to_string(),
             unit: "wei".to_string(),
         };
-
-        let assets = vec![asset];
-        Ok(assets)
+        let res = FetchCryptoAssetResult {
+            wallet_addr: String::from(wallet_addr.as_ref()),
+            crypto_assets: vec![asset],
+        };
+        Ok(res)
     }
 }

@@ -2,5 +2,6 @@
 import type { CryptoAsset } from "./CryptoAsset";
 
 export interface FetchCryptoAssetResponse {
-  crypto_asset: CryptoAsset;
+  wallet_addr: string;
+  crypto_assets: Array<CryptoAsset>;
 }

@@ -11,13 +11,20 @@ pub struct FetchCryptoAssetRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct FetchCryptoAssetResponse {
+    pub wallet_addr: String,
     pub crypto_assets: Vec<CryptoAsset>,
 }
 
-#[derive(Serialize, Deserialize, Debug, TS)]
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
+#[ts(export)]
+pub struct FetchCryptoAssetResult {
+    pub wallet_addr: String,
+    pub crypto_assets: Vec<CryptoAsset>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
 #[ts(export)]
 pub struct CryptoAsset {
-    pub wallet_addr: String,
     #[ts(type = "bigint")]
     pub amount: Decimal,
     pub unit: String,
@@ -31,9 +38,7 @@ pub struct CreateCryptoSizeAtstRequest {
     pub atst_type: String,
     pub wallet_addr: String,
     pub cm: String,
-    #[ts(type = "bigint")]
-    pub amount: Decimal,
-    pub unit: String,
+    pub crypto_assets: Vec<CryptoAsset>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

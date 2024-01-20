@@ -10,6 +10,7 @@ use prfs_entities::atst_api_entities::{
     FetchCryptoAssetResponse,
 };
 use prfs_entities::entities::{PrfsAtstStatus, PrfsCryptoSizeAtst};
+use prfs_entities::sqlx::types::Json;
 use prfs_web_fetcher::destinations::infura::{self, InfuraFetcher};
 use std::sync::Arc;
 
@@ -24,13 +25,16 @@ pub async fn fetch_crypto_asset(
 ) -> ApiHandlerResult {
     let req: FetchCryptoAssetRequest = parse_req(req).await;
 
-    let crypto_assets = state
+    let fetch_result = state
         .infura_fetcher
         .fetch_asset(&req.wallet_addr)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_VALIDATE_FAIL, err))?;
 
-    let resp = ApiResponse::new_success(FetchCryptoAssetResponse { crypto_assets });
+    let resp = ApiResponse::new_success(FetchCryptoAssetResponse {
+        wallet_addr: fetch_result.wallet_addr,
+        crypto_assets: fetch_result.crypto_assets,
+    });
     return Ok(resp.into_hyper_response());
 }
 
@@ -47,8 +51,9 @@ pub async fn create_crypto_size_atst(
         atst_type: req.atst_type,
         wallet_addr: req.wallet_addr,
         cm: req.cm,
-        amount: req.amount,
-        unit: req.unit,
+        crypto_assets: Json::from(req.crypto_assets),
+        // amount: req.amount,
+        // unit: req.unit,
         status: PrfsAtstStatus::Valid,
     };
     let atst_id = prfs::insert_prfs_crypto_size_atst(&mut tx, &crypto_size_atst)

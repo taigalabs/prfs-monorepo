@@ -6,7 +6,6 @@ export interface PrfsCryptoSizeAtst {
   atst_type: string;
   wallet_addr: string;
   cm: string;
-  amount: bigint;
-  unit: string;
+  crypto_assets: Record<string, any>[];
   status: PrfsAtstStatus;
 }
