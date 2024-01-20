@@ -104,7 +104,7 @@
   }
 }
 
-@media screen and (min-width: $view_port_min_width_big_display) {
+@media screen and (min-width: $big_display_min_width) {
   .section {
     width: 480px;
   }

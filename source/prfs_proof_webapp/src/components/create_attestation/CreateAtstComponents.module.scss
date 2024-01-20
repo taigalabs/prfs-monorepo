@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .overlay {
   display: none;
   background-color: rgba(255, 255, 255, 0.5);
@@ -19,16 +21,15 @@
 }
 
 .no {
-  width: 78px;
+  width: 32px;
   flex-shrink: 0;
   font-size: 16px;
-  padding-left: 44px;
+  padding-left: 4px;
 }
 
 .rightCol {
   word-break: break-all;
   flex-grow: 1;
-  padding-right: 60px;
 }
 
 .desc {
@@ -104,5 +105,24 @@
   padding-top: 4px;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (min-width: $big_display_min_width) {
+  .no {
+    padding-left: 44px;
+    padding-right: 44px;
+  }
+
+  .rightCol {
+    padding-right: 60px;
+  }
+}
+
+@media screen and (min-width: $view_port_min_width_mid_display) {
+  .no {
+    // padding-left: 44px;
+    // padding-right: 44px;
+  }
+
+  .rightCol {
+    // padding-right: 60px;
+  }
 }
