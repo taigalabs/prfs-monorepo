@@ -46,6 +46,10 @@
 .descTitle {
   color: var(--black-10);
   font-size: 16px;
+
+  &:not(:last-child) {
+    padding-bottom: 5px;
+  }
 }
 
 .contentBox {
@@ -107,22 +111,23 @@
 
 @media screen and (min-width: $big_display_min_width) {
   .no {
+    /* padding-left: 44px; */
+    /* padding-right: 44px; */
+  }
+
+  .rightCol {
+    /* padding-right: 60px; */
+  }
+}
+
+@media screen and (min-width: $mid_display_min_width) {
+  .no {
+    width: 78px;
     padding-left: 44px;
-    padding-right: 44px;
+    /* padding-right: 44px; */
   }
 
   .rightCol {
     padding-right: 60px;
-  }
-}
-
-@media screen and (min-width: $view_port_min_width_mid_display) {
-  .no {
-    // padding-left: 44px;
-    // padding-right: 44px;
-  }
-
-  .rightCol {
-    // padding-right: 60px;
   }
 }

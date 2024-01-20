@@ -44,8 +44,6 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setR
     fn().then();
   }, [searchParams, setElem, query]);
 
-  console.log("elem", elem);
-
   return <>{elem}</>;
 };
 
