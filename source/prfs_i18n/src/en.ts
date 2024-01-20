@@ -293,6 +293,7 @@ export default {
   prfs: "Prfs",
   prfs_id: "Prfs ID",
   metamask: "Metamask",
+  message: "Message",
   metamask_desc:
     "We currently support Metamask. Check out how you install install it if you haven't already",
   credential: "Credential",

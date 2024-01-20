@@ -34,6 +34,7 @@ import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/Fetch
 import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 
 import styles from "./CreateCryptoSizeAtst.module.scss";
+import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
@@ -392,7 +393,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                       handleClick={handleClickFetchAsset}
                     >
                       <span>{i18n.fetch_asset}</span>
-                      <Spinner size={14} color={colors.gray_32} borderWidth={2} />
                       {fetchAssetStatus === Status.InProgress && (
                         <Spinner size={14} color={colors.gray_32} borderWidth={2} />
                       )}
@@ -426,7 +426,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                   <AttestationListItemDescTitle>
                     {i18n.generate_a_cryptographic_claim}
                   </AttestationListItemDescTitle>
-                  <p className={styles.claimSecret}>
+                  <p>
                     {i18n.claim_secret}: {claimSecret}
                   </p>
                 </AttestationListItemDesc>
@@ -435,7 +435,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                     <MdSecurity />
                     <span>{i18n.generate}</span>
                   </AttestationListItemBtn>
-                  <p className={styles.value}>{claimCm}</p>
+                  <p className={cn(styles.value, common.alignItemCenter)}>{claimCm}</p>
                 </div>
               </AttestationListRightCol>
             </AttestationListItem>
@@ -446,14 +446,16 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 <AttestationListItemDesc>
                   <AttestationListItemDescTitle>
                     {i18n.make_signature_with_your_crypto_wallet}
-                    {/* <p>{i18n.try_not_to_close_this_window}</p> */}
                   </AttestationListItemDescTitle>
+                  <p>
+                    {i18n.message}: {claimCm}
+                  </p>
                 </AttestationListItemDesc>
                 <div>
                   {claimCm && (
                     <div className={styles.section}>
                       <AttestationContentBox>
-                        <p>{claimCm}</p>
+                        <p className={common.alignItemCenter}>{claimCm}</p>
                         <AttestationContentBoxBtnArea>
                           <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
                             <button type="button" onClick={handleClickCopy}>
@@ -481,7 +483,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                           handleChangeValue={handleChangeWalletAddr}
                         />
                       </div>
-                      <div className={styles.validateBtnRow}>
+                      <div className={styles.btnRow}>
                         <AttestationListItemBtn type="button" handleClick={handleClickValidate}>
                           <span>{i18n.validate}</span>
                         </AttestationListItemBtn>

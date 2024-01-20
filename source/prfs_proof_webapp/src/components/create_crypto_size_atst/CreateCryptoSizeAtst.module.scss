@@ -98,7 +98,7 @@
   flex-grow: 1;
   justify-content: space-between;
   padding-left: 45px;
-  padding-right: 45px;
+  /* padding-right: 45px; */
 
   > button {
     border-radius: 20px;
@@ -139,6 +139,13 @@
   div {
     border-width: 2px;
     border-top-color: inherit;
+  }
+}
+
+@media screen and (min-width: $mid_display_min_width) {
+  .createBtnRow {
+    padding-left: 24px;
+    padding-right: 24px;
   }
 }
 
