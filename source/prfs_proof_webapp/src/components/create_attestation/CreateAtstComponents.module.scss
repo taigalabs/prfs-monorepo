@@ -1,0 +1,134 @@
+@import "@/styles/layouts.module.scss";
+
+.overlay {
+  display: none;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.listItem {
+  display: flex;
+  padding-bottom: 24px;
+  position: relative;
+
+  &.isDisabled {
+    .overlay {
+      display: block;
+    }
+  }
+}
+
+.no {
+  width: 32px;
+  flex-shrink: 0;
+  font-size: 16px;
+  padding-left: 4px;
+}
+
+.rightCol {
+  word-break: break-all;
+  flex-grow: 1;
+}
+
+.desc {
+  display: block;
+  word-break: break-all;
+  padding-bottom: 18px;
+  color: var(--gray-20);
+
+  > p:not(:last-child) {
+    padding-bottom: 5px;
+  }
+}
+
+.descTitle {
+  color: var(--black-10);
+  font-size: 16px;
+
+  &:not(:last-child) {
+    padding-bottom: 5px;
+  }
+}
+
+.contentBox {
+  display: flex;
+  border: 1px solid var(--gray-50);
+  border-radius: 5px;
+  padding: 8px;
+  word-break: break-all;
+}
+
+.contentBoxBtnArea {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  width: 60px;
+  padding-left: 12px;
+  font-size: 20px;
+
+  button {
+    color: var(--gray-20);
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+
+    &:hover {
+      background-color: var(--bright-gray-32);
+    }
+  }
+}
+
+.btn {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  border: 1px solid var(--gray-50);
+  border-radius: 20px;
+  padding: 0 18px;
+  height: 40px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--bright-blue-55);
+  }
+
+  svg {
+    margin-right: 2px;
+  }
+
+  > * + span {
+    margin-left: 2px;
+  }
+}
+
+.formBtnRow {
+  padding-top: 4px;
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .no {
+    /* padding-left: 44px; */
+    /* padding-right: 44px; */
+  }
+
+  .rightCol {
+    /* padding-right: 60px; */
+  }
+}
+
+@media screen and (min-width: $mid_display_min_width) {
+  .no {
+    width: 78px;
+    padding-left: 44px;
+    /* padding-right: 44px; */
+  }
+
+  .rightCol {
+    padding-right: 60px;
+  }
+}

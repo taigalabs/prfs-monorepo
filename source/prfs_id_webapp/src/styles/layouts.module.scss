@@ -1,6 +1,6 @@
 $drawer_zindex: 20;
 
-$view_port_min_width_big_display: 1450px;
+$big_display_min_width: 1024px;
 
 $masthead_tallheight_w1920: 64px;
 $masthead_tallheight_w1120: 56px;
@@ -10,5 +10,5 @@ $masthead_two_column_height_w1920: 69px;
 $masthead_height_w1920: 56px;
 
 :export {
-  view_port_min_width_big_display: $view_port_min_width_big_display;
+  big_display_min_width: $big_display_min_width;
 }

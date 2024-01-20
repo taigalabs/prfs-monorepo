@@ -32,7 +32,7 @@ csv = "1.2.2"
 git2 = "0.18.1"
 http-body-util = "0.1"
 hyper_014 = { package = "hyper", version = "0.14" }
-hyper = { version = "1.0", features = ["full"] }
+hyper = { version = "1.1", features = ["full"] }
 hyper-tls-05 = { package = "hyper-tls", version = "0.5.0" }
 hyper-tls = "0.6"
 hyper-util = { version = "0.1", features = ["full"] }
@@ -42,6 +42,7 @@ prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 prfs_entities = { path = "../prfs_entities" }
+prfs_web_fetcher = { path = "../prfs_web_fetcher" }
 prfs_id_server = { path = "../prfs_id_server" }
 prfs_atst_server = { path = "../prfs_atst_server" }
 prfs_common_server_state = { path = "../prfs_common_server_state" }

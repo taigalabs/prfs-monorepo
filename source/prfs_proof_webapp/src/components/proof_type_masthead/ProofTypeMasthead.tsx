@@ -21,6 +21,7 @@ import {
   MastheadRightGroupMenu,
   MastheadWrapper,
 } from "@/components/masthead/Masthead";
+import { envs } from "@/envs";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   isActivated,
@@ -50,7 +51,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
         <MastheadRightGroup className={styles.rightGroup}>
           <Tooltip label={i18n.docs} className={styles.sideMargin}>
             <MastheadRightGroupMenu className={cn(styles.entry, styles.bigScreen)}>
-              <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>
+              <Link href={envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}>
                 <BsBook />
               </Link>
             </MastheadRightGroupMenu>

@@ -24,7 +24,7 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <div
-      className={cn(styles.inputWrapper, className, {
+      className={cn(styles.wrapper, className, {
         [styles.isError]: !!error,
         [styles.isFocused]: isFocused,
         [styles.hasValue]: value.length > 0,

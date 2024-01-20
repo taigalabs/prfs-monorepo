@@ -107,13 +107,13 @@
 }
 
 @media screen and (max-width: 1320px) {
-  .w1320 {
+  .priority2 {
     display: none;
   }
 }
 
-@media screen and (max-width: $view_port_min_width_big_display) {
-  .w1120 {
+@media screen and (max-width: 1200px) {
+  .priority1 {
     display: none;
   }
 }

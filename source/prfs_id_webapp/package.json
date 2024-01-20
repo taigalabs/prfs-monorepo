@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ethereumjs/util": "^8.0.3",
     "@floating-ui/react": "^0.24.8",
     "@mdx-js/react": "^2.3.0",
     "@next/mdx": "^13.5.4",
@@ -26,6 +25,7 @@
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-proof-interface": "*",
     "@taigalabs/prfs-i18n": "*",
+    "@taigalabs/prfs-web3-js": "*",
     "@taigalabs/prfs-id-sdk-web": "*",
     "@taigalabs/prfs-id-sdk-react": "*",
     "@taigalabs/prfs-react-lib": "*",
@@ -50,8 +50,7 @@
     "redux-logger": "^3.0.6",
     "sass": "^1.63.6",
     "snarkjs": "0.7.0",
-    "uuid": "^9.0.0",
-    "wagmi": "1.4.12"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",

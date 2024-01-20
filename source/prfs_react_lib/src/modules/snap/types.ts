@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { MetaMaskInpageProvider } from "@metamask/providers";
+// import { MetaMaskInpageProvider } from "@taigalabs/prfs-web3-js/metamask/providers";
 
 /*
  * Window type extension to support ethereum

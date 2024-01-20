@@ -1,0 +1,84 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.base {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  padding: 0px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: var(--aqua-blue-50);
+    cursor: pointer;
+  }
+
+  .btnArea {
+    align-items: center;
+    display: flex;
+    margin-left: 1px;
+  }
+}
+
+.base.isOpen {
+  color: var(--aqua-blue-50);
+}
+
+.addBtn {
+  padding-left: 16px;
+  padding-right: 20px;
+  height: 56px;
+  border-radius: 16px;
+
+  svg {
+    margin-right: 12px;
+    font-size: 24px;
+  }
+}
+
+.addBtnContent {
+  display: flex;
+  align-items: center;
+}
+
+.popoverWrapper {
+  border-radius: 6px;
+}
+
+.modal {
+  border-radius: 6px;
+  padding: 5px 0px;
+  min-width: 180px;
+  background-color: var(--white-100);
+}
+
+.info {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gray-20);
+  border-bottom: 1px solid var(--gray-70);
+  padding: 11px 0;
+}
+
+.menu {
+  li {
+    display: flex;
+  }
+
+  li:hover {
+    background-color: var(--bright-gray-50);
+  }
+
+  a {
+    padding: 8px 12px;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+}

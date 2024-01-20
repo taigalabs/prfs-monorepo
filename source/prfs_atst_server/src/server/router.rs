@@ -9,6 +9,7 @@ use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 use tokio::net::TcpStream;
 
+use crate::apis::crypto_asset;
 use crate::apis::twitter;
 
 static NOTFOUND: &[u8] = b"Not Found";
@@ -26,6 +27,9 @@ pub async fn atst_server_routes(
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
+        (&Method::POST, v0_path!("fetch_crypto_asset")) => {
+            crypto_asset::fetch_crypto_asset(req, state).await
+        }
         (&Method::POST, v0_path!("validate_twitter_acc")) => {
             twitter::validate_twitter_acc(req, state).await
         }
@@ -37,6 +41,9 @@ pub async fn atst_server_routes(
         }
         (&Method::POST, v0_path!("get_twitter_acc_atst")) => {
             twitter::get_twitter_acc_atst(req, state).await
+        }
+        (&Method::POST, v0_path!("create_crypto_size_atst")) => {
+            crypto_asset::create_crypto_size_atst(req, state).await
         }
         _ => {
             println!("{} route not found!, {}", ATST_API, req.uri());

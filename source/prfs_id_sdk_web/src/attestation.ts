@@ -1,6 +1,6 @@
 const ATST = "atst";
 
-export function makeAttestation({ attType, destination, id, cm }: MakeAttestationArgs) {
+export function makeAccAttestation({ attType, destination, id, cm }: MakeAttestationArgs) {
   return `${ATST}-${attType} ${destination} ${id} ${cm}`;
 }
 

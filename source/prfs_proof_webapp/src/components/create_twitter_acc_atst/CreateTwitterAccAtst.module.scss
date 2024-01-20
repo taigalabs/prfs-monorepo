@@ -1,154 +1,47 @@
-.title {
-  /* padding-bottom: 16px; */
+@import "@/styles/layouts.module.scss";
+
+.row {
+  padding: 1px 0 18px;
 }
 
-.instructions {
-  .overlay {
-    display: none;
-    background-color: rgba(255, 255, 255, 0.5);
-    position: absolute;
-    inset: 0;
-    z-index: 1;
+.tweetContent {
+  padding-bottom: 14px;
+}
+
+.tweetContentBtnRow {
+  display: flex;
+  align-items: center;
+
+  > p {
+    padding-left: 16px;
   }
 
-  .item {
-    display: flex;
-    padding-bottom: 24px;
-    position: relative;
-
-    &.isDisabled {
-      .overlay {
-        display: block;
-      }
-    }
+  a {
+    color: var(--blue-120);
   }
+}
 
-  .no {
-    width: 78px;
-    flex-shrink: 0;
-    font-size: 16px;
-    padding-left: 44px;
-  }
+.claimCm {
+  display: flex;
 
-  .rightCol {
+  .value {
+    padding-left: 16px;
+    font-size: 13px;
     word-break: break-all;
-    flex-grow: 1;
-    padding-right: 60px;
   }
+}
 
-  .desc {
-    display: block;
-    word-break: break-all;
-    padding-bottom: 18px;
-    color: var(--gray-20);
+.validateBtnRow {
+  display: flex;
+  align-items: center;
 
-    > p:not(:last-child) {
-      padding-bottom: 5px;
-    }
+  .status {
+    padding-left: 16px;
   }
+}
 
-  .descTitle {
-    color: var(--black-10);
-    font-size: 16px;
-  }
-
-  .btn {
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--gray-50);
-    border-radius: 20px;
-    padding: 0 18px;
-    height: 40px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--bright-blue-55);
-    }
-
-    svg {
-      margin-right: 2px;
-    }
-
-    > * + span {
-      margin-left: 2px;
-    }
-  }
-
-  .row {
-    padding: 1px 0 18px;
-  }
-
-  .tweetContent {
-    padding-bottom: 14px;
-    width: 480px;
-
-    .box {
-      display: flex;
-      border: 1px solid var(--gray-50);
-      border-radius: 5px;
-      padding: 8px;
-      word-break: break-all;
-
-      .btnArea {
-        display: flex;
-        align-items: center;
-        width: 60px;
-        padding-left: 12px;
-        font-size: 20px;
-
-        button {
-          color: var(--gray-20);
-          width: 40px;
-          height: 40px;
-          border-radius: 20px;
-          cursor: pointer;
-          display: grid;
-          place-items: center;
-
-          &:hover {
-            background-color: var(--bright-gray-32);
-          }
-        }
-      }
-    }
-  }
-
-  .claimCm {
-    display: flex;
-
-    .value {
-      padding-left: 16px;
-      font-size: 13px;
-      width: 300px;
-      word-break: break-all;
-    }
-  }
-
-  .validateBtnRow {
-    display: flex;
-    align-items: center;
-
-    .status {
-      padding-left: 16px;
-    }
-  }
-
-  .tweetContentBtnRow {
-    display: flex;
-    align-items: center;
-
-    > p {
-      padding-left: 16px;
-    }
-
-    a {
-      color: var(--blue-120);
-    }
-  }
-
-  .msg {
-    padding-left: 10px;
-  }
+.msg {
+  padding-left: 10px;
 }
 
 .guideRow {
@@ -209,30 +102,25 @@
   }
 }
 
-@media screen and (max-width: 480px) {
-  .instructions {
-    .tweetContent {
-      width: auto;
-    }
+@media screen and (min-width: $big_display_min_width) {
+  .section {
+    width: 480px;
+  }
 
-    .claimCm {
-      .value {
-        width: auto;
-      }
+  .cryptoAsset {
+    .item {
+      flex-direction: row;
     }
+  }
 
-    .no {
-      width: 32px;
-      padding-left: 4px;
-    }
-
-    .rightCol {
-      padding-right: 0;
+  .claimCm {
+    .value {
+      width: 300px;
     }
   }
 
   .createBtnRow {
     padding-left: 24px;
-    padding-right: 0px;
+    padding-right: 24px;
   }
 }

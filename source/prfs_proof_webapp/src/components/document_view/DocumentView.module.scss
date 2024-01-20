@@ -10,7 +10,7 @@
   padding: 10px 0 20px;
 }
 
-@media screen and (max-width: $view_port_min_width_big_display) {
+@media screen and (max-width: $big_display_min_width) {
   .wrapper {
     padding: 0 14px;
   }

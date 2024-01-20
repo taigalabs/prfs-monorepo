@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   robots: {
     index: true,
   },
-  title: "Social",
+  title: "Shy",
   description: "Next generation social",
 };
 

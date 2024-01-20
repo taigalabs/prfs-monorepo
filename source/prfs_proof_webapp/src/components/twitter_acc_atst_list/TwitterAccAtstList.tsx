@@ -6,9 +6,6 @@ import cn from "classnames";
 import styles from "./TwitterAccAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsTitle } from "@/components/attestations/Attestations";
-import { useRandomKeyPair } from "@/hooks/key";
-import { envs } from "@/envs";
-import { paths } from "@/paths";
 import TwitterAccAtstTable from "./TwitterAccAtstTable";
 
 const TwitterAccAtstList: React.FC<TwitterAccAtstListProps> = () => {

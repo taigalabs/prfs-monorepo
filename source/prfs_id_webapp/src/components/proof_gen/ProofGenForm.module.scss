@@ -56,16 +56,17 @@
   height: 36px;
 }
 
-.signInBtn {
+.submitBtn {
   padding-left: 18px;
   padding-right: 18px;
 }
 
-.signInBtnContent {
+.submitBtnContent {
   display: flex;
   align-items: center;
-  > span {
-    padding-right: 3px;
+
+  > span + div {
+    margin-left: 4px;
   }
 }
 

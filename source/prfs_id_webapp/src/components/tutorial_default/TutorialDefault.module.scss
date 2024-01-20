@@ -20,7 +20,7 @@
   height: 100%;
 }
 
-@media screen and (max-width: $view_port_min_width_big_display) {
+@media screen and (max-width: $big_display_min_width) {
   .wrapper {
     position: fixed;
     top: auto;

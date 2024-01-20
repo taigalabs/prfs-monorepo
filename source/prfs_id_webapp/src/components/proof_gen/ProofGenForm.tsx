@@ -135,7 +135,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         await sendMsgToChild(
           newPrfsIdMsg("PROOF_GEN_RESULT", {
             appId: proofGenArgs.app_id,
-            // key: proofGenArgs.public_key,
             value: encrypted,
           }),
           prfsEmbed,
@@ -177,8 +176,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           <Button
             type="button"
             variant="blue_2"
-            className={styles.signInBtn}
-            contentClassName={styles.signInBtnContent}
+            className={styles.submitBtn}
+            contentClassName={styles.submitBtnContent}
             noTransition
             handleClick={handleClickSubmit}
             noShadow

@@ -1,0 +1,49 @@
+use rust_decimal::Decimal;
+use serde::{Deserialize, Serialize};
+use ts_rs::TS;
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct FetchCryptoAssetRequest {
+    pub wallet_addr: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct FetchCryptoAssetResponse {
+    pub wallet_addr: String,
+    pub crypto_assets: Vec<CryptoAsset>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
+#[ts(export)]
+pub struct FetchCryptoAssetResult {
+    pub wallet_addr: String,
+    pub crypto_assets: Vec<CryptoAsset>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
+#[ts(export)]
+pub struct CryptoAsset {
+    #[ts(type = "bigint")]
+    pub amount: Decimal,
+    pub unit: String,
+    pub symbol: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreateCryptoSizeAtstRequest {
+    pub atst_id: String,
+    pub atst_type: String,
+    pub wallet_addr: String,
+    pub cm: String,
+    pub crypto_assets: Vec<CryptoAsset>,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreateCryptoSizeAtstResponse {
+    pub is_valid: bool,
+    pub atst_id: String,
+}

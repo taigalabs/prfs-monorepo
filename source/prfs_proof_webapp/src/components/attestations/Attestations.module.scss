@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 $leftbar_width: 284px;
 
 .wrapper {
@@ -16,6 +18,7 @@ $leftbar_width: 284px;
 }
 
 .leftBarContainer {
+  display: none;
   inline-size: 0px;
   transition: inline-size 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 
@@ -35,40 +38,45 @@ $leftbar_width: 284px;
   }
 }
 
-.leftBarDrawerContainer {
+.leftBarContainer {
   display: none;
 }
 
-.drawerLogoArea {
-  padding: 10px 8px;
+.leftBarDrawerContainer {
+  display: block;
 }
 
 .main {
-  padding: 16px 8px 20px;
+  padding: 16px 16px 20px;
   flex-grow: 1;
 }
 
 .title {
   font-size: 24px;
+  padding-left: 8px;
   padding-bottom: 20px;
-  padding-left: 34px;
+  /* padding-left: 34px; */
   color: var(--gray-23);
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (min-width: $big_display_min_width) {
   .leftBarContainer {
-    display: none;
-  }
-
-  .leftBarDrawerContainer {
     display: block;
   }
 
+  .leftBarDrawerContainer {
+    display: none;
+  }
+
+  .drawerLogoArea {
+    padding: 10px 8px;
+  }
+
   .main {
-    padding: 16px 16px 20px;
+    padding: 16px 8px 20px;
   }
 
   .title {
-    padding-left: 8px;
+    padding-left: 34px;
   }
 }

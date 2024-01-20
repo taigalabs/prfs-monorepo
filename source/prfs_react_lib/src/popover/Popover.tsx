@@ -12,7 +12,13 @@ import {
 
 import styles from "./Popover.module.scss";
 
-function Popover({ placement, createPopover, createBase, offset, popoverClassName }: PopoverProps) {
+const Popover: React.FC<PopoverProps> = ({
+  placement,
+  createPopover,
+  createBase,
+  offset,
+  popoverClassName,
+}) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement: placement ? placement : "bottom-start",
@@ -33,7 +39,7 @@ function Popover({ placement, createPopover, createBase, offset, popoverClassNam
   }, [createBase, isOpen]);
 
   return (
-    <div className={styles.wrapper}>
+    <>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()} role="button">
         {baseElem}
       </div>
@@ -47,9 +53,9 @@ function Popover({ placement, createPopover, createBase, offset, popoverClassNam
           {popoverElem}
         </div>
       )}
-    </div>
+    </>
   );
-}
+};
 
 export default Popover;
 

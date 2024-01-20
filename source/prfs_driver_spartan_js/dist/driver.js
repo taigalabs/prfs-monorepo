@@ -7,7 +7,7 @@ export default class SpartanDriver {
     circuit;
     wtnsGen;
     static async newInstance(driverProps, eventListener) {
-        console.log("Creating a driver instance, props: %o", driverProps, eventListener);
+        console.log("Creating a driver instance, props: %o", driverProps);
         let prfsHandlers;
         try {
             prfsHandlers = await initWasm();
