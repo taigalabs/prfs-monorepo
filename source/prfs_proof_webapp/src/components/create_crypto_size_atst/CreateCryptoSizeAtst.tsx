@@ -52,6 +52,8 @@ import {
   AttestationListItemOverlay,
   AttestationListRightCol,
 } from "../create_attestation/CreateAtstComponents";
+import { CreateCryptoSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoSizeAtstRequest";
+import { paths } from "@/paths";
 
 const WALLET_ADDR = "wallet_addr";
 const SIGNATURE = "signature";
@@ -94,9 +96,9 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
       return atstApi("fetch_crypto_asset", req);
     },
   });
-  const { mutateAsync: attestTwitterAccRequest } = useMutation({
-    mutationFn: (req: AttestTwitterAccRequest) => {
-      return atstApi("attest_twitter_acc", req);
+  const { mutateAsync: createCryptoSizeAtstRequest } = useMutation({
+    mutationFn: (req: CreateCryptoSizeAtstRequest) => {
+      return atstApi("create_crypto_size_atst", req);
     },
   });
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
@@ -296,16 +298,21 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   }, [claimCm, setFormData]);
 
   const handleClickCreate = React.useCallback(async () => {
-    if (cryptoAsset && createStatus === Status.Standby) {
+    if (cryptoAsset && claimCm && createStatus === Status.Standby) {
       // For now, we don't obfuscate attestation id
-      const acc_atst_id = formData[WALLET_ADDR];
+      const atst_id = `ETH_${formData[WALLET_ADDR]}`;
       setCreateMsg(null);
 
-      if (acc_atst_id) {
+      if (atst_id) {
         setCreateStatus(Status.InProgress);
-        const { payload, error } = await attestTwitterAccRequest({
-          acc_atst_id,
-          cryptoAsset,
+
+        const { payload, error } = await createCryptoSizeAtstRequest({
+          atst_id,
+          atst_type: "crypto_size_1",
+          wallet_addr: formData[WALLET_ADDR],
+          cm: claimCm,
+          amount: cryptoAsset.amount,
+          unit: "ETH",
         });
         setCreateStatus(Status.Standby);
 
@@ -315,7 +322,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
         }
 
         if (payload) {
-          router.push(paths.attestations__twitter);
+          router.push(paths.attestations__crypto_size);
         }
       }
     }
@@ -323,7 +330,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     formData[WALLET_ADDR],
     step,
     cryptoAsset,
-    attestTwitterAccRequest,
+    claimCm,
+    createCryptoSizeAtstRequest,
     setCreateMsg,
     setCreateStatus,
     router,

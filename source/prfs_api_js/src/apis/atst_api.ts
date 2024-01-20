@@ -8,6 +8,8 @@ import { GetTwitterAccAtstRequest } from "@taigalabs/prfs-entities/bindings/GetT
 import { GetTwitterAccAtstResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstResponse";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 import { FetchCryptoAssetResponse } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetResponse";
+import { CreateCryptoSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoSizeAtstRequest";
+import { CreateCryptoSizeAtstResponse } from "@taigalabs/prfs-entities/bindings/CreateCryptoSizeAtstResponse";
 
 import { api } from "../utils";
 import { PrfsApiResponse } from "../types";
@@ -32,7 +34,7 @@ type Req<T extends RequestName> = //
     : T extends "fetch_crypto_asset"
     ? FetchCryptoAssetRequest
     : T extends "create_crypto_size_atst"
-    ? FetchCryptoAssetRequest
+    ? CreateCryptoSizeAtstRequest
     : never;
 
 type Resp<T extends RequestName> = //
@@ -46,6 +48,8 @@ type Resp<T extends RequestName> = //
     ? PrfsApiResponse<GetTwitterAccAtstResponse>
     : T extends "fetch_crypto_asset"
     ? PrfsApiResponse<FetchCryptoAssetResponse>
+    : T extends "create_crypto_size_atst"
+    ? PrfsApiResponse<CreateCryptoSizeAtstResponse>
     : any;
 
 let endpoint: string;
