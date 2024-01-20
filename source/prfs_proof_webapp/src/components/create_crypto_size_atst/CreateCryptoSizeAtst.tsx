@@ -386,11 +386,16 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                     handleChangeValue={handleChangeWalletAddr}
                   />
                   <div className={styles.btnRow}>
-                    <AttestationListItemBtn type="button" handleClick={handleClickFetchAsset}>
+                    <AttestationListItemBtn
+                      className={styles.fetchBtn}
+                      type="button"
+                      handleClick={handleClickFetchAsset}
+                    >
+                      <span>{i18n.fetch_asset}</span>
+                      <Spinner size={14} color={colors.gray_32} borderWidth={2} />
                       {fetchAssetStatus === Status.InProgress && (
                         <Spinner size={14} color={colors.gray_32} borderWidth={2} />
                       )}
-                      <span>{i18n.fetch_asset}</span>
                     </AttestationListItemBtn>
                     <div className={styles.msg}>{fetchAssetMsg}</div>
                   </div>

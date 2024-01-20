@@ -44,6 +44,12 @@
   }
 }
 
+.fetchBtn {
+  > span + div {
+    margin-left: 4px;
+  }
+}
+
 .msg {
   padding-left: 10px;
 }
