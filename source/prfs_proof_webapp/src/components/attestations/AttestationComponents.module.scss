@@ -19,69 +19,6 @@
   color: var(--gray-23);
 }
 
-.tableHeader {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  height: 49px;
-  padding: 4px 0;
-
-  &:not(.noData) {
-    border-bottom: 1px solid var(--gray-60);
-  }
-}
-
-.tableHeaderCell {
-  /* padding: 4px 0; */
-  display: flex;
-  align-items: center;
-  color: var(--gray-23);
-  font-weight: 500;
-
-  &:first-child {
-    padding: 0px 10px;
-  }
-}
-
-.tableCell {
-  /* padding: 4px 0; */
-  display: flex;
-  align-items: center;
-
-  &:first-child {
-    padding: 4px 10px;
-  }
-}
-
-.tableBody {
-  width: 100%;
-  overflow: auto;
-}
-
-.tableBodyInner {
-  width: 100%;
-  position: relative;
-}
-
-.tableRow {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding: 4px 0;
-  transition: 0.1s all;
-  cursor: pointer;
-
-  > div {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  &:hover {
-    background-color: var(--bright-gray-521);
-  }
-}
-
 @media screen and (min-width: $big_display_min_width) {
   .main {
     /* padding: 16px 16px 20px; */
