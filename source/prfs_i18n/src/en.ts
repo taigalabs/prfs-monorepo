@@ -210,6 +210,7 @@ export default {
   url: "URL",
   document_url: "Document URL",
   document: "Document",
+  crypto_assets: "Crypto assets",
   avatar: "Avatar",
   vote: "Vote",
   enrollment: "Enrollment",

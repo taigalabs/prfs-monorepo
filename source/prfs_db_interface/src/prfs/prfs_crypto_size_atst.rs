@@ -32,3 +32,36 @@ RETURNING atst_id"#;
 
     return Ok(atst_id);
 }
+
+pub async fn get_prfs_crypto_size_atsts(
+    pool: &Pool<Postgres>,
+    offset: i32,
+    limit: i32,
+) -> Result<Vec<PrfsCryptoSizeAtst>, DbInterfaceError> {
+    let query = r#"
+SELECT *
+FROM prfs_crypto_size_atsts
+LIMIT $1
+OFFSET $2
+"#;
+
+    let rows = sqlx::query(query)
+        .bind(limit)
+        .bind(offset)
+        .fetch_all(pool)
+        .await?;
+
+    let atsts = rows
+        .iter()
+        .map(|row| PrfsCryptoSizeAtst {
+            atst_id: row.get("atst_id"),
+            atst_type: row.get("atst_type"),
+            cm: row.get("cm"),
+            wallet_addr: row.get("wallet_addr"),
+            crypto_assets: row.get("crypto_assets"),
+            status: row.get("status"),
+        })
+        .collect();
+
+    Ok(atsts)
+}

@@ -7,7 +7,7 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api_entities::{
     CreateCryptoSizeAtstRequest, CreateCryptoSizeAtstResponse, FetchCryptoAssetRequest,
-    FetchCryptoAssetResponse,
+    FetchCryptoAssetResponse, GetCryptoSizeAtstsRequest, GetCryptoSizeAtstsResponse,
 };
 use prfs_entities::entities::{PrfsAtstStatus, PrfsCryptoSizeAtst};
 use prfs_entities::sqlx::types::Json;
@@ -52,8 +52,6 @@ pub async fn create_crypto_size_atst(
         wallet_addr: req.wallet_addr,
         cm: req.cm,
         crypto_assets: Json::from(req.crypto_assets),
-        // amount: req.amount,
-        // unit: req.unit,
         status: PrfsAtstStatus::Valid,
     };
     let atst_id = prfs::insert_prfs_crypto_size_atst(&mut tx, &crypto_size_atst)
@@ -67,5 +65,26 @@ pub async fn create_crypto_size_atst(
         atst_id,
     });
     let resp = ApiResponse::new_success(resp);
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn get_crypto_size_atsts(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> ApiHandlerResult {
+    let req: GetCryptoSizeAtstsRequest = parse_req(req).await;
+    let pool = &state.db2.pool;
+
+    let rows = prfs::get_prfs_crypto_size_atsts(&pool, req.offset, LIMIT)
+        .await
+        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))?;
+
+    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
+        None
+    } else {
+        Some(req.offset + LIMIT)
+    };
+
+    let resp = ApiResponse::new_success(GetCryptoSizeAtstsResponse { rows, next_offset });
     return Ok(resp.into_hyper_response());
 }

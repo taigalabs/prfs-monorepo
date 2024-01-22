@@ -123,14 +123,11 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
             <AttestationTableHeaderCell className={cn(styles.walletAddr)}>
               {i18n.wallet_address}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.accountId, styles.w1120)}>
-              {i18n.account_id}
-            </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1120)}>
               {i18n.commitment}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.document, styles.w480)}>
-              {i18n.document}
+              {i18n.crypto_assets}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
               {i18n.notarized}

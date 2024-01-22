@@ -2,6 +2,8 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
+use crate::entities::PrfsCryptoSizeAtst;
+
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct FetchCryptoAssetRequest {
@@ -29,6 +31,19 @@ pub struct CryptoAsset {
     pub amount: Decimal,
     pub unit: String,
     pub symbol: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetCryptoSizeAtstsRequest {
+    pub offset: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetCryptoSizeAtstsResponse {
+    pub rows: Vec<PrfsCryptoSizeAtst>,
+    pub next_offset: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
