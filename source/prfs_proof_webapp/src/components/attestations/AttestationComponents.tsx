@@ -35,7 +35,7 @@ export const AttestationTableBodyInner: React.FC<AttestationsProps> = ({
   className,
 }) => {
   return (
-    <div className={cn(styles.tableBody, className)} style={style}>
+    <div className={cn(styles.tableBodyInner, className)} style={style}>
       {children}
     </div>
   );
