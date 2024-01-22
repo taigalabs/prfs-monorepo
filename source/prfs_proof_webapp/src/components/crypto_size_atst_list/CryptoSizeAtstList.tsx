@@ -4,8 +4,8 @@ import React from "react";
 
 import styles from "./CryptoSizeAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { AttestationsTitle } from "@/components/attestations/Attestations";
 import CryptoSizeAtstTable from "./CryptoSizeAtstTable";
+import { AttestationsTitle } from "../attestations/AttestationComponents";
 
 const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
   const i18n = React.useContext(i18nContext);

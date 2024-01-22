@@ -6,9 +6,9 @@ import DefaultLayout, {
   DefaultFooter,
 } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import Attestations, { AttestationsMain } from "@/components/attestations/Attestations";
+import Attestations from "@/components/attestations/Attestations";
+import { AttestationsMain } from "@/components/attestations/AttestationComponents";
 import CryptoSizeAtstList from "@/components/crypto_size_atst_list/CryptoSizeAtstList";
-// import TwitterAccAtstList from "@/components/twitter_acc_atst_list/TwitterAccAtstList";
 
 const CryptoSizePage = () => {
   return (

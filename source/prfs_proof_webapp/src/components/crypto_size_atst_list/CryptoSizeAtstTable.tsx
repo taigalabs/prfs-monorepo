@@ -11,6 +11,13 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 import styles from "./CryptoSizeAtstTable.module.scss";
 import { paths } from "@/paths";
+import {
+  AttestationTableBody,
+  AttestationTableHeader,
+  AttestationTableHeaderCell,
+  AttestationTableRow,
+  AttestationTableBodyInner,
+} from "@/components/attestations/AttestationComponents";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   const i18n = React.useContext(i18nContext);
@@ -22,7 +29,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   }, [atst.acc_atst_id, router]);
 
   return (
-    <div className={cn(styles.row)} style={style} onClick={handleClick}>
+    <AttestationTableRow style={style} handleClick={handleClick}>
       <div className={cn(styles.username, styles.cell)}>
         <img src={atst.avatar_url} crossOrigin="" />
         <span>{atst.username}</span>
@@ -37,7 +44,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
       </div>
       <div className={cn(styles.notarized, styles.cell, styles.w1320)}>{i18n.not_available}</div>
       <div className={cn(styles.onChain, styles.cell, styles.w1320)}>{i18n.not_available}</div>
-    </div>
+    </AttestationTableRow>
   );
 };
 
@@ -99,31 +106,32 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
         <span>Error: {(error as Error).message}</span>
       ) : (
         <>
-          <div
-            className={cn(styles.header, {
+          <AttestationTableHeader
+            className={cn({
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <div className={cn(styles.username, styles.headerCell)}>{i18n.username}</div>
-            <div className={cn(styles.accountId, styles.headerCell, styles.w1120)}>
+            <AttestationTableHeaderCell className={cn(styles.username)}>
+              {i18n.username}
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.accountId, styles.w1120)}>
               {i18n.account_id}
-            </div>
-            <div className={cn(styles.commitment, styles.headerCell, styles.w1120)}>
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1120)}>
               {i18n.commitment}
-            </div>
-            <div className={cn(styles.document, styles.headerCell, styles.w480)}>
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.document, styles.w480)}>
               {i18n.document}
-            </div>
-            <div className={cn(styles.notarized, styles.headerCell, styles.w1320)}>
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
               {i18n.notarized}
-            </div>
-            <div className={cn(styles.onChain, styles.headerCell, styles.w1320)}>
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
               {i18n.on_chain}
-            </div>
-          </div>
-          <div className={styles.listContainer} ref={parentRef}>
-            <div
-              className={styles.listInner}
+            </AttestationTableHeaderCell>
+          </AttestationTableHeader>
+          <AttestationTableBody innerRef={parentRef}>
+            <AttestationTableBodyInner
               style={{
                 height: `${rowVirtualizer.getTotalSize()}px`,
               }}
@@ -152,8 +160,8 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
                   />
                 );
               })}
-            </div>
-          </div>
+            </AttestationTableBodyInner>
+          </AttestationTableBody>
         </>
       )}
     </div>
