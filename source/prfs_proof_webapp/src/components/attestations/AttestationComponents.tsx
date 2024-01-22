@@ -5,6 +5,10 @@ import cn from "classnames";
 
 import styles from "./AttestationComponents.module.scss";
 
+export const AttestationsTopMenu: React.FC<AttestationsProps> = ({ children, className }) => {
+  return <div className={cn(styles.topMenu, className)}>{children}</div>;
+};
+
 export const AttestationsTitle: React.FC<AttestationsProps> = ({ children, className }) => {
   return <div className={cn(styles.title, className)}>{children}</div>;
 };
