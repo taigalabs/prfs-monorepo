@@ -78,14 +78,14 @@
   align-items: center;
 }
 
-.listContainer {
+.tableBody {
   width: 100%;
   overflow: auto;
+}
 
-  .listInner {
-    width: 100%;
-    position: relative;
-  }
+.tableBodyInner {
+  width: 100%;
+  position: relative;
 }
 
 .row {

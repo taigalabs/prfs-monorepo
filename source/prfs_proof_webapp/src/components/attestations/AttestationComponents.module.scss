@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .main {
   flex-grow: 1;
 }
@@ -15,6 +17,59 @@
   padding-bottom: 20px;
   /* padding-left: 34px; */
   color: var(--gray-23);
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  height: 49px;
+  padding: 4px;
+
+  &:not(.noData) {
+    border-bottom: 1px solid var(--gray-60);
+  }
+}
+
+.tableHeaderCell {
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  color: var(--gray-23);
+  font-weight: 500;
+}
+
+.tableCell {
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.tableBody {
+  width: 100%;
+  overflow: auto;
+}
+
+.tableBodyInner {
+  width: 100%;
+  position: relative;
+}
+
+.tableRow {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  transition: 0.1s all;
+  cursor: pointer;
+
+  > div {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &:hover {
+    background-color: var(--bright-gray-521);
+  }
 }
 
 @media screen and (min-width: $big_display_min_width) {
