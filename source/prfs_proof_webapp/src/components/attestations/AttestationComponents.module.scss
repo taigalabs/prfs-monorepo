@@ -23,7 +23,7 @@
   display: flex;
   align-items: center;
   height: 49px;
-  padding: 4px;
+  padding: 4px 0;
 
   &:not(.noData) {
     border-bottom: 1px solid var(--gray-60);
@@ -36,6 +36,10 @@
   align-items: center;
   color: var(--gray-23);
   font-weight: 500;
+
+  &:first-child {
+    padding: 4px 10px;
+  }
 }
 
 .tableCell {
