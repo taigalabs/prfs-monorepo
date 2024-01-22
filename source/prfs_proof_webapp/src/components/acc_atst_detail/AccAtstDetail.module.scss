@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   /* border: 1px solid red; */
 }
@@ -8,31 +10,27 @@
 }
 
 .avatarRow {
-  display: flex;
-  padding-left: 48px;
-  gap: 36px;
+  flex-direction: column;
+  padding-left: 0;
+  align-items: center;
+  gap: 18px;
 
   .avatar {
+    width: 40%;
+    height: 40%;
+    max-width: 162px;
+    max-height: 162px;
+    border-radius: 50%;
     color: transparent;
     background-color: var(--bright-gray-45);
-    width: 162px;
-    height: 162px;
-    border-radius: 81px;
-  }
-
-  .rightCol {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 
   .username {
-    font-size: 1.75rem;
-    line-height: 2.25rem;
+    text-align: center;
   }
 
   .accountId {
-    font-size: 1.2rem;
+    text-align: center;
   }
 }
 
@@ -70,31 +68,35 @@
   }
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (min-width: $big_display_min_width) {
   .topMenuRow {
     padding-left: 0;
   }
 
   .avatarRow {
-    flex-direction: column;
-    padding-left: 0;
-    align-items: center;
-    gap: 18px;
+    display: flex;
+    padding-left: 48px;
+    gap: 36px;
 
     .avatar {
-      width: 40%;
-      height: 40%;
-      max-width: 162px;
-      max-height: 162px;
-      border-radius: 50%;
+      width: 162px;
+      height: 162px;
+      border-radius: 81px;
+    }
+
+    .rightCol {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .username {
-      text-align: center;
+      font-size: 1.75rem;
+      line-height: 2.25rem;
     }
 
     .accountId {
-      text-align: center;
+      font-size: 1.2rem;
     }
   }
 

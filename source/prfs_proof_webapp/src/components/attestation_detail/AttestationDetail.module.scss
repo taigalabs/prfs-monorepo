@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   /* border: 1px solid red; */
 }
@@ -9,16 +11,6 @@
 
 .section {
   padding-left: 32px;
-
-  // .row:not(:last-child) {
-  //   padding-bottom: 14px;
-  // }
-
-  // .label {
-  //   font-size: 15px;
-  //   font-weight: 500;
-  //   padding-bottom: 4px;
-  // }
 
   &:not(:first-child) {
     padding-top: 32px;
@@ -38,17 +30,21 @@
 }
 
 .box {
+  padding: 0px 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.boxInner {
   color: var(--black-27);
   padding: 16px;
   border-radius: 16px;
   background-color: var(--bright-blue-55);
   word-break: break-all;
   max-width: 520px;
-
-  /* border: 1px solid red; */
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (min-width: $big_display_min_width) {
   .topMenuRow {
     padding-left: 0;
   }
@@ -59,5 +55,6 @@
 
   .box {
     max-width: none;
+    justify-content: flex-start;
   }
 }

@@ -14,6 +14,13 @@ export const AttestationDetailBox: React.FC<AttestationDetailProps> = ({ childre
   return <div className={cn(styles.box, className)}>{children}</div>;
 };
 
+export const AttestationDetailBoxInner: React.FC<AttestationDetailProps> = ({
+  children,
+  className,
+}) => {
+  return <div className={cn(styles.boxInner, className)}>{children}</div>;
+};
+
 export const AttestationDetailSection: React.FC<AttestationDetailProps> = ({
   children,
   className,

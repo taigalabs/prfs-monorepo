@@ -13,6 +13,7 @@ import styles from "./AccAtstDetail.module.scss";
 import { paths } from "@/paths";
 import {
   AttestationDetailBox,
+  AttestationDetailBoxInner,
   AttestationDetailSection,
   AttestationDetailSectionRow,
   AttestationDetailSectionRowLabel,
@@ -73,44 +74,50 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
         </div>
         <AttestationDetailSection className={styles.metaRow}>
           <AttestationDetailBox>
-            <AttestationDetailSectionRow>
-              <AttestationDetailSectionRowLabel>{i18n.commitment}</AttestationDetailSectionRowLabel>
-              <div className={cn(styles.commitment, styles.value)}>{atst.cm}</div>
-            </AttestationDetailSectionRow>
-            <AttestationDetailSectionRow>
-              <AttestationDetailSectionRowLabel>
-                {i18n.document_url}
-              </AttestationDetailSectionRowLabel>
-              <div className={cn(styles.url, styles.value)}>
-                <a href={atst.document_url} target="_blank">
-                  {atst.document_url}
-                </a>
-              </div>
-            </AttestationDetailSectionRow>
-            <AttestationDetailSectionRow>
-              <AttestationDetailSectionRowLabel>
-                {i18n.destination}
-              </AttestationDetailSectionRowLabel>
-              <div className={cn(styles.destination, styles.value)}>{atst.dest}</div>
-            </AttestationDetailSectionRow>
-            <AttestationDetailSectionRow>
-              <AttestationDetailSectionRowLabel>
-                {i18n.attestation_type}
-              </AttestationDetailSectionRowLabel>
-              <div className={cn(styles.attestationType, styles.value)}>{atst.atst_type}</div>
-            </AttestationDetailSectionRow>
-            <AttestationDetailSectionRow>
-              <AttestationDetailSectionRowLabel>{i18n.status}</AttestationDetailSectionRowLabel>
-              <div className={cn(styles.status, styles.value)}>{atst.status}</div>
-            </AttestationDetailSectionRow>
-            <AttestationDetailSectionRow>
-              <AttestationDetailSectionRowLabel>{i18n.on_chain}</AttestationDetailSectionRowLabel>
-              <div className={cn(styles.onChain, styles.value)}>{i18n.not_available}</div>
-            </AttestationDetailSectionRow>
-            <AttestationDetailSectionRow>
-              <AttestationDetailSectionRowLabel>{i18n.notarized}</AttestationDetailSectionRowLabel>
-              <div className={cn(styles.notarized, styles.value)}>{i18n.not_available}</div>
-            </AttestationDetailSectionRow>
+            <AttestationDetailBoxInner>
+              <AttestationDetailSectionRow>
+                <AttestationDetailSectionRowLabel>
+                  {i18n.commitment}
+                </AttestationDetailSectionRowLabel>
+                <div className={cn(styles.commitment, styles.value)}>{atst.cm}</div>
+              </AttestationDetailSectionRow>
+              <AttestationDetailSectionRow>
+                <AttestationDetailSectionRowLabel>
+                  {i18n.document_url}
+                </AttestationDetailSectionRowLabel>
+                <div className={cn(styles.url, styles.value)}>
+                  <a href={atst.document_url} target="_blank">
+                    {atst.document_url}
+                  </a>
+                </div>
+              </AttestationDetailSectionRow>
+              <AttestationDetailSectionRow>
+                <AttestationDetailSectionRowLabel>
+                  {i18n.destination}
+                </AttestationDetailSectionRowLabel>
+                <div className={cn(styles.destination, styles.value)}>{atst.dest}</div>
+              </AttestationDetailSectionRow>
+              <AttestationDetailSectionRow>
+                <AttestationDetailSectionRowLabel>
+                  {i18n.attestation_type}
+                </AttestationDetailSectionRowLabel>
+                <div className={cn(styles.attestationType, styles.value)}>{atst.atst_type}</div>
+              </AttestationDetailSectionRow>
+              <AttestationDetailSectionRow>
+                <AttestationDetailSectionRowLabel>{i18n.status}</AttestationDetailSectionRowLabel>
+                <div className={cn(styles.status, styles.value)}>{atst.status}</div>
+              </AttestationDetailSectionRow>
+              <AttestationDetailSectionRow>
+                <AttestationDetailSectionRowLabel>{i18n.on_chain}</AttestationDetailSectionRowLabel>
+                <div className={cn(styles.onChain, styles.value)}>{i18n.not_available}</div>
+              </AttestationDetailSectionRow>
+              <AttestationDetailSectionRow>
+                <AttestationDetailSectionRowLabel>
+                  {i18n.notarized}
+                </AttestationDetailSectionRowLabel>
+                <div className={cn(styles.notarized, styles.value)}>{i18n.not_available}</div>
+              </AttestationDetailSectionRow>
+            </AttestationDetailBoxInner>
           </AttestationDetailBox>
         </AttestationDetailSection>
       </div>
