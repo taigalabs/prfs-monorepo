@@ -6,17 +6,22 @@ import DefaultLayout, {
   DefaultFooter,
 } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import Attestations, { AttestationsMain } from "@/components/attestations/Attestations";
+import Attestations, {
+  AttestationsMain,
+  AttestationsMainInner,
+} from "@/components/attestations/Attestations";
 import TwitterAccAtstList from "@/components/twitter_acc_atst_list/TwitterAccAtstList";
 
 const TwitterAttestionPage = () => {
   return (
     <DefaultLayout>
-      <DefaultBody noMinWidth>
+      <DefaultBody noMinWidth className={styles.body}>
         <Suspense>
           <Attestations>
             <AttestationsMain>
-              <TwitterAccAtstList />
+              <AttestationsMainInner>
+                <TwitterAccAtstList />
+              </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>
         </Suspense>

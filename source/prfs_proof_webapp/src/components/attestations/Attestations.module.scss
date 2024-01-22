@@ -47,8 +47,14 @@ $leftbar_width: 284px;
 }
 
 .main {
+  padding: 16px 18px 0 0;
+  flex-grow: 1;
+}
+
+.mainInner {
   padding: 16px 16px 20px;
   flex-grow: 1;
+  background-color: var(--white-100);
 }
 
 .title {
@@ -73,10 +79,11 @@ $leftbar_width: 284px;
   }
 
   .main {
-    padding: 16px 8px 20px;
+    padding: 16px 16px 20px;
+    margin-right: 18px;
   }
 
   .title {
-    padding-left: 34px;
+    /* padding-left: 34px; */
   }
 }
