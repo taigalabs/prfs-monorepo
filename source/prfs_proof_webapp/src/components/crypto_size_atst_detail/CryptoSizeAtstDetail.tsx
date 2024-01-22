@@ -18,9 +18,9 @@ import {
   AttestationDetailSectionRow,
   AttestationDetailSectionRowLabel,
   AttestationDetailTopMenuRow,
-} from "../attestation_detail/AttestationDetail";
+} from "@/components/attestation_detail/AttestationDetail";
 
-const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ atst_id }) => {
+const CryptoSizeAtstDetail: React.FC<CryptoSizeAtstDetailProps> = ({ atst_id }) => {
   const i18n = React.useContext(i18nContext);
   const { isLoading, data, error } = useQuery({
     queryKey: ["get_twitter_acc_atst"],
@@ -125,8 +125,8 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ atst_id }) => {
   );
 };
 
-export default AccAtstDetail;
+export default CryptoSizeAtstDetail;
 
-export interface AccAtstDetailProps {
+export interface CryptoSizeAtstDetailProps {
   atst_id: string;
 }

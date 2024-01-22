@@ -7,11 +7,11 @@ import DefaultLayout, {
 } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Attestations from "@/components/attestations/Attestations";
-import AccAtstDetail from "@/components/acc_atst_detail/AccAtstDetail";
 import {
   AttestationsMain,
   AttestationsMainInner,
 } from "@/components/attestations/AttestationComponents";
+import CryptoSizeAtstDetail from "@/components/crypto_size_atst_detail/CryptoSizeAtstDetail";
 
 const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({ params }) => {
   return (
@@ -21,7 +21,7 @@ const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({
           <Attestations>
             <AttestationsMain>
               <AttestationsMainInner>
-                <AccAtstDetail acc_atst_id={params.acc_atst_id} />
+                <CryptoSizeAtstDetail atst_id={params.acc_atst_id} />
               </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>
