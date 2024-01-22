@@ -7,7 +7,10 @@ import DefaultLayout, {
 } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Attestations from "@/components/attestations/Attestations";
-import { AttestationsMain } from "@/components/attestations/AttestationComponents";
+import {
+  AttestationsMain,
+  AttestationsMainInner,
+} from "@/components/attestations/AttestationComponents";
 import CryptoSizeAtstList from "@/components/crypto_size_atst_list/CryptoSizeAtstList";
 
 const CryptoSizePage = () => {
@@ -17,7 +20,9 @@ const CryptoSizePage = () => {
         <Suspense>
           <Attestations>
             <AttestationsMain>
-              <CryptoSizeAtstList />
+              <AttestationsMainInner>
+                <CryptoSizeAtstList />
+              </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>
         </Suspense>

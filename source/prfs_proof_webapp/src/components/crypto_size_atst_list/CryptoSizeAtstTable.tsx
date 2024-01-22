@@ -17,6 +17,7 @@ import {
   AttestationTableHeaderCell,
   AttestationTableRow,
   AttestationTableBodyInner,
+  AttestationTableCell,
 } from "@/components/attestations/AttestationComponents";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
@@ -30,20 +31,28 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
 
   return (
     <AttestationTableRow style={style} handleClick={handleClick}>
-      <div className={cn(styles.username, styles.cell)}>
+      <AttestationTableCell className={cn(styles.username, styles.cell)}>
         <img src={atst.avatar_url} crossOrigin="" />
         <span>{atst.username}</span>
-      </div>
-      <div className={cn(styles.accountId, styles.cell, styles.w1120)}>{atst.account_id}</div>
-      <div className={cn(styles.commitment, styles.cell, styles.w1120)}>{cm}</div>
-      <div className={cn(styles.document, styles.cell, styles.w480)}>
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.accountId, styles.w1120)}>
+        {atst.account_id}
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.commitment, styles.w1120)}>
+        {cm}
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.document, styles.w480)}>
         <a href={atst.document_url} target="_blank">
           <span>{i18n.tweet}</span>
           <BiLinkExternal />
         </a>
-      </div>
-      <div className={cn(styles.notarized, styles.cell, styles.w1320)}>{i18n.not_available}</div>
-      <div className={cn(styles.onChain, styles.cell, styles.w1320)}>{i18n.not_available}</div>
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
+        {i18n.not_available}
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.onChain, styles.w1320)}>
+        {i18n.not_available}
+      </AttestationTableCell>
     </AttestationTableRow>
   );
 };

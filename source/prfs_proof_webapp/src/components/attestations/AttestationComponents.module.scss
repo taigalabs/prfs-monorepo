@@ -21,6 +21,7 @@
 
 .tableHeader {
   display: flex;
+  gap: 8px;
   align-items: center;
   height: 49px;
   padding: 4px 0;
@@ -31,21 +32,25 @@
 }
 
 .tableHeaderCell {
-  padding: 4px;
+  /* padding: 4px 0; */
   display: flex;
   align-items: center;
   color: var(--gray-23);
   font-weight: 500;
 
   &:first-child {
-    padding: 4px 10px;
+    padding: 0px 10px;
   }
 }
 
 .tableCell {
-  padding: 4px;
+  /* padding: 4px 0; */
   display: flex;
   align-items: center;
+
+  &:first-child {
+    padding: 4px 10px;
+  }
 }
 
 .tableBody {
@@ -60,8 +65,9 @@
 
 .tableRow {
   display: flex;
+  gap: 8px;
   align-items: center;
-  padding: 4px;
+  padding: 4px 0;
   transition: 0.1s all;
   cursor: pointer;
 
