@@ -50,19 +50,19 @@
   width: 110px;
 }
 
-@media screen and (max-width: 1320px) {
+@media not screen and (min-width: 1320px) {
   .w1320 {
     display: none;
   }
 }
 
-@media screen and (max-width: $big_display_min_width) {
-  .w1120 {
+@media not screen and (min-width: $big_display_min_width) {
+  .w1024 {
     display: none;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media not screen and (min-width: 480px) {
   .w480 {
     display: none;
   }

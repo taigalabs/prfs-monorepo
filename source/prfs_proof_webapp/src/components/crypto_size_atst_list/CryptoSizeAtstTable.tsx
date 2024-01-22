@@ -120,8 +120,8 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <AttestationTableHeaderCell className={cn(styles.username)}>
-              {i18n.username}
+            <AttestationTableHeaderCell className={cn(styles.walletAddr)}>
+              {i18n.wallet_address}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.accountId, styles.w1120)}>
               {i18n.account_id}
