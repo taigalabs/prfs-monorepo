@@ -16,7 +16,7 @@ import CryptoSizeAtstList from "@/components/crypto_size_atst_list/CryptoSizeAts
 const CryptoSizePage = () => {
   return (
     <DefaultLayout>
-      <DefaultBody noMinWidth>
+      <DefaultBody noMinWidth className={styles.body}>
         <Suspense>
           <Attestations>
             <AttestationsMain>
