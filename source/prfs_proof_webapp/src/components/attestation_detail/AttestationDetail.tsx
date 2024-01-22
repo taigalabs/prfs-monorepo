@@ -32,7 +32,7 @@ export const AttestationDetailSectionRowLabel: React.FC<AttestationDetailProps> 
   children,
   className,
 }) => {
-  return <div className={cn(styles.sectionRowLabel, className)}>{children}</div>;
+  return <p className={cn(styles.sectionRowLabel, className)}>{children}</p>;
 };
 
 export interface AttestationDetailProps {
