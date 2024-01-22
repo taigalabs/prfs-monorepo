@@ -12,6 +12,8 @@ import { CreateCryptoSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/C
 import { CreateCryptoSizeAtstResponse } from "@taigalabs/prfs-entities/bindings/CreateCryptoSizeAtstResponse";
 import { GetCryptoSizeAtstsRequest } from "@taigalabs/prfs-entities/bindings/GetCryptoSizeAtstsRequest";
 import { GetCryptoSizeAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetCryptoSizeAtstsResponse";
+import { GetCryptoSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/GetCryptoSizeAtstRequest";
+import { GetCryptoSizeAtstResponse } from "@taigalabs/prfs-entities/bindings/GetCryptoSizeAtstResponse";
 
 import { api } from "../utils";
 import { PrfsApiResponse } from "../types";
@@ -23,7 +25,8 @@ type RequestName =
   | "get_twitter_acc_atst"
   | "fetch_crypto_asset"
   | "create_crypto_size_atst"
-  | "get_crypto_size_atsts";
+  | "get_crypto_size_atsts"
+  | "get_crypto_size_atst";
 
 type Req<T extends RequestName> = //
   T extends "attest_twitter_acc"
@@ -40,6 +43,8 @@ type Req<T extends RequestName> = //
     ? CreateCryptoSizeAtstRequest
     : T extends "get_crypto_size_atsts"
     ? GetCryptoSizeAtstsRequest
+    : T extends "get_crypto_size_atst"
+    ? GetCryptoSizeAtstRequest
     : never;
 
 type Resp<T extends RequestName> = //
@@ -57,6 +62,8 @@ type Resp<T extends RequestName> = //
     ? PrfsApiResponse<CreateCryptoSizeAtstResponse>
     : T extends "get_crypto_size_atsts"
     ? PrfsApiResponse<GetCryptoSizeAtstsResponse>
+    : T extends "get_crypto_size_atst"
+    ? PrfsApiResponse<GetCryptoSizeAtstResponse>
     : any;
 
 let endpoint: string;

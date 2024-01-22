@@ -21,7 +21,7 @@ const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({
           <Attestations>
             <AttestationsMain>
               <AttestationsMainInner>
-                <CryptoSizeAtstDetail atst_id={params.acc_atst_id} />
+                <CryptoSizeAtstDetail atst_id={params.atst_id} />
               </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>
@@ -38,6 +38,6 @@ export default TwitterAttestionDetailPage;
 
 interface TwitterAttestionDetailPageProps {
   params: {
-    acc_atst_id: string;
+    atst_id: string;
   };
 }

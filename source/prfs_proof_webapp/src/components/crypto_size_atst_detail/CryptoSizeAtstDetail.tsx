@@ -9,7 +9,7 @@ import { i18nContext } from "@/i18n/context";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
-import styles from "./AccAtstDetail.module.scss";
+import styles from "./CryptoSizeAtstDetail.module.scss";
 import { paths } from "@/paths";
 import {
   AttestationDetailBox,
@@ -23,14 +23,24 @@ import {
 const CryptoSizeAtstDetail: React.FC<CryptoSizeAtstDetailProps> = ({ atst_id }) => {
   const i18n = React.useContext(i18nContext);
   const { isLoading, data, error } = useQuery({
-    queryKey: ["get_twitter_acc_atst"],
+    queryKey: ["get_crpyto_size_atst"],
     queryFn: async () => {
-      const { payload } = await atstApi("get_twitter_acc_atst", {
-        acc_atst_id: atst_id,
+      const { payload } = await atstApi("get_crypto_size_atst", {
+        atst_id: atst_id,
       });
       return payload;
     },
   });
+  const atst = data?.prfs_crypto_size_atst;
+  const cm = React.useMemo(() => {
+    return atst && `${atst.cm.substring(0, 12)}...`;
+  }, [atst?.cm]);
+  const cryptoAssets = React.useMemo(() => {
+    return atst && `${JSON.stringify(atst.crypto_assets)}...`;
+  }, [atst?.cm]);
+  const etherScanUrl = React.useMemo(() => {
+    return atst && `https://etherscan.io/address/${atst.wallet_addr.toLowerCase()}`;
+  }, [atst?.wallet_addr]);
 
   if (isLoading) {
     <div>Loading...</div>;
@@ -40,15 +50,9 @@ const CryptoSizeAtstDetail: React.FC<CryptoSizeAtstDetailProps> = ({ atst_id }) 
     <div>Fetch error: {error.toString()}</div>;
   }
 
-  const atst = data?.prfs_acc_atst;
-
-  const avatarUrl = React.useMemo(() => {
-    if (atst) {
-      return atst.avatar_url.replace("_normal.", ".");
-    } else {
-      return null;
-    }
-  }, [atst]);
+  if (atst === undefined) {
+    return <div>Loading...</div>;
+  }
 
   return (
     atst && (
@@ -61,15 +65,8 @@ const CryptoSizeAtstDetail: React.FC<CryptoSizeAtstDetailProps> = ({ atst_id }) 
           </Link>
         </AttestationDetailTopMenuRow>
         <div className={styles.avatarRow}>
-          <img
-            className={styles.avatar}
-            src={avatarUrl ?? atst.avatar_url}
-            crossOrigin=""
-            alt={i18n.avatar}
-          />
           <div className={styles.rightCol}>
-            <div className={styles.username}>{atst.username}</div>
-            <div className={styles.accountId}>{atst.account_id}</div>
+            <div className={styles.walletAddr}>{atst.wallet_addr}</div>
           </div>
         </div>
         <AttestationDetailSection className={styles.metaRow}>
@@ -86,16 +83,16 @@ const CryptoSizeAtstDetail: React.FC<CryptoSizeAtstDetailProps> = ({ atst_id }) 
                   {i18n.document_url}
                 </AttestationDetailSectionRowLabel>
                 <div className={cn(styles.url, styles.value)}>
-                  <a href={atst.document_url} target="_blank">
-                    {atst.document_url}
+                  <a href={etherScanUrl} target="_blank">
+                    {etherScanUrl}
                   </a>
                 </div>
               </AttestationDetailSectionRow>
               <AttestationDetailSectionRow>
                 <AttestationDetailSectionRowLabel>
-                  {i18n.destination}
+                  {i18n.crypto_assets}
                 </AttestationDetailSectionRowLabel>
-                <div className={cn(styles.destination, styles.value)}>{atst.dest}</div>
+                <div className={cn(styles.destination, styles.value)}>{cryptoAssets}</div>
               </AttestationDetailSectionRow>
               <AttestationDetailSectionRow>
                 <AttestationDetailSectionRowLabel>

@@ -65,3 +65,27 @@ OFFSET $2
 
     Ok(atsts)
 }
+
+pub async fn get_prfs_crypto_size_atst(
+    pool: &Pool<Postgres>,
+    atst_id: &String,
+) -> Result<PrfsCryptoSizeAtst, DbInterfaceError> {
+    let query = r#"
+SELECT *
+FROM prfs_crypto_size_atsts
+WHERE atst_id=$1
+"#;
+
+    let row = sqlx::query(query).bind(&atst_id).fetch_one(pool).await?;
+
+    let atst = PrfsCryptoSizeAtst {
+        atst_id: row.get("atst_id"),
+        atst_type: row.get("atst_type"),
+        cm: row.get("cm"),
+        wallet_addr: row.get("wallet_addr"),
+        crypto_assets: row.get("crypto_assets"),
+        status: row.get("status"),
+    };
+
+    Ok(atst)
+}

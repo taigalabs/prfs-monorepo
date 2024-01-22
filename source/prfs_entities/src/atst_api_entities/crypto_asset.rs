@@ -48,6 +48,18 @@ pub struct GetCryptoSizeAtstsResponse {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
+pub struct GetCryptoSizeAtstRequest {
+    pub atst_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetCryptoSizeAtstResponse {
+    pub prfs_crypto_size_atst: PrfsCryptoSizeAtst,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
 pub struct CreateCryptoSizeAtstRequest {
     pub atst_id: String,
     pub atst_type: String,

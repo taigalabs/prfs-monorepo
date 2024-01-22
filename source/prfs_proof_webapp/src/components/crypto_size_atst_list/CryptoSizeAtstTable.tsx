@@ -33,11 +33,15 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
     router.push(`${paths.attestations__crypto_size}/${atst.atst_id}`);
   }, [atst.atst_id, router]);
   const cryptoAssets = React.useMemo(() => {
-    return `${JSON.stringify(atst.crypto_assets).substring(0, 20)}...`;
+    return JSON.stringify && `${JSON.stringify(atst.crypto_assets).substring(0, 20)}...`;
   }, [atst.cm]);
-  const etherScanUrl = React.useMemo(() => {
-    return `https://etherscan.io/address/${atst.wallet_addr.toLowerCase()}`;
-  }, [atst.wallet_addr]);
+  const handleClickCryptoAssets = React.useCallback(
+    (ev: React.MouseEvent) => {
+      ev.stopPropagation();
+      window.open(`https://etherscan.io/address/${atst.wallet_addr.toLowerCase()}`, "_blank");
+    },
+    [atst.wallet_addr],
+  );
 
   return (
     <AttestationTableRow style={style} handleClick={handleClick}>
@@ -48,7 +52,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
         {cm}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480, styles.cell)}>
-        <a href={etherScanUrl} target="_blank">
+        <a target="_blank" onClick={handleClickCryptoAssets}>
           <span>{cryptoAssets}</span>
           <BiLinkExternal />
         </a>

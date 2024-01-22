@@ -18,7 +18,7 @@ import {
   AttestationDetailSectionRow,
   AttestationDetailSectionRowLabel,
   AttestationDetailTopMenuRow,
-} from "../attestation_detail/AttestationDetail";
+} from "@/components/attestation_detail/AttestationDetail";
 
 const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ atst_id }) => {
   const i18n = React.useContext(i18nContext);
