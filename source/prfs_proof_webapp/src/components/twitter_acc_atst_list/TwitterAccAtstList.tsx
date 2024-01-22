@@ -5,8 +5,8 @@ import cn from "classnames";
 
 import styles from "./TwitterAccAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { AttestationsTitle } from "@/components/attestations/Attestations";
 import TwitterAccAtstTable from "./TwitterAccAtstTable";
+import { AttestationsTitle } from "../attestations/AttestationComponents";
 
 const TwitterAccAtstList: React.FC<TwitterAccAtstListProps> = () => {
   const i18n = React.useContext(i18nContext);

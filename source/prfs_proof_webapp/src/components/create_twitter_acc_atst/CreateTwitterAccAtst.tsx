@@ -34,7 +34,6 @@ import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
 import styles from "./CreateTwitterAccAtst.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
@@ -50,6 +49,7 @@ import {
   AttestationListItemDescTitle,
   AttestationFormBtnRow,
 } from "@/components/create_attestation/CreateAtstComponents";
+import { AttestationsTitle } from "../attestations/AttestationComponents";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";

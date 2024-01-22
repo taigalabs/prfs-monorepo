@@ -16,18 +16,6 @@ import LeftBar from "./LeftBar";
 import LeftBarDrawer from "./LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 
-export const AttestationsTitle: React.FC<AttestationsProps> = ({ children, className }) => {
-  return <div className={cn(styles.title, className)}>{children}</div>;
-};
-
-export const AttestationsMain: React.FC<AttestationsProps> = ({ children }) => {
-  return <div className={styles.main}>{children}</div>;
-};
-
-export const AttestationsMainInner: React.FC<AttestationsProps> = ({ children }) => {
-  return <div className={styles.mainInner}>{children}</div>;
-};
-
 const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);

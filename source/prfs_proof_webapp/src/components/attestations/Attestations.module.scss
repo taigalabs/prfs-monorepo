@@ -4,6 +4,7 @@ $leftbar_width: 284px;
 
 .wrapper {
   display: flex;
+  flex-grow: 1;
 
   /* border: 1px solid red; */
 }
@@ -46,25 +47,6 @@ $leftbar_width: 284px;
   display: block;
 }
 
-.main {
-  padding: 16px 18px 0 0;
-  flex-grow: 1;
-}
-
-.mainInner {
-  padding: 16px 16px 20px;
-  flex-grow: 1;
-  background-color: var(--white-100);
-}
-
-.title {
-  font-size: 24px;
-  padding-left: 8px;
-  padding-bottom: 20px;
-  /* padding-left: 34px; */
-  color: var(--gray-23);
-}
-
 @media screen and (min-width: $big_display_min_width) {
   .leftBarContainer {
     display: block;
@@ -79,8 +61,13 @@ $leftbar_width: 284px;
   }
 
   .main {
+    /* padding: 16px 16px 20px; */
+    padding: 16px 18px 0 0;
+  }
+
+  .mainInner {
+    border-radius: 24px;
     padding: 16px 16px 20px;
-    margin-right: 18px;
   }
 
   .title {
