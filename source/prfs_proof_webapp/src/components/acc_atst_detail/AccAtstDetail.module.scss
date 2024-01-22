@@ -10,6 +10,7 @@
 }
 
 .avatarRow {
+  display: flex;
   flex-direction: column;
   padding-left: 0;
   align-items: center;
@@ -27,44 +28,25 @@
 
   .username {
     text-align: center;
+    font-size: 1.75rem;
+    line-height: 2.25rem;
   }
 
   .accountId {
+    font-size: 1.2rem;
     text-align: center;
+  }
+
+  .rightCol {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }
 
 .metaRow {
-  padding-left: 32px;
-  padding-top: 32px;
-
   .url {
     color: var(--blue-19);
-  }
-
-  .box {
-    color: var(--black-27);
-    padding: 16px;
-    border-radius: 16px;
-    background-color: var(--bright-blue-55);
-    word-break: break-all;
-    max-width: 520px;
-
-    /* border: 1px solid red; */
-  }
-
-  .row:not(:last-child) {
-    padding-bottom: 14px;
-  }
-
-  .label {
-    font-size: 15px;
-    font-weight: 500;
-    padding-bottom: 4px;
-  }
-
-  .value {
-    /* padding-left: 2px; */
   }
 }
 
@@ -75,6 +57,7 @@
 
   .avatarRow {
     display: flex;
+    flex-direction: row;
     padding-left: 48px;
     gap: 36px;
 
@@ -82,21 +65,6 @@
       width: 162px;
       height: 162px;
       border-radius: 81px;
-    }
-
-    .rightCol {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .username {
-      font-size: 1.75rem;
-      line-height: 2.25rem;
-    }
-
-    .accountId {
-      font-size: 1.2rem;
     }
   }
 

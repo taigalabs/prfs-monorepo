@@ -10,8 +10,6 @@
 }
 
 .section {
-  padding-left: 32px;
-
   &:not(:first-child) {
     padding-top: 32px;
   }
@@ -56,5 +54,9 @@
   .box {
     max-width: none;
     justify-content: flex-start;
+  }
+
+  .section {
+    padding-left: 32px;
   }
 }
