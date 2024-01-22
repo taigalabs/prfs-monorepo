@@ -33,7 +33,11 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
     router.push(`${paths.attestations__crypto_size}/${atst.atst_id}`);
   }, [atst.atst_id, router]);
   const cryptoAssets = React.useMemo(() => {
-    return JSON.stringify && `${JSON.stringify(atst.crypto_assets).substring(0, 20)}...`;
+    if (typeof atst.crypto_assets === "object") {
+      return `${JSON.stringify(atst.crypto_assets).substring(0, 20)}...`;
+    } else {
+      return "";
+    }
   }, [atst.cm]);
   const handleClickCryptoAssets = React.useCallback(
     (ev: React.MouseEvent) => {
