@@ -11,6 +11,12 @@ import Link from "next/link";
 
 import styles from "./AccAtstDetail.module.scss";
 import { paths } from "@/paths";
+import {
+  AttestationDetailBox,
+  AttestationDetailSection,
+  AttestationDetailSectionRow,
+  AttestationDetailTopMenuRow,
+} from "../attestation_detail/AttestationDetail";
 
 const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
   const i18n = React.useContext(i18nContext);
@@ -45,13 +51,13 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
   return (
     atst && (
       <div className={styles.wrapper}>
-        <div className={styles.topMenuRow}>
+        <AttestationDetailTopMenuRow>
           <Link href={paths.attestations__twitter}>
             <ButtonCircleContainer>
               <FaArrowLeft />
             </ButtonCircleContainer>
           </Link>
-        </div>
+        </AttestationDetailTopMenuRow>
         <div className={styles.avatarRow}>
           <img
             className={styles.avatar}
@@ -64,12 +70,12 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
             <div className={styles.accountId}>{atst.account_id}</div>
           </div>
         </div>
-        <div className={styles.metaRow}>
-          <div className={styles.box}>
-            <div className={styles.row}>
+        <AttestationDetailSection className={styles.metaRow}>
+          <AttestationDetailBox>
+            <AttestationDetailSectionRow>
               <p className={styles.label}>{i18n.commitment}</p>
               <div className={cn(styles.commitment, styles.value)}>{atst.cm}</div>
-            </div>
+            </AttestationDetailSectionRow>
             <div className={styles.row}>
               <p className={styles.label}>{i18n.document_url}</p>
               <div className={cn(styles.url, styles.value)}>
@@ -78,10 +84,10 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
                 </a>
               </div>
             </div>
-            <div className={styles.row}>
+            <AttestationDetailSectionRow>
               <p className={styles.label}>{i18n.destination}</p>
               <div className={cn(styles.destination, styles.value)}>{atst.dest}</div>
-            </div>
+            </AttestationDetailSectionRow>
             <div className={styles.row}>
               <p className={styles.label}>{i18n.attestation_type}</p>
               <div className={cn(styles.attestationType, styles.value)}>{atst.atst_type}</div>
@@ -98,8 +104,8 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
               <p className={styles.label}>{i18n.notarized}</p>
               <div className={cn(styles.notarized, styles.value)}>{i18n.not_available}</div>
             </div>
-          </div>
-        </div>
+          </AttestationDetailBox>
+        </AttestationDetailSection>
       </div>
     )
   );
