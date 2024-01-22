@@ -4,10 +4,11 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
-import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
+import { PrfsCryptoSizeAtst } from "@taigalabs/prfs-entities/bindings/PrfsCryptoSizeAtst";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { abbrevAddr } from "@taigalabs/prfs-web3-js";
 
 import styles from "./CryptoSizeAtstTable.module.scss";
 import { paths } from "@/paths";
@@ -22,28 +23,33 @@ import {
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   const i18n = React.useContext(i18nContext);
+  const walletAddr = React.useMemo(() => {
+    return abbrevAddr(atst.wallet_addr);
+  }, [atst.wallet_addr]);
   const cm = React.useMemo(() => {
-    return `${atst.cm.substring(0, 26)}...`;
+    return `${atst.cm.substring(0, 12)}...`;
   }, [atst.cm]);
   const handleClick = React.useCallback(() => {
-    router.push(`${paths.attestations__twitter}/${atst.acc_atst_id}`);
-  }, [atst.acc_atst_id, router]);
+    router.push(`${paths.attestations__crypto_size}/${atst.atst_id}`);
+  }, [atst.atst_id, router]);
+  const cryptoAssets = React.useMemo(() => {
+    return `${JSON.stringify(atst.crypto_assets).substring(0, 10)}...`;
+  }, [atst.cm]);
+  const etherScanUrl = React.useMemo(() => {
+    return `https://etherscan.io/address/${atst.wallet_addr.toLowerCase()}`;
+  }, [atst.wallet_addr]);
 
   return (
     <AttestationTableRow style={style} handleClick={handleClick}>
-      <AttestationTableCell className={cn(styles.username, styles.cell)}>
-        <img src={atst.avatar_url} crossOrigin="" />
-        <span>{atst.username}</span>
+      <AttestationTableCell className={cn(styles.walletAddr, styles.cell)}>
+        <span>{walletAddr}</span>
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.accountId, styles.w1120)}>
-        {atst.account_id}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.commitment, styles.w1120)}>
+      <AttestationTableCell className={cn(styles.commitment, styles.w1024)}>
         {cm}
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.document, styles.w480)}>
-        <a href={atst.document_url} target="_blank">
-          <span>{i18n.tweet}</span>
+      <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480)}>
+        <a href={etherScanUrl} target="_blank">
+          <span>{cryptoAssets}</span>
           <BiLinkExternal />
         </a>
       </AttestationTableCell>
@@ -64,7 +70,7 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
     useInfiniteQuery({
       queryKey: ["projects"],
       queryFn: async ({ pageParam }) => {
-        return atstApi("get_twitter_acc_atsts", { offset: pageParam as number });
+        return atstApi("get_crypto_size_atsts", { offset: pageParam as number });
       },
       initialPageParam: 0,
       getNextPageParam: lastPage => {
@@ -179,7 +185,7 @@ export default TwitterAccAtstTable;
 export interface TwitterAccAtstTableProps {}
 
 export interface AtstRowProps {
-  atst: PrfsAccAtst;
+  atst: PrfsCryptoSizeAtst;
   style: React.CSSProperties;
   router: AppRouterInstance;
 }

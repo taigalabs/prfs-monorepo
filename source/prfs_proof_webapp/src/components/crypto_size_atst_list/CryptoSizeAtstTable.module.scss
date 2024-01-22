@@ -1,56 +1,54 @@
 @import "styles/layouts.module.scss";
 
 .wrapper {
-  /* border: 1px solid red; */
+}
 
-  .walletAddr {
-    width: 270px;
+.walletAddr {
+  width: 160px;
+  display: flex;
+  align-items: center;
+
+  > img {
+    width: 38px;
+    height: 38px;
+    border-radius: 20px;
+  }
+
+  > span {
+    padding-left: 18px;
+  }
+}
+
+.commitment {
+  width: 150px;
+}
+
+.cryptoAssets {
+}
+
+.document {
+  width: 110px;
+
+  &.cell {
+    color: var(--blue-19);
+  }
+
+  > a {
     display: flex;
     align-items: center;
 
-    > img {
-      width: 38px;
-      height: 38px;
-      border-radius: 20px;
-    }
-
     > span {
-      padding-left: 18px;
+      padding-right: 2px;
     }
   }
+}
 
-  .accountId {
-    width: 180px;
-  }
+.notarized {
+  width: 110px;
+}
 
-  .commitment {
-    width: 230px;
-  }
-
-  .document {
-    width: 110px;
-
-    &.cell {
-      color: var(--blue-19);
-    }
-
-    > a {
-      display: flex;
-      align-items: center;
-
-      > span {
-        padding-right: 2px;
-      }
-    }
-  }
-
-  .notarized {
-    width: 110px;
-  }
-
-  .onChain {
-    width: 110px;
-  }
+.onChain {
+  width: 110px;
 }
 
 @media screen and (max-width: 1320px) {
@@ -60,7 +58,7 @@
 }
 
 @media screen and (max-width: $big_display_min_width) {
-  .w1120 {
+  .w1024 {
     display: none;
   }
 }
