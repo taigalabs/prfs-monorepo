@@ -33,7 +33,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
     router.push(`${paths.attestations__crypto_size}/${atst.atst_id}`);
   }, [atst.atst_id, router]);
   const cryptoAssets = React.useMemo(() => {
-    return `${JSON.stringify(atst.crypto_assets).substring(0, 10)}...`;
+    return `${JSON.stringify(atst.crypto_assets).substring(0, 20)}...`;
   }, [atst.cm]);
   const etherScanUrl = React.useMemo(() => {
     return `https://etherscan.io/address/${atst.wallet_addr.toLowerCase()}`;
@@ -47,7 +47,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
       <AttestationTableCell className={cn(styles.commitment, styles.w1024)}>
         {cm}
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480)}>
+      <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480, styles.cell)}>
         <a href={etherScanUrl} target="_blank">
           <span>{cryptoAssets}</span>
           <BiLinkExternal />
@@ -132,10 +132,10 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
             <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1120)}>
               {i18n.commitment}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.document, styles.w480)}>
+            <AttestationTableHeaderCell className={cn(styles.cryptoAssets, styles.w1320)}>
               {i18n.crypto_assets}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
+            <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1120)}>
               {i18n.notarized}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
