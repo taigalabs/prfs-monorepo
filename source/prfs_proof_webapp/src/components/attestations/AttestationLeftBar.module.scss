@@ -67,7 +67,7 @@
       cursor: auto;
     }
 
-    &:hover:not(:disabled):not(:active) {
+    &:hover:not(:disabled):not(.isHighlighted):not(:active) {
       background-color: var(--bright-blue-55);
     }
 

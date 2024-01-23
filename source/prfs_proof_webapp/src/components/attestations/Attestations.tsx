@@ -12,8 +12,8 @@ import { paths } from "@/paths";
 import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import AttestationsLogoArea from "@/components/attestations_masthead/AttestationsLogoArea";
-import LeftBar from "./LeftBar";
-import LeftBarDrawer from "./LeftBarDrawer";
+import LeftBar from "./AttestationLeftBar";
+import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 
 const Attestations: React.FC<AttestationsProps> = ({ children }) => {
