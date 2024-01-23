@@ -63,10 +63,7 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
         </LeftBarItem>
         <LeftBarItem>
           <Link href="">
-            <LeftBarItemButton
-              className={cn(styles.button, { [styles.isHighlighted]: name === LINKEDIN })}
-              disabled
-            >
+            <LeftBarItemButton isHighlighted={name === LINKEDIN} disabled>
               <FaLinkedin />
               <span>{i18n.linkedin} (Coming later)</span>
             </LeftBarItemButton>

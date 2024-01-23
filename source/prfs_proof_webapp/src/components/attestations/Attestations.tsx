@@ -66,10 +66,7 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
       />
       <MastheadPlaceholder tallHeight />
       <div className={styles.wrapper}>
-        <LeftBarContainer
-          // className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}
-          isVisible={isLeftBarVisible}
-        >
+        <LeftBarContainer isVisible={isLeftBarVisible}>
           <AttestationLeftBar />
         </LeftBarContainer>
         <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
