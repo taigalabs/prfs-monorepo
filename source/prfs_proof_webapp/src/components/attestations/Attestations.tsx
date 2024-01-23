@@ -11,10 +11,11 @@ import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
-import AttestationsLogoArea from "@/components/attestations_masthead/AttestationsLogoArea";
+import AttestationsLogo from "@/components/attestations_masthead/AttestationsLogo";
 import AttestationLeftBar from "./AttestationLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
+import { LeftBarContainer } from "../left_bar/LeftBar";
 
 const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
@@ -65,12 +66,15 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
       />
       <MastheadPlaceholder tallHeight />
       <div className={styles.wrapper}>
-        <div className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}>
+        <LeftBarContainer
+          // className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}
+          isVisible={isLeftBarVisible}
+        >
           <AttestationLeftBar />
-        </div>
+        </LeftBarContainer>
         <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
           <div className={styles.drawerLogoArea}>
-            <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+            <AttestationsLogo handleClickShowLeftBar={handleClickShowLeftBar} />
           </div>
           <AttestationLeftBar />
         </LeftBarDrawer>

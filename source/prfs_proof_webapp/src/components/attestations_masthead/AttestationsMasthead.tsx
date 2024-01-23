@@ -17,7 +17,7 @@ import {
   MastheadWrapper,
 } from "@/components/masthead/Masthead";
 import VerifiedAccSearch from "@/components/verified_acc_search/VerifiedAccSearch";
-import AttestationsLogoArea from "./AttestationsLogoArea";
+import AttestationsLogo from "./AttestationsLogo";
 import { envs } from "@/envs";
 
 const AttestationsMasthead: React.FC<AttestationsMastheadProps> = ({
@@ -29,10 +29,10 @@ const AttestationsMasthead: React.FC<AttestationsMastheadProps> = ({
   return (
     <MastheadWrapper smallPadding tallHeight>
       <div className={styles.leftBarBtn}>
-        <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+        <AttestationsLogo handleClickShowLeftBar={handleClickShowLeftBar} />
       </div>
       <div className={styles.leftBarDrawerBtn}>
-        <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBarDrawer} />
+        <AttestationsLogo handleClickShowLeftBar={handleClickShowLeftBarDrawer} />
       </div>
       <MastheadMain>
         <div className={styles.searchArea}>

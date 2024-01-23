@@ -3,11 +3,14 @@ import cn from "classnames";
 import { IoIosMenu } from "@react-icons/all-files/io/IoIosMenu";
 import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 
-import styles from "./AttestationsLogoArea.module.scss";
+import styles from "./AttestationsLogo.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
-const AttestationsLogoArea: React.FC<AttestationsLogoAreaProps> = ({ handleClickShowLeftBar }) => {
+const AttestationsLogo: React.FC<AttestationsLogoAreaProps> = ({
+  handleClickShowLeftBar,
+  label,
+}) => {
   const i18n = React.useContext(i18nContext);
 
   const handleClickHamburger = React.useCallback(() => {
@@ -21,14 +24,15 @@ const AttestationsLogoArea: React.FC<AttestationsLogoAreaProps> = ({ handleClick
       </div>
       <a className={styles.logoArea} href={paths.__}>
         <ImageLogo width={24} />
-        <span>{i18n.attestations}</span>
+        <span>{label ?? i18n.attestations}</span>
       </a>
     </div>
   );
 };
 
-export default AttestationsLogoArea;
+export default AttestationsLogo;
 
 export interface AttestationsLogoAreaProps {
   handleClickShowLeftBar: (bool?: boolean) => void;
+  label?: string;
 }

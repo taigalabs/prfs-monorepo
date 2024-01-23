@@ -42,33 +42,10 @@ const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
       </LeftBarTopMenu>
       <LeftBarMenu>
         <LeftBarItem>
-          <Link href={paths.attestations__twitter}>
-            <LeftBarItemButton isHighlighted={name === TWITTER}>
-              <img
-                src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"
-                alt="Twitter"
-                crossOrigin=""
-              />
-              <span>{i18n.x_twitter}</span>
-            </LeftBarItemButton>
-          </Link>
-        </LeftBarItem>
-        <LeftBarItem>
           <Link href={paths.attestations__crypto_size}>
             <LeftBarItemButton isHighlighted={name === CRYPTO_SIZE}>
               <FaBitcoin />
-              <span>{i18n.crypto_asset_size}</span>
-            </LeftBarItemButton>
-          </Link>
-        </LeftBarItem>
-        <LeftBarItem>
-          <Link href="">
-            <LeftBarItemButton
-              className={cn(styles.button, { [styles.isHighlighted]: name === LINKEDIN })}
-              disabled
-            >
-              <FaLinkedin />
-              <span>{i18n.linkedin} (Coming later)</span>
+              <span>{i18n.crypto_holders}</span>
             </LeftBarItemButton>
           </Link>
         </LeftBarItem>

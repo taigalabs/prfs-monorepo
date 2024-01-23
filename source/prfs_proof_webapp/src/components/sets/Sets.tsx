@@ -6,17 +6,17 @@ import { useRouter } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 
-import styles from "./Attestations.module.scss";
+import styles from "./Sets.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
-import AttestationsLogoArea from "@/components/attestations_masthead/AttestationsLogoArea";
+import AttestationsLogo from "@/components/attestations_masthead/AttestationsLogo";
 import SetLeftBar from "./SetLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 
-const Attestations: React.FC<AttestationsProps> = ({ children }) => {
+const Sets: React.FC<SetsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
@@ -70,7 +70,7 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
         </div>
         <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
           <div className={styles.drawerLogoArea}>
-            <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+            <AttestationsLogo handleClickShowLeftBar={handleClickShowLeftBar} />
           </div>
           <SetLeftBar />
         </LeftBarDrawer>
@@ -84,9 +84,9 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   );
 };
 
-export default Attestations;
+export default Sets;
 
-export interface AttestationsProps {
+export interface SetsProps {
   children: React.ReactNode;
   className?: string;
 }

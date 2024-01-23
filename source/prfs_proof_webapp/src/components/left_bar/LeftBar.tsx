@@ -3,6 +3,26 @@ import cn from "classnames";
 
 import styles from "./LeftBar.module.scss";
 
+export const LeftBarDrawerContainer: React.FC<LeftBarItemProps> = ({ children, className }) => {
+  return <div className={cn(styles.leftBarDrawerContainer, className)}>{children}</div>;
+};
+
+export const LeftBarContainer: React.FC<LeftBarItemProps> = ({
+  children,
+  className,
+  isVisible,
+}) => {
+  return (
+    <div
+      className={cn(styles.leftBarContainer, className, {
+        [styles.isVisible]: isVisible,
+      })}
+    >
+      {children}
+    </div>
+  );
+};
+
 export const LeftBarWrapper: React.FC<LeftBarItemProps> = ({ children, className }) => {
   return <div className={cn(styles.wrapper, className)}>{children}</div>;
 };
@@ -41,6 +61,7 @@ export const LeftBarMenu: React.FC<LeftBarItemProps> = ({ children, className })
 export interface LeftBarItemProps {
   children: React.ReactNode;
   className?: string;
+  isVisible?: boolean;
 }
 
 export interface LeftBarItemButtonProps {
