@@ -17,7 +17,7 @@
 
 .sectionRow {
   &:not(:last-child) {
-    padding-bottom: 14px;
+    padding-bottom: 18px;
   }
 }
 
@@ -25,6 +25,7 @@
   font-size: 15px;
   font-weight: 500;
   padding-bottom: 4px;
+  color: var(--black-27);
 }
 
 .box {
@@ -34,7 +35,7 @@
 }
 
 .boxInner {
-  color: var(--black-27);
+  color: var(--black-30);
   padding: 16px;
   border-radius: 16px;
   background-color: var(--bright-blue-55);

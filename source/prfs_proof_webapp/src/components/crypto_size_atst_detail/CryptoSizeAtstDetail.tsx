@@ -32,12 +32,9 @@ const CryptoSizeAtstDetail: React.FC<CryptoSizeAtstDetailProps> = ({ atst_id }) 
     },
   });
   const atst = data?.prfs_crypto_size_atst;
-  const cm = React.useMemo(() => {
-    return atst && `${atst.cm.substring(0, 12)}...`;
-  }, [atst?.cm]);
   const cryptoAssets = React.useMemo(() => {
-    return atst && `${JSON.stringify(atst.crypto_assets)}...`;
-  }, [atst?.cm]);
+    return atst && JSON.stringify(atst.crypto_assets);
+  }, [atst?.crypto_assets]);
   const etherScanUrl = React.useMemo(() => {
     return atst && `https://etherscan.io/address/${atst.wallet_addr.toLowerCase()}`;
   }, [atst?.wallet_addr]);
@@ -99,6 +96,12 @@ const CryptoSizeAtstDetail: React.FC<CryptoSizeAtstDetailProps> = ({ atst_id }) 
                   {i18n.attestation_type}
                 </AttestationDetailSectionRowLabel>
                 <div className={cn(styles.attestationType, styles.value)}>{atst.atst_type}</div>
+              </AttestationDetailSectionRow>
+              <AttestationDetailSectionRow>
+                <AttestationDetailSectionRowLabel>
+                  {i18n.commitment}
+                </AttestationDetailSectionRowLabel>
+                <div className={cn(styles.cm, styles.value)}>{atst.cm}</div>
               </AttestationDetailSectionRow>
               <AttestationDetailSectionRow>
                 <AttestationDetailSectionRowLabel>{i18n.status}</AttestationDetailSectionRowLabel>
