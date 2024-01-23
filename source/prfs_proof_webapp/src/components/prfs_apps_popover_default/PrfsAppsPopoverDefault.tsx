@@ -8,7 +8,7 @@ import {
 import { TbCertificate } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbCertificate";
 import { TbMathPi } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbMathPi";
 import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
-// import { BiCodeCurly } from "react-icons/bi";
+import { BiCodeCurly } from "@react-icons/all-files/bi/BiCodeCurly";
 
 import styles from "./PrfsAppsPopoverDefault.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -47,12 +47,12 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
             <span>{i18n.proof}</span>
           </a>
         </PrfsAppsPopoverLi>
-        {/* <PrfsAppsPopoverLi noPadding> */}
-        {/*   <a href={attestationsUrl} className={styles.item}> */}
-        {/*     <TbCertificate /> */}
-        {/*     <span>{i18n.attestations}</span> */}
-        {/*   </a> */}
-        {/* </PrfsAppsPopoverLi> */}
+        <PrfsAppsPopoverLi noPadding>
+          <a href={urls.sets} className={styles.item}>
+            <BiCodeCurly />
+            <span>{i18n.sets}</span>
+          </a>
+        </PrfsAppsPopoverLi>
       </PrfsAppsPopoverUl>
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi noPadding>
