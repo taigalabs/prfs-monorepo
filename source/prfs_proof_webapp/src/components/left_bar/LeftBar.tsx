@@ -3,6 +3,10 @@ import cn from "classnames";
 
 import styles from "./LeftBar.module.scss";
 
+export const LeftBarWrapper: React.FC<LeftBarItemProps> = ({ children, className }) => {
+  return <div className={cn(styles.wrapper, className)}>{children}</div>;
+};
+
 export const LeftBarTopMenu: React.FC<LeftBarItemProps> = ({ children, className }) => {
   return <div className={cn(styles.topMenu, className)}>{children}</div>;
 };

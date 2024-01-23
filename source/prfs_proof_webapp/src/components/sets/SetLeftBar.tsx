@@ -21,7 +21,7 @@ const TWITTER = "twitter";
 const CRYPTO_SIZE = "crypto_size";
 const LINKEDIN = "linkedin";
 
-const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
+const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);
   const pathname = usePathname();
   const name = React.useMemo(() => {
@@ -77,6 +77,6 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
   );
 };
 
-export default AttestationLeftBar;
+export default SetLeftBar;
 
 export interface AttestationLeftBarProps {}

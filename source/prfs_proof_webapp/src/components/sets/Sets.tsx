@@ -12,7 +12,7 @@ import { paths } from "@/paths";
 import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import AttestationsLogoArea from "@/components/attestations_masthead/AttestationsLogoArea";
-import AttestationLeftBar from "./AttestationLeftBar";
+import SetLeftBar from "./SetLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 
@@ -66,13 +66,13 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
       <MastheadPlaceholder tallHeight />
       <div className={styles.wrapper}>
         <div className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}>
-          <AttestationLeftBar />
+          <SetLeftBar />
         </div>
         <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
           <div className={styles.drawerLogoArea}>
             <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
           </div>
-          <AttestationLeftBar />
+          <SetLeftBar />
         </LeftBarDrawer>
         {children}
       </div>

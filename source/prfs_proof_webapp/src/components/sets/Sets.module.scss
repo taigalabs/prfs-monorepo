@@ -1,0 +1,76 @@
+@import "@/styles/layouts.module.scss";
+
+$leftbar_width: 284px;
+
+.wrapper {
+  display: flex;
+  flex-grow: 1;
+
+  /* border: 1px solid red; */
+}
+
+.loading {
+  padding: 22px;
+  font-size: 16px;
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.leftBarContainer {
+  display: none;
+  inline-size: 0px;
+  transition: inline-size 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+  /* border: 1px solid red; */
+
+  > div {
+    transition: all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transform: translate3d(-$leftbar_width, 0, 0);
+  }
+
+  &.isVisible {
+    inline-size: $leftbar_width;
+
+    > div {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
+
+.leftBarContainer {
+  display: none;
+}
+
+.leftBarDrawerContainer {
+  display: block;
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .leftBarContainer {
+    display: block;
+  }
+
+  .leftBarDrawerContainer {
+    display: none;
+  }
+
+  .drawerLogoArea {
+    padding: 10px 8px;
+  }
+
+  .main {
+    /* padding: 16px 16px 20px; */
+    padding: 16px 18px 0 0;
+  }
+
+  .mainInner {
+    border-radius: 24px;
+    padding: 16px 16px 20px;
+  }
+
+  .title {
+    /* padding-left: 34px; */
+  }
+}

@@ -10,6 +10,7 @@ import {
   AttestationsMain,
   AttestationsMainInner,
 } from "@/components/attestations/AttestationComponents";
+import CryptoHolderSet from "@/components/crypto_holder_set/CryptoHolderSet";
 
 const SetPage: React.FC<SetPageProps> = () => {
   return (
@@ -19,8 +20,7 @@ const SetPage: React.FC<SetPageProps> = () => {
           <Attestations>
             <AttestationsMain>
               <AttestationsMainInner>
-                123
-                {/* <TwitterAccAtstList /> */}
+                <CryptoHolderSet />
               </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>
