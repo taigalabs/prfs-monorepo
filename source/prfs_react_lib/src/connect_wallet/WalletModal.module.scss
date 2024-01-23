@@ -14,17 +14,6 @@
   li {
     width: 220px;
   }
-
-  /* button { */
-  /*   border: 1px solid var(--gray-70); */
-  /*   border-radius: 20px; */
-  /*   padding: 10px 15px; */
-  /*   cursor: pointer; */
-  /*   width: 100%; */
-  /*   &:hover { */
-  /*     background: var(--bright-gray-30); */
-  /*   } */
-  /* } */
 }
 
 .connectedInfo {
@@ -40,16 +29,18 @@
 
 .address {
   margin: 18px 0;
-  border: 1px solid var(--gray-50);
-  border-radius: 8px;
 
   button {
+    width: 100%;
+    border: 1px solid var(--gray-50);
+    border-radius: 8px;
     padding: 10px 12px;
     color: var(--gray-20);
     cursor: pointer;
 
     &:hover {
       color: var(--black-00);
+      background-color: var(--bright-gray-60);
     }
   }
 }

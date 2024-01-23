@@ -173,11 +173,20 @@
 
   &:hover {
     color: var(--aqua-blue-40);
-    background-color: var(--bright-gray-40);
+
+    .backdrop {
+      background-color: var(--bright-gray-40);
+    }
   }
 
   &:disabled {
     color: var(--aqua-blue-90);
+  }
+
+  &:active:not(:disabled) {
+    .backdrop {
+      background-color: var(--bright-blue-50);
+    }
   }
 }
 
