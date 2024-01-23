@@ -40,7 +40,11 @@
 
     &:hover {
       color: var(--black-00);
-      background-color: var(--bright-gray-60);
+      background-color: var(--bright-gray-55);
+    }
+
+    &:active {
+      background-color: var(--bright-gray-521);
     }
   }
 }

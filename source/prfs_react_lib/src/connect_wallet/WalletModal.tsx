@@ -43,7 +43,9 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
         <p>Other options will be available later</p>
       </div>
       <div className={styles.address}>
-        <button onClick={extendedHandleChangeAddress}>{addr}</button>
+        <button onClick={extendedHandleChangeAddress}>
+          {ensName ? `${ensName} (${address})` : addr}
+        </button>
       </div>
       <div className={styles.btnRow}>
         <Button variant="transparent_black_1" handleClick={handleClickDisconnect}>
