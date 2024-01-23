@@ -15,22 +15,24 @@
     width: 220px;
   }
 
-  button {
-    border: 1px solid var(--gray-70);
-    border-radius: 20px;
-    padding: 10px 15px;
-    cursor: pointer;
-    width: 100%;
-    &:hover {
-      background: var(--bright-gray-30);
-    }
-  }
+  /* button { */
+  /*   border: 1px solid var(--gray-70); */
+  /*   border-radius: 20px; */
+  /*   padding: 10px 15px; */
+  /*   cursor: pointer; */
+  /*   width: 100%; */
+  /*   &:hover { */
+  /*     background: var(--bright-gray-30); */
+  /*   } */
+  /* } */
 }
 
 .connectedInfo {
 }
 
 .connector {
+  line-height: 20px;
+
   b {
     font-weight: 500;
   }
@@ -38,10 +40,10 @@
 
 .address {
   margin: 18px 0;
+  border: 1px solid var(--gray-50);
+  border-radius: 8px;
 
   button {
-    border: 1px solid var(--gray-50);
-    border-radius: 20px;
     padding: 10px 12px;
     color: var(--gray-20);
     cursor: pointer;

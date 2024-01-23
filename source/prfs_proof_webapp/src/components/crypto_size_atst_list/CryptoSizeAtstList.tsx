@@ -12,7 +12,6 @@ const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
 
   return (
     <>
-      <AttestationsTopMenu>po12</AttestationsTopMenu>
       <AttestationsTitle className={styles.title}>
         {i18n.crypto_asset_size_attestations}
       </AttestationsTitle>

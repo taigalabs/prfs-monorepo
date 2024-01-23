@@ -124,8 +124,13 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           [name]: value,
         }));
       }
+
+      if (cryptoAssets) {
+        setCryptoAssets(null);
+        setFetchAssetMsg(null);
+      }
     },
-    [setFormData],
+    [setFormData, setCryptoAssets, cryptoAssets, setFetchAssetMsg],
   );
 
   const handleClickGenerate = React.useCallback(() => {
