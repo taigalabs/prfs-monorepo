@@ -8,14 +8,14 @@ import {
 import { TbCertificate } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbCertificate";
 import { TbMathPi } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbMathPi";
 import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
+// import { BiCodeCurly } from "react-icons/bi";
 
 import styles from "./PrfsAppsPopoverDefault.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useUrls } from "@/hooks/useUrls";
+import { urls } from "@/urls";
 
 const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disableMarkIsOpen }) => {
   const i18n = React.useContext(i18nContext);
-  const { tutorialUrl, attestationsUrl } = useUrls();
 
   return (
     <PrfsAppsPopover
@@ -29,14 +29,14 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
           </a>
         </PrfsAppsPopoverLi>
         <PrfsAppsPopoverLi noPadding>
-          <a href={tutorialUrl} className={styles.item}>
+          <a href={urls.tutorial} className={styles.item}>
             <span>{i18n.start_tutorial}</span>
           </a>
         </PrfsAppsPopoverLi>
       </PrfsAppsPopoverUl>
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi noPadding>
-          <a href={attestationsUrl} className={styles.item}>
+          <a href={urls.attestations} className={styles.item}>
             <TbCertificate />
             <span>{i18n.attestations}</span>
           </a>
@@ -47,6 +47,14 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
             <span>{i18n.proof}</span>
           </a>
         </PrfsAppsPopoverLi>
+        {/* <PrfsAppsPopoverLi noPadding> */}
+        {/*   <a href={attestationsUrl} className={styles.item}> */}
+        {/*     <TbCertificate /> */}
+        {/*     <span>{i18n.attestations}</span> */}
+        {/*   </a> */}
+        {/* </PrfsAppsPopoverLi> */}
+      </PrfsAppsPopoverUl>
+      <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi noPadding>
           <a href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT} className={styles.item}>
             <GrMonitor />

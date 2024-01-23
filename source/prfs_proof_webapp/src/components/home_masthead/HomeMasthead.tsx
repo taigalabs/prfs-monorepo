@@ -7,7 +7,7 @@ import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import styles from "./HomeMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
-import { useUrls } from "@/hooks/useUrls";
+import { urls } from "@/urls";
 import PrfsAppsPopoverDefault from "@/components/prfs_apps_popover_default/PrfsAppsPopoverDefault";
 import {
   MastheadRightGroup,
@@ -17,14 +17,13 @@ import {
 
 const HomeMasthead: React.FC<HomeMastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const { tutorialUrl } = useUrls();
   const { tutorialId } = useTutorial();
 
   return (
     <MastheadWrapper className={cn(styles.wrapper, { [styles.isTutorial]: !!tutorialId })}>
       <MastheadRightGroup>
         <MastheadRightGroupMenu className={cn(styles.menu, styles.underline, styles.tutorialBtn)}>
-          <a href={tutorialUrl}>
+          <a href={urls.tutorial}>
             <span>{i18n.tutorial}</span>
           </a>
         </MastheadRightGroupMenu>
