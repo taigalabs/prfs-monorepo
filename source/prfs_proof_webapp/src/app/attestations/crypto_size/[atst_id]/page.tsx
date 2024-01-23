@@ -1,13 +1,11 @@
 import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
-import DefaultLayout, {
-  DefaultBody,
-  DefaultFooter,
-} from "@/components/layouts/default_layout/DefaultLayout";
+import DefaultLayout, { DefaultFooter } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Attestations from "@/components/attestations/Attestations";
 import {
+  AttestationsDefaultBody,
   AttestationsMain,
   AttestationsMainInner,
 } from "@/components/attestations/AttestationComponents";
@@ -16,7 +14,7 @@ import CryptoSizeAtstDetail from "@/components/crypto_size_atst_detail/CryptoSiz
 const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({ params }) => {
   return (
     <DefaultLayout>
-      <DefaultBody noMinWidth>
+      <AttestationsDefaultBody>
         <Suspense>
           <Attestations>
             <AttestationsMain>
@@ -26,7 +24,7 @@ const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({
             </AttestationsMain>
           </Attestations>
         </Suspense>
-      </DefaultBody>
+      </AttestationsDefaultBody>
       <DefaultFooter>
         <GlobalFooter />
       </DefaultFooter>

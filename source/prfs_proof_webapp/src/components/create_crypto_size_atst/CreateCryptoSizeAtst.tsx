@@ -37,7 +37,7 @@ import { CreateCryptoSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/C
 import styles from "./CreateCryptoSizeAtst.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { AttestationsTitle } from "@/components/attestations/Attestations";
+import { AttestationsTitle } from "@/components/attestations/AttestationComponents";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import {
