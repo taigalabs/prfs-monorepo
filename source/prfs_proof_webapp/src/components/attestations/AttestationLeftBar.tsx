@@ -5,10 +5,16 @@ import { FaLinkedin } from "@react-icons/all-files/fa/FaLinkedin";
 import { FaBitcoin } from "@react-icons/all-files/fa/FaBitcoin";
 import { usePathname } from "next/navigation";
 
-import styles from "./LeftBar.module.scss";
+import styles from "./AttestationLeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import CreateAtstPopover from "./CreateAtstPopover";
+import {
+  LeftBarItem,
+  LeftBarItemButton,
+  LeftBarMenu,
+  LeftBarTopMenu,
+} from "@/components/left_bar/LeftBar";
 
 const TWITTER = "twitter";
 const CRYPTO_SIZE = "crypto_size";
@@ -28,44 +34,44 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <ul className={styles.topMenu}>
-        <li className={styles.item}>
+      <LeftBarTopMenu>
+        <LeftBarItem>
           <CreateAtstPopover />
-        </li>
-      </ul>
-      <ul className={styles.menu}>
-        <li className={cn(styles.item, { [styles.isHighlighted]: name === TWITTER })}>
+        </LeftBarItem>
+      </LeftBarTopMenu>
+      <LeftBarMenu>
+        <LeftBarItem>
           <Link href={paths.attestations__twitter}>
-            <button className={cn(styles.button, { [styles.isHighlighted]: name === TWITTER })}>
+            <LeftBarItemButton isHighlighted={name === TWITTER}>
               <img
                 src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"
                 alt="Twitter"
                 crossOrigin=""
               />
               <span>{i18n.x_twitter}</span>
-            </button>
+            </LeftBarItemButton>
           </Link>
-        </li>
-        <li className={cn(styles.item, { [styles.isHighlighted]: name === CRYPTO_SIZE })}>
+        </LeftBarItem>
+        <LeftBarItem>
           <Link href={paths.attestations__crypto_size}>
-            <button className={cn(styles.button, { [styles.isHighlighted]: name === CRYPTO_SIZE })}>
+            <LeftBarItemButton isHighlighted={name === CRYPTO_SIZE}>
               <FaBitcoin />
               <span>{i18n.crypto_asset_size}</span>
-            </button>
+            </LeftBarItemButton>
           </Link>
-        </li>
-        <li className={cn(styles.item)}>
+        </LeftBarItem>
+        <LeftBarItem>
           <Link href="">
-            <button
+            <LeftBarItemButton
               className={cn(styles.button, { [styles.isHighlighted]: name === LINKEDIN })}
               disabled
             >
               <FaLinkedin />
               <span>{i18n.linkedin} (Coming later)</span>
-            </button>
+            </LeftBarItemButton>
           </Link>
-        </li>
-      </ul>
+        </LeftBarItem>
+      </LeftBarMenu>
     </div>
   );
 };

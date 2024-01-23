@@ -33,46 +33,46 @@
 .item {
   padding-left: 12px;
   padding-right: 14px;
+}
 
-  .button {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 20px;
-    padding: 8px 16px;
-    width: 100%;
-    height: 44px;
+.itemButton {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 8px 16px;
+  width: 100%;
+  height: 44px;
 
-    /* border: 1px solid red; */
+  /* border: 1px solid red; */
 
-    img {
-      width: 18px;
-      height: 18px;
-      object-fit: contain;
-      margin-right: 14px;
-    }
+  img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    margin-right: 14px;
+  }
 
-    svg {
-      font-size: 18px;
-      margin-right: 14px;
-    }
+  svg {
+    font-size: 18px;
+    margin-right: 14px;
+  }
 
-    &.isHighlighted {
-      font-weight: 700;
-      background-color: var(--light-blue-50);
-    }
+  &.isHighlighted {
+    font-weight: 700;
+    background-color: var(--light-blue-50);
+  }
 
-    &:disabled {
-      color: var(--gray-40);
-      cursor: auto;
-    }
+  &:disabled {
+    color: var(--gray-40);
+    cursor: auto;
+  }
 
-    &:hover:not(:disabled):not(.isHighlighted):not(:active) {
-      background-color: var(--bright-blue-55);
-    }
+  &:hover:not(:disabled):not(.isHighlighted):not(:active) {
+    background-color: var(--bright-blue-55);
+  }
 
-    &:active {
-      background-color: var(--bright-blue-40);
-    }
+  &:active {
+    background-color: var(--bright-blue-40);
   }
 }
