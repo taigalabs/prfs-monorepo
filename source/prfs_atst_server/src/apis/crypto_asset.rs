@@ -1,6 +1,6 @@
 use hyper::body::Incoming;
-use hyper::{Request, Response};
-use hyper_utils::io::{empty, parse_req, ApiHandlerResult};
+use hyper::Request;
+use hyper_utils::io::{parse_req, ApiHandlerResult};
 use hyper_utils::resp::ApiResponse;
 use hyper_utils::ApiHandleError;
 use prfs_common_server_state::ServerState;
@@ -14,12 +14,13 @@ use prfs_entities::atst_api_entities::{
 use prfs_entities::entities::{PrfsAtstStatus, PrfsCryptoSizeAtst};
 use prfs_entities::sqlx::types::Json;
 use prfs_web_fetcher::destinations::coinbase::{self};
-use prfs_web_fetcher::destinations::infura::{self, InfuraFetcher};
+use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
+use std::str::FromStr;
 use std::sync::Arc;
 
 use crate::error_codes::API_ERROR_CODE;
-use crate::AtstServerError;
+use crate::mock::MASTER_ACCOUNT_ID;
 
 const LIMIT: i32 = 20;
 
@@ -69,7 +70,7 @@ pub async fn create_crypto_size_atst(
         is_valid: true,
         atst_id,
     });
-    let resp = ApiResponse::new_success(resp);
+    // let resp = ApiResponse::new_success(resp);
     return Ok(resp.into_hyper_response());
 }
 
@@ -116,26 +117,48 @@ pub async fn compute_crypto_size_total_values(
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
     let req: ComputeCryptoSizeTotalValuesRequest = parse_req(req).await;
+
+    if req.account_id != MASTER_ACCOUNT_ID {
+        return Err(ApiHandleError::from(
+            &API_ERROR_CODE.UNKNOWN_ERROR,
+            "".into(),
+        ));
+    }
     let pool = &state.db2.pool;
 
-    let eth_to_usd = coinbase::get_exchange_rates("ETH").await.unwrap();
-    println!("pp: {:?}", eth_to_usd);
+    let exchange_rates = coinbase::get_exchange_rates("ETH").await.unwrap();
 
     let atsts = prfs::get_prfs_crypto_size_atsts(&pool, 0, 50000)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))?;
 
-    for atst in atsts {
-        if let Some(c) = atst.crypto_assets.get(0) {
-            println!("aa: {}", c.amount);
-        }
-    }
+    let denom = Decimal::from_u128(1_000_000_000_000_000_000).unwrap();
+    let usd: &str = exchange_rates.data.rates.USD.as_ref();
+    let usd = Decimal::from_str(usd).unwrap();
 
     let mut tx = pool.begin().await.unwrap();
+    let mut count = 0;
+    for mut atst in atsts {
+        if let Some(c) = atst.crypto_assets.get(0) {
+            let v = c.amount * usd / denom;
+            atst.total_value_usd = v;
+            println!("aa: {}, v: {}", c.amount, v);
 
+            prfs::insert_prfs_crypto_size_atst(&mut tx, &atst)
+                .await
+                .map_err(|err| {
+                    ApiHandleError::from(&API_ERROR_CODE.CRYPTO_SIZE_UPSERT_FAIL, err)
+                })?;
+
+            count += 1;
+        }
+    }
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(eth_to_usd);
+    let resp = ComputeCryptoSizeTotalValuesResponse {
+        exchange_rates: exchange_rates.data,
+        updated_row_count: count,
+    };
     let resp = ApiResponse::new_success(resp);
     return Ok(resp.into_hyper_response());
 }

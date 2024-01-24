@@ -63,6 +63,7 @@ pub struct ComputeCryptoSizeTotalValuesRequest {
 #[allow(non_snake_case)]
 pub struct ComputeCryptoSizeTotalValuesResponse {
     pub exchange_rates: CoinbaseExchangeRates,
+    pub updated_row_count: u128,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
