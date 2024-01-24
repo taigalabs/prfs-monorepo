@@ -25,6 +25,21 @@ fn run_docker(_extra_args: Vec<&str>) {
             "compose",
             "-f",
             docker_compose_yml_path.to_str().unwrap(),
+            "down",
+            "prfs_api_server",
+            "prfs_embed_webapp",
+        ])
+        .status()
+        .expect(&format!("{} command failed to start", JS_ENGINE));
+
+    assert!(status.success());
+
+    let status = Command::new(deps::DOCKER)
+        .env("BUILDKIT_PROGRESS", "plain")
+        .args([
+            "compose",
+            "-f",
+            docker_compose_yml_path.to_str().unwrap(),
             "up",
             "--detach",
             "--build",
