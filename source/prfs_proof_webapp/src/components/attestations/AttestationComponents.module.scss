@@ -8,12 +8,19 @@
 }
 
 .header {
-  display: flex;
-  align-items: center;
   padding-left: 8px;
   padding-bottom: 20px;
 
   // border: 1px solid blue;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+
+  &:not(:first-child) {
+    padding-top: 10px;
+  }
 }
 
 .main {

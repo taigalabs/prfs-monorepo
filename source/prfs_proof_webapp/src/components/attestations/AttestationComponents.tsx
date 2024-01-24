@@ -18,6 +18,10 @@ export const AttestationsHeader: React.FC<AttestationsProps> = ({ children, clas
   return <div className={cn(styles.header, className)}>{children}</div>;
 };
 
+export const AttestationsHeaderRow: React.FC<AttestationsProps> = ({ children, className }) => {
+  return <div className={cn(styles.headerRow, className)}>{children}</div>;
+};
+
 export const AttestationsTopMenu: React.FC<AttestationsProps> = ({ children, className }) => {
   return <div className={cn(styles.topMenu, className)}>{children}</div>;
 };

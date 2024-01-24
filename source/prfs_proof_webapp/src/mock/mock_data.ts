@@ -1,0 +1,1 @@
+export const MASTER_ACCOUNT_ID = "0xda6870ea13b66dd273c084e0fba28a68de597986";
