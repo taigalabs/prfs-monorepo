@@ -4,6 +4,13 @@
   flex-grow: 1;
 }
 
+.noRecord {
+  height: 140px;
+  color: var(--gray-30);
+  display: grid;
+  place-items: center;
+}
+
 .mainInner {
   padding: 16px 0px 20px;
   flex-grow: 1;

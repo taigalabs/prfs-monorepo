@@ -15,6 +15,10 @@ export const AttestationTableBody: React.FC<AttestationsProps> = ({
   );
 };
 
+export const AttestationTableNoRecord: React.FC<AttestationsProps> = ({ children, className }) => {
+  return <div className={cn(styles.noRecord, className)}>{children}</div>;
+};
+
 export const AttestationTableBodyInner: React.FC<AttestationsProps> = ({
   children,
   style,

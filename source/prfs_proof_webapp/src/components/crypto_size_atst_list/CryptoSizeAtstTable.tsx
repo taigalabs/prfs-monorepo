@@ -19,6 +19,7 @@ import {
   AttestationTableRow,
   AttestationTableBodyInner,
   AttestationTableCell,
+  AttestationTableNoRecord,
 } from "@/components/attestations_table/AttestationsTable";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
@@ -151,6 +152,7 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
             </AttestationTableHeaderCell>
           </AttestationTableHeader>
           <AttestationTableBody innerRef={parentRef}>
+            <AttestationTableNoRecord>{i18n.no_record_to_present}</AttestationTableNoRecord>
             <AttestationTableBodyInner
               style={{
                 height: `${rowVirtualizer.getTotalSize()}px`,

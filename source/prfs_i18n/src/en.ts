@@ -75,6 +75,7 @@ export default {
   description: "Description",
   destination: "Destination",
   notarized: "Notarized",
+  no_record_to_present: "No record to present",
   expression: "Expression",
   image_url: "Image URL",
   image_caption: "Image caption",
