@@ -11,11 +11,11 @@ import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
-import AttestationsLogo from "@/components/attestations_masthead/AttestationsLogo";
 import AttestationLeftBar from "./AttestationLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 import { LeftBarContainer } from "@/components/left_bar/LeftBar";
+import AppLogo from "../app_logo/AppLogo";
 
 const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
@@ -71,7 +71,11 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
         </LeftBarContainer>
         <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
           <div className={styles.drawerLogoArea}>
-            <AttestationsLogo handleClickShowLeftBar={handleClickShowLeftBar} />
+            <AppLogo
+              handleClickShowLeftBar={handleClickShowLeftBar}
+              url={paths.attestations}
+              label={i18n.attestations}
+            />
           </div>
           <AttestationLeftBar />
         </LeftBarDrawer>

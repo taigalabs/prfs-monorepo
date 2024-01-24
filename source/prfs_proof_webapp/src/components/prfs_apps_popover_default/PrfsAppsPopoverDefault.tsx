@@ -36,15 +36,15 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
       </PrfsAppsPopoverUl>
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi noPadding>
-          <a href={urls.attestations} className={styles.item}>
-            <TbCertificate />
-            <span>{i18n.attestations}</span>
-          </a>
-        </PrfsAppsPopoverLi>
-        <PrfsAppsPopoverLi noPadding>
           <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT} className={styles.item}>
             <TbMathPi />
             <span>{i18n.proof}</span>
+          </a>
+        </PrfsAppsPopoverLi>
+        <PrfsAppsPopoverLi noPadding>
+          <a href={urls.attestations} className={styles.item}>
+            <TbCertificate />
+            <span>{i18n.attestations}</span>
           </a>
         </PrfsAppsPopoverLi>
         <PrfsAppsPopoverLi noPadding>

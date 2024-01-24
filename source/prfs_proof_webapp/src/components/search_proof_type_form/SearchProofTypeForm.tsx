@@ -15,7 +15,7 @@ import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./SearchProofTypeForm.module.scss";
 import { i18nContext } from "@/i18n/context";
-import LogoContainer from "@/components/logo_container/LogoContainer";
+import LogoContainer from "./LogoContainer";
 import { paths } from "@/paths";
 import TutorialDefault from "@/components/tutorial/TutorialDefault";
 import { useAppSelector } from "@/state/hooks";

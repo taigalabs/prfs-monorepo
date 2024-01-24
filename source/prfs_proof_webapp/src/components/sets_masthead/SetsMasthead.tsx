@@ -6,7 +6,7 @@ import Link from "next/link";
 import { BsBook } from "@react-icons/all-files/bs/BsBook";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 
-import styles from "./AttestationsMasthead.module.scss";
+import styles from "./SetsMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 import PrfsAppsPopoverDefault from "@/components/prfs_apps_popover_default/PrfsAppsPopoverDefault";
@@ -18,10 +18,9 @@ import {
 } from "@/components/masthead/Masthead";
 import VerifiedAccSearch from "@/components/verified_acc_search/VerifiedAccSearch";
 import { envs } from "@/envs";
-import AppLogo from "@/components/app_logo/AppLogo";
-import { paths } from "@/paths";
+import SetsLogo from "./SetsLogo";
 
-const AttestationsMasthead: React.FC<AttestationsMastheadProps> = ({
+const SetsMasthead: React.FC<AttestationsMastheadProps> = ({
   handleClickShowLeftBar,
   handleClickShowLeftBarDrawer,
 }) => {
@@ -30,18 +29,10 @@ const AttestationsMasthead: React.FC<AttestationsMastheadProps> = ({
   return (
     <MastheadWrapper smallPadding tallHeight>
       <div className={styles.leftBarBtn}>
-        <AppLogo
-          handleClickShowLeftBar={handleClickShowLeftBar}
-          url={paths.attestations}
-          label={i18n.attestations}
-        />
+        <SetsLogo handleClickShowLeftBar={handleClickShowLeftBar} />
       </div>
       <div className={styles.leftBarDrawerBtn}>
-        <AppLogo
-          handleClickShowLeftBar={handleClickShowLeftBarDrawer}
-          url={paths.attestations}
-          label={i18n.attestations}
-        />
+        <SetsLogo handleClickShowLeftBar={handleClickShowLeftBarDrawer} />
       </div>
       <MastheadMain>
         <div className={styles.searchArea}>
@@ -69,7 +60,7 @@ const AttestationsMasthead: React.FC<AttestationsMastheadProps> = ({
   );
 };
 
-export default AttestationsMasthead;
+export default SetsMasthead;
 
 export interface AttestationsMastheadProps {
   handleClickShowLeftBar: (bool?: boolean) => void;

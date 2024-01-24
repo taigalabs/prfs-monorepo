@@ -11,10 +11,10 @@ import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
-import AttestationsLogo from "@/components/attestations_masthead/AttestationsLogo";
 import SetLeftBar from "./SetLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
+import AppLogo from "@/components/app_logo/AppLogo";
 
 const Sets: React.FC<SetsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
@@ -70,7 +70,11 @@ const Sets: React.FC<SetsProps> = ({ children }) => {
         </div>
         <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
           <div className={styles.drawerLogoArea}>
-            <AttestationsLogo handleClickShowLeftBar={handleClickShowLeftBar} />
+            <AppLogo
+              handleClickShowLeftBar={handleClickShowLeftBar}
+              url={paths.sets}
+              label={i18n.sets}
+            />
           </div>
           <SetLeftBar />
         </LeftBarDrawer>
