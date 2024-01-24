@@ -7,6 +7,6 @@ export interface PrfsCryptoSizeAtst {
   wallet_addr: string;
   cm: string;
   crypto_assets: Record<string, any>[];
-  total_value_usd: bigint;
+  total_value_usd: string;
   status: PrfsAtstStatus;
 }
