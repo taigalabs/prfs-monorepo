@@ -116,6 +116,7 @@ pub async fn compute_crypto_size_total_values(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
+    let pool = &state.db2.pool;
     let req: ComputeCryptoSizeTotalValuesRequest = parse_req(req).await;
 
     if req.account_id != MASTER_ACCOUNT_ID {
@@ -124,7 +125,6 @@ pub async fn compute_crypto_size_total_values(
             "".into(),
         ));
     }
-    let pool = &state.db2.pool;
 
     let exchange_rates = coinbase::get_exchange_rates("ETH").await.unwrap();
 
@@ -142,8 +142,6 @@ pub async fn compute_crypto_size_total_values(
         if let Some(c) = atst.crypto_assets.get(0) {
             let v = c.amount * usd / denom;
             atst.total_value_usd = v;
-            println!("aa: {}, v: {}", c.amount, v);
-
             prfs::insert_prfs_crypto_size_atst(&mut tx, &atst)
                 .await
                 .map_err(|err| {
@@ -153,6 +151,10 @@ pub async fn compute_crypto_size_total_values(
             count += 1;
         }
     }
+    println!(
+        "Computed crypto size total values, releasing tx, count: {}",
+        count
+    );
     tx.commit().await.unwrap();
 
     let resp = ComputeCryptoSizeTotalValuesResponse {
