@@ -24,6 +24,7 @@ RETURNING atst_id"#;
         .bind(&crypto_size_atst.wallet_addr)
         .bind(&crypto_size_atst.cm)
         .bind(&crypto_size_atst.crypto_assets)
+        .bind(&crypto_size_atst.total_value_usd)
         .bind(&crypto_size_atst.status)
         .fetch_one(&mut **tx)
         .await?;

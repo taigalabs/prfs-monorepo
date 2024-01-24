@@ -56,6 +56,9 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
       <AttestationTableCell className={cn(styles.commitment, styles.w1024)}>
         {cm}
       </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.totalValue, styles.w1024)}>
+        {Number(atst.total_value_usd)}
+      </AttestationTableCell>
       <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480, styles.cell)}>
         <a target="_blank" onClick={handleClickCryptoAssets}>
           <span>{cryptoAssets}</span>
@@ -141,10 +144,13 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
             <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
               {i18n.commitment}
             </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.totalValue, styles.w1024)}>
+              {i18n.total_value_usd}
+            </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.cryptoAssets, styles.w1320)}>
               {i18n.crypto_assets}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1024)}>
+            <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
               {i18n.notarized}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
@@ -152,7 +158,9 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
             </AttestationTableHeaderCell>
           </AttestationTableHeader>
           <AttestationTableBody innerRef={parentRef}>
-            <AttestationTableNoRecord>{i18n.no_record_to_present}</AttestationTableNoRecord>
+            {rowVirtualizer.getVirtualItems().length === 0 && (
+              <AttestationTableNoRecord>{i18n.no_record_to_present}</AttestationTableNoRecord>
+            )}
             <AttestationTableBodyInner
               style={{
                 height: `${rowVirtualizer.getTotalSize()}px`,
