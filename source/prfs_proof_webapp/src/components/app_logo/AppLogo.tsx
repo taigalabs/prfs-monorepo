@@ -4,8 +4,6 @@ import { IoIosMenu } from "@react-icons/all-files/io/IoIosMenu";
 import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 
 import styles from "./AppLogo.module.scss";
-import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
 
 const AppLogo: React.FC<AttestationsLogoAreaProps> = ({
   handleClickShowLeftBar,
@@ -13,8 +11,6 @@ const AppLogo: React.FC<AttestationsLogoAreaProps> = ({
   url,
   className,
 }) => {
-  const i18n = React.useContext(i18nContext);
-
   const handleClickHamburger = React.useCallback(() => {
     handleClickShowLeftBar();
   }, [handleClickShowLeftBar]);
@@ -26,7 +22,7 @@ const AppLogo: React.FC<AttestationsLogoAreaProps> = ({
       </div>
       <a className={styles.logoArea} href={url}>
         <ImageLogo width={24} />
-        <span>{i18n.proof}</span>
+        <span>{label}</span>
       </a>
     </div>
   );

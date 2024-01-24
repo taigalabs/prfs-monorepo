@@ -18,7 +18,8 @@ import {
 } from "@/components/masthead/Masthead";
 import VerifiedAccSearch from "@/components/verified_acc_search/VerifiedAccSearch";
 import { envs } from "@/envs";
-import SetsLogo from "./SetsLogo";
+import AppLogo from "../app_logo/AppLogo";
+import { paths } from "@/paths";
 
 const SetsMasthead: React.FC<AttestationsMastheadProps> = ({
   handleClickShowLeftBar,
@@ -29,10 +30,18 @@ const SetsMasthead: React.FC<AttestationsMastheadProps> = ({
   return (
     <MastheadWrapper smallPadding tallHeight>
       <div className={styles.leftBarBtn}>
-        <SetsLogo handleClickShowLeftBar={handleClickShowLeftBar} />
+        <AppLogo
+          handleClickShowLeftBar={handleClickShowLeftBar}
+          url={paths.sets}
+          label={i18n.sets}
+        />
       </div>
       <div className={styles.leftBarDrawerBtn}>
-        <SetsLogo handleClickShowLeftBar={handleClickShowLeftBarDrawer} />
+        <AppLogo
+          handleClickShowLeftBar={handleClickShowLeftBarDrawer}
+          url={paths.sets}
+          label={i18n.sets}
+        />
       </div>
       <MastheadMain>
         <div className={styles.searchArea}>
