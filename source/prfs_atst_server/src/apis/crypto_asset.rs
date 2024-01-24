@@ -6,11 +6,10 @@ use hyper_utils::ApiHandleError;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api_entities::{
-    CoinbaseExchangeRatesResult, ComputeCryptoSizeTotalValuesRequest,
-    ComputeCryptoSizeTotalValuesResponse, CreateCryptoSizeAtstRequest,
-    CreateCryptoSizeAtstResponse, FetchCryptoAssetRequest, FetchCryptoAssetResponse,
-    GetCryptoSizeAtstRequest, GetCryptoSizeAtstResponse, GetCryptoSizeAtstsRequest,
-    GetCryptoSizeAtstsResponse,
+    ComputeCryptoSizeTotalValuesRequest, ComputeCryptoSizeTotalValuesResponse,
+    CreateCryptoSizeAtstRequest, CreateCryptoSizeAtstResponse, FetchCryptoAssetRequest,
+    FetchCryptoAssetResponse, GetCryptoSizeAtstRequest, GetCryptoSizeAtstResponse,
+    GetCryptoSizeAtstsRequest, GetCryptoSizeAtstsResponse,
 };
 use prfs_entities::entities::{PrfsAtstStatus, PrfsCryptoSizeAtst};
 use prfs_entities::sqlx::types::Json;

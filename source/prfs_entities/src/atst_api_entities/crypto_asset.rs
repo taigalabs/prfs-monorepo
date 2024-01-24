@@ -62,7 +62,7 @@ pub struct ComputeCryptoSizeTotalValuesRequest {
 #[ts(export)]
 #[allow(non_snake_case)]
 pub struct ComputeCryptoSizeTotalValuesResponse {
-    pub exchange_rates: CoinbaseExchangeRatesResult,
+    pub exchange_rates: CoinbaseExchangeRates,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -74,7 +74,7 @@ pub struct CryptoCurrencyRates {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CoinbaseExchangeRatesResult {
+pub struct CoinbaseExchangeRates {
     pub currency: String,
     pub rates: CryptoCurrencyRates,
 }

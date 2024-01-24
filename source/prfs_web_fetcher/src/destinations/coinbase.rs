@@ -8,13 +8,18 @@ use hyper::Request;
 use hyper::Uri;
 use hyper_tls::HttpsConnector;
 use hyper_util::{client::legacy::Client, rt::TokioExecutor};
-use prfs_entities::atst_api_entities::CoinbaseExchangeRatesResult;
+use prfs_entities::atst_api_entities::CoinbaseExchangeRates;
 use rust_decimal::Decimal;
 use serde::Deserialize;
 use serde::Serialize;
 use serde_json::json;
 
 use crate::WebFetcherError;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct CoinbaseExchangeRatesResult {
+    pub data: CoinbaseExchangeRates,
+}
 
 pub async fn get_exchange_rates<S: AsRef<str> + Serialize>(
     currency: S,
@@ -35,6 +40,7 @@ pub async fn get_exchange_rates<S: AsRef<str> + Serialize>(
         .body(Full::from(""))?;
     let res = client.request(req).await.unwrap();
     let data = res.collect().await.unwrap().aggregate();
+
     let resp: CoinbaseExchangeRatesResult = serde_json::from_reader(data.reader()).unwrap();
 
     Ok(resp)

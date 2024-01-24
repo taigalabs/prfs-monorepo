@@ -14,6 +14,8 @@ import { GetCryptoSizeAtstsRequest } from "@taigalabs/prfs-entities/bindings/Get
 import { GetCryptoSizeAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetCryptoSizeAtstsResponse";
 import { GetCryptoSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/GetCryptoSizeAtstRequest";
 import { GetCryptoSizeAtstResponse } from "@taigalabs/prfs-entities/bindings/GetCryptoSizeAtstResponse";
+import { ComputeCryptoSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoSizeTotalValuesRequest";
+import { ComputeCryptoSizeTotalValuesResponse } from "@taigalabs/prfs-entities/bindings/ComputeCryptoSizeTotalValuesResponse";
 
 import { api } from "../utils";
 import { PrfsApiResponse } from "../types";
@@ -46,6 +48,8 @@ type Req<T extends RequestName> = //
     ? GetCryptoSizeAtstsRequest
     : T extends "get_crypto_size_atst"
     ? GetCryptoSizeAtstRequest
+    : T extends "compute_crypto_size_total_values"
+    ? ComputeCryptoSizeTotalValuesRequest
     : never;
 
 type Resp<T extends RequestName> = //
@@ -65,6 +69,8 @@ type Resp<T extends RequestName> = //
     ? PrfsApiResponse<GetCryptoSizeAtstsResponse>
     : T extends "get_crypto_size_atst"
     ? PrfsApiResponse<GetCryptoSizeAtstResponse>
+    : T extends "compute_crypto_size_total_values"
+    ? PrfsApiResponse<ComputeCryptoSizeTotalValuesResponse>
     : any;
 
 let endpoint: string;
