@@ -15,7 +15,7 @@ import AttestationsLogo from "@/components/attestations_masthead/AttestationsLog
 import AttestationLeftBar from "./AttestationLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
-import { LeftBarContainer } from "../left_bar/LeftBar";
+import { LeftBarContainer } from "@/components/left_bar/LeftBar";
 
 const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);

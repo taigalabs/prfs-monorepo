@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, MouseEventHandler } from "react";
+import React, { MouseEventHandler } from "react";
 import cn from "classnames";
 
 import styles from "./Button.module.scss";
@@ -40,6 +40,7 @@ const Button: React.FC<ButtonProps> = ({
         [styles.transparent_black_1]: variant === "transparent_black_1",
         [styles.transparent_aqua_blue_1]: variant === "transparent_aqua_blue_1",
         [styles.transparent_aqua_blue_1_light]: variant === "transparent_aqua_blue_1_light",
+        [styles.circular_gray_1]: variant === "circular_gray_1",
         [styles.white_gray_1]: variant === "white_gray_1",
         [styles.white_black_1]: variant === "white_black_1",
         [styles.no_transition]: noTransition,
@@ -85,4 +86,5 @@ export type Variant =
   | "transparent_aqua_blue_1"
   | "transparent_aqua_blue_1_light"
   | "white_gray_1"
-  | "white_black_1";
+  | "white_black_1"
+  | "circular_gray_1";

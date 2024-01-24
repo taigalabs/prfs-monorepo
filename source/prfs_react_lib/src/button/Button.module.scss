@@ -28,6 +28,7 @@
 
 .content {
   z-index: 1;
+  display: grid;
 }
 
 .transparent_btn {
@@ -263,6 +264,23 @@
   &:hover {
     background-color: #cacac6;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(0, 0, 0, 0.15) 0px 2px 6px 2px;
+  }
+}
+
+.circular_gray_1 {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  overflow: hidden;
+  color: var(--gray-34);
+  font-size: 20px;
+  padding: 0;
+
+  &:hover {
+    background-color: var(--bright-gray-40);
   }
 }
 

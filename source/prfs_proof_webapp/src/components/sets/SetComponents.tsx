@@ -15,7 +15,7 @@ export const AttestationsDefaultBody: React.FC<AttestationsProps> = ({ children,
 };
 
 export const AttestationsTopMenu: React.FC<AttestationsProps> = ({ children, className }) => {
-  return <div className={cn(styles.topMenu, className)}>{children}</div>;
+  return <ul className={cn(styles.topMenu, className)}>{children}</ul>;
 };
 
 export const AttestationsTitle: React.FC<AttestationsProps> = ({ children, className }) => {
