@@ -7,6 +7,15 @@
 .topMenu {
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  padding-bottom: 20px;
+
+  border: 1px solid blue;
+}
+
 .main {
   flex-grow: 1;
 }
@@ -20,8 +29,6 @@
 
 .title {
   font-size: 24px;
-  padding-left: 8px;
-  padding-bottom: 20px;
   color: var(--gray-23);
 }
 

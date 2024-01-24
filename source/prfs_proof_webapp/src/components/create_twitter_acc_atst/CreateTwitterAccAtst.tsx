@@ -49,7 +49,10 @@ import {
   AttestationListItemDescTitle,
   AttestationFormBtnRow,
 } from "@/components/create_attestation/CreateAtstComponents";
-import { AttestationsTitle } from "../attestations/AttestationComponents";
+import {
+  AttestationsHeader,
+  AttestationsTitle,
+} from "@/components/attestations/AttestationComponents";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -304,9 +307,11 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
 
   return (
     <>
-      <AttestationsTitle className={styles.title}>
-        {i18n.create_twitter_acc_attestation}
-      </AttestationsTitle>
+      <AttestationsHeader>
+        <AttestationsTitle className={styles.title}>
+          {i18n.create_twitter_acc_attestation}
+        </AttestationsTitle>
+      </AttestationsHeader>
       <div>
         <form>
           <ol>

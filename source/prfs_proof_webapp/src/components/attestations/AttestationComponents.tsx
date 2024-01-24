@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 
 import styles from "./AttestationComponents.module.scss";
-import { DefaultBody } from "../layouts/default_layout/DefaultLayout";
+import { DefaultBody } from "@/components/layouts/default_layout/DefaultLayout";
 
 export const AttestationsDefaultBody: React.FC<AttestationsProps> = ({ children, className }) => {
   return (
@@ -12,6 +12,10 @@ export const AttestationsDefaultBody: React.FC<AttestationsProps> = ({ children,
       {children}
     </DefaultBody>
   );
+};
+
+export const AttestationsHeader: React.FC<AttestationsProps> = ({ children, className }) => {
+  return <div className={cn(styles.header, className)}>{children}</div>;
 };
 
 export const AttestationsTopMenu: React.FC<AttestationsProps> = ({ children, className }) => {

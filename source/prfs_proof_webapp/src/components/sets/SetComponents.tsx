@@ -3,7 +3,7 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./AttestationComponents.module.scss";
+import styles from "./SetComponents.module.scss";
 import { DefaultBody } from "../layouts/default_layout/DefaultLayout";
 
 export const AttestationsDefaultBody: React.FC<AttestationsProps> = ({ children, className }) => {
