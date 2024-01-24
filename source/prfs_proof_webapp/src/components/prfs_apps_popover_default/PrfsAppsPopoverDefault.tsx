@@ -54,14 +54,14 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
           </a>
         </PrfsAppsPopoverLi>
       </PrfsAppsPopoverUl>
-      <PrfsAppsPopoverUl>
-        <PrfsAppsPopoverLi noPadding>
-          <a href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT} className={styles.item}>
-            <GrMonitor />
-            <span>{i18n.console}</span>
-          </a>
-        </PrfsAppsPopoverLi>
-      </PrfsAppsPopoverUl>
+      {/* <PrfsAppsPopoverUl> */}
+      {/*   <PrfsAppsPopoverLi noPadding> */}
+      {/*     <a href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT} className={styles.item}> */}
+      {/*       <GrMonitor /> */}
+      {/*       <span>{i18n.console}</span> */}
+      {/*     </a> */}
+      {/*   </PrfsAppsPopoverLi> */}
+      {/* </PrfsAppsPopoverUl> */}
     </PrfsAppsPopover>
   );
 };
