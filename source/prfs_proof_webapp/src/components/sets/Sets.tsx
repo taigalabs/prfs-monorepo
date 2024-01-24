@@ -9,12 +9,12 @@ import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import styles from "./Sets.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import SetLeftBar from "./SetLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 import AppLogo from "@/components/app_logo/AppLogo";
+import SetsMasthead from "@/components/sets_masthead/SetsMasthead";
 
 const Sets: React.FC<SetsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
@@ -59,7 +59,7 @@ const Sets: React.FC<SetsProps> = ({ children }) => {
 
   return prfsProofCredential ? (
     <>
-      <AttestationsMasthead
+      <SetsMasthead
         handleClickShowLeftBar={handleClickShowLeftBar}
         handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
       />
