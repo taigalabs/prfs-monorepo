@@ -2,6 +2,8 @@
 
 import React from "react";
 import { FaCalculator } from "@react-icons/all-files/fa/FaCalculator";
+import { useMutation } from "@tanstack/react-query";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
 import styles from "./CryptoSizeAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -12,14 +14,22 @@ import {
   AttestationsTitle,
 } from "@/components/attestations/AttestationComponents";
 import { AttestationsTopMenu } from "@/components/sets/SetComponents";
-import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useSignedInUser } from "@/hooks/user";
 import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
+import { atstApi } from "@taigalabs/prfs-api-js";
 
 const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { prfsProofCredential } = useSignedInUser();
-  const handleClickCalculate = React.useCallback(() => {}, [prfsProofCredential]);
+  const { mutateAsync: computeCryptoSizeTotalValuesRequest } = useMutation({
+    mutationFn: (req: PrfsIdentitySignUpRequest) => {
+      return atstApi("compute_crypto_size_total_values", req);
+    },
+  });
+  const handleClickCalculate = React.useCallback(() => {
+    if (prfsProofCredential) {
+    }
+  }, [prfsProofCredential]);
 
   return (
     <>

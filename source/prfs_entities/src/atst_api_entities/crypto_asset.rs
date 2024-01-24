@@ -54,6 +54,33 @@ pub struct GetCryptoSizeAtstRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
+pub struct ComputeCryptoSizeTotalValuesRequest {
+    pub account_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+#[allow(non_snake_case)]
+pub struct ComputeCryptoSizeTotalValuesResponse {
+    pub exchange_rates: CoinbaseExchangeRatesResult,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+#[allow(non_snake_case)]
+pub struct CryptoCurrencyRates {
+    pub USD: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CoinbaseExchangeRatesResult {
+    pub currency: String,
+    pub rates: CryptoCurrencyRates,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
 pub struct GetCryptoSizeAtstResponse {
     pub prfs_crypto_size_atst: PrfsCryptoSizeAtst,
 }

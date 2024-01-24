@@ -6,12 +6,15 @@ use hyper_utils::ApiHandleError;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api_entities::{
-    CreateCryptoSizeAtstRequest, CreateCryptoSizeAtstResponse, FetchCryptoAssetRequest,
-    FetchCryptoAssetResponse, GetCryptoSizeAtstRequest, GetCryptoSizeAtstResponse,
-    GetCryptoSizeAtstsRequest, GetCryptoSizeAtstsResponse,
+    CoinbaseExchangeRatesResult, ComputeCryptoSizeTotalValuesRequest,
+    ComputeCryptoSizeTotalValuesResponse, CreateCryptoSizeAtstRequest,
+    CreateCryptoSizeAtstResponse, FetchCryptoAssetRequest, FetchCryptoAssetResponse,
+    GetCryptoSizeAtstRequest, GetCryptoSizeAtstResponse, GetCryptoSizeAtstsRequest,
+    GetCryptoSizeAtstsResponse,
 };
 use prfs_entities::entities::{PrfsAtstStatus, PrfsCryptoSizeAtst};
 use prfs_entities::sqlx::types::Json;
+use prfs_web_fetcher::destinations::coinbase::{self};
 use prfs_web_fetcher::destinations::infura::{self, InfuraFetcher};
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -106,5 +109,34 @@ pub async fn get_crypto_size_atst(
     let resp = ApiResponse::new_success(GetCryptoSizeAtstResponse {
         prfs_crypto_size_atst,
     });
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn compute_crypto_size_total_values(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> ApiHandlerResult {
+    let req: ComputeCryptoSizeTotalValuesRequest = parse_req(req).await;
+    let pool = &state.db2.pool;
+
+    let eth_to_usd = coinbase::get_exchange_rates("ETH").await.unwrap();
+    println!("pp: {:?}", eth_to_usd);
+
+    let atsts = prfs::get_prfs_crypto_size_atsts(&pool, 0, 50000)
+        .await
+        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))?;
+
+    for atst in atsts {
+        if let Some(c) = atst.crypto_assets.get(0) {
+            println!("aa: {}", c.amount);
+        }
+    }
+
+    let mut tx = pool.begin().await.unwrap();
+
+    tx.commit().await.unwrap();
+
+    let resp = ApiResponse::new_success(eth_to_usd);
+    let resp = ApiResponse::new_success(resp);
     return Ok(resp.into_hyper_response());
 }

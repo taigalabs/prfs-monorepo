@@ -51,6 +51,9 @@ pub async fn atst_server_routes(
         (&Method::POST, v0_path!("get_crypto_size_atst")) => {
             crypto_asset::get_crypto_size_atst(req, state).await
         }
+        (&Method::POST, v0_path!("compute_crypto_size_total_values")) => {
+            crypto_asset::compute_crypto_size_total_values(req, state).await
+        }
         _ => {
             println!("{} route not found!, {}", ATST_API, req.uri());
             Ok(Response::builder()

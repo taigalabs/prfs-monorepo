@@ -26,7 +26,8 @@ type RequestName =
   | "fetch_crypto_asset"
   | "create_crypto_size_atst"
   | "get_crypto_size_atsts"
-  | "get_crypto_size_atst";
+  | "get_crypto_size_atst"
+  | "compute_crypto_size_total_values";
 
 type Req<T extends RequestName> = //
   T extends "attest_twitter_acc"
