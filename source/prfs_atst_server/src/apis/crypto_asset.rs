@@ -13,6 +13,7 @@ use prfs_entities::atst_api_entities::{
 use prfs_entities::entities::{PrfsAtstStatus, PrfsCryptoSizeAtst};
 use prfs_entities::sqlx::types::Json;
 use prfs_web_fetcher::destinations::infura::{self, InfuraFetcher};
+use rust_decimal::Decimal;
 use std::sync::Arc;
 
 use crate::error_codes::API_ERROR_CODE;
@@ -54,6 +55,7 @@ pub async fn create_crypto_size_atst(
         cm: req.cm,
         crypto_assets: Json::from(req.crypto_assets),
         status: PrfsAtstStatus::Valid,
+        total_value_usd: Decimal::from(0),
     };
     let atst_id = prfs::insert_prfs_crypto_size_atst(&mut tx, &crypto_size_atst)
         .await

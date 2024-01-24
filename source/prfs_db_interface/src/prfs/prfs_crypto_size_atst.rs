@@ -8,13 +8,13 @@ pub async fn insert_prfs_crypto_size_atst(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_crypto_size_atsts
-(atst_id, atst_type, wallet_addr, cm, crypto_assets, status)
-VALUES ($1, $2, $3, $4, $5, $6) 
+(atst_id, atst_type, wallet_addr, cm, crypto_assets, total_value_usd, status)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
 ON CONFLICT (atst_id) DO UPDATE SET (
-atst_type, wallet_addr, cm, crypto_assets, updated_at, status
+atst_type, wallet_addr, cm, crypto_assets, updated_at, total_value_usd, status
 ) = (
 excluded.atst_type, excluded.wallet_addr, excluded.cm, excluded.crypto_assets,
-now(), excluded.status
+now(), excluded.total_value_usd, excluded.status
 )
 RETURNING atst_id"#;
 
@@ -58,6 +58,7 @@ OFFSET $2
             atst_type: row.get("atst_type"),
             cm: row.get("cm"),
             wallet_addr: row.get("wallet_addr"),
+            total_value_usd: row.get("total_value_usd"),
             crypto_assets: row.get("crypto_assets"),
             status: row.get("status"),
         })
@@ -83,6 +84,7 @@ WHERE atst_id=$1
         atst_type: row.get("atst_type"),
         cm: row.get("cm"),
         wallet_addr: row.get("wallet_addr"),
+        total_value_usd: row.get("total_value_usd"),
         crypto_assets: row.get("crypto_assets"),
         status: row.get("status"),
     };

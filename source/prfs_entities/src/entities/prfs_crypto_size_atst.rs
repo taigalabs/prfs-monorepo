@@ -15,5 +15,7 @@ pub struct PrfsCryptoSizeAtst {
     pub cm: String,
     #[ts(type = "Record<string, any>[]")]
     pub crypto_assets: sqlx::types::Json<Vec<CryptoAsset>>,
+    #[ts(type = "bigint")]
+    pub total_value_usd: Decimal,
     pub status: PrfsAtstStatus,
 }
