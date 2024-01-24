@@ -17,9 +17,7 @@ import {
   LeftBarWrapper,
 } from "@/components/left_bar/LeftBar";
 
-const TWITTER = "twitter";
-const CRYPTO_SIZE = "crypto_size";
-const LINKEDIN = "linkedin";
+const CRYPTO_HOLDERS = "crypto_holders";
 
 const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -43,7 +41,7 @@ const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
       <LeftBarMenu>
         <LeftBarItem>
           <Link href={paths.attestations__crypto_size}>
-            <LeftBarItemButton isHighlighted={name === CRYPTO_SIZE}>
+            <LeftBarItemButton isHighlighted={name === CRYPTO_HOLDERS}>
               <FaBitcoin />
               <span>{i18n.crypto_holders}</span>
             </LeftBarItemButton>
