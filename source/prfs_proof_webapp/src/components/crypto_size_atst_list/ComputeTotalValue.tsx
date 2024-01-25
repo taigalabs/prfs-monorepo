@@ -21,11 +21,27 @@ const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
       <div className={styles.modalHeader}>
         <p>{i18n.compute_total_asset_value_in_usd}</p>
       </div>
-      <div>
-        <p></p>
+      <div className={styles.modalDesc}>
+        <p>{i18n.this_might_take_minutes_or_longer}</p>
       </div>
       <div className={styles.modalBtnRow}>
-        <button></button>
+        <Button variant="transparent_black_1" noTransition handleClick={() => {}} type="button">
+          {i18n.close}
+        </Button>
+        <Button
+          variant="blue_2"
+          noTransition
+          className={styles.computeBtn}
+          handleClick={() => {}}
+          noShadow
+          type="button"
+          // disabled={!validation || createStatus === Status.InProgress}
+        >
+          <div className={styles.content}>
+            {/* <Spinner size={20} borderWidth={2} color={colors.white_100} /> */}
+            <span>{i18n.compute}</span>
+          </div>
+        </Button>
       </div>
     </div>
   );
