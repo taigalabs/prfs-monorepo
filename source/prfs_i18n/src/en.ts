@@ -52,6 +52,7 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
+  import_from: "Import from",
   channels: "Channels",
   copied: "Copied",
   what_is_the_tweet_url: "What is the URL of a tweet you made in the previous step?",
