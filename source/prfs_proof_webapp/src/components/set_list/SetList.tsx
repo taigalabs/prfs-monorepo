@@ -2,7 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 
@@ -15,13 +15,14 @@ import { paths } from "@/paths";
 // import SetsMasthead from "@/components/sets_masthead/SetsMasthead";
 
 const SetList: React.FC<SetListProps> = ({}) => {
-  const i18n = React.useContext(i18nContext);
-  // const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
-  // const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
-  // const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
-  // const router = useRouter();
-  //
-  return <div>123</div>;
+  // const i18n = React.useContext(i18nContext);
+  // // const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
+  // // const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
+  // // const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
+  // // const router = useRouter();
+  // //
+  // return <div></div>;
+  return redirect(paths.sets__crypto_holders);
 };
 
 export default SetList;

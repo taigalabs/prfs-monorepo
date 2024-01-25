@@ -54,14 +54,17 @@ export const LeftBarItemButton: React.FC<LeftBarItemButtonProps> = ({
   );
 };
 
-export const LeftBarMenu: React.FC<LeftBarItemProps> = ({ children, className }) => {
-  return <div className={cn(styles.menu, className)}>{children}</div>;
+export const LeftBarMenu: React.FC<LeftBarItemProps> = ({ children, className, category }) => {
+  return (
+    <div className={cn(styles.menu, className, { [styles.category]: category })}>{children}</div>
+  );
 };
 
 export interface LeftBarItemProps {
   children: React.ReactNode;
   className?: string;
   isVisible?: boolean;
+  category?: boolean;
 }
 
 export interface LeftBarItemButtonProps {

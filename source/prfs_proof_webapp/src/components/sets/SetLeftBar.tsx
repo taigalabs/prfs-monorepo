@@ -41,15 +41,6 @@ const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
       </LeftBarTopMenu>
       <LeftBarMenu>
         <LeftBarItem>
-          <Link href={paths.sets}>
-            <LeftBarItemButton isHighlighted={name === SETS}>
-              <span>{i18n.sets}</span>
-            </LeftBarItemButton>
-          </Link>
-        </LeftBarItem>
-      </LeftBarMenu>
-      <LeftBarMenu>
-        <LeftBarItem>
           <Link href={paths.attestations__crypto_size}>
             <LeftBarItemButton isHighlighted={name === CRYPTO_HOLDERS}>
               <FaBitcoin />
