@@ -17,6 +17,7 @@ import {
   LeftBarWrapper,
 } from "@/components/left_bar/LeftBar";
 
+const SETS = "";
 const CRYPTO_HOLDERS = "crypto_holders";
 
 const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
@@ -38,6 +39,15 @@ const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
           <CreateSetPopover />
         </LeftBarItem>
       </LeftBarTopMenu>
+      <LeftBarMenu>
+        <LeftBarItem>
+          <Link href={paths.sets}>
+            <LeftBarItemButton isHighlighted={name === SETS}>
+              <span>{i18n.sets}</span>
+            </LeftBarItemButton>
+          </Link>
+        </LeftBarItem>
+      </LeftBarMenu>
       <LeftBarMenu>
         <LeftBarItem>
           <Link href={paths.attestations__crypto_size}>
