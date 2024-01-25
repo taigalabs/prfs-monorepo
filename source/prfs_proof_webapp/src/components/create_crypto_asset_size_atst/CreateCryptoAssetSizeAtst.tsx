@@ -32,9 +32,9 @@ import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
 import { useSignMessage } from "@taigalabs/prfs-web3-js/wagmi";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
-import { CreateCryptoSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoSizeAtstRequest";
+import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoAssetSizeAtstRequest";
 
-import styles from "./CreateCryptoSizeAtst.module.scss";
+import styles from "./CreateCryptoAssetSizeAtst.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsTitle } from "@/components/attestations/AttestationComponents";
@@ -97,8 +97,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     },
   });
   const { mutateAsync: createCryptoSizeAtstRequest } = useMutation({
-    mutationFn: (req: CreateCryptoSizeAtstRequest) => {
-      return atstApi("create_crypto_size_atst", req);
+    mutationFn: (req: CreateCryptoAssetSizeAtstRequest) => {
+      return atstApi("create_crypto_asset_size_atst", req);
     },
   });
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();

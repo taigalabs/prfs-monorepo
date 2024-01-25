@@ -7,7 +7,7 @@ use crate::atst_api_entities::CryptoAsset;
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
-pub struct PrfsCryptoSizeAtst {
+pub struct PrfsCryptoAssetSizeAtst {
     pub atst_id: String,
     pub atst_type: String,
     pub wallet_addr: String,

@@ -3,11 +3,10 @@ use prfs_entities::entities::{PrfsSetType, PrfsTreeNode};
 use prfs_entities::prfs_api_entities::NodePos;
 use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use rust_decimal::Decimal;
-use uuid::Uuid;
 
 pub async fn get_prfs_tree_nodes_by_pos(
     pool: &Pool<Postgres>,
-    set_id: &Uuid,
+    set_id: &String,
     pos: &Vec<NodePos>,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
     let whre: Vec<String> = pos
@@ -52,7 +51,7 @@ pub async fn get_prfs_tree_nodes_by_pos(
 
 pub async fn get_prfs_tree_leaf_indices(
     pool: &Pool<Postgres>,
-    set_id: &Uuid,
+    set_id: &String,
     leaf_vals: &Vec<String>,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
     let mut leaf_clause = vec![];
@@ -97,7 +96,7 @@ pub async fn get_prfs_tree_leaf_indices(
 
 pub async fn get_prfs_tree_leaf_nodes_by_set_id(
     pool: &Pool<Postgres>,
-    set_id: &Uuid,
+    set_id: &String,
     page_idx: i32,
     page_size: i32,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
@@ -143,7 +142,7 @@ LIMIT $3
 
 pub async fn get_prfs_tree_leaf_nodes_all_by_set_id(
     pool: &Pool<Postgres>,
-    set_id: &Uuid,
+    set_id: &String,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
     let query = r#"
 SELECT * from prfs_tree_nodes nodes where set_id=$1 and pos_h=0 
@@ -182,7 +181,7 @@ ORDER BY pos_w ASC
 
 pub async fn get_prfs_tree_root(
     pool: &Pool<Postgres>,
-    set_id: &Uuid,
+    set_id: &String,
 ) -> Result<PrfsTreeNode, DbInterfaceError> {
     let query = format!("SELECT * from prfs_tree_nodes where set_id=$1 and pos_h=31 and pos_w=0",);
     // println!("query: {}", query);
@@ -223,7 +222,7 @@ pub async fn insert_prfs_tree_nodes(
             .push_bind(node.pos_h)
             .push_bind(node.val.clone())
             .push_bind(node.meta.clone())
-            .push_bind(node.set_id);
+            .push_bind(node.set_id.clone());
     });
 
     if update_on_conflict {
@@ -240,7 +239,7 @@ pub async fn insert_prfs_tree_nodes(
 
 pub async fn get_largest_pos_w_tree_leaf_node(
     pool: &Pool<Postgres>,
-    set_id: &Uuid,
+    set_id: &String,
 ) -> Result<Option<Decimal>, DbInterfaceError> {
     let query = r#"
 SELECT * FROM prfs_tree_nodes
@@ -318,7 +317,7 @@ returning pos_w
 
 pub async fn delete_prfs_non_leaf_nodes_by_set_id(
     tx: &mut Transaction<'_, Postgres>,
-    set_id: &Uuid,
+    set_id: &String,
 ) -> Result<u64, DbInterfaceError> {
     let query = r#"
 DELETE FROM prfs_tree_nodes
@@ -336,7 +335,7 @@ WHERE set_id=$1 AND pos_h!=0
 
 pub async fn delete_prfs_tree_nodes(
     tx: &mut Transaction<'_, Postgres>,
-    set_id: &Uuid,
+    set_id: &String,
 ) -> Result<u64, DbInterfaceError> {
     let query = r#"
 DELETE FROM prfs_tree_nodes

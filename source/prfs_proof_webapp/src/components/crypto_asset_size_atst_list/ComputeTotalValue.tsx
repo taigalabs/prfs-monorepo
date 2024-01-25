@@ -3,14 +3,12 @@ import { FaCalculator } from "@react-icons/all-files/fa/FaCalculator";
 import { useMutation } from "@tanstack/react-query";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { atstApi } from "@taigalabs/prfs-api-js";
-import { ComputeCryptoSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoSizeTotalValuesRequest";
+import { ComputeCryptoAssetSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetSizeTotalValuesRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./ComputeTotalValue.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { AttestationsTopMenu } from "@/components/sets/SetComponents";
 import { useSignedInUser } from "@/hooks/user";
-import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
 import { LocalPrfsProofCredential } from "@/storage/local_storage";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 import {
@@ -18,7 +16,7 @@ import {
   DefaultModalDesc,
   DefaultModalHeader,
   DefaultModalWrapper,
-} from "../dialog_default/DialogComponents";
+} from "@/components/dialog_default/DialogComponents";
 
 enum ComputeStatus {
   Standby,
@@ -85,8 +83,8 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ crede
   const { prfsProofCredential } = useSignedInUser();
   const [isOpen, setIsOpen] = React.useState(false);
   const { mutateAsync: computeCryptoSizeTotalValuesRequest, isPending } = useMutation({
-    mutationFn: (req: ComputeCryptoSizeTotalValuesRequest) => {
-      return atstApi("compute_crypto_size_total_values", req);
+    mutationFn: (req: ComputeCryptoAssetSizeTotalValuesRequest) => {
+      return atstApi("compute_crypto_asset_size_total_values", req);
     },
   });
   const [computeStatus, setComputeStatus] = React.useState(ComputeStatus.Standby);

@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
-import { PrfsCryptoSizeAtst } from "@taigalabs/prfs-entities/bindings/PrfsCryptoSizeAtst";
+import { PrfsCryptoAssetSizeAtst } from "@taigalabs/prfs-entities/bindings/PrfsCryptoAssetSizeAtst";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -75,14 +75,14 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   );
 };
 
-const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
+const CryptoAssetSizeAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_crypto_size_atsts"],
+      queryKey: ["get_crypto_asset_size_atsts"],
       queryFn: async ({ pageParam }) => {
-        return atstApi("get_crypto_size_atsts", { offset: pageParam as number });
+        return atstApi("get_crypto_asset_size_atsts", { offset: pageParam as number });
       },
       initialPageParam: 0,
       getNextPageParam: lastPage => {
@@ -198,12 +198,12 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
   );
 };
 
-export default TwitterAccAtstTable;
+export default CryptoAssetSizeAtstTable;
 
 export interface TwitterAccAtstTableProps {}
 
 export interface AtstRowProps {
-  atst: PrfsCryptoSizeAtst;
+  atst: PrfsCryptoAssetSizeAtst;
   style: React.CSSProperties;
   router: AppRouterInstance;
 }

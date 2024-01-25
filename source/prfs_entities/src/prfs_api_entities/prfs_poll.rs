@@ -5,7 +5,7 @@ use ts_rs::TS;
 use uuid::Uuid;
 
 use crate::{
-    entities::{PollQuestion, PrfsPoll, PrfsProofInstance, PrfsSet},
+    entities::{PollQuestion, PrfsPoll, PrfsProofInstance},
     syn_entities::PrfsProofInstanceSyn1,
 };
 
@@ -72,19 +72,14 @@ pub struct GetPrfsPollByPollIdResponse {
 pub struct SubmitPrfsPollResponseRequest {
     #[ts(type = "string")]
     pub poll_id: Uuid,
-
     pub serial_no: String,
-
     #[ts(type = "string[]")]
     pub value: sqlx::types::Json<Vec<String>>,
-
     #[ts(type = "string")]
     pub proof_instance_id: Uuid,
-
     pub account_id: Option<String>,
     pub proof_type_id: String,
     pub proof: Vec<u8>,
-
     #[ts(type = "Record<string, any>")]
     pub public_inputs: sqlx::types::Json<serde_json::Value>,
 }

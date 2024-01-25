@@ -8,14 +8,14 @@ import { GetTwitterAccAtstRequest } from "@taigalabs/prfs-entities/bindings/GetT
 import { GetTwitterAccAtstResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstResponse";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 import { FetchCryptoAssetResponse } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetResponse";
-import { CreateCryptoSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoSizeAtstRequest";
-import { CreateCryptoSizeAtstResponse } from "@taigalabs/prfs-entities/bindings/CreateCryptoSizeAtstResponse";
-import { GetCryptoSizeAtstsRequest } from "@taigalabs/prfs-entities/bindings/GetCryptoSizeAtstsRequest";
-import { GetCryptoSizeAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetCryptoSizeAtstsResponse";
-import { GetCryptoSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/GetCryptoSizeAtstRequest";
-import { GetCryptoSizeAtstResponse } from "@taigalabs/prfs-entities/bindings/GetCryptoSizeAtstResponse";
-import { ComputeCryptoSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoSizeTotalValuesRequest";
-import { ComputeCryptoSizeTotalValuesResponse } from "@taigalabs/prfs-entities/bindings/ComputeCryptoSizeTotalValuesResponse";
+import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoAssetSizeAtstRequest";
+import { CreateCryptoAssetSizeAtstResponse } from "@taigalabs/prfs-entities/bindings/CreateCryptoAssetSizeAtstResponse";
+import { GetCryptoAssetSizeAtstsRequest } from "@taigalabs/prfs-entities/bindings/GetCryptoAssetSizeAtstsRequest";
+import { GetCryptoAssetSizeAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetCryptoAssetSizeAtstsResponse";
+import { GetCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/GetCryptoAssetSizeAtstRequest";
+import { GetCryptoAssetSizeAtstResponse } from "@taigalabs/prfs-entities/bindings/GetCryptoAssetSizeAtstResponse";
+import { ComputeCryptoAssetSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetSizeTotalValuesRequest";
+import { ComputeCryptoAssetSizeTotalValuesResponse } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetSizeTotalValuesResponse";
 
 import { api } from "../utils";
 import { PrfsApiResponse } from "../types";
@@ -26,10 +26,10 @@ type RequestName =
   | "get_twitter_acc_atsts"
   | "get_twitter_acc_atst"
   | "fetch_crypto_asset"
-  | "create_crypto_size_atst"
-  | "get_crypto_size_atsts"
-  | "get_crypto_size_atst"
-  | "compute_crypto_size_total_values";
+  | "create_crypto_asset_size_atst"
+  | "get_crypto_asset_size_atsts"
+  | "get_crypto_asset_size_atst"
+  | "compute_crypto_asset_size_total_values";
 
 type Req<T extends RequestName> = //
   T extends "attest_twitter_acc"
@@ -42,14 +42,14 @@ type Req<T extends RequestName> = //
     ? GetTwitterAccAtstRequest
     : T extends "fetch_crypto_asset"
     ? FetchCryptoAssetRequest
-    : T extends "create_crypto_size_atst"
-    ? CreateCryptoSizeAtstRequest
-    : T extends "get_crypto_size_atsts"
-    ? GetCryptoSizeAtstsRequest
-    : T extends "get_crypto_size_atst"
-    ? GetCryptoSizeAtstRequest
-    : T extends "compute_crypto_size_total_values"
-    ? ComputeCryptoSizeTotalValuesRequest
+    : T extends "create_crypto_asset_size_atst"
+    ? CreateCryptoAssetSizeAtstRequest
+    : T extends "get_crypto_asset_size_atsts"
+    ? GetCryptoAssetSizeAtstsRequest
+    : T extends "get_crypto_asset_size_atst"
+    ? GetCryptoAssetSizeAtstRequest
+    : T extends "compute_crypto_asset_size_total_values"
+    ? ComputeCryptoAssetSizeTotalValuesRequest
     : never;
 
 type Resp<T extends RequestName> = //
@@ -63,14 +63,14 @@ type Resp<T extends RequestName> = //
     ? PrfsApiResponse<GetTwitterAccAtstResponse>
     : T extends "fetch_crypto_asset"
     ? PrfsApiResponse<FetchCryptoAssetResponse>
-    : T extends "create_crypto_size_atst"
-    ? PrfsApiResponse<CreateCryptoSizeAtstResponse>
-    : T extends "get_crypto_size_atsts"
-    ? PrfsApiResponse<GetCryptoSizeAtstsResponse>
-    : T extends "get_crypto_size_atst"
-    ? PrfsApiResponse<GetCryptoSizeAtstResponse>
-    : T extends "compute_crypto_size_total_values"
-    ? PrfsApiResponse<ComputeCryptoSizeTotalValuesResponse>
+    : T extends "create_crypto_asset_size_atst"
+    ? PrfsApiResponse<CreateCryptoAssetSizeAtstResponse>
+    : T extends "get_crypto_asset_size_atsts"
+    ? PrfsApiResponse<GetCryptoAssetSizeAtstsResponse>
+    : T extends "get_crypto_asset_size_atst"
+    ? PrfsApiResponse<GetCryptoAssetSizeAtstResponse>
+    : T extends "compute_crypto_asset_size_total_values"
+    ? PrfsApiResponse<ComputeCryptoAssetSizeTotalValuesResponse>
     : any;
 
 let endpoint: string;

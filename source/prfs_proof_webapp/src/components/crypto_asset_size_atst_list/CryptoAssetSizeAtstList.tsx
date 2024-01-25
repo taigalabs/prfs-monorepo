@@ -4,7 +4,7 @@ import React from "react";
 
 import styles from "./CryptoSizeAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
-import CryptoSizeAtstTable from "./CryptoSizeAtstTable";
+import CryptoSizeAtstTable from "./CryptoAssetSizeAtstTable";
 import {
   AttestationsHeader,
   AttestationsHeaderRow,

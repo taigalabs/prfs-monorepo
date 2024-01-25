@@ -2,7 +2,7 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::entities::PrfsCryptoSizeAtst;
+use crate::entities::PrfsCryptoAssetSizeAtst;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -35,33 +35,39 @@ pub struct CryptoAsset {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetCryptoSizeAtstsRequest {
+pub struct GetCryptoAssetSizeAtstsRequest {
     pub offset: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetCryptoSizeAtstsResponse {
-    pub rows: Vec<PrfsCryptoSizeAtst>,
+pub struct GetCryptoAssetSizeAtstsResponse {
+    pub rows: Vec<PrfsCryptoAssetSizeAtst>,
     pub next_offset: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetCryptoSizeAtstRequest {
+pub struct GetCryptoAssetSizeAtstRequest {
     pub atst_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct ComputeCryptoSizeTotalValuesRequest {
+pub struct GetCryptoAssetSizeAtstResponse {
+    pub prfs_crypto_asset_size_atst: PrfsCryptoAssetSizeAtst,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct ComputeCryptoAssetSizeTotalValuesRequest {
     pub account_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 #[allow(non_snake_case)]
-pub struct ComputeCryptoSizeTotalValuesResponse {
+pub struct ComputeCryptoAssetSizeTotalValuesResponse {
     pub exchange_rates: CoinbaseExchangeRates,
     pub updated_row_count: u128,
 }
@@ -82,13 +88,7 @@ pub struct CoinbaseExchangeRates {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetCryptoSizeAtstResponse {
-    pub prfs_crypto_size_atst: PrfsCryptoSizeAtst,
-}
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
-pub struct CreateCryptoSizeAtstRequest {
+pub struct CreateCryptoAssetSizeAtstRequest {
     pub atst_id: String,
     pub atst_type: String,
     pub wallet_addr: String,
@@ -98,7 +98,7 @@ pub struct CreateCryptoSizeAtstRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateCryptoSizeAtstResponse {
+pub struct CreateCryptoAssetSizeAtstResponse {
     pub is_valid: bool,
     pub atst_id: String,
 }

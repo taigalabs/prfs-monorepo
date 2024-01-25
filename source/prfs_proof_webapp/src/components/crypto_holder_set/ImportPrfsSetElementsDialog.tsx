@@ -24,7 +24,7 @@ import {
   DefaultModalDesc,
   DefaultModalHeader,
   DefaultModalWrapper,
-} from "../dialog_default/DialogComponents";
+} from "@/components/dialog_default/DialogComponents";
 
 const CRYPTO_HOLDERS = "CRYPTO_HOLDERS";
 
@@ -91,58 +91,13 @@ const Modal: React.FC<ModalProps> = ({
 
 const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const { mutateAsync: ImportPrfsSetElementsRequest, isPending } = useMutation({
+  const { mutateAsync: ImportPrfsSetElementsRequest } = useMutation({
     mutationFn: (req: ImportPrfsSetElementsRequest) => {
       return prfsApi2("import_prfs_set_elements", req);
     },
   });
-  const handleClickImportCryptoHolders = React.useCallback(async () => {
-    try {
-      const { payload } = await ImportPrfsSetElementsRequest({
-        destination_type: "prfs_attestation",
-        destination_id: "",
-        set_id: CRYPTO_HOLDERS,
-      });
-    } catch (err) {}
-  }, [ImportPrfsSetElementsRequest]);
-
-  // return (
-  //   <>
-  //     <AttestationsHeader>
-  //       <AttestationsHeaderRow>
-  //         <AttestationsTitle className={styles.title}>{i18n.crypto_holders}</AttestationsTitle>
-  //       </AttestationsHeaderRow>
-  //       <AttestationsHeaderRow>
-  //         <ul>
-  //           <li>
-  //             <Button
-  //               variant="transparent_blue_2"
-  //               noTransition
-  //               handleClick={handleClickImportCryptoHolders}
-  //               type="button"
-  //             >
-  //               <div className={styles.btnContent}>
-  //                 <FaFileImport />
-  //                 <span>{i18n.import_from} crypto_size_attestations</span>
-  //               </div>
-  //             </Button>
-  //           </li>
-  //         </ul>
-  //       </AttestationsHeaderRow>
-  //     </AttestationsHeader>
-  //     <div>
-  //       <CryptoHolderSetTable />
-  //     </div>
-  //   </>
-  // );
-
   const { prfsProofCredential } = useSignedInUser();
   const [isOpen, setIsOpen] = React.useState(false);
-  // const { mutateAsync: computeCryptoSizeTotalValuesRequest, isPending } = useMutation({
-  //   mutationFn: (req: ComputeCryptoSizeTotalValuesRequest) => {
-  //     return atstApi("compute_crypto_size_total_values", req);
-  //   },
-  // });
   const [computeStatus, setComputeStatus] = React.useState(ImportStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickImport = React.useCallback(async () => {
@@ -150,7 +105,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
       setComputeStatus(ImportStatus.InProgress);
       try {
         const { payload } = await ImportPrfsSetElementsRequest({
-          destination_type: "",
+          destination_type: "prfs_attestation",
           destination_id: "",
           set_id: "",
         });
@@ -172,12 +127,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
 
   const createBase = React.useCallback(() => {
     return (
-      <Button
-        variant="transparent_blue_2"
-        noTransition
-        // handleClick={handleClickImport}
-        type="button"
-      >
+      <Button variant="transparent_blue_2" noTransition type="button">
         <div className={styles.btnContent}>
           <FaFileImport />
           <span>{i18n.import_from} crypto_size_attestations</span>

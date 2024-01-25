@@ -9,7 +9,7 @@ import { i18nContext } from "@/i18n/context";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
-import styles from "./CryptoSizeAtstDetail.module.scss";
+import styles from "./CryptoAssetSizeAtstDetail.module.scss";
 import { paths } from "@/paths";
 import {
   AttestationDetailBox,
@@ -20,18 +20,18 @@ import {
   AttestationDetailTopMenuRow,
 } from "@/components/attestation_detail/AttestationDetail";
 
-const CryptoSizeAtstDetail: React.FC<CryptoSizeAtstDetailProps> = ({ atst_id }) => {
+const CryptoAssetSizeAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_id }) => {
   const i18n = React.useContext(i18nContext);
   const { isLoading, data, error } = useQuery({
-    queryKey: ["get_crpyto_size_atst"],
+    queryKey: ["get_asset_size_atst"],
     queryFn: async () => {
-      const { payload } = await atstApi("get_crypto_size_atst", {
+      const { payload } = await atstApi("get_crypto_asset_size_atst", {
         atst_id: atst_id,
       });
       return payload;
     },
   });
-  const atst = data?.prfs_crypto_size_atst;
+  const atst = data?.prfs_crypto_asset_size_atst;
   const cryptoAssets = React.useMemo(() => {
     return atst && JSON.stringify(atst.crypto_assets);
   }, [atst?.crypto_assets]);
@@ -125,8 +125,8 @@ const CryptoSizeAtstDetail: React.FC<CryptoSizeAtstDetailProps> = ({ atst_id }) 
   );
 };
 
-export default CryptoSizeAtstDetail;
+export default CryptoAssetSizeAtstDetail;
 
-export interface CryptoSizeAtstDetailProps {
+export interface CryptoAssetSizeAtstDetailProps {
   atst_id: string;
 }

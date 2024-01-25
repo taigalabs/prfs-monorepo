@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
-import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
+import { PrfsSetElement } from "@taigalabs/prfs-entities/bindings/PrfsSetElement";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -32,13 +32,13 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
   return (
     <AttestationTableRow style={style}>
       <AttestationTableCell className={cn(styles.name)}>
-        <span>{row.username}</span>
+        <span>{row.name}</span>
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.data, styles.w1024)}>
-        {atst.account_id}
+        {row.data.toString()}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.ref, styles.w1320)}>
-        {i18n.not_available}
+        {row.ref}
       </AttestationTableCell>
     </AttestationTableRow>
   );
@@ -47,21 +47,20 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
 const CryptoHolderSetTable: React.FC<CryptoHolderSetTableProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useInfiniteQuery({
-      queryKey: ["projects"],
-      queryFn: async ({ pageParam }) => {
-        return atstApi("get_twitter_acc_atsts", { offset: pageParam as number });
-      },
-      initialPageParam: 0,
-      getNextPageParam: lastPage => {
-        if (lastPage.payload) {
-          return lastPage.payload.next_offset;
-        } else {
-          return null;
-        }
-      },
-    });
+  const { status, data, error, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: ["projects"],
+    queryFn: async ({ pageParam }) => {
+      return atstApi("get_prfs_set_elements", { offset: pageParam as number });
+    },
+    initialPageParam: 0,
+    getNextPageParam: lastPage => {
+      if (lastPage.payload) {
+        return lastPage.payload.next_offset;
+      } else {
+        return null;
+      }
+    },
+  });
 
   const allRows = data
     ? data.pages.flatMap(d => {
@@ -132,9 +131,9 @@ const CryptoHolderSetTable: React.FC<CryptoHolderSetTableProps> = () => {
                 }
 
                 return (
-                  <AtstRow
+                  <Row
                     key={virtualRow.index}
-                    atst={row}
+                    row={row}
                     router={router}
                     style={{
                       position: "absolute",
@@ -160,7 +159,6 @@ export default CryptoHolderSetTable;
 export interface CryptoHolderSetTableProps {}
 
 export interface RowProps {
-  // atst: PrfsAccAtst;
   row: PrfsSetElement;
   style: React.CSSProperties;
   router: AppRouterInstance;

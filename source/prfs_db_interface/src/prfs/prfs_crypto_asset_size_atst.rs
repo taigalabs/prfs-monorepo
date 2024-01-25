@@ -1,13 +1,13 @@
 use crate::DbInterfaceError;
-use prfs_entities::entities::{PrfsAccAtst, PrfsCryptoSizeAtst, PrfsIdentity};
+use prfs_entities::entities::PrfsCryptoAssetSizeAtst;
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
-pub async fn insert_prfs_crypto_size_atst(
+pub async fn insert_prfs_crypto_asset_size_atst(
     tx: &mut Transaction<'_, Postgres>,
-    crypto_size_atst: &PrfsCryptoSizeAtst,
+    crypto_size_atst: &PrfsCryptoAssetSizeAtst,
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
-INSERT INTO prfs_crypto_size_atsts
+INSERT INTO prfs_crypto_asset_size_atsts
 (atst_id, atst_type, wallet_addr, cm, crypto_assets, total_value_usd, status)
 VALUES ($1, $2, $3, $4, $5, $6, $7)
 ON CONFLICT (atst_id) DO UPDATE SET (
@@ -34,14 +34,14 @@ RETURNING atst_id"#;
     return Ok(atst_id);
 }
 
-pub async fn get_prfs_crypto_size_atsts(
+pub async fn get_prfs_crypto_asset_size_atsts(
     pool: &Pool<Postgres>,
     offset: i32,
     limit: i32,
-) -> Result<Vec<PrfsCryptoSizeAtst>, DbInterfaceError> {
+) -> Result<Vec<PrfsCryptoAssetSizeAtst>, DbInterfaceError> {
     let query = r#"
 SELECT *
-FROM prfs_crypto_size_atsts
+FROM prfs_crypto_asset_size_atsts
 LIMIT $1
 OFFSET $2
 "#;
@@ -54,7 +54,7 @@ OFFSET $2
 
     let atsts = rows
         .iter()
-        .map(|row| PrfsCryptoSizeAtst {
+        .map(|row| PrfsCryptoAssetSizeAtst {
             atst_id: row.get("atst_id"),
             atst_type: row.get("atst_type"),
             cm: row.get("cm"),
@@ -68,10 +68,10 @@ OFFSET $2
     Ok(atsts)
 }
 
-pub async fn get_prfs_crypto_size_atst(
+pub async fn get_prfs_crypto_asset_size_atst(
     pool: &Pool<Postgres>,
     atst_id: &String,
-) -> Result<PrfsCryptoSizeAtst, DbInterfaceError> {
+) -> Result<PrfsCryptoAssetSizeAtst, DbInterfaceError> {
     let query = r#"
 SELECT *
 FROM prfs_crypto_size_atsts
@@ -80,7 +80,7 @@ WHERE atst_id=$1
 
     let row = sqlx::query(query).bind(&atst_id).fetch_one(pool).await?;
 
-    let atst = PrfsCryptoSizeAtst {
+    let atst = PrfsCryptoAssetSizeAtst {
         atst_id: row.get("atst_id"),
         atst_type: row.get("atst_type"),
         cm: row.get("cm"),

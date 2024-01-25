@@ -1,7 +1,6 @@
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
-use uuid::Uuid;
 
 use crate::{
     entities::{PrfsSet, PrfsSetType},
@@ -11,8 +10,7 @@ use crate::{
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsSetBySetIdRequest {
-    #[ts(type = "string")]
-    pub set_id: Uuid,
+    pub set_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -53,15 +51,13 @@ pub struct CreatePrfsSetRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreatePrfsSetResponse {
-    #[ts(type = "string")]
-    pub set_id: Uuid,
+    pub set_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreatePrfsDynamicSetElementRequest {
-    #[ts(type = "string")]
-    pub set_id: Uuid,
+    pub set_id: String,
     pub val: String,
     pub meta: String,
 }
@@ -76,15 +72,13 @@ pub struct CreatePrfsDynamicSetElementResponse {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct ComputePrfsSetMerkleRootRequest {
-    #[ts(type = "string")]
-    pub set_id: Uuid,
+    pub set_id: String,
     pub account_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct ComputePrfsSetMerkleRootResponse {
-    #[ts(type = "string")]
-    pub set_id: Uuid,
+    pub set_id: String,
     pub merkle_root: String,
 }

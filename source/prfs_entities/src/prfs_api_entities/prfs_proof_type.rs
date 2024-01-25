@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use ts_rs::TS;
 use uuid::Uuid;
 
-use crate::entities::{CircuitInput, PrfsProofType, PrfsSet};
+use crate::entities::{CircuitInput, PrfsProofType};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]

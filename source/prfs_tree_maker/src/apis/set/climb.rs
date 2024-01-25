@@ -14,7 +14,7 @@ pub async fn create_tree_nodes(
 ) -> Result<String, TreeMakerError> {
     let set_label = prfs_set.label.to_string();
     let depth = prfs_set.tree_depth as usize;
-    let set_id = prfs_set.set_id;
+    let set_id = &prfs_set.set_id;
 
     println!(
         "{} tree nodes set label: {}, set_id: {}, depth: {}",
@@ -68,8 +68,7 @@ pub async fn create_tree_nodes(
                 pos_h: (d + 1) as i32,
                 meta: None,
                 val,
-                set_id,
-                // set_id2: uuid::Uuid::default(),
+                set_id: set_id.to_string(),
             };
 
             parent_nodes.push(n);

@@ -2,5 +2,6 @@
 
 export interface PrfsSetElement {
   name: string;
-  circuit_inputs: string[];
+  data: string[];
+  ref: string | null;
 }

@@ -4,24 +4,19 @@ import styles from "./page.module.scss";
 import DefaultLayout, { DefaultFooter } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Attestations from "@/components/attestations/Attestations";
-import {
-  AttestationsDefaultBody,
-  AttestationsMain,
-  AttestationsMainInner,
-} from "@/components/attestations/AttestationComponents";
-import CryptoSizeAtstList from "@/components/crypto_size_atst_list/CryptoSizeAtstList";
+import CreateAttestation from "@/components/create_attestation/CreateAttestation";
+import CreateCryptoAssetSizeAttestation from "@/components/create_crypto_asset_size_atst/CreateCryptoAssetSizeAtst";
+import { AttestationsDefaultBody } from "@/components/attestations/AttestationComponents";
 
-const CryptoSizePage = () => {
+const CreateCryptoSizeAttestionPage = () => {
   return (
     <DefaultLayout>
       <AttestationsDefaultBody>
         <Suspense>
           <Attestations>
-            <AttestationsMain>
-              <AttestationsMainInner>
-                <CryptoSizeAtstList />
-              </AttestationsMainInner>
-            </AttestationsMain>
+            <CreateAttestation>
+              <CreateCryptoAssetSizeAttestation />
+            </CreateAttestation>
           </Attestations>
         </Suspense>
       </AttestationsDefaultBody>
@@ -32,4 +27,4 @@ const CryptoSizePage = () => {
   );
 };
 
-export default CryptoSizePage;
+export default CreateCryptoSizeAttestionPage;

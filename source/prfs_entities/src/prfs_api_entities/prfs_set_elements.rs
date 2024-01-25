@@ -3,10 +3,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 use uuid::Uuid;
 
-use crate::{
-    entities::{PrfsSet, PrfsSetType},
-    syn_entities::PrfsSetIns1,
-};
+use crate::{entities::PrfsSetElement, syn_entities::PrfsSetIns1};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -20,4 +17,29 @@ pub struct ImportPrfsSetElementsRequest {
 #[ts(export)]
 pub struct ImportPrfsSetElementsResponse {
     set_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsSetElementsRequest {
+    pub offset: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsSetElementsResponse {
+    pub rows: Vec<PrfsSetElement>,
+    pub next_offset: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsSetElementRequest {
+    pub atst_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsSetElementResponse {
+    pub prfs_set_element: PrfsSetElement,
 }

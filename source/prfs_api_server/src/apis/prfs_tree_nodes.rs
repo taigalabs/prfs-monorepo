@@ -11,7 +11,6 @@ use prfs_entities::prfs_api_entities::{
     UpdatePrfsTreeNodeResponse,
 };
 use std::{convert::Infallible, sync::Arc};
-use uuid::Uuid;
 
 pub async fn get_prfs_tree_nodes_by_pos(
     req: Request<Incoming>,
