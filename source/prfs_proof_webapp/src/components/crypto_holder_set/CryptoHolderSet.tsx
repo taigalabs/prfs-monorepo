@@ -15,6 +15,7 @@ import {
   AttestationsTitle,
 } from "@/components/attestations/AttestationComponents";
 import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { ComputeCryptoSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoSizeTotalValuesRequest";
 
 const CryptoHolderSet: React.FC<CryptoHolderSetProps> = () => {
   const i18n = React.useContext(i18nContext);

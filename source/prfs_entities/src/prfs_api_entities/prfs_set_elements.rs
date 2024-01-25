@@ -10,4 +10,14 @@ use crate::{
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct PrfsSetElement {}
+pub struct ImportPrfsSetElementsRequest {
+    destination_type: String,
+    destination_id: String,
+    set_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct ImportPrfsSetElementsResponse {
+    set_id: String,
+}

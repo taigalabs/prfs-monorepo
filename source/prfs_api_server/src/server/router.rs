@@ -14,7 +14,7 @@ use super::middleware::{handle_not_found, log};
 use crate::apis::status::handle_server_status;
 use crate::apis::{
     prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_polls,
-    prfs_proof_instances, prfs_proof_types, prfs_sets, prfs_tree_nodes,
+    prfs_proof_instances, prfs_proof_types, prfs_set_elements, prfs_sets, prfs_tree_nodes,
 };
 
 macro_rules! v0_path {
@@ -131,13 +131,9 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             (&Method::POST, v0_path!("create_prfs_poll")) => {
                 prfs_polls::create_prfs_poll(req, state).await
             }
-            // (&Method::POST, v0_path!("create_social_post")) => {
-            //     social_posts::create_social_post(req, state).await
-            // }
-            // (&Method::POST, v0_path!("get_social_posts")) => {
-            //     social_posts::get_social_posts(req, state).await
-            // }
-            //
+            (&Method::POST, v0_path!("import_prfs_set_elements")) => {
+                prfs_set_elements::import_prfs_set_elements(req, state).await
+            }
             _ => handle_not_found(req, state).await,
         }
     };
