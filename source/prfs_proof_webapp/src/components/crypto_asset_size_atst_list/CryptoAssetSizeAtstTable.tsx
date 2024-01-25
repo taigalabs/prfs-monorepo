@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { abbrevAddr } from "@taigalabs/prfs-web3-js";
 
-import styles from "./CryptoSizeAtstTable.module.scss";
+import styles from "./CryptoAssetSizeAtstTable.module.scss";
 import { paths } from "@/paths";
 import {
   AttestationTableBody,

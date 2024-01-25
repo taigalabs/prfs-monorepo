@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import styles from "./CryptoSizeAtstList.module.scss";
+import styles from "./CryptoAssetSizeAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import CryptoSizeAtstTable from "./CryptoAssetSizeAtstTable";
 import {

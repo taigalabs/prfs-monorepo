@@ -43,7 +43,7 @@ pub async fn fetch_crypto_asset(
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn create_crypto_size_atst(
+pub async fn create_crypto_asset_size_atst(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
@@ -74,7 +74,7 @@ pub async fn create_crypto_size_atst(
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_crypto_size_atsts(
+pub async fn get_crypto_asset_size_atsts(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
@@ -95,7 +95,7 @@ pub async fn get_crypto_size_atsts(
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_crypto_size_atst(
+pub async fn get_crypto_asset_size_atst(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
@@ -112,7 +112,7 @@ pub async fn get_crypto_size_atst(
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn compute_crypto_size_total_values(
+pub async fn compute_crypto_asset_size_total_values(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
