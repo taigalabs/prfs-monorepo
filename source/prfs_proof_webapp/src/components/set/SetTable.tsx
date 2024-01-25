@@ -44,7 +44,7 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
   );
 };
 
-const CryptoHolderSetTable: React.FC<CryptoHolderSetTableProps> = () => {
+const CryptoHolderSetTable: React.FC<CryptoHolderSetTableProps> = ({ setId }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const { status, data, error, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery({
@@ -156,7 +156,9 @@ const CryptoHolderSetTable: React.FC<CryptoHolderSetTableProps> = () => {
 
 export default CryptoHolderSetTable;
 
-export interface CryptoHolderSetTableProps {}
+export interface CryptoHolderSetTableProps {
+  setId: string;
+}
 
 export interface RowProps {
   row: PrfsSetElement;

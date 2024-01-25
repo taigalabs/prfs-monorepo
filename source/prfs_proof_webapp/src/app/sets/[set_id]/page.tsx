@@ -11,7 +11,7 @@ import {
 import Set from "@/components/set/Set";
 import Sets from "@/components/sets/Sets";
 
-const SetPage: React.FC<SetPageProps> = () => {
+const SetPage: React.FC<SetPageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <AttestationsDefaultBody>
@@ -19,7 +19,7 @@ const SetPage: React.FC<SetPageProps> = () => {
           <Sets>
             <AttestationsMain>
               <AttestationsMainInner>
-                <Set />
+                <Set set_id={params.set_id} />
               </AttestationsMainInner>
             </AttestationsMain>
           </Sets>

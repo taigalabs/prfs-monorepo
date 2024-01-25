@@ -13,7 +13,7 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import ImportSetElementsDialog from "./ImportSetElementsDialog";
 
-const Set: React.FC<SetProps> = () => {
+const Set: React.FC<SetProps> = ({ set_id }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -31,7 +31,7 @@ const Set: React.FC<SetProps> = () => {
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
-        <SetTable />
+        <SetTable setId={set_id} />
       </div>
     </>
   );
@@ -39,4 +39,6 @@ const Set: React.FC<SetProps> = () => {
 
 export default Set;
 
-export interface SetProps {}
+export interface SetProps {
+  set_id: string;
+}
