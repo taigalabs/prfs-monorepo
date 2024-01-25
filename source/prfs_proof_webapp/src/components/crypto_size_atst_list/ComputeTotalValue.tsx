@@ -7,26 +7,16 @@ import { ComputeCryptoSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bi
 
 import styles from "./ComputeTotalValue.module.scss";
 import { i18nContext } from "@/i18n/context";
-import CryptoSizeAtstTable from "./CryptoSizeAtstTable";
-import {
-  AttestationsHeader,
-  AttestationsHeaderRow,
-  AttestationsTitle,
-} from "@/components/attestations/AttestationComponents";
 import { AttestationsTopMenu } from "@/components/sets/SetComponents";
 import { useSignedInUser } from "@/hooks/user";
 import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
-import {
-  FloatingFocusManager,
-  FloatingOverlay,
-  FloatingPortal,
-  useClick,
-  useDismiss,
-  useFloating,
-  useInteractions,
-  useRole,
-} from "@floating-ui/react";
+import { useClick, useDismiss, useFloating, useInteractions, useRole } from "@floating-ui/react";
 import { LocalPrfsProofCredential } from "@/storage/local_storage";
+import DialogDefault from "@/components/dialog_default/DialogDefault";
+
+const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
+  return <div>123</div>;
+};
 
 const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential }) => {
   const i18n = React.useContext(i18nContext);
@@ -64,34 +54,21 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ crede
     }
   }, [prfsProofCredential, computeCryptoSizeTotalValuesRequest]);
 
+  const createBase = React.useCallback((isOpen: boolean) => {
+    return (
+      <Button variant="circular_gray_1" handleClick={handleClickCalculate}>
+        <FaCalculator />
+      </Button>
+    );
+  }, []);
+
+  const createModal = React.useCallback((setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
+    return <Modal setIsOpen={setIsOpen} />;
+  }, []);
+
   return (
     <>
-      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
-        <Button variant="circular_gray_1" handleClick={handleClickCalculate}>
-          <FaCalculator />
-        </Button>
-      </div>
-      <FloatingPortal>
-        {isOpen && (
-          <FloatingOverlay style={{ zIndex: 20 }}>
-            <FloatingFocusManager context={context}>
-              <div
-                className={styles.dialog}
-                ref={refs.setFloating}
-                aria-labelledby={headingId}
-                aria-describedby={descriptionId}
-                {...getFloatingProps()}
-              >
-                123
-                {/* <WalletModal */}
-                {/*   handleClickClose={handleClickClose} */}
-                {/*   handleChangeAddress={extendedHandleChangeAddress} */}
-                {/* /> */}
-              </div>
-            </FloatingFocusManager>
-          </FloatingOverlay>
-        )}
-      </FloatingPortal>
+      <DialogDefault createModal={createModal} createBase={createBase} />
     </>
   );
 };
@@ -100,4 +77,8 @@ export default ComputeTotalValueDialog;
 
 export interface ComputeTotalValueDialogProps {
   credential: LocalPrfsProofCredential;
+}
+
+export interface ModalProps {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
