@@ -30,6 +30,7 @@
 .rightCol {
   word-break: break-all;
   flex-grow: 1;
+  padding-right: 14px;
 }
 
 .desc {
@@ -108,6 +109,8 @@
 
 .formBtnRow {
   padding-top: 4px;
+  padding-left: 45px;
+  padding-right: 14px;
 }
 
 @media screen and (min-width: $big_display_min_width) {
@@ -130,5 +133,9 @@
 
   .rightCol {
     padding-right: 60px;
+  }
+
+  .formBtnRow {
+    padding-right: 18px;
   }
 }
