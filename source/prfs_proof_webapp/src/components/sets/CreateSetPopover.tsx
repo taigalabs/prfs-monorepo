@@ -1,12 +1,11 @@
 import React from "react";
-// import { useRouter } from "next/navigation";
 import { HiPlus } from "@react-icons/all-files/hi/HiPlus";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import cn from "classnames";
 import Link from "next/link";
 import Popover from "@taigalabs/prfs-react-lib/src/popover/Popover";
 
-import styles from "./CreateAtstPopover.module.scss";
+import styles from "./CreateSetPopover.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
@@ -19,12 +18,9 @@ const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
   return (
     <div className={styles.modal}>
       <ul className={styles.menu}>
-        <li onClick={handleClickItem}>
-          <Link href={paths.attestations__create__twitter}>{i18n.twitter}</Link>
-        </li>
-        <li onClick={handleClickItem}>
-          <Link href={paths.attestations__create__crypto_size}>{i18n.crypto_asset_size}</Link>
-        </li>
+        {/* <li onClick={handleClickItem}> */}
+        {/*   <Link href={paths.attestations__create__twitter}>{i18n.twitter}</Link> */}
+        {/* </li> */}
       </ul>
     </div>
   );
@@ -38,11 +34,12 @@ const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = () => {
       <Button
         variant="light_blue_1"
         handleClick={() => {}}
-        className={styles.addBtn}
+        className={styles.createBtn}
         contentClassName={styles.addBtnContent}
+        disabled
       >
         <HiPlus />
-        <span>{i18n.create_attestation}</span>
+        <span>{i18n.create_set}</span>
       </Button>
     );
   }, []);

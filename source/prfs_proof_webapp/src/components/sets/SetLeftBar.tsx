@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import styles from "./AttestationLeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import CreateAtstPopover from "./CreateAtstPopover";
+import CreateSetPopover from "./CreateSetPopover";
 import {
   LeftBarItem,
   LeftBarItemButton,
@@ -35,7 +35,7 @@ const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
     <LeftBarWrapper>
       <LeftBarTopMenu>
         <LeftBarItem>
-          <CreateAtstPopover />
+          <CreateSetPopover />
         </LeftBarItem>
       </LeftBarTopMenu>
       <LeftBarMenu>

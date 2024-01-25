@@ -14,10 +14,7 @@ const CryptoHolderSet: React.FC<CryptoHolderSetProps> = () => {
   return (
     <>
       <AttestationsHeader>
-        <AttestationsTitle className={styles.title}>
-          123
-          {/* {i18n.twitter_acc_attestations} */}
-        </AttestationsTitle>
+        <AttestationsTitle className={styles.title}>{i18n.crypto_holders}</AttestationsTitle>
       </AttestationsHeader>
       <div>
         <CryptoHolderSetTable />
