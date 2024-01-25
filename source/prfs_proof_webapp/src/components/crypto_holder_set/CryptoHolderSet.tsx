@@ -4,6 +4,7 @@ import React from "react";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaFileImport } from "@react-icons/all-files/fa/FaFileImport";
+import { useMutation } from "@tanstack/react-query";
 
 import styles from "./CryptoHolderSet.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -13,9 +14,16 @@ import {
   AttestationsHeaderRow,
   AttestationsTitle,
 } from "@/components/attestations/AttestationComponents";
+import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
 
 const CryptoHolderSet: React.FC<CryptoHolderSetProps> = () => {
   const i18n = React.useContext(i18nContext);
+  const { mutateAsync: computeCryptoSizeTotalValuesRequest, isPending } = useMutation({
+    mutationFn: (req: ComputeCryptoSizeTotalValuesRequest) => {
+      return prfsApi2("compute_crypto_size_total_values", req);
+    },
+  });
+  const handleClickImportCryptoHolders = React.useCallback(() => {}, []);
 
   return (
     <>
@@ -29,7 +37,7 @@ const CryptoHolderSet: React.FC<CryptoHolderSetProps> = () => {
               <Button
                 variant="transparent_blue_2"
                 noTransition
-                handleClick={() => {}}
+                handleClick={handleClickImportCryptoHolders}
                 type="button"
               >
                 <div className={styles.btnContent}>

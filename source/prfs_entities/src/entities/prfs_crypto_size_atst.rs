@@ -2,9 +2,8 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::atst_api_entities::CryptoAsset;
-
 use super::PrfsAtstStatus;
+use crate::atst_api_entities::CryptoAsset;
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]

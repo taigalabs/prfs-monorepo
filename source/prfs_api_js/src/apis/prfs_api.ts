@@ -96,7 +96,8 @@ type RequestName =
   | "submit_prfs_poll_response"
   | "get_prfs_poll_result_by_poll_id"
   | "create_social_post"
-  | "get_social_posts";
+  | "get_social_posts"
+  | "import_prfs_atsts_to_prfs_set";
 
 type Req<T extends RequestName> = //
   T extends "sign_up_prfs_account"
@@ -221,6 +222,8 @@ type Resp<T> = //
     : T extends "submit_prfs_poll_response"
     ? PrfsApiResponse<SubmitPrfsPollResponseResponse>
     : T extends "get_prfs_poll_result_by_poll_id"
+    ? PrfsApiResponse<GetPrfsPollResultByPollIdResponse>
+    : T extends "import_prfs_atsts_to_prfs_set"
     ? PrfsApiResponse<GetPrfsPollResultByPollIdResponse>
     : any;
 
