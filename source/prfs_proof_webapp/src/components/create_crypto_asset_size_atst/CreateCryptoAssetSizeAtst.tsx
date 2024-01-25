@@ -37,7 +37,11 @@ import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindi
 import styles from "./CreateCryptoAssetSizeAtst.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { AttestationsTitle } from "@/components/attestations/AttestationComponents";
+import {
+  AttestationsHeader,
+  AttestationsHeaderRow,
+  AttestationsTitle,
+} from "@/components/attestations/AttestationComponents";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import {
@@ -346,7 +350,11 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     <div>Navigating...</div>
   ) : (
     <>
-      <AttestationsTitle>{i18n.create_crypto_asset_size_attestation}</AttestationsTitle>
+      <AttestationsHeader>
+        <AttestationsHeaderRow>
+          <AttestationsTitle>{i18n.create_crypto_asset_size_attestation}</AttestationsTitle>
+        </AttestationsHeaderRow>
+      </AttestationsHeader>
       <div>
         <form>
           <ol>

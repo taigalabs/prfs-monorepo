@@ -51,6 +51,7 @@ import {
 } from "@/components/create_attestation/CreateAtstComponents";
 import {
   AttestationsHeader,
+  AttestationsHeaderRow,
   AttestationsTitle,
 } from "@/components/attestations/AttestationComponents";
 
@@ -308,9 +309,11 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   return (
     <>
       <AttestationsHeader>
-        <AttestationsTitle className={styles.title}>
-          {i18n.create_twitter_acc_attestation}
-        </AttestationsTitle>
+        <AttestationsHeaderRow>
+          <AttestationsTitle className={styles.title}>
+            {i18n.create_twitter_acc_attestation}
+          </AttestationsTitle>
+        </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
         <form>
