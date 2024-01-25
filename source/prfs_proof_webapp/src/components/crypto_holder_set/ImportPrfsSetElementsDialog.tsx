@@ -19,6 +19,12 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import { useSignedInUser } from "@/hooks/user";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
+import {
+  DefaultModalBtnRow,
+  DefaultModalDesc,
+  DefaultModalHeader,
+  DefaultModalWrapper,
+} from "../dialog_default/DialogComponents";
 
 const CRYPTO_HOLDERS = "CRYPTO_HOLDERS";
 
@@ -47,15 +53,15 @@ const Modal: React.FC<ModalProps> = ({
   }, [handleClickImport, computeStatus]);
 
   return (
-    <div className={styles.modal}>
-      <div className={styles.modalHeader}>
+    <DefaultModalWrapper>
+      <DefaultModalHeader>
         <p>{i18n.compute_total_asset_value_in_usd}</p>
-      </div>
-      <div className={styles.modalDesc}>
+      </DefaultModalHeader>
+      <DefaultModalDesc>
         <p>{i18n.this_might_take_minutes_or_longer}</p>
         <div className={styles.computeMsg}>{computeMsg}</div>
-      </div>
-      <div className={styles.modalBtnRow}>
+      </DefaultModalDesc>
+      <DefaultModalBtnRow>
         <Button
           variant="transparent_black_1"
           noTransition
@@ -78,8 +84,8 @@ const Modal: React.FC<ModalProps> = ({
             {computeStatus === ImportStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
-      </div>
-    </div>
+      </DefaultModalBtnRow>
+    </DefaultModalWrapper>
   );
 };
 

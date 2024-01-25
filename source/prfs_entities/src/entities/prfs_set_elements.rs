@@ -10,4 +10,9 @@ use crate::{
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct PrfsSetElement {}
+pub struct PrfsSetElement {
+    name: String,
+
+    #[ts(type = "string[]")]
+    pub circuit_inputs: sqlx::types::Json<Vec<String>>,
+}

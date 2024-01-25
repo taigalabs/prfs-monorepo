@@ -69,6 +69,7 @@ export default {
   confirm: "Confirm",
   view_in_console: "View in console",
   name: "Name",
+  data: "Data",
   name_and_description: "Name and description",
   author: "Author",
   proof_type_author: "Proof type author",

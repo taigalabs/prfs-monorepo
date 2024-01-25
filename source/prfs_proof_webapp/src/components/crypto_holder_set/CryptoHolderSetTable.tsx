@@ -20,37 +20,24 @@ import {
   AttestationTableCell,
 } from "@/components/attestations_table/AttestationsTable";
 
-const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
+const Row: React.FC<RowProps> = ({ row, style, router }) => {
   const i18n = React.useContext(i18nContext);
-  const cm = React.useMemo(() => {
-    return `${atst.cm.substring(0, 26)}...`;
-  }, [atst.cm]);
-  const handleClick = React.useCallback(() => {
-    router.push(`${paths.attestations__twitter}/${atst.acc_atst_id}`);
-  }, [atst.acc_atst_id, router]);
+  // const cm = React.useMemo(() => {
+  //   return `${atst.cm.substring(0, 26)}...`;
+  // }, [atst.cm]);
+  // const handleClick = React.useCallback(() => {
+  //   router.push(`${paths.attestations__twitter}/${atst.acc_atst_id}`);
+  // }, [atst.acc_atst_id, router]);
 
   return (
-    <AttestationTableRow style={style} handleClick={handleClick}>
-      <AttestationTableCell className={cn(styles.username)}>
-        <img src={atst.avatar_url} crossOrigin="" />
-        <span>{atst.username}</span>
+    <AttestationTableRow style={style}>
+      <AttestationTableCell className={cn(styles.name)}>
+        <span>{row.username}</span>
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.accountId, styles.w1024)}>
+      <AttestationTableCell className={cn(styles.data, styles.w1024)}>
         {atst.account_id}
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.commitment, styles.w1320)}>
-        {cm}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.document, styles.cell, styles.w480)}>
-        <a href={atst.document_url} target="_blank">
-          <span>{i18n.tweet}</span>
-          <BiLinkExternal />
-        </a>
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
-        {i18n.not_available}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.onChain, styles.w1320)}>
+      <AttestationTableCell className={cn(styles.ref, styles.w1320)}>
         {i18n.not_available}
       </AttestationTableCell>
     </AttestationTableRow>
@@ -120,23 +107,14 @@ const CryptoHolderSetTable: React.FC<CryptoHolderSetTableProps> = () => {
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <AttestationTableHeaderCell className={cn(styles.username)}>
-              {i18n.username}
+            <AttestationTableHeaderCell className={cn(styles.name)}>
+              {i18n.name}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.accountId, styles.w1024)}>
-              {i18n.account_id}
+            <AttestationTableHeaderCell className={cn(styles.data, styles.w1024)}>
+              {i18n.data}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1320)}>
-              {i18n.commitment}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.document, styles.w480)}>
-              {i18n.document}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
-              {i18n.notarized}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
-              {i18n.on_chain}
+            <AttestationTableHeaderCell className={cn(styles.ref, styles.w1320)}>
+              {i18n.ref}
             </AttestationTableHeaderCell>
           </AttestationTableHeader>
           <AttestationTableBody innerRef={parentRef}>
@@ -181,8 +159,9 @@ export default CryptoHolderSetTable;
 
 export interface CryptoHolderSetTableProps {}
 
-export interface AtstRowProps {
-  atst: PrfsAccAtst;
+export interface RowProps {
+  // atst: PrfsAccAtst;
+  row: PrfsSetElement;
   style: React.CSSProperties;
   router: AppRouterInstance;
 }
