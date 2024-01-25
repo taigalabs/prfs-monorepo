@@ -3,5 +3,5 @@
 export interface GetPrfsTreeLeafNodesBySetIdRequest {
   page_idx: number;
   page_size: number;
-  set_id: "<Uuid>" | string;
+  set_id: string;
 }
