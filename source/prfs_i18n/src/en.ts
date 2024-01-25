@@ -243,6 +243,7 @@ export default {
   create_proof_instance: "Create proof instance",
   compute_merkle_root: "Compute Merkle root",
   compute: "Compute",
+  reload: "Reload",
   compute_total_asset_value_in_usd: "Compute total asset value in USD",
   create: "Create",
   create_circuit: "Create circuit",

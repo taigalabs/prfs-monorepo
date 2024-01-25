@@ -14,8 +14,14 @@ import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 
 import styles from "./DialogDefault.module.scss";
 
-const DialogDefault: React.FC<DialogDefaultProps> = ({ zIndex, createModal, createBase }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+const DialogDefault: React.FC<DialogDefaultProps> = ({
+  zIndex,
+  children,
+  createBase,
+  isOpen,
+  setIsOpen,
+}) => {
+  // const [isOpen, setIsOpen] = React.useState(false);
   const { refs, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
@@ -27,13 +33,9 @@ const DialogDefault: React.FC<DialogDefaultProps> = ({ zIndex, createModal, crea
   const headingId = useId();
   const descriptionId = useId();
 
-  const modalElem = React.useMemo(() => {
-    return createModal(setIsOpen);
-  }, [createModal]);
-
   const baseElem = React.useMemo(() => {
-    return createBase(isOpen);
-  }, [createBase, isOpen]);
+    return createBase();
+  }, [createBase]);
 
   return (
     <>
@@ -52,7 +54,7 @@ const DialogDefault: React.FC<DialogDefaultProps> = ({ zIndex, createModal, crea
                   aria-describedby={descriptionId}
                   {...getFloatingProps()}
                 >
-                  {modalElem}
+                  {children}
                 </div>
               </FloatingFocusManager>
             </Fade>
@@ -67,6 +69,8 @@ export default DialogDefault;
 
 export interface DialogDefaultProps {
   zIndex?: number;
-  createBase: (isOpen: boolean) => React.ReactNode;
-  createModal: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => React.ReactNode;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  createBase: () => React.ReactNode;
+  children: React.ReactNode;
 }

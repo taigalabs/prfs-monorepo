@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { ComputeCryptoSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoSizeTotalValuesRequest";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./ComputeTotalValue.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -12,18 +13,30 @@ import { useSignedInUser } from "@/hooks/user";
 import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
 import { LocalPrfsProofCredential } from "@/storage/local_storage";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+
+enum ComputeStatus {
+  Standby,
+  InProgress,
+  Done,
+}
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
   handleClickCalculate,
-  isPending,
+  computeStatus,
   computeMsg,
 }) => {
   const i18n = React.useContext(i18nContext);
   const handleClickClose = React.useCallback(() => {
     setIsOpen(false);
   }, [setIsOpen]);
+  const handleClickOk = React.useCallback(() => {
+    if (computeStatus === ComputeStatus.Done) {
+      window.location.reload();
+    } else {
+      handleClickCalculate();
+    }
+  }, [handleClickCalculate, computeStatus]);
 
   return (
     <div className={styles.modal}>
@@ -32,7 +45,7 @@ const Modal: React.FC<ModalProps> = ({
       </div>
       <div className={styles.modalDesc}>
         <p>{i18n.this_might_take_minutes_or_longer}</p>
-        <p className={styles.computeMsg}>{computeMsg}</p>
+        <div className={styles.computeMsg}>{computeMsg}</div>
       </div>
       <div className={styles.modalBtnRow}>
         <Button
@@ -47,14 +60,14 @@ const Modal: React.FC<ModalProps> = ({
           variant="blue_2"
           noTransition
           className={styles.computeBtn}
-          handleClick={handleClickCalculate}
+          handleClick={handleClickOk}
           noShadow
           type="button"
-          disabled={isPending}
+          disabled={computeStatus === ComputeStatus.InProgress}
         >
           <div className={styles.btnContent}>
-            <span>{i18n.compute}</span>
-            {isPending && <Spinner size={14} borderWidth={2} />}
+            <span>{computeStatus === ComputeStatus.Done ? i18n.reload : i18n.compute}</span>
+            {computeStatus === ComputeStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
       </div>
@@ -64,46 +77,57 @@ const Modal: React.FC<ModalProps> = ({
 
 const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential }) => {
   const { prfsProofCredential } = useSignedInUser();
+  const [isOpen, setIsOpen] = React.useState(false);
   const { mutateAsync: computeCryptoSizeTotalValuesRequest, isPending } = useMutation({
     mutationFn: (req: ComputeCryptoSizeTotalValuesRequest) => {
       return atstApi("compute_crypto_size_total_values", req);
     },
   });
+  const [computeStatus, setComputeStatus] = React.useState(ComputeStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickCalculate = React.useCallback(async () => {
     if (prfsProofCredential) {
-      const { payload } = await computeCryptoSizeTotalValuesRequest({
-        account_id: prfsProofCredential.account_id,
-      });
+      setComputeStatus(ComputeStatus.InProgress);
+      try {
+        const { payload } = await computeCryptoSizeTotalValuesRequest({
+          account_id: prfsProofCredential.account_id,
+        });
 
-      if (payload) {
-        setComputeMsg(<span>Computed, row count: {payload.updated_row_count.toString()}</span>);
+        if (payload) {
+          setComputeStatus(ComputeStatus.Done);
+          setComputeMsg(
+            <>
+              <p>
+                <b>Computed, row count: {payload.updated_row_count.toString()}</b>
+              </p>
+              <p>Reload the page</p>
+            </>,
+          );
+        }
+      } catch (err) {
+        setComputeStatus(ComputeStatus.Standby);
       }
     }
-  }, [prfsProofCredential, computeCryptoSizeTotalValuesRequest, setComputeMsg]);
+  }, [prfsProofCredential, computeCryptoSizeTotalValuesRequest, setComputeMsg, setComputeStatus]);
 
-  const createBase = React.useCallback((_: boolean) => {
+  const createBase = React.useCallback(() => {
     return (
-      <Button variant="circular_gray_1" handleClick={handleClickCalculate}>
+      <Button variant="circular_gray_1">
         <FaCalculator />
       </Button>
     );
   }, []);
 
-  const createModal = React.useCallback((setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
-    return (
-      <Modal
-        setIsOpen={setIsOpen}
-        handleClickCalculate={handleClickCalculate}
-        isPending={isPending}
-        computeMsg={computeMsg}
-      />
-    );
-  }, []);
-
   return (
     <>
-      <DialogDefault createModal={createModal} createBase={createBase} />
+      <DialogDefault isOpen={isOpen} setIsOpen={setIsOpen} createBase={createBase}>
+        <Modal
+          setIsOpen={setIsOpen}
+          handleClickCalculate={handleClickCalculate}
+          computeStatus={computeStatus}
+          computeMsg={computeMsg}
+        />
+      </DialogDefault>
     </>
   );
 };
@@ -117,6 +141,6 @@ export interface ComputeTotalValueDialogProps {
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleClickCalculate: () => {};
-  isPending: boolean;
+  computeStatus: ComputeStatus;
   computeMsg: React.ReactNode;
 }
