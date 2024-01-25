@@ -14,7 +14,12 @@ import { LocalPrfsProofCredential } from "@/storage/local_storage";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
-const Modal: React.FC<ModalProps> = ({ setIsOpen, handleClickCalculate, isPending }) => {
+const Modal: React.FC<ModalProps> = ({
+  setIsOpen,
+  handleClickCalculate,
+  isPending,
+  computeMsg,
+}) => {
   const i18n = React.useContext(i18nContext);
   const handleClickClose = React.useCallback(() => {
     setIsOpen(false);
@@ -27,6 +32,7 @@ const Modal: React.FC<ModalProps> = ({ setIsOpen, handleClickCalculate, isPendin
       </div>
       <div className={styles.modalDesc}>
         <p>{i18n.this_might_take_minutes_or_longer}</p>
+        <p className={styles.computeMsg}>{computeMsg}</p>
       </div>
       <div className={styles.modalBtnRow}>
         <Button
@@ -63,20 +69,18 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ crede
       return atstApi("compute_crypto_size_total_values", req);
     },
   });
-
-  console.log(11, isPending);
+  const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickCalculate = React.useCallback(async () => {
     if (prfsProofCredential) {
       const { payload } = await computeCryptoSizeTotalValuesRequest({
         account_id: prfsProofCredential.account_id,
       });
 
-      console.log(123, payload);
-
       if (payload) {
+        setComputeMsg(<span>Computed, row count: {payload.updated_row_count.toString()}</span>);
       }
     }
-  }, [prfsProofCredential, computeCryptoSizeTotalValuesRequest]);
+  }, [prfsProofCredential, computeCryptoSizeTotalValuesRequest, setComputeMsg]);
 
   const createBase = React.useCallback((_: boolean) => {
     return (
@@ -92,6 +96,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ crede
         setIsOpen={setIsOpen}
         handleClickCalculate={handleClickCalculate}
         isPending={isPending}
+        computeMsg={computeMsg}
       />
     );
   }, []);
@@ -113,4 +118,5 @@ export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleClickCalculate: () => {};
   isPending: boolean;
+  computeMsg: React.ReactNode;
 }
