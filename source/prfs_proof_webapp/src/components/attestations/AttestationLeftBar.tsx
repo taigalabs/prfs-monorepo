@@ -54,7 +54,7 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
           </Link>
         </LeftBarItem>
         <LeftBarItem>
-          <Link href={paths.attestations__crypto_size}>
+          <Link href={paths.attestations__crypto_asset_size}>
             <LeftBarItemButton isHighlighted={name === CRYPTO_SIZE}>
               <FaBitcoin />
               <span>{i18n.crypto_asset_size}</span>

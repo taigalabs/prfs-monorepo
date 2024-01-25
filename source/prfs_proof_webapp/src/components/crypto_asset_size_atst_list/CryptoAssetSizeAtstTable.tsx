@@ -31,7 +31,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
     return `${atst.cm.substring(0, 12)}...`;
   }, [atst.cm]);
   const handleClick = React.useCallback(() => {
-    router.push(`${paths.attestations__crypto_size}/${atst.atst_id}`);
+    router.push(`${paths.attestations__crypto_asset_size}/${atst.atst_id}`);
   }, [atst.atst_id, router]);
   const cryptoAssets = React.useMemo(() => {
     if (typeof atst.crypto_assets === "object") {

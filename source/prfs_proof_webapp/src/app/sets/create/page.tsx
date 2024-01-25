@@ -7,17 +7,18 @@ import Attestations from "@/components/attestations/Attestations";
 import CreateAttestation from "@/components/create_attestation/CreateAttestation";
 import CreateCryptoAssetSizeAttestation from "@/components/create_crypto_asset_size_atst/CreateCryptoAssetSizeAtst";
 import { AttestationsDefaultBody } from "@/components/attestations/AttestationComponents";
+import Sets from "@/components/sets/Sets";
 
 const CreateSetPage = () => {
   return (
     <DefaultLayout>
       <AttestationsDefaultBody>
         <Suspense>
-          <Attestations>
+          <Sets>
             <CreateAttestation>
               <CreateCryptoAssetSizeAttestation />
             </CreateAttestation>
-          </Attestations>
+          </Sets>
         </Suspense>
       </AttestationsDefaultBody>
       <DefaultFooter>

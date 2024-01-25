@@ -326,7 +326,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
 
         if (payload) {
           setIsNavigating(true);
-          router.push(paths.attestations__crypto_size);
+          router.push(paths.attestations__crypto_asset_size);
         }
       }
     }
