@@ -10,7 +10,6 @@ import { i18nContext } from "@/i18n/context";
 import { AttestationsTopMenu } from "@/components/sets/SetComponents";
 import { useSignedInUser } from "@/hooks/user";
 import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
-import { useClick, useDismiss, useFloating, useInteractions, useRole } from "@floating-ui/react";
 import { LocalPrfsProofCredential } from "@/storage/local_storage";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 
@@ -20,21 +19,6 @@ const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
 
 const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential }) => {
   const i18n = React.useContext(i18nContext);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const { refs, context } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-  });
-  const click = useClick(context);
-  const role = useRole(context);
-  const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
-  const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
-  const headingId = useId();
-  const descriptionId = useId();
-  const handleClickClose = React.useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
-
   const { prfsProofCredential } = useSignedInUser();
   const { mutateAsync: computeCryptoSizeTotalValuesRequest } = useMutation({
     mutationFn: (req: ComputeCryptoSizeTotalValuesRequest) => {
