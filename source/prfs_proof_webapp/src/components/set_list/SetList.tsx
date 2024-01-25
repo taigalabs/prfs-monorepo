@@ -15,14 +15,13 @@ import { paths } from "@/paths";
 // import SetsMasthead from "@/components/sets_masthead/SetsMasthead";
 
 const SetList: React.FC<SetListProps> = ({}) => {
-  // const i18n = React.useContext(i18nContext);
-  // // const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
-  // // const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
-  // // const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
-  // // const router = useRouter();
-  // //
-  // return <div></div>;
-  return redirect(paths.sets__crypto_holders);
+  const i18n = React.useContext(i18nContext);
+  // const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
+  // const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
+  // const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
+  // const router = useRouter();
+  //
+  return <div></div>;
 };
 
 export default SetList;
