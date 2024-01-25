@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { atstApi } from "@taigalabs/prfs-api-js";
+import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { PrfsSetElement } from "@taigalabs/prfs-entities/bindings/PrfsSetElement";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
@@ -48,9 +48,9 @@ const CryptoHolderSetTable: React.FC<CryptoHolderSetTableProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const { status, data, error, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["projects"],
+    queryKey: ["get_prfs_set_elements"],
     queryFn: async ({ pageParam }) => {
-      return atstApi("get_prfs_set_elements", { offset: pageParam as number });
+      return prfsApi2("get_prfs_set_elements", { offset: pageParam as number });
     },
     initialPageParam: 0,
     getNextPageParam: lastPage => {
