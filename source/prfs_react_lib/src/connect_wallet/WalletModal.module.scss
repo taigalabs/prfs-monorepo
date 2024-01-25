@@ -29,23 +29,23 @@
 
 .address {
   margin: 18px 0;
+}
 
-  button {
-    width: 100%;
-    border: 1px solid var(--gray-50);
-    border-radius: 8px;
-    padding: 10px 12px;
-    color: var(--gray-20);
-    cursor: pointer;
+.button {
+  width: 100%;
+  border: 1px solid var(--gray-50);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--gray-20);
+  cursor: pointer;
 
-    &:hover {
-      color: var(--black-00);
-      background-color: var(--bright-gray-55);
-    }
+  &:hover {
+    color: var(--black-00);
+    background-color: var(--bright-gray-55);
+  }
 
-    &:active {
-      background-color: var(--bright-gray-521);
-    }
+  &:active {
+    background-color: var(--bright-gray-521);
   }
 }
 
