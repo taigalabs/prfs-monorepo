@@ -1,10 +1,7 @@
+use clap::ArgMatches;
 use std::process::Command;
 
-use clap::ArgMatches;
-use colored::Colorize;
-use serde::{Deserialize, Serialize};
-
-use crate::{build_handle::BuildHandle, deps, paths::PATHS};
+use crate::{deps, paths::PATHS};
 
 pub fn run(sub_matches: &ArgMatches) {
     let extra_args = match sub_matches.get_many::<String>("extra_args") {

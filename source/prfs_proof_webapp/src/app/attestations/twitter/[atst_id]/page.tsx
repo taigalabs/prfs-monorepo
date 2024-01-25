@@ -1,27 +1,30 @@
 import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
-import DefaultLayout, {
-  DefaultBody,
-  DefaultFooter,
-} from "@/components/layouts/default_layout/DefaultLayout";
+import DefaultLayout, { DefaultFooter } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import Attestations, { AttestationsMain } from "@/components/attestations/Attestations";
-import TwitterAccAtstList from "@/components/twitter_acc_atst_list/TwitterAccAtstList";
+import Attestations from "@/components/attestations/Attestations";
 import AccAtstDetail from "@/components/acc_atst_detail/AccAtstDetail";
+import {
+  AttestationsDefaultBody,
+  AttestationsMain,
+  AttestationsMainInner,
+} from "@/components/attestations/AttestationComponents";
 
 const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({ params }) => {
   return (
     <DefaultLayout>
-      <DefaultBody noMinWidth>
+      <AttestationsDefaultBody>
         <Suspense>
           <Attestations>
             <AttestationsMain>
-              <AccAtstDetail acc_atst_id={params.acc_atst_id} />
+              <AttestationsMainInner>
+                <AccAtstDetail atst_id={params.atst_id} />
+              </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>
         </Suspense>
-      </DefaultBody>
+      </AttestationsDefaultBody>
       <DefaultFooter>
         <GlobalFooter />
       </DefaultFooter>
@@ -33,6 +36,6 @@ export default TwitterAttestionDetailPage;
 
 interface TwitterAttestionDetailPageProps {
   params: {
-    acc_atst_id: string;
+    atst_id: string;
   };
 }

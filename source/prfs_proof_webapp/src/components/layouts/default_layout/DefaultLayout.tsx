@@ -7,10 +7,10 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return <div className={styles.wrapper}>{children}</div>;
 };
 
-export const DefaultBody: React.FC<DefaultBodyProps> = ({ children, noMinWidth }) => {
+export const DefaultBody: React.FC<DefaultBodyProps> = ({ children, noMinWidth, className }) => {
   return (
     <div
-      className={cn(styles.body, {
+      className={cn(styles.body, className, {
         [styles.noMinWidth]: noMinWidth,
       })}
     >
@@ -32,4 +32,5 @@ export interface DefaultLayoutProps {
 export interface DefaultBodyProps {
   children: React.ReactNode;
   noMinWidth?: boolean;
+  className?: string;
 }

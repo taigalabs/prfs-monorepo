@@ -1,6 +1,8 @@
 export const paths = {
   __: "/",
   create: "/create",
+  sets: "/sets",
+  sets__crypto_holders: "/sets/crypto_holders",
   attestations: "/attestations",
   attestations__create__twitter: "/attestations/create/twitter",
   attestations__create__crypto_size: "/attestations/create/crypto_size",

@@ -27,7 +27,6 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ handleChangeAddress, zInd
   const click = useClick(context);
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
-
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
   const headingId = useId();
   const descriptionId = useId();

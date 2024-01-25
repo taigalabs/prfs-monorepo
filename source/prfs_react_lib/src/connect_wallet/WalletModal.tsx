@@ -11,6 +11,7 @@ import cn from "classnames";
 import styles from "./WalletModal.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
+import { abbrevAddr } from "@taigalabs/prfs-web3-js";
 
 const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
   ensName,
@@ -21,10 +22,9 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
   handleChangeAddress,
 }) => {
   const i18n = React.useContext(i18nContext);
-
   const addr = React.useMemo(() => {
     if (address) {
-      return address.substring(0, 5) + "..." + address.substring(address.length - 3);
+      return abbrevAddr(address);
     } else {
       return "";
     }
@@ -37,10 +37,15 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
   return (
     <div className={styles.connectInfo}>
       <div className={styles.connector}>
-        Connected to <b>{connector.name}</b>
+        <p>
+          Connected to <b>{connector.name}</b>
+        </p>
+        <p>Other options will be available later</p>
       </div>
       <div className={styles.address}>
-        <button onClick={extendedHandleChangeAddress}>{addr}</button>
+        <button onClick={extendedHandleChangeAddress}>
+          {ensName ? `${ensName} (${address})` : addr}
+        </button>
       </div>
       <div className={styles.btnRow}>
         <Button variant="transparent_black_1" handleClick={handleClickDisconnect}>
@@ -55,12 +60,10 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
 };
 
 const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChangeAddress }) => {
-  // const { isConnected } = useAccount();
   const { address, connector, isConnected } = useAccount();
   const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error } = useConnect();
   const { disconnect } = useDisconnect();
-
   const handleClickDisconnect = React.useCallback(() => {
     disconnect();
   }, [disconnect]);
@@ -70,11 +73,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
       <ul className={styles.connectList}>
         {connectors.map((connector: Connector) => (
           <li key={connector.id}>
-            <button onClick={() => connect({ connector })}>
-              {connector.name}
-              {/* {!connector.ready && " (unsupported)"} */}
-              {/* {isLoading && connector.id === pendingConnector?.id && " (connecting)"} */}
-            </button>
+            <button onClick={() => connect({ connector })}>{connector.name}</button>
           </li>
         ))}
       </ul>

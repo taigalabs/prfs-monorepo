@@ -14,23 +14,14 @@
   li {
     width: 220px;
   }
-
-  button {
-    border: 1px solid var(--gray-70);
-    border-radius: 20px;
-    padding: 10px 15px;
-    cursor: pointer;
-    width: 100%;
-    &:hover {
-      background: var(--bright-gray-30);
-    }
-  }
 }
 
 .connectedInfo {
 }
 
 .connector {
+  line-height: 20px;
+
   b {
     font-weight: 500;
   }
@@ -40,14 +31,20 @@
   margin: 18px 0;
 
   button {
+    width: 100%;
     border: 1px solid var(--gray-50);
-    border-radius: 20px;
+    border-radius: 8px;
     padding: 10px 12px;
     color: var(--gray-20);
     cursor: pointer;
 
     &:hover {
       color: var(--black-00);
+      background-color: var(--bright-gray-55);
+    }
+
+    &:active {
+      background-color: var(--bright-gray-521);
     }
   }
 }

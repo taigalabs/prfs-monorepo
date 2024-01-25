@@ -1,0 +1,44 @@
+@import "@/styles/layouts.module.scss";
+
+.defaultBody {
+  background-color: var(--bright-gray-535);
+}
+
+.topMenu {
+  margin-left: auto;
+}
+
+.main {
+  flex-grow: 1;
+}
+
+.mainInner {
+  padding: 16px 0px 20px;
+  flex-grow: 1;
+  background-color: var(--white-100);
+  height: 100%;
+}
+
+.title {
+  font-size: 24px;
+  padding-left: 8px;
+  padding-bottom: 20px;
+  /* padding-left: 34px; */
+  color: var(--gray-23);
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .main {
+    /* padding: 16px 16px 20px; */
+    padding: 16px 18px 16px 0;
+  }
+
+  .mainInner {
+    border-radius: 24px;
+    padding: 16px 16px 20px;
+  }
+
+  .title {
+    /* padding-left: 34px; */
+  }
+}

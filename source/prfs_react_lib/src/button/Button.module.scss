@@ -28,9 +28,43 @@
 
 .content {
   z-index: 1;
+  display: grid;
 }
 
 .transparent_btn {
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+
+  .backdrop {
+    border-radius: 4px;
+  }
+
+  &:hover {
+    .backdrop {
+      top: 0px;
+      bottom: 0px;
+      left: -10px;
+      right: -10px;
+
+      /* border: 1px solid red; */
+    }
+  }
+
+  &:disabled {
+    color: var(--gray-60);
+    cursor: not-allowed;
+  }
+
+  &:active:not(:disabled) {
+    .backdrop {
+      top: 0px;
+      bottom: 0px;
+      left: -10px;
+      right: -10px;
+    }
+  }
+
   &:active {
     box-shadow: none;
   }
@@ -86,8 +120,8 @@
   }
 
   &:disabled {
-    background-color: var(--light-blue-40);
-    color: var(--bright-gray-30);
+    background-color: var(--light-blue-53);
+    color: var(--gray-40);
   }
 
   &:active {
@@ -119,16 +153,19 @@
   color: var(--black-00);
 
   &:hover {
-    background-color: var(--bright-gray-40);
+    .backdrop {
+      background-color: var(--bright-gray-40);
+    }
   }
 
   &:disabled {
-    cursor: not-allowed;
     color: var(--gray-50);
   }
 
-  &:disabled:hover {
-    background-color: transparent;
+  &:active:not(:disabled) {
+    .backdrop {
+      background-color: var(--bright-gray-30);
+    }
   }
 }
 
@@ -137,18 +174,25 @@
 
   &:hover {
     color: var(--aqua-blue-40);
-    background-color: var(--bright-gray-40);
+
+    .backdrop {
+      background-color: var(--bright-gray-40);
+    }
   }
 
   &:disabled {
     color: var(--aqua-blue-90);
   }
+
+  &:active:not(:disabled) {
+    .backdrop {
+      background-color: var(--bright-blue-50);
+    }
+  }
 }
 
 .transparent_blue_1 {
   color: var(--blue-30);
-  display: flex;
-  align-items: center;
 
   &:hover {
     color: var(--blue-20);
@@ -167,25 +211,12 @@
 
 .transparent_blue_2 {
   color: var(--blue-120);
-  display: flex;
-  align-items: center;
-  padding: 10px 0;
-
-  .backdrop {
-    border-radius: 4px;
-  }
 
   &:hover {
     color: var(--blue-101);
 
     .backdrop {
       background-color: var(--bright-blue-60);
-      top: 0px;
-      bottom: 0px;
-      left: -10px;
-      right: -10px;
-
-      /* border: 1px solid red; */
     }
   }
 
@@ -198,12 +229,6 @@
 
     .backdrop {
       background-color: var(--bright-blue-50);
-      top: 0px;
-      bottom: 0px;
-      left: -10px;
-      right: -10px;
-
-      /* border: 1px solid red; */
     }
   }
 }
@@ -239,6 +264,23 @@
   &:hover {
     background-color: #cacac6;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(0, 0, 0, 0.15) 0px 2px 6px 2px;
+  }
+}
+
+.circular_gray_1 {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  overflow: hidden;
+  color: var(--gray-34);
+  font-size: 20px;
+  padding: 0;
+
+  &:hover {
+    background-color: var(--bright-gray-40);
   }
 }
 

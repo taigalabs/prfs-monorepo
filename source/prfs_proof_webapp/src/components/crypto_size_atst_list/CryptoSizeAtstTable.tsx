@@ -4,40 +4,74 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
-import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
+import { PrfsCryptoSizeAtst } from "@taigalabs/prfs-entities/bindings/PrfsCryptoSizeAtst";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { abbrevAddr } from "@taigalabs/prfs-web3-js";
 
 import styles from "./CryptoSizeAtstTable.module.scss";
 import { paths } from "@/paths";
+import {
+  AttestationTableBody,
+  AttestationTableHeader,
+  AttestationTableHeaderCell,
+  AttestationTableRow,
+  AttestationTableBodyInner,
+  AttestationTableCell,
+  AttestationTableNoRecord,
+} from "@/components/attestations_table/AttestationsTable";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   const i18n = React.useContext(i18nContext);
+  const walletAddr = React.useMemo(() => {
+    return abbrevAddr(atst.wallet_addr);
+  }, [atst.wallet_addr]);
   const cm = React.useMemo(() => {
-    return `${atst.cm.substring(0, 26)}...`;
+    return `${atst.cm.substring(0, 12)}...`;
   }, [atst.cm]);
   const handleClick = React.useCallback(() => {
-    router.push(`${paths.attestations__twitter}/${atst.acc_atst_id}`);
-  }, [atst.acc_atst_id, router]);
+    router.push(`${paths.attestations__crypto_size}/${atst.atst_id}`);
+  }, [atst.atst_id, router]);
+  const cryptoAssets = React.useMemo(() => {
+    if (typeof atst.crypto_assets === "object") {
+      return `${JSON.stringify(atst.crypto_assets).substring(0, 20)}...`;
+    } else {
+      return "";
+    }
+  }, [atst.cm]);
+  const handleClickCryptoAssets = React.useCallback(
+    (ev: React.MouseEvent) => {
+      ev.stopPropagation();
+      window.open(`https://etherscan.io/address/${atst.wallet_addr.toLowerCase()}`, "_blank");
+    },
+    [atst.wallet_addr],
+  );
 
   return (
-    <div className={cn(styles.row)} style={style} onClick={handleClick}>
-      <div className={cn(styles.username, styles.cell)}>
-        <img src={atst.avatar_url} crossOrigin="" />
-        <span>{atst.username}</span>
-      </div>
-      <div className={cn(styles.accountId, styles.cell, styles.w1120)}>{atst.account_id}</div>
-      <div className={cn(styles.commitment, styles.cell, styles.w1120)}>{cm}</div>
-      <div className={cn(styles.document, styles.cell, styles.w480)}>
-        <a href={atst.document_url} target="_blank">
-          <span>{i18n.tweet}</span>
+    <AttestationTableRow style={style} handleClick={handleClick}>
+      <AttestationTableCell className={cn(styles.walletAddr, styles.cell)}>
+        <span>{walletAddr}</span>
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.commitment, styles.w1024)}>
+        {cm}
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.totalValue, styles.w1024)}>
+        {Number(atst.total_value_usd)}
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480, styles.cell)}>
+        <a target="_blank" onClick={handleClickCryptoAssets}>
+          <span>{cryptoAssets}</span>
           <BiLinkExternal />
         </a>
-      </div>
-      <div className={cn(styles.notarized, styles.cell, styles.w1320)}>{i18n.not_available}</div>
-      <div className={cn(styles.onChain, styles.cell, styles.w1320)}>{i18n.not_available}</div>
-    </div>
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
+        {i18n.not_available}
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.onChain, styles.w1320)}>
+        {i18n.not_available}
+      </AttestationTableCell>
+    </AttestationTableRow>
   );
 };
 
@@ -46,9 +80,9 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
   const router = useRouter();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["projects"],
+      queryKey: ["get_crypto_size_atsts"],
       queryFn: async ({ pageParam }) => {
-        return atstApi("get_twitter_acc_atsts", { offset: pageParam as number });
+        return atstApi("get_crypto_size_atsts", { offset: pageParam as number });
       },
       initialPageParam: 0,
       getNextPageParam: lastPage => {
@@ -99,31 +133,35 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
         <span>Error: {(error as Error).message}</span>
       ) : (
         <>
-          <div
-            className={cn(styles.header, {
+          <AttestationTableHeader
+            className={cn({
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <div className={cn(styles.username, styles.headerCell)}>{i18n.username}</div>
-            <div className={cn(styles.accountId, styles.headerCell, styles.w1120)}>
-              {i18n.account_id}
-            </div>
-            <div className={cn(styles.commitment, styles.headerCell, styles.w1120)}>
+            <AttestationTableHeaderCell className={cn(styles.walletAddr)}>
+              {i18n.wallet_address}
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
               {i18n.commitment}
-            </div>
-            <div className={cn(styles.document, styles.headerCell, styles.w480)}>
-              {i18n.document}
-            </div>
-            <div className={cn(styles.notarized, styles.headerCell, styles.w1320)}>
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.totalValue, styles.w1024)}>
+              {i18n.total_value_usd}
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.cryptoAssets, styles.w1320)}>
+              {i18n.crypto_assets}
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
               {i18n.notarized}
-            </div>
-            <div className={cn(styles.onChain, styles.headerCell, styles.w1320)}>
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
               {i18n.on_chain}
-            </div>
-          </div>
-          <div className={styles.listContainer} ref={parentRef}>
-            <div
-              className={styles.listInner}
+            </AttestationTableHeaderCell>
+          </AttestationTableHeader>
+          <AttestationTableBody innerRef={parentRef}>
+            {rowVirtualizer.getVirtualItems().length === 0 && (
+              <AttestationTableNoRecord>{i18n.no_record_to_present}</AttestationTableNoRecord>
+            )}
+            <AttestationTableBodyInner
               style={{
                 height: `${rowVirtualizer.getTotalSize()}px`,
               }}
@@ -152,8 +190,8 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
                   />
                 );
               })}
-            </div>
-          </div>
+            </AttestationTableBodyInner>
+          </AttestationTableBody>
         </>
       )}
     </div>
@@ -165,7 +203,7 @@ export default TwitterAccAtstTable;
 export interface TwitterAccAtstTableProps {}
 
 export interface AtstRowProps {
-  atst: PrfsAccAtst;
+  atst: PrfsCryptoSizeAtst;
   style: React.CSSProperties;
   router: AppRouterInstance;
 }

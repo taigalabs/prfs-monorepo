@@ -1,27 +1,30 @@
 import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
-import DefaultLayout, {
-  DefaultBody,
-  DefaultFooter,
-} from "@/components/layouts/default_layout/DefaultLayout";
+import DefaultLayout, { DefaultFooter } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import Attestations, { AttestationsMain } from "@/components/attestations/Attestations";
+import Attestations from "@/components/attestations/Attestations";
+import {
+  AttestationsDefaultBody,
+  AttestationsMain,
+  AttestationsMainInner,
+} from "@/components/attestations/AttestationComponents";
 import CryptoSizeAtstList from "@/components/crypto_size_atst_list/CryptoSizeAtstList";
-// import TwitterAccAtstList from "@/components/twitter_acc_atst_list/TwitterAccAtstList";
 
 const CryptoSizePage = () => {
   return (
     <DefaultLayout>
-      <DefaultBody noMinWidth>
+      <AttestationsDefaultBody>
         <Suspense>
           <Attestations>
             <AttestationsMain>
-              <CryptoSizeAtstList />
+              <AttestationsMainInner>
+                <CryptoSizeAtstList />
+              </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>
         </Suspense>
-      </DefaultBody>
+      </AttestationsDefaultBody>
       <DefaultFooter>
         <GlobalFooter />
       </DefaultFooter>

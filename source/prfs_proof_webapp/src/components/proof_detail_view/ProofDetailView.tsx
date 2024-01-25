@@ -117,12 +117,12 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               </li>
             </ul>
             <ul>
-              <li>
-                <a className={styles.link} href={consoleUrl}>
-                  <p>{i18n.view_in_console}</p>
-                  <BiLinkExternal />
-                </a>
-              </li>
+              {/* <li> */}
+              {/*   <a className={styles.link} href={consoleUrl}> */}
+              {/*     <p>{i18n.view_in_console}</p> */}
+              {/*     <BiLinkExternal /> */}
+              {/*   </a> */}
+              {/* </li> */}
             </ul>
           </div>
           <div className={styles.rightPadding} />

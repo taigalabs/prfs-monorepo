@@ -11,18 +11,11 @@ import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
-import AttestationsLogoArea from "@/components/attestations_masthead/AttestationsLogoArea";
-import LeftBar from "./LeftBar";
-import LeftBarDrawer from "./LeftBarDrawer";
+import AttestationLeftBar from "./AttestationLeftBar";
+import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
-
-export const AttestationsTitle: React.FC<AttestationsProps> = ({ children, className }) => {
-  return <div className={cn(styles.title, className)}>{children}</div>;
-};
-
-export const AttestationsMain: React.FC<AttestationsProps> = ({ children }) => {
-  return <div className={styles.main}>{children}</div>;
-};
+import { LeftBarContainer } from "@/components/left_bar/LeftBar";
+import AppLogo from "../app_logo/AppLogo";
 
 const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
@@ -73,14 +66,18 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
       />
       <MastheadPlaceholder tallHeight />
       <div className={styles.wrapper}>
-        <div className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}>
-          <LeftBar />
-        </div>
+        <LeftBarContainer isVisible={isLeftBarVisible}>
+          <AttestationLeftBar />
+        </LeftBarContainer>
         <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
           <div className={styles.drawerLogoArea}>
-            <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+            <AppLogo
+              handleClickShowLeftBar={handleClickShowLeftBar}
+              url={paths.attestations}
+              label={i18n.attestations}
+            />
           </div>
-          <LeftBar />
+          <AttestationLeftBar />
         </LeftBarDrawer>
         {children}
       </div>

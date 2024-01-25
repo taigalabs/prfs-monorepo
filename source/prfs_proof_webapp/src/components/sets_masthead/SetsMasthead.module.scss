@@ -1,0 +1,68 @@
+.leftBarBtn {
+  display: block;
+}
+
+.leftBarDrawerBtn {
+  display: none;
+}
+
+.rightGroup {
+  font-size: 24px;
+}
+
+.sideMargin {
+  margin: 0 2px;
+}
+
+.entry {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  overflow: hidden;
+  color: var(--gray-34);
+
+  > a {
+    display: grid;
+    place-items: center;
+  }
+
+  &:hover {
+    background-color: var(--bright-gray-40);
+  }
+}
+
+.appPopover {
+  > div:first-child {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.signInBtn {
+  padding: 0;
+  padding-left: 10px;
+}
+
+.bigScreen {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 1120px) {
+  .leftBarBtn {
+    display: none;
+  }
+
+  .leftBarDrawerBtn {
+    display: block;
+  }
+
+  .bigScreen {
+    display: none;
+  }
+}
