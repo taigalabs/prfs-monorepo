@@ -241,6 +241,7 @@ export default {
   proof_banner: "Proof banner",
   create_proof_instance: "Create proof instance",
   compute_merkle_root: "Compute Merkle root",
+  compute_total_asset_value_in_usd: "Compute total asset value in USD",
   create: "Create",
   create_circuit: "Create circuit",
   create_set: "Create set",

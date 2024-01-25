@@ -14,11 +14,24 @@ import { LocalPrfsProofCredential } from "@/storage/local_storage";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 
 const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
-  return <div className={styles.modal}>123</div>;
+  const i18n = React.useContext(i18nContext);
+
+  return (
+    <div className={styles.modal}>
+      <div className={styles.modalHeader}>
+        <p>{i18n.compute_total_asset_value_in_usd}</p>
+      </div>
+      <div>
+        <p></p>
+      </div>
+      <div className={styles.modalBtnRow}>
+        <button></button>
+      </div>
+    </div>
+  );
 };
 
 const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential }) => {
-  const i18n = React.useContext(i18nContext);
   const { prfsProofCredential } = useSignedInUser();
   const { mutateAsync: computeCryptoSizeTotalValuesRequest } = useMutation({
     mutationFn: (req: ComputeCryptoSizeTotalValuesRequest) => {
