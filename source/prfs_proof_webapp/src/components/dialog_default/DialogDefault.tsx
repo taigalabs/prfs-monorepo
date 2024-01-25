@@ -10,6 +10,7 @@ import {
   FloatingOverlay,
   FloatingPortal,
 } from "@floating-ui/react";
+import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 
 import styles from "./DialogDefault.module.scss";
 
@@ -38,26 +39,23 @@ const DialogDefault: React.FC<DialogDefaultProps> = ({ zIndex, createModal, crea
     <>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
         {baseElem}
-        {/* {children ? children : <button>{i18n.address}</button>} */}
       </div>
       <FloatingPortal>
         {isOpen && (
-          <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
-            <FloatingFocusManager context={context}>
-              <div
-                className={styles.dialog}
-                ref={refs.setFloating}
-                aria-labelledby={headingId}
-                aria-describedby={descriptionId}
-                {...getFloatingProps()}
-              >
-                {modalElem}
-                {/* <WalletModal */}
-                {/*   handleClickClose={handleClickClose} */}
-                {/*   handleChangeAddress={extendedHandleChangeAddress} */}
-                {/* /> */}
-              </div>
-            </FloatingFocusManager>
+          <FloatingOverlay className={styles.floatingManager} style={{ zIndex: zIndex }}>
+            <Fade className={styles.overlay}>
+              <FloatingFocusManager context={context}>
+                <div
+                  className={styles.dialog}
+                  ref={refs.setFloating}
+                  aria-labelledby={headingId}
+                  aria-describedby={descriptionId}
+                  {...getFloatingProps()}
+                >
+                  {modalElem}
+                </div>
+              </FloatingFocusManager>
+            </Fade>
           </FloatingOverlay>
         )}
       </FloatingPortal>
@@ -69,7 +67,6 @@ export default DialogDefault;
 
 export interface DialogDefaultProps {
   zIndex?: number;
-  // children?: React.ReactNode;
   createBase: (isOpen: boolean) => React.ReactNode;
   createModal: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => React.ReactNode;
 }

@@ -1,8 +1,14 @@
-.fadeOverlay {
+@import "@/styles/layouts.module.scss";
+
+.floatingManager {
+  z-index: $dialog_zindex;
+}
+
+.overlay {
   background: rgba(0, 0, 0, 0.4);
   display: grid;
+  z-index: 1;
   place-items: center;
-  z-index: 300;
   transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   position: absolute;
   inset: 0;

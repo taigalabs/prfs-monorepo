@@ -15,7 +15,7 @@ import { LocalPrfsProofCredential } from "@/storage/local_storage";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 
 const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
-  return <div>123</div>;
+  return <div className={styles.modal}>123</div>;
 };
 
 const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential }) => {
