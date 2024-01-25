@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useId } from "react";
+import React from "react";
 
 import styles from "./CryptoSizeAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
