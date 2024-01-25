@@ -13,6 +13,12 @@ import { useSignedInUser } from "@/hooks/user";
 import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
 import { LocalPrfsProofCredential } from "@/storage/local_storage";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
+import {
+  DefaultModalBtnRow,
+  DefaultModalDesc,
+  DefaultModalHeader,
+  DefaultModalWrapper,
+} from "../dialog_default/DialogComponents";
 
 enum ComputeStatus {
   Standby,
@@ -39,15 +45,15 @@ const Modal: React.FC<ModalProps> = ({
   }, [handleClickCalculate, computeStatus]);
 
   return (
-    <div className={styles.modal}>
-      <div className={styles.modalHeader}>
+    <DefaultModalWrapper>
+      <DefaultModalHeader>
         <p>{i18n.compute_total_asset_value_in_usd}</p>
-      </div>
-      <div className={styles.modalDesc}>
+      </DefaultModalHeader>
+      <DefaultModalDesc>
         <p>{i18n.this_might_take_minutes_or_longer}</p>
         <div className={styles.computeMsg}>{computeMsg}</div>
-      </div>
-      <div className={styles.modalBtnRow}>
+      </DefaultModalDesc>
+      <DefaultModalBtnRow>
         <Button
           variant="transparent_black_1"
           noTransition
@@ -70,8 +76,8 @@ const Modal: React.FC<ModalProps> = ({
             {computeStatus === ComputeStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
-      </div>
-    </div>
+      </DefaultModalBtnRow>
+    </DefaultModalWrapper>
   );
 };
 

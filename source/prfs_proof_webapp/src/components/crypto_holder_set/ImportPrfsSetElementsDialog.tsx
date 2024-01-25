@@ -90,15 +90,15 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
       return prfsApi2("import_prfs_set_elements", req);
     },
   });
-  // const handleClickImportCryptoHolders = React.useCallback(async () => {
-  //   try {
-  //     const { payload } = await ImportPrfsSetElementsRequest({
-  //       destination_type: "prfs_attestation",
-  //       destination_id: "",
-  //       set_id: CRYPTO_HOLDERS,
-  //     });
-  //   } catch (err) {}
-  // }, [ImportPrfsSetElementsRequest]);
+  const handleClickImportCryptoHolders = React.useCallback(async () => {
+    try {
+      const { payload } = await ImportPrfsSetElementsRequest({
+        destination_type: "prfs_attestation",
+        destination_id: "",
+        set_id: CRYPTO_HOLDERS,
+      });
+    } catch (err) {}
+  }, [ImportPrfsSetElementsRequest]);
 
   // return (
   //   <>
@@ -169,7 +169,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
       <Button
         variant="transparent_blue_2"
         noTransition
-        handleClick={handleClickImport}
+        // handleClick={handleClickImport}
         type="button"
       >
         <div className={styles.btnContent}>
