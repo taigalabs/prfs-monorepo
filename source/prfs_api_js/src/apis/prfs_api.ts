@@ -95,7 +95,7 @@ type RequestName =
   | "get_prfs_poll_result_by_poll_id"
   | "create_social_post"
   | "get_social_posts"
-  | "import_prfs_atsts_to_prfs_set";
+  | "import_prfs_set_elements";
 
 type Req<T extends RequestName> = //
   T extends "sign_up_prfs_account"
