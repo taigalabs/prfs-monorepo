@@ -8,7 +8,7 @@ import {
   AttestationsMain,
   AttestationsMainInner,
 } from "@/components/attestations/AttestationComponents";
-import CryptoHolderSet from "@/components/crypto_holder_set/CryptoHolderSet";
+import Set from "@/components/set/Set";
 import Sets from "@/components/sets/Sets";
 
 const SetPage: React.FC<SetPageProps> = () => {
@@ -19,7 +19,7 @@ const SetPage: React.FC<SetPageProps> = () => {
           <Sets>
             <AttestationsMain>
               <AttestationsMainInner>
-                <CryptoHolderSet />
+                <Set />
               </AttestationsMainInner>
             </AttestationsMain>
           </Sets>

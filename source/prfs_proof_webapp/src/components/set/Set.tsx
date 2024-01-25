@@ -3,17 +3,17 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./CryptoHolderSet.module.scss";
+import styles from "./Set.module.scss";
 import { i18nContext } from "@/i18n/context";
-import CryptoHolderSetTable from "./CryptoHolderSetTable";
+import SetTable from "./SetTable";
 import {
   AttestationsHeader,
   AttestationsHeaderRow,
   AttestationsTitle,
 } from "@/components/attestations/AttestationComponents";
-import ImportPrfsSetElementsDialog from "./ImportPrfsSetElementsDialog";
+import ImportSetElementsDialog from "./ImportSetElementsDialog";
 
-const CryptoHolderSet: React.FC<CryptoHolderSetProps> = () => {
+const Set: React.FC<SetProps> = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -25,18 +25,18 @@ const CryptoHolderSet: React.FC<CryptoHolderSetProps> = () => {
         <AttestationsHeaderRow>
           <ul>
             <li>
-              <ImportPrfsSetElementsDialog />
+              <ImportSetElementsDialog />
             </li>
           </ul>
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
-        <CryptoHolderSetTable />
+        <SetTable />
       </div>
     </>
   );
 };
 
-export default CryptoHolderSet;
+export default Set;
 
-export interface CryptoHolderSetProps {}
+export interface SetProps {}

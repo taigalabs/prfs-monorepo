@@ -9,7 +9,7 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-import styles from "./CryptoHolderSetTable.module.scss";
+import styles from "./SetTable.module.scss";
 import { paths } from "@/paths";
 import {
   AttestationTableBody,

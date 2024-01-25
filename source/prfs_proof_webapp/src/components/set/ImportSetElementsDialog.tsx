@@ -9,9 +9,9 @@ import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ImportPrfsSetElementsRequest } from "@taigalabs/prfs-entities/bindings/ImportPrfsSetElementsRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
-import styles from "./ImportPrfsSetElementsDialog.module.scss";
+import styles from "./ImportSetElementsDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
-import CryptoHolderSetTable from "./CryptoHolderSetTable";
+import SetTable from "./SetTable";
 import {
   AttestationsHeader,
   AttestationsHeaderRow,
