@@ -5,7 +5,7 @@ import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaFileImport } from "@react-icons/all-files/fa/FaFileImport";
 import { useMutation } from "@tanstack/react-query";
-import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ImportPrfsSetElementsRequest } from "@taigalabs/prfs-entities/bindings/ImportPrfsSetElementsRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
@@ -57,7 +57,7 @@ const Modal: React.FC<ModalProps> = ({
       </DefaultModalHeader>
       <DefaultModalDesc>
         <p>{i18n.this_might_take_minutes_or_longer}</p>
-        <div className={styles.computeMsg}>{computeMsg}</div>
+        <div className={styles.msg}>{computeMsg}</div>
       </DefaultModalDesc>
       <DefaultModalBtnRow>
         <Button
@@ -107,9 +107,9 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
           src_id: CRYPTO_ASSET_SIZE_ATSTS,
           dest_set_id: CRYPTO_HOLDERS_SET_ID,
         });
-        setComputeStatus(ImportStatus.Standby);
 
         if (payload) {
+          setComputeStatus(ImportStatus.Done);
           setComputeMsg(
             <>
               <p>
@@ -121,14 +121,20 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
         }
 
         if (error) {
+          setComputeStatus(ImportStatus.Standby);
           setComputeMsg(
             <>
               <p className={common.redText}>{error}</p>
             </>,
           );
         }
-      } catch (err) {
+      } catch (err: any) {
         setComputeStatus(ImportStatus.Standby);
+        setComputeMsg(
+          <>
+            <p className={common.redText}>{err.toString()}</p>
+          </>,
+        );
       }
     }
   }, [prfsProofCredential, ImportPrfsSetElementsRequest, setComputeMsg, setComputeStatus]);

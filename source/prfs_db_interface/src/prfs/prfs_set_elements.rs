@@ -29,11 +29,14 @@ pub async fn insert_asset_atsts_as_prfs_set_elements(
             .push_bind("NotRegistered");
     });
 
+    query_builder.push(
+        r#"
+ON CONFLICT DO NOTHING
+    "#,
+    );
+
     let query = query_builder.build();
-
     let res = query.execute(&mut **tx).await?;
-    println!("res len: {}", res.rows_affected());
-
     return Ok(res.rows_affected());
 }
 

@@ -54,8 +54,6 @@ pub async fn import_prfs_set_elements(
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODES.UNKNOWN_ERROR, err))?;
 
-    println!("atsts: {:?}", atsts);
-
     if atsts.len() > 65536 {
         return Err(ApiHandleError::from(
             &API_ERROR_CODES.UNKNOWN_ERROR,
