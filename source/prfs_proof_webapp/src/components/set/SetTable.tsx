@@ -44,13 +44,11 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
   );
 };
 
-const SetTable: React.FC<SetTableProps> = ({ setId }) => {
-  const i18n = React.useContext(i18nContext);
-  const router = useRouter();
-  const { status, data, error, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery({
+function fetchPrfsSetElements(set_id: string) {
+  return useInfiniteQuery({
     queryKey: ["get_prfs_set_elements"],
     queryFn: async ({ pageParam }) => {
-      return prfsApi2("get_prfs_set_elements", { offset: pageParam as number });
+      return prfsApi2("get_prfs_set_elements", { offset: pageParam as number, set_id });
     },
     initialPageParam: 0,
     getNextPageParam: lastPage => {
@@ -61,6 +59,13 @@ const SetTable: React.FC<SetTableProps> = ({ setId }) => {
       }
     },
   });
+}
+
+const SetTable: React.FC<SetTableProps> = ({ setId }) => {
+  const i18n = React.useContext(i18nContext);
+  const router = useRouter();
+  const { status, data, error, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    fetchPrfsSetElements(setId);
 
   const allRows = data
     ? data.pages.flatMap(d => {

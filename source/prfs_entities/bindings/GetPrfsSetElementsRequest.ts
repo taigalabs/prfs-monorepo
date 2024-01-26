@@ -2,4 +2,5 @@
 
 export interface GetPrfsSetElementsRequest {
   offset: number;
+  set_id: string;
 }

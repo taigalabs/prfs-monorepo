@@ -1,7 +1,6 @@
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
-use uuid::Uuid;
 
 use crate::{entities::PrfsSetElement, syn_entities::PrfsSetIns1};
 
@@ -23,6 +22,7 @@ pub struct ImportPrfsSetElementsResponse {
 #[ts(export)]
 pub struct GetPrfsSetElementsRequest {
     pub offset: i32,
+    pub set_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -36,6 +36,7 @@ pub struct GetPrfsSetElementsResponse {
 #[ts(export)]
 pub struct GetPrfsSetElementRequest {
     pub atst_id: String,
+    pub set_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

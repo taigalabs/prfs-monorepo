@@ -2,4 +2,5 @@
 
 export interface GetPrfsSetElementRequest {
   atst_id: string;
+  set_id: string;
 }

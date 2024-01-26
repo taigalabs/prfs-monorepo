@@ -73,7 +73,7 @@ const Modal: React.FC<ModalProps> = ({
         <Button
           variant="blue_2"
           noTransition
-          className={styles.computeBtn}
+          className={styles.importBtn}
           handleClick={handleClickOk}
           noShadow
           type="button"
