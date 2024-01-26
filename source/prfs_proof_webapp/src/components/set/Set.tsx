@@ -5,7 +5,7 @@ import cn from "classnames";
 
 import styles from "./Set.module.scss";
 import { i18nContext } from "@/i18n/context";
-import SetTable from "./SetTable";
+import SetElementTable from "./SetElementTable";
 import {
   AttestationsHeader,
   AttestationsHeaderRow,
@@ -31,7 +31,7 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
-        <SetTable setId={set_id} />
+        <SetElementTable setId={set_id} />
       </div>
     </>
   );

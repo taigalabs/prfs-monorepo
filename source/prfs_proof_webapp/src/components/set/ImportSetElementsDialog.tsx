@@ -11,7 +11,6 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./ImportSetElementsDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
-import SetTable from "./SetTable";
 import { useSignedInUser } from "@/hooks/user";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 import {
@@ -20,6 +19,7 @@ import {
   DefaultModalHeader,
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
+import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
 
 const PRFS_ATTESTATION = "prfs_attestation";
 const CRYPTO_ASSET_SIZE_ATSTS = "crypto_asset_size_atsts";
@@ -98,7 +98,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
   const [computeStatus, setComputeStatus] = React.useState(ImportStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickImport = React.useCallback(async () => {
-    if (prfsProofCredential) {
+    if (prfsProofCredential && prfsProofCredential.account_id === MASTER_ACCOUNT_ID) {
       setComputeStatus(ImportStatus.InProgress);
       try {
         const { payload } = await ImportPrfsSetElementsRequest({
@@ -126,14 +126,19 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
 
   const createBase = React.useCallback(() => {
     return (
-      <Button variant="transparent_blue_2" noTransition type="button">
+      <Button
+        variant="transparent_blue_2"
+        noTransition
+        type="button"
+        disabled={prfsProofCredential?.account_id !== MASTER_ACCOUNT_ID}
+      >
         <div className={styles.btnContent}>
           <FaFileImport />
           <span>{i18n.import_from} crypto_size_attestations</span>
         </div>
       </Button>
     );
-  }, []);
+  }, [prfsProofCredential]);
 
   return (
     <>

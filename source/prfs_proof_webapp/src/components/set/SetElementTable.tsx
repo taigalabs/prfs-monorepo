@@ -9,7 +9,7 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-import styles from "./SetTable.module.scss";
+import styles from "./SetElementTable.module.scss";
 import { paths } from "@/paths";
 import {
   AttestationTableBody,
@@ -61,7 +61,7 @@ function fetchPrfsSetElements(set_id: string) {
   });
 }
 
-const SetTable: React.FC<SetTableProps> = ({ setId }) => {
+const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const { status, data, error, isFetchingNextPage, fetchNextPage, hasNextPage } =
@@ -159,9 +159,9 @@ const SetTable: React.FC<SetTableProps> = ({ setId }) => {
   );
 };
 
-export default SetTable;
+export default SetElementTable;
 
-export interface SetTableProps {
+export interface SetElementTableProps {
   setId: string;
 }
 
