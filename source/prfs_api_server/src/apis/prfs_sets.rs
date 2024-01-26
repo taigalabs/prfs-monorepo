@@ -188,6 +188,12 @@ pub async fn create_tree_of_prfs_set(
 
     println!("req: {:?}", req);
 
+    let set_elements = prfs::get_prfs_set_elements(&pool, &req.set_id, 0, 50000)
+        .await
+        .unwrap();
+
+    println!("set_elements, {:?}", set_elements);
+
     // let largest_pos_w = prfs::get_largest_pos_w_tree_leaf_node(&pool, &req.set_id)
     //     .await
     //     .unwrap();

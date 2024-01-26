@@ -77,6 +77,7 @@ const Modal: React.FC<ModalProps> = ({
         >
           <div className={styles.importBtnContent}>
             <span>{computeStatus === Status.Done ? i18n.reload : i18n.create}</span>
+            <Spinner size={14} borderWidth={2} />
             {computeStatus === Status.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>

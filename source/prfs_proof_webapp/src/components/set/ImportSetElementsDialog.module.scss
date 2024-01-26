@@ -12,6 +12,9 @@
 }
 
 .importBtnContent {
+  display: flex;
+  align-items: center;
+
   > span + div {
     margin-left: 4px;
   }
