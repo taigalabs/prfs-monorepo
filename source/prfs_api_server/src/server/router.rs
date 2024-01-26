@@ -75,7 +75,7 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
                 prfs_proof_instances::get_prfs_proof_instance_by_short_id(req, state).await
             }
             (&Method::POST, v0_path!("get_prfs_set_elements")) => {
-                prfs_tree_nodes::get_prfs_tree_nodes_by_pos(req, state).await
+                prfs_set_elements::get_prfs_set_elements(req, state).await
             }
             (&Method::POST, v0_path!("create_prfs_dynamic_set_element")) => {
                 prfs_sets::create_prfs_dynamic_set_element(req, state).await
@@ -133,6 +133,9 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             }
             (&Method::POST, v0_path!("import_prfs_set_elements")) => {
                 prfs_set_elements::import_prfs_set_elements(req, state).await
+            }
+            (&Method::POST, v0_path!("get_prfs_tree_nodes_by_pos")) => {
+                prfs_tree_nodes::get_prfs_tree_nodes_by_pos(req, state).await
             }
             _ => handle_not_found(req, state).await,
         }

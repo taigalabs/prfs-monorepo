@@ -34,17 +34,20 @@ RETURNING atst_id"#;
 
 pub async fn get_prfs_set_elements(
     pool: &Pool<Postgres>,
+    set_id: &String,
     offset: i32,
     limit: i32,
 ) -> Result<Vec<PrfsSetElement>, DbInterfaceError> {
     let query = r#"
 SELECT *
 FROM prfs_set_elements
-LIMIT $1
-OFFSET $2
+WHERE set_id=$1
+LIMIT $2
+OFFSET $3
 "#;
 
     let rows = sqlx::query(query)
+        .bind(set_id)
         .bind(limit)
         .bind(offset)
         .fetch_all(pool)
@@ -66,15 +69,21 @@ OFFSET $2
 
 pub async fn get_prfs_set_element(
     pool: &Pool<Postgres>,
+    set_id: &String,
     atst_id: &String,
 ) -> Result<PrfsSetElement, DbInterfaceError> {
     let query = r#"
 SELECT *
 FROM prfs_set_elements
-WHERE atst_id=$1
+WHERE set_id=$1
+WHERE atst_id=$2
 "#;
 
-    let row = sqlx::query(query).bind(&atst_id).fetch_one(pool).await?;
+    let row = sqlx::query(query)
+        .bind(&set_id)
+        .bind(&atst_id)
+        .fetch_one(pool)
+        .await?;
 
     let atst = PrfsSetElement {
         name: row.get("name"),
