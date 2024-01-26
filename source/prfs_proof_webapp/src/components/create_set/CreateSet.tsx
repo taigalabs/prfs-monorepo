@@ -4,11 +4,12 @@ import React from "react";
 import cn from "classnames";
 import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { atstApi } from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { CreatePrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsSetRequest";
 
 import styles from "./CreateSet.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -24,6 +25,8 @@ import {
   AttestationListItemDescTitle,
   AttestationListItemUnordered,
 } from "@/components/create_attestation/CreateAtstComponents";
+import { useSignedInUser } from "@/hooks/user";
+import { paths } from "@/paths";
 
 const SET_ID = "set_id";
 const LABEL = "label";
@@ -41,6 +44,12 @@ const CreateSet: React.FC<CreateSetProps> = () => {
   const [formData, setFormData] = React.useState({ [SET_ID]: "", [LABEL]: "", [DESC]: "" });
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
+  const { mutateAsync: createPrfsSetRequest } = useMutation({
+    mutationFn: (req: CreatePrfsSetRequest) => {
+      return prfsApi2("create_prfs_set", req);
+    },
+  });
+  const { prfsProofCredential } = useSignedInUser();
 
   const handleChangeValue = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,29 +72,39 @@ const CreateSet: React.FC<CreateSetProps> = () => {
     const label = formData[LABEL];
     const desc = formData[DESC];
 
-    if (set_id.length > 0 && label.length > 0 && desc.length > 0) {
+    if (set_id.length > 0 && label.length > 0 && desc.length > 0 && prfsProofCredential) {
+      try {
+        setCreateStatus(Status.InProgress);
+        const { payload, error } = await createPrfsSetRequest({
+          prfs_set_ins1: {
+            set_id,
+            set_type: "Dynamic",
+            label,
+            author: prfsProofCredential.account_id,
+            desc,
+            hash_algorithm: "",
+            cardinality: BigInt(0),
+            merkle_root: "",
+            tree_depth: 32,
+            element_type: "",
+            finite_field: "",
+            elliptic_curve: "",
+          },
+        });
+        setCreateStatus(Status.Standby);
+
+        if (error) {
+          setCreateMsg(<span>{error.toString()}</span>);
+        }
+        if (payload) {
+          setIsNavigating(true);
+          router.push(paths.attestations__crypto_asset_size);
+        }
+      } catch (err) {
+        setCreateStatus(Status.Standby);
+      }
     }
-    // const atst_id = `ETH_${formData[WALLET_ADDR]}`;
-    // setCreateMsg(null);
-    // if (atst_id) {
-    //   setCreateStatus(Status.InProgress);
-    //   // const { payload, error } = await createCryptoSizeAtstRequest({
-    //   //   atst_id,
-    //   //   atst_type: "crypto_size_1",
-    //   //   wallet_addr: formData[WALLET_ADDR],
-    //   //   cm: claimCm,
-    //   //   crypto_assets: cryptoAssets,
-    //   // });
-    //   setCreateStatus(Status.Standby);
-    //   // if (error) {
-    //   //   setCreateMsg(<span>{error.toString()}</span>);
-    //   // }
-    //   // if (payload) {
-    //   //   setIsNavigating(true);
-    //   //   router.push(paths.attestations__crypto_asset_size);
-    //   // }
-    // }
-  }, [setIsNavigating, setCreateMsg, setCreateStatus, router]);
+  }, [setIsNavigating, setCreateMsg, setCreateStatus, router, createPrfsSetRequest]);
 
   return isNavigating ? (
     <div>Navigating...</div>
