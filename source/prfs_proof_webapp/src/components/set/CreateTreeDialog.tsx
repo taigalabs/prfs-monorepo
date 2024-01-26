@@ -4,7 +4,7 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaTree } from "@react-icons/all-files/fa/FaTree";
 import { useMutation } from "@tanstack/react-query";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { ImportPrfsSetElementsRequest } from "@taigalabs/prfs-entities/bindings/ImportPrfsSetElementsRequest";
+import { CreateTreeOfPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreateTreeOfPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./CreateTreeDialog.module.scss";
@@ -32,7 +32,7 @@ enum Status {
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
-  handleClickImport,
+  handleClickCreate,
   computeStatus,
   computeMsg,
 }) => {
@@ -44,14 +44,14 @@ const Modal: React.FC<ModalProps> = ({
     if (computeStatus === Status.Done) {
       window.location.reload();
     } else {
-      handleClickImport();
+      handleClickCreate();
     }
-  }, [handleClickImport, computeStatus]);
+  }, [handleClickCreate, computeStatus]);
 
   return (
     <DefaultModalWrapper>
       <DefaultModalHeader>
-        <p>{i18n.import_prfs_set_elements_from_prfs_attestations}</p>
+        <p>{i18n.create_tree}</p>
       </DefaultModalHeader>
       <DefaultModalDesc>
         <p>{i18n.this_might_take_minutes_or_longer}</p>
@@ -76,7 +76,7 @@ const Modal: React.FC<ModalProps> = ({
           disabled={computeStatus === Status.InProgress}
         >
           <div className={styles.importBtnContent}>
-            <span>{computeStatus === Status.Done ? i18n.reload : i18n.compute}</span>
+            <span>{computeStatus === Status.Done ? i18n.reload : i18n.create}</span>
             {computeStatus === Status.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
@@ -87,32 +87,29 @@ const Modal: React.FC<ModalProps> = ({
 
 const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const { mutateAsync: ImportPrfsSetElementsRequest } = useMutation({
-    mutationFn: (req: ImportPrfsSetElementsRequest) => {
-      return prfsApi2("import_prfs_set_elements", req);
+  const { mutateAsync: createTreeRequest } = useMutation({
+    mutationFn: (req: CreateTreeOfPrfsSetRequest) => {
+      return prfsApi2("create_tree_of_prfs_set", req);
     },
   });
   const { prfsProofCredential } = useSignedInUser();
   const [isOpen, setIsOpen] = React.useState(false);
   const [computeStatus, setComputeStatus] = React.useState(Status.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
-  const handleClickImport = React.useCallback(async () => {
+  const handleClickCreate = React.useCallback(async () => {
     if (prfsProofCredential && prfsProofCredential.account_id === MASTER_ACCOUNT_ID) {
       setComputeStatus(Status.InProgress);
       try {
-        const { payload, error } = await ImportPrfsSetElementsRequest({
-          src_type: PRFS_ATTESTATION,
-          src_id: CRYPTO_ASSET_SIZE_ATSTS,
-          dest_set_id: CRYPTO_HOLDERS_SET_ID,
+        const { payload, error } = await createTreeRequest({
+          set_id: CRYPTO_HOLDERS_SET_ID,
+          account_id: prfsProofCredential.account_id,
         });
 
         if (payload) {
           setComputeStatus(Status.Done);
           setComputeMsg(
             <>
-              <p>
-                <b>Imported, row count: {payload.rows_affected.toString()}</b>
-              </p>
+              <p>{/* <b>Imported, row count: {payload.rows_affected.toString()}</b> */}</p>
               <p>Reload the page</p>
             </>,
           );
@@ -135,7 +132,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = () => {
         );
       }
     }
-  }, [prfsProofCredential, ImportPrfsSetElementsRequest, setComputeMsg, setComputeStatus]);
+  }, [prfsProofCredential, createTreeRequest, setComputeMsg, setComputeStatus]);
 
   const createBase = React.useCallback(() => {
     return (
@@ -158,7 +155,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = () => {
       <DialogDefault isOpen={isOpen} setIsOpen={setIsOpen} createBase={createBase}>
         <Modal
           setIsOpen={setIsOpen}
-          handleClickImport={handleClickImport}
+          handleClickCreate={handleClickCreate}
           computeStatus={computeStatus}
           computeMsg={computeMsg}
         />
@@ -173,7 +170,7 @@ export interface ImportPrfsSetElementsDialogProps {}
 
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleClickImport: () => {};
+  handleClickCreate: () => {};
   computeStatus: Status;
   computeMsg: React.ReactNode;
 }

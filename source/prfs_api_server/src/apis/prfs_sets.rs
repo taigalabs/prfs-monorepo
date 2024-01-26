@@ -11,9 +11,10 @@ use prfs_entities::{
     prfs_api_entities::{
         ComputePrfsSetMerkleRootRequest, ComputePrfsSetMerkleRootResponse,
         CreatePrfsDynamicSetElementRequest, CreatePrfsDynamicSetElementResponse,
-        CreatePrfsSetRequest, CreatePrfsSetResponse, GetPrfsSetBySetIdRequest,
-        GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
-        GetPrfsSetsResponse, UpdatePrfsTreeNodeRequest,
+        CreatePrfsSetRequest, CreatePrfsSetResponse, CreateTreeOfPrfsSetRequest,
+        CreateTreeOfPrfsSetResponse, GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse,
+        GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest, GetPrfsSetsResponse,
+        UpdatePrfsTreeNodeRequest,
     },
 };
 use prfs_tree_maker::tree_maker_apis;
@@ -172,6 +173,45 @@ pub async fn compute_prfs_set_merkle_root(
     let resp = ApiResponse::new_success(ComputePrfsSetMerkleRootResponse {
         set_id: req.set_id,
         merkle_root,
+    });
+
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn create_tree_of_prfs_set(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> ApiHandlerResult {
+    let req: CreateTreeOfPrfsSetRequest = parse_req(req).await;
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    println!("req: {:?}", req);
+
+    // let largest_pos_w = prfs::get_largest_pos_w_tree_leaf_node(&pool, &req.set_id)
+    //     .await
+    //     .unwrap();
+
+    // let pos_w = if let Some(pos_w) = largest_pos_w {
+    //     pos_w + Decimal::from(1)
+    // } else {
+    //     Decimal::from(0)
+    // };
+
+    // let node = PrfsTreeNode {
+    //     pos_w,
+    //     pos_h: 0,
+    //     val: req.val.to_string(),
+    //     meta: Some(req.meta),
+    //     set_id: req.set_id,
+    // };
+
+    // let pos_w = prfs::insert_prfs_tree_node(&mut tx, &node).await.unwrap();
+
+    // tx.commit().await.unwrap();
+
+    let resp = ApiResponse::new_success(CreateTreeOfPrfsSetResponse {
+        set_id: req.set_id.to_string(),
     });
 
     return Ok(resp.into_hyper_response());

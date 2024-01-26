@@ -78,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({
           disabled={computeStatus === ImportStatus.InProgress}
         >
           <div className={styles.importBtnContent}>
-            <span>{computeStatus === ImportStatus.Done ? i18n.reload : i18n.compute}</span>
+            <span>{computeStatus === ImportStatus.Done ? i18n.reload : i18n.import_from}</span>
             {computeStatus === ImportStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
@@ -89,7 +89,7 @@ const Modal: React.FC<ModalProps> = ({
 
 const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const { mutateAsync: ImportPrfsSetElementsRequest } = useMutation({
+  const { mutateAsync: importPrfsSetElementsRequest } = useMutation({
     mutationFn: (req: ImportPrfsSetElementsRequest) => {
       return prfsApi2("import_prfs_set_elements", req);
     },
@@ -102,7 +102,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
     if (prfsProofCredential && prfsProofCredential.account_id === MASTER_ACCOUNT_ID) {
       setComputeStatus(ImportStatus.InProgress);
       try {
-        const { payload, error } = await ImportPrfsSetElementsRequest({
+        const { payload, error } = await importPrfsSetElementsRequest({
           src_type: PRFS_ATTESTATION,
           src_id: CRYPTO_ASSET_SIZE_ATSTS,
           dest_set_id: CRYPTO_HOLDERS_SET_ID,
@@ -137,7 +137,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
         );
       }
     }
-  }, [prfsProofCredential, ImportPrfsSetElementsRequest, setComputeMsg, setComputeStatus]);
+  }, [prfsProofCredential, importPrfsSetElementsRequest, setComputeMsg, setComputeStatus]);
 
   const createBase = React.useCallback(() => {
     return (
