@@ -10,6 +10,7 @@ import { ImportPrfsSetElementsRequest } from "@taigalabs/prfs-entities/bindings/
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./ImportSetElementsDialog.module.scss";
+import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useSignedInUser } from "@/hooks/user";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
@@ -101,20 +102,28 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
     if (prfsProofCredential && prfsProofCredential.account_id === MASTER_ACCOUNT_ID) {
       setComputeStatus(ImportStatus.InProgress);
       try {
-        const { payload } = await ImportPrfsSetElementsRequest({
+        const { payload, error } = await ImportPrfsSetElementsRequest({
           src_type: PRFS_ATTESTATION,
           src_id: CRYPTO_ASSET_SIZE_ATSTS,
           dest_set_id: CRYPTO_HOLDERS_SET_ID,
         });
+        setComputeStatus(ImportStatus.Standby);
 
         if (payload) {
-          setComputeStatus(ImportStatus.Done);
           setComputeMsg(
             <>
               <p>
                 <b>Imported, row count: {payload.rows_affected.toString()}</b>
               </p>
               <p>Reload the page</p>
+            </>,
+          );
+        }
+
+        if (error) {
+          setComputeMsg(
+            <>
+              <p className={common.redText}>{error}</p>
             </>,
           );
         }
