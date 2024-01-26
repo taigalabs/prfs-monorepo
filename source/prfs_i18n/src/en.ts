@@ -246,6 +246,8 @@ export default {
   compute: "Compute",
   reload: "Reload",
   compute_total_asset_value_in_usd: "Compute total asset value in USD",
+  import_prfs_set_elements_from_prfs_attestations:
+    "Import Prfs set elements from Prfs attestations",
   create: "Create",
   create_circuit: "Create circuit",
   create_set: "Create set",

@@ -53,7 +53,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <DefaultModalWrapper>
       <DefaultModalHeader>
-        <p>{i18n.compute_total_asset_value_in_usd}</p>
+        <p>{i18n.import_prfs_set_elements_from_prfs_attestations}</p>
       </DefaultModalHeader>
       <DefaultModalDesc>
         <p>{i18n.this_might_take_minutes_or_longer}</p>
