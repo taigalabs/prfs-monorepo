@@ -16,7 +16,7 @@ use prfs_entities::{
         GetPrfsSetBySetIdResponse, GetPrfsSetElementRequest, GetPrfsSetElementResponse,
         GetPrfsSetElementsRequest, GetPrfsSetElementsResponse, GetPrfsSetsBySetTypeRequest,
         GetPrfsSetsRequest, GetPrfsSetsResponse, ImportPrfsSetElementsRequest,
-        UpdatePrfsTreeNodeRequest,
+        ImportPrfsSetElementsResponse, UpdatePrfsTreeNodeRequest,
     },
 };
 use prfs_tree_maker::tree_maker_apis;
@@ -26,6 +26,8 @@ use std::{convert::Infallible, sync::Arc};
 use crate::error_codes::API_ERROR_CODES;
 
 const LIMIT: i32 = 20;
+const PRFS_ATTESTATION: &str = "prfs_attestation";
+const CRYPTO_ASSET_SIZE_ATSTS: &str = "crypto_asset_size_atsts";
 
 pub async fn import_prfs_set_elements(
     req: Request<Incoming>,
@@ -34,9 +36,44 @@ pub async fn import_prfs_set_elements(
     let req: ImportPrfsSetElementsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
 
-    println!("req: {:?}", req);
+    if req.src_type != PRFS_ATTESTATION {
+        return Err(ApiHandleError::from(
+            &API_ERROR_CODES.UNKNOWN_ERROR,
+            "Currently only PRFS_ATTESTATION is importable".into(),
+        ));
+    }
 
-    let resp = ApiResponse::new_success(String::from(""));
+    if req.src_id != CRYPTO_ASSET_SIZE_ATSTS {
+        return Err(ApiHandleError::from(
+            &API_ERROR_CODES.UNKNOWN_ERROR,
+            "Currently only CRYPTO_ASSET_SIZE_ATSTS is importable".into(),
+        ));
+    }
+
+    let atsts = prfs::get_prfs_crypto_asset_size_atsts(&pool, 0, 50000)
+        .await
+        .map_err(|err| ApiHandleError::from(&API_ERROR_CODES.UNKNOWN_ERROR, err))?;
+
+    println!("atsts: {:?}", atsts);
+
+    if atsts.len() > 65536 {
+        return Err(ApiHandleError::from(
+            &API_ERROR_CODES.UNKNOWN_ERROR,
+            "Currently we can produce upto 65536 items".into(),
+        ));
+    }
+
+    let mut tx = pool.begin().await.unwrap();
+    let rows_affected =
+        prfs::insert_asset_atsts_as_prfs_set_elements(&mut tx, atsts, &req.dest_set_id)
+            .await
+            .map_err(|err| ApiHandleError::from(&API_ERROR_CODES.UNKNOWN_ERROR, err))?;
+    tx.commit().await.unwrap();
+
+    let resp = ApiResponse::new_success(ImportPrfsSetElementsResponse {
+        set_id: req.dest_set_id.to_string(),
+        rows_affected,
+    });
 
     return Ok(resp.into_hyper_response());
 }

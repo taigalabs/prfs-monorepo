@@ -2,4 +2,5 @@
 
 export interface ImportPrfsSetElementsResponse {
   set_id: string;
+  rows_affected: bigint;
 }

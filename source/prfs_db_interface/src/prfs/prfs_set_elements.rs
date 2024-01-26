@@ -1,6 +1,41 @@
-use crate::DbInterfaceError;
+use prfs_crypto::crypto_bigint::{Encoding, U256};
 use prfs_entities::entities::{PrfsCryptoAssetSizeAtst, PrfsSetElement};
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
+use std::collections::HashMap;
+
+use crate::DbInterfaceError;
+
+pub async fn insert_asset_atsts_as_prfs_set_elements(
+    tx: &mut Transaction<'_, Postgres>,
+    atsts: Vec<PrfsCryptoAssetSizeAtst>,
+    set_id: &String,
+) -> Result<u64, DbInterfaceError> {
+    let mut query_builder: QueryBuilder<Postgres> =
+        QueryBuilder::new("INSERT INTO prfs_set_elements (name, data, ref, set_id, status) ");
+
+    query_builder.push_values(atsts, |mut b, atst| {
+        let total_val = atst.total_value_usd.floor();
+        let cm = atst.cm;
+        let cm = &cm[2..];
+        let data = sqlx::types::Json::from(HashMap::from([
+            ("total_value_usd", total_val.to_string()),
+            ("cm", cm.to_string()),
+        ]));
+
+        b.push_bind(atst.wallet_addr.to_string())
+            .push_bind(data)
+            .push_bind("crypto_asset_size_atsts")
+            .push_bind(set_id)
+            .push_bind("NotRegistered");
+    });
+
+    let query = query_builder.build();
+
+    let res = query.execute(&mut **tx).await?;
+    println!("res len: {}", res.rows_affected());
+
+    return Ok(res.rows_affected());
+}
 
 pub async fn insert_prfs_set_element(
     tx: &mut Transaction<'_, Postgres>,

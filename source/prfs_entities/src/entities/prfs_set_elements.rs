@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use serde::{Deserialize, Serialize};
 use strum_macros::{Display, EnumString};
 use ts_rs::TS;
@@ -8,7 +10,7 @@ pub struct PrfsSetElement {
     pub name: String,
     pub set_id: String,
     #[ts(type = "string[]")]
-    pub data: sqlx::types::Json<Vec<String>>,
+    pub data: sqlx::types::Json<HashMap<String, String>>,
     pub r#ref: Option<String>,
     pub status: PrfsSetElementStatus,
 }

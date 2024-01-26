@@ -111,7 +111,9 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
           setComputeStatus(ImportStatus.Done);
           setComputeMsg(
             <>
-              <p>{/* <b>Computed, row count: {payload.updated_row_count.toString()}</b> */}</p>
+              <p>
+                <b>Imported, row count: {payload.rows_affected.toString()}</b>
+              </p>
               <p>Reload the page</p>
             </>,
           );

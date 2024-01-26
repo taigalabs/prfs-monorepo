@@ -6,7 +6,6 @@ use crate::{
     hexutils::{convert_32bytes_into_decimal_string, convert_hex_into_32bytes},
     make_path_indices, PrfsCryptoError,
 };
-use primitive_types::U256;
 use serde::{Deserialize, Serialize};
 
 pub const ZERO: [u8; 32] = [0u8; 32];
