@@ -2,15 +2,13 @@ import React from "react";
 import cn from "classnames";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { PrfsSetElement } from "@taigalabs/prfs-entities/bindings/PrfsSetElement";
-import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 import styles from "./SetElementTable.module.scss";
-import { paths } from "@/paths";
 import {
   AttestationTableBody,
   AttestationTableHeader,
@@ -20,8 +18,7 @@ import {
   AttestationTableCell,
 } from "@/components/attestations_table/AttestationsTable";
 
-const Row: React.FC<RowProps> = ({ row, style, router }) => {
-  const i18n = React.useContext(i18nContext);
+const Row: React.FC<RowProps> = ({ row, style }) => {
   const name = React.useMemo(() => {
     if (row.name.length > 12) {
       return row.name.substring(0, 12) + "...";
