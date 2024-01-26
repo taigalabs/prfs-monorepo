@@ -9,7 +9,7 @@ use ts_rs::TS;
 pub struct PrfsSetElement {
     pub name: String,
     pub set_id: String,
-    #[ts(type = "string[]")]
+    #[ts(type = "Record<string, string>")]
     pub data: sqlx::types::Json<HashMap<String, String>>,
     pub r#ref: Option<String>,
     pub status: PrfsSetElementStatus,
