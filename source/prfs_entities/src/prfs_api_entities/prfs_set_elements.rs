@@ -7,9 +7,9 @@ use crate::{entities::PrfsSetElement, syn_entities::PrfsSetIns1};
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct ImportPrfsSetElementsRequest {
-    destination_type: String,
-    destination_id: String,
-    set_id: String,
+    src_type: String,
+    src_id: String,
+    dest_set_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

@@ -34,6 +34,8 @@ pub async fn import_prfs_set_elements(
     let req: ImportPrfsSetElementsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
 
+    println!("req: {:?}", req);
+
     let resp = ApiResponse::new_success(String::from(""));
 
     return Ok(resp.into_hyper_response());

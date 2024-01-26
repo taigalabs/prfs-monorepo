@@ -12,11 +12,6 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import styles from "./ImportSetElementsDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
 import SetTable from "./SetTable";
-import {
-  AttestationsHeader,
-  AttestationsHeaderRow,
-  AttestationsTitle,
-} from "@/components/attestations/AttestationComponents";
 import { useSignedInUser } from "@/hooks/user";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 import {
@@ -26,7 +21,9 @@ import {
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
 
-const CRYPTO_HOLDERS = "CRYPTO_HOLDERS";
+const PRFS_ATTESTATION = "prfs_attestation";
+const CRYPTO_ASSET_SIZE_ATSTS = "crypto_asset_size_atsts";
+const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 
 enum ImportStatus {
   Standby,
@@ -105,9 +102,9 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
       setComputeStatus(ImportStatus.InProgress);
       try {
         const { payload } = await ImportPrfsSetElementsRequest({
-          destination_type: "prfs_attestation",
-          destination_id: "",
-          set_id: "",
+          src_type: PRFS_ATTESTATION,
+          src_id: CRYPTO_ASSET_SIZE_ATSTS,
+          dest_set_id: CRYPTO_HOLDERS_SET_ID,
         });
 
         if (payload) {
