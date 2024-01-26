@@ -191,9 +191,11 @@ pub async fn insert_prfs_set_ins1(
     prfs_set: &PrfsSetIns1,
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
-INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
-merkle_root, element_type, finite_field, elliptic_curve, tree_depth) VALUES ($1, $2, $3, $4, 
-$5, $6, $7, $8, $9, $10, $11) returning set_id"#;
+INSERT INTO prfs_sets 
+(set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
+merkle_root, element_type, finite_field, elliptic_curve, tree_depth) 
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
+RETURNING set_id"#;
 
     let row = sqlx::query(&query)
         .bind(&prfs_set.set_id)

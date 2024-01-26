@@ -82,13 +82,13 @@ const CreateSet: React.FC<CreateSetProps> = () => {
             label,
             author: prfsProofCredential.account_id,
             desc,
-            hash_algorithm: "",
+            hash_algorithm: "Poseidon",
             cardinality: BigInt(0),
             merkle_root: "",
-            tree_depth: 32,
             element_type: "",
-            finite_field: "",
-            elliptic_curve: "",
+            tree_depth: 32,
+            finite_field: "Z_(2^256-2^32-977)",
+            elliptic_curve: "Secp256k1",
           },
         });
         setCreateStatus(Status.Standby);
@@ -98,13 +98,13 @@ const CreateSet: React.FC<CreateSetProps> = () => {
         }
         if (payload) {
           setIsNavigating(true);
-          router.push(paths.attestations__crypto_asset_size);
+          router.push(paths.sets);
         }
       } catch (err) {
         setCreateStatus(Status.Standby);
       }
     }
-  }, [setIsNavigating, setCreateMsg, setCreateStatus, router, createPrfsSetRequest]);
+  }, [formData, setIsNavigating, setCreateMsg, setCreateStatus, router, createPrfsSetRequest]);
 
   return isNavigating ? (
     <div>Navigating...</div>
