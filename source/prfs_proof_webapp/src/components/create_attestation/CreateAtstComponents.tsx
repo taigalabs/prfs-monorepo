@@ -19,6 +19,13 @@ export const AttestationListItem: React.FC<AttestationListItemProps> = ({
   );
 };
 
+export const AttestationListItemUnordered: React.FC<ContentBoxProps> = ({
+  children,
+  className,
+}) => {
+  return <div className={cn(styles.unordered, className)}>{children}</div>;
+};
+
 export const AttestationListRightCol: React.FC<ContentBoxProps> = ({ children, className }) => {
   return <div className={cn(styles.rightCol, className)}>{children}</div>;
 };

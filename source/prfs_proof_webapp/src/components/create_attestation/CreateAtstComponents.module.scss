@@ -10,7 +10,7 @@
 
 .listItem {
   display: flex;
-  padding-bottom: 24px;
+  padding-bottom: 28px;
   position: relative;
 
   &.isDisabled {
@@ -18,6 +18,10 @@
       display: block;
     }
   }
+}
+
+.unordered {
+  padding-left: 36px;
 }
 
 .no {
@@ -36,7 +40,7 @@
 .desc {
   display: block;
   word-break: break-all;
-  padding-bottom: 18px;
+  padding-bottom: 16px;
   color: var(--gray-20);
 
   > p:not(:last-child) {
