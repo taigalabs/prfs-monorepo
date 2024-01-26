@@ -56,10 +56,12 @@ import { SubmitPrfsPollResponseRequest } from "@taigalabs/prfs-entities/bindings
 import { SubmitPrfsPollResponseResponse } from "@taigalabs/prfs-entities/bindings/SubmitPrfsPollResponseResponse";
 import { GetPrfsPollResultByPollIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsPollResultByPollIdRequest";
 import { GetPrfsPollResultByPollIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsPollResultByPollIdResponse";
-// import { CreateSocialPostRequest } from "@taigalabs/prfs-entities/bindings/CreateSocialPostRequest";
-// import { CreateSocialPostResponse } from "@taigalabs/prfs-entities/bindings/CreateSocialPostResponse";
-// import { GetSocialPostsRequest } from "@taigalabs/prfs-entities/bindings/GetSocialPostsRequest";
-// import { GetSocialPostsResponse } from "@taigalabs/prfs-entities/bindings/GetSocialPostsResponse";
+import { ImportPrfsSetElementsRequest } from "@taigalabs/prfs-entities/bindings/ImportPrfsSetElementsRequest";
+import { ImportPrfsSetElementsResponse } from "@taigalabs/prfs-entities/bindings/ImportPrfsSetElementsResponse";
+import { GetPrfsSetElementsRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementsRequest";
+import { GetPrfsSetElementsResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementsResponse";
+import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
+import { GetPrfsSetElementResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementResponse";
 
 import { api } from "../utils";
 import { PrfsApiResponse } from "../types";
@@ -96,7 +98,10 @@ type RequestName =
   | "submit_prfs_poll_response"
   | "get_prfs_poll_result_by_poll_id"
   | "create_social_post"
-  | "get_social_posts";
+  | "get_social_posts"
+  | "import_prfs_set_elements"
+  | "get_prfs_set_elements"
+  | "get_prfs_set_element";
 
 type Req<T extends RequestName> = //
   T extends "sign_up_prfs_account"
@@ -159,6 +164,12 @@ type Req<T extends RequestName> = //
     ? SubmitPrfsPollResponseRequest
     : T extends "get_prfs_poll_result_by_poll_id"
     ? GetPrfsPollResultByPollIdRequest
+    : T extends "import_prfs_set_elements"
+    ? ImportPrfsSetElementsRequest
+    : T extends "get_prfs_set_elements"
+    ? GetPrfsSetElementsRequest
+    : T extends "get_prfs_set_element"
+    ? GetPrfsSetElementRequest
     : never;
 
 type Resp<T> = //
@@ -222,6 +233,14 @@ type Resp<T> = //
     ? PrfsApiResponse<SubmitPrfsPollResponseResponse>
     : T extends "get_prfs_poll_result_by_poll_id"
     ? PrfsApiResponse<GetPrfsPollResultByPollIdResponse>
+    : T extends "import_prfs_atsts_to_prfs_set"
+    ? PrfsApiResponse<GetPrfsPollResultByPollIdResponse>
+    : T extends "import_prfs_set_elements"
+    ? PrfsApiResponse<ImportPrfsSetElementsResponse>
+    : T extends "get_prfs_set_elements"
+    ? PrfsApiResponse<GetPrfsSetElementsResponse>
+    : T extends "get_prfs_set_element"
+    ? PrfsApiResponse<GetPrfsSetElementResponse>
     : any;
 
 let endpoint: string;

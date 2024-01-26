@@ -1,3 +1,6 @@
+pub use crypto_bigint;
+pub use hex;
+
 mod hexutils;
 mod merkletree;
 mod poseidon;

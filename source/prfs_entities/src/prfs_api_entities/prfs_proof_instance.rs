@@ -3,10 +3,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 use uuid::Uuid;
 
-use crate::{
-    entities::{PrfsProofInstance, PrfsSet},
-    syn_entities::PrfsProofInstanceSyn1,
-};
+use crate::{entities::PrfsProofInstance, syn_entities::PrfsProofInstanceSyn1};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]

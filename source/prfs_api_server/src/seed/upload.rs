@@ -198,7 +198,7 @@ async fn upload_dynamic_sets(db: &Database2) {
                 pos_h: 0,
                 val: record.val,
                 meta: Some(record.meta),
-                set_id,
+                set_id: set_id.to_string(),
             };
 
             nodes.push(prfs_tree_node);

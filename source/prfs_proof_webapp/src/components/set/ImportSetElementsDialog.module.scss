@@ -1,0 +1,20 @@
+.btnContent {
+  display: flex;
+  align-items: center;
+
+  > span + div {
+    margin-left: 4px;
+  }
+}
+
+.importBtn {
+  padding: 10px 18px;
+}
+
+.msg {
+  padding-top: 14px;
+
+  > p:not(:first-child) {
+    padding-top: 8px;
+  }
+}

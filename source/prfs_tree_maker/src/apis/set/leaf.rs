@@ -50,7 +50,7 @@ pub async fn create_leaves_without_offset(
             pos_h: 0,
             meta: None,
             val: account.addr.to_string(),
-            set_id,
+            set_id: set_id.to_string(),
         };
 
         nodes.push(node);

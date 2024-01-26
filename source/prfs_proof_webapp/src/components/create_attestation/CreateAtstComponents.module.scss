@@ -10,7 +10,7 @@
 
 .listItem {
   display: flex;
-  padding-bottom: 24px;
+  padding-bottom: 28px;
   position: relative;
 
   &.isDisabled {
@@ -20,22 +20,27 @@
   }
 }
 
+.unordered {
+  padding-left: 36px;
+}
+
 .no {
-  width: 32px;
+  width: 40px;
   flex-shrink: 0;
   font-size: 16px;
-  padding-left: 4px;
+  padding-left: 12px;
 }
 
 .rightCol {
   word-break: break-all;
   flex-grow: 1;
+  padding-right: 14px;
 }
 
 .desc {
   display: block;
   word-break: break-all;
-  padding-bottom: 18px;
+  padding-bottom: 12px;
   color: var(--gray-20);
 
   > p:not(:last-child) {
@@ -108,6 +113,8 @@
 
 .formBtnRow {
   padding-top: 4px;
+  padding-left: 45px;
+  padding-right: 14px;
 }
 
 @media screen and (min-width: $big_display_min_width) {
@@ -130,5 +137,9 @@
 
   .rightCol {
     padding-right: 60px;
+  }
+
+  .formBtnRow {
+    padding-right: 18px;
   }
 }

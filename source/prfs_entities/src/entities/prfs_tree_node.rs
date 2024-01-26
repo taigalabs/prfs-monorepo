@@ -7,11 +7,8 @@ use ts_rs::TS;
 pub struct PrfsTreeNode {
     #[ts(type = "number")]
     pub pos_w: Decimal,
-
     pub pos_h: i32,
     pub val: String,
     pub meta: Option<String>,
-
-    #[ts(type = "string")]
-    pub set_id: uuid::Uuid,
+    pub set_id: String,
 }

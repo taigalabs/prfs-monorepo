@@ -9,11 +9,10 @@ use prfs_entities::{
     entities::{PrfsSet, PrfsSetType},
     syn_entities::PrfsSetIns1,
 };
-use uuid::Uuid;
 
 pub async fn get_prfs_set_by_set_id(
     pool: &Pool<Postgres>,
-    set_id: &uuid::Uuid,
+    set_id: &String,
 ) -> Result<PrfsSet, DbInterfaceError> {
     let query = format!("SELECT * from prfs_sets where set_id=$1");
 
@@ -23,7 +22,7 @@ pub async fn get_prfs_set_by_set_id(
         .await
         .unwrap();
 
-    let set_id: uuid::Uuid = row.try_get("set_id").expect("invalid set_id");
+    let set_id: String = row.try_get("set_id").expect("invalid set_id");
     let label: String = row.try_get("label").expect("invalid label");
     let author: String = row.try_get("author").expect("invalid author");
     let desc: String = row.try_get("desc").expect("invalid desc");
@@ -85,7 +84,7 @@ OFFSET $2
     let prfs_sets: Vec<PrfsSet> = rows
         .iter()
         .map(|r| {
-            let set_id: uuid::Uuid = r.try_get("set_id").expect("invalid set_id");
+            let set_id: String = r.try_get("set_id").expect("invalid set_id");
             let label: String = r.try_get("label").expect("invalid label");
             let author: String = r.try_get("author").expect("invalid author");
             let desc: String = r.try_get("desc").expect("invalid desc");
@@ -150,7 +149,7 @@ OFFSET $3
     let prfs_sets: Vec<PrfsSet> = rows
         .iter()
         .map(|r| {
-            let set_id: uuid::Uuid = r.try_get("set_id").expect("invalid set_id");
+            let set_id: String = r.try_get("set_id").expect("invalid set_id");
             let label: String = r.try_get("label").expect("invalid label");
             let author: String = r.try_get("author").expect("invalid author");
             let desc: String = r.try_get("desc").expect("invalid desc");
@@ -190,11 +189,13 @@ OFFSET $3
 pub async fn insert_prfs_set_ins1(
     tx: &mut Transaction<'_, Postgres>,
     prfs_set: &PrfsSetIns1,
-) -> Result<Uuid, DbInterfaceError> {
+) -> Result<String, DbInterfaceError> {
     let query = r#"
-INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
-merkle_root, element_type, finite_field, elliptic_curve, tree_depth) VALUES ($1, $2, $3, $4, 
-$5, $6, $7, $8, $9, $10, $11) returning set_id"#;
+INSERT INTO prfs_sets 
+(set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
+merkle_root, element_type, finite_field, elliptic_curve, tree_depth) 
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
+RETURNING set_id"#;
 
     let row = sqlx::query(&query)
         .bind(&prfs_set.set_id)
@@ -213,7 +214,7 @@ $5, $6, $7, $8, $9, $10, $11) returning set_id"#;
         .await
         .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
 
-    let set_id: Uuid = row.get("set_id");
+    let set_id: String = row.get("set_id");
 
     return Ok(set_id);
 }
@@ -221,7 +222,7 @@ $5, $6, $7, $8, $9, $10, $11) returning set_id"#;
 pub async fn insert_prfs_set(
     tx: &mut Transaction<'_, Postgres>,
     prfs_set: &PrfsSet,
-) -> Result<Uuid, DbInterfaceError> {
+) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
 merkle_root, element_type, elliptic_curve, finite_field, tree_depth)
@@ -245,7 +246,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         .await
         .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
 
-    let set_id: Uuid = row.try_get("set_id").unwrap();
+    let set_id: String = row.try_get("set_id").unwrap();
 
     Ok(set_id)
 }
@@ -253,7 +254,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
 pub async fn upsert_prfs_set(
     tx: &mut Transaction<'_, Postgres>,
     prfs_set: &PrfsSet,
-) -> Result<Uuid, DbInterfaceError> {
+) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
 merkle_root, element_type, elliptic_curve, finite_field, tree_depth) 
@@ -280,7 +281,7 @@ RETURNING set_id
         .await
         .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
 
-    let set_id: Uuid = row.try_get("set_id").unwrap();
+    let set_id: String = row.try_get("set_id").unwrap();
 
     Ok(set_id)
 }

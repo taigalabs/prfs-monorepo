@@ -8,8 +8,7 @@ use uuid::Uuid;
 #[derive(TS, Clone, Debug, Serialize, Deserialize)]
 #[ts(export)]
 pub struct PrfsSet {
-    #[ts(type = "string")]
-    pub set_id: Uuid,
+    pub set_id: String,
     pub set_type: PrfsSetType,
 
     pub label: String,

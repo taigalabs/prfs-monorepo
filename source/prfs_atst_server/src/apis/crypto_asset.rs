@@ -6,12 +6,12 @@ use hyper_utils::ApiHandleError;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api_entities::{
-    ComputeCryptoSizeTotalValuesRequest, ComputeCryptoSizeTotalValuesResponse,
-    CreateCryptoSizeAtstRequest, CreateCryptoSizeAtstResponse, FetchCryptoAssetRequest,
-    FetchCryptoAssetResponse, GetCryptoSizeAtstRequest, GetCryptoSizeAtstResponse,
-    GetCryptoSizeAtstsRequest, GetCryptoSizeAtstsResponse,
+    ComputeCryptoAssetSizeTotalValuesRequest, ComputeCryptoAssetSizeTotalValuesResponse,
+    CreateCryptoAssetSizeAtstRequest, CreateCryptoAssetSizeAtstResponse, FetchCryptoAssetRequest,
+    FetchCryptoAssetResponse, GetCryptoAssetSizeAtstRequest, GetCryptoAssetSizeAtstResponse,
+    GetCryptoAssetSizeAtstsRequest, GetCryptoAssetSizeAtstsResponse,
 };
-use prfs_entities::entities::{PrfsAtstStatus, PrfsCryptoSizeAtst};
+use prfs_entities::entities::{PrfsAtstStatus, PrfsCryptoAssetSizeAtst};
 use prfs_entities::sqlx::types::Json;
 use prfs_web_fetcher::destinations::coinbase::{self};
 use rust_decimal::prelude::FromPrimitive;
@@ -43,15 +43,15 @@ pub async fn fetch_crypto_asset(
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn create_crypto_size_atst(
+pub async fn create_crypto_asset_size_atst(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
-    let req: CreateCryptoSizeAtstRequest = parse_req(req).await;
+    let req: CreateCryptoAssetSizeAtstRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let crypto_size_atst = PrfsCryptoSizeAtst {
+    let crypto_size_atst = PrfsCryptoAssetSizeAtst {
         atst_id: req.atst_id,
         atst_type: req.atst_type,
         wallet_addr: req.wallet_addr,
@@ -60,13 +60,13 @@ pub async fn create_crypto_size_atst(
         status: PrfsAtstStatus::Valid,
         total_value_usd: Decimal::from(0),
     };
-    let atst_id = prfs::insert_prfs_crypto_size_atst(&mut tx, &crypto_size_atst)
+    let atst_id = prfs::insert_prfs_crypto_asset_size_atst(&mut tx, &crypto_size_atst)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))?;
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreateCryptoSizeAtstResponse {
+    let resp = ApiResponse::new_success(CreateCryptoAssetSizeAtstResponse {
         is_valid: true,
         atst_id,
     });
@@ -74,14 +74,14 @@ pub async fn create_crypto_size_atst(
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_crypto_size_atsts(
+pub async fn get_crypto_asset_size_atsts(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
-    let req: GetCryptoSizeAtstsRequest = parse_req(req).await;
+    let req: GetCryptoAssetSizeAtstsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
 
-    let rows = prfs::get_prfs_crypto_size_atsts(&pool, req.offset, LIMIT)
+    let rows = prfs::get_prfs_crypto_asset_size_atsts(&pool, req.offset, LIMIT)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))?;
 
@@ -91,33 +91,33 @@ pub async fn get_crypto_size_atsts(
         Some(req.offset + LIMIT)
     };
 
-    let resp = ApiResponse::new_success(GetCryptoSizeAtstsResponse { rows, next_offset });
+    let resp = ApiResponse::new_success(GetCryptoAssetSizeAtstsResponse { rows, next_offset });
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_crypto_size_atst(
+pub async fn get_crypto_asset_size_atst(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
-    let req: GetCryptoSizeAtstRequest = parse_req(req).await;
+    let req: GetCryptoAssetSizeAtstRequest = parse_req(req).await;
     let pool = &state.db2.pool;
 
-    let prfs_crypto_size_atst = prfs::get_prfs_crypto_size_atst(&pool, &req.atst_id)
+    let prfs_crypto_asset_size_atst = prfs::get_prfs_crypto_asset_size_atst(&pool, &req.atst_id)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))?;
 
-    let resp = ApiResponse::new_success(GetCryptoSizeAtstResponse {
-        prfs_crypto_size_atst,
+    let resp = ApiResponse::new_success(GetCryptoAssetSizeAtstResponse {
+        prfs_crypto_asset_size_atst,
     });
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn compute_crypto_size_total_values(
+pub async fn compute_crypto_asset_size_total_values(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
     let pool = &state.db2.pool;
-    let req: ComputeCryptoSizeTotalValuesRequest = parse_req(req).await;
+    let req: ComputeCryptoAssetSizeTotalValuesRequest = parse_req(req).await;
 
     if req.account_id != MASTER_ACCOUNT_ID {
         return Err(ApiHandleError::from(
@@ -127,8 +127,7 @@ pub async fn compute_crypto_size_total_values(
     }
 
     let exchange_rates = coinbase::get_exchange_rates("ETH").await.unwrap();
-
-    let atsts = prfs::get_prfs_crypto_size_atsts(&pool, 0, 50000)
+    let atsts = prfs::get_prfs_crypto_asset_size_atsts(&pool, 0, 50000)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))?;
 
@@ -142,7 +141,7 @@ pub async fn compute_crypto_size_total_values(
         if let Some(c) = atst.crypto_assets.get(0) {
             let v = c.amount * usd / denom;
             atst.total_value_usd = v;
-            prfs::insert_prfs_crypto_size_atst(&mut tx, &atst)
+            prfs::insert_prfs_crypto_asset_size_atst(&mut tx, &atst)
                 .await
                 .map_err(|err| {
                     ApiHandleError::from(&API_ERROR_CODE.CRYPTO_SIZE_UPSERT_FAIL, err)
@@ -157,7 +156,7 @@ pub async fn compute_crypto_size_total_values(
     );
     tx.commit().await.unwrap();
 
-    let resp = ComputeCryptoSizeTotalValuesResponse {
+    let resp = ComputeCryptoAssetSizeTotalValuesResponse {
         exchange_rates: exchange_rates.data,
         updated_row_count: count,
     };

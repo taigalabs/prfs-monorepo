@@ -161,7 +161,7 @@ pub fn load_dynamic_sets() -> HashMap<String, DynamicSetJson> {
 
     let mut m = HashMap::new();
     for dynamic_set in dynamic_sets {
-        let set_id = dynamic_set.prfs_set.set_id;
+        let set_id = dynamic_set.prfs_set.set_id.to_string();
         println!("Reading set, set_id: {}", set_id);
 
         m.insert(set_id.to_string(), dynamic_set.clone());

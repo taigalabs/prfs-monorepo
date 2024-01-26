@@ -1,0 +1,21 @@
+.computeBtn {
+  padding: 10px 18px;
+}
+
+.computeMsg {
+  padding-top: 16px;
+  color: var(--black-10);
+
+  > p:not(:first-child) {
+    padding-top: 8px;
+  }
+}
+
+.btnContent {
+  display: flex;
+  align-items: center;
+
+  > span + div {
+    margin-left: 4px;
+  }
+}

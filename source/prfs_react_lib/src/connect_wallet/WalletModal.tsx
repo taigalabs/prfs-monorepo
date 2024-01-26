@@ -43,7 +43,7 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
         <p>Other options will be available later</p>
       </div>
       <div className={styles.address}>
-        <button onClick={extendedHandleChangeAddress}>
+        <button className={styles.button} onClick={extendedHandleChangeAddress}>
           {ensName ? `${ensName} (${address})` : addr}
         </button>
       </div>
@@ -73,7 +73,9 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
       <ul className={styles.connectList}>
         {connectors.map((connector: Connector) => (
           <li key={connector.id}>
-            <button onClick={() => connect({ connector })}>{connector.name}</button>
+            <button className={styles.button} onClick={() => connect({ connector })}>
+              {connector.name}
+            </button>
           </li>
         ))}
       </ul>

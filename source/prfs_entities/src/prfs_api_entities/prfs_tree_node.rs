@@ -1,7 +1,6 @@
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
-use uuid::Uuid;
 
 use crate::entities::PrfsTreeNode;
 
@@ -16,8 +15,7 @@ pub struct NodePos {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsTreeNodesByPosRequest {
-    #[ts(type = "'<Uuid>' | string")]
-    pub set_id: Uuid,
+    pub set_id: String,
     pub pos: Vec<NodePos>,
 }
 
@@ -32,17 +30,13 @@ pub struct GetPrfsTreeNodesResponse {
 pub struct GetPrfsTreeLeafNodesBySetIdRequest {
     pub page_idx: i32,
     pub page_size: i32,
-
-    #[ts(type = "'<Uuid>' | string")]
-    pub set_id: Uuid,
+    pub set_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsTreeLeafIndicesRequest {
-    #[ts(type = "'<Uuid>' | string")]
-    pub set_id: Uuid,
-
+    pub set_id: String,
     pub leaf_vals: Vec<String>,
 }
 
