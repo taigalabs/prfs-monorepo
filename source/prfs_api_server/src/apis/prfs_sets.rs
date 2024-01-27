@@ -17,8 +17,8 @@ use prfs_entities::{
         UpdatePrfsTreeNodeRequest,
     },
 };
+use prfs_tree_maker::apis2::tree;
 use prfs_tree_maker::tree_maker_apis;
-use prfs_tree_maker::tree_maker_apis::tree;
 use rust_decimal::Decimal;
 use std::{convert::Infallible, sync::Arc};
 
@@ -195,7 +195,8 @@ pub async fn create_tree_of_prfs_set(
 
     println!("set_elements, {:?}", set_elements);
 
-    tree::create_leaves(set_elements);
+    let leaves = tree::create_leaves(set_elements).unwrap();
+    println!("leaves: {:?}", leaves);
 
     // let largest_pos_w = prfs::get_largest_pos_w_tree_leaf_node(&pool, &req.set_id)
     //     .await

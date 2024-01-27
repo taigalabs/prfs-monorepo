@@ -37,7 +37,6 @@ rust_decimal_macros = "1.29"
 group = "0.12"
 rand = "0.8"
 ff = "0.12"
-hex = "0.4.3"
 uuid = { version = "1.4.1", features = ["v4", "serde"] }
 
 prfs_db_interface = { path = "../prfs_db_interface" }
