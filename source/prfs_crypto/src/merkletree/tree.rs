@@ -1,14 +1,13 @@
-use std::sync::Arc;
-
 use super::merklepath::make_sibling_path;
+use serde::{Deserialize, Serialize};
+
 use crate::{
     hash_two,
     hexutils::{convert_32bytes_into_decimal_string, convert_hex_into_32bytes},
     make_path_indices, PrfsCryptoError,
 };
-use serde::{Deserialize, Serialize};
 
-pub const ZERO: [u8; 32] = [0u8; 32];
+pub const ZERO_NODE: [u8; 32] = [0u8; 32];
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -98,7 +97,7 @@ pub fn make_merkle_proof(
                 // "Node in merkle path should exist, h: {}, my_idx: {}",
                 // h, my_idx))
 
-                &ZERO
+                &ZERO_NODE
             }
         };
 
@@ -126,7 +125,7 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
     if children.len() == 1 {
         let mut parent = vec![];
         let left = children.get(0).unwrap();
-        let right = &ZERO;
+        let right = &ZERO_NODE;
 
         let res = hash_two(left, right).unwrap();
         parent.push(res);
@@ -164,7 +163,7 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
                 // let res = convert_32bytes_into_decimal_string(&res)?;
                 // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
             } else {
-                let right = &ZERO;
+                let right = &ZERO_NODE;
                 // only left is present
                 let res = hash_two(left, right).unwrap();
                 parent.push(res);

@@ -2,6 +2,7 @@ mod revisit;
 mod scan;
 mod scan_genesis;
 mod set;
+pub mod tree;
 
 pub use revisit::*;
 pub use scan::*;
