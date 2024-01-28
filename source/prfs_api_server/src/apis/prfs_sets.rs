@@ -189,7 +189,11 @@ pub async fn create_tree_of_prfs_set(
 
     println!("req: {:?}", req);
 
-    let set_elements = prfs::get_prfs_set_elements(&pool, &req.set_id, 0, 50000)
+    let mut set = prfs::get_prfs_set_by_set_id(&pool, &req.set_id)
+        .await
+        .unwrap();
+
+    let set_elements = prfs::get_prfs_set_elements(&pool, &set.set_id, 0, 50000)
         .await
         .unwrap();
 
@@ -197,6 +201,9 @@ pub async fn create_tree_of_prfs_set(
 
     let leaves = tree::create_leaves(set_elements).unwrap();
     println!("leaves: {:?}", leaves);
+
+    let parents = tree::calc_parent_nodes(&leaves).unwrap();
+    println!("parents: {:?}", parents);
 
     // let largest_pos_w = prfs::get_largest_pos_w_tree_leaf_node(&pool, &req.set_id)
     //     .await
