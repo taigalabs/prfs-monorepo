@@ -3,7 +3,7 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./TwitterAccAtstList.module.scss";
+import styles from "./ProofTypeList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import ProofTypeTable from "./ProofTypeTable";
 import {

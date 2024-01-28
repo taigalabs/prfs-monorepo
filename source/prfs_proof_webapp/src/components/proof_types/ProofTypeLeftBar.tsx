@@ -47,22 +47,6 @@ const ProofTypeLeftbar: React.FC<AttestationLeftBarProps> = () => {
             </LeftBarItemButton>
           </Link>
         </LeftBarItem>
-        <LeftBarItem>
-          <Link href={paths.attestations__crypto_asset_size}>
-            <LeftBarItemButton isHighlighted={name === CRYPTO_ASSET_SIZE}>
-              <FaBitcoin />
-              <span>{i18n.crypto_asset_size}</span>
-            </LeftBarItemButton>
-          </Link>
-        </LeftBarItem>
-        {/* <LeftBarItem> */}
-        {/*   <Link href=""> */}
-        {/*     <LeftBarItemButton isHighlighted={name === LINKEDIN} disabled> */}
-        {/*       <FaLinkedin /> */}
-        {/*       <span>{i18n.linkedin} (Coming later)</span> */}
-        {/*     </LeftBarItemButton> */}
-        {/*   </Link> */}
-        {/* </LeftBarItem> */}
       </LeftBarMenu>
     </LeftBarWrapper>
   );

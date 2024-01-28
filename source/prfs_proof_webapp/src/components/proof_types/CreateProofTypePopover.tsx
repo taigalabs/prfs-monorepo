@@ -57,7 +57,7 @@ const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = () => {
     <Button
       variant="light_blue_1"
       className={styles.createBtn}
-      contentClassName={styles.addBtnContent}
+      contentClassName={styles.btnContent}
       disabled
     >
       <a href="">
