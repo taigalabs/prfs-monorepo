@@ -7,8 +7,8 @@ import {
 } from "@taigalabs/prfs-react-lib/src/prfs_apps_popover/Modal";
 import { TbCertificate } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbCertificate";
 import { TbMathPi } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbMathPi";
-import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
 import { BiCodeCurly } from "@react-icons/all-files/bi/BiCodeCurly";
+import { Pi } from "@phosphor-icons/react";
 
 import styles from "./PrfsAppsPopoverDefault.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -53,6 +53,12 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
           <a href={urls.sets} className={styles.item}>
             <BiCodeCurly />
             <span>{i18n.sets}</span>
+          </a>
+        </PrfsAppsPopoverLi>
+        <PrfsAppsPopoverLi noPadding>
+          <a href={urls.proof_types} className={styles.item}>
+            <Pi />
+            <span>{i18n.proof_types}</span>
           </a>
         </PrfsAppsPopoverLi>
       </PrfsAppsPopoverUl>
