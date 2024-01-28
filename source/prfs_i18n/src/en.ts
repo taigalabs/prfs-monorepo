@@ -162,6 +162,7 @@ export default {
   twitter_acc_attestations: "X (Twitter) account attestations",
   crypto_asset_size_attestations: "Crypto asset size attestations",
   x_twitter: "X (Twitter)",
+  all: "All",
   telegram: "Telegram",
   discord: "Discord",
   driver_version: "Driver version",

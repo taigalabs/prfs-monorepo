@@ -5,7 +5,7 @@ import cn from "classnames";
 import Link from "next/link";
 import Popover from "@taigalabs/prfs-react-lib/src/popover/Popover";
 
-import styles from "./CreateAtstPopover.module.scss";
+import styles from "./CreateProofTypePopover.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
@@ -32,34 +32,39 @@ const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
 const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = () => {
   const i18n = React.useContext(i18nContext);
 
-  const createBase = React.useCallback((isOpen: boolean) => {
-    return (
-      <Button
-        variant="light_blue_1"
-        handleClick={() => {}}
-        className={styles.addBtn}
-        contentClassName={styles.addBtnContent}
-      >
-        <HiPlus />
-        <span>{i18n.create_attestation}</span>
-      </Button>
-    );
-  }, []);
+  // const createBase = React.useCallback((isOpen: boolean) => {
+  //   return (
+  //     <Button
+  //       variant="light_blue_1"
+  //       handleClick={() => {}}
+  //       className={styles.addBtn}
+  //       contentClassName={styles.addBtnContent}
+  //     >
+  //       <HiPlus />
+  //       <span>{i18n.create_attestation}</span>
+  //     </Button>
+  //   );
+  // }, []);
 
-  const createPopover = React.useCallback(
-    (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
-      return <Modal setIsOpen={setIsOpen} />;
-    },
-    [],
-  );
+  // const createPopover = React.useCallback(
+  //   (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
+  //     return <Modal setIsOpen={setIsOpen} />;
+  //   },
+  //   [],
+  // );
 
   return (
-    <Popover
-      createBase={createBase}
-      createPopover={createPopover}
-      offset={4}
-      popoverClassName={styles.popoverWrapper}
-    />
+    <Button
+      variant="light_blue_1"
+      className={styles.createBtn}
+      contentClassName={styles.addBtnContent}
+      disabled
+    >
+      <a href="">
+        <HiPlus />
+        <span>{i18n.create_proof_type}</span>
+      </a>
+    </Button>
   );
 };
 

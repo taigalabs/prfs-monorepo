@@ -5,10 +5,10 @@ import { FaLinkedin } from "@react-icons/all-files/fa/FaLinkedin";
 import { FaBitcoin } from "@react-icons/all-files/fa/FaBitcoin";
 import { usePathname } from "next/navigation";
 
-import styles from "./AttestationLeftBar.module.scss";
+import styles from "./ProofTypeLeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import CreateAtstPopover from "./CreateAtstPopover";
+import CreateProofTypePopover from "./CreateProofTypePopover";
 import {
   LeftBarItem,
   LeftBarItemButton,
@@ -20,7 +20,7 @@ import {
 const TWITTER = "twitter";
 const CRYPTO_ASSET_SIZE = "crypto_asset_size";
 
-const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
+const ProofTypeLeftbar: React.FC<AttestationLeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);
   const pathname = usePathname();
   const name = React.useMemo(() => {
@@ -36,19 +36,14 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
     <LeftBarWrapper>
       <LeftBarTopMenu>
         <LeftBarItem>
-          <CreateAtstPopover />
+          <CreateProofTypePopover />
         </LeftBarItem>
       </LeftBarTopMenu>
       <LeftBarMenu>
         <LeftBarItem>
-          <Link href={paths.attestations__twitter}>
-            <LeftBarItemButton isHighlighted={name === TWITTER}>
-              <img
-                src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"
-                alt="Twitter"
-                crossOrigin=""
-              />
-              <span>{i18n.x_twitter}</span>
+          <Link href={paths.proof_types}>
+            <LeftBarItemButton isHighlighted={true}>
+              <span>{i18n.all}</span>
             </LeftBarItemButton>
           </Link>
         </LeftBarItem>
@@ -73,6 +68,6 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
   );
 };
 
-export default AttestationLeftBar;
+export default ProofTypeLeftbar;
 
 export interface AttestationLeftBarProps {}

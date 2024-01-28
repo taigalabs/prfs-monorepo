@@ -3,7 +3,8 @@ import React, { Suspense } from "react";
 import styles from "./page.module.scss";
 import DefaultLayout, { DefaultFooter } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import Attestations from "@/components/attestations/Attestations";
+// import Attestations from "@/components/attestations/Attestations";
+import ProofTypes from "@/components/proof_types/ProofTypes";
 import TwitterAccAtstList from "@/components/twitter_acc_atst_list/TwitterAccAtstList";
 import {
   AttestationsDefaultBody,
@@ -16,13 +17,13 @@ const ProofTypesPage = () => {
     <DefaultLayout>
       <AttestationsDefaultBody>
         <Suspense>
-          <Attestations>
+          <ProofTypes>
             <AttestationsMain>
               <AttestationsMainInner>
                 <TwitterAccAtstList />
               </AttestationsMainInner>
             </AttestationsMain>
-          </Attestations>
+          </ProofTypes>
         </Suspense>
       </AttestationsDefaultBody>
       <DefaultFooter>

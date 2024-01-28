@@ -6,7 +6,7 @@ import Link from "next/link";
 import { BsBook } from "@react-icons/all-files/bs/BsBook";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 
-import styles from "./AttestationsMasthead.module.scss";
+import styles from "./ProofTypeMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 import PrfsAppsPopoverDefault from "@/components/prfs_apps_popover_default/PrfsAppsPopoverDefault";
@@ -39,8 +39,8 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
       <div className={styles.leftBarDrawerBtn}>
         <AppLogo
           handleClickShowLeftBar={handleClickShowLeftBarDrawer}
-          url={paths.attestations}
-          label={i18n.attestations}
+          url={paths.proof_types}
+          label={i18n.proof_types}
         />
       </div>
       <MastheadMain>

@@ -9,13 +9,13 @@ import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import styles from "./ProofTypes.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import ProofTypeLeftBar from "./ProofTypeLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 import { LeftBarContainer } from "@/components/left_bar/LeftBar";
 import AppLogo from "@/components/app_logo/AppLogo";
+import ProofTypeMasthead from "./ProofTypeMasthead";
 
 const ProofTypes: React.FC<ProofTypesProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
@@ -60,7 +60,7 @@ const ProofTypes: React.FC<ProofTypesProps> = ({ children }) => {
 
   return prfsProofCredential ? (
     <>
-      <AttestationsMasthead
+      <ProofTypeMasthead
         handleClickShowLeftBar={handleClickShowLeftBar}
         handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
       />

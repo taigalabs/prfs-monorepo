@@ -9,7 +9,7 @@ import SearchProofDialog from "@taigalabs/prfs-react-lib/src/search_proof_dialog
 import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 
-import styles from "./ProofTypeMasthead.module.scss";
+import styles from "./ProofTypeSelectedMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
@@ -23,7 +23,7 @@ import {
 } from "@/components/masthead/Masthead";
 import { envs } from "@/envs";
 
-const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
+const ProofTypeSelectedMasthead: React.FC<ProofTypeMastheadProps> = ({
   isActivated,
   proofInstanceId,
   proofType,
@@ -70,7 +70,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   );
 };
 
-export default ProofTypeMasthead;
+export default ProofTypeSelectedMasthead;
 
 export interface ProofTypeMastheadProps {
   isActivated?: boolean;
