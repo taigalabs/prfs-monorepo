@@ -25,6 +25,12 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
   const label = React.useMemo(() => {
     return `${row.label.substring(0, 26)}...`;
   }, [row.label]);
+  const desc = React.useMemo(() => {
+    return `${row.label.substring(0, 18)}...`;
+  }, [row.desc]);
+  const circuitId = React.useMemo(() => {
+    return `${row.label.substring(0, 12)}...`;
+  }, [row.circuit_id]);
   // const handleClick = React.useCallback(() => {
   //   router.push(`${paths.attestations__twitter}/${atst.acc_atst_id}`);
   // }, [atst.acc_atst_id, router]);
@@ -32,14 +38,11 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
   return (
     <AttestationTableRow style={style}>
       <AttestationTableCell className={cn(styles.label)}>
-        <img src={row.img_url || ""} crossOrigin="" />
         <span>{label}</span>
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.desc, styles.w1024)}>
-        {row.desc}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.circuit_id, styles.w1024)}>
-        {row.circuit_id}
+      <AttestationTableCell className={cn(styles.desc, styles.w1024)}>{desc}</AttestationTableCell>
+      <AttestationTableCell className={cn(styles.circuitId, styles.w1024)}>
+        {circuitId}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
         {i18n.not_available}
@@ -58,6 +61,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
     useInfiniteQuery({
       queryKey: ["get_prfs_proof_types"],
       queryFn: async ({ pageParam }) => {
+        console.log(22, pageParam);
         return prfsApi2("get_prfs_proof_types", { offset: pageParam as number });
       },
       initialPageParam: 0,
@@ -115,12 +119,12 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
             })}
           >
             <AttestationTableHeaderCell className={cn(styles.label)}>
-              {i18n.username}
+              {i18n.label}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.desc, styles.w1024)}>
               {i18n.description}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.circuit_id, styles.w1320)}>
+            <AttestationTableHeaderCell className={cn(styles.circuitId, styles.w1320)}>
               {i18n.circuit_id}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>

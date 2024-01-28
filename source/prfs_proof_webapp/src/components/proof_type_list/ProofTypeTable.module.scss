@@ -1,6 +1,6 @@
 @import "styles/layouts.module.scss";
 
-.username {
+.label {
   width: 270px;
   display: flex;
   align-items: center;
@@ -16,29 +16,12 @@
   }
 }
 
-.accountId {
+.desc {
   width: 180px;
 }
 
-.commitment {
+.circuitId {
   width: 230px;
-}
-
-.document {
-  width: 110px;
-
-  &.cell {
-    color: var(--blue-19);
-  }
-
-  > a {
-    display: flex;
-    align-items: center;
-
-    > span {
-      padding-right: 2px;
-    }
-  }
 }
 
 .notarized {

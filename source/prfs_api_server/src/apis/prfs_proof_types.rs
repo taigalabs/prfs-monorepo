@@ -16,7 +16,7 @@ use prfs_entities::{
 };
 use std::{convert::Infallible, sync::Arc};
 
-const LIMIT: i32 = 5;
+const LIMIT: i32 = 10;
 
 pub async fn get_prfs_proof_types(
     req: Request<Incoming>,
