@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
