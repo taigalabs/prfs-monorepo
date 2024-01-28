@@ -129,8 +129,17 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           leaf_vals: [addr],
         });
 
-        if (payload === null) {
-          throw new Error(error);
+        if (error) {
+          setFormErrors((prevVals: any) => {
+            return {
+              ...prevVals,
+              [circuitInput.name]: error,
+            };
+          });
+        }
+
+        if (!payload) {
+          return;
         }
 
         let pos_w = null;
@@ -181,6 +190,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           siblings: siblings as bigint[],
           pathIndices,
         };
+
+        console.log(11, siblingNodesData, merkleProof);
 
         setFormValues((prevVals: any) => {
           return {

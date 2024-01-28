@@ -1,3 +1,4 @@
+use ethers_core::k256::{elliptic_curve::bigint::Encoding, U256};
 use hyper::{body::Incoming, Request, Response};
 use hyper_utils::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
@@ -199,11 +200,32 @@ pub async fn create_tree_of_prfs_set(
 
     println!("set_elements, {:?}", set_elements);
 
-    let leaves = tree::create_leaves(set_elements).unwrap();
+    let mut leaves = tree::create_leaves(set_elements).unwrap();
     println!("leaves: {:?}", leaves);
 
-    let parents = tree::calc_parent_nodes(&leaves).unwrap();
-    println!("parents: {:?}", parents);
+    for d in 0..set.tree_depth {
+        let parents = tree::calc_parent_nodes(&leaves).unwrap();
+        let mut nodes = vec![];
+        for (idx, p) in parents.iter().enumerate() {
+            let val = prfs_crypto::convert_32bytes_into_decimal_string(&p).unwrap();
+
+            let n = PrfsTreeNode {
+                pos_w: Decimal::from(idx),
+                pos_h: (d + 1) as i32,
+                meta: None,
+                val,
+                set_id: set.set_id.to_string(),
+            };
+
+            nodes.push(n);
+
+            prfs::insert_prfs_tree_nodes(&mut tx, &nodes, true)
+                .await
+                .unwrap();
+        }
+    }
+
+    // println!("parents: {:?}", parents);
 
     // let largest_pos_w = prfs::get_largest_pos_w_tree_leaf_node(&pool, &req.set_id)
     //     .await

@@ -41,6 +41,7 @@ hyper_utils = { path = "../hyper_utils" }
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
+prfs_crypto = { path = "../prfs_crypto" }
 prfs_entities = { path = "../prfs_entities" }
 prfs_web_fetcher = { path = "../prfs_web_fetcher" }
 prfs_id_server = { path = "../prfs_id_server" }

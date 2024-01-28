@@ -11,9 +11,7 @@ use std::u128;
 
 use crate::TreeMakerError;
 
-pub fn create_leaves(
-    set_elements: Vec<PrfsSetElement>,
-) -> Result<Vec<PrfsTreeNode>, TreeMakerError> {
+pub fn create_leaves(set_elements: Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>, TreeMakerError> {
     let mut nodes = vec![];
     for (elem_idx, elem) in set_elements.iter().enumerate() {
         let data = &elem.data;
@@ -42,19 +40,19 @@ pub fn create_leaves(
         // println!("data: {:?}", data);
         // println!("args: {:?}", args);
         let val = poseidon_2(&args[0], &args[1]).unwrap();
-        let val = format!("0x{}", hex::encode(val));
+        // let val = format!("0x{}", hex::encode(val));
         // let val = U256::from_be_bytes(val);
         println!("val: {:?}", val);
 
-        let node = PrfsTreeNode {
-            pos_w: Decimal::from_u64(elem_idx as u64).unwrap(),
-            pos_h: 0,
-            meta: None,
-            val,
-            set_id: elem.set_id.to_string(),
-        };
+        // let node = PrfsTreeNode {
+        //     pos_w: Decimal::from_u64(elem_idx as u64).unwrap(),
+        //     pos_h: 0,
+        //     meta: None,
+        //     val,
+        //     set_id: elem.set_id.to_string(),
+        // };
 
-        nodes.push(node);
+        nodes.push(val);
     }
 
     return Ok(nodes);
@@ -62,7 +60,7 @@ pub fn create_leaves(
 
 pub fn calc_parent_nodes(
     // prfs_set: &PrfsSet,
-    children: &Vec<PrfsTreeNode>,
+    children: &Vec<[u8; 32]>,
 ) -> Result<Vec<[u8; 32]>, TreeMakerError> {
     // let set_label = prfs_set.label.to_string();
     // let depth = prfs_set.tree_depth as usize;
@@ -80,20 +78,20 @@ pub fn calc_parent_nodes(
         return Err(format!("Cannot climb if there is no children ").into());
     }
 
-    let children: Vec<[u8; 32]> = children
-        .iter()
-        .map(|leaf| {
-            let b = prfs_crypto::convert_hex_into_32bytes(&leaf.val).unwrap();
-            b
-        })
-        .collect();
+    // let children: Vec<[u8; 32]> = children
+    //     .iter()
+    //     .map(|child| {
+    //         let b = prfs_crypto::convert_hex_into_32bytes(&child).unwrap();
+    //         b
+    //     })
+    //     .collect();
 
     // let mut count = 0;
-    let mut parent_nodes = vec![];
+    // let mut parent_nodes = vec![];
     // for d in 0..depth {
     // println!("processing depth: {}, children len: {}", d, children.len());
 
-    let parent = match prfs_crypto::calc_parent_nodes(&children) {
+    let parents = match prfs_crypto::calc_parent_nodes(&children) {
         Ok(p) => p,
         Err(err) => return Err(format!("calc parent err: {}", err).into()),
     };
@@ -101,20 +99,20 @@ pub fn calc_parent_nodes(
     // println!("Finished processing parent, len: {}", parent.len());
 
     // parent_nodes = vec![];
-    for (_, node) in parent.into_iter().enumerate() {
-        // println!("node: {:?}, idx: {}", node, idx);
-        // let val = prfs_crypto::convert_32bytes_into_decimal_string(node).unwrap();
+    // for (_, node) in parents.into_iter().enumerate() {
+    //     // println!("node: {:?}, idx: {}", node, idx);
+    //     // let val = prfs_crypto::convert_32bytes_into_decimal_string(node).unwrap();
 
-        // let n = PrfsTreeNode {
-        //     pos_w: Decimal::from(idx),
-        //     pos_h: (d + 1) as i32,
-        //     meta: None,
-        //     val,
-        //     set_id: set_id.to_string(),
-        // };
+    //     // let n = PrfsTreeNode {
+    //     //     pos_w: Decimal::from(idx),
+    //     //     pos_h: (d + 1) as i32,
+    //     //     meta: None,
+    //     //     val,
+    //     //     set_id: set_id.to_string(),
+    //     // };
 
-        parent_nodes.push(node);
-    }
+    //     parent_nodes.push(node);
+    // }
 
     // println!(
     //     "{} parent nodes, d: {}, parent_nodes len: {}",
@@ -157,5 +155,5 @@ pub fn calc_parent_nodes(
     // prfs_set.merkle_root = merkle_root.to_string();
     // // prfs::upsert_prfs_set(tx, &prfs_set).await.unwrap();
 
-    return Ok(parent_nodes);
+    return Ok(parents);
 }
