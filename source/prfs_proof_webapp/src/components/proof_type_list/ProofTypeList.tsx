@@ -5,29 +5,27 @@ import cn from "classnames";
 
 import styles from "./TwitterAccAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
-import TwitterAccAtstTable from "./ProofTypeTable";
+import ProofTypeTable from "./ProofTypeTable";
 import {
   AttestationsHeader,
   AttestationsTitle,
 } from "@/components/attestations/AttestationComponents";
 
-const TwitterAccAtstList: React.FC<TwitterAccAtstListProps> = () => {
+const ProofTypeList: React.FC<ProofTypeListProps> = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
     <>
       <AttestationsHeader>
-        <AttestationsTitle className={styles.title}>
-          {i18n.twitter_acc_attestations}
-        </AttestationsTitle>
+        <AttestationsTitle className={styles.title}>{i18n.proof_types}</AttestationsTitle>
       </AttestationsHeader>
       <div>
-        <TwitterAccAtstTable />
+        <ProofTypeTable />
       </div>
     </>
   );
 };
 
-export default TwitterAccAtstList;
+export default ProofTypeList;
 
-export interface TwitterAccAtstListProps {}
+export interface ProofTypeListProps {}
