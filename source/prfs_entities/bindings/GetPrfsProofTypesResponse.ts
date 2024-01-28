@@ -3,5 +3,5 @@ import type { PrfsProofType } from "./PrfsProofType";
 
 export interface GetPrfsProofTypesResponse {
   next_offset: number | null;
-  prfs_proof_types: Array<PrfsProofType>;
+  rows: Array<PrfsProofType>;
 }

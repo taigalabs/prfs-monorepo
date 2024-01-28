@@ -16,7 +16,7 @@ pub struct GetPrfsProofTypesRequest {
 #[ts(export)]
 pub struct GetPrfsProofTypesResponse {
     pub next_offset: Option<i32>,
-    pub prfs_proof_types: Vec<PrfsProofType>,
+    pub rows: Vec<PrfsProofType>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

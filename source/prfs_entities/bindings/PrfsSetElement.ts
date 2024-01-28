@@ -4,7 +4,7 @@ import type { PrfsSetElementStatus } from "./PrfsSetElementStatus";
 export interface PrfsSetElement {
   name: string;
   set_id: string;
-  data: Record<string, string>;
+  data: Record<string, string>[];
   ref: string | null;
   status: PrfsSetElementStatus;
 }

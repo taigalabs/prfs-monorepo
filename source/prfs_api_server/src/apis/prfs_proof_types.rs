@@ -24,23 +24,15 @@ pub async fn get_prfs_proof_types(
 ) -> ApiHandlerResult {
     let req: GetPrfsProofTypesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_proof_types = prfs::get_prfs_proof_types(pool, req.offset, LIMIT).await;
+    let rows = prfs::get_prfs_proof_types(pool, req.offset, LIMIT).await;
 
-    // let next_idx = if (prfs_proof_types.len() as i32) < req.page_size {
-    //     -1
-    // } else {
-    //     req.page_idx + 1
-    // };
-    let next_offset = if (prfs_proof_types.len() as i32) < LIMIT {
+    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
         None
     } else {
         Some(req.offset + LIMIT)
     };
 
-    let resp = ApiResponse::new_success(GetPrfsProofTypesResponse {
-        next_offset,
-        prfs_proof_types,
-    });
+    let resp = ApiResponse::new_success(GetPrfsProofTypesResponse { next_offset, rows });
 
     return Ok(resp.into_hyper_response());
 }

@@ -2,9 +2,9 @@ import React from "react";
 import cn from "classnames";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { atstApi } from "@taigalabs/prfs-api-js";
+import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
-import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -20,32 +20,26 @@ import {
   AttestationTableCell,
 } from "@/components/attestations_table/AttestationsTable";
 
-const Row: React.FC<RowProps> = ({ atst, style, router }) => {
+const Row: React.FC<RowProps> = ({ row, style, router }) => {
   const i18n = React.useContext(i18nContext);
-  const cm = React.useMemo(() => {
-    return `${atst.cm.substring(0, 26)}...`;
-  }, [atst.cm]);
-  const handleClick = React.useCallback(() => {
-    router.push(`${paths.attestations__twitter}/${atst.acc_atst_id}`);
-  }, [atst.acc_atst_id, router]);
+  const label = React.useMemo(() => {
+    return `${row.label.substring(0, 26)}...`;
+  }, [row.label]);
+  // const handleClick = React.useCallback(() => {
+  //   router.push(`${paths.attestations__twitter}/${atst.acc_atst_id}`);
+  // }, [atst.acc_atst_id, router]);
 
   return (
-    <AttestationTableRow style={style} handleClick={handleClick}>
-      <AttestationTableCell className={cn(styles.username)}>
-        <img src={atst.avatar_url} crossOrigin="" />
-        <span>{atst.username}</span>
+    <AttestationTableRow style={style}>
+      <AttestationTableCell className={cn(styles.label)}>
+        <img src={row.img_url || ""} crossOrigin="" />
+        <span>{label}</span>
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.accountId, styles.w1024)}>
-        {atst.account_id}
+      <AttestationTableCell className={cn(styles.desc, styles.w1024)}>
+        {row.desc}
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.commitment, styles.w1320)}>
-        {cm}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.document, styles.cell, styles.w480)}>
-        <a href={atst.document_url} target="_blank">
-          <span>{i18n.tweet}</span>
-          <BiLinkExternal />
-        </a>
+      <AttestationTableCell className={cn(styles.circuit_id, styles.w1024)}>
+        {row.circuit_id}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
         {i18n.not_available}
@@ -62,9 +56,9 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const router = useRouter();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_twitter_acc_atsts"],
+      queryKey: ["get_prfs_proof_types"],
       queryFn: async ({ pageParam }) => {
-        return atstApi("get_twitter_acc_atsts", { offset: pageParam as number });
+        return prfsApi2("get_prfs_proof_types", { offset: pageParam as number });
       },
       initialPageParam: 0,
       getNextPageParam: lastPage => {
@@ -120,17 +114,14 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <AttestationTableHeaderCell className={cn(styles.username)}>
+            <AttestationTableHeaderCell className={cn(styles.label)}>
               {i18n.username}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.accountId, styles.w1024)}>
-              {i18n.account_id}
+            <AttestationTableHeaderCell className={cn(styles.desc, styles.w1024)}>
+              {i18n.description}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1320)}>
-              {i18n.commitment}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.document, styles.w480)}>
-              {i18n.document}
+            <AttestationTableHeaderCell className={cn(styles.circuit_id, styles.w1320)}>
+              {i18n.circuit_id}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
               {i18n.notarized}
@@ -156,7 +147,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
                 return (
                   <Row
                     key={virtualRow.index}
-                    atst={row}
+                    row={row}
                     router={router}
                     style={{
                       position: "absolute",
@@ -182,7 +173,7 @@ export default ProofTypeTable;
 export interface ProofTypeTableProps {}
 
 export interface RowProps {
-  atst: PrfsAccAtst;
+  row: PrfsProofType;
   style: React.CSSProperties;
   router: AppRouterInstance;
 }
