@@ -47,6 +47,8 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
             <span>{i18n.attestations}</span>
           </a>
         </PrfsAppsPopoverLi>
+      </PrfsAppsPopoverUl>
+      <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi noPadding>
           <a href={urls.sets} className={styles.item}>
             <BiCodeCurly />
