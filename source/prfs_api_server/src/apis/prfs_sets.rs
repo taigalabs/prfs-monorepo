@@ -200,12 +200,35 @@ pub async fn create_tree_of_prfs_set(
 
     println!("set_elements, {:?}", set_elements);
 
-    let mut leaves = tree::create_leaves(set_elements).unwrap();
-    println!("leaves: {:?}", leaves);
+    let mut count = 0;
+    let leaves = tree::create_leaves(set_elements).unwrap();
+    let mut leaf_nodes = vec![];
+    for (idx, p) in leaves.iter().enumerate() {
+        let val = prfs_crypto::convert_32bytes_into_decimal_string(&p).unwrap();
 
+        let n = PrfsTreeNode {
+            pos_w: Decimal::from(idx),
+            pos_h: 0 as i32,
+            meta: None,
+            val,
+            set_id: set.set_id.to_string(),
+        };
+
+        leaf_nodes.push(n);
+    }
+    println!("leaves: {:?}", leaves);
+    prfs::insert_prfs_tree_nodes(&mut tx, &leaf_nodes, true)
+        .await
+        .unwrap();
+    count += leaves.len();
+
+    let mut children = leaves;
+    let mut parent_nodes = vec![];
     for d in 0..set.tree_depth {
-        let parents = tree::calc_parent_nodes(&leaves).unwrap();
-        let mut nodes = vec![];
+        // println!("children: {:?}", children);
+        let parents = tree::calc_parent_nodes(&children).unwrap();
+        parent_nodes = vec![];
+        println!("d: {}, parents: {:?}", d, parents);
         for (idx, p) in parents.iter().enumerate() {
             let val = prfs_crypto::convert_32bytes_into_decimal_string(&p).unwrap();
 
@@ -217,12 +240,14 @@ pub async fn create_tree_of_prfs_set(
                 set_id: set.set_id.to_string(),
             };
 
-            nodes.push(n);
-
-            prfs::insert_prfs_tree_nodes(&mut tx, &nodes, true)
-                .await
-                .unwrap();
+            parent_nodes.push(n);
         }
+
+        children = parents;
+        prfs::insert_prfs_tree_nodes(&mut tx, &parent_nodes, true)
+            .await
+            .unwrap();
+        count += parent_nodes.len();
     }
 
     // println!("parents: {:?}", parents);
@@ -246,8 +271,11 @@ pub async fn create_tree_of_prfs_set(
     // };
 
     // let pos_w = prfs::insert_prfs_tree_node(&mut tx, &node).await.unwrap();
+    let merkle_root = parent_nodes[0].val.to_string();
+    set.merkle_root = merkle_root.to_string();
+    prfs::upsert_prfs_set(&mut tx, &set).await.unwrap();
 
-    // tx.commit().await.unwrap();
+    tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(CreateTreeOfPrfsSetResponse {
         set_id: req.set_id.to_string(),
