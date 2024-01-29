@@ -140,7 +140,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(() => {
-    const cacheKeyQueries = makeCmCacheKeyQueries(CACHE_KEY, 10, CACHE_KEY);
+    const cacheKeyQueries = makeCmCacheKeyQueries(CACHE_KEY, 10, "WALLET");
 
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
@@ -152,12 +152,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           type: CommitmentType.SIG_POSEIDON_1,
           queryType: QueryType.COMMITMENT,
         },
-        {
-          name: CACHE_KEY,
-          preImage: claimSecret,
-          type: CommitmentType.SIG_POSEIDON_1,
-          queryType: QueryType.COMMITMENT,
-        },
+        ...cacheKeyQueries,
       ],
       public_key: pkHex,
     };
@@ -383,6 +378,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                       <button className={styles.inputBtn} type="button">
                         {i18n.connect}
                       </button>
+                      <span> or paste your wallet address</span>
                     </ConnectWallet>
                   </div>
                   <Input
