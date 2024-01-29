@@ -3,8 +3,8 @@ import fs from "fs";
 import chalk from "chalk";
 import JSONBig from "json-bigint";
 
-const TS_PATH = path.resolve(__dirname, "./data/ts");
-const JSON_PATH = path.resolve(__dirname, "./data/json_bindings");
+const TS_PATH = path.resolve(__dirname, "./data_seed/ts");
+const JSON_PATH = path.resolve(__dirname, "./data_seed/json_bindings");
 
 function createBindings() {
   emptyJsonPath();

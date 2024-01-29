@@ -65,4 +65,5 @@ pub enum CircuitInputType {
     SIG_DATA_1,
     PASSCODE,
     PASSCODE_CONFIRM,
+    MERKLE_SIG_POS_RANGE_V1,
 }
