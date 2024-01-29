@@ -5,10 +5,11 @@ use ts_rs::TS;
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
 pub struct DatedPrfsIndex {
-    pub label: String,
-    pub value: String,
-    pub serial_no: String,
-    pub updated_at: DateTime<Utc>,
+    pub label: Option<String>,
+    pub value: Option<String>,
+    pub serial_no: Option<String>,
+    pub updated_at: Option<DateTime<Utc>>,
+    pub label2: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

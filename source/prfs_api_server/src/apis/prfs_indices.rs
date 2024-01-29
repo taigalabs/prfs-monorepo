@@ -9,8 +9,9 @@ use prfs_entities::{
     entities::{CircuitInput, PrfsProofType, PrfsSet},
     prfs_api_entities::{
         CreatePrfsProofTypeRequest, CreatePrfsProofTypeResponse, GetLeastRecentPrfsIndexRequest,
-        GetPrfsProofTypeByProofTypeIdRequest, GetPrfsProofTypeByProofTypeIdResponse,
-        GetPrfsProofTypesRequest, GetPrfsProofTypesResponse, GetPrfsTreeLeafIndicesRequest,
+        GetLeastRecentPrfsIndexResponse, GetPrfsProofTypeByProofTypeIdRequest,
+        GetPrfsProofTypeByProofTypeIdResponse, GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
+        GetPrfsTreeLeafIndicesRequest,
     },
     sqlx::types::Json,
 };
@@ -24,15 +25,26 @@ pub async fn get_least_recent_index(
 ) -> ApiHandlerResult {
     let req: GetLeastRecentPrfsIndexRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let rows = prfs::get_least_recent_prfs_index(pool, &req.prfs_indices).await;
 
-    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
-        None
-    } else {
-        Some(req.offset + LIMIT)
-    };
+    let prfs_indices = prfs::get_least_recent_prfs_index(pool, &req.prfs_indices).await;
 
-    let resp = ApiResponse::new_success(GetPrfsProofTypesResponse { next_offset, rows });
+    let mut free_idx = String::new();
+    // Trial 1: Get any row that does not exist (free slot)
+    for idx in prfs_indices.iter() {
+        if let None = idx.label {
+            free_idx = idx.label2.to_string();
+            break;
+        }
+    }
+
+    // Trial 2: Get the oldest slot
+    if free_idx.len() == 0 {
+        free_idx = prfs_indices.get(0).unwrap().label2.to_string();
+    }
+
+    let resp = ApiResponse::new_success(GetLeastRecentPrfsIndexResponse {
+        prfs_index: free_idx,
+    });
 
     return Ok(resp.into_hyper_response());
 }

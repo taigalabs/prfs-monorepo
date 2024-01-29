@@ -58,6 +58,7 @@ import {
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
 import { paths } from "@/paths";
+import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 
 const WALLET_ADDR = "wallet_addr";
 const SIGNATURE = "signature";
@@ -74,17 +75,6 @@ enum AttestationStep {
 enum Status {
   Standby,
   InProgress,
-}
-
-function useGetLeastRecentPrfsIndex(indices: Record<string, string> | null) {
-  return useQuery({
-    queryKey: ["get_least_recent_prfs_index", indices],
-    queryFn: () => {
-      if (indices) {
-        return prfsApi2("get_least_recent_prfs_index", { indices });
-      }
-    },
-  });
 }
 
 const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = () => {
@@ -109,7 +99,11 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const [cryptoAssets, setCryptoAssets] = React.useState<CryptoAsset[] | null>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_WALLET_ADDR);
   const { sk, pkHex } = useRandomKeyPair();
-  const cacheKey = useGetLeastRecentPrfsIndex(walletCacheKeys);
+  const { mutateAsync: getLeastRecentPrfsIndex } = useMutation({
+    mutationFn: (req: GetLeastRecentPrfsIndexRequest) => {
+      return prfsApi2("get_least_recent_prfs_index", { prfs_indices: req.prfs_indices });
+    },
+  });
   const { mutateAsync: fetchCryptoAssetRequest } = useMutation({
     mutationFn: (req: FetchCryptoAssetRequest) => {
       return atstApi("fetch_crypto_asset", req);
@@ -316,13 +310,28 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   }, [claimCm, setFormData]);
 
   const handleClickCreate = React.useCallback(async () => {
-    if (cryptoAssets && cryptoAssets.length > 0 && claimCm && createStatus === Status.Standby) {
+    if (
+      cryptoAssets &&
+      cryptoAssets.length > 0 &&
+      claimCm &&
+      createStatus === Status.Standby &&
+      walletCacheKeys
+    ) {
       // For now, we don't obfuscate attestation id
       const atst_id = `ETH_${formData[WALLET_ADDR]}`;
       setCreateMsg(null);
 
       if (atst_id) {
         setCreateStatus(Status.InProgress);
+
+        const { payload: indexPayload, error: indexError } = await getLeastRecentPrfsIndex({
+          prfs_indices: Object.keys(walletCacheKeys),
+        });
+
+        setCreateStatus(Status.Standby);
+        return;
+
+        console.log(22, indexPayload);
 
         const { payload, error } = await createCryptoSizeAtstRequest({
           atst_id,
@@ -352,6 +361,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     createCryptoSizeAtstRequest,
     setCreateMsg,
     setCreateStatus,
+    getLeastRecentPrfsIndex,
     router,
     walletCacheKeys,
   ]);
@@ -563,10 +573,10 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 disabled={!isSigValid || createStatus === Status.InProgress}
               >
                 <div className={styles.content}>
-                  {createStatus === Status.InProgress && (
-                    <Spinner size={20} borderWidth={2} color={colors.white_100} />
-                  )}
                   <span>{i18n.create}</span>
+                  {createStatus === Status.InProgress && (
+                    <Spinner size={14} borderWidth={2} color={colors.white_100} />
+                  )}
                 </div>
               </Button>
             </div>
