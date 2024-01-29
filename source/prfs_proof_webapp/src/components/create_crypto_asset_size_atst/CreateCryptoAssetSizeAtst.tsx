@@ -349,7 +349,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
       for (const key in walletCacheKeys) {
         elems.push(
           <p key={walletCacheKeys[key]} className={styles.cacheKey}>
-            {walletCacheKeys[key].substring(0, 10)}...
+            {walletCacheKeys[key].substring(0, 8)}...
           </p>,
         );
       }
