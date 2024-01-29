@@ -23,7 +23,7 @@ import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
-import TutorialPlaceholder from "../tutorial_default/TutorialPlaceholder";
+import TutorialPlaceholder from "@/components/tutorial_default/TutorialPlaceholder";
 
 enum ProofGenStep {
   PrfsIdCredential,

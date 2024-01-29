@@ -54,7 +54,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     },
   });
   const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>(null);
-  const [queryElems, setQueryElems] = React.useState<React.ReactNode>(null);
+  const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
+    <div className={styles.sidePadding}>Loading...</div>,
+  );
 
   React.useEffect(() => {
     async function fn() {
