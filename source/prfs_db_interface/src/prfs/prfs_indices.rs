@@ -1,32 +1,41 @@
-use prfs_entities::entities::PrfsProofType;
+use prfs_entities::{
+    entities::PrfsProofType,
+    prfs_api_entities::DatedPrfsIndex,
+    sqlx::{self, Pool, Postgres, QueryBuilder, Row},
+};
 
 pub async fn get_least_recent_prfs_index(
     pool: &Pool<Postgres>,
-    proof_type_id: &String,
-) -> PrfsProofType {
-    let query = "SELECT * from prfs_proof_types where proof_type_id=$1";
+    prfs_indices: &Vec<String>,
+) -> Vec<DatedPrfsIndex> {
+    let query = r#"
+SELECT * 
+FROM prfs_indices 
+WHERE label in (
+"#;
 
-    let row = sqlx::query(query)
-        .bind(&proof_type_id)
-        .fetch_one(pool)
-        .await
-        .unwrap();
+    let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(query);
+    let mut separated = query_builder.separated(", ");
 
-    let ret = PrfsProofType {
-        proof_type_id: row.get("proof_type_id"),
-        expression: row.get("expression"),
-        img_url: row.get("img_url"),
-        img_caption: row.get("img_caption"),
-        label: row.get("label"),
-        author: row.get("author"),
-        desc: row.get("desc"),
-        circuit_id: row.get("circuit_id"),
-        circuit_type_id: row.get("circuit_type_id"),
-        circuit_inputs: row.get("circuit_inputs"),
-        circuit_driver_id: row.get("circuit_driver_id"),
-        driver_properties: row.get("driver_properties"),
-        created_at: row.get("created_at"),
-    };
+    for idx in prfs_indices.iter() {
+        separated.push_bind(idx);
+    }
+    separated.push_unseparated(") ");
+
+    let query = query_builder.build();
+
+    let rows = query.fetch_all(pool).await.unwrap();
+    let ret = rows
+        .iter()
+        .map(|row| DatedPrfsIndex {
+            label: row.get("label"),
+            value: row.get("value"),
+            serial_no: row.get("serial_no"),
+            updated_at: row.get("updated_at"),
+        })
+        .collect();
+
+    println!("rows: {:?}", ret);
 
     return ret;
 }

@@ -1,3 +1,4 @@
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
@@ -7,7 +8,7 @@ pub struct DatedPrfsIndex {
     pub label: String,
     pub value: String,
     pub serial_no: String,
-    // pub updated_at: ,
+    pub updated_at: DateTime<Utc>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

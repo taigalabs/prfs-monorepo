@@ -24,7 +24,7 @@ pub async fn get_least_recent_index(
 ) -> ApiHandlerResult {
     let req: GetLeastRecentPrfsIndexRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let rows = prfs::get_prfs_proof_types(pool, req.offset, LIMIT).await;
+    let rows = prfs::get_least_recent_prfs_index(pool, &req.prfs_indices).await;
 
     let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
         None
