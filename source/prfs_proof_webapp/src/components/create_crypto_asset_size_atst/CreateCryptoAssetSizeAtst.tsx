@@ -317,36 +317,56 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
       createStatus === Status.Standby &&
       walletCacheKeys
     ) {
-      // For now, we don't obfuscate attestation id
-      const atst_id = `ETH_${formData[WALLET_ADDR]}`;
-      setCreateMsg(null);
+      try {
+        // For now, we don't obfuscate attestation id
+        const atst_id = `ETH_${formData[WALLET_ADDR]}`;
+        setCreateMsg(null);
 
-      if (atst_id) {
-        setCreateStatus(Status.InProgress);
+        if (atst_id) {
+          setCreateStatus(Status.InProgress);
 
-        const { payload: indexPayload, error: indexError } = await getLeastRecentPrfsIndex({
-          prfs_indices: Object.keys(walletCacheKeys),
-        });
+          const { payload: indexPayload, error: indexError } = await getLeastRecentPrfsIndex({
+            prfs_indices: Object.keys(walletCacheKeys),
+          });
 
-        setCreateStatus(Status.Standby);
+          if (indexError) {
+            setCreateMsg(<span>{indexError.toString()}</span>);
+            setCreateStatus(Status.Standby);
+            return;
+          }
 
-        const { payload, error } = await createCryptoSizeAtstRequest({
-          atst_id,
-          atst_type: "crypto_size_1",
-          wallet_addr: formData[WALLET_ADDR],
-          cm: claimCm,
-          crypto_assets: cryptoAssets,
-        });
-        setCreateStatus(Status.Standby);
+          let prfs_index = null;
+          if (indexPayload) {
+            prfs_index = indexPayload.prfs_index;
+          } else {
+            setCreateMsg(<span>Wallet cache key is invalid. Something's wrong</span>);
+            setCreateStatus(Status.Standby);
+            return;
+          }
 
-        if (error) {
-          setCreateMsg(<span>{error.toString()}</span>);
+          const { payload, error } = await createCryptoSizeAtstRequest({
+            atst_id,
+            atst_type: "crypto_size_1",
+            wallet_addr: formData[WALLET_ADDR],
+            cm: claimCm,
+            crypto_assets: cryptoAssets,
+          });
+          setCreateStatus(Status.Standby);
+
+          if (error) {
+            setCreateMsg(<span>{error.toString()}</span>);
+            setCreateStatus(Status.Standby);
+            return;
+          }
+
+          if (payload) {
+            setIsNavigating(true);
+            router.push(paths.attestations__crypto_asset_size);
+          }
         }
-
-        if (payload) {
-          setIsNavigating(true);
-          router.push(paths.attestations__crypto_asset_size);
-        }
+      } catch (err: any) {
+        setCreateMsg(<span>{err.toString()}</span>);
+        setCreateStatus(Status.Standby);
       }
     }
   }, [
