@@ -64,7 +64,7 @@ label, value, updated_at
 ) = (
 excluded.label, excluded.value, now()
 )
-RETURNING atst_id"#;
+RETURNING label"#;
 
     let row = sqlx::query(query)
         .bind(&label)

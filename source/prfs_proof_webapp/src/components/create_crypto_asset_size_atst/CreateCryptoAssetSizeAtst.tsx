@@ -593,6 +593,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
               >
                 <div className={styles.content}>
                   <span>{i18n.create}</span>
+                  <Spinner size={14} borderWidth={2} color={colors.white_100} />
                   {createStatus === Status.InProgress && (
                     <Spinner size={14} borderWidth={2} color={colors.white_100} />
                   )}
