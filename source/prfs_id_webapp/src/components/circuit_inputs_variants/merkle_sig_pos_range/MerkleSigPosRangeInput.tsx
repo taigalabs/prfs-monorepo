@@ -23,6 +23,7 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
+import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -124,85 +125,87 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
       const { set_id, merkle_root } = prfsSet;
 
-      try {
-        const { payload, error } = await GetPrfsTreeLeafIndices({
-          set_id,
-          leaf_vals: [addr],
-        });
+      console.log(!23, set_id, merkle_root);
 
-        if (error) {
-          setFormErrors((prevVals: any) => {
-            return {
-              ...prevVals,
-              [circuitInput.name]: error,
-            };
-          });
-        }
+      // try {
+      //   const { payload, error } = await GetPrfsTreeLeafIndices({
+      //     set_id,
+      //     leaf_vals: [addr],
+      //   });
 
-        if (!payload) {
-          return;
-        }
+      //   if (error) {
+      //     setFormErrors((prevVals: any) => {
+      //       return {
+      //         ...prevVals,
+      //         [circuitInput.name]: error,
+      //       };
+      //     });
+      //   }
 
-        let pos_w = null;
-        // console.log("nodes", payload.prfs_tree_nodes);
+      //   if (!payload) {
+      //     return;
+      //   }
 
-        for (const node of payload.prfs_tree_nodes) {
-          if (node.val === addr.toLowerCase()) {
-            pos_w = node.pos_w;
-          }
-        }
+      //   let pos_w = null;
+      //   // console.log("nodes", payload.prfs_tree_nodes);
 
-        if (pos_w === null) {
-          throw new Error("Address is not part of a set");
-        }
+      //   for (const node of payload.prfs_tree_nodes) {
+      //     if (node.val === addr.toLowerCase()) {
+      //       pos_w = node.pos_w;
+      //     }
+      //   }
 
-        const leafIdx = Number(pos_w);
-        const siblingPath = makeSiblingPath(32, leafIdx);
-        const pathIndices = makePathIndices(32, leafIdx);
+      //   if (pos_w === null) {
+      //     throw new Error("Address is not part of a set");
+      //   }
 
-        const siblingPos = siblingPath.map((pos_w, idx) => {
-          return { pos_h: idx, pos_w };
-        });
+      //   const leafIdx = Number(pos_w);
+      //   const siblingPath = makeSiblingPath(32, leafIdx);
+      //   const pathIndices = makePathIndices(32, leafIdx);
 
-        // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
+      //   const siblingPos = siblingPath.map((pos_w, idx) => {
+      //     return { pos_h: idx, pos_w };
+      //   });
 
-        const siblingNodesData = await getPrfsTreeNodesByPosRequest({
-          set_id,
-          pos: siblingPos,
-        });
+      //   // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
-        if (siblingNodesData.payload === null) {
-          throw new Error(siblingNodesData.error);
-        }
+      //   const siblingNodesData = await getPrfsTreeNodesByPosRequest({
+      //     set_id,
+      //     pos: siblingPos,
+      //   });
 
-        let siblings: BigInt[] = [];
-        for (const node of siblingNodesData.payload.prfs_tree_nodes) {
-          siblings[node.pos_h] = BigInt(node.val);
-        }
+      //   if (siblingNodesData.payload === null) {
+      //     throw new Error(siblingNodesData.error);
+      //   }
 
-        for (let idx = 0; idx < 32; idx += 1) {
-          if (siblings[idx] === undefined) {
-            siblings[idx] = BigInt(0);
-          }
-        }
+      //   let siblings: BigInt[] = [];
+      //   for (const node of siblingNodesData.payload.prfs_tree_nodes) {
+      //     siblings[node.pos_h] = BigInt(node.val);
+      //   }
 
-        const merkleProof: SpartanMerkleProof = {
-          root: BigInt(merkle_root),
-          siblings: siblings as bigint[],
-          pathIndices,
-        };
+      //   for (let idx = 0; idx < 32; idx += 1) {
+      //     if (siblings[idx] === undefined) {
+      //       siblings[idx] = BigInt(0);
+      //     }
+      //   }
 
-        console.log(11, siblingNodesData, merkleProof);
+      //   const merkleProof: SpartanMerkleProof = {
+      //     root: BigInt(merkle_root),
+      //     siblings: siblings as bigint[],
+      //     pathIndices,
+      //   };
 
-        setFormValues((prevVals: any) => {
-          return {
-            ...prevVals,
-            [circuitInput.name]: merkleProof,
-          };
-        });
-      } catch (err) {
-        console.error(err);
-      }
+      //   console.log(11, siblingNodesData, merkleProof);
+
+      //   setFormValues((prevVals: any) => {
+      //     return {
+      //       ...prevVals,
+      //       [circuitInput.name]: merkleProof,
+      //     };
+      //   });
+      // } catch (err) {
+      //   console.error(err);
+      // }
     },
     [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors],
   );
@@ -211,17 +214,17 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     return `${circuitInput.label} (${prfsSet ? prfsSet.label : i18n.loading})`;
   }, [circuitInput, prfsSet]);
 
-  const inputElem = React.useMemo(() => {
-    if (!presetVals) {
-      return (
-        <div className={styles.presetValsVoid}>
-          This proof type can only be used with preset values. Consult the host application
-        </div>
-      );
-    } else {
-      return null;
-    }
-  }, [presetVals]);
+  // const inputElem = React.useMemo(() => {
+  //   if (!presetVals) {
+  //     return (
+  //       <div className={styles.presetValsVoid}>
+  //         This proof type can only be used with preset values. Consult the host application
+  //       </div>
+  //     );
+  //   } else {
+  //     return null;
+  //   }
+  // }, [presetVals]);
 
   return (
     <FormInput>
@@ -230,19 +233,11 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           <span className={styles.inputLabel}>{label}</span>
         </FormInputTitle>
         <FormInputBtnRow>
-          {/* <ConnectWallet handleChangeAddress={handleChangeAddress}> */}
-          {/*   <button className={styles.addressBtn} type="button"> */}
-          {/*     {i18n.connect} */}
-          {/*   </button> */}
-          {/* </ConnectWallet> */}
-          {/* <MerkleProofRaw */}
-          {/*   circuitInput={circuitInput} */}
-          {/*   prfsSet={prfsSet} */}
-          {/*   handleClickRawSubmit={handleClickRawSubmit} */}
-          {/* /> */}
+          <ConnectWallet handleChangeAddress={handleChangeAddress}>
+            <FormInputButton type="button">{i18n.connect}</FormInputButton>
+          </ConnectWallet>
         </FormInputBtnRow>
       </FormInputTitleRow>
-      {inputElem}
       {/* <InputWrapper> */}
       {/*   <div className={styles.interactiveArea}> */}
       {/*     <input */}
