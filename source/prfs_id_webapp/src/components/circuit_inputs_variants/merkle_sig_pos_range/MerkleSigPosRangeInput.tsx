@@ -44,6 +44,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   error,
   setFormErrors,
   setFormValues,
+  presetVals,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
@@ -210,6 +211,18 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     return `${circuitInput.label} (${prfsSet ? prfsSet.label : i18n.loading})`;
   }, [circuitInput, prfsSet]);
 
+  const inputElem = React.useMemo(() => {
+    if (!presetVals) {
+      return (
+        <div className={styles.presetValsVoid}>
+          This proof type can only be used with preset values. Consult the host application
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }, [presetVals]);
+
   return (
     <FormInput>
       <FormInputTitleRow>
@@ -217,11 +230,11 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           <span className={styles.inputLabel}>{label}</span>
         </FormInputTitle>
         <FormInputBtnRow>
-          <ConnectWallet handleChangeAddress={handleChangeAddress}>
-            <button className={styles.addressBtn} type="button">
-              {i18n.connect}
-            </button>
-          </ConnectWallet>
+          {/* <ConnectWallet handleChangeAddress={handleChangeAddress}> */}
+          {/*   <button className={styles.addressBtn} type="button"> */}
+          {/*     {i18n.connect} */}
+          {/*   </button> */}
+          {/* </ConnectWallet> */}
           {/* <MerkleProofRaw */}
           {/*   circuitInput={circuitInput} */}
           {/*   prfsSet={prfsSet} */}
@@ -229,16 +242,17 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           {/* /> */}
         </FormInputBtnRow>
       </FormInputTitleRow>
-      <InputWrapper>
-        <div className={styles.interactiveArea}>
-          <input
-            className={styles.addressInput}
-            placeholder={`${circuitInput.desc}`}
-            value={walletAddr}
-            readOnly
-          />
-        </div>
-      </InputWrapper>
+      {inputElem}
+      {/* <InputWrapper> */}
+      {/*   <div className={styles.interactiveArea}> */}
+      {/*     <input */}
+      {/*       className={styles.addressInput} */}
+      {/*       placeholder={`${circuitInput.desc}`} */}
+      {/*       value={walletAddr} */}
+      {/*       readOnly */}
+      {/*     /> */}
+      {/*   </div> */}
+      {/* </InputWrapper> */}
       {value && <ComputedValue value={value} />}
       {error && <FormError>{error}</FormError>}
     </FormInput>

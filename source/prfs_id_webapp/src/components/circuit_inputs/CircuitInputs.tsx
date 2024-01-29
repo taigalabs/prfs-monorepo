@@ -8,7 +8,7 @@ import MerkleProofInput from "@/components/circuit_inputs_variants/merkle_proof_
 import SigDataInput from "@/components/circuit_inputs_variants/sig_data_input/SigDataInput";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import HashInput from "@/components/circuit_inputs_variants/hash_input/HashInput";
-import MerkleSigPosRangeInput from "../circuit_inputs_variants/merkle_sig_pos_range/MerkleSigPosRangeInput";
+import MerkleSigPosRangeInput from "@/components/circuit_inputs_variants/merkle_sig_pos_range/MerkleSigPosRangeInput";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
   circuitInputs,
