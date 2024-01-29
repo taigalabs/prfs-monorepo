@@ -18,7 +18,7 @@ export enum CommitmentType {
   SIG_POSEIDON_1 = "SIG_POSEIDON_1",
 }
 
-export function makeCmCacheKeyQueries(stem: string, count: number, name: string) {
+export function makeCmCacheKeyQueries(name: string, count: number, stem: string) {
   const queries = [];
 
   for (let idx = 0; idx < count; idx += 1) {
