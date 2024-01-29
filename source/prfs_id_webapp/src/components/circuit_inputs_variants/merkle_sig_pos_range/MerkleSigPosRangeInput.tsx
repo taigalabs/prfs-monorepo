@@ -24,6 +24,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
+import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -236,18 +237,20 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           <ConnectWallet handleChangeAddress={handleChangeAddress}>
             <FormInputButton type="button">{i18n.connect}</FormInputButton>
           </ConnectWallet>
+          <span> or</span>
+          <CachedAddressDialog handleChangeAddress={handleChangeAddress} />
         </FormInputBtnRow>
       </FormInputTitleRow>
-      {/* <InputWrapper> */}
-      {/*   <div className={styles.interactiveArea}> */}
-      {/*     <input */}
-      {/*       className={styles.addressInput} */}
-      {/*       placeholder={`${circuitInput.desc}`} */}
-      {/*       value={walletAddr} */}
-      {/*       readOnly */}
-      {/*     /> */}
-      {/*   </div> */}
-      {/* </InputWrapper> */}
+      <InputWrapper>
+        <div className={styles.interactiveArea}>
+          <input
+            className={styles.addressInput}
+            placeholder={`${circuitInput.desc}`}
+            value={walletAddr}
+            readOnly
+          />
+        </div>
+      </InputWrapper>
       {value && <ComputedValue value={value} />}
       {error && <FormError>{error}</FormError>}
     </FormInput>

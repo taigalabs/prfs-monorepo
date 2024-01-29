@@ -10,13 +10,17 @@ import {
   FloatingOverlay,
   FloatingPortal,
 } from "@floating-ui/react";
+import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 
-import styles from "./ConnectWallet.module.scss";
-import Fade from "../fade/Fade";
-import { i18nContext } from "../i18n/i18nContext";
-import WalletModal from "./WalletModal";
+import styles from "./CachedAddressDialog.module.scss";
+import { i18nContext } from "@/i18n/context";
+import CachedAddressModal from "./CachedAddressModal";
 
-const ConnectWallet: React.FC<ConnectWalletProps> = ({ handleChangeAddress, zIndex, children }) => {
+const CachedAddressDialog: React.FC<ConnectWalletProps> = ({
+  handleChangeAddress,
+  zIndex,
+  children,
+}) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -60,7 +64,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ handleChangeAddress, zInd
                   aria-describedby={descriptionId}
                   {...getFloatingProps()}
                 >
-                  <WalletModal
+                  <CachedAddressModal
                     handleClickClose={handleClickClose}
                     handleChangeAddress={extendedHandleChangeAddress}
                   />
@@ -74,7 +78,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ handleChangeAddress, zInd
   );
 };
 
-export default ConnectWallet;
+export default CachedAddressDialog;
 
 export interface ConnectWalletProps {
   handleChangeAddress: (addr: string) => void;
