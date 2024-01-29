@@ -22,6 +22,7 @@ import {
   ProofGenArgs,
   QueryType,
   ProofGenSuccessPayload,
+  makeCmCacheKeyQueries,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
@@ -61,6 +62,7 @@ import { paths } from "@/paths";
 const WALLET_ADDR = "wallet_addr";
 const SIGNATURE = "signature";
 const CLAIM = "twitter_acc_atst";
+const CACHE_KEY = "cache_key";
 
 enum AttestationStep {
   INPUT_WALLET_ADDR = 0,
@@ -138,12 +140,20 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(() => {
+    const cacheKeyQueries = makeCmCacheKeyQueries(CACHE_KEY, 10, CACHE_KEY);
+
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
       app_id: "prfs_proof",
       queries: [
         {
           name: CLAIM,
+          preImage: claimSecret,
+          type: CommitmentType.SIG_POSEIDON_1,
+          queryType: QueryType.COMMITMENT,
+        },
+        {
+          name: CACHE_KEY,
           preImage: claimSecret,
           type: CommitmentType.SIG_POSEIDON_1,
           queryType: QueryType.COMMITMENT,
