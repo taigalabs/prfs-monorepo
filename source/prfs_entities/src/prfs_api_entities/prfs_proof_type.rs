@@ -1,4 +1,3 @@
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
