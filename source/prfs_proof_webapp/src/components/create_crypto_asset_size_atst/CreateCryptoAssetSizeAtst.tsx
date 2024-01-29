@@ -10,8 +10,8 @@ import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
-import { atstApi } from "@taigalabs/prfs-api-js";
-import { useMutation } from "@tanstack/react-query";
+import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
   CommitmentType,
@@ -76,6 +76,17 @@ enum Status {
   InProgress,
 }
 
+function useGetLeastRecentPrfsIndex(indices: Record<string, string> | null) {
+  return useQuery({
+    queryKey: ["get_least_recent_prfs_index", indices],
+    queryFn: () => {
+      if (indices) {
+        return prfsApi2("get_least_recent_prfs_index", { indices });
+      }
+    },
+  });
+}
+
 const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
   const [isNavigating, setIsNavigating] = React.useState(false);
@@ -84,7 +95,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const router = useRouter();
   const [formData, setFormData] = React.useState({ [WALLET_ADDR]: "", [SIGNATURE]: "" });
   const [claimCm, setClaimCm] = React.useState<string | null>(null);
-  const [walletCacheKeys, setWalletCacheKeys] = React.useState<Record<string, string> | null>();
+  const [walletCacheKeys, setWalletCacheKeys] = React.useState<Record<string, string> | null>(null);
   const claimSecret = React.useMemo(() => {
     const handle = formData[WALLET_ADDR];
     return `PRFS_ATST_${handle}`;
@@ -98,6 +109,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const [cryptoAssets, setCryptoAssets] = React.useState<CryptoAsset[] | null>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_WALLET_ADDR);
   const { sk, pkHex } = useRandomKeyPair();
+  const cacheKey = useGetLeastRecentPrfsIndex(walletCacheKeys);
   const { mutateAsync: fetchCryptoAssetRequest } = useMutation({
     mutationFn: (req: FetchCryptoAssetRequest) => {
       return atstApi("fetch_crypto_asset", req);
@@ -341,6 +353,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     setCreateMsg,
     setCreateStatus,
     router,
+    walletCacheKeys,
   ]);
 
   const walletCacheKeyElems = React.useMemo(() => {
@@ -466,9 +479,9 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                   <AttestationListItemDescTitle>
                     {i18n.make_signature_with_your_crypto_wallet}
                   </AttestationListItemDescTitle>
-                  <p>
-                    {i18n.message}: {claimCm}
-                  </p>
+                  {/* <p> */}
+                  {/*   {i18n.message}: {claimCm} */}
+                  {/* </p> */}
                 </AttestationListItemDesc>
                 <div>
                   {claimCm && (
@@ -492,6 +505,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                           >
                             {i18n.sign}
                           </button>
+                          <span> or paste signature over the above message</span>
                         </div>
                         <Input
                           className={cn(styles.input)}
