@@ -25,7 +25,7 @@ FROM (values
 v(label) LEFT JOIN
 prfs_indices
 USING (label)
-ORDER BY DESC
+ORDER BY updated_at DESC
 "#,
     );
 
