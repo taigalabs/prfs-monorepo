@@ -38,7 +38,12 @@ export const DefaultModuleInputArea: React.FC<DefaultModuleInputAreaProps> = ({ 
 };
 
 export const DefaultModuleFooter: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
-  return <div className={styles.footer}>{children}</div>;
+  return (
+    <>
+      <div className={styles.footer}>{children}</div>
+      <div className={styles.footerPlaceholder} />
+    </>
+  );
 };
 
 export const DefaultErrorMsg: React.FC<DefaultModuleInputAreaProps> = ({ children, className }) => {

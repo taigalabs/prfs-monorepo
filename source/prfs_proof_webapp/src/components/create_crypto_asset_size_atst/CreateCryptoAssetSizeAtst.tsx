@@ -62,7 +62,7 @@ import { paths } from "@/paths";
 const WALLET_ADDR = "wallet_addr";
 const SIGNATURE = "signature";
 const CLAIM = "twitter_acc_atst";
-const CACHE_KEY = "cache_key";
+const WALLET_CACHE_KEY = "wallet_cache_key";
 
 enum AttestationStep {
   INPUT_WALLET_ADDR = 0,
@@ -140,7 +140,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(() => {
-    const cacheKeyQueries = makeCmCacheKeyQueries(CACHE_KEY, 10, "WALLET");
+    const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10, "WALLET");
 
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,

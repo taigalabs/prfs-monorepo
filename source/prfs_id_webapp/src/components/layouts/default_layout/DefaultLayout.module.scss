@@ -4,31 +4,31 @@
   align-items: center;
   flex-grow: 1;
   min-height: 100%;
-
-  /* border: 1px solid blue; */
-
-  &::before,
-  &::after {
-    content: "";
-    flex-grow: 1;
-    min-height: 30px;
-    width: 100%;
-  }
+  min-width: 360px;
 }
 
 .body {
-  display: flex;
-
-  /* border: 1px solid red; */
+  width: 100%;
+  /* height: 100%; */
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (min-width: 480px) {
   .wrapper {
-    min-width: 360px;
+    /* border: 1px solid blue; */
+
+    &::before,
+    &::after {
+      content: "";
+      flex-grow: 1;
+      min-height: 30px;
+      width: 100%;
+    }
   }
 
   .body {
-    width: 100%;
-    height: 100%;
+    display: flex;
+    width: auto;
+
+    /* border: 1px solid red; */
   }
 }
