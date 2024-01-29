@@ -329,9 +329,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
         });
 
         setCreateStatus(Status.Standby);
-        return;
-
-        console.log(22, indexPayload);
 
         const { payload, error } = await createCryptoSizeAtstRequest({
           atst_id,
