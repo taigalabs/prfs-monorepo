@@ -5,6 +5,8 @@ export interface CreateCryptoAssetSizeAtstRequest {
   atst_id: string;
   atst_type: string;
   wallet_addr: string;
+  wallet_prfs_idx: string;
+  serial_no: string;
   cm: string;
   crypto_assets: Array<CryptoAsset>;
 }

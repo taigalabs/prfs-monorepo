@@ -348,6 +348,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
             atst_id,
             atst_type: "crypto_size_1",
             wallet_addr: formData[WALLET_ADDR],
+            serial_no: "empty",
             cm: claimCm,
             crypto_assets: cryptoAssets,
             wallet_prfs_idx: prfs_index,
