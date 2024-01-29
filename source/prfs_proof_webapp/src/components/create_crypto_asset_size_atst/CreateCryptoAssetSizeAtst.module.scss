@@ -142,6 +142,15 @@
   }
 }
 
+.cacheKey {
+  display: inline-block;
+  /* font-size: 13px; */
+
+  &:not(:first-child) {
+    padding-left: 4px;
+  }
+}
+
 @media screen and (min-width: $mid_display_min_width) {
   .createBtnRow {
     padding-left: 24px;

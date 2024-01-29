@@ -84,6 +84,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const router = useRouter();
   const [formData, setFormData] = React.useState({ [WALLET_ADDR]: "", [SIGNATURE]: "" });
   const [claimCm, setClaimCm] = React.useState<string | null>(null);
+  const [walletCacheKeys, setWalletCacheKeys] = React.useState<Record<string, string> | null>();
   const claimSecret = React.useMemo(() => {
     const handle = formData[WALLET_ADDR];
     return `PRFS_ATST_${handle}`;
@@ -109,16 +110,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   });
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
-
-  React.useEffect(() => {
-    if (cryptoAssets && cryptoAssets.length > 0) {
-      if (cryptoAssets[0].amount !== undefined) {
-        setStep(AttestationStep.GENERATE_CLAIM);
-      }
-    } else {
-      setStep(AttestationStep.INPUT_WALLET_ADDR);
-    }
-  }, [setStep, cryptoAssets]);
 
   const handleChangeWalletAddr = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -187,9 +178,10 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
             return;
           }
 
-          const cm = payload.receipt[CLAIM];
+          const { [CLAIM]: cm, ...rest } = payload.receipt;
           if (cm) {
             setClaimCm(cm);
+            setWalletCacheKeys(rest);
             setStep(AttestationStep.POST_TWEET);
           } else {
             console.error("no commitment delivered");
@@ -202,7 +194,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
         console.error("Returned val is empty");
       }
     });
-  }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
+  }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep, setWalletCacheKeys]);
 
   const handleClickFetchAsset = React.useCallback(async () => {
     const wallet_addr = formData[WALLET_ADDR];
@@ -351,6 +343,30 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     router,
   ]);
 
+  const walletCacheKeyElems = React.useMemo(() => {
+    const elems = [];
+    if (walletCacheKeys) {
+      for (const key in walletCacheKeys) {
+        elems.push(
+          <p key={walletCacheKeys[key]} className={styles.cacheKey}>
+            {walletCacheKeys[key].substring(0, 10)}...
+          </p>,
+        );
+      }
+    }
+    return elems;
+  }, [walletCacheKeys]);
+
+  React.useEffect(() => {
+    if (cryptoAssets && cryptoAssets.length > 0) {
+      if (cryptoAssets[0].amount !== undefined) {
+        setStep(AttestationStep.GENERATE_CLAIM);
+      }
+    } else {
+      setStep(AttestationStep.INPUT_WALLET_ADDR);
+    }
+  }, [setStep, cryptoAssets]);
+
   return isNavigating ? (
     <div>Navigating...</div>
   ) : (
@@ -495,6 +511,21 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                     </div>
                   )}
                 </div>
+              </AttestationListRightCol>
+            </AttestationListItem>
+            <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}>
+              <AttestationListItemOverlay />
+              <AttestationListItemNo>4</AttestationListItemNo>
+              <AttestationListRightCol>
+                <AttestationListItemDesc>
+                  <AttestationListItemDescTitle>
+                    {i18n.save_wallet_address_in_cache_for_future_use} (automatic)
+                  </AttestationListItemDescTitle>
+                  <div>
+                    <span>Least recent among these: </span>
+                    {walletCacheKeyElems}
+                  </div>
+                </AttestationListItemDesc>
               </AttestationListRightCol>
             </AttestationListItem>
           </ol>

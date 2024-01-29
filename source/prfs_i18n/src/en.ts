@@ -308,6 +308,7 @@ export default {
   prfs_id: "Prfs ID",
   metamask: "Metamask",
   message: "Message",
+  wallet_cache_keys: "Wallet cache keys",
   metamask_desc:
     "We currently support Metamask. Check out how you install install it if you haven't already",
   credential: "Credential",
@@ -349,6 +350,7 @@ export default {
   questions: "Questions",
   post_tweet_with_content: "Post a tweet with the following content",
   make_signature_with_your_crypto_wallet: "Make a signature with your crypto wallet",
+  save_wallet_address_in_cache_for_future_use: "Save wallet address in cache for future use",
   try_not_to_close_this_window: "Try not to close this window and comeback after tweeting",
   this_might_take_minutes_or_longer: "This might take minutes or longer",
   manually_tweet_at_twitter: "manually tweet at X (Twitter)",
