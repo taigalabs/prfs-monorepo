@@ -326,7 +326,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           setCreateStatus(Status.InProgress);
 
           const { payload: indexPayload, error: indexError } = await getLeastRecentPrfsIndex({
-            prfs_indices: Object.keys(walletCacheKeys),
+            prfs_indices: Object.values(walletCacheKeys),
           });
 
           if (indexError) {
@@ -593,7 +593,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
               >
                 <div className={styles.content}>
                   <span>{i18n.create}</span>
-                  <Spinner size={14} borderWidth={2} color={colors.white_100} />
                   {createStatus === Status.InProgress && (
                     <Spinner size={14} borderWidth={2} color={colors.white_100} />
                   )}
