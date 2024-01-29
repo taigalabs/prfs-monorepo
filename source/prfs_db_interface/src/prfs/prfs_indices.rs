@@ -1,13 +1,12 @@
-use prfs_entities::{
-    entities::PrfsProofType,
-    prfs_api_entities::DatedPrfsIndex,
-    sqlx::{self, Pool, Postgres, QueryBuilder, Row},
-};
+use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
+use prfs_entities::{entities::PrfsProofType, prfs_api_entities::DatedPrfsIndex};
+
+use crate::DbInterfaceError;
 
 pub async fn get_least_recent_prfs_index(
     pool: &Pool<Postgres>,
     prfs_indices: &Vec<String>,
-) -> Vec<DatedPrfsIndex> {
+) -> Result<Vec<DatedPrfsIndex>, DbInterfaceError> {
     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
         r#"
 SELECT prfs_indices.*, label as label2
@@ -31,8 +30,8 @@ ORDER BY updated_at DESC
 
     // let sql = query_builder.sql();
     // println!("sql: {:?}", sql);
-    let query = query_builder.build();
 
+    let query = query_builder.build();
     let rows = query.fetch_all(pool).await.unwrap();
     let ret = rows
         .iter()
@@ -47,5 +46,34 @@ ORDER BY updated_at DESC
 
     println!("rows: {:?}", ret);
 
-    return ret;
+    return Ok(ret);
+}
+
+pub async fn upsert_prfs_index(
+    tx: &mut Transaction<'_, Postgres>,
+    label: &String,
+    value: &String,
+    serial_no: &String,
+) -> Result<String, DbInterfaceError> {
+    let query = r#"
+INSERT INTO prfs_indices
+(label, value, serial_no)
+VALUES ($1, $2, $3)
+ON CONFLICT (label) DO UPDATE SET (
+label, value, updated_at
+) = (
+excluded.label, excluded.value, now()
+)
+RETURNING atst_id"#;
+
+    let row = sqlx::query(query)
+        .bind(&label)
+        .bind(&value)
+        .bind(&serial_no)
+        .fetch_one(&mut **tx)
+        .await?;
+
+    let label: String = row.get("label");
+
+    return Ok(label);
 }

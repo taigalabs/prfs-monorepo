@@ -26,7 +26,9 @@ pub async fn get_least_recent_index(
     let req: GetLeastRecentPrfsIndexRequest = parse_req(req).await;
     let pool = &state.db2.pool;
 
-    let prfs_indices = prfs::get_least_recent_prfs_index(pool, &req.prfs_indices).await;
+    let prfs_indices = prfs::get_least_recent_prfs_index(pool, &req.prfs_indices)
+        .await
+        .unwrap();
 
     let mut free_idx = String::new();
     // Trial 1: Get any row that does not exist (free slot)

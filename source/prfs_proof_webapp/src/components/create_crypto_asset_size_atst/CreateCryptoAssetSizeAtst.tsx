@@ -350,6 +350,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
             wallet_addr: formData[WALLET_ADDR],
             cm: claimCm,
             crypto_assets: cryptoAssets,
+            wallet_prfs_idx: prfs_index,
           });
           setCreateStatus(Status.Standby);
 
