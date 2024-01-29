@@ -5,4 +5,5 @@ export type CircuitInputType =
   | "MERKLE_PROOF_1"
   | "SIG_DATA_1"
   | "PASSCODE"
-  | "PASSCODE_CONFIRM";
+  | "PASSCODE_CONFIRM"
+  | "MERKLE_SIG_POS_RANGE_V1";

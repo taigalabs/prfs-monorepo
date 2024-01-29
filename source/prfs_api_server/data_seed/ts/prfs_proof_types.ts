@@ -11,6 +11,7 @@ const proofTypeIds = {
   SIMPLE_HASH_1: "SIMPLE_HASH_1",
   CONSUMER_CRYPTO_HACKERS_1: "CONSUMER_CRYPTO_HACKERS_1",
   "2023_ETH_GLOBAL_ISTANBUL_HACKERS": "2023_ETH_GLOBAL_ISTANBUL_HACKERS",
+  CRYPTO_ASSET_SIZE_V1: "CRYPTO_ASSET_SIZE_V1",
 };
 
 const proofTypes = (() => {
@@ -20,8 +21,6 @@ const proofTypes = (() => {
 
   let key: keyof typeof proofTypeIds;
   for (key in proofTypes) {
-    // console.log(123, key, val);
-
     const val = proofTypeIds[key];
     const filePath = path.resolve(currDir, `../proof_types/${val}.md`);
     const md = fs.readFileSync(filePath).toString();
@@ -49,6 +48,14 @@ const sig_data_circuit_input = {
   name: "sigData",
   type: "SIG_DATA_1",
   label: "Signature",
+  value: "",
+};
+
+const merkle_sig_pos_range_v1_circuit_input = {
+  desc: "Merkle proof with leaf as sig-poseidon with number in range",
+  name: "merkle_sig_pos_range",
+  type: "MERKLE_SIG_POS_RANGE_V1",
+  label: "Signature poseidon with value in range",
   value: "",
 };
 
@@ -307,6 +314,43 @@ const proof_types: PrfsProofType[] = [
       wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
     },
     created_at: "2023-11-19T16:39:57-08:00",
+  },
+  {
+    proof_type_id: proofTypeIds.CRYPTO_ASSET_SIZE_V1,
+    label: "Cryto asset size claim",
+    author: "Prfs",
+    desc: proofTypes.CRYPTO_ASSET_SIZE_V1,
+    expression: "Has assets in crypto worth X USD",
+    img_url: "https://d1w1533jipmvi2.cloudfront.net/money-cash-icon-png.webp",
+    img_caption: null,
+    circuit_id: "00000000-0000-0000-0000-000000000000",
+    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    circuit_inputs: [
+      // {
+      //   ref_type: "PRFS_SET",
+      //   ref_value: "10000000-0000-0000-0000-100000000004",
+      //   desc: "Who you are among those",
+      //   name: "merkleProof",
+      //   type: "MERKLE_PROOF_1",
+      //   element_type: "ADDRESS",
+      //   label: "Member",
+      //   value: "",
+      // },
+      // sig_data_circuit_input,
+      {
+        ref_type: "PRFS_SET",
+        ref_value: "crypto_holders",
+        element_type: "COMMITMENT",
+        ...merkle_sig_pos_range_v1_circuit_input,
+      },
+    ],
+    driver_properties: {
+      version: "0.0.1",
+      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+    },
+    created_at: "2024-01-29T16:39:57-08:00",
   },
 ];
 

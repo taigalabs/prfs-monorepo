@@ -1,0 +1,53 @@
+@import "styles/layouts.module.scss";
+
+.label {
+  width: 270px;
+  display: flex;
+  align-items: center;
+
+  > img {
+    width: 38px;
+    height: 38px;
+    border-radius: 20px;
+  }
+
+  > span {
+    padding-left: 18px;
+  }
+}
+
+.desc {
+  width: 180px;
+}
+
+.circuitId {
+  width: 230px;
+}
+
+.notarized {
+  width: 110px;
+}
+
+.onChain {
+  width: 110px;
+}
+
+.wrapper {
+  @media not screen and (min-width: 1320px) {
+    .w1320 {
+      display: none;
+    }
+  }
+
+  @media not screen and (min-width: $big_display_min_width) {
+    .w1024 {
+      display: none;
+    }
+  }
+
+  @media not screen and (min-width: 480px) {
+    .w480 {
+      display: none;
+    }
+  }
+}

@@ -19,7 +19,6 @@ futures-util = "0.3.26"
 hex = "0.4.3"
 bytemuck = "1.13.1"
 flate2 = "1.0.25"
-# crypto-bigint = "0.5.5"
 colored = "2.0"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }

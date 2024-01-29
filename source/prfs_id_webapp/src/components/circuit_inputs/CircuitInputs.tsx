@@ -4,10 +4,11 @@ import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CircuitInputs.module.scss";
 import { i18nContext } from "@/i18n/context";
-import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
-import SigDataInput from "@/components/sig_data_input/SigDataInput";
+import MerkleProofInput from "@/components/circuit_inputs_variants/merkle_proof_input/MerkleProofInput";
+import SigDataInput from "@/components/circuit_inputs_variants/sig_data_input/SigDataInput";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
-import HashInput from "@/components/hash_input/HashInput";
+import HashInput from "@/components/circuit_inputs_variants/hash_input/HashInput";
+import MerkleSigPosRangeInput from "@/components/circuit_inputs_variants/merkle_sig_pos_range/MerkleSigPosRangeInput";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
   circuitInputs,
@@ -67,8 +68,22 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
           );
           break;
         }
+        case "MERKLE_SIG_POS_RANGE_V1": {
+          entriesElem.push(
+            <MerkleSigPosRangeInput
+              key={idx}
+              circuitInput={input}
+              value={formValues[input.name] as any}
+              error={formErrors[input.name]}
+              setFormValues={setFormValues}
+              setFormErrors={setFormErrors}
+              presetVals={presetVals}
+            />,
+          );
+          break;
+        }
         default: {
-          console.error(`Cannot handle circuit input of this type`);
+          console.error(`Currently cannot handle circuit input of this type`);
 
           entriesElem.push(
             <FormInput key={idx}>

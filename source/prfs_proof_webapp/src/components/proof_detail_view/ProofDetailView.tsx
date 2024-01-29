@@ -19,7 +19,7 @@ import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/i18n/context";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { envs } from "@/envs";
-import ProofTypeMasthead from "@/components/proof_type_masthead/ProofTypeMasthead";
+import ProofTypeSelectedMasthead from "@/components/proof_type_selected_masthead/ProofTypeSelectedMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import TutorialDefault from "@/components/tutorial/TutorialDefault";
 import LeftPadding from "@/components/left_padding/LeftPadding";
@@ -94,7 +94,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 
   return (
     <>
-      <ProofTypeMasthead
+      <ProofTypeSelectedMasthead
         isActivated
         proofInstanceId={proofInstanceId}
         proofType={undefined}

@@ -4,49 +4,48 @@ import React from "react";
 import cn from "classnames";
 import Link from "next/link";
 import { BsBook } from "@react-icons/all-files/bs/BsBook";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import SearchProofDialog from "@taigalabs/prfs-react-lib/src/search_proof_dialog/SearchProofDialog";
-import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 
 import styles from "./ProofTypeMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 import PrfsAppsPopoverDefault from "@/components/prfs_apps_popover_default/PrfsAppsPopoverDefault";
 import {
-  MastheadLogoArea,
   MastheadMain,
   MastheadRightGroup,
   MastheadRightGroupMenu,
   MastheadWrapper,
 } from "@/components/masthead/Masthead";
+import VerifiedAccSearch from "@/components/verified_acc_search/VerifiedAccSearch";
 import { envs } from "@/envs";
+import AppLogo from "@/components/app_logo/AppLogo";
+import { paths } from "@/paths";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
-  isActivated,
-  proofInstanceId,
-  proofType,
-  handleSelectProofType,
+  handleClickShowLeftBar,
+  handleClickShowLeftBarDrawer,
 }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <MastheadWrapper twoColumn>
-      <MastheadLogoArea>
-        <a href={paths.__}>
-          <ImageLogo width={50} />
-        </a>
-      </MastheadLogoArea>
+    <MastheadWrapper smallPadding tallHeight>
+      <div className={styles.leftBarBtn}>
+        <AppLogo
+          handleClickShowLeftBar={handleClickShowLeftBar}
+          url={paths.attestations}
+          label={i18n.attestations}
+        />
+      </div>
+      <div className={styles.leftBarDrawerBtn}>
+        <AppLogo
+          handleClickShowLeftBar={handleClickShowLeftBarDrawer}
+          url={paths.proof_types}
+          label={i18n.proof_types}
+        />
+      </div>
       <MastheadMain>
         <div className={styles.searchArea}>
-          <SearchProofDialog
-            isActivated={isActivated}
-            proofInstanceId={proofInstanceId}
-            proofType={proofType}
-            handleSelectProofType={handleSelectProofType}
-            webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-          />
+          <VerifiedAccSearch />
         </div>
         <MastheadRightGroup className={styles.rightGroup}>
           <Tooltip label={i18n.docs} className={styles.sideMargin}>
@@ -73,8 +72,6 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
 export default ProofTypeMasthead;
 
 export interface ProofTypeMastheadProps {
-  isActivated?: boolean;
-  proofInstanceId: string | undefined;
-  proofType: PrfsProofType | undefined;
-  handleSelectProofType: (proofType: PrfsProofType) => void;
+  handleClickShowLeftBar: (bool?: boolean) => void;
+  handleClickShowLeftBarDrawer: (bool?: boolean) => void;
 }

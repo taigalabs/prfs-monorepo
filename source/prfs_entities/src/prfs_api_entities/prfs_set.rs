@@ -82,3 +82,16 @@ pub struct ComputePrfsSetMerkleRootResponse {
     pub set_id: String,
     pub merkle_root: String,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreateTreeOfPrfsSetRequest {
+    pub set_id: String,
+    pub account_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreateTreeOfPrfsSetResponse {
+    pub set_id: String,
+}

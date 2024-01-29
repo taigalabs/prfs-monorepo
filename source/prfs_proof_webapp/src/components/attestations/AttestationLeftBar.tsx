@@ -18,8 +18,7 @@ import {
 } from "@/components/left_bar/LeftBar";
 
 const TWITTER = "twitter";
-const CRYPTO_SIZE = "crypto_size";
-const LINKEDIN = "linkedin";
+const CRYPTO_ASSET_SIZE = "crypto_asset_size";
 
 const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -55,7 +54,7 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
         </LeftBarItem>
         <LeftBarItem>
           <Link href={paths.attestations__crypto_asset_size}>
-            <LeftBarItemButton isHighlighted={name === CRYPTO_SIZE}>
+            <LeftBarItemButton isHighlighted={name === CRYPTO_ASSET_SIZE}>
               <FaBitcoin />
               <span>{i18n.crypto_asset_size}</span>
             </LeftBarItemButton>

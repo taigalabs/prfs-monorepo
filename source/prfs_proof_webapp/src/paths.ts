@@ -1,6 +1,7 @@
 export const paths = {
   __: "/",
   create: "/create",
+  proof_types: "/proof_types",
   sets: "/sets",
   sets__create: "/sets/create",
   sets__crypto_holders: "/sets/crypto_holders",

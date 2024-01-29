@@ -13,7 +13,7 @@ import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/b
 import styles from "./CreateProofForm.module.scss";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
-import ProofTypeMasthead from "@/components/proof_type_masthead/ProofTypeMasthead";
+import ProofTypeSelectedMasthead from "@/components/proof_type_selected_masthead/ProofTypeSelectedMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import TutorialDefault from "@/components/tutorial/TutorialDefault";
 import LeftPadding from "@/components/left_padding/LeftPadding";
@@ -64,7 +64,7 @@ const CreateProofForm: React.FC = () => {
 
   return (
     <>
-      <ProofTypeMasthead
+      <ProofTypeSelectedMasthead
         proofInstanceId={undefined}
         proofType={proofType}
         handleSelectProofType={handleSelectProofType}

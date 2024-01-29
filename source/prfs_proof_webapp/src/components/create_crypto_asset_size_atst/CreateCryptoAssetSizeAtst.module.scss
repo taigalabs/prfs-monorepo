@@ -114,7 +114,7 @@
     display: flex;
     align-items: center;
 
-    > * + span {
+    > span + * {
       padding-left: 3px;
     }
   }
@@ -139,6 +139,15 @@
   div {
     border-width: 2px;
     border-top-color: inherit;
+  }
+}
+
+.cacheKey {
+  display: inline-block;
+  /* font-size: 13px; */
+
+  &:not(:first-child) {
+    padding-left: 4px;
   }
 }
 

@@ -13,8 +13,9 @@ use std::sync::Arc;
 use super::middleware::{handle_not_found, log};
 use crate::apis::status::handle_server_status;
 use crate::apis::{
-    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_polls,
-    prfs_proof_instances, prfs_proof_types, prfs_set_elements, prfs_sets, prfs_tree_nodes,
+    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_indices,
+    prfs_polls, prfs_proof_instances, prfs_proof_types, prfs_set_elements, prfs_sets,
+    prfs_tree_nodes,
 };
 
 macro_rules! v0_path {
@@ -136,6 +137,12 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             }
             (&Method::POST, v0_path!("get_prfs_tree_nodes_by_pos")) => {
                 prfs_tree_nodes::get_prfs_tree_nodes_by_pos(req, state).await
+            }
+            (&Method::POST, v0_path!("create_tree_of_prfs_set")) => {
+                prfs_sets::create_tree_of_prfs_set(req, state).await
+            }
+            (&Method::POST, v0_path!("get_least_recent_prfs_index")) => {
+                prfs_indices::get_least_recent_index(req, state).await
             }
             _ => handle_not_found(req, state).await,
         }

@@ -1,5 +1,7 @@
 use prfs_crypto::crypto_bigint::{Encoding, U256};
-use prfs_entities::entities::{PrfsCryptoAssetSizeAtst, PrfsSetElement};
+use prfs_entities::entities::{
+    PrfsCryptoAssetSizeAtst, PrfsSetElement, PrfsSetElementData, PrfsSetElementDataType,
+};
 use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use std::collections::HashMap;
 
@@ -17,10 +19,18 @@ pub async fn insert_asset_atsts_as_prfs_set_elements(
         let total_val = atst.total_value_usd.floor();
         let cm = atst.cm;
         let cm = &cm[2..];
-        let data = sqlx::types::Json::from(HashMap::from([
-            ("total_value_usd", total_val.to_string()),
-            ("cm", cm.to_string()),
-        ]));
+        let data = sqlx::types::Json::from(vec![
+            PrfsSetElementData {
+                label: "cm".to_string(),
+                r#type: PrfsSetElementDataType::Hex32,
+                val: cm.to_string(),
+            },
+            PrfsSetElementData {
+                label: "total_val".to_string(),
+                r#type: PrfsSetElementDataType::Int,
+                val: total_val.to_string(),
+            },
+        ]);
 
         b.push_bind(atst.wallet_addr.to_string())
             .push_bind(data)

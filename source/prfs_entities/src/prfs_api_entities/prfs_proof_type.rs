@@ -1,4 +1,3 @@
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
@@ -16,7 +15,7 @@ pub struct GetPrfsProofTypesRequest {
 #[ts(export)]
 pub struct GetPrfsProofTypesResponse {
     pub next_offset: Option<i32>,
-    pub prfs_proof_types: Vec<PrfsProofType>,
+    pub rows: Vec<PrfsProofType>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

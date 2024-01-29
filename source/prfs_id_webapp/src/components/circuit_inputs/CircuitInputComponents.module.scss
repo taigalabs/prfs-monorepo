@@ -1,0 +1,9 @@
+.formInputBtn {
+  font-weight: 500;
+  color: var(--aqua-blue-50);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--aqua-blue-40);
+  }
+}

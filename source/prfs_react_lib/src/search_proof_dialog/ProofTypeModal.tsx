@@ -66,7 +66,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
       },
     });
 
-  const allRows = data ? data.pages.flatMap(d => d.payload && d.payload.prfs_proof_types) : [];
+  const allRows = data ? data.pages.flatMap(d => d.payload && d.payload.rows) : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
 
   const rowVirtualizer = useVirtualizer({
