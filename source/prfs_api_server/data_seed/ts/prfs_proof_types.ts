@@ -55,7 +55,7 @@ const merkle_sig_pos_range_v1_circuit_input = {
   desc: "Merkle proof with leaf as sig-poseidon with number in range",
   name: "merkle_sig_pos_range",
   type: "MERKLE_SIG_POS_RANGE_V1",
-  label: "Signature poseidon with value in range",
+  label: "Member",
   value: "",
 };
 
