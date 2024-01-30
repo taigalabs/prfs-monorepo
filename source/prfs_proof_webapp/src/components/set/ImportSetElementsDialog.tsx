@@ -21,7 +21,7 @@ import {
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
 import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
-import { CommonStatus } from "../common_status/CommonStatus";
+import { CommonStatus } from "@/components/common_status/CommonStatus";
 
 const PRFS_ATTESTATION = "prfs_attestation";
 const CRYPTO_ASSET_SIZE_ATSTS = "crypto_asset_size_atsts";
@@ -39,11 +39,11 @@ const Modal: React.FC<ModalProps> = ({
   }, [setIsOpen]);
   const handleClickOk = React.useCallback(() => {
     if (computeStatus === CommonStatus.Done) {
-      window.location.reload();
+      setIsOpen(false);
     } else {
       handleClickImport();
     }
-  }, [handleClickImport, computeStatus]);
+  }, [setIsOpen, handleClickImport, computeStatus]);
 
   return (
     <DefaultModalWrapper>
@@ -73,7 +73,7 @@ const Modal: React.FC<ModalProps> = ({
           disabled={computeStatus === CommonStatus.InProgress}
         >
           <div className={styles.importBtnContent}>
-            <span>{computeStatus === CommonStatus.Done ? i18n.reload : i18n.import}</span>
+            <span>{computeStatus === CommonStatus.Done ? i18n.close : i18n.import}</span>
             {computeStatus === CommonStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
@@ -108,9 +108,8 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
           setComputeMsg(
             <>
               <p>
-                <b>Imported, row count: {payload.rows_affected.toString()}</b>
+                <b>Imported, new row count: {payload.rows_affected.toString()}</b>
               </p>
-              <p>Reload the page</p>
             </>,
           );
         }
@@ -133,6 +132,13 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
       }
     }
   }, [prfsProofCredential, importPrfsSetElementsRequest, setComputeMsg, setComputeStatus]);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setComputeStatus(CommonStatus.Standby);
+      setComputeMsg(null);
+    }
+  }, [isOpen, setComputeMsg, setComputeStatus]);
 
   const createBase = React.useCallback(() => {
     return (

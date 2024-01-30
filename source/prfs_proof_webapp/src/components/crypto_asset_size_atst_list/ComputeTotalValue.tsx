@@ -17,12 +17,7 @@ import {
   DefaultModalHeader,
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
-
-enum Status {
-  Standby,
-  InProgress,
-  Done,
-}
+import { CommonStatus } from "@/components/common_status/CommonStatus";
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
@@ -35,7 +30,7 @@ const Modal: React.FC<ModalProps> = ({
     setIsOpen(false);
   }, [setIsOpen]);
   const handleClickOk = React.useCallback(() => {
-    if (computeStatus === Status.Done) {
+    if (computeStatus === CommonStatus.Done) {
       setIsOpen(false);
     } else {
       handleClickCalculate();
@@ -67,11 +62,11 @@ const Modal: React.FC<ModalProps> = ({
           handleClick={handleClickOk}
           noShadow
           type="button"
-          disabled={computeStatus === Status.InProgress}
+          disabled={computeStatus === CommonStatus.InProgress}
         >
           <div className={styles.btnContent}>
-            <span>{computeStatus === Status.Done ? i18n.close : i18n.compute}</span>
-            {computeStatus === Status.InProgress && <Spinner size={14} borderWidth={2} />}
+            <span>{computeStatus === CommonStatus.Done ? i18n.close : i18n.compute}</span>
+            {computeStatus === CommonStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
       </DefaultModalBtnRow>
@@ -90,18 +85,18 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
       return atstApi("compute_crypto_asset_size_total_values", req);
     },
   });
-  const [computeStatus, setComputeStatus] = React.useState(Status.Standby);
+  const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickCalculate = React.useCallback(async () => {
     if (prfsProofCredential) {
-      setComputeStatus(Status.InProgress);
+      setComputeStatus(CommonStatus.InProgress);
       try {
         const { payload } = await computeCryptoSizeTotalValuesRequest({
           account_id: prfsProofCredential.account_id,
         });
 
         if (payload) {
-          setComputeStatus(Status.Done);
+          setComputeStatus(CommonStatus.Done);
           setComputeMsg(
             <>
               <p>
@@ -112,7 +107,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
           handleSucceedCompute();
         }
       } catch (err) {
-        setComputeStatus(Status.Standby);
+        setComputeStatus(CommonStatus.Standby);
       }
     }
   }, [
@@ -133,7 +128,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
 
   React.useEffect(() => {
     if (isOpen) {
-      setComputeStatus(Status.Standby);
+      setComputeStatus(CommonStatus.Standby);
       setComputeMsg(null);
     }
   }, [isOpen, setComputeStatus, setComputeMsg]);
@@ -162,6 +157,6 @@ export interface ComputeTotalValueDialogProps {
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleClickCalculate: () => {};
-  computeStatus: Status;
+  computeStatus: CommonStatus;
   computeMsg: React.ReactNode;
 }
