@@ -230,6 +230,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   return (
     <FormInput>
       <FormInputTitleRow>
+        <div>{circuitInput.type}</div>
         <FormInputTitle>
           <span className={styles.inputLabel}>{label}</span>
         </FormInputTitle>

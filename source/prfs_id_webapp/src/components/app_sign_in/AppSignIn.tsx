@@ -34,7 +34,7 @@ export enum SignInStatus {
 const AppSignIn: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
-  const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+  const [errorDialogMsg, setErrorDialogMsg] = React.useState<React.ReactNode | null>(null);
   const searchParams = useSearchParams();
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
@@ -54,17 +54,17 @@ const AppSignIn: React.FC = () => {
 
       if (!public_key) {
         setSignInStatus(SignInStatus.Error);
-        setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
+        setErrorDialogMsg("Invalid URL. 'public_key' is missing. Closing the window");
       } else if (!app_id) {
         setSignInStatus(SignInStatus.Error);
-        setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
+        setErrorDialogMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
         if (isPrfsReady) {
           setSignInStatus(SignInStatus.Standby);
         }
       }
     }
-  }, [appSignInArgs, setSignInStatus, setErrorMsg, setStep, isPrfsReady]);
+  }, [appSignInArgs, setSignInStatus, setErrorDialogMsg, setStep, isPrfsReady]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -120,7 +120,7 @@ const AppSignIn: React.FC = () => {
           </div>
         )}
         {signInStatus === SignInStatus.Error && (
-          <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />
+          <PrfsIdErrorDialog errorMsg={errorDialogMsg} handleClose={handleCloseErrorDialog} />
         )}
         <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel>
         {content}

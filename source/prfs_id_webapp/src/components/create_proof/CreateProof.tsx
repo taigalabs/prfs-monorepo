@@ -44,15 +44,21 @@ function useProofType(proofTypeId: string | undefined) {
   });
 }
 
-const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt, tutorial }) => {
+const CreateProof: React.FC<CreateProofProps> = ({
+  credential,
+  query,
+  setReceipt,
+  tutorial,
+  setErrorDialogMsg,
+}) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
-  const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const tutorialStep = useAppSelector(state => state.tutorial.tutorialStep);
-  const { data } = useProofType(query?.proofTypeId);
+  const { data, error } = useProofType(query?.proofTypeId);
   const handleProofGenEvent = React.useCallback((ev: CreateProofEvent) => {
     const { payload } = ev;
     setSystemMsg(payload.payload);
@@ -60,6 +66,17 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
   const { loadDriverProgress, loadDriverStatus, driver, driverArtifacts } = useLoadDriver(
     data?.payload?.prfs_proof_type,
   );
+
+  React.useEffect(() => {
+    if (error) {
+      console.log(12311);
+    }
+
+    if (data?.error) {
+      console.log(123);
+      setErrorDialogMsg("power");
+    }
+  }, [data, error, setErrorDialogMsg]);
 
   React.useEffect(() => {
     const { name } = query;
@@ -101,63 +118,63 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
   }, [formValues, setReceipt, query, driver]);
 
   const proofType = data?.payload?.prfs_proof_type;
-  return (
-    proofType && (
-      <>
-        <QueryItem sidePadding>
-          <QueryItemMeta>
-            <QueryItemLeftCol>
-              <TbNumbers />
-            </QueryItemLeftCol>
-            <QueryItemRightCol>
-              <QueryName
-                className={cn({ [styles.creating]: createProofStatus === Status.InProgress })}
-              >
-                <span>{query.name}</span>
-                {createProofStatus === Status.InProgress && <span> (Creating...)</span>}
-              </QueryName>
-              <div>{proofType.proof_type_id}</div>
-              <div className={styles.driverMsg}>
-                <LoadDriver
-                  proofType={proofType}
-                  loadDriverStatus={loadDriverStatus}
-                  progress={loadDriverProgress}
-                  driverArtifacts={driverArtifacts}
+  return proofType ? (
+    <>
+      <QueryItem sidePadding>
+        <QueryItemMeta>
+          <QueryItemLeftCol>
+            <TbNumbers />
+          </QueryItemLeftCol>
+          <QueryItemRightCol>
+            <QueryName
+              className={cn({ [styles.creating]: createProofStatus === Status.InProgress })}
+            >
+              <span>{query.name}</span>
+              {createProofStatus === Status.InProgress && <span> (Creating...)</span>}
+            </QueryName>
+            <div>{proofType.proof_type_id}</div>
+            <div className={styles.driverMsg}>
+              <LoadDriver
+                proofType={proofType}
+                loadDriverStatus={loadDriverStatus}
+                progress={loadDriverProgress}
+                driverArtifacts={driverArtifacts}
+              />
+            </div>
+          </QueryItemRightCol>
+        </QueryItemMeta>
+        <div className={styles.wrapper}>
+          <div className={styles.moduleWrapper}>
+            {loadDriverStatus === LoadDriverStatus.InProgress && (
+              <div className={styles.overlay}>
+                <Spinner size={28} color={colors.blue_12} />
+              </div>
+            )}
+            <TutorialStepper
+              tutorialId={tutorial ? tutorial.tutorialId : null}
+              step={tutorialStep}
+              steps={[2]}
+            >
+              <div className={styles.form}>
+                <CircuitInputs
+                  circuitInputs={proofType.circuit_inputs as CircuitInput[]}
+                  formValues={formValues}
+                  setFormValues={setFormValues}
+                  formErrors={formErrors}
+                  setFormErrors={setFormErrors}
+                  presetVals={query.presetVals}
+                  credential={credential}
                 />
               </div>
-            </QueryItemRightCol>
-          </QueryItemMeta>
-          <div className={styles.wrapper}>
-            <div className={styles.moduleWrapper}>
-              {loadDriverStatus === LoadDriverStatus.InProgress && (
-                <div className={styles.overlay}>
-                  <Spinner size={28} color={colors.blue_12} />
-                </div>
-              )}
-              <TutorialStepper
-                tutorialId={tutorial ? tutorial.tutorialId : null}
-                step={tutorialStep}
-                steps={[2]}
-              >
-                <div className={styles.form}>
-                  <CircuitInputs
-                    circuitInputs={proofType.circuit_inputs as CircuitInput[]}
-                    formValues={formValues}
-                    setFormValues={setFormValues}
-                    formErrors={formErrors}
-                    setFormErrors={setFormErrors}
-                    presetVals={query.presetVals}
-                    credential={credential}
-                  />
-                </div>
-              </TutorialStepper>
-              {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
-              {errorMsg && <div className={cn(styles.systemMsg, styles.red)}>{errorMsg}</div>}
-            </div>
+            </TutorialStepper>
+            {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
+            {errorMsg && <div className={cn(styles.systemMsg, styles.red)}>{errorMsg}</div>}
           </div>
-        </QueryItem>
-      </>
-    )
+        </div>
+      </QueryItem>
+    </>
+  ) : (
+    <div>po123</div>
   );
 };
 
@@ -166,6 +183,7 @@ export default CreateProof;
 export interface CreateProofProps {
   credential: PrfsIdCredential;
   query: CreateProofQuery;
+  setErrorDialogMsg: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
   tutorial: TutorialArgs | undefined;
 }

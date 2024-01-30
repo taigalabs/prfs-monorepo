@@ -50,7 +50,7 @@ const PrfsIdErrorDialog: React.FC<PrfsIdErrorDialogProps> = ({ errorMsg, handleC
                   aria-describedby={descriptionId}
                   {...getFloatingProps()}
                 >
-                  <p className={styles.msg}>{errorMsg}</p>
+                  <div className={styles.msg}>{errorMsg}</div>
                   <div className={styles.btnRow}>
                     <div />
                     <Button
@@ -74,6 +74,6 @@ const PrfsIdErrorDialog: React.FC<PrfsIdErrorDialogProps> = ({ errorMsg, handleC
 export default PrfsIdErrorDialog;
 
 export interface PrfsIdErrorDialogProps {
-  errorMsg: string | null;
+  errorMsg: React.ReactNode | null;
   handleClose: () => void;
 }
