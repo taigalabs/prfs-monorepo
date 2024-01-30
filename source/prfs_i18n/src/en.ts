@@ -248,6 +248,7 @@ export default {
   compute_merkle_root: "Compute Merkle root",
   compute: "Compute",
   reload: "Reload",
+  reloading: "Reloading",
   compute_total_asset_value_in_usd: "Compute total asset value in USD",
   import_prfs_set_elements_from_prfs_attestations:
     "Import Prfs set elements from Prfs attestations",

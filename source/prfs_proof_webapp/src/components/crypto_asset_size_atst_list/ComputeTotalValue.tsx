@@ -36,7 +36,7 @@ const Modal: React.FC<ModalProps> = ({
   }, [setIsOpen]);
   const handleClickOk = React.useCallback(() => {
     if (computeStatus === ComputeStatus.Done) {
-      window.location.reload();
+      setIsOpen(false);
     } else {
       handleClickCalculate();
     }
@@ -70,7 +70,7 @@ const Modal: React.FC<ModalProps> = ({
           disabled={computeStatus === ComputeStatus.InProgress}
         >
           <div className={styles.btnContent}>
-            <span>{computeStatus === ComputeStatus.Done ? i18n.reload : i18n.compute}</span>
+            <span>{computeStatus === ComputeStatus.Done ? i18n.close : i18n.compute}</span>
             {computeStatus === ComputeStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
@@ -79,7 +79,10 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential }) => {
+const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
+  credential,
+  handleSucceedCompute,
+}) => {
   const { prfsProofCredential } = useSignedInUser();
   const [isOpen, setIsOpen] = React.useState(false);
   const { mutateAsync: computeCryptoSizeTotalValuesRequest, isPending } = useMutation({
@@ -104,15 +107,21 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ crede
               <p>
                 <b>Computed, row count: {payload.updated_row_count.toString()}</b>
               </p>
-              <p>Reload the page</p>
             </>,
           );
+          handleSucceedCompute();
         }
       } catch (err) {
         setComputeStatus(ComputeStatus.Standby);
       }
     }
-  }, [prfsProofCredential, computeCryptoSizeTotalValuesRequest, setComputeMsg, setComputeStatus]);
+  }, [
+    prfsProofCredential,
+    computeCryptoSizeTotalValuesRequest,
+    setComputeMsg,
+    setComputeStatus,
+    handleSucceedCompute,
+  ]);
 
   const createBase = React.useCallback(() => {
     return (
@@ -140,6 +149,7 @@ export default ComputeTotalValueDialog;
 
 export interface ComputeTotalValueDialogProps {
   credential: LocalPrfsProofCredential;
+  handleSucceedCompute: () => void;
 }
 
 export interface ModalProps {

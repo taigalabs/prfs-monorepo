@@ -75,12 +75,12 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   );
 };
 
-const CryptoAssetSizeAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
+const CryptoAssetSizeAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_crypto_asset_size_atsts"],
+      queryKey: ["get_crypto_asset_size_atsts", nonce],
       queryFn: async ({ pageParam }) => {
         return atstApi("get_crypto_asset_size_atsts", { offset: pageParam as number });
       },
@@ -200,7 +200,9 @@ const CryptoAssetSizeAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
 
 export default CryptoAssetSizeAtstTable;
 
-export interface TwitterAccAtstTableProps {}
+export interface TwitterAccAtstTableProps {
+  nonce: number;
+}
 
 export interface AtstRowProps {
   atst: PrfsCryptoAssetSizeAtst;
