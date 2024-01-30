@@ -18,7 +18,7 @@ import {
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
 
-enum ComputeStatus {
+enum Status {
   Standby,
   InProgress,
   Done,
@@ -35,7 +35,7 @@ const Modal: React.FC<ModalProps> = ({
     setIsOpen(false);
   }, [setIsOpen]);
   const handleClickOk = React.useCallback(() => {
-    if (computeStatus === ComputeStatus.Done) {
+    if (computeStatus === Status.Done) {
       setIsOpen(false);
     } else {
       handleClickCalculate();
@@ -67,11 +67,11 @@ const Modal: React.FC<ModalProps> = ({
           handleClick={handleClickOk}
           noShadow
           type="button"
-          disabled={computeStatus === ComputeStatus.InProgress}
+          disabled={computeStatus === Status.InProgress}
         >
           <div className={styles.btnContent}>
-            <span>{computeStatus === ComputeStatus.Done ? i18n.close : i18n.compute}</span>
-            {computeStatus === ComputeStatus.InProgress && <Spinner size={14} borderWidth={2} />}
+            <span>{computeStatus === Status.Done ? i18n.close : i18n.compute}</span>
+            {computeStatus === Status.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
       </DefaultModalBtnRow>
@@ -90,18 +90,18 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
       return atstApi("compute_crypto_asset_size_total_values", req);
     },
   });
-  const [computeStatus, setComputeStatus] = React.useState(ComputeStatus.Standby);
+  const [computeStatus, setComputeStatus] = React.useState(Status.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickCalculate = React.useCallback(async () => {
     if (prfsProofCredential) {
-      setComputeStatus(ComputeStatus.InProgress);
+      setComputeStatus(Status.InProgress);
       try {
         const { payload } = await computeCryptoSizeTotalValuesRequest({
           account_id: prfsProofCredential.account_id,
         });
 
         if (payload) {
-          setComputeStatus(ComputeStatus.Done);
+          setComputeStatus(Status.Done);
           setComputeMsg(
             <>
               <p>
@@ -112,7 +112,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
           handleSucceedCompute();
         }
       } catch (err) {
-        setComputeStatus(ComputeStatus.Standby);
+        setComputeStatus(Status.Standby);
       }
     }
   }, [
@@ -130,6 +130,13 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
       </Button>
     );
   }, []);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setComputeStatus(Status.Standby);
+      setComputeMsg(null);
+    }
+  }, [isOpen, setComputeStatus, setComputeMsg]);
 
   return (
     <>
@@ -155,6 +162,6 @@ export interface ComputeTotalValueDialogProps {
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleClickCalculate: () => {};
-  computeStatus: ComputeStatus;
+  computeStatus: Status;
   computeMsg: React.ReactNode;
 }
