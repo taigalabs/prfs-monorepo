@@ -122,7 +122,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.systemMsg}></div>
+      {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
       <div className={styles.main}>
         <div className={styles.controlArea}>
           <div className={styles.btnSection}>
