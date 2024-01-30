@@ -21,7 +21,7 @@ const HomeMasthead: React.FC<HomeMastheadProps> = () => {
 
   return (
     <MastheadWrapper className={cn(styles.wrapper, { [styles.isTutorial]: !!tutorialId })}>
-      <MastheadRightGroup>
+      <MastheadRightGroup className={styles.rightGroup}>
         <MastheadRightGroupMenu className={cn(styles.menu, styles.underline, styles.tutorialBtn)}>
           <a href={urls.tutorial}>
             <span>{i18n.tutorial}</span>

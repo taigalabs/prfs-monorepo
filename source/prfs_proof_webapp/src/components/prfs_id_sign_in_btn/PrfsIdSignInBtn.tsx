@@ -105,7 +105,12 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   }, []);
 
   if (!isCredentialInitialized) {
-    return <Spinner size={24} color="#5c5c5c" />;
+    return (
+      <div className={styles.wrapper}>
+        123
+        {/* <Spinner size={24} color="#5c5c5c" /> */}
+      </div>
+    );
   }
 
   return prfsProofCredential ? (

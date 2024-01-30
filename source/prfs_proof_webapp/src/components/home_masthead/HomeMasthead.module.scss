@@ -1,12 +1,18 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
+  min-width: 360px;
+  padding: 14px 10px;
+
   &.isTutorial {
     border-bottom: 1px solid var(--bright-gray-32);
   }
 }
 
-.bigScreen {
-  display: flex;
-  align-items: center;
+.rightGroup {
+  .bigScreen {
+    display: none;
+  }
 }
 
 .underline:hover {
@@ -21,15 +27,20 @@
   font-size: 14px;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (min-width: $big2_display_min_width) {
   .wrapper {
-    min-width: 360px;
-    padding: 14px 10px;
+    /* min-width: 360px; */
+    /* padding: 14px 10px; */
   }
 
-  .rightGroup {
-    .bigScreen {
-      display: none;
-    }
+  .bigScreen {
+    display: flex;
+    align-items: center;
   }
+
+  /* .rightGroup { */
+  /*   .bigScreen { */
+  /*     display: none; */
+  /*   } */
+  /* } */
 }
