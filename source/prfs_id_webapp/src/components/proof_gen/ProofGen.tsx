@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
@@ -123,9 +123,9 @@ const ProofGen: React.FC = () => {
         {errorMsg && <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />}
         <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
         {status === Status.Loading ? (
-          <div className={styles.overlay}>
+          <Overlay fixed>
             <Spinner color="#1b62c0" />
-          </div>
+          </Overlay>
         ) : (
           content
         )}

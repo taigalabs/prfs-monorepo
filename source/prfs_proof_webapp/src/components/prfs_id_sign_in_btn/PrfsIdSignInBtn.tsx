@@ -13,6 +13,7 @@ import {
   AppSignInArgs,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { useMutation } from "@tanstack/react-query";
 import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
@@ -106,10 +107,10 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
 
   if (!isCredentialInitialized) {
     return (
-      <div className={styles.wrapper}>
+      <Overlay className={styles.wrapper}>
         123
         {/* <Spinner size={24} color="#5c5c5c" /> */}
-      </div>
+      </Overlay>
     );
   }
 
