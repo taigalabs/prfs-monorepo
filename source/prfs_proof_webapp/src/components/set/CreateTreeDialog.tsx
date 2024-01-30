@@ -112,7 +112,9 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
           setComputeMsg(
             <>
               <p>
-                <b>{i18n.finished_importing}</b>
+                <b>
+                  {i18n.tree} is created for {payload.set_id}
+                </b>
               </p>
             </>,
           );
@@ -150,6 +152,13 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
       </Button>
     );
   }, [prfsProofCredential]);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setComputeStatus(CommonStatus.Standby);
+      setComputeMsg(null);
+    }
+  }, [isOpen, setComputeMsg, setComputeStatus]);
 
   return (
     <>

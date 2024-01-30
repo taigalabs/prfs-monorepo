@@ -343,6 +343,7 @@ export default {
   teaser_1: "Prfs is coming to empower you",
   teaser_2: "to make undeniable, anonymous claims",
   true: "True",
+  tree: "Tree",
   false: "False",
   prfs_ack_sig: "Prfs ack signature",
   question_type: "Question type",
