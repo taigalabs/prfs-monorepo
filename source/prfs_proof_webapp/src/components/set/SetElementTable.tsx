@@ -48,9 +48,9 @@ const Row: React.FC<RowProps> = ({ row, style }) => {
   );
 };
 
-function fetchPrfsSetElements(set_id: string) {
+function fetchPrfsSetElements(set_id: string, nonce: number) {
   return useInfiniteQuery({
-    queryKey: ["get_prfs_set_elements"],
+    queryKey: ["get_prfs_set_elements", nonce],
     queryFn: async ({ pageParam }) => {
       return prfsApi2("get_prfs_set_elements", { offset: pageParam as number, set_id });
     },
@@ -65,11 +65,11 @@ function fetchPrfsSetElements(set_id: string) {
   });
 }
 
-const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
+const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const { status, data, error, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    fetchPrfsSetElements(setId);
+    fetchPrfsSetElements(setId, nonce);
 
   const allRows = data
     ? data.pages.flatMap(d => {
@@ -167,6 +167,7 @@ export default SetElementTable;
 
 export interface SetElementTableProps {
   setId: string;
+  nonce: number;
 }
 
 export interface RowProps {

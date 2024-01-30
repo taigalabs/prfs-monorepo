@@ -16,6 +16,7 @@ import CreateTreeDialog from "./CreateTreeDialog";
 
 const Set: React.FC<SetProps> = ({ set_id }) => {
   const i18n = React.useContext(i18nContext);
+  const [nonce, rerender] = React.useReducer(x => x + 1, 0);
 
   return (
     <>
@@ -29,13 +30,13 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
               <ImportSetElementsDialog />
             </li>
             <li>
-              <CreateTreeDialog />
+              <CreateTreeDialog handleSucceedCreate={rerender} />
             </li>
           </ul>
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
-        <SetElementTable setId={set_id} />
+        <SetElementTable setId={set_id} nonce={nonce} />
       </div>
     </>
   );

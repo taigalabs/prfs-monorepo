@@ -40,7 +40,7 @@ const Modal: React.FC<ModalProps> = ({
     } else {
       handleClickCalculate();
     }
-  }, [handleClickCalculate, computeStatus]);
+  }, [handleClickCalculate, computeStatus, setIsOpen]);
 
   return (
     <DefaultModalWrapper>

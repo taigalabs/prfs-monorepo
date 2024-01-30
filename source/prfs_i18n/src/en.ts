@@ -118,6 +118,7 @@ export default {
   proof_type_id: "Proof type id",
   prev: "Prev",
   finish: "Finish",
+  finished_importing: "Finished importing",
   next: "Next",
   finish_by_signing_in: "Finish by signing in",
   create_and_share_proofs: "Create and share proofs",
