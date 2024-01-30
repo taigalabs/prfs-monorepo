@@ -6,4 +6,5 @@ export * from "./bigint";
 export * from "./signature";
 export * from "./id";
 export * from "./poseidon";
+export * from "./commitment";
 export { initWasm } from "./wasm_wrapper/wasm";

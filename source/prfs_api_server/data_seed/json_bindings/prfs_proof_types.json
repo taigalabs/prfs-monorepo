@@ -291,7 +291,7 @@
         "ref_type": "PRFS_SET",
         "ref_value": "crypto_holders",
         "element_type": "COMMITMENT",
-        "desc": "Merkle proof with leaf as sig-poseidon with number in range",
+        "desc": "Address",
         "name": "merkle_sig_pos_range",
         "type": "MERKLE_SIG_POS_RANGE_V1",
         "label": "Member",

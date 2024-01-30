@@ -52,7 +52,7 @@ const sig_data_circuit_input = {
 };
 
 const merkle_sig_pos_range_v1_circuit_input = {
-  desc: "Merkle proof with leaf as sig-poseidon with number in range",
+  desc: "Address",
   name: "merkle_sig_pos_range",
   type: "MERKLE_SIG_POS_RANGE_V1",
   label: "Member",

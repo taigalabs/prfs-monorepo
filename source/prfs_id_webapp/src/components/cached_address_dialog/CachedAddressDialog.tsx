@@ -23,7 +23,6 @@ const CachedAddressDialog: React.FC<ConnectWalletProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
-
   const { refs, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
