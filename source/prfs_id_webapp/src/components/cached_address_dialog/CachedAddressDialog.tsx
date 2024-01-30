@@ -50,7 +50,7 @@ const CachedAddressDialog: React.FC<ConnectWalletProps> = ({
   return (
     <>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
-        {children ? children : <button type="button">{i18n.address}</button>}
+        {children}
       </div>
       <FloatingPortal>
         {isOpen && (
@@ -83,5 +83,5 @@ export default CachedAddressDialog;
 export interface ConnectWalletProps {
   handleChangeAddress: (addr: string) => void;
   zIndex?: number;
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
