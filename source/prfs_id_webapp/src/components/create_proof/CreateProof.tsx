@@ -69,12 +69,21 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
   React.useEffect(() => {
     if (error) {
-      console.log(12311);
+      setErrorDialogMsg(
+        <p>
+          <span>Error fetching proof type, something is wrong. </span>
+          <span>{error.toString()}</span>
+        </p>,
+      );
     }
 
     if (data?.error) {
-      console.log(123);
-      setErrorDialogMsg("power");
+      setErrorDialogMsg(
+        <p>
+          <span>Error fetching proof type, something is wrong. </span>
+          <span>{data.error.toString()}</span>
+        </p>,
+      );
     }
   }, [data, error, setErrorDialogMsg]);
 

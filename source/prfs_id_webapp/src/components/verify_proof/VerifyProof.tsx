@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { parseVerifyProofSearchParams } from "@taigalabs/prfs-id-sdk-web";
@@ -15,7 +14,6 @@ import {
   DefaultModuleFooter,
   DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
-import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";

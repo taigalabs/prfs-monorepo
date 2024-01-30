@@ -20,8 +20,11 @@ const PrfsIdErrorDialog: React.FC<PrfsIdErrorDialogProps> = ({ errorMsg, handleC
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(true);
   const handleClickClose = React.useCallback(() => {
-    setIsOpen(false);
-    handleClose();
+    window.close();
+  }, [setIsOpen, handleClose]);
+
+  const handleClickReload = React.useCallback(() => {
+    window.location.reload();
   }, [setIsOpen, handleClose]);
 
   const { refs, context } = useFloating({
@@ -32,7 +35,10 @@ const PrfsIdErrorDialog: React.FC<PrfsIdErrorDialogProps> = ({ errorMsg, handleC
   const descriptionId = useId();
   const click = useClick(context);
   const role = useRole(context);
-  const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
+  const dismiss = useDismiss(context, {
+    outsidePressEvent: "mousedown",
+    enabled: false,
+  });
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
 
   return (
@@ -52,13 +58,19 @@ const PrfsIdErrorDialog: React.FC<PrfsIdErrorDialogProps> = ({ errorMsg, handleC
                 >
                   <div className={styles.msg}>{errorMsg}</div>
                   <div className={styles.btnRow}>
-                    <div />
+                    <Button
+                      variant="transparent_blue_2"
+                      className={styles.closeBtn}
+                      handleClick={handleClickReload}
+                    >
+                      {i18n.reload.toUpperCase()}
+                    </Button>
                     <Button
                       variant="transparent_blue_2"
                       className={styles.closeBtn}
                       handleClick={handleClickClose}
                     >
-                      {i18n.close_and_return.toUpperCase()}
+                      {i18n.close_window.toUpperCase()}
                     </Button>
                   </div>
                 </div>
@@ -76,4 +88,5 @@ export default PrfsIdErrorDialog;
 export interface PrfsIdErrorDialogProps {
   errorMsg: React.ReactNode | null;
   handleClose: () => void;
+  noClickOutside?: boolean;
 }
