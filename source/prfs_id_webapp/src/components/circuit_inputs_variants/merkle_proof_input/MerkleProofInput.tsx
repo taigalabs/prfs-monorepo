@@ -191,8 +191,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           pathIndices,
         };
 
-        console.log(11, siblingNodesData, merkleProof);
-
         setFormValues((prevVals: any) => {
           return {
             ...prevVals,

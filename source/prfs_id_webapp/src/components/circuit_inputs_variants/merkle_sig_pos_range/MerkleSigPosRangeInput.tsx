@@ -21,6 +21,7 @@ import {
   FormInputBtnRow,
   FormInputTitle,
   FormInputTitleRow,
+  FormInputType,
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
@@ -230,7 +231,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   return (
     <FormInput>
       <FormInputTitleRow>
-        <div>{circuitInput.type}</div>
+        {/* <FormInputType>{circuitInput.type}</FormInputType> */}
         <FormInputTitle>
           <span className={styles.inputLabel}>{label}</span>
         </FormInputTitle>

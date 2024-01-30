@@ -28,7 +28,7 @@ const MerkleProofRawModal: React.FC<MerkleProofRawModalProps> = ({
   setIsOpen,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [walletAddr, setWalletAddr] = React.useState("");
+  // const [walletAddr, setWalletAddr] = React.useState("");
   const [value, setValue] = React.useState<SpartanMerkleProof>();
   const [merkleProofValue, setMerkleProofValue] = React.useState("");
 

@@ -127,63 +127,63 @@ const CreateProof: React.FC<CreateProofProps> = ({
   }, [formValues, setReceipt, query, driver]);
 
   const proofType = data?.payload?.prfs_proof_type;
-  return proofType ? (
-    <>
-      <QueryItem sidePadding>
-        <QueryItemMeta>
-          <QueryItemLeftCol>
-            <TbNumbers />
-          </QueryItemLeftCol>
-          <QueryItemRightCol>
-            <QueryName
-              className={cn({ [styles.creating]: createProofStatus === Status.InProgress })}
-            >
-              <span>{query.name}</span>
-              {createProofStatus === Status.InProgress && <span> (Creating...)</span>}
-            </QueryName>
-            <div>{proofType.proof_type_id}</div>
-            <div className={styles.driverMsg}>
-              <LoadDriver
-                proofType={proofType}
-                loadDriverStatus={loadDriverStatus}
-                progress={loadDriverProgress}
-                driverArtifacts={driverArtifacts}
-              />
-            </div>
-          </QueryItemRightCol>
-        </QueryItemMeta>
-        <div className={styles.wrapper}>
-          <div className={styles.moduleWrapper}>
-            {loadDriverStatus === LoadDriverStatus.InProgress && (
-              <div className={styles.overlay}>
-                <Spinner size={28} color={colors.blue_12} />
-              </div>
-            )}
-            <TutorialStepper
-              tutorialId={tutorial ? tutorial.tutorialId : null}
-              step={tutorialStep}
-              steps={[2]}
-            >
-              <div className={styles.form}>
-                <CircuitInputs
-                  circuitInputs={proofType.circuit_inputs as CircuitInput[]}
-                  formValues={formValues}
-                  setFormValues={setFormValues}
-                  formErrors={formErrors}
-                  setFormErrors={setFormErrors}
-                  presetVals={query.presetVals}
-                  credential={credential}
+  return (
+    proofType && (
+      <>
+        <QueryItem sidePadding>
+          <QueryItemMeta>
+            <QueryItemLeftCol>
+              <TbNumbers />
+            </QueryItemLeftCol>
+            <QueryItemRightCol>
+              <QueryName
+                className={cn({ [styles.creating]: createProofStatus === Status.InProgress })}
+              >
+                <span>{query.name}</span>
+                {createProofStatus === Status.InProgress && <span> (Creating...)</span>}
+              </QueryName>
+              <div>{proofType.proof_type_id}</div>
+              <div className={styles.driverMsg}>
+                <LoadDriver
+                  proofType={proofType}
+                  loadDriverStatus={loadDriverStatus}
+                  progress={loadDriverProgress}
+                  driverArtifacts={driverArtifacts}
                 />
               </div>
-            </TutorialStepper>
-            {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
-            {errorMsg && <div className={cn(styles.systemMsg, styles.red)}>{errorMsg}</div>}
+            </QueryItemRightCol>
+          </QueryItemMeta>
+          <div className={styles.wrapper}>
+            <div className={styles.moduleWrapper}>
+              {loadDriverStatus === LoadDriverStatus.InProgress && (
+                <div className={styles.overlay}>
+                  <Spinner size={28} color={colors.blue_12} />
+                </div>
+              )}
+              <TutorialStepper
+                tutorialId={tutorial ? tutorial.tutorialId : null}
+                step={tutorialStep}
+                steps={[2]}
+              >
+                <div className={styles.form}>
+                  <CircuitInputs
+                    circuitInputs={proofType.circuit_inputs as CircuitInput[]}
+                    formValues={formValues}
+                    setFormValues={setFormValues}
+                    formErrors={formErrors}
+                    setFormErrors={setFormErrors}
+                    presetVals={query.presetVals}
+                    credential={credential}
+                  />
+                </div>
+              </TutorialStepper>
+              {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
+              {errorMsg && <div className={cn(styles.systemMsg, styles.red)}>{errorMsg}</div>}
+            </div>
           </div>
-        </div>
-      </QueryItem>
-    </>
-  ) : (
-    <div>po123</div>
+        </QueryItem>
+      </>
+    )
   );
 };
 
