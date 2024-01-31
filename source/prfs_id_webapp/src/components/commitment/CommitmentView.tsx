@@ -1,11 +1,9 @@
 import React from "react";
-import { poseidon_2, prfsSign, makeCommitment } from "@taigalabs/prfs-crypto-js";
+import { makeCommitment } from "@taigalabs/prfs-crypto-js";
 import { useSearchParams } from "next/navigation";
 import { CommitmentType, PrfsIdCredential, CommitmentQuery } from "@taigalabs/prfs-id-sdk-web";
-import { hexlify } from "ethers/lib/utils";
 
 import styles from "./CommitmentView.module.scss";
-import { i18nContext } from "@/i18n/context";
 import { CommitmentItem } from "./CommitmentItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 

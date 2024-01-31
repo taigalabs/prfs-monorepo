@@ -32,6 +32,7 @@ import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
+import EncodeView from "../encode/EncodeView";
 
 enum Status {
   InProgress,
@@ -85,6 +86,18 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
               case QueryType.COMMITMENT: {
                 const elem = (
                   <CommitmentView
+                    key={query.name}
+                    credential={credential}
+                    query={query}
+                    setReceipt={setReceipt}
+                  />
+                );
+                elems.push(elem);
+                break;
+              }
+              case QueryType.ENCODE: {
+                const elem = (
+                  <EncodeView
                     key={query.name}
                     credential={credential}
                     query={query}

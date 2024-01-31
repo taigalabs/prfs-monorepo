@@ -9,7 +9,7 @@ import { QueryType } from "./query";
 
 export interface EncodeQuery {
   name: string;
-  preImage: string;
+  msg: string;
   type: EncodeType;
   queryType: QueryType.ENCODE;
 }

@@ -25,6 +25,7 @@ import {
   makeCmCacheKeyQueries,
   WALLET_CACHE_KEY,
   WALLET_CM_STEM,
+  EncodeType,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
@@ -157,13 +158,13 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           type: CommitmentType.SIG_POSEIDON_1,
           queryType: QueryType.COMMITMENT,
         },
+        ...cacheKeyQueries,
         {
           name: ENCODE_WALLET_CACHE,
-          preImage: claimSecret,
-          type: CommitmentType.SIG_POSEIDON_1,
+          msg: formData[WALLET_ADDR],
+          type: EncodeType.EC_SECP256K1,
           queryType: QueryType.ENCODE,
         },
-        ...cacheKeyQueries,
       ],
       public_key: pkHex,
     };
