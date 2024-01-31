@@ -33,15 +33,44 @@ pub async fn get_least_recent_index(
     let mut free_idx = String::new();
     // Trial 1: Get any row that does not exist (free slot)
     for idx in prfs_indices.iter() {
-        if let None = idx.label {
-            free_idx = idx.label2.to_string();
+        if let None = idx.key {
+            free_idx = idx.key2.to_string();
             break;
         }
     }
 
     // Trial 2: Get the oldest slot
     if free_idx.len() == 0 {
-        free_idx = prfs_indices.get(0).unwrap().label2.to_string();
+        free_idx = prfs_indices.get(0).unwrap().key2.to_string();
+    }
+
+    let resp = ApiResponse::new_success(GetLeastRecentPrfsIndexResponse {
+        prfs_index: free_idx,
+    });
+
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn get_prfs_indices(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
+    let req: GetLeastRecentPrfsIndexRequest = parse_req(req).await;
+    let pool = &state.db2.pool;
+
+    let prfs_indices = prfs::get_least_recent_prfs_index(pool, &req.prfs_indices)
+        .await
+        .unwrap();
+
+    let mut free_idx = String::new();
+    // Trial 1: Get any row that does not exist (free slot)
+    for idx in prfs_indices.iter() {
+        if let None = idx.key {
+            free_idx = idx.key2.to_string();
+            break;
+        }
+    }
+
+    // Trial 2: Get the oldest slot
+    if free_idx.len() == 0 {
+        free_idx = prfs_indices.get(0).unwrap().key2.to_string();
     }
 
     let resp = ApiResponse::new_success(GetLeastRecentPrfsIndexResponse {

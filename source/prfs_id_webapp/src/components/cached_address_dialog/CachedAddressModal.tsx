@@ -5,12 +5,24 @@ import { useQuery } from "@tanstack/react-query";
 
 import styles from "./CachedAddressModal.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import {
+  PrfsIdCredential,
+  WALLET_CACHE_KEY,
+  makeCmCacheKeyQueries,
+} from "@taigalabs/prfs-id-sdk-web";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { makeCommitment } from "@taigalabs/prfs-crypto-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
-function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
-  // useQuery;
+function useCachedAddresses(walletCacheKeys: string[]) {
+  return useQuery({
+    queryKey: ["get_prfs_indices", walletCacheKeys],
+    queryFn: async () => {
+      const data = await prfsApi2("get_prfs_indices", { offset });
+      return data.payload ? data.payload.shy_channels : null;
+    },
+    enabled: walletCacheKeys.length > 0,
+  });
 }
 
 const CachedAddressModal: React.FC<WalletModalProps> = ({
@@ -18,19 +30,25 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
   handleChangeAddress,
 }) => {
   const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
-  const addresses = useCachedAddresses(prfsIdCredential);
+  const [walletCacheKeys, setWalletCacheKeys] = React.useState<string[]>([]);
+  const addresses = useCachedAddresses(walletCacheKeys);
 
   React.useEffect(() => {
     async function fn() {
       if (prfsIdCredential) {
-        // const preImages = ['wallet_']
-        // await makeCommitment(
-        //   prfsIdCredential.secret_key,
-        // );
+        const walletCacheKeys = [];
+        for (let idx = 0; idx < 10; idx += 1) {
+          const key = await makeCommitment(
+            prfsIdCredential.secret_key,
+            `${WALLET_CACHE_KEY}_${idx}`,
+          );
+          walletCacheKeys.push(key);
+        }
+        setWalletCacheKeys(walletCacheKeys);
       }
     }
     fn().then();
-  }, []);
+  }, [prfsIdCredential]);
 
   return prfsIdCredential ? (
     <div className={styles.wrapper}>

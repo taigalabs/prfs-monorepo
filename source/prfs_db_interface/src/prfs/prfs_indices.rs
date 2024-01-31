@@ -9,7 +9,7 @@ pub async fn get_least_recent_prfs_index(
 ) -> Result<Vec<DatedPrfsIndex>, DbInterfaceError> {
     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
         r#"
-SELECT prfs_indices.*, label as label2
+SELECT prfs_indices.*, key as key2
 FROM (values
 "#,
     );
@@ -21,9 +21,9 @@ FROM (values
     separated.push_unseparated(") ");
     separated.push_unseparated(
         r#"
-v(label) LEFT JOIN
+v(key) LEFT JOIN
 prfs_indices
-USING (label)
+USING (key)
 ORDER BY updated_at DESC
 "#,
     );
@@ -36,11 +36,11 @@ ORDER BY updated_at DESC
     let ret = rows
         .iter()
         .map(|row| DatedPrfsIndex {
-            label: row.get("label"),
+            key: row.get("key"),
             value: row.get("value"),
             serial_no: row.get("serial_no"),
             updated_at: row.get("updated_at"),
-            label2: row.get("label2"),
+            key2: row.get("key2"),
         })
         .collect();
 
@@ -51,29 +51,29 @@ ORDER BY updated_at DESC
 
 pub async fn upsert_prfs_index(
     tx: &mut Transaction<'_, Postgres>,
-    label: &String,
+    key: &String,
     value: &String,
     serial_no: &String,
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_indices
-(label, value, serial_no)
+(key, value, serial_no)
 VALUES ($1, $2, $3)
-ON CONFLICT (label) DO UPDATE SET (
-label, value, updated_at
+ON CONFLICT (key) DO UPDATE SET (
+key, value, updated_at
 ) = (
-excluded.label, excluded.value, now()
+excluded.key, excluded.value, now()
 )
-RETURNING label"#;
+RETURNING key"#;
 
     let row = sqlx::query(query)
-        .bind(&label)
+        .bind(&key)
         .bind(&value)
         .bind(&serial_no)
         .fetch_one(&mut **tx)
         .await?;
 
-    let label: String = row.get("label");
+    let key: String = row.get("key");
 
-    return Ok(label);
+    return Ok(key);
 }

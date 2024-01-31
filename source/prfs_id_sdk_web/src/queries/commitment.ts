@@ -18,6 +18,8 @@ export enum CommitmentType {
   SIG_POSEIDON_1 = "SIG_POSEIDON_1",
 }
 
+export const WALLET_CACHE_KEY = "wallet_cache_key";
+
 export function makeCmCacheKeyQueries(
   _name: string,
   count: number,
