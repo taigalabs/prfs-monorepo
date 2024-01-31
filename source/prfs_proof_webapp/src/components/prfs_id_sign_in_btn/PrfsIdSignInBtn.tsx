@@ -105,14 +105,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
     console.log("Failed init Prfs Proof credential!");
   }, []);
 
-  if (!isCredentialInitialized) {
-    return (
-      <Overlay className={styles.wrapper}>
-        123
-        {/* <Spinner size={24} color="#5c5c5c" /> */}
-      </Overlay>
-    );
-  }
+  // if (!isCredentialInitialized) {
+  //   return (
+  //     <Overlay className={styles.wrapper}>
+  //       <Spinner size={24} color="#5c5c5c" />
+  //     </Overlay>
+  //   );
+  // }
 
   return prfsProofCredential ? (
     noCredential ? (
@@ -131,6 +130,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
         className={cn(styles.signInBtn, className)}
         label={label}
         appSignInArgs={appSignInArgs}
+        isLoading={!isCredentialInitialized}
         handleSucceedSignIn={handleSucceedSignIn}
         prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
         prfsEmbedEndpoint={envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT}
