@@ -144,6 +144,9 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             (&Method::POST, v0_path!("get_prfs_indices")) => {
                 prfs_indices::get_prfs_indices(req, state).await
             }
+            (&Method::POST, v0_path!("add_prfs_index")) => {
+                prfs_indices::add_prfs_index(req, state).await
+            }
             _ => handle_not_found(req, state).await,
         }
     };

@@ -36,3 +36,17 @@ pub struct GetPrfsIndicesRequest {
 pub struct GetPrfsIndicesResponse {
     pub prfs_indices: HashMap<String, String>,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct AddPrfsIndexRequest {
+    pub key: String,
+    pub value: String,
+    pub serial_no: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct AddPrfsIndexResponse {
+    pub key: String,
+}

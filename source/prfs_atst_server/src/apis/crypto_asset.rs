@@ -64,14 +64,14 @@ pub async fn create_crypto_asset_size_atst(
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))?;
 
-    let _wallet_prfs_idx = prfs::upsert_prfs_index(
-        &mut tx,
-        &req.wallet_prfs_idx,
-        &req.wallet_addr,
-        &req.serial_no,
-    )
-    .await
-    .unwrap();
+    // let _wallet_prfs_idx = prfs::upsert_prfs_index(
+    //     &mut tx,
+    //     &req.wallet_prfs_idx,
+    //     &req.wallet_addr,
+    //     &req.serial_no,
+    // )
+    // .await
+    // .unwrap();
 
     tx.commit().await.unwrap();
 

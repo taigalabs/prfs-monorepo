@@ -36,6 +36,7 @@ import { useSignMessage } from "@taigalabs/prfs-web3-js/wagmi";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoAssetSizeAtstRequest";
+import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 
 import styles from "./CreateCryptoAssetSizeAtst.module.scss";
 import common from "@/styles/common.module.scss";
@@ -60,7 +61,7 @@ import {
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
 import { paths } from "@/paths";
-import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
+import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
 
 const WALLET_ADDR = "wallet_addr";
 const SIGNATURE = "signature";
@@ -108,6 +109,11 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const { mutateAsync: fetchCryptoAssetRequest } = useMutation({
     mutationFn: (req: FetchCryptoAssetRequest) => {
       return atstApi("fetch_crypto_asset", req);
+    },
+  });
+  const { mutateAsync: addPrfsIndexRequest } = useMutation({
+    mutationFn: (req: AddPrfsIndexRequest) => {
+      return prfsApi2("add_prfs_index", req);
     },
   });
   const { mutateAsync: createCryptoSizeAtstRequest } = useMutation({
@@ -345,14 +351,15 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
             return;
           }
 
+          const wallet_addr = formData[WALLET_ADDR];
           const { payload, error } = await createCryptoSizeAtstRequest({
             atst_id,
             atst_type: "crypto_size_1",
-            wallet_addr: formData[WALLET_ADDR],
+            wallet_addr,
             serial_no: "empty",
             cm: claimCm,
             crypto_assets: cryptoAssets,
-            wallet_prfs_idx: prfs_index,
+            // wallet_prfs_idx: prfs_index,
           });
           setCreateStatus(Status.Standby);
 
@@ -366,6 +373,12 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
             setIsNavigating(true);
             router.push(paths.attestations__crypto_asset_size);
           }
+
+          await addPrfsIndexRequest({
+            key: prfs_index,
+            value: "",
+            serial_no: "empty",
+          });
         }
       } catch (err: any) {
         setCreateMsg(<span>{err.toString()}</span>);
@@ -384,6 +397,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     getLeastRecentPrfsIndex,
     router,
     walletCacheKeys,
+    addPrfsIndexRequest,
   ]);
 
   const walletCacheKeyElems = React.useMemo(() => {

@@ -6,9 +6,10 @@ use hyper_utils::{
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    entities::{CircuitInput, PrfsProofType, PrfsSet},
+    entities::{CircuitInput, PrfsIndex, PrfsProofType, PrfsSet},
     prfs_api_entities::{
-        CreatePrfsProofTypeRequest, CreatePrfsProofTypeResponse, GetLeastRecentPrfsIndexRequest,
+        AddPrfsIndexRequest, AddPrfsIndexResponse, CreatePrfsProofTypeRequest,
+        CreatePrfsProofTypeResponse, GetLeastRecentPrfsIndexRequest,
         GetLeastRecentPrfsIndexResponse, GetPrfsIndicesRequest, GetPrfsIndicesResponse,
         GetPrfsProofTypeByProofTypeIdRequest, GetPrfsProofTypeByProofTypeIdResponse,
         GetPrfsProofTypesRequest, GetPrfsProofTypesResponse, GetPrfsTreeLeafIndicesRequest,
@@ -64,5 +65,22 @@ pub async fn get_prfs_indices(req: Request<Incoming>, state: Arc<ServerState>) -
 
     let resp = ApiResponse::new_success(GetPrfsIndicesResponse { prfs_indices: map });
 
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn add_prfs_index(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
+    let req: AddPrfsIndexRequest = parse_req(req).await;
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let _wallet_prfs_idx = prfs::upsert_prfs_index(&mut tx, &req.key, &req.value, &req.serial_no)
+        .await
+        .unwrap();
+
+    tx.commit().await.unwrap();
+
+    let resp = ApiResponse::new_success(AddPrfsIndexResponse {
+        key: req.key.to_string(),
+    });
     return Ok(resp.into_hyper_response());
 }
