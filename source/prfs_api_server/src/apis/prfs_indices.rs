@@ -9,13 +9,13 @@ use prfs_entities::{
     entities::{CircuitInput, PrfsProofType, PrfsSet},
     prfs_api_entities::{
         CreatePrfsProofTypeRequest, CreatePrfsProofTypeResponse, GetLeastRecentPrfsIndexRequest,
-        GetLeastRecentPrfsIndexResponse, GetPrfsProofTypeByProofTypeIdRequest,
-        GetPrfsProofTypeByProofTypeIdResponse, GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
-        GetPrfsTreeLeafIndicesRequest,
+        GetLeastRecentPrfsIndexResponse, GetPrfsIndicesRequest, GetPrfsIndicesResponse,
+        GetPrfsProofTypeByProofTypeIdRequest, GetPrfsProofTypeByProofTypeIdResponse,
+        GetPrfsProofTypesRequest, GetPrfsProofTypesResponse, GetPrfsTreeLeafIndicesRequest,
     },
     sqlx::types::Json,
 };
-use std::{convert::Infallible, sync::Arc};
+use std::{collections::HashMap, convert::Infallible, sync::Arc};
 
 const LIMIT: i32 = 10;
 
@@ -52,30 +52,17 @@ pub async fn get_least_recent_index(
 }
 
 pub async fn get_prfs_indices(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
-    let req: GetLeastRecentPrfsIndexRequest = parse_req(req).await;
+    let req: GetPrfsIndicesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
 
-    let prfs_indices = prfs::get_least_recent_prfs_index(pool, &req.prfs_indices)
-        .await
-        .unwrap();
+    let prfs_indices = prfs::get_prfs_indices(pool, &req.keys).await.unwrap();
 
-    let mut free_idx = String::new();
-    // Trial 1: Get any row that does not exist (free slot)
-    for idx in prfs_indices.iter() {
-        if let None = idx.key {
-            free_idx = idx.key2.to_string();
-            break;
-        }
+    let mut map = HashMap::new();
+    for idx in prfs_indices {
+        map.insert(idx.key.to_string(), idx.value.to_string());
     }
 
-    // Trial 2: Get the oldest slot
-    if free_idx.len() == 0 {
-        free_idx = prfs_indices.get(0).unwrap().key2.to_string();
-    }
-
-    let resp = ApiResponse::new_success(GetLeastRecentPrfsIndexResponse {
-        prfs_index: free_idx,
-    });
+    let resp = ApiResponse::new_success(GetPrfsIndicesResponse { prfs_indices: map });
 
     return Ok(resp.into_hyper_response());
 }

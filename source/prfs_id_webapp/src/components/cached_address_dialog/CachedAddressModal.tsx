@@ -18,8 +18,8 @@ function useCachedAddresses(walletCacheKeys: string[]) {
   return useQuery({
     queryKey: ["get_prfs_indices", walletCacheKeys],
     queryFn: async () => {
-      const data = await prfsApi2("get_prfs_indices", { offset });
-      return data.payload ? data.payload.shy_channels : null;
+      return prfsApi2("get_prfs_indices", { keys: walletCacheKeys });
+      // return data.payload ? data.payload.prfs_indices : null;
     },
     enabled: walletCacheKeys.length > 0,
   });
@@ -31,7 +31,7 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
 }) => {
   const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<string[]>([]);
-  const addresses = useCachedAddresses(walletCacheKeys);
+  const { data, error } = useCachedAddresses(walletCacheKeys);
 
   React.useEffect(() => {
     async function fn() {
@@ -49,6 +49,8 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
     }
     fn().then();
   }, [prfsIdCredential]);
+
+  console.log(22, data);
 
   return prfsIdCredential ? (
     <div className={styles.wrapper}>

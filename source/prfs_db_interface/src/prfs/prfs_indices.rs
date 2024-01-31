@@ -1,7 +1,44 @@
 use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use prfs_entities::{entities::PrfsProofType, prfs_api_entities::DatedPrfsIndex};
+use prfs_entities::{entities::PrfsIndex, prfs_api_entities::DatedPrfsIndex};
 
 use crate::DbInterfaceError;
+
+pub async fn get_prfs_indices(
+    pool: &Pool<Postgres>,
+    keys: &Vec<String>,
+) -> Result<Vec<PrfsIndex>, DbInterfaceError> {
+    let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
+        r#"
+SELECT *
+FROM prfs_indices
+WHERE key in (
+"#,
+    );
+
+    let mut separated = query_builder.separated(", ");
+    for key in keys.iter() {
+        separated.push_bind(key);
+    }
+    separated.push_unseparated(") ");
+
+    // let sql = query_builder.sql();
+    // println!("sql: {:?}", sql);
+
+    let query = query_builder.build();
+    let rows = query.fetch_all(pool).await.unwrap();
+    let ret = rows
+        .iter()
+        .map(|row| PrfsIndex {
+            key: row.get("key"),
+            value: row.get("value"),
+            serial_no: row.get("serial_no"),
+        })
+        .collect();
+
+    println!("rows: {:?}", ret);
+
+    return Ok(ret);
+}
 
 pub async fn get_least_recent_prfs_index(
     pool: &Pool<Postgres>,

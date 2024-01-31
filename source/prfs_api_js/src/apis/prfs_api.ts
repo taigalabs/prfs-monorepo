@@ -66,6 +66,8 @@ import { CreateTreeOfPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/Cr
 import { CreateTreeOfPrfsSetResponse } from "@taigalabs/prfs-entities/bindings/CreateTreeOfPrfsSetResponse";
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 import { GetLeastRecentPrfsIndexResponse } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexResponse";
+import { GetPrfsIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsIndicesRequest";
+import { GetPrfsIndicesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsIndicesResponse";
 
 import { api } from "../utils";
 import { PrfsApiResponse } from "../types";
@@ -107,7 +109,8 @@ type RequestName =
   | "get_prfs_set_elements"
   | "get_prfs_set_element"
   | "create_tree_of_prfs_set"
-  | "get_least_recent_prfs_index";
+  | "get_least_recent_prfs_index"
+  | "get_prfs_indices";
 
 type Req<T extends RequestName> = //
   T extends "sign_up_prfs_account"
@@ -180,6 +183,8 @@ type Req<T extends RequestName> = //
     ? CreateTreeOfPrfsSetRequest
     : T extends "get_least_recent_prfs_index"
     ? GetLeastRecentPrfsIndexRequest
+    : T extends "get_prfs_indices"
+    ? GetPrfsIndicesRequest
     : never;
 
 type Resp<T> = //
@@ -255,6 +260,8 @@ type Resp<T> = //
     ? PrfsApiResponse<CreateTreeOfPrfsSetResponse>
     : T extends "get_least_recent_prfs_index"
     ? PrfsApiResponse<GetLeastRecentPrfsIndexResponse>
+    : T extends "get_prfs_indices"
+    ? PrfsApiResponse<GetPrfsIndicesResponse>
     : any;
 
 let endpoint: string;
