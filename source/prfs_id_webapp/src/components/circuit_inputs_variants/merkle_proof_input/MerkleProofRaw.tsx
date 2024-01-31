@@ -87,6 +87,7 @@ const MerkleProofRawModal: React.FC<MerkleProofRawModalProps> = ({
 
 const MerkleProofRaw: React.FC<MerkleProofRawProps> = ({
   prfsSet,
+  children,
   circuitInput,
   handleClickRawSubmit,
 }) => {
@@ -105,14 +106,9 @@ const MerkleProofRaw: React.FC<MerkleProofRawProps> = ({
 
   return (
     <>
-      <button
-        className={styles.rawBtn}
-        type="button"
-        ref={refs.setReference}
-        {...getReferenceProps()}
-      >
-        {i18n.raw}
-      </button>
+      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
+        {children}
+      </div>
       <FloatingPortal>
         {isOpen && (
           <FloatingOverlay style={{ zIndex: 20 }}>
@@ -144,6 +140,7 @@ const MerkleProofRaw: React.FC<MerkleProofRawProps> = ({
 export default MerkleProofRaw;
 
 export interface MerkleProofRawProps {
+  children: React.ReactNode;
   prfsSet: PrfsSet | undefined;
   circuitInput: CircuitInput;
   handleClickRawSubmit: (merkleProof: SpartanMerkleProof) => void;

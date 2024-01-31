@@ -37,6 +37,7 @@ export default {
   cancel: "Cancel",
   submit: "Submit",
   raw: "Raw",
+  edit_raw: "Edit raw",
   put_address: "Put address",
   address: "Address",
   fetch_cached_address: "Fetch cached addresses",
