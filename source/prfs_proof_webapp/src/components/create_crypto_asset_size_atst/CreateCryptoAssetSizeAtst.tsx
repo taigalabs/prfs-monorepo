@@ -66,6 +66,7 @@ import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIn
 const WALLET_ADDR = "wallet_addr";
 const SIGNATURE = "signature";
 const CLAIM = "twitter_acc_atst";
+const ENCODE_WALLET_CACHE = "encode_wallet_cache";
 
 enum AttestationStep {
   INPUT_WALLET_ADDR = 0,
@@ -155,6 +156,12 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           preImage: claimSecret,
           type: CommitmentType.SIG_POSEIDON_1,
           queryType: QueryType.COMMITMENT,
+        },
+        {
+          name: ENCODE_WALLET_CACHE,
+          preImage: claimSecret,
+          type: CommitmentType.SIG_POSEIDON_1,
+          queryType: QueryType.ENCODE,
         },
         ...cacheKeyQueries,
       ],
@@ -359,7 +366,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
             serial_no: "empty",
             cm: claimCm,
             crypto_assets: cryptoAssets,
-            // wallet_prfs_idx: prfs_index,
           });
           setCreateStatus(Status.Standby);
 
