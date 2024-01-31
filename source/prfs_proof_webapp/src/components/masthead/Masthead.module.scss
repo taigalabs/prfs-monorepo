@@ -165,13 +165,12 @@
     max-width: 230px;
     flex-grow: 1;
     flex-shrink: 1;
+
     /* border: 1px solid blue; */
   }
 
   .rightGroup {
-    position: absolute;
-    top: 6px;
-    right: 10px;
+    position: static;
     width: auto;
   }
 }
