@@ -409,7 +409,6 @@ export default {
   create_merkle_proof_guide: "Or use Merkle wizard",
   create_merkle_proof_label: "Create merkle proof for",
   create_merkle_path_label: "Create merkle proof",
-  edit_raw: "Edit raw",
   load: "Load",
   disconnect: "Disconnect",
 };

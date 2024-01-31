@@ -238,7 +238,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           <span className={styles.inputLabel}>{label}</span>
         </FormInputTitle>
         <FormInputBtnRow>
-          <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
+          <CachedAddressDialog handleChangeAddress={handleChangeAddress} credential={credential}>
             <FormInputButton type="button">{i18n.fetch_addresses}</FormInputButton>
           </CachedAddressDialog>
           <span className={styles.or}> or </span>
