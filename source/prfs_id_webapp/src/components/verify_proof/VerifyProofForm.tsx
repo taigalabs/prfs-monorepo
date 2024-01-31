@@ -215,7 +215,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
             noShadow
           >
             <span>{i18n.verify}</span>
-            {verifyProofStatus === Status.InProgress && <Spinner size={16} />}
+            {verifyProofStatus === Status.InProgress && <Spinner size={14} />}
           </Button>
         </DefaultModuleBtnRow>
         <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>
