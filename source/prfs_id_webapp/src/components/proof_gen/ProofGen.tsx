@@ -24,6 +24,7 @@ import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
 import TutorialPlaceholder from "@/components/tutorial_default/TutorialPlaceholder";
+import { signInPrfs } from "@/state/userReducer";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -85,10 +86,11 @@ const ProofGen: React.FC = () => {
     (credential: PrfsIdCredential) => {
       if (credential) {
         setCredential(credential);
+        // dispatch(signInPrfs(credential));
         setStep(ProofGenStep.Form);
       }
     },
-    [setCredential, setStep],
+    [setCredential, setStep, dispatch],
   );
 
   const content = React.useMemo(() => {

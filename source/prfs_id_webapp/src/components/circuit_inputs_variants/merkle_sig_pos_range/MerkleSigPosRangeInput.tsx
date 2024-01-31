@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
 
 import styles from "./MerkleSigPosRange.module.scss";
@@ -26,6 +26,7 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
+import { LocalPrfsProofCredential } from "@/storage/local_storage";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -44,6 +45,7 @@ const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
 const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   circuitInput,
   value,
+  credential,
   error,
   setFormErrors,
   setFormValues,
@@ -270,6 +272,7 @@ export interface MerkleSigPosRangeInputProps {
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   presetVals?: QueryPresetVals;
+  credential: PrfsIdCredential;
 }
 
 export interface ComputedValueProps {

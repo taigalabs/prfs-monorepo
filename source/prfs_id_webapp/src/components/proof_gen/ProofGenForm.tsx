@@ -31,7 +31,7 @@ import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
-import PrfsIdErrorDialog from "../error_dialog/PrfsIdErrorDialog";
+import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 
 enum Status {
   InProgress,

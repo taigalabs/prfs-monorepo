@@ -38,7 +38,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ credential }) => {
     persistPrfsProofCredential(credential);
     dispatch(signInPrfs(credential));
     router.push(paths.__);
-    // window.location.reload();
   }, [router, credential, prfsSignUpRequest]);
 
   React.useEffect(() => {

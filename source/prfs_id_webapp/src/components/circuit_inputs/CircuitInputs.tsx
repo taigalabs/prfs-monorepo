@@ -78,6 +78,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
               presetVals={presetVals}
+              credential={credential}
             />,
           );
           break;
