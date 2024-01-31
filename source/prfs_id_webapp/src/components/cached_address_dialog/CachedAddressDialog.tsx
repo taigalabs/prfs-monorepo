@@ -15,11 +15,9 @@ import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 import styles from "./CachedAddressDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
 import CachedAddressModal from "./CachedAddressModal";
-import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 const CachedAddressDialog: React.FC<ConnectWalletProps> = ({
   handleChangeAddress,
-  credential,
   zIndex,
   children,
 }) => {
@@ -68,7 +66,6 @@ const CachedAddressDialog: React.FC<ConnectWalletProps> = ({
                   <CachedAddressModal
                     handleClickClose={handleClickClose}
                     handleChangeAddress={extendedHandleChangeAddress}
-                    credential={credential}
                   />
                 </div>
               </FloatingFocusManager>
@@ -84,7 +81,6 @@ export default CachedAddressDialog;
 
 export interface ConnectWalletProps {
   handleChangeAddress: (addr: string) => void;
-  credential: PrfsIdCredential;
   zIndex?: number;
   children: React.ReactNode;
 }

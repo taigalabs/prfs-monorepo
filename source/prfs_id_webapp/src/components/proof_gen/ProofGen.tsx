@@ -86,7 +86,7 @@ const ProofGen: React.FC = () => {
     (credential: PrfsIdCredential) => {
       if (credential) {
         setCredential(credential);
-        // dispatch(signInPrfs(credential));
+        dispatch(signInPrfs(credential));
         setStep(ProofGenStep.Form);
       }
     },
