@@ -35,8 +35,6 @@ WHERE key in (
         })
         .collect();
 
-    println!("rows: {:?}", ret);
-
     return Ok(ret);
 }
 

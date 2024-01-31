@@ -7,10 +7,10 @@ import styles from "./CachedAddressModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   PrfsIdCredential,
-  WALLET_CACHE_KEY,
+  WALLET_CM_STEM,
   makeCmCacheKeyQueries,
 } from "@taigalabs/prfs-id-sdk-web";
-import { useAppDispatch, useAppSelector } from "@/state/hooks";
+import { useAppSelector } from "@/state/hooks";
 import { makeCommitment } from "@taigalabs/prfs-crypto-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
@@ -19,7 +19,6 @@ function useCachedAddresses(walletCacheKeys: string[]) {
     queryKey: ["get_prfs_indices", walletCacheKeys],
     queryFn: async () => {
       return prfsApi2("get_prfs_indices", { keys: walletCacheKeys });
-      // return data.payload ? data.payload.prfs_indices : null;
     },
     enabled: walletCacheKeys.length > 0,
   });
@@ -38,10 +37,7 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
       if (prfsIdCredential) {
         const walletCacheKeys = [];
         for (let idx = 0; idx < 10; idx += 1) {
-          const key = await makeCommitment(
-            prfsIdCredential.secret_key,
-            `${WALLET_CACHE_KEY}_${idx}`,
-          );
+          const key = await makeCommitment(prfsIdCredential.secret_key, `${WALLET_CM_STEM}_${idx}`);
           walletCacheKeys.push(key);
         }
         setWalletCacheKeys(walletCacheKeys);

@@ -19,6 +19,7 @@ export enum CommitmentType {
 }
 
 export const WALLET_CACHE_KEY = "wallet_cache_key";
+export const WALLET_CM_STEM = "WALLET";
 
 export function makeCmCacheKeyQueries(
   _name: string,

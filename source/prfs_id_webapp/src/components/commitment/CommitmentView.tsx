@@ -18,10 +18,6 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setR
       try {
         const { name, preImage, type } = query;
         if (type === CommitmentType.SIG_POSEIDON_1) {
-          // const sig = await prfsSign(credential.secret_key, preImage);
-          // const sigBytes = sig.toCompactRawBytes();
-          // const hashed = await poseidon_2(sigBytes);
-          // const hashedHex = hexlify(hashed);
           const cm = await makeCommitment(credential.secret_key, preImage);
           setReceipt(oldVal => ({
             ...oldVal,
