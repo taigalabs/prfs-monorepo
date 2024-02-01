@@ -19,7 +19,7 @@ const SetElementPage: React.FC<SetElementPageProps> = ({ params }) => {
           <Attestations>
             <AttestationsMain>
               <AttestationsMainInner>
-                <SetElementDetail element_name={params.element_name} />
+                <SetElementDetail element_label={params.element_label} set_id={params.set_id} />
               </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>
@@ -36,6 +36,7 @@ export default SetElementPage;
 
 interface SetElementPageProps {
   params: {
-    element_name: string;
+    set_id: string;
+    element_label: string;
   };
 }

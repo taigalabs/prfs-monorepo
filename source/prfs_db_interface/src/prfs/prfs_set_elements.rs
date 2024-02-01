@@ -127,8 +127,7 @@ pub async fn get_prfs_set_element(
     let query = r#"
 SELECT *
 FROM prfs_set_elements
-WHERE set_id=$1
-WHERE label=$2
+WHERE set_id=$1 AND label=$2
 "#;
 
     let row = sqlx::query(query)

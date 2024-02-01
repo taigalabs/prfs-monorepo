@@ -20,24 +20,24 @@ import {
   AttestationDetailTopMenuRow,
 } from "@/components/attestation_detail/AttestationDetail";
 
-const SetElementDetail: React.FC<SetElementDetailProps> = ({ element_label }) => {
+const SetElementDetail: React.FC<SetElementDetailProps> = ({ element_label, set_id }) => {
   const i18n = React.useContext(i18nContext);
   const { isLoading, data, error } = useQuery({
     queryKey: ["get_prfs_set_element", element_label],
     queryFn: async () => {
-      const { payload } = await prfsApi2("get_prfs_set_element", {
-        // atst_id: atst_id,
+      return prfsApi2("get_prfs_set_element", {
+        label: element_label,
+        set_id,
       });
-      // return payload;
     },
   });
-  const atst = data?.prfs_crypto_asset_size_atst;
-  const cryptoAssets = React.useMemo(() => {
-    return atst && JSON.stringify(atst.crypto_assets);
-  }, [atst?.crypto_assets]);
-  const etherScanUrl = React.useMemo(() => {
-    return atst && `https://etherscan.io/address/${atst.wallet_addr.toLowerCase()}`;
-  }, [atst?.wallet_addr]);
+  const setElement = data?.payload?.prfs_set_element;
+  const elementData = React.useMemo(() => {
+    return setElement && JSON.stringify(setElement.data);
+  }, [setElement?.data]);
+  // const etherScanUrl = React.useMemo(() => {
+  //   return atst && `https://etherscan.io/address/${atst.wallet_addr.toLowerCase()}`;
+  // }, [atst?.wallet_addr]);
 
   if (isLoading) {
     <div>Loading...</div>;
@@ -47,86 +47,65 @@ const SetElementDetail: React.FC<SetElementDetailProps> = ({ element_label }) =>
     <div>Fetch error: {error.toString()}</div>;
   }
 
-  if (atst === undefined) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    atst && (
-      <div className={styles.wrapper}>
-        <AttestationDetailTopMenuRow>
-          <Link href={paths.attestations__crypto_asset_size}>
-            <ButtonCircleContainer>
-              <FaArrowLeft />
-            </ButtonCircleContainer>
-          </Link>
-        </AttestationDetailTopMenuRow>
-        <div className={styles.avatarRow}>
-          <div className={styles.rightCol}>
-            <div className={styles.walletAddr}>{atst.wallet_addr}</div>
-          </div>
+  return setElement ? (
+    <div className={styles.wrapper}>
+      <AttestationDetailTopMenuRow>
+        <Link href={paths.attestations__crypto_asset_size}>
+          <ButtonCircleContainer>
+            <FaArrowLeft />
+          </ButtonCircleContainer>
+        </Link>
+      </AttestationDetailTopMenuRow>
+      <div className={styles.avatarRow}>
+        <div className={styles.rightCol}>
+          <div className={styles.walletAddr}>{setElement.label}</div>
         </div>
-        <AttestationDetailSection className={styles.metaRow}>
-          <AttestationDetailBox>
-            <AttestationDetailBoxInner>
-              <AttestationDetailSectionRow>
-                <AttestationDetailSectionRowLabel>
-                  {i18n.commitment}
-                </AttestationDetailSectionRowLabel>
-                <div className={cn(styles.commitment, styles.value)}>{atst.cm}</div>
-              </AttestationDetailSectionRow>
-              <AttestationDetailSectionRow>
-                <AttestationDetailSectionRowLabel>
-                  {i18n.document_url}
-                </AttestationDetailSectionRowLabel>
-                <div className={cn(styles.url, styles.value)}>
-                  <a href={etherScanUrl} target="_blank">
-                    {etherScanUrl}
-                  </a>
-                </div>
-              </AttestationDetailSectionRow>
-              <AttestationDetailSectionRow>
-                <AttestationDetailSectionRowLabel>
-                  {i18n.crypto_assets}
-                </AttestationDetailSectionRowLabel>
-                <div className={cn(styles.destination, styles.value)}>{cryptoAssets}</div>
-              </AttestationDetailSectionRow>
-              <AttestationDetailSectionRow>
-                <AttestationDetailSectionRowLabel>
-                  {i18n.attestation_type}
-                </AttestationDetailSectionRowLabel>
-                <div className={cn(styles.attestationType, styles.value)}>{atst.atst_type}</div>
-              </AttestationDetailSectionRow>
-              <AttestationDetailSectionRow>
-                <AttestationDetailSectionRowLabel>
-                  {i18n.commitment}
-                </AttestationDetailSectionRowLabel>
-                <div className={cn(styles.cm, styles.value)}>{atst.cm}</div>
-              </AttestationDetailSectionRow>
-              <AttestationDetailSectionRow>
-                <AttestationDetailSectionRowLabel>{i18n.status}</AttestationDetailSectionRowLabel>
-                <div className={cn(styles.status, styles.value)}>{atst.status}</div>
-              </AttestationDetailSectionRow>
-              <AttestationDetailSectionRow>
-                <AttestationDetailSectionRowLabel>{i18n.on_chain}</AttestationDetailSectionRowLabel>
-                <div className={cn(styles.onChain, styles.value)}>{i18n.not_available}</div>
-              </AttestationDetailSectionRow>
-              <AttestationDetailSectionRow>
-                <AttestationDetailSectionRowLabel>
-                  {i18n.notarized}
-                </AttestationDetailSectionRowLabel>
-                <div className={cn(styles.notarized, styles.value)}>{i18n.not_available}</div>
-              </AttestationDetailSectionRow>
-            </AttestationDetailBoxInner>
-          </AttestationDetailBox>
-        </AttestationDetailSection>
       </div>
-    )
+      <AttestationDetailSection className={styles.metaRow}>
+        <AttestationDetailBox>
+          <AttestationDetailBoxInner>
+            <AttestationDetailSectionRow>
+              <AttestationDetailSectionRowLabel>{i18n.reference}</AttestationDetailSectionRowLabel>
+              <div className={cn(styles.ref, styles.value)}>{setElement.ref}</div>
+            </AttestationDetailSectionRow>
+            <AttestationDetailSectionRow>
+              <AttestationDetailSectionRowLabel>{i18n.data}</AttestationDetailSectionRowLabel>
+              <div className={cn(styles.data, styles.value)}>{elementData}</div>
+            </AttestationDetailSectionRow>
+            <AttestationDetailSectionRow>
+              <AttestationDetailSectionRowLabel>{i18n.set_id}</AttestationDetailSectionRowLabel>
+              <div className={cn(styles.setId, styles.value)}>{setElement.set_id}</div>
+            </AttestationDetailSectionRow>
+            <AttestationDetailSectionRow>
+              <AttestationDetailSectionRowLabel>
+                {i18n.element_index}
+              </AttestationDetailSectionRowLabel>
+              <div className={cn(styles.cm, styles.value)}>{setElement.element_idx}</div>
+            </AttestationDetailSectionRow>
+            <AttestationDetailSectionRow>
+              <AttestationDetailSectionRowLabel>{i18n.status}</AttestationDetailSectionRowLabel>
+              <div className={cn(styles.status, styles.value)}>{setElement.status}</div>
+            </AttestationDetailSectionRow>
+            <AttestationDetailSectionRow>
+              <AttestationDetailSectionRowLabel>{i18n.on_chain}</AttestationDetailSectionRowLabel>
+              <div className={cn(styles.onChain, styles.value)}>{i18n.not_available}</div>
+            </AttestationDetailSectionRow>
+            <AttestationDetailSectionRow>
+              <AttestationDetailSectionRowLabel>{i18n.notarized}</AttestationDetailSectionRowLabel>
+              <div className={cn(styles.notarized, styles.value)}>{i18n.not_available}</div>
+            </AttestationDetailSectionRow>
+          </AttestationDetailBoxInner>
+        </AttestationDetailBox>
+      </AttestationDetailSection>
+    </div>
+  ) : (
+    <div>Loading...</div>
   );
 };
 
 export default SetElementDetail;
 
 export interface SetElementDetailProps {
+  set_id: string;
   element_label: string;
 }
