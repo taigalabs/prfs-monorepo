@@ -2,16 +2,13 @@
 
 import React from "react";
 import cn from "classnames";
-import { verifyMessage } from "@taigalabs/prfs-web3-js/viem";
 import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
-import { IoClose } from "@react-icons/all-files/io5/IoClose";
-import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
   CommitmentType,
@@ -27,13 +24,11 @@ import {
   WALLET_CM_STEM,
   EncryptType,
 } from "@taigalabs/prfs-id-sdk-web";
-import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
-import { useSignMessage } from "@taigalabs/prfs-web3-js/wagmi";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoAssetSizeAtstRequest";
@@ -51,8 +46,6 @@ import {
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import {
-  AttestationContentBox,
-  AttestationContentBoxBtnArea,
   AttestationFormBtnRow,
   AttestationListItem,
   AttestationListItemBtn,
@@ -66,12 +59,14 @@ import { paths } from "@/paths";
 import {
   AttestationStep,
   CLAIM,
+  CryptoAssetSizeAtstFormData,
   ENCRYPT_WALLET_ADDR,
   SIGNATURE,
   WALLET_ADDR,
 } from "./create_crypto_asset_size_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import SignatureItem from "./SignatureItem";
+import ClaimSecretItem from "./ClaimSecretItem";
 
 enum Status {
   Standby,
@@ -82,25 +77,25 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const i18n = React.useContext(i18nContext);
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [isSigValid, setIsSigValid] = React.useState(false);
-  // const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
   const [walletAddrEnc, setWalletAddrEnc] = React.useState<string | null>(null);
   const router = useRouter();
-  const [formData, setFormData] = React.useState({ [WALLET_ADDR]: "", [SIGNATURE]: "" });
+  const [formData, setFormData] = React.useState<CryptoAssetSizeAtstFormData>({
+    [WALLET_ADDR]: "",
+    [SIGNATURE]: "",
+  });
   const [claimCm, setClaimCm] = React.useState<string | null>(null);
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<Record<string, string> | null>(null);
-  const claimSecret = React.useMemo(() => {
-    const handle = formData[WALLET_ADDR];
-    return `PRFS_ATST_${handle}`;
-  }, [formData[WALLET_ADDR]]);
-  // const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
-  // const { signMessageAsync } = useSignMessage();
+  // const claimSecret = React.useMemo(() => {
+  //   const handle = formData[WALLET_ADDR];
+  //   return `PRFS_ATST_${handle}`;
+  // }, [formData[WALLET_ADDR]]);
   const [fetchAssetStatus, setFetchAssetStatus] = React.useState<Status>(Status.Standby);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [fetchAssetMsg, setFetchAssetMsg] = React.useState<React.ReactNode>(null);
   const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
   const [cryptoAssets, setCryptoAssets] = React.useState<CryptoAsset[] | null>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_WALLET_ADDR);
-  const { sk, pkHex } = useRandomKeyPair();
+  // const { sk, pkHex } = useRandomKeyPair();
   const { mutateAsync: getLeastRecentPrfsIndex } = useMutation({
     mutationFn: (req: GetLeastRecentPrfsIndexRequest) => {
       return prfsApi2("get_least_recent_prfs_index", { prfs_indices: req.prfs_indices });
@@ -121,8 +116,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
       return atstApi("create_crypto_asset_size_atst", req);
     },
   });
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
-  const { openPopup } = usePopup();
+  // const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
+  // const { openPopup } = usePopup();
 
   const handleChangeWalletAddr = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,93 +138,93 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     [setFormData, setCryptoAssets, cryptoAssets, setFetchAssetMsg],
   );
 
-  const handleClickGenerate = React.useCallback(() => {
-    const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10, WALLET_CM_STEM);
+  // const handleClickGenerate = React.useCallback(() => {
+  //   const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10, WALLET_CM_STEM);
 
-    const proofGenArgs: ProofGenArgs = {
-      nonce: Math.random() * 1000000,
-      app_id: "prfs_proof",
-      queries: [
-        {
-          name: CLAIM,
-          preImage: claimSecret,
-          type: CommitmentType.SIG_POSEIDON_1,
-          queryType: QueryType.COMMITMENT,
-        },
-        ...cacheKeyQueries,
-        {
-          name: ENCRYPT_WALLET_ADDR,
-          msg: formData[WALLET_ADDR],
-          type: EncryptType.EC_SECP256K1,
-          queryType: QueryType.ENCRYPT,
-        },
-      ],
-      public_key: pkHex,
-    };
-    const searchParams = makeProofGenSearchParams(proofGenArgs);
-    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
+  //   const proofGenArgs: ProofGenArgs = {
+  //     nonce: Math.random() * 1000000,
+  //     app_id: "prfs_proof",
+  //     queries: [
+  //       {
+  //         name: CLAIM,
+  //         preImage: claimSecret,
+  //         type: CommitmentType.SIG_POSEIDON_1,
+  //         queryType: QueryType.COMMITMENT,
+  //       },
+  //       ...cacheKeyQueries,
+  //       {
+  //         name: ENCRYPT_WALLET_ADDR,
+  //         msg: formData[WALLET_ADDR],
+  //         type: EncryptType.EC_SECP256K1,
+  //         queryType: QueryType.ENCRYPT,
+  //       },
+  //     ],
+  //     public_key: pkHex,
+  //   };
+  //   const searchParams = makeProofGenSearchParams(proofGenArgs);
+  //   const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
-    openPopup(endpoint, async () => {
-      if (!prfsEmbed || !isPrfsReady) {
-        return;
-      }
+  //   openPopup(endpoint, async () => {
+  //     if (!prfsEmbed || !isPrfsReady) {
+  //       return;
+  //     }
 
-      const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
-        prfsEmbed,
-      );
-      if (resp) {
-        try {
-          const buf = parseBuffer(resp);
-          let decrypted: string;
-          try {
-            decrypted = decrypt(sk.secret, buf).toString();
-          } catch (err) {
-            console.error("cannot decrypt payload", err);
-            return;
-          }
+  //     const resp = await sendMsgToChild(
+  //       newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
+  //       prfsEmbed,
+  //     );
+  //     if (resp) {
+  //       try {
+  //         const buf = parseBuffer(resp);
+  //         let decrypted: string;
+  //         try {
+  //           decrypted = decrypt(sk.secret, buf).toString();
+  //         } catch (err) {
+  //           console.error("cannot decrypt payload", err);
+  //           return;
+  //         }
 
-          let payload: ProofGenSuccessPayload;
-          try {
-            payload = JSON.parse(decrypted);
-          } catch (err) {
-            console.error("cannot parse payload", err);
-            return;
-          }
+  //         let payload: ProofGenSuccessPayload;
+  //         try {
+  //           payload = JSON.parse(decrypted);
+  //         } catch (err) {
+  //           console.error("cannot parse payload", err);
+  //           return;
+  //         }
 
-          const {
-            [CLAIM]: cm,
-            [ENCRYPT_WALLET_ADDR]: walletAddrEncrypted,
-            ...rest
-          } = payload.receipt;
-          if (cm) {
-            setClaimCm(cm);
-            setWalletCacheKeys(rest);
-            setWalletAddrEnc(walletAddrEncrypted);
-            setStep(AttestationStep.POST_TWEET);
-          } else {
-            console.error("no commitment delivered");
-            return;
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      } else {
-        console.error("Returned val is empty");
-      }
-    });
-  }, [
-    formData,
-    step,
-    claimSecret,
-    sk,
-    pkHex,
-    openPopup,
-    setClaimCm,
-    setStep,
-    setWalletCacheKeys,
-    setWalletAddrEnc,
-  ]);
+  //         const {
+  //           [CLAIM]: cm,
+  //           [ENCRYPT_WALLET_ADDR]: walletAddrEncrypted,
+  //           ...rest
+  //         } = payload.receipt;
+  //         if (cm) {
+  //           setClaimCm(cm);
+  //           setWalletCacheKeys(rest);
+  //           setWalletAddrEnc(walletAddrEncrypted);
+  //           setStep(AttestationStep.POST_TWEET);
+  //         } else {
+  //           console.error("no commitment delivered");
+  //           return;
+  //         }
+  //       } catch (err) {
+  //         console.error(err);
+  //       }
+  //     } else {
+  //       console.error("Returned val is empty");
+  //     }
+  //   });
+  // }, [
+  //   formData,
+  //   step,
+  //   claimSecret,
+  //   sk,
+  //   pkHex,
+  //   openPopup,
+  //   setClaimCm,
+  //   setStep,
+  //   setWalletCacheKeys,
+  //   setWalletAddrEnc,
+  // ]);
 
   const handleClickFetchAsset = React.useCallback(async () => {
     const wallet_addr = formData[WALLET_ADDR];
@@ -272,48 +267,9 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     setFetchAssetStatus,
   ]);
 
-  // const handleClickValidate = React.useCallback(async () => {
-  //   const sig = formData[SIGNATURE];
-  //   const wallet_addr = formData[WALLET_ADDR];
-
-  //   if (claimCm && sig.length > 0 && wallet_addr.length > 0) {
-  //     const valid = await verifyMessage({
-  //       address: wallet_addr as any,
-  //       message: claimCm,
-  //       signature: sig as any,
-  //     });
-
-  //     if (valid) {
-  //       setValidationMsg(
-  //         <span className={styles.success}>
-  //           <FaCheck />
-  //         </span>,
-  //       );
-  //       setIsSigValid(true);
-  //     } else {
-  //       setValidationMsg(
-  //         <span className={styles.error}>
-  //           <IoClose />
-  //         </span>,
-  //       );
-  //     }
-  //   }
-  // }, [formData[SIGNATURE], formData[WALLET_ADDR], setIsSigValid, setValidationMsg, claimCm]);
-
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
   }, [formData, step]);
-
-  // const handleClickCopy = React.useCallback(() => {
-  //   if (claimCm) {
-  //     navigator.clipboard.writeText(claimCm);
-  //     setIsCopyTooltipVisible(true);
-
-  //     setTimeout(() => {
-  //       setIsCopyTooltipVisible(false);
-  //     }, 3000);
-  //   }
-  // }, [claimCm, setIsCopyTooltipVisible]);
 
   const handleChangeAddress = React.useCallback(
     (address: string) => {
@@ -385,7 +341,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
 
           await addPrfsIndexRequest({
             key: prfs_index,
-            value: "",
+            value: walletAddrEnc,
             serial_no: "empty",
           });
         }
@@ -490,27 +446,37 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 </div>
               </AttestationListRightCol>
             </AttestationListItem>
-            <AttestationListItem isDisabled={step < AttestationStep.GENERATE_CLAIM}>
-              <AttestationListItemOverlay />
-              <AttestationListItemNo>2</AttestationListItemNo>
-              <AttestationListRightCol>
-                <AttestationListItemDesc>
-                  <AttestationListItemDescTitle>
-                    {i18n.generate_a_cryptographic_claim}
-                  </AttestationListItemDescTitle>
-                  <p>
-                    {i18n.claim_secret}: {claimSecret}
-                  </p>
-                </AttestationListItemDesc>
-                <div className={cn(styles.claimCm)}>
-                  <AttestationListItemBtn type="button" handleClick={handleClickGenerate}>
-                    <MdSecurity />
-                    <span>{i18n.generate}</span>
-                  </AttestationListItemBtn>
-                  <p className={cn(styles.value, common.alignItemCenter)}>{claimCm}</p>
-                </div>
-              </AttestationListRightCol>
-            </AttestationListItem>
+            {/* <AttestationListItem isDisabled={step < AttestationStep.GENERATE_CLAIM}> */}
+            {/*   <AttestationListItemOverlay /> */}
+            {/*   <AttestationListItemNo>2</AttestationListItemNo> */}
+            {/*   <AttestationListRightCol> */}
+            {/*     <AttestationListItemDesc> */}
+            {/*       <AttestationListItemDescTitle> */}
+            {/*         {i18n.generate_a_cryptographic_claim} */}
+            {/*       </AttestationListItemDescTitle> */}
+            {/*       <p> */}
+            {/*         {i18n.claim_secret}: {claimSecret} */}
+            {/*       </p> */}
+            {/*     </AttestationListItemDesc> */}
+            {/*     <div className={cn(styles.claimCm)}> */}
+            {/*       <AttestationListItemBtn type="button" handleClick={handleClickGenerate}> */}
+            {/*         <MdSecurity /> */}
+            {/*         <span>{i18n.generate}</span> */}
+            {/*       </AttestationListItemBtn> */}
+            {/*       <p className={cn(styles.value, common.alignItemCenter)}>{claimCm}</p> */}
+            {/*     </div> */}
+            {/*   </AttestationListRightCol> */}
+            {/* </AttestationListItem> */}
+            <ClaimSecretItem
+              step={step}
+              claimCm={claimCm}
+              setClaimCm={setClaimCm}
+              formData={formData}
+              setWalletCacheKeys={setWalletCacheKeys}
+              setWalletAddrEnc={setWalletAddrEnc}
+              setStep={setStep}
+            />
+
             <SignatureItem
               step={step}
               claimCm={claimCm}
@@ -518,59 +484,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
               setFormData={setFormData}
               setIsSigValid={setIsSigValid}
             />
-            {/* <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}> */}
-            {/*   <AttestationListItemOverlay /> */}
-            {/*   <AttestationListItemNo>3</AttestationListItemNo> */}
-            {/*   <AttestationListRightCol> */}
-            {/*     <AttestationListItemDesc> */}
-            {/*       <AttestationListItemDescTitle> */}
-            {/*         {i18n.make_signature_with_your_crypto_wallet} */}
-            {/*       </AttestationListItemDescTitle> */}
-            {/*     </AttestationListItemDesc> */}
-            {/*     <div> */}
-            {/*       {claimCm && ( */}
-            {/*         <div className={styles.section}> */}
-            {/*           <AttestationContentBox> */}
-            {/*             <p className={common.alignItemCenter}>{claimCm}</p> */}
-            {/*             <AttestationContentBoxBtnArea> */}
-            {/*               <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top"> */}
-            {/*                 <button type="button" onClick={handleClickCopy}> */}
-            {/*                   <AiOutlineCopy /> */}
-            {/*                 </button> */}
-            {/*               </Tooltip> */}
-            {/*             </AttestationContentBoxBtnArea> */}
-            {/*           </AttestationContentBox> */}
-            {/*           <div className={styles.signBox}> */}
-            {/*             <div className={styles.inputBtnRow}> */}
-            {/*               <button */}
-            {/*                 className={styles.inputBtn} */}
-            {/*                 type="button" */}
-            {/*                 onClick={handleClickSign} */}
-            {/*               > */}
-            {/*                 {i18n.sign} */}
-            {/*               </button> */}
-            {/*               <span> or paste signature over the above message</span> */}
-            {/*             </div> */}
-            {/*             <Input */}
-            {/*               className={cn(styles.input)} */}
-            {/*               name={WALLET_ADDR} */}
-            {/*               error={""} */}
-            {/*               label={i18n.signature} */}
-            {/*               value={formData.signature} */}
-            {/*               handleChangeValue={handleChangeWalletAddr} */}
-            {/*             /> */}
-            {/*           </div> */}
-            {/*           <div className={styles.btnRow}> */}
-            {/*             <AttestationListItemBtn type="button" handleClick={handleClickValidate}> */}
-            {/*               <span>{i18n.validate}</span> */}
-            {/*             </AttestationListItemBtn> */}
-            {/*             <div className={styles.msg}>{validationMsg}</div> */}
-            {/*           </div> */}
-            {/*         </div> */}
-            {/*       )} */}
-            {/*     </div> */}
-            {/*   </AttestationListRightCol> */}
-            {/* </AttestationListItem> */}
             <EncryptedWalletAddrItem
               step={step}
               walletCacheKeys={walletCacheKeys}

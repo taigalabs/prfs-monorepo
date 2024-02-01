@@ -9,3 +9,5 @@ export enum AttestationStep {
   POST_TWEET,
   VALIDATE_TWEET,
 }
+
+export type CryptoAssetSizeAtstFormData = { [WALLET_ADDR]: string; [SIGNATURE]: string };

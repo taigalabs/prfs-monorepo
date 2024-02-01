@@ -22,7 +22,13 @@ import {
   AttestationListItemOverlay,
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
-import { AttestationStep, CLAIM, SIGNATURE, WALLET_ADDR } from "./create_crypto_asset_size_atst";
+import {
+  AttestationStep,
+  CLAIM,
+  CryptoAssetSizeAtstFormData,
+  SIGNATURE,
+  WALLET_ADDR,
+} from "./create_crypto_asset_size_atst";
 
 const SignatureItem: React.FC<SigantureItemProps> = ({
   step,
@@ -159,7 +165,7 @@ export default SignatureItem;
 export interface SigantureItemProps {
   step: AttestationStep;
   claimCm: string | null;
-  formData: { [WALLET_ADDR]: string; [SIGNATURE]: string };
-  setFormData: React.Dispatch<React.SetStateAction<{ [WALLET_ADDR]: string; [SIGNATURE]: string }>>;
+  formData: CryptoAssetSizeAtstFormData;
+  setFormData: React.Dispatch<React.SetStateAction<CryptoAssetSizeAtstFormData>>;
   setIsSigValid: React.Dispatch<React.SetStateAction<boolean>>;
 }
