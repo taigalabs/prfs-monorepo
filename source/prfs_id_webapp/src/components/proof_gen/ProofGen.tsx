@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
@@ -24,6 +24,7 @@ import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
 import TutorialPlaceholder from "@/components/tutorial_default/TutorialPlaceholder";
+import { signInPrfs } from "@/state/userReducer";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -85,10 +86,11 @@ const ProofGen: React.FC = () => {
     (credential: PrfsIdCredential) => {
       if (credential) {
         setCredential(credential);
+        dispatch(signInPrfs(credential));
         setStep(ProofGenStep.Form);
       }
     },
-    [setCredential, setStep],
+    [setCredential, setStep, dispatch],
   );
 
   const content = React.useMemo(() => {
@@ -123,9 +125,9 @@ const ProofGen: React.FC = () => {
         {errorMsg && <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />}
         <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
         {status === Status.Loading ? (
-          <div className={styles.overlay}>
+          <Overlay fixed>
             <Spinner color="#1b62c0" />
-          </div>
+          </Overlay>
         ) : (
           content
         )}

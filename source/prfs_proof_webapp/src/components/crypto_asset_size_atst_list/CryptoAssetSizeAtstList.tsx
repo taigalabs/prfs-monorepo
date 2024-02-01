@@ -18,6 +18,7 @@ import ComputeTotalValueDialog from "./ComputeTotalValue";
 const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { prfsProofCredential } = useSignedInUser();
+  const [nonce, rerender] = React.useReducer(x => x + 1, 0);
 
   return (
     <>
@@ -29,7 +30,10 @@ const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
           <AttestationsTopMenu>
             {prfsProofCredential?.account_id === MASTER_ACCOUNT_ID && (
               <li>
-                <ComputeTotalValueDialog credential={prfsProofCredential} />
+                <ComputeTotalValueDialog
+                  credential={prfsProofCredential}
+                  handleSucceedCompute={rerender}
+                />
               </li>
             )}
           </AttestationsTopMenu>
@@ -37,7 +41,7 @@ const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
         {/* <AttestationsHeaderRow></AttestationsHeaderRow> */}
       </AttestationsHeader>
       <div>
-        <CryptoSizeAtstTable />
+        <CryptoSizeAtstTable nonce={nonce} />
       </div>
     </>
   );

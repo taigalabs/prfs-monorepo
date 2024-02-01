@@ -9,11 +9,10 @@ import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
 
 import styles from "./MerkleSigPosRange.module.scss";
-// import MerkleProofRaw from "./MerkleProofRaw";
 import { i18nContext } from "@/i18n/context";
 import {
   FormError,
@@ -21,9 +20,11 @@ import {
   FormInputBtnRow,
   FormInputTitle,
   FormInputTitleRow,
+  FormInputType,
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
+import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -42,6 +43,7 @@ const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
 const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   circuitInput,
   value,
+  credential,
   error,
   setFormErrors,
   setFormValues,
@@ -91,20 +93,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     fn().then();
   }, [circuitInput, setPrfsSet, getPrfsSetBySetId]);
 
-  const handleClickRawSubmit = React.useCallback(
-    (merkleProof: SpartanMerkleProof) => {
-      setFormValues((prevVals: any) => {
-        return {
-          ...prevVals,
-          [circuitInput.name]: merkleProof,
-        };
-      });
-
-      // setIsOpen(false);
-    },
-    [setFormValues],
-  );
-
   const handleChangeAddress = React.useCallback(
     async (addr: string) => {
       if (!prfsSet) {
@@ -124,88 +112,89 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       });
 
       const { set_id, merkle_root } = prfsSet;
+      console.log(123, set_id, merkle_root);
 
-      console.log(!23, set_id, merkle_root);
+      const leafVal = "";
 
-      // try {
-      //   const { payload, error } = await GetPrfsTreeLeafIndices({
-      //     set_id,
-      //     leaf_vals: [addr],
-      //   });
+      try {
+        const { payload, error } = await GetPrfsTreeLeafIndices({
+          set_id,
+          leaf_vals: [addr],
+        });
 
-      //   if (error) {
-      //     setFormErrors((prevVals: any) => {
-      //       return {
-      //         ...prevVals,
-      //         [circuitInput.name]: error,
-      //       };
-      //     });
-      //   }
+        if (error) {
+          setFormErrors((prevVals: any) => {
+            return {
+              ...prevVals,
+              [circuitInput.name]: error,
+            };
+          });
+        }
 
-      //   if (!payload) {
-      //     return;
-      //   }
+        if (!payload) {
+          return;
+        }
 
-      //   let pos_w = null;
-      //   // console.log("nodes", payload.prfs_tree_nodes);
+        let pos_w = null;
+        // console.log("nodes", payload.prfs_tree_nodes);
 
-      //   for (const node of payload.prfs_tree_nodes) {
-      //     if (node.val === addr.toLowerCase()) {
-      //       pos_w = node.pos_w;
-      //     }
-      //   }
+        for (const node of payload.prfs_tree_nodes) {
+          if (node.val === addr.toLowerCase()) {
+            pos_w = node.pos_w;
+          }
+        }
 
-      //   if (pos_w === null) {
-      //     throw new Error("Address is not part of a set");
-      //   }
+        if (pos_w === null) {
+          throw new Error("Address is not part of a set");
+        }
 
-      //   const leafIdx = Number(pos_w);
-      //   const siblingPath = makeSiblingPath(32, leafIdx);
-      //   const pathIndices = makePathIndices(32, leafIdx);
+        const leafIdx = Number(pos_w);
+        const siblingPath = makeSiblingPath(32, leafIdx);
+        const pathIndices = makePathIndices(32, leafIdx);
 
-      //   const siblingPos = siblingPath.map((pos_w, idx) => {
-      //     return { pos_h: idx, pos_w };
-      //   });
+        const siblingPos = siblingPath.map((pos_w, idx) => {
+          return { pos_h: idx, pos_w };
+        });
 
-      //   // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
+        // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
-      //   const siblingNodesData = await getPrfsTreeNodesByPosRequest({
-      //     set_id,
-      //     pos: siblingPos,
-      //   });
+        const siblingNodesData = await getPrfsTreeNodesByPosRequest({
+          set_id,
+          pos: siblingPos,
+        });
 
-      //   if (siblingNodesData.payload === null) {
-      //     throw new Error(siblingNodesData.error);
-      //   }
+        if (siblingNodesData.payload === null) {
+          throw new Error(siblingNodesData.error);
+        }
 
-      //   let siblings: BigInt[] = [];
-      //   for (const node of siblingNodesData.payload.prfs_tree_nodes) {
-      //     siblings[node.pos_h] = BigInt(node.val);
-      //   }
+        let siblings: BigInt[] = [];
+        for (const node of siblingNodesData.payload.prfs_tree_nodes) {
+          siblings[node.pos_h] = BigInt(node.val);
+        }
 
-      //   for (let idx = 0; idx < 32; idx += 1) {
-      //     if (siblings[idx] === undefined) {
-      //       siblings[idx] = BigInt(0);
-      //     }
-      //   }
+        for (let idx = 0; idx < 32; idx += 1) {
+          if (siblings[idx] === undefined) {
+            siblings[idx] = BigInt(0);
+          }
+        }
 
-      //   const merkleProof: SpartanMerkleProof = {
-      //     root: BigInt(merkle_root),
-      //     siblings: siblings as bigint[],
-      //     pathIndices,
-      //   };
+        const merkleProof: SpartanMerkleProof = {
+          root: BigInt(merkle_root),
+          siblings: siblings as bigint[],
+          pathIndices,
+        };
 
-      //   console.log(11, siblingNodesData, merkleProof);
+        console.log(11, siblingNodesData, merkleProof);
 
-      //   setFormValues((prevVals: any) => {
-      //     return {
-      //       ...prevVals,
-      //       [circuitInput.name]: merkleProof,
-      //     };
-      //   });
-      // } catch (err) {
-      //   console.error(err);
-      // }
+        setFormValues((prevVals: any) => {
+          return {
+            ...prevVals,
+            [circuitInput.name]: merkleProof,
+          };
+        });
+      } catch (err) {
+        console.error(err);
+      }
     },
     [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors],
   );
@@ -214,40 +203,33 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     return `${circuitInput.label} (${prfsSet ? prfsSet.label : i18n.loading})`;
   }, [circuitInput, prfsSet]);
 
-  // const inputElem = React.useMemo(() => {
-  //   if (!presetVals) {
-  //     return (
-  //       <div className={styles.presetValsVoid}>
-  //         This proof type can only be used with preset values. Consult the host application
-  //       </div>
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // }, [presetVals]);
-
   return (
     <FormInput>
       <FormInputTitleRow>
+        {/* <FormInputType>{circuitInput.type}</FormInputType> */}
         <FormInputTitle>
           <span className={styles.inputLabel}>{label}</span>
         </FormInputTitle>
         <FormInputBtnRow>
+          <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
+            <FormInputButton type="button">{i18n.fetch_addresses}</FormInputButton>
+          </CachedAddressDialog>
+          <span className={styles.or}> or </span>
           <ConnectWallet handleChangeAddress={handleChangeAddress}>
             <FormInputButton type="button">{i18n.connect}</FormInputButton>
           </ConnectWallet>
         </FormInputBtnRow>
       </FormInputTitleRow>
-      {/* <InputWrapper> */}
-      {/*   <div className={styles.interactiveArea}> */}
-      {/*     <input */}
-      {/*       className={styles.addressInput} */}
-      {/*       placeholder={`${circuitInput.desc}`} */}
-      {/*       value={walletAddr} */}
-      {/*       readOnly */}
-      {/*     /> */}
-      {/*   </div> */}
-      {/* </InputWrapper> */}
+      <InputWrapper>
+        <div className={styles.interactiveArea}>
+          <input
+            className={styles.addressInput}
+            placeholder={`${circuitInput.desc}`}
+            value={walletAddr}
+            readOnly
+          />
+        </div>
+      </InputWrapper>
       {value && <ComputedValue value={value} />}
       {error && <FormError>{error}</FormError>}
     </FormInput>
@@ -263,6 +245,7 @@ export interface MerkleSigPosRangeInputProps {
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   presetVals?: QueryPresetVals;
+  credential: PrfsIdCredential;
 }
 
 export interface ComputedValueProps {

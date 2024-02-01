@@ -3,6 +3,7 @@
 
 .overlay {
   background: rgba(0, 0, 0, 0.8);
+  padding: 10px;
   position: absolute;
   inset: 0px;
   display: grid;
@@ -26,7 +27,7 @@
 }
 
 .msg {
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 0.15008px;
   color: var(--black-20);
 }

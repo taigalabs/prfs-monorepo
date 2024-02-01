@@ -21,16 +21,11 @@ import {
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
 import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
+import { CommonStatus } from "@/components/common_status/CommonStatus";
 
 const PRFS_ATTESTATION = "prfs_attestation";
 const CRYPTO_ASSET_SIZE_ATSTS = "crypto_asset_size_atsts";
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
-
-enum ImportStatus {
-  Standby,
-  InProgress,
-  Done,
-}
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
@@ -43,12 +38,12 @@ const Modal: React.FC<ModalProps> = ({
     setIsOpen(false);
   }, [setIsOpen]);
   const handleClickOk = React.useCallback(() => {
-    if (computeStatus === ImportStatus.Done) {
-      window.location.reload();
+    if (computeStatus === CommonStatus.Done) {
+      setIsOpen(false);
     } else {
       handleClickImport();
     }
-  }, [handleClickImport, computeStatus]);
+  }, [setIsOpen, handleClickImport, computeStatus]);
 
   return (
     <DefaultModalWrapper>
@@ -75,11 +70,11 @@ const Modal: React.FC<ModalProps> = ({
           handleClick={handleClickOk}
           noShadow
           type="button"
-          disabled={computeStatus === ImportStatus.InProgress}
+          disabled={computeStatus === CommonStatus.InProgress}
         >
           <div className={styles.importBtnContent}>
-            <span>{computeStatus === ImportStatus.Done ? i18n.reload : i18n.import}</span>
-            {computeStatus === ImportStatus.InProgress && <Spinner size={14} borderWidth={2} />}
+            <span>{computeStatus === CommonStatus.Done ? i18n.close : i18n.import}</span>
+            {computeStatus === CommonStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
       </DefaultModalBtnRow>
@@ -96,11 +91,11 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
   });
   const { prfsProofCredential } = useSignedInUser();
   const [isOpen, setIsOpen] = React.useState(false);
-  const [computeStatus, setComputeStatus] = React.useState(ImportStatus.Standby);
+  const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickImport = React.useCallback(async () => {
     if (prfsProofCredential && prfsProofCredential.account_id === MASTER_ACCOUNT_ID) {
-      setComputeStatus(ImportStatus.InProgress);
+      setComputeStatus(CommonStatus.InProgress);
       try {
         const { payload, error } = await importPrfsSetElementsRequest({
           src_type: PRFS_ATTESTATION,
@@ -109,19 +104,18 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
         });
 
         if (payload) {
-          setComputeStatus(ImportStatus.Done);
+          setComputeStatus(CommonStatus.Done);
           setComputeMsg(
             <>
               <p>
-                <b>Imported, row count: {payload.rows_affected.toString()}</b>
+                <b>Imported, new row count: {payload.rows_affected.toString()}</b>
               </p>
-              <p>Reload the page</p>
             </>,
           );
         }
 
         if (error) {
-          setComputeStatus(ImportStatus.Standby);
+          setComputeStatus(CommonStatus.Standby);
           setComputeMsg(
             <>
               <p className={common.redText}>{error}</p>
@@ -129,7 +123,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
           );
         }
       } catch (err: any) {
-        setComputeStatus(ImportStatus.Standby);
+        setComputeStatus(CommonStatus.Standby);
         setComputeMsg(
           <>
             <p className={common.redText}>{err.toString()}</p>
@@ -138,6 +132,13 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
       }
     }
   }, [prfsProofCredential, importPrfsSetElementsRequest, setComputeMsg, setComputeStatus]);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setComputeStatus(CommonStatus.Standby);
+      setComputeMsg(null);
+    }
+  }, [isOpen, setComputeMsg, setComputeStatus]);
 
   const createBase = React.useCallback(() => {
     return (
@@ -176,6 +177,6 @@ export interface ImportPrfsSetElementsDialogProps {}
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleClickImport: () => {};
-  computeStatus: ImportStatus;
+  computeStatus: CommonStatus;
   computeMsg: React.ReactNode;
 }

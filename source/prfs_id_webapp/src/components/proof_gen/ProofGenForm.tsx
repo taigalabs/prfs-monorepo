@@ -31,6 +31,8 @@ import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
+import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
+import EncryptView from "@/components/encrypt/EncryptView";
 
 enum Status {
   InProgress,
@@ -47,7 +49,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const searchParams = useSearchParams();
   const [status, setStatus] = React.useState(Status.InProgress);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
-  const [errorMsg, setErrorMsg] = React.useState("");
+  const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
+  const [errorDialogMsg, setErrorDialogMsg] = React.useState<React.ReactNode | null>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
@@ -71,6 +74,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   <CreateProof
                     key={query.name}
                     credential={credential}
+                    setErrorDialogMsg={setErrorDialogMsg}
                     query={query}
                     setReceipt={setReceipt}
                     tutorial={proofGenArgs.tutorial}
@@ -91,8 +95,21 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                 elems.push(elem);
                 break;
               }
+              case QueryType.ENCRYPT: {
+                const elem = (
+                  <EncryptView
+                    key={query.name}
+                    credential={credential}
+                    query={query}
+                    setReceipt={setReceipt}
+                  />
+                );
+                elems.push(elem);
+                break;
+              }
               default:
                 console.error("unsupported query type", query);
+                setErrorDialogMsg(<span>Unsupported query type, something is wrong</span>);
                 return;
             }
           }
@@ -106,7 +123,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
     }
     fn().then();
-  }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus]);
+  }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus, setErrorDialogMsg]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && prfsEmbed && status === Status.Standby) {
@@ -151,8 +168,13 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     }
   }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt, setCreateProofStatus]);
 
+  const handleCloseErrorDialog = React.useCallback(() => {}, []);
+
   return proofGenArgs ? (
     <>
+      {errorDialogMsg && (
+        <PrfsIdErrorDialog errorMsg={errorDialogMsg} handleClose={handleCloseErrorDialog} />
+      )}
       <DefaultInnerPadding noSidePadding>
         {(status === Status.InProgress || createProofStatus === Status.InProgress) && (
           <div className={styles.overlay} />
@@ -166,12 +188,12 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         <div className={cn(styles.prfsId, styles.sidePadding)}>
           <p>{credential.id}</p>
         </div>
-        <QueryItemList sidePadding>{queryElems}</QueryItemList>
+        <QueryItemList>{queryElems}</QueryItemList>
         <div className={cn(styles.dataWarning, styles.sidePadding)}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.app_id} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
-        <DefaultModuleBtnRow className={cn(styles.btnRow, styles.sidePadding)}>
+        <DefaultModuleBtnRow className={cn(styles.btnRow)}>
           <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
             {i18n.go_back}
           </Button>
@@ -185,10 +207,10 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
             noShadow
           >
             <span>{i18n.submit}</span>
-            {createProofStatus === Status.InProgress && <Spinner size={16} />}
+            {createProofStatus === Status.InProgress && <Spinner size={14} />}
           </Button>
         </DefaultModuleBtnRow>
-        <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>
+        {errorMsg && <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>}
       </DefaultInnerPadding>
     </>
   ) : (

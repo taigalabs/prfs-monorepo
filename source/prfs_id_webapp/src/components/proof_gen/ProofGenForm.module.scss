@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .overlay {
   position: absolute;
   inset: 0;
@@ -28,8 +30,8 @@
 }
 
 .sidePadding {
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .prfsId {
@@ -57,8 +59,8 @@
 }
 
 .submitBtn {
-  padding-left: 18px;
-  padding-right: 18px;
+  padding-left: 14px;
+  padding-right: 14px;
 }
 
 .submitBtnContent {
@@ -78,13 +80,9 @@
   padding-left: 18px;
 }
 
-@media screen and (max-width: 480px) {
-  .main {
-    padding: 0 20px;
-  }
-
+@media screen and (min-width: $mid_display_min_width) {
   .sidePadding {
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 }

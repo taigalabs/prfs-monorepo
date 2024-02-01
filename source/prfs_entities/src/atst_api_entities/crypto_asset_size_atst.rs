@@ -92,6 +92,8 @@ pub struct CreateCryptoAssetSizeAtstRequest {
     pub atst_id: String,
     pub atst_type: String,
     pub wallet_addr: String,
+    // pub wallet_prfs_idx: String,
+    pub serial_no: String,
     pub cm: String,
     pub crypto_assets: Vec<CryptoAsset>,
 }

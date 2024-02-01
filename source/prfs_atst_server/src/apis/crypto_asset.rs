@@ -54,7 +54,7 @@ pub async fn create_crypto_asset_size_atst(
     let crypto_size_atst = PrfsCryptoAssetSizeAtst {
         atst_id: req.atst_id,
         atst_type: req.atst_type,
-        wallet_addr: req.wallet_addr,
+        wallet_addr: req.wallet_addr.to_string(),
         cm: req.cm,
         crypto_assets: Json::from(req.crypto_assets),
         status: PrfsAtstStatus::Valid,
@@ -64,13 +64,21 @@ pub async fn create_crypto_asset_size_atst(
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))?;
 
+    // let _wallet_prfs_idx = prfs::upsert_prfs_index(
+    //     &mut tx,
+    //     &req.wallet_prfs_idx,
+    //     &req.wallet_addr,
+    //     &req.serial_no,
+    // )
+    // .await
+    // .unwrap();
+
     tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(CreateCryptoAssetSizeAtstResponse {
         is_valid: true,
         atst_id,
     });
-    // let resp = ApiResponse::new_success(resp);
     return Ok(resp.into_hyper_response());
 }
 

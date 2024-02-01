@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import React from "react";
 import { FaCalculator } from "@react-icons/all-files/fa/FaCalculator";
 import { useMutation } from "@tanstack/react-query";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
@@ -17,12 +17,7 @@ import {
   DefaultModalHeader,
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
-
-enum ComputeStatus {
-  Standby,
-  InProgress,
-  Done,
-}
+import { CommonStatus } from "@/components/common_status/CommonStatus";
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
@@ -35,12 +30,12 @@ const Modal: React.FC<ModalProps> = ({
     setIsOpen(false);
   }, [setIsOpen]);
   const handleClickOk = React.useCallback(() => {
-    if (computeStatus === ComputeStatus.Done) {
-      window.location.reload();
+    if (computeStatus === CommonStatus.Done) {
+      setIsOpen(false);
     } else {
       handleClickCalculate();
     }
-  }, [handleClickCalculate, computeStatus]);
+  }, [handleClickCalculate, computeStatus, setIsOpen]);
 
   return (
     <DefaultModalWrapper>
@@ -67,11 +62,11 @@ const Modal: React.FC<ModalProps> = ({
           handleClick={handleClickOk}
           noShadow
           type="button"
-          disabled={computeStatus === ComputeStatus.InProgress}
+          disabled={computeStatus === CommonStatus.InProgress}
         >
           <div className={styles.btnContent}>
-            <span>{computeStatus === ComputeStatus.Done ? i18n.reload : i18n.compute}</span>
-            {computeStatus === ComputeStatus.InProgress && <Spinner size={14} borderWidth={2} />}
+            <span>{computeStatus === CommonStatus.Done ? i18n.close : i18n.compute}</span>
+            {computeStatus === CommonStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
       </DefaultModalBtnRow>
@@ -79,7 +74,10 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential }) => {
+const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
+  credential,
+  handleSucceedCompute,
+}) => {
   const { prfsProofCredential } = useSignedInUser();
   const [isOpen, setIsOpen] = React.useState(false);
   const { mutateAsync: computeCryptoSizeTotalValuesRequest, isPending } = useMutation({
@@ -87,32 +85,38 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ crede
       return atstApi("compute_crypto_asset_size_total_values", req);
     },
   });
-  const [computeStatus, setComputeStatus] = React.useState(ComputeStatus.Standby);
+  const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickCalculate = React.useCallback(async () => {
     if (prfsProofCredential) {
-      setComputeStatus(ComputeStatus.InProgress);
+      setComputeStatus(CommonStatus.InProgress);
       try {
         const { payload } = await computeCryptoSizeTotalValuesRequest({
           account_id: prfsProofCredential.account_id,
         });
 
         if (payload) {
-          setComputeStatus(ComputeStatus.Done);
+          setComputeStatus(CommonStatus.Done);
           setComputeMsg(
             <>
               <p>
                 <b>Computed, row count: {payload.updated_row_count.toString()}</b>
               </p>
-              <p>Reload the page</p>
             </>,
           );
+          handleSucceedCompute();
         }
       } catch (err) {
-        setComputeStatus(ComputeStatus.Standby);
+        setComputeStatus(CommonStatus.Standby);
       }
     }
-  }, [prfsProofCredential, computeCryptoSizeTotalValuesRequest, setComputeMsg, setComputeStatus]);
+  }, [
+    prfsProofCredential,
+    computeCryptoSizeTotalValuesRequest,
+    setComputeMsg,
+    setComputeStatus,
+    handleSucceedCompute,
+  ]);
 
   const createBase = React.useCallback(() => {
     return (
@@ -121,6 +125,13 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ crede
       </Button>
     );
   }, []);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setComputeStatus(CommonStatus.Standby);
+      setComputeMsg(null);
+    }
+  }, [isOpen, setComputeStatus, setComputeMsg]);
 
   return (
     <>
@@ -140,11 +151,12 @@ export default ComputeTotalValueDialog;
 
 export interface ComputeTotalValueDialogProps {
   credential: LocalPrfsProofCredential;
+  handleSucceedCompute: () => void;
 }
 
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleClickCalculate: () => {};
-  computeStatus: ComputeStatus;
+  computeStatus: CommonStatus;
   computeMsg: React.ReactNode;
 }

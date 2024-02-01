@@ -4,7 +4,7 @@ use ts_rs::TS;
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
 pub struct PrfsIndex {
-    pub label: String,
+    pub key: String,
     pub value: String,
     pub serial_no: String,
 }

@@ -7,18 +7,16 @@ import {
   useEnsName,
 } from "@taigalabs/prfs-web3-js/wagmi";
 import cn from "classnames";
+import { abbrevAddr } from "@taigalabs/prfs-web3-js";
 
 import styles from "./WalletModal.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
-import { abbrevAddr } from "@taigalabs/prfs-web3-js";
 
 const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
   ensName,
   address,
   connector,
-  handleClickDisconnect,
-  handleClickClose,
   handleChangeAddress,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -43,16 +41,12 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
         <p>Other options will be available later</p>
       </div>
       <div className={styles.address}>
-        <button className={styles.button} onClick={extendedHandleChangeAddress}>
+        <Button
+          variant="white_black_2"
+          className={styles.itemBtn}
+          handleClick={extendedHandleChangeAddress}
+        >
           {ensName ? `${ensName} (${address})` : addr}
-        </button>
-      </div>
-      <div className={styles.btnRow}>
-        <Button variant="transparent_black_1" handleClick={handleClickDisconnect}>
-          {i18n.disconnect}
-        </Button>
-        <Button variant="transparent_aqua_blue_1" handleClick={handleClickClose}>
-          {i18n.close}
         </Button>
       </div>
     </div>
@@ -60,6 +54,7 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
 };
 
 const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChangeAddress }) => {
+  const i18n = React.useContext(i18nContext);
   const { address, connector, isConnected } = useAccount();
   const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error } = useConnect();
@@ -70,12 +65,16 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
 
   const connectorsElem = React.useMemo(() => {
     return (
-      <ul className={styles.connectList}>
+      <ul className={styles.itemList}>
         {connectors.map((connector: Connector) => (
           <li key={connector.id}>
-            <button className={styles.button} onClick={() => connect({ connector })}>
+            <Button
+              variant="white_black_2"
+              handleClick={() => connect({ connector })}
+              className={styles.itemBtn}
+            >
               {connector.name}
-            </button>
+            </Button>
           </li>
         ))}
       </ul>
@@ -90,13 +89,20 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
           address={address}
           connector={connector}
           handleChangeAddress={handleChangeAddress}
-          handleClickDisconnect={handleClickDisconnect}
-          handleClickClose={handleClickClose}
+          // handleClickDisconnect={handleClickDisconnect}
+          // handleClickClose={handleClickClose}
         />
       ) : (
         connectorsElem
       )}
-      <div></div>
+      <div className={styles.btnRow}>
+        <Button variant="transparent_black_1" handleClick={handleClickDisconnect}>
+          {i18n.disconnect}
+        </Button>
+        <Button variant="transparent_aqua_blue_1" handleClick={handleClickClose}>
+          {i18n.close}
+        </Button>
+      </div>
       {error && <div>{error.message}</div>}
     </div>
   );
@@ -114,6 +120,6 @@ interface ConnectedInfoProps {
   address: `0x${string}` | undefined;
   connector: Connector;
   handleChangeAddress: (addr: string) => void;
-  handleClickDisconnect: () => void;
-  handleClickClose: () => void;
+  // handleClickDisconnect: () => void;
+  // handleClickClose: () => void;
 }

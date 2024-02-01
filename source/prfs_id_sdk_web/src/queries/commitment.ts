@@ -1,11 +1,11 @@
 import { QueryType } from "./query";
 
-export interface CommitmentArgs {
-  appId: string;
-  nonce: number;
-  publicKey: string;
-  cms: CommitmentQuery[];
-}
+// export interface CommitmentArgs {
+//   appId: string;
+//   nonce: number;
+//   publicKey: string;
+//   cms: CommitmentQuery[];
+// }
 
 export interface CommitmentQuery {
   name: string;
@@ -17,6 +17,9 @@ export interface CommitmentQuery {
 export enum CommitmentType {
   SIG_POSEIDON_1 = "SIG_POSEIDON_1",
 }
+
+export const WALLET_CACHE_KEY = "wallet_cache_key";
+export const WALLET_CM_STEM = "WALLET";
 
 export function makeCmCacheKeyQueries(
   _name: string,

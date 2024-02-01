@@ -1,9 +1,11 @@
+@import "@/styles/layouts.module.scss";
+
 .leftBarBtn {
-  display: block;
+  display: none;
 }
 
 .leftBarDrawerBtn {
-  display: none;
+  display: block;
 }
 
 .rightGroup {
@@ -49,20 +51,20 @@
 }
 
 .bigScreen {
-  display: flex;
+  display: none;
   align-items: center;
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (min-width: $big2_display_min_width) {
   .leftBarBtn {
-    display: none;
-  }
-
-  .leftBarDrawerBtn {
     display: block;
   }
 
-  .bigScreen {
+  .leftBarDrawerBtn {
     display: none;
+  }
+
+  .bigScreen {
+    display: flex;
   }
 }

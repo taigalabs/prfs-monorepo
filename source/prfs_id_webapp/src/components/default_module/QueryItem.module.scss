@@ -1,10 +1,12 @@
+@import "@/styles/layouts.module.scss";
+
 .list {
-  padding: 14px 0px 14px;
+  padding: 16px 16px 20px;
 }
 
 .sidePadding {
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .item {
@@ -58,13 +60,13 @@
 .hashed {
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (min-width: $mid_display_min_width) {
   .list {
-    padding: 16px 14px 20px;
+    padding: 14px 0px 14px;
   }
 
   .sidePadding {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 }

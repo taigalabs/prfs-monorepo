@@ -1,6 +1,7 @@
-@import "styles/layouts.module.scss";
+@import "@/styles/layouts.module.scss";
 
 .wrapper {
+  min-width: 360px;
   top: 0;
   left: 0;
   right: 0;
@@ -21,6 +22,22 @@
   &.tallHeight {
     height: $masthead_tallheight_w1920;
   }
+
+  &.twoColumn {
+    width: 100vw;
+    min-width: 360px;
+    height: $masthead_two_column_height_w1120;
+    margin-right: 0;
+    padding-top: 0px;
+    padding-left: 16px;
+    padding-right: 16px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  &.tallHeight {
+    height: $masthead_tallheight_w1120;
+  }
 }
 
 .twoColumn {
@@ -31,22 +48,24 @@
   height: $masthead_height_w1920;
 
   &.twoColumn {
-    height: $masthead_two_column_height_w1920;
+    height: $masthead_two_column_height_w1120;
   }
 
   &.tallHeight {
-    height: $masthead_tallheight_w1920;
+    height: $masthead_tallheight_w1120;
   }
 }
 
 .logoArea {
-  padding: 0 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 40px;
+  padding: 0 16px;
+  min-width: 0px;
   display: flex;
-  justify-content: flex-end;
-  min-width: 110px;
-  max-width: 230px;
-  flex-grow: 1;
-  flex-shrink: 1;
+  align-items: center;
+  width: auto;
   /* border: 1px solid blue; */
 
   > a {
@@ -72,6 +91,15 @@
   justify-content: flex-end;
   padding-right: 2px;
 
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  width: auto;
+
+  .bigScreen {
+    display: none;
+  }
+
   .menu {
     display: flex;
     align-items: center;
@@ -87,16 +115,28 @@
   text-decoration: underline;
 }
 
-@media screen and (max-width: 1120px) {
+.staticPosition {
+  position: static;
+}
+
+@media screen and (min-width: $mid_display_min_width) {
+  .wrapper {
+    /* min-width: 0px; */
+  }
+
+  .rightGroup {
+    .bigScreen {
+      display: flex;
+    }
+  }
+}
+
+@media screen and (min-width: $big2_display_min_width) {
   .wrapper {
     &.twoColumn {
-      width: 100vw;
-      min-width: 360px;
+      width: auto;
       height: $masthead_two_column_height_w1120;
-      margin-right: 0;
-      padding-top: 0px;
-      padding-left: 10px;
-      padding-right: 10px;
+      padding: 14px 16px;
       align-items: flex-start;
       justify-content: center;
     }
@@ -108,49 +148,29 @@
 
   .placeholder {
     &.twoColumn {
-      height: $masthead_two_column_height_w1120;
+      height: $masthead_two_column_height_w1920;
     }
 
     &.tallHeight {
-      height: $masthead_tallheight_w1120;
+      height: $masthead_tallheight_w1920;
     }
   }
 
   .logoArea {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 40px;
-    padding: 0 5px;
-    margin-top: 4px;
-    margin-left: 8px;
-    min-width: 0px;
+    position: static;
+    padding: 0 30px;
     display: flex;
-    align-items: center;
-    width: auto;
+    justify-content: flex-end;
+    min-width: 110px;
+    max-width: 230px;
+    flex-grow: 1;
+    flex-shrink: 1;
+
     /* border: 1px solid blue; */
   }
 
   .rightGroup {
-    position: absolute;
-    top: 6px;
-    right: 10px;
-    width: auto;
-  }
-
-  .staticPosition {
     position: static;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .wrapper {
-    min-width: 360px;
-  }
-
-  .rightGroup {
-    .bigScreen {
-      display: none;
-    }
+    width: auto;
   }
 }

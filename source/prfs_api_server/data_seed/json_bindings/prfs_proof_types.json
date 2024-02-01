@@ -205,7 +205,7 @@
     "proof_type_id": "CONSUMER_CRYPTO_HACKERS_1",
     "label": "Consumer crypto hackers",
     "author": "Prfs",
-    "desc": "Proves he is one of the hackers at consumer crypto hackathon hosted by Paradigm VC\n\n### Paradigm consumer crypto hackathon advertisement\n\nJoin the Paradigm team in NYC for a one-day consumer hackathon! Throughout the day, Paradigm\ninvesting, research, and design team members will be available to provide direct feedback on your\nideas. No judging, no prizes - all about hacking and fast feedback loops.\n\nSchedule:\n9:00-9:30am - Check-in/light breakfast\n9:30-10:00am - Flash talks from Privy, Axiom, Wagmi, and Base\n10:00am-5:30pm - Hacking\n5:30-6pm - Optional hacker presentations\n",
+    "desc": "Proves he is one of the hackers at consumer crypto hackathon hosted by Paradigm VC\n\n### Paradigm consumer crypto hackathon event\n\nJoin the Paradigm team in NYC for a one-day consumer hackathon! Throughout the day, Paradigm\ninvesting, research, and design team members will be available to provide direct feedback on your\nideas. No judging, no prizes - all about hacking and fast feedback loops.\n\nSchedule:\n9:00-9:30am - Check-in/light breakfast\n9:30-10:00am - Flash talks from Privy, Axiom, Wagmi, and Base\n10:00am-5:30pm - Hacking\n5:30-6pm - Optional hacker presentations\n",
     "expression": "Is consumer crypto hacker",
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/paradigm_logo.jpg",
     "img_caption": null,
@@ -291,10 +291,10 @@
         "ref_type": "PRFS_SET",
         "ref_value": "crypto_holders",
         "element_type": "COMMITMENT",
-        "desc": "Merkle proof with leaf as sig-poseidon with number in range",
+        "desc": "Address",
         "name": "merkle_sig_pos_range",
         "type": "MERKLE_SIG_POS_RANGE_V1",
-        "label": "Signature poseidon with value in range",
+        "label": "Member",
         "value": ""
       }
     ],

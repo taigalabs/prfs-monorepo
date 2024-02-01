@@ -13,6 +13,8 @@ import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import styles from "./PrfsIdSignInButton.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
+import Overlay from "../overlay/Overlay";
+import Spinner from "../spinner/Spinner";
 
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
@@ -20,6 +22,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   appSignInArgs,
   handleSucceedSignIn,
   prfsIdEndpoint,
+  isLoading,
   prfsEmbedEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -69,7 +72,13 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       disabled={!isPrfsReady}
     >
       <div className={styles.wrapper}>
-        <span>{label ? label : i18n.sign_in}</span>
+        {isLoading ? (
+          <Overlay>
+            <Spinner size={18} color="#5c5c5c" />
+          </Overlay>
+        ) : (
+          <span>{label ? label : i18n.sign_in}</span>
+        )}
       </div>
     </Button>
   );
@@ -81,6 +90,7 @@ export interface PrfsIdSignInButtonProps {
   className?: string;
   label?: string;
   appSignInArgs: AppSignInArgs;
+  isLoading?: boolean;
   handleSucceedSignIn: (encrypted: Buffer) => void;
   prfsIdEndpoint: string;
   prfsEmbedEndpoint: string;

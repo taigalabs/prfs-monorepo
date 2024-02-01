@@ -74,7 +74,7 @@ pub async fn get_prfs_crypto_asset_size_atst(
 ) -> Result<PrfsCryptoAssetSizeAtst, DbInterfaceError> {
     let query = r#"
 SELECT *
-FROM prfs_crypto_size_atsts
+FROM prfs_crypto_asset_size_atsts
 WHERE atst_id=$1
 "#;
 

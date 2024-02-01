@@ -23,6 +23,7 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
+import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -191,8 +192,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           pathIndices,
         };
 
-        console.log(11, siblingNodesData, merkleProof);
-
         setFormValues((prevVals: any) => {
           return {
             ...prevVals,
@@ -218,15 +217,16 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         </FormInputTitle>
         <FormInputBtnRow>
           <ConnectWallet handleChangeAddress={handleChangeAddress}>
-            <button className={styles.addressBtn} type="button">
-              {i18n.connect}
-            </button>
+            <FormInputButton type="button">{i18n.connect}</FormInputButton>
           </ConnectWallet>
+          <span className={styles.or}> or </span>
           <MerkleProofRaw
             circuitInput={circuitInput}
             prfsSet={prfsSet}
             handleClickRawSubmit={handleClickRawSubmit}
-          />
+          >
+            <FormInputButton type="button">{i18n.edit_raw}</FormInputButton>
+          </MerkleProofRaw>
         </FormInputBtnRow>
       </FormInputTitleRow>
       <InputWrapper>

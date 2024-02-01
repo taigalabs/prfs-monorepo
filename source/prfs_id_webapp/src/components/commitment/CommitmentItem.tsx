@@ -12,12 +12,7 @@ import {
   QueryItemRightCol,
 } from "@/components/default_module/QueryItem";
 
-export const CommitmentItem: React.FC<CommitmentItemItemProps> = ({
-  name,
-  hashedHex,
-  val,
-  type,
-}) => {
+const CommitmentItem: React.FC<CommitmentItemProps> = ({ name, hashedHex, val, type }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -40,7 +35,9 @@ export const CommitmentItem: React.FC<CommitmentItemItemProps> = ({
   );
 };
 
-export interface CommitmentItemItemProps {
+export default CommitmentItem;
+
+export interface CommitmentItemProps {
   name: string;
   hashedHex: string;
   val: string;

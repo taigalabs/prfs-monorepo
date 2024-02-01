@@ -19,16 +19,9 @@ import {
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
 import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
+import { CommonStatus } from "@/components/common_status/CommonStatus";
 
-const PRFS_ATTESTATION = "prfs_attestation";
-const CRYPTO_ASSET_SIZE_ATSTS = "crypto_asset_size_atsts";
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
-
-enum Status {
-  Standby,
-  InProgress,
-  Done,
-}
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
@@ -41,12 +34,12 @@ const Modal: React.FC<ModalProps> = ({
     setIsOpen(false);
   }, [setIsOpen]);
   const handleClickOk = React.useCallback(() => {
-    if (computeStatus === Status.Done) {
-      window.location.reload();
+    if (computeStatus === CommonStatus.Done) {
+      setIsOpen(false);
     } else {
       handleClickCreate();
     }
-  }, [handleClickCreate, computeStatus]);
+  }, [handleClickCreate, computeStatus, setIsOpen]);
 
   return (
     <DefaultModalWrapper>
@@ -73,11 +66,11 @@ const Modal: React.FC<ModalProps> = ({
           handleClick={handleClickOk}
           noShadow
           type="button"
-          disabled={computeStatus === Status.InProgress}
+          disabled={computeStatus === CommonStatus.InProgress}
         >
           <div className={styles.importBtnContent}>
-            <span>{computeStatus === Status.Done ? i18n.reload : i18n.create}</span>
-            {computeStatus === Status.InProgress && <Spinner size={14} borderWidth={2} />}
+            <span>{computeStatus === CommonStatus.Done ? i18n.close : i18n.create}</span>
+            {computeStatus === CommonStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
       </DefaultModalBtnRow>
@@ -85,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = () => {
+const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSucceedCreate }) => {
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: createTreeRequest } = useMutation({
     mutationFn: (req: CreateTreeOfPrfsSetRequest) => {
@@ -94,37 +87,41 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = () => {
   });
   const { prfsProofCredential } = useSignedInUser();
   const [isOpen, setIsOpen] = React.useState(false);
-  const [computeStatus, setComputeStatus] = React.useState(Status.Standby);
+  const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickCreate = React.useCallback(async () => {
     if (prfsProofCredential && prfsProofCredential.account_id === MASTER_ACCOUNT_ID) {
-      setComputeStatus(Status.InProgress);
+      setComputeStatus(CommonStatus.InProgress);
       try {
         const { payload, error } = await createTreeRequest({
           set_id: CRYPTO_HOLDERS_SET_ID,
           account_id: prfsProofCredential.account_id,
         });
 
-        if (payload) {
-          setComputeStatus(Status.Done);
-          setComputeMsg(
-            <>
-              <p>{/* <b>Imported, row count: {payload.rows_affected.toString()}</b> */}</p>
-              <p>Reload the page</p>
-            </>,
-          );
-        }
-
         if (error) {
-          setComputeStatus(Status.Standby);
+          setComputeStatus(CommonStatus.Standby);
           setComputeMsg(
             <>
               <p className={common.redText}>{error}</p>
             </>,
           );
         }
+
+        if (payload) {
+          setComputeStatus(CommonStatus.Done);
+          setComputeMsg(
+            <>
+              <p>
+                <b>
+                  {i18n.tree} is created for {payload.set_id}
+                </b>
+              </p>
+            </>,
+          );
+          handleSucceedCreate();
+        }
       } catch (err: any) {
-        setComputeStatus(Status.Standby);
+        setComputeStatus(CommonStatus.Standby);
         setComputeMsg(
           <>
             <p className={common.redText}>{err.toString()}</p>
@@ -132,7 +129,13 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = () => {
         );
       }
     }
-  }, [prfsProofCredential, createTreeRequest, setComputeMsg, setComputeStatus]);
+  }, [
+    prfsProofCredential,
+    createTreeRequest,
+    setComputeMsg,
+    setComputeStatus,
+    handleSucceedCreate,
+  ]);
 
   const createBase = React.useCallback(() => {
     return (
@@ -150,6 +153,13 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = () => {
     );
   }, [prfsProofCredential]);
 
+  React.useEffect(() => {
+    if (isOpen) {
+      setComputeStatus(CommonStatus.Standby);
+      setComputeMsg(null);
+    }
+  }, [isOpen, setComputeMsg, setComputeStatus]);
+
   return (
     <>
       <DialogDefault isOpen={isOpen} setIsOpen={setIsOpen} createBase={createBase}>
@@ -166,11 +176,13 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = () => {
 
 export default CreateTreeDialog;
 
-export interface ImportPrfsSetElementsDialogProps {}
+export interface ImportPrfsSetElementsDialogProps {
+  handleSucceedCreate: () => void;
+}
 
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleClickCreate: () => {};
-  computeStatus: Status;
+  handleClickCreate: () => void;
+  computeStatus: CommonStatus;
   computeMsg: React.ReactNode;
 }

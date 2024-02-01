@@ -1,20 +1,8 @@
-import React from "react";
-
-import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { loadLocalPrfsProofCredential } from "@/storage/local_storage";
-import { signInPrfs } from "@/state/userReducer";
+import { useAppSelector } from "@/state/hooks";
 
 export function useSignedInUser() {
-  const dispatch = useAppDispatch();
   const isCredentialInitialized = useAppSelector(state => state.user.isInitialized);
-  const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
-
-  React.useEffect(() => {
-    if (!isCredentialInitialized) {
-      const credential = loadLocalPrfsProofCredential();
-      dispatch(signInPrfs(credential));
-    }
-  }, [isCredentialInitialized]);
+  const prfsProofCredential = useAppSelector(state => state.user.prfsIdCredential);
 
   return { isCredentialInitialized, prfsProofCredential };
 }

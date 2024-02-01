@@ -1,9 +1,8 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   width: 100%;
-  /* justify-content: center; */
-  /* align-items: center; */
   padding: 0 0px;
-
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -25,7 +24,7 @@
   color: var(--gray-40);
   font-size: 16px;
   font-weight: 500;
-  padding: 10px 14px;
+  padding: 10px 16px;
   border-bottom: 1px solid var(--bright-gray-32);
 }
 
@@ -41,6 +40,7 @@
 
 .innerPadding {
   padding: 36px 0px 36px;
+
   &:not(.noSidePadding) {
     padding: 36px 0px 36px;
   }
@@ -81,8 +81,7 @@
 
 .btnRow {
   display: flex;
-  margin: 32px 0 4px;
-  padding: 0 3px;
+  margin: 32px 0 0px;
   justify-content: space-between;
 
   > a {
@@ -92,6 +91,10 @@
 
   button {
     height: 100%;
+  }
+
+  &:not(.noSidePadding) {
+    padding: 0 16px;
   }
 }
 
@@ -148,7 +151,6 @@
 
 .footerPlaceholder {
   height: 48px;
-  border: 1px solid red;
 }
 
 .error {
@@ -156,12 +158,9 @@
   padding: 8px 0;
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: $mid_display_min_width) {
   .wrapper {
-    /* width: 100%; */
-    /* padding: 0 0px; */
     justify-content: center;
-    /* align-items: center; */
     width: 450px;
   }
 
@@ -189,5 +188,11 @@
 
   .footerPlaceholder {
     display: none;
+  }
+
+  .btnRow {
+    &:not(.noSidePadding) {
+      padding: 0 40px;
+    }
   }
 }
