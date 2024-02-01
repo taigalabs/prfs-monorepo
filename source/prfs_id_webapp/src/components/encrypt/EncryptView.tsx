@@ -1,5 +1,5 @@
 import React from "react";
-import { encrypt } from "@taigalabs/prfs-crypto-js";
+import { decrypt, encrypt } from "@taigalabs/prfs-crypto-js";
 import { useSearchParams } from "next/navigation";
 import { PrfsIdCredential, EncryptQuery, EncryptType } from "@taigalabs/prfs-id-sdk-web";
 import { hexlify } from "ethers/lib/utils";
@@ -19,9 +19,9 @@ const EncryptView: React.FC<EncodeViewProps> = ({ query, credential, setReceipt 
         if (type === EncryptType.EC_SECP256K1) {
           const encrypted = encrypt(credential.encrypt_key, Buffer.from(msg));
           const encryptedHex = hexlify(encrypted);
-          // const b = Buffer.from(a.substring(2), "hex");
-          // const c = decrypt(credential.secret_key, b);
-          // console.log(123, Buffer.from(msg), encrypted, a, b, c.toString());
+          const b = Buffer.from(encryptedHex.substring(2), "hex");
+          const c = decrypt(credential.secret_key, b);
+          console.log(123, Buffer.from(msg), encrypted, encryptedHex, b, c.toString());
 
           setReceipt(oldVal => ({
             ...oldVal,

@@ -1,31 +1,40 @@
 import React from "react";
 import cn from "classnames";
 import { useQuery } from "@tanstack/react-query";
-import { makeCommitment } from "@taigalabs/prfs-crypto-js";
+import { decrypt, makeCommitment } from "@taigalabs/prfs-crypto-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { WALLET_CM_STEM } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, WALLET_CM_STEM } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CachedAddressModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
 
-function useCachedAddresses(walletCacheKeys: string[]) {
-  return useQuery({
+function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
+  const [walletCacheKeys, setWalletCacheKeys] = React.useState<string[] | null>(null);
+  // const [walletAddrs, setWalletAddrs] = React.useState(null);
+  const addr = React.useMemo(() => {
+    if (walletCacheKeys && prfsIdCredential) {
+      for (let key of walletCacheKeys) {
+        try {
+          const buf = Buffer.from(key.substring(2), "hex");
+          const addr = decrypt(prfsIdCredential.secret_key, buf);
+          console.log(123, key, buf, addr);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+  }, [walletCacheKeys]);
+
+  const queryResult = useQuery({
     queryKey: ["get_prfs_indices", walletCacheKeys],
     queryFn: async () => {
-      return prfsApi2("get_prfs_indices", { keys: walletCacheKeys });
+      if (walletCacheKeys) {
+        return prfsApi2("get_prfs_indices", { keys: walletCacheKeys });
+      }
     },
-    enabled: walletCacheKeys.length > 0,
+    enabled: !!walletCacheKeys,
   });
-}
-
-const CachedAddressModal: React.FC<WalletModalProps> = ({
-  handleClickClose,
-  handleChangeAddress,
-}) => {
-  const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
-  const [walletCacheKeys, setWalletCacheKeys] = React.useState<string[]>([]);
-  const { data, error } = useCachedAddresses(walletCacheKeys);
 
   React.useEffect(() => {
     async function fn() {
@@ -41,7 +50,18 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
     fn().then();
   }, [prfsIdCredential]);
 
-  console.log(22, data);
+  return { walletCacheKeys, queryResult };
+}
+
+const CachedAddressModal: React.FC<WalletModalProps> = ({
+  handleClickClose,
+  handleChangeAddress,
+}) => {
+  const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
+  const { walletCacheKeys, queryResult } = useCachedAddresses(prfsIdCredential);
+  const { data } = queryResult;
+
+  // console.log(22, walletCacheKeys, data);
 
   return prfsIdCredential ? (
     <div className={styles.wrapper}>

@@ -53,8 +53,13 @@ export const DefaultErrorMsg: React.FC<DefaultModuleInputAreaProps> = ({ childre
 export const DefaultModuleBtnRow: React.FC<DefaultModuleInputAreaProps> = ({
   children,
   className,
+  noSidePadding,
 }) => {
-  return <div className={cn(styles.btnRow, className)}>{children}</div>;
+  return (
+    <div className={cn(styles.btnRow, className, { [styles.noSidePadding]: noSidePadding })}>
+      {children}
+    </div>
+  );
 };
 
 export const DefaultInputItem: React.FC<DefaultModuleInputProps> = ({
