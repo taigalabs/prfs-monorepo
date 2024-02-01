@@ -11,21 +11,6 @@ import { useAppSelector } from "@/state/hooks";
 
 function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<string[] | null>(null);
-  // const [walletAddrs, setWalletAddrs] = React.useState(null);
-  const addr = React.useMemo(() => {
-    if (walletCacheKeys && prfsIdCredential) {
-      for (let key of walletCacheKeys) {
-        try {
-          const buf = Buffer.from(key.substring(2), "hex");
-          const addr = decrypt(prfsIdCredential.secret_key, buf);
-          console.log(123, key, buf, addr);
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    }
-  }, [walletCacheKeys]);
-
   const queryResult = useQuery({
     queryKey: ["get_prfs_indices", walletCacheKeys],
     queryFn: async () => {
@@ -35,6 +20,33 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
     },
     enabled: !!walletCacheKeys,
   });
+
+  const walletAddrs = React.useMemo<string[] | null>(() => {
+    const { data, error } = queryResult;
+    if (data) {
+      if (!data.payload) {
+        return null;
+      }
+
+      const { prfs_indices } = data.payload;
+      if (prfs_indices && prfsIdCredential) {
+        const ret = [];
+        for (let key in prfs_indices) {
+          try {
+            const prfsIndex = prfs_indices[key];
+            const buf = Buffer.from(prfsIndex.substring(2), "hex");
+            const addr = decrypt(prfsIdCredential.secret_key, buf).toString();
+            ret.push(addr);
+          } catch (err) {
+            console.error(err);
+          }
+        }
+        return ret;
+      }
+    }
+
+    return null;
+  }, [queryResult]);
 
   React.useEffect(() => {
     async function fn() {
@@ -50,7 +62,7 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
     fn().then();
   }, [prfsIdCredential]);
 
-  return { walletCacheKeys, queryResult };
+  return { walletAddrs };
 }
 
 const CachedAddressModal: React.FC<WalletModalProps> = ({
@@ -58,14 +70,24 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
   handleChangeAddress,
 }) => {
   const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
-  const { walletCacheKeys, queryResult } = useCachedAddresses(prfsIdCredential);
-  const { data } = queryResult;
+  const { walletAddrs } = useCachedAddresses(prfsIdCredential);
 
-  // console.log(22, walletCacheKeys, data);
+  const addrList = React.useMemo(() => {
+    if (walletAddrs) {
+      const elems = [];
+      for (const addr of walletAddrs) {
+        const el = <div key={addr}>{addr}</div>;
+        elems.push(el);
+      }
+      return <ul>{elems}</ul>;
+    } else {
+      return <div>No cached addresses to select</div>;
+    }
+  }, [walletAddrs]);
 
   return prfsIdCredential ? (
     <div className={styles.wrapper}>
-      <div>power</div>
+      {addrList}
       {/* {isConnected && connector ? ( */}
       {/*   <ConnectedInfo */}
       {/*     ensName={ensName} */}
