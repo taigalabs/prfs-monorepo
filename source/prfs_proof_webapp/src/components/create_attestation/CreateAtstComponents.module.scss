@@ -28,13 +28,13 @@
   width: 40px;
   flex-shrink: 0;
   font-size: 16px;
-  padding-left: 12px;
+  padding-left: 16px;
 }
 
 .rightCol {
   word-break: break-all;
   flex-grow: 1;
-  padding-right: 14px;
+  padding-right: 16px;
 }
 
 .desc {
@@ -114,7 +114,7 @@
 .formBtnRow {
   padding-top: 4px;
   padding-left: 45px;
-  padding-right: 14px;
+  padding-right: 16px;
 }
 
 @media screen and (min-width: $big_display_min_width) {
