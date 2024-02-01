@@ -63,13 +63,15 @@ import {
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
 import { paths } from "@/paths";
-import { AttestationStep } from "./AttestationStep";
+import {
+  AttestationStep,
+  CLAIM,
+  ENCRYPT_WALLET_ADDR,
+  SIGNATURE,
+  WALLET_ADDR,
+} from "./create_crypto_asset_size_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
-
-const WALLET_ADDR = "wallet_addr";
-const SIGNATURE = "signature";
-const CLAIM = "twitter_acc_atst";
-const ENCRYPT_WALLET_ADDR = "encrypt_wallet_addr";
+import SignatureItem from "./SignatureItem";
 
 enum Status {
   Standby,
@@ -80,7 +82,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const i18n = React.useContext(i18nContext);
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [isSigValid, setIsSigValid] = React.useState(false);
-  const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
+  // const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
   const [walletAddrEnc, setWalletAddrEnc] = React.useState<string | null>(null);
   const router = useRouter();
   const [formData, setFormData] = React.useState({ [WALLET_ADDR]: "", [SIGNATURE]: "" });
@@ -90,8 +92,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     const handle = formData[WALLET_ADDR];
     return `PRFS_ATST_${handle}`;
   }, [formData[WALLET_ADDR]]);
-  const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
-  const { signMessageAsync } = useSignMessage();
+  // const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
+  // const { signMessageAsync } = useSignMessage();
   const [fetchAssetStatus, setFetchAssetStatus] = React.useState<Status>(Status.Standby);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [fetchAssetMsg, setFetchAssetMsg] = React.useState<React.ReactNode>(null);
@@ -270,48 +272,48 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     setFetchAssetStatus,
   ]);
 
-  const handleClickValidate = React.useCallback(async () => {
-    const sig = formData[SIGNATURE];
-    const wallet_addr = formData[WALLET_ADDR];
+  // const handleClickValidate = React.useCallback(async () => {
+  //   const sig = formData[SIGNATURE];
+  //   const wallet_addr = formData[WALLET_ADDR];
 
-    if (claimCm && sig.length > 0 && wallet_addr.length > 0) {
-      const valid = await verifyMessage({
-        address: wallet_addr as any,
-        message: claimCm,
-        signature: sig as any,
-      });
+  //   if (claimCm && sig.length > 0 && wallet_addr.length > 0) {
+  //     const valid = await verifyMessage({
+  //       address: wallet_addr as any,
+  //       message: claimCm,
+  //       signature: sig as any,
+  //     });
 
-      if (valid) {
-        setValidationMsg(
-          <span className={styles.success}>
-            <FaCheck />
-          </span>,
-        );
-        setIsSigValid(true);
-      } else {
-        setValidationMsg(
-          <span className={styles.error}>
-            <IoClose />
-          </span>,
-        );
-      }
-    }
-  }, [formData[SIGNATURE], formData[WALLET_ADDR], setIsSigValid, setValidationMsg, claimCm]);
+  //     if (valid) {
+  //       setValidationMsg(
+  //         <span className={styles.success}>
+  //           <FaCheck />
+  //         </span>,
+  //       );
+  //       setIsSigValid(true);
+  //     } else {
+  //       setValidationMsg(
+  //         <span className={styles.error}>
+  //           <IoClose />
+  //         </span>,
+  //       );
+  //     }
+  //   }
+  // }, [formData[SIGNATURE], formData[WALLET_ADDR], setIsSigValid, setValidationMsg, claimCm]);
 
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
   }, [formData, step]);
 
-  const handleClickCopy = React.useCallback(() => {
-    if (claimCm) {
-      navigator.clipboard.writeText(claimCm);
-      setIsCopyTooltipVisible(true);
+  // const handleClickCopy = React.useCallback(() => {
+  //   if (claimCm) {
+  //     navigator.clipboard.writeText(claimCm);
+  //     setIsCopyTooltipVisible(true);
 
-      setTimeout(() => {
-        setIsCopyTooltipVisible(false);
-      }, 3000);
-    }
-  }, [claimCm, setIsCopyTooltipVisible]);
+  //     setTimeout(() => {
+  //       setIsCopyTooltipVisible(false);
+  //     }, 3000);
+  //   }
+  // }, [claimCm, setIsCopyTooltipVisible]);
 
   const handleChangeAddress = React.useCallback(
     (address: string) => {
@@ -323,26 +325,14 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     [setFormData],
   );
 
-  const handleClickSign = React.useCallback(async () => {
-    if (claimCm) {
-      const sig = await signMessageAsync({ message: claimCm });
-
-      if (sig) {
-        setFormData(oldVal => ({
-          ...oldVal,
-          [SIGNATURE]: sig,
-        }));
-      }
-    }
-  }, [claimCm, setFormData]);
-
   const handleClickCreate = React.useCallback(async () => {
     if (
       cryptoAssets &&
       cryptoAssets.length > 0 &&
       claimCm &&
       createStatus === Status.Standby &&
-      walletCacheKeys
+      walletCacheKeys &&
+      walletAddrEnc
     ) {
       try {
         // For now, we don't obfuscate attestation id
@@ -417,6 +407,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     router,
     walletCacheKeys,
     addPrfsIndexRequest,
+    walletAddrEnc,
   ]);
 
   React.useEffect(() => {
@@ -520,62 +511,66 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 </div>
               </AttestationListRightCol>
             </AttestationListItem>
-            <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}>
-              <AttestationListItemOverlay />
-              <AttestationListItemNo>3</AttestationListItemNo>
-              <AttestationListRightCol>
-                <AttestationListItemDesc>
-                  <AttestationListItemDescTitle>
-                    {i18n.make_signature_with_your_crypto_wallet}
-                  </AttestationListItemDescTitle>
-                  {/* <p> */}
-                  {/*   {i18n.message}: {claimCm} */}
-                  {/* </p> */}
-                </AttestationListItemDesc>
-                <div>
-                  {claimCm && (
-                    <div className={styles.section}>
-                      <AttestationContentBox>
-                        <p className={common.alignItemCenter}>{claimCm}</p>
-                        <AttestationContentBoxBtnArea>
-                          <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
-                            <button type="button" onClick={handleClickCopy}>
-                              <AiOutlineCopy />
-                            </button>
-                          </Tooltip>
-                        </AttestationContentBoxBtnArea>
-                      </AttestationContentBox>
-                      <div className={styles.signBox}>
-                        <div className={styles.inputBtnRow}>
-                          <button
-                            className={styles.inputBtn}
-                            type="button"
-                            onClick={handleClickSign}
-                          >
-                            {i18n.sign}
-                          </button>
-                          <span> or paste signature over the above message</span>
-                        </div>
-                        <Input
-                          className={cn(styles.input)}
-                          name={WALLET_ADDR}
-                          error={""}
-                          label={i18n.signature}
-                          value={formData.signature}
-                          handleChangeValue={handleChangeWalletAddr}
-                        />
-                      </div>
-                      <div className={styles.btnRow}>
-                        <AttestationListItemBtn type="button" handleClick={handleClickValidate}>
-                          <span>{i18n.validate}</span>
-                        </AttestationListItemBtn>
-                        <div className={styles.msg}>{validationMsg}</div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </AttestationListRightCol>
-            </AttestationListItem>
+            <SignatureItem
+              step={step}
+              claimCm={claimCm}
+              formData={formData}
+              setFormData={setFormData}
+              setIsSigValid={setIsSigValid}
+            />
+            {/* <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}> */}
+            {/*   <AttestationListItemOverlay /> */}
+            {/*   <AttestationListItemNo>3</AttestationListItemNo> */}
+            {/*   <AttestationListRightCol> */}
+            {/*     <AttestationListItemDesc> */}
+            {/*       <AttestationListItemDescTitle> */}
+            {/*         {i18n.make_signature_with_your_crypto_wallet} */}
+            {/*       </AttestationListItemDescTitle> */}
+            {/*     </AttestationListItemDesc> */}
+            {/*     <div> */}
+            {/*       {claimCm && ( */}
+            {/*         <div className={styles.section}> */}
+            {/*           <AttestationContentBox> */}
+            {/*             <p className={common.alignItemCenter}>{claimCm}</p> */}
+            {/*             <AttestationContentBoxBtnArea> */}
+            {/*               <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top"> */}
+            {/*                 <button type="button" onClick={handleClickCopy}> */}
+            {/*                   <AiOutlineCopy /> */}
+            {/*                 </button> */}
+            {/*               </Tooltip> */}
+            {/*             </AttestationContentBoxBtnArea> */}
+            {/*           </AttestationContentBox> */}
+            {/*           <div className={styles.signBox}> */}
+            {/*             <div className={styles.inputBtnRow}> */}
+            {/*               <button */}
+            {/*                 className={styles.inputBtn} */}
+            {/*                 type="button" */}
+            {/*                 onClick={handleClickSign} */}
+            {/*               > */}
+            {/*                 {i18n.sign} */}
+            {/*               </button> */}
+            {/*               <span> or paste signature over the above message</span> */}
+            {/*             </div> */}
+            {/*             <Input */}
+            {/*               className={cn(styles.input)} */}
+            {/*               name={WALLET_ADDR} */}
+            {/*               error={""} */}
+            {/*               label={i18n.signature} */}
+            {/*               value={formData.signature} */}
+            {/*               handleChangeValue={handleChangeWalletAddr} */}
+            {/*             /> */}
+            {/*           </div> */}
+            {/*           <div className={styles.btnRow}> */}
+            {/*             <AttestationListItemBtn type="button" handleClick={handleClickValidate}> */}
+            {/*               <span>{i18n.validate}</span> */}
+            {/*             </AttestationListItemBtn> */}
+            {/*             <div className={styles.msg}>{validationMsg}</div> */}
+            {/*           </div> */}
+            {/*         </div> */}
+            {/*       )} */}
+            {/*     </div> */}
+            {/*   </AttestationListRightCol> */}
+            {/* </AttestationListItem> */}
             <EncryptedWalletAddrItem
               step={step}
               walletCacheKeys={walletCacheKeys}

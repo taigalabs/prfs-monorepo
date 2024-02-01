@@ -13,7 +13,7 @@ import {
   AttestationListItemOverlay,
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
-import { AttestationStep } from "./AttestationStep";
+import { AttestationStep } from "./create_crypto_asset_size_atst";
 
 const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
   step,

@@ -4,11 +4,6 @@
   padding: 1px 0 18px;
 }
 
-.section {
-  /* padding-bottom: 14px; */
-  width: auto;
-}
-
 .claimCm {
   display: flex;
 
@@ -29,6 +24,10 @@
   .status {
     padding-left: 16px;
   }
+}
+
+.section {
+  width: auto;
 }
 
 .sectionBtnRow {
@@ -83,9 +82,9 @@
   color: var(--blue-120);
 }
 
-.signBox {
-  padding-top: 18px;
-}
+/* .signBox { */
+/*   padding-top: 18px; */
+/* } */
 
 .guideRow {
   font-size: 13px;

@@ -1,0 +1,51 @@
+@import "@/styles/layouts.module.scss";
+
+.section {
+  width: auto;
+}
+
+.signBox {
+  padding-top: 18px;
+}
+
+.inputBtnRow {
+  padding-bottom: 9px;
+}
+
+.inputBtn {
+  cursor: pointer;
+  color: var(--blue-120);
+}
+
+.input {
+  height: 40px;
+}
+
+.btnRow {
+  padding-top: 18px;
+  display: flex;
+  align-items: center;
+
+  .status {
+    padding-left: 16px;
+  }
+}
+
+.msg {
+  padding-left: 10px;
+}
+
+.green {
+  color: var(--green-60);
+}
+
+.error {
+  color: var(--red-50);
+  font-size: 13px;
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .section {
+    width: 480px;
+  }
+}
