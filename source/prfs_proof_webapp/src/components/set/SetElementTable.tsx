@@ -21,12 +21,12 @@ import { paths } from "@/paths";
 
 const Row: React.FC<RowProps> = ({ row, style, router }) => {
   const name = React.useMemo(() => {
-    if (row.name.length > 12) {
-      return row.name.substring(0, 12) + "...";
+    if (row.label.length > 12) {
+      return row.label.substring(0, 12) + "...";
     } else {
-      row.name;
+      row.label;
     }
-  }, [row.name]);
+  }, [row.label]);
   const data = React.useMemo(() => {
     const d = JSON.stringify(row.data);
     if (d.length > 16) {
@@ -36,7 +36,7 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
     }
   }, [row.data]);
   const handleClick = React.useCallback(() => {
-    router.push(`${paths.sets}/${row.set_id}/${row.name}`);
+    router.push(`${paths.sets}/${row.set_id}/${row.label}`);
   }, [router, row]);
 
   return (

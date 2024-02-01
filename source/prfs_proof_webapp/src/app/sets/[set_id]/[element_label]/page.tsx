@@ -10,19 +10,20 @@ import {
   AttestationsMainInner,
 } from "@/components/attestations/AttestationComponents";
 import SetElementDetail from "@/components/set_element_detail/SetElementDetail";
+import Sets from "@/components/sets/Sets";
 
 const SetElementPage: React.FC<SetElementPageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <AttestationsDefaultBody>
         <Suspense>
-          <Attestations>
+          <Sets>
             <AttestationsMain>
               <AttestationsMainInner>
                 <SetElementDetail element_label={params.element_label} set_id={params.set_id} />
               </AttestationsMainInner>
             </AttestationsMain>
-          </Attestations>
+          </Sets>
         </Suspense>
       </AttestationsDefaultBody>
       <DefaultFooter>
