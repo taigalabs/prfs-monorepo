@@ -17,10 +17,24 @@ import { AttestationStep } from "./AttestationStep";
 
 const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
   step,
-  walletCacheKeyElems,
+  walletCacheKeys,
   walletAddrEnc,
 }) => {
   const i18n = React.useContext(i18nContext);
+
+  const walletCacheKeyElems = React.useMemo(() => {
+    const elems = [];
+    if (walletCacheKeys) {
+      for (const key in walletCacheKeys) {
+        elems.push(
+          <p key={walletCacheKeys[key]} className={styles.cacheKey}>
+            {walletCacheKeys[key].substring(0, 8)}...
+          </p>,
+        );
+      }
+    }
+    return elems;
+  }, [walletCacheKeys]);
 
   return (
     <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}>
@@ -32,10 +46,12 @@ const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
             {i18n.save_wallet_address_in_cache_for_future_use} (automatic)
           </AttestationListItemDescTitle>
           <div>
-            <div>
-              <p>We will use the least recently used cache key among these: </p>
-              <div>{walletCacheKeyElems}</div>
-            </div>
+            {walletCacheKeyElems && (
+              <div>
+                <p>We will use the least recently used cache key among these: </p>
+                <div>{walletCacheKeyElems}</div>
+              </div>
+            )}
             <div>
               <p>{i18n.encrypted_wallet_addr}: </p>
               <p>{walletAddrEnc}</p>
@@ -51,6 +67,6 @@ export default EncryptedWalletAddrItem;
 
 export interface EncryptedWalletAddrItemProps {
   step: AttestationStep;
-  walletCacheKeyElems: React.ReactNode;
+  walletCacheKeys: Record<string, string> | null;
   walletAddrEnc: string | null;
 }

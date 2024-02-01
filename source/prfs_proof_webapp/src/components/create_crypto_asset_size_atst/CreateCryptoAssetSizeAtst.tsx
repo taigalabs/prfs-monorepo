@@ -419,20 +419,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     addPrfsIndexRequest,
   ]);
 
-  const walletCacheKeyElems = React.useMemo(() => {
-    const elems = [];
-    if (walletCacheKeys) {
-      for (const key in walletCacheKeys) {
-        elems.push(
-          <p key={walletCacheKeys[key]} className={styles.cacheKey}>
-            {walletCacheKeys[key].substring(0, 8)}...
-          </p>,
-        );
-      }
-    }
-    return elems;
-  }, [walletCacheKeys]);
-
   React.useEffect(() => {
     if (cryptoAssets && cryptoAssets.length > 0) {
       if (cryptoAssets[0].amount !== undefined) {
@@ -592,30 +578,9 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
             </AttestationListItem>
             <EncryptedWalletAddrItem
               step={step}
-              walletCacheKeyElems={walletCacheKeyElems}
+              walletCacheKeys={walletCacheKeys}
               walletAddrEnc={walletAddrEnc}
             />
-            {/* <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}> */}
-            {/*   <AttestationListItemOverlay /> */}
-            {/*   <AttestationListItemNo>4</AttestationListItemNo> */}
-            {/*   <AttestationListRightCol> */}
-            {/*     <AttestationListItemDesc> */}
-            {/*       <AttestationListItemDescTitle> */}
-            {/*         {i18n.save_wallet_address_in_cache_for_future_use} (automatic) */}
-            {/*       </AttestationListItemDescTitle> */}
-            {/*       <div> */}
-            {/*         <div> */}
-            {/*           <p>We will use the least recently used cache key among these: </p> */}
-            {/*           <div>{walletCacheKeyElems}</div> */}
-            {/*         </div> */}
-            {/*         <div> */}
-            {/*           <p>{i18n.encrypted_wallet_addr}: </p> */}
-            {/*           <p>{walletAddrEnc}</p> */}
-            {/*         </div> */}
-            {/*       </div> */}
-            {/*     </AttestationListItemDesc> */}
-            {/*   </AttestationListRightCol> */}
-            {/* </AttestationListItem> */}
           </ol>
           <AttestationFormBtnRow>
             <div className={styles.createBtnRow}>
