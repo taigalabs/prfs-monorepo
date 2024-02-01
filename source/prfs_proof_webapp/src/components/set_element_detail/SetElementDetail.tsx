@@ -1,8 +1,10 @@
+"use client";
+
 import React from "react";
 import cn from "classnames";
 import { FaArrowLeft } from "@react-icons/all-files/fa/FaArrowLeft";
 import ButtonCircleContainer from "@taigalabs/prfs-react-lib/src/button_circle_container/ButtonCircleContainer";
-import { atstApi } from "@taigalabs/prfs-api-js";
+import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -18,15 +20,15 @@ import {
   AttestationDetailTopMenuRow,
 } from "@/components/attestation_detail/AttestationDetail";
 
-const SetElementDetail: React.FC<SetElementDetailProps> = ({ atst_id }) => {
+const SetElementDetail: React.FC<SetElementDetailProps> = ({ element_label }) => {
   const i18n = React.useContext(i18nContext);
   const { isLoading, data, error } = useQuery({
-    queryKey: ["get_asset_size_atst"],
+    queryKey: ["get_prfs_set_element", element_label],
     queryFn: async () => {
-      const { payload } = await atstApi("get_crypto_asset_size_atst", {
-        atst_id: atst_id,
+      const { payload } = await prfsApi2("get_prfs_set_element", {
+        // atst_id: atst_id,
       });
-      return payload;
+      // return payload;
     },
   });
   const atst = data?.prfs_crypto_asset_size_atst;
@@ -126,5 +128,5 @@ const SetElementDetail: React.FC<SetElementDetailProps> = ({ atst_id }) => {
 export default SetElementDetail;
 
 export interface SetElementDetailProps {
-  atst_id: string;
+  element_label: string;
 }

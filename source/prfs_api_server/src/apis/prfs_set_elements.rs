@@ -104,7 +104,7 @@ pub async fn get_prfs_set_element(
     let req: GetPrfsSetElementRequest = parse_req(req).await;
     let pool = &state.db2.pool;
 
-    let prfs_set_element = prfs::get_prfs_set_element(&pool, &req.set_id, &req.atst_id)
+    let prfs_set_element = prfs::get_prfs_set_element(&pool, &req.set_id, &req.label)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODES.UNKNOWN_ERROR, err))?;
 

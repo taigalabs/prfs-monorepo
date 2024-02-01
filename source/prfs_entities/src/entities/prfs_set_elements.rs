@@ -6,7 +6,7 @@ use ts_rs::TS;
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct PrfsSetElement {
-    pub name: String,
+    pub label: String,
     pub set_id: String,
     #[ts(type = "Record<string, string>[]")]
     pub data: sqlx::types::Json<Vec<PrfsSetElementData>>,

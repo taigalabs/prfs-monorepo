@@ -9,7 +9,7 @@ import {
   AttestationsMain,
   AttestationsMainInner,
 } from "@/components/attestations/AttestationComponents";
-import CryptoAssetSizeAtstDetail from "@/components/crypto_asset_size_atst_detail/CryptoAssetSizeAtstDetail";
+import SetElementDetail from "@/components/set_element_detail/SetElementDetail";
 
 const SetElementPage: React.FC<SetElementPageProps> = ({ params }) => {
   return (
@@ -19,7 +19,7 @@ const SetElementPage: React.FC<SetElementPageProps> = ({ params }) => {
           <Attestations>
             <AttestationsMain>
               <AttestationsMainInner>
-                <CryptoAssetSizeAtstDetail atst_id={params.atst_id} />
+                <SetElementDetail element_name={params.element_name} />
               </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>

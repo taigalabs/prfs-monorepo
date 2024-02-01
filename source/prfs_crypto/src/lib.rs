@@ -1,5 +1,8 @@
 pub use crypto_bigint;
+pub use ff;
+pub use group;
 pub use hex;
+pub use rand;
 
 mod hexutils;
 mod merkletree;
