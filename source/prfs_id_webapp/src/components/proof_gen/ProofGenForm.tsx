@@ -32,7 +32,7 @@ import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
-import EncodeView from "../encode/EncodeView";
+import EncryptView from "@/components/encrypt/EncryptView";
 
 enum Status {
   InProgress,
@@ -97,7 +97,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
               }
               case QueryType.ENCODE: {
                 const elem = (
-                  <EncodeView
+                  <EncryptView
                     key={query.name}
                     credential={credential}
                     query={query}

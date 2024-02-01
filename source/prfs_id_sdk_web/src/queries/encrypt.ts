@@ -7,14 +7,14 @@ import { QueryType } from "./query";
 //   queries: EncodeQuery[];
 // }
 
-export interface EncodeQuery {
+export interface EncryptQuery {
   name: string;
   msg: string;
-  type: EncodeType;
-  queryType: QueryType.ENCODE;
+  type: EncryptType;
+  queryType: QueryType.ENCRYPT;
 }
 
-export enum EncodeType {
+export enum EncryptType {
   EC_SECP256K1 = "EC_SECP256K1",
 }
 

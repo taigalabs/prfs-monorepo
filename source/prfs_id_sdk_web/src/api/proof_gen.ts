@@ -2,7 +2,7 @@ import { createQueryString } from "../search_params";
 import { TutorialArgs } from "../tutorial";
 import { CommitmentQuery } from "../queries/commitment";
 import { CreateProofQuery } from "../queries/create_proof";
-import { EncodeQuery } from "..";
+import { EncryptQuery } from "../queries/encrypt";
 
 export function makeProofGenSearchParams(args: ProofGenArgs): string {
   const s = "?" + createQueryString(args);
@@ -53,4 +53,4 @@ export interface ProofGenArgs {
   tutorial?: TutorialArgs;
 }
 
-export type ProofGenQuery = CommitmentQuery | CreateProofQuery | EncodeQuery;
+export type ProofGenQuery = CommitmentQuery | CreateProofQuery | EncryptQuery;

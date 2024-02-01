@@ -9,11 +9,11 @@ import {
   EncodeType,
 } from "@taigalabs/prfs-id-sdk-web";
 
-import styles from "./EncodeView.module.scss";
+import styles from "./EncryptView.module.scss";
 // import { CommitmentItem } from "./CommitmentItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 
-const EncodeView: React.FC<EncodeViewProps> = ({ query, credential, setReceipt }) => {
+const EncryptView: React.FC<EncodeViewProps> = ({ query, credential, setReceipt }) => {
   const searchParams = useSearchParams();
   const [elem, setElem] = React.useState<React.ReactNode>(null);
 
@@ -22,6 +22,7 @@ const EncodeView: React.FC<EncodeViewProps> = ({ query, credential, setReceipt }
       try {
         const { name, msg, type } = query;
         if (type === EncodeType.EC_SECP256K1) {
+          credential.encrypt_key;
           // const cm = await makeCommitment(credential.secret_key, preImage);
           // setReceipt(oldVal => ({
           //   ...oldVal,
@@ -43,7 +44,7 @@ const EncodeView: React.FC<EncodeViewProps> = ({ query, credential, setReceipt }
   return <>{elem}</>;
 };
 
-export default EncodeView;
+export default EncryptView;
 
 export interface EncodeViewProps {
   credential: PrfsIdCredential;

@@ -25,7 +25,7 @@ import {
   makeCmCacheKeyQueries,
   WALLET_CACHE_KEY,
   WALLET_CM_STEM,
-  EncodeType,
+  EncryptType,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
@@ -162,8 +162,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
         {
           name: ENCODE_WALLET_CACHE,
           msg: formData[WALLET_ADDR],
-          type: EncodeType.EC_SECP256K1,
-          queryType: QueryType.ENCODE,
+          type: EncryptType.EC_SECP256K1,
+          queryType: QueryType.ENCRYPT,
         },
       ],
       public_key: pkHex,
