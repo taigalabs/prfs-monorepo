@@ -47,19 +47,12 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
           {ensName ? `${ensName} (${address})` : addr}
         </button>
       </div>
-      <div className={styles.btnRow}>
-        <Button variant="transparent_black_1" handleClick={handleClickDisconnect}>
-          {i18n.disconnect}
-        </Button>
-        <Button variant="transparent_aqua_blue_1" handleClick={handleClickClose}>
-          {i18n.close}
-        </Button>
-      </div>
     </div>
   );
 };
 
 const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChangeAddress }) => {
+  const i18n = React.useContext(i18nContext);
   const { address, connector, isConnected } = useAccount();
   const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error } = useConnect();
@@ -70,12 +63,16 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
 
   const connectorsElem = React.useMemo(() => {
     return (
-      <ul className={styles.connectList}>
+      <ul className={styles.itemList}>
         {connectors.map((connector: Connector) => (
           <li key={connector.id}>
-            <button className={styles.button} onClick={() => connect({ connector })}>
+            <Button
+              variant="white_black_2"
+              handleClick={() => connect({ connector })}
+              className={styles.itemBtn}
+            >
               {connector.name}
-            </button>
+            </Button>
           </li>
         ))}
       </ul>
@@ -96,7 +93,14 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
       ) : (
         connectorsElem
       )}
-      <div></div>
+      <div className={styles.btnRow}>
+        <Button variant="transparent_black_1" handleClick={handleClickDisconnect}>
+          {i18n.disconnect}
+        </Button>
+        <Button variant="transparent_aqua_blue_1" handleClick={handleClickClose}>
+          {i18n.close}
+        </Button>
+      </div>
       {error && <div>{error.message}</div>}
     </div>
   );

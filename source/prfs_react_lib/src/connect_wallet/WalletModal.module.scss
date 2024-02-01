@@ -2,7 +2,7 @@
   padding: 32px 32px 24px;
 }
 
-.connectList {
+.itemList {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,11 +12,8 @@
   }
 
   li {
-    width: 220px;
+    width: 100%;
   }
-}
-
-.connectedInfo {
 }
 
 .connector {
@@ -31,26 +28,12 @@
   margin: 18px 0;
 }
 
-.button {
-  width: 100%;
-  border: 1px solid var(--gray-50);
-  border-radius: 8px;
-  padding: 10px 12px;
-  color: var(--gray-20);
-  cursor: pointer;
-
-  &:hover {
-    color: var(--black-00);
-    background-color: var(--bright-gray-55);
-  }
-
-  &:active {
-    background-color: var(--bright-gray-521);
-  }
-}
-
 .btnRow {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
+}
+
+.itemBtn {
+  width: 100%;
 }

@@ -4,10 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { decrypt, makeCommitment } from "@taigalabs/prfs-crypto-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsIdCredential, WALLET_CM_STEM } from "@taigalabs/prfs-id-sdk-web";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
 import styles from "./CachedAddressModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
+import { abbrevAddr } from "@taigalabs/prfs-web3-js";
 
 function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<string[] | null>(null);
@@ -71,15 +73,32 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
 }) => {
   const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
   const { walletAddrs } = useCachedAddresses(prfsIdCredential);
+  const i18n = React.useContext(i18nContext);
 
   const addrList = React.useMemo(() => {
     if (walletAddrs) {
       const elems = [];
       for (const addr of walletAddrs) {
-        const el = <div key={addr}>{addr}</div>;
+        const address = abbrevAddr(addr);
+        const el = (
+          <li key={addr}>
+            <Button
+              variant="white_black_2"
+              className={styles.itemBtn}
+              handleClick={handleChangeAddress}
+            >
+              {address}
+            </Button>
+          </li>
+        );
         elems.push(el);
       }
-      return <ul>{elems}</ul>;
+      return (
+        <div>
+          <p className={styles.title}>{i18n.choose_an_address}</p>
+          <ul className={styles.itemList}>{elems}</ul>
+        </div>
+      );
     } else {
       return <div>No cached addresses to select</div>;
     }
@@ -88,7 +107,12 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
   return prfsIdCredential ? (
     <div className={styles.wrapper}>
       {addrList}
-      <div></div>
+      <div className={styles.btnRow}>
+        <div />
+        <Button variant="transparent_aqua_blue_1" handleClick={handleClickClose}>
+          {i18n.close}
+        </Button>
+      </div>
     </div>
   ) : (
     <div>Credential is empty. Something is wrong</div>
