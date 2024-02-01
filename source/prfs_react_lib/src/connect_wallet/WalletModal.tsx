@@ -17,8 +17,6 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
   ensName,
   address,
   connector,
-  handleClickDisconnect,
-  handleClickClose,
   handleChangeAddress,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -43,9 +41,13 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
         <p>Other options will be available later</p>
       </div>
       <div className={styles.address}>
-        <button className={styles.button} onClick={extendedHandleChangeAddress}>
+        <Button
+          variant="white_black_2"
+          className={styles.itemBtn}
+          handleClick={extendedHandleChangeAddress}
+        >
           {ensName ? `${ensName} (${address})` : addr}
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -87,8 +89,8 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
           address={address}
           connector={connector}
           handleChangeAddress={handleChangeAddress}
-          handleClickDisconnect={handleClickDisconnect}
-          handleClickClose={handleClickClose}
+          // handleClickDisconnect={handleClickDisconnect}
+          // handleClickClose={handleClickClose}
         />
       ) : (
         connectorsElem
@@ -118,6 +120,6 @@ interface ConnectedInfoProps {
   address: `0x${string}` | undefined;
   connector: Connector;
   handleChangeAddress: (addr: string) => void;
-  handleClickDisconnect: () => void;
-  handleClickClose: () => void;
+  // handleClickDisconnect: () => void;
+  // handleClickClose: () => void;
 }

@@ -80,13 +80,13 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
       const elems = [];
       for (const addr of walletAddrs) {
         const address = abbrevAddr(addr);
+        const handleClick = () => {
+          handleChangeAddress(addr);
+        };
+
         const el = (
           <li key={addr}>
-            <Button
-              variant="white_black_2"
-              className={styles.itemBtn}
-              handleClick={handleChangeAddress}
-            >
+            <Button variant="white_black_2" className={styles.itemBtn} handleClick={handleClick}>
               {address}
             </Button>
           </li>
@@ -123,6 +123,6 @@ export default CachedAddressModal;
 
 export interface WalletModalProps {
   handleClickClose: () => void;
-  handleChangeAddress: (addr: any) => void;
+  handleChangeAddress: (addr: string) => void;
   // credential: PrfsIdCredential;
 }

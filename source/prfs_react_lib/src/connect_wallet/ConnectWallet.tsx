@@ -19,7 +19,6 @@ import WalletModal from "./WalletModal";
 const ConnectWallet: React.FC<ConnectWalletProps> = ({ handleChangeAddress, zIndex, children }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
-
   const { refs, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
