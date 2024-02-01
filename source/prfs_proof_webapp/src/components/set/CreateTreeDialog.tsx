@@ -89,7 +89,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
   const [isOpen, setIsOpen] = React.useState(false);
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
-  const handleClickCreate = React.useCallback(async () => {
+  const handleClickCreateTree = React.useCallback(async () => {
     if (prfsProofCredential && prfsProofCredential.account_id === MASTER_ACCOUNT_ID) {
       setComputeStatus(CommonStatus.InProgress);
       try {
@@ -165,7 +165,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
       <DialogDefault isOpen={isOpen} setIsOpen={setIsOpen} createBase={createBase}>
         <Modal
           setIsOpen={setIsOpen}
-          handleClickCreate={handleClickCreate}
+          handleClickCreateTree={handleClickCreateTree}
           computeStatus={computeStatus}
           computeMsg={computeMsg}
         />
@@ -182,7 +182,7 @@ export interface ImportPrfsSetElementsDialogProps {
 
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleClickCreate: () => void;
+  handleClickCreateTree: () => void;
   computeStatus: CommonStatus;
   computeMsg: React.ReactNode;
 }

@@ -1,12 +1,9 @@
-use colored::Colorize;
 use prfs_crypto::{
     convert_32bytes_into_decimal_string,
-    crypto_bigint::{self, Encoding, U256},
+    crypto_bigint::{Encoding, U256},
     hex, poseidon_2, ZERO_NODE,
 };
-use prfs_db_interface::prfs;
 use prfs_entities::entities::{PrfsSet, PrfsSetElement, PrfsSetElementDataType, PrfsTreeNode};
-use rust_decimal::{prelude::FromPrimitive, Decimal};
 use std::u128;
 
 use crate::TreeMakerError;
@@ -42,7 +39,7 @@ pub fn create_leaves(set_elements: Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>,
         let val = poseidon_2(&args[0], &args[1]).unwrap();
         // let val = format!("0x{}", hex::encode(val));
         // let val = U256::from_be_bytes(val);
-        println!("val: {:?}", val);
+        // println!("val: {:?}", val);
 
         // let node = PrfsTreeNode {
         //     pos_w: Decimal::from_u64(elem_idx as u64).unwrap(),

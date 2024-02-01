@@ -188,8 +188,6 @@ pub async fn create_tree_of_prfs_set(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    println!("req: {:?}", req);
-
     let mut set = prfs::get_prfs_set_by_set_id(&pool, &req.set_id)
         .await
         .unwrap();
@@ -197,8 +195,6 @@ pub async fn create_tree_of_prfs_set(
     let set_elements = prfs::get_prfs_set_elements(&pool, &set.set_id, 0, 50000)
         .await
         .unwrap();
-
-    println!("set_elements, {:?}", set_elements);
 
     let mut count = 0;
     let leaves = tree::create_leaves(set_elements).unwrap();
@@ -216,7 +212,7 @@ pub async fn create_tree_of_prfs_set(
 
         leaf_nodes.push(n);
     }
-    println!("leaves: {:?}", leaves);
+
     prfs::insert_prfs_tree_nodes(&mut tx, &leaf_nodes, true)
         .await
         .unwrap();
@@ -228,7 +224,7 @@ pub async fn create_tree_of_prfs_set(
         // println!("children: {:?}", children);
         let parents = tree::calc_parent_nodes(&children).unwrap();
         parent_nodes = vec![];
-        println!("d: {}, parents: {:?}", d, parents);
+        // println!("d: {}, parents: {:?}", d, parents);
         for (idx, p) in parents.iter().enumerate() {
             let val = prfs_crypto::convert_32bytes_into_decimal_string(&p).unwrap();
 
@@ -273,6 +269,7 @@ pub async fn create_tree_of_prfs_set(
     // let pos_w = prfs::insert_prfs_tree_node(&mut tx, &node).await.unwrap();
     let merkle_root = parent_nodes[0].val.to_string();
     set.merkle_root = merkle_root.to_string();
+    set.cardinality = count as i64;
     prfs::upsert_prfs_set(&mut tx, &set).await.unwrap();
 
     tx.commit().await.unwrap();
