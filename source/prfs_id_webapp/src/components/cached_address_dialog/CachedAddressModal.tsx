@@ -1,18 +1,13 @@
 import React from "react";
 import cn from "classnames";
-import { abbrevAddr } from "@taigalabs/prfs-web3-js";
 import { useQuery } from "@tanstack/react-query";
+import { makeCommitment } from "@taigalabs/prfs-crypto-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { WALLET_CM_STEM } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CachedAddressModal.module.scss";
 import { i18nContext } from "@/i18n/context";
-import {
-  PrfsIdCredential,
-  WALLET_CM_STEM,
-  makeCmCacheKeyQueries,
-} from "@taigalabs/prfs-id-sdk-web";
 import { useAppSelector } from "@/state/hooks";
-import { makeCommitment } from "@taigalabs/prfs-crypto-js";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
 function useCachedAddresses(walletCacheKeys: string[]) {
   return useQuery({

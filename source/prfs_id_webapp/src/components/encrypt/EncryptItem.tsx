@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
-import { MdNoteAdd } from "@react-icons/all-files/md/MdNoteAdd";
-import { CommitmentType, EncryptType } from "@taigalabs/prfs-id-sdk-web";
+import { MdEnhancedEncryption } from "@react-icons/all-files/md/MdEnhancedEncryption";
+import { EncryptType } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./EncryptItem.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -19,14 +19,14 @@ const EncryptItem: React.FC<EncryptItemProps> = ({ name, val, type, encrypted })
     <QueryItem sidePadding>
       <QueryItemMeta>
         <QueryItemLeftCol>
-          <MdNoteAdd />
+          <MdEnhancedEncryption />
         </QueryItemLeftCol>
         <QueryItemRightCol>
           <div className={styles.name}>{name}</div>
           <div className={styles.val}>Value: {val}</div>
           <div className={styles.type}>({type})</div>
           <div className={styles.hashed}>
-            <span className={styles.label}>{i18n.commitment}: </span>
+            <span className={styles.label}>{i18n.encryption}: </span>
             <span>{encrypted}</span>
           </div>
         </QueryItemRightCol>

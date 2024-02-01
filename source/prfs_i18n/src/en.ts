@@ -31,6 +31,7 @@ export default {
   acc_atst_validate_guide:
     "Validation may take 7-30 secs depending on the network traffic. Try not to close the window.",
   commitment: "Commitment",
+  encryption: "Encryption",
   total_value_usd: "Total value USD",
   claim_secret: "Claim secret",
   language: "Language",
