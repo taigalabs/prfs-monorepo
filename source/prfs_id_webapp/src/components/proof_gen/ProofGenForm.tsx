@@ -188,12 +188,12 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         <div className={cn(styles.prfsId, styles.sidePadding)}>
           <p>{credential.id}</p>
         </div>
-        <QueryItemList sidePadding>{queryElems}</QueryItemList>
+        <QueryItemList>{queryElems}</QueryItemList>
         <div className={cn(styles.dataWarning, styles.sidePadding)}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.app_id} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
-        <DefaultModuleBtnRow className={cn(styles.btnRow)} sidePadding>
+        <DefaultModuleBtnRow className={cn(styles.btnRow)}>
           <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
             {i18n.go_back}
           </Button>
