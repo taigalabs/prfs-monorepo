@@ -13,7 +13,6 @@ import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
 
 import styles from "./MerkleSigPosRange.module.scss";
-// import MerkleProofRaw from "./MerkleProofRaw";
 import { i18nContext } from "@/i18n/context";
 import {
   FormError,
@@ -93,20 +92,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     }
     fn().then();
   }, [circuitInput, setPrfsSet, getPrfsSetBySetId]);
-
-  const handleClickRawSubmit = React.useCallback(
-    (merkleProof: SpartanMerkleProof) => {
-      setFormValues((prevVals: any) => {
-        return {
-          ...prevVals,
-          [circuitInput.name]: merkleProof,
-        };
-      });
-
-      // setIsOpen(false);
-    },
-    [setFormValues],
-  );
 
   const handleChangeAddress = React.useCallback(
     async (addr: string) => {
@@ -216,18 +201,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const label = React.useMemo(() => {
     return `${circuitInput.label} (${prfsSet ? prfsSet.label : i18n.loading})`;
   }, [circuitInput, prfsSet]);
-
-  // const inputElem = React.useMemo(() => {
-  //   if (!presetVals) {
-  //     return (
-  //       <div className={styles.presetValsVoid}>
-  //         This proof type can only be used with preset values. Consult the host application
-  //       </div>
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // }, [presetVals]);
 
   return (
     <FormInput>

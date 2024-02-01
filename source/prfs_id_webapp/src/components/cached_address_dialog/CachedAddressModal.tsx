@@ -21,7 +21,7 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
     enabled: !!walletCacheKeys,
   });
 
-  const walletAddrs = React.useMemo<string[] | null>(() => {
+  const walletAddrs = React.useMemo<Set<string> | null>(() => {
     const { data, error } = queryResult;
     if (data) {
       if (!data.payload) {
@@ -30,18 +30,18 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
 
       const { prfs_indices } = data.payload;
       if (prfs_indices && prfsIdCredential) {
-        const ret = [];
+        const set = new Set<string>();
         for (let key in prfs_indices) {
           try {
             const prfsIndex = prfs_indices[key];
             const buf = Buffer.from(prfsIndex.substring(2), "hex");
             const addr = decrypt(prfsIdCredential.secret_key, buf).toString();
-            ret.push(addr);
+            set.add(addr);
           } catch (err) {
             console.error(err);
           }
         }
-        return ret;
+        return set;
       }
     }
 
@@ -88,18 +88,6 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
   return prfsIdCredential ? (
     <div className={styles.wrapper}>
       {addrList}
-      {/* {isConnected && connector ? ( */}
-      {/*   <ConnectedInfo */}
-      {/*     ensName={ensName} */}
-      {/*     address={address} */}
-      {/*     connector={connector} */}
-      {/*     handleChangeAddress={handleChangeAddress} */}
-      {/*     handleClickDisconnect={handleClickDisconnect} */}
-      {/*     handleClickClose={handleClickClose} */}
-      {/*   /> */}
-      {/* ) : ( */}
-      {/*   connectorsElem */}
-      {/* )} */}
       <div></div>
     </div>
   ) : (
