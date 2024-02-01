@@ -1,12 +1,5 @@
 import { QueryType } from "./query";
 
-// export interface EncodeArgs {
-//   appId: string;
-//   nonce: number;
-//   publicKey: string;
-//   queries: EncodeQuery[];
-// }
-
 export interface EncryptQuery {
   name: string;
   msg: string;
@@ -17,9 +10,6 @@ export interface EncryptQuery {
 export enum EncryptType {
   EC_SECP256K1 = "EC_SECP256K1",
 }
-
-// export const WALLET_CACHE_KEY = "wallet_cache_key";
-// export const WALLET_CM_STEM = "WALLET";
 
 // export function makeCmCacheKeyQueries(
 //   _name: string,

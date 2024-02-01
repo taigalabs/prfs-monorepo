@@ -1,17 +1,12 @@
 import React from "react";
-import { makeCommitment } from "@taigalabs/prfs-crypto-js";
+import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { useSearchParams } from "next/navigation";
-import {
-  CommitmentType,
-  PrfsIdCredential,
-  CommitmentQuery,
-  EncodeQuery,
-  EncodeType,
-} from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, EncryptQuery, EncryptType } from "@taigalabs/prfs-id-sdk-web";
+import { hexlify } from "ethers/lib/utils";
 
 import styles from "./EncryptView.module.scss";
-// import { CommitmentItem } from "./CommitmentItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
+import EncryptItem from "./EncryptItem";
 
 const EncryptView: React.FC<EncodeViewProps> = ({ query, credential, setReceipt }) => {
   const searchParams = useSearchParams();
@@ -21,18 +16,21 @@ const EncryptView: React.FC<EncodeViewProps> = ({ query, credential, setReceipt 
     async function fn() {
       try {
         const { name, msg, type } = query;
-        if (type === EncodeType.EC_SECP256K1) {
-          credential.encrypt_key;
-          // const cm = await makeCommitment(credential.secret_key, preImage);
-          // setReceipt(oldVal => ({
-          //   ...oldVal,
-          //   [name]: cm,
-          // }));
-          // setElem(
-          //   <CommitmentItem key={name} name={name} val={preImage} type={type} hashedHex={cm} />,
-          // );
-          //
-          setElem(<div>power</div>);
+        if (type === EncryptType.EC_SECP256K1) {
+          const encrypted = encrypt(credential.encrypt_key, Buffer.from(msg));
+          const encryptedHex = hexlify(encrypted);
+          // const b = Buffer.from(a.substring(2), "hex");
+          // const c = decrypt(credential.secret_key, b);
+
+          // console.log(123, Buffer.from(msg), encrypted, a, b, c.toString());
+          setReceipt(oldVal => ({
+            ...oldVal,
+            [name]: encryptedHex,
+          }));
+
+          setElem(
+            <EncryptItem key={name} name={name} val={msg} type={type} encrypted={encryptedHex} />,
+          );
         }
       } catch (err) {
         console.error(err);
@@ -48,6 +46,6 @@ export default EncryptView;
 
 export interface EncodeViewProps {
   credential: PrfsIdCredential;
-  query: EncodeQuery;
+  query: EncryptQuery;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
 }

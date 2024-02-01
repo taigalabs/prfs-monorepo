@@ -95,7 +95,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                 elems.push(elem);
                 break;
               }
-              case QueryType.ENCODE: {
+              case QueryType.ENCRYPT: {
                 const elem = (
                   <EncryptView
                     key={query.name}
@@ -109,6 +109,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
               }
               default:
                 console.error("unsupported query type", query);
+                setErrorDialogMsg(<span>Unsupported query type, something is wrong</span>);
                 return;
             }
           }
@@ -122,7 +123,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
     }
     fn().then();
-  }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus]);
+  }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus, setErrorDialogMsg]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && prfsEmbed && status === Status.Standby) {

@@ -1,9 +1,9 @@
 import React from "react";
 import cn from "classnames";
 import { MdNoteAdd } from "@react-icons/all-files/md/MdNoteAdd";
-import { CommitmentType } from "@taigalabs/prfs-id-sdk-web";
+import { CommitmentType, EncryptType } from "@taigalabs/prfs-id-sdk-web";
 
-import styles from "./CommitmentItem.module.scss";
+import styles from "./EncryptItem.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   QueryItem,
@@ -12,7 +12,7 @@ import {
   QueryItemRightCol,
 } from "@/components/default_module/QueryItem";
 
-const CommitmentItem: React.FC<CommitmentItemProps> = ({ name, hashedHex, val, type }) => {
+const EncryptItem: React.FC<EncryptItemProps> = ({ name, val, type, encrypted }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -27,7 +27,7 @@ const CommitmentItem: React.FC<CommitmentItemProps> = ({ name, hashedHex, val, t
           <div className={styles.type}>({type})</div>
           <div className={styles.hashed}>
             <span className={styles.label}>{i18n.commitment}: </span>
-            <span>{hashedHex}</span>
+            <span>{encrypted}</span>
           </div>
         </QueryItemRightCol>
       </QueryItemMeta>
@@ -35,11 +35,11 @@ const CommitmentItem: React.FC<CommitmentItemProps> = ({ name, hashedHex, val, t
   );
 };
 
-export default CommitmentItem;
+export default EncryptItem;
 
-export interface CommitmentItemProps {
+export interface EncryptItemProps {
   name: string;
-  hashedHex: string;
   val: string;
-  type: CommitmentType;
+  type: EncryptType;
+  encrypted: string;
 }

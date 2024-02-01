@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { CommitmentType, PrfsIdCredential, CommitmentQuery } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CommitmentView.module.scss";
-import { CommitmentItem } from "./CommitmentItem";
+import CommitmentItem from "./CommitmentItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 
 const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setReceipt }) => {
