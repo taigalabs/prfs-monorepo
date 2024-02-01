@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 
-import styles from "./CreateCryptoAssetSizeAtst.module.scss";
+import styles from "./EncryptedWalletAddrItem.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
@@ -23,8 +23,8 @@ const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
   const i18n = React.useContext(i18nContext);
 
   const walletCacheKeyElems = React.useMemo(() => {
-    const elems = [];
     if (walletCacheKeys) {
+      const elems = [];
       for (const key in walletCacheKeys) {
         elems.push(
           <p key={walletCacheKeys[key]} className={styles.cacheKey}>
@@ -32,8 +32,10 @@ const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
           </p>,
         );
       }
+      return elems;
+    } else {
+      return null;
     }
-    return elems;
   }, [walletCacheKeys]);
 
   return (
@@ -45,17 +47,21 @@ const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
           <AttestationListItemDescTitle>
             {i18n.save_wallet_address_in_cache_for_future_use} (automatic)
           </AttestationListItemDescTitle>
-          <div>
+          <div className={styles.content}>
             {walletCacheKeyElems && (
-              <div>
-                <p>We will use the least recently used cache key among these: </p>
+              <div className={styles.item}>
+                <p className={styles.label}>
+                  We will use the least recently used cache key among these
+                </p>
                 <div>{walletCacheKeyElems}</div>
               </div>
             )}
-            <div>
-              <p>{i18n.encrypted_wallet_addr}: </p>
-              <p>{walletAddrEnc}</p>
-            </div>
+            {walletAddrEnc && (
+              <div className={styles.item}>
+                <p className={styles.label}>{i18n.encrypted_wallet_addr}</p>
+                <p>{walletAddrEnc}</p>
+              </div>
+            )}
           </div>
         </AttestationListItemDesc>
       </AttestationListRightCol>

@@ -1,0 +1,24 @@
+.content {
+  font-size: 13px;
+}
+
+.item {
+  &:not(:first-child) {
+    padding-top: 14px;
+  }
+}
+
+.label {
+  font-size: 14px;
+  color: var(--black-10);
+  padding: 4px 0;
+}
+
+.cacheKey {
+  display: inline-block;
+  /* font-size: 13px; */
+
+  &:not(:first-child) {
+    padding-left: 4px;
+  }
+}
