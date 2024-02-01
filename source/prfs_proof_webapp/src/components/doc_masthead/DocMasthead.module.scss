@@ -1,5 +1,7 @@
+@import "styles/layouts.module.scss";
+
 .wrapper {
-  padding: 14px 24px;
+  padding: 14px 16px;
   height: 56px;
   align-items: center;
   border-bottom: 1px solid var(--gray-70);
@@ -10,4 +12,15 @@
   margin-left: 5px;
   color: var(--gray-50);
   letter-spacing: -0.011em;
+}
+
+.logoArea {
+  position: static;
+  padding: 0;
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .wrapper {
+    padding: 14px 24px;
+  }
 }

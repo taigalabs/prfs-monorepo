@@ -20,7 +20,7 @@ const DocMasthead: React.FC<DocMastheadProps> = ({ title, titleHref }) => {
 
   return (
     <MastheadWrapper className={styles.wrapper}>
-      <MastheadLogoArea>
+      <MastheadLogoArea className={styles.logoArea}>
         <a href={paths.__}>
           <ImageLogo width={50} />
           {title && <span className={styles.title}>{title}</span>}
