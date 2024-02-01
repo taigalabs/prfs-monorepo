@@ -38,6 +38,7 @@ import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/Fetch
 import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoAssetSizeAtstRequest";
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
+import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
 
 import styles from "./CreateCryptoAssetSizeAtst.module.scss";
 import common from "@/styles/common.module.scss";
@@ -62,19 +63,13 @@ import {
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
 import { paths } from "@/paths";
-import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
+import { AttestationStep } from "./AttestationStep";
+import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 
 const WALLET_ADDR = "wallet_addr";
 const SIGNATURE = "signature";
 const CLAIM = "twitter_acc_atst";
-const ENCODE_WALLET_CACHE = "encode_wallet_cache";
-
-enum AttestationStep {
-  INPUT_WALLET_ADDR = 0,
-  GENERATE_CLAIM,
-  POST_TWEET,
-  VALIDATE_TWEET,
-}
+const ENCRYPT_WALLET_ADDR = "encrypt_wallet_addr";
 
 enum Status {
   Standby,
@@ -86,6 +81,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [isSigValid, setIsSigValid] = React.useState(false);
   const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
+  const [walletAddrEnc, setWalletAddrEnc] = React.useState<string | null>(null);
   const router = useRouter();
   const [formData, setFormData] = React.useState({ [WALLET_ADDR]: "", [SIGNATURE]: "" });
   const [claimCm, setClaimCm] = React.useState<string | null>(null);
@@ -160,7 +156,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
         },
         ...cacheKeyQueries,
         {
-          name: ENCODE_WALLET_CACHE,
+          name: ENCRYPT_WALLET_ADDR,
           msg: formData[WALLET_ADDR],
           type: EncryptType.EC_SECP256K1,
           queryType: QueryType.ENCRYPT,
@@ -199,10 +195,15 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
             return;
           }
 
-          const { [CLAIM]: cm, ...rest } = payload.receipt;
+          const {
+            [CLAIM]: cm,
+            [ENCRYPT_WALLET_ADDR]: walletAddrEncrypted,
+            ...rest
+          } = payload.receipt;
           if (cm) {
             setClaimCm(cm);
             setWalletCacheKeys(rest);
+            setWalletAddrEnc(walletAddrEncrypted);
             setStep(AttestationStep.POST_TWEET);
           } else {
             console.error("no commitment delivered");
@@ -215,7 +216,18 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
         console.error("Returned val is empty");
       }
     });
-  }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep, setWalletCacheKeys]);
+  }, [
+    formData,
+    step,
+    claimSecret,
+    sk,
+    pkHex,
+    openPopup,
+    setClaimCm,
+    setStep,
+    setWalletCacheKeys,
+    setWalletAddrEnc,
+  ]);
 
   const handleClickFetchAsset = React.useCallback(async () => {
     const wallet_addr = formData[WALLET_ADDR];
@@ -578,21 +590,32 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 </div>
               </AttestationListRightCol>
             </AttestationListItem>
-            <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}>
-              <AttestationListItemOverlay />
-              <AttestationListItemNo>4</AttestationListItemNo>
-              <AttestationListRightCol>
-                <AttestationListItemDesc>
-                  <AttestationListItemDescTitle>
-                    {i18n.save_wallet_address_in_cache_for_future_use} (automatic)
-                  </AttestationListItemDescTitle>
-                  <div>
-                    <span>Least recent among these: </span>
-                    {walletCacheKeyElems}
-                  </div>
-                </AttestationListItemDesc>
-              </AttestationListRightCol>
-            </AttestationListItem>
+            <EncryptedWalletAddrItem
+              step={step}
+              walletCacheKeyElems={walletCacheKeyElems}
+              walletAddrEnc={walletAddrEnc}
+            />
+            {/* <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}> */}
+            {/*   <AttestationListItemOverlay /> */}
+            {/*   <AttestationListItemNo>4</AttestationListItemNo> */}
+            {/*   <AttestationListRightCol> */}
+            {/*     <AttestationListItemDesc> */}
+            {/*       <AttestationListItemDescTitle> */}
+            {/*         {i18n.save_wallet_address_in_cache_for_future_use} (automatic) */}
+            {/*       </AttestationListItemDescTitle> */}
+            {/*       <div> */}
+            {/*         <div> */}
+            {/*           <p>We will use the least recently used cache key among these: </p> */}
+            {/*           <div>{walletCacheKeyElems}</div> */}
+            {/*         </div> */}
+            {/*         <div> */}
+            {/*           <p>{i18n.encrypted_wallet_addr}: </p> */}
+            {/*           <p>{walletAddrEnc}</p> */}
+            {/*         </div> */}
+            {/*       </div> */}
+            {/*     </AttestationListItemDesc> */}
+            {/*   </AttestationListRightCol> */}
+            {/* </AttestationListItem> */}
           </ol>
           <AttestationFormBtnRow>
             <div className={styles.createBtnRow}>
