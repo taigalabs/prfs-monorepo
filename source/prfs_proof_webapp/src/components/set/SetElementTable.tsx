@@ -17,8 +17,9 @@ import {
   AttestationTableBodyInner,
   AttestationTableCell,
 } from "@/components/attestations_table/AttestationsTable";
+import { paths } from "@/paths";
 
-const Row: React.FC<RowProps> = ({ row, style }) => {
+const Row: React.FC<RowProps> = ({ row, style, router }) => {
   const name = React.useMemo(() => {
     if (row.name.length > 12) {
       return row.name.substring(0, 12) + "...";
@@ -34,9 +35,12 @@ const Row: React.FC<RowProps> = ({ row, style }) => {
       return d;
     }
   }, [row.data]);
+  const handleClick = React.useCallback(() => {
+    router.push(`${paths.sets}/${row.set_id}/${row.name}`);
+  }, [router, row]);
 
   return (
-    <AttestationTableRow style={style}>
+    <AttestationTableRow style={style} handleClick={handleClick}>
       <AttestationTableCell className={cn(styles.name)}>
         <span>{name}</span>
       </AttestationTableCell>
