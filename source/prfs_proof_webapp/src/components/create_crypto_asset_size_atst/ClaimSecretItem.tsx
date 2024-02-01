@@ -1,13 +1,7 @@
 import React from "react";
 import cn from "classnames";
-import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
-import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
-import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
-import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import {
   CommitmentType,
   newPrfsIdMsg,
@@ -22,29 +16,15 @@ import {
   WALLET_CM_STEM,
   EncryptType,
 } from "@taigalabs/prfs-id-sdk-web";
-import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
-import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
-import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
-import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
-import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoAssetSizeAtstRequest";
-import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
-import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import {
-  AttestationsHeader,
-  AttestationsHeaderRow,
-  AttestationsTitle,
-} from "@/components/attestations/AttestationComponents";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import {
-  AttestationFormBtnRow,
   AttestationListItem,
   AttestationListItemBtn,
   AttestationListItemDesc,
@@ -53,17 +33,13 @@ import {
   AttestationListItemOverlay,
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
-import { paths } from "@/paths";
 import {
   AttestationStep,
   CLAIM,
   CryptoAssetSizeAtstFormData,
   ENCRYPT_WALLET_ADDR,
-  SIGNATURE,
   WALLET_ADDR,
 } from "./create_crypto_asset_size_atst";
-import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
-import SignatureItem from "./SignatureItem";
 
 const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   step,
