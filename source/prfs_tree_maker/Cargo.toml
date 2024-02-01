@@ -32,9 +32,6 @@ tracing-appender = "0.2"
 lazy_static = "1.4"
 rust_decimal = { version = "1.29", features = ["db-postgres"] }
 rust_decimal_macros = "1.29"
-# group = "0.12"
-# rand = "0.8"
-# ff = "0.12"
 uuid = { version = "1.4.1", features = ["v4", "serde"] }
 
 prfs_db_interface = { path = "../prfs_db_interface" }
