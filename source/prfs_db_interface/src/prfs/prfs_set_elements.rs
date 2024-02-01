@@ -2,6 +2,8 @@ use prfs_entities::entities::{
     PrfsCryptoAssetSizeAtst, PrfsSetElement, PrfsSetElementData, PrfsSetElementDataType,
 };
 use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
+use rust_decimal::prelude::FromPrimitive;
+use rust_decimal::Decimal;
 
 use crate::DbInterfaceError;
 
@@ -36,7 +38,7 @@ INSERT INTO prfs_set_elements
             .push_bind(data)
             .push_bind("crypto_asset_size_atsts")
             .push_bind(set_id)
-            .push_bind(idx.to_string())
+            .push_bind(Decimal::from_u64(idx as u64))
             .push_bind("NotRegistered");
     });
 
