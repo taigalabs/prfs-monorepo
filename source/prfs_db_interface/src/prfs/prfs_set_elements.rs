@@ -10,13 +10,15 @@ pub async fn insert_asset_atsts_as_prfs_set_elements(
     atsts: Vec<PrfsCryptoAssetSizeAtst>,
     set_id: &String,
 ) -> Result<u64, DbInterfaceError> {
-    let mut query_builder: QueryBuilder<Postgres> =
-        QueryBuilder::new("INSERT INTO prfs_set_elements (name, data, ref, set_id, status) ");
+    let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
+        r#"
+INSERT INTO prfs_set_elements 
+(name, data, ref, set_id, element_idx, status) "#,
+    );
 
-    query_builder.push_values(atsts, |mut b, atst| {
+    query_builder.push_values(atsts.iter().enumerate(), |mut b, (idx, atst)| {
         let total_val = atst.total_value_usd.floor();
-        let cm = atst.cm;
-        let cm = &cm[2..];
+        let cm = &atst.cm[2..];
         let data = sqlx::types::Json::from(vec![
             PrfsSetElementData {
                 label: "cm".to_string(),
@@ -34,6 +36,7 @@ pub async fn insert_asset_atsts_as_prfs_set_elements(
             .push_bind(data)
             .push_bind("crypto_asset_size_atsts")
             .push_bind(set_id)
+            .push_bind(idx.to_string())
             .push_bind("NotRegistered");
     });
 
