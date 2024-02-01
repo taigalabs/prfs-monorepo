@@ -1,3 +1,4 @@
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use strum_macros::{Display, EnumString};
 use ts_rs::TS;
@@ -9,6 +10,8 @@ pub struct PrfsSetElement {
     pub set_id: String,
     #[ts(type = "Record<string, string>[]")]
     pub data: sqlx::types::Json<Vec<PrfsSetElementData>>,
+    #[ts(type = "number")]
+    pub element_idx: Decimal,
     pub r#ref: Option<String>,
     pub status: PrfsSetElementStatus,
 }

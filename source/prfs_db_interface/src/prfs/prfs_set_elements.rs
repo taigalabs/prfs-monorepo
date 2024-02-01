@@ -1,9 +1,7 @@
-use prfs_crypto::crypto_bigint::{Encoding, U256};
 use prfs_entities::entities::{
     PrfsCryptoAssetSizeAtst, PrfsSetElement, PrfsSetElementData, PrfsSetElementDataType,
 };
 use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use std::collections::HashMap;
 
 use crate::DbInterfaceError;
 
@@ -108,6 +106,7 @@ OFFSET $3
             data: row.get("data"),
             r#ref: row.get("ref"),
             status: row.get("status"),
+            element_idx: row.get("element_idx"),
             set_id: row.get("set_id"),
         })
         .collect();
@@ -138,6 +137,7 @@ WHERE atst_id=$2
         data: row.get("data"),
         r#ref: row.get("ref"),
         status: row.get("status"),
+        element_idx: row.get("element_idx"),
         set_id: row.get("set_id"),
     };
 
