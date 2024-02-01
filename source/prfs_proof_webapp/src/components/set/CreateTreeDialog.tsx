@@ -25,7 +25,7 @@ const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
-  handleClickCreate,
+  handleClickCreateTree,
   computeStatus,
   computeMsg,
 }) => {
@@ -37,9 +37,9 @@ const Modal: React.FC<ModalProps> = ({
     if (computeStatus === CommonStatus.Done) {
       setIsOpen(false);
     } else {
-      handleClickCreate();
+      handleClickCreateTree();
     }
-  }, [handleClickCreate, computeStatus, setIsOpen]);
+  }, [handleClickCreateTree, computeStatus, setIsOpen]);
 
   return (
     <DefaultModalWrapper>

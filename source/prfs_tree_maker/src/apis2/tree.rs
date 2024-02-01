@@ -1,16 +1,17 @@
 use prfs_crypto::{
-    convert_32bytes_into_decimal_string,
     crypto_bigint::{Encoding, U256},
     hex, poseidon_2, ZERO_NODE,
 };
-use prfs_entities::entities::{PrfsSet, PrfsSetElement, PrfsSetElementDataType, PrfsTreeNode};
+use prfs_entities::entities::{
+    PrfsSet, PrfsSetElement, PrfsSetElementDataType, PrfsTreeNode, RawPrfsTreeNode,
+};
 use std::u128;
 
 use crate::TreeMakerError;
 
-pub fn create_leaves(set_elements: Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>, TreeMakerError> {
+pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>, TreeMakerError> {
     let mut nodes = vec![];
-    for (elem_idx, elem) in set_elements.iter().enumerate() {
+    for (_, elem) in set_elements.iter().enumerate() {
         let data = &elem.data;
         let mut args = [ZERO_NODE, ZERO_NODE];
 
@@ -41,8 +42,8 @@ pub fn create_leaves(set_elements: Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>,
         // let val = U256::from_be_bytes(val);
         // println!("val: {:?}", val);
 
-        // let node = PrfsTreeNode {
-        //     pos_w: Decimal::from_u64(elem_idx as u64).unwrap(),
+        // let node = RawPrfsTreeNode {
+        //     pos_w: elem.element_idx,
         //     pos_h: 0,
         //     meta: None,
         //     val,

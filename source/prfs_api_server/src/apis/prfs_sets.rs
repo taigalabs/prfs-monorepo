@@ -197,14 +197,14 @@ pub async fn create_tree_of_prfs_set(
         .unwrap();
 
     let mut count = 0;
-    let leaves = tree::create_leaves(set_elements).unwrap();
+    let leaves = tree::create_leaves(&set_elements).unwrap();
     let mut leaf_nodes = vec![];
-    for (idx, p) in leaves.iter().enumerate() {
-        let val = prfs_crypto::convert_32bytes_into_decimal_string(&p).unwrap();
+    for (idx, leaf) in leaves.iter().enumerate() {
+        let val = prfs_crypto::convert_32bytes_into_decimal_string(&leaf).unwrap();
 
         let n = PrfsTreeNode {
-            pos_w: Decimal::from(idx),
-            pos_h: 0 as i32,
+            pos_w: set_elements[idx].element_idx,
+            pos_h: 0,
             meta: None,
             val,
             set_id: set.set_id.to_string(),
@@ -221,10 +221,10 @@ pub async fn create_tree_of_prfs_set(
     let mut children = leaves;
     let mut parent_nodes = vec![];
     for d in 0..set.tree_depth {
-        // println!("children: {:?}", children);
         let parents = tree::calc_parent_nodes(&children).unwrap();
-        parent_nodes = vec![];
         // println!("d: {}, parents: {:?}", d, parents);
+
+        parent_nodes = vec![];
         for (idx, p) in parents.iter().enumerate() {
             let val = prfs_crypto::convert_32bytes_into_decimal_string(&p).unwrap();
 
