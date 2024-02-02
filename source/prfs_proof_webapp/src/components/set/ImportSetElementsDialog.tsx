@@ -82,7 +82,7 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = () => {
+const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender }) => {
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: importPrfsSetElementsRequest } = useMutation({
     mutationFn: (req: ImportPrfsSetElementsRequest) => {
@@ -112,6 +112,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
               </p>
             </>,
           );
+          rerender();
         }
 
         if (error) {
@@ -131,7 +132,13 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
         );
       }
     }
-  }, [prfsProofCredential, importPrfsSetElementsRequest, setComputeMsg, setComputeStatus]);
+  }, [
+    prfsProofCredential,
+    importPrfsSetElementsRequest,
+    setComputeMsg,
+    setComputeStatus,
+    rerender,
+  ]);
 
   React.useEffect(() => {
     if (isOpen) {
@@ -172,7 +179,9 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
 
 export default ImportPrfsSetElementsDialog;
 
-export interface ImportPrfsSetElementsDialogProps {}
+export interface ImportPrfsSetElementsDialogProps {
+  rerender: () => void;
+}
 
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;

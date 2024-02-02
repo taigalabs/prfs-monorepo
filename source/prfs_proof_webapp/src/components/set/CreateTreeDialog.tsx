@@ -78,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSucceedCreate }) => {
+const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender }) => {
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: createTreeRequest } = useMutation({
     mutationFn: (req: CreateTreeOfPrfsSetRequest) => {
@@ -118,7 +118,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
               </p>
             </>,
           );
-          handleSucceedCreate();
+          rerender();
         }
       } catch (err: any) {
         setComputeStatus(CommonStatus.Standby);
@@ -129,13 +129,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
         );
       }
     }
-  }, [
-    prfsProofCredential,
-    createTreeRequest,
-    setComputeMsg,
-    setComputeStatus,
-    handleSucceedCreate,
-  ]);
+  }, [prfsProofCredential, createTreeRequest, setComputeMsg, setComputeStatus, rerender]);
 
   const createBase = React.useCallback(() => {
     return (
@@ -177,7 +171,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
 export default CreateTreeDialog;
 
 export interface ImportPrfsSetElementsDialogProps {
-  handleSucceedCreate: () => void;
+  rerender: () => void;
 }
 
 export interface ModalProps {
