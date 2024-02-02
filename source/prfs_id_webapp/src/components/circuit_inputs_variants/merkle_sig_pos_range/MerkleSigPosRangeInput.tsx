@@ -4,12 +4,21 @@ import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
-import { makePathIndices, makeSiblingPath, poseidon_2 } from "@taigalabs/prfs-crypto-js";
+import {
+  makeCommitment,
+  makePathIndices,
+  makeSiblingPath,
+  poseidon_2,
+} from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import {
+  PRFS_ATTESTATION_STEM,
+  PrfsIdCredential,
+  QueryPresetVals,
+} from "@taigalabs/prfs-id-sdk-web";
 import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
 import { PrfsSetElementDataType } from "@taigalabs/prfs-entities/bindings/PrfsSetElementDataType";
@@ -137,8 +146,16 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             throw new Error("Data of cardinality over 2 is currently not supported");
           }
 
+          let args = [];
           for (const d of data) {
-            if (d.label === "cm") {
+            if (d.type === "WalletCm") {
+              // makeCommitment(credential.secret_key, )
+              const cm = await makeCommitment(
+                credential.secret_key,
+                `${PRFS_ATTESTATION_STEM}${addr}`,
+              );
+              args.push(cm);
+              break;
             }
             // match d.r#type {
             //     PrfsSetElementDataType::Hex32 => {
@@ -155,6 +172,9 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             // };
           }
           // await poseidon_2()
+          //
+          console.log(123, args);
+          return;
         }
 
         const { payload, error } = await getPrfsTreeLeafIndices({
