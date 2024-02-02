@@ -5,10 +5,13 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import {
+  bytesToBigInt,
   makeCommitment,
   makePathIndices,
   makeSiblingPath,
   poseidon_2,
+  poseidon_2_bigint,
+  uint8ArrayToNum,
 } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
@@ -23,6 +26,7 @@ import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
 import { PrfsSetElementDataType } from "@taigalabs/prfs-entities/bindings/PrfsSetElementDataType";
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
+import { bytesToNumberBE, hexToNumber } from "@noble/curves/abstract/utils";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -37,6 +41,7 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
+import { hexlify } from "ethers/lib/utils";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -146,34 +151,37 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             throw new Error("Data of cardinality over 2 is currently not supported");
           }
 
-          let args = [];
-          for (const d of data) {
-            if (d.type === "WalletCm") {
-              // makeCommitment(credential.secret_key, )
-              const cm = await makeCommitment(
-                credential.secret_key,
-                `${PRFS_ATTESTATION_STEM}${addr}`,
-              );
-              args.push(cm);
-              break;
+          let args = [BigInt(0), BigInt(0)];
+          for (let idx = 0; idx < data.length; idx += 1) {
+            const d = data[idx];
+            switch (d.type) {
+              case "WalletCm": {
+                const cm = await makeCommitment(
+                  credential.secret_key,
+                  `${PRFS_ATTESTATION_STEM}${addr}`,
+                );
+
+                if (d.val !== cm) {
+                  throw new Error(`Commitment does not match, addr: ${addr}`);
+                }
+
+                console.log(11, cm);
+                const val = hexToNumber(cm.substring(2));
+                args[idx] = val;
+                break;
+              }
+
+              case "Int": {
+                args[idx] = BigInt(d.val);
+                break;
+              }
             }
-            // match d.r#type {
-            //     PrfsSetElementDataType::Hex32 => {
-            //         let u = U256::from_be_hex(&d.val);
-            //         let bytes = u.to_be_bytes();
-            //         args[idx] = bytes;
-            //     }
-            //     PrfsSetElementDataType::Int => {
-            //         let int128 = d.val.parse::<u128>().unwrap();
-            //         let u = U256::from_u128(int128);
-            //         let bytes = u.to_be_bytes();
-            //         args[idx] = bytes;
-            //     }
-            // };
           }
-          // await poseidon_2()
-          //
-          console.log(123, args);
+
+          const a = await poseidon_2_bigint(args);
+          const b = bytesToBigInt(a);
+          console.log(11, args, a, b);
+
           return;
         }
 

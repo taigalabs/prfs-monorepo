@@ -40,11 +40,10 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
             };
         }
 
-        // println!("args: {:?}", args);
+        println!("args: {:?}, elem: {:?}", args, elem);
         let val = poseidon_2(&args[0], &args[1]).unwrap();
-        // let val = format!("0x{}", hex::encode(val));
-        // let val = U256::from_be_bytes(val);
-        // println!("val: {:?}", val);
+        let val2 = U256::from_be_bytes(val);
+        println!("val: {:?}, val2: {:?}", val, val2);
 
         // let node = RawPrfsTreeNode {
         //     pos_w: elem.element_idx,
