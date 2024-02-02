@@ -4,13 +4,16 @@ import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
-import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
+import { makePathIndices, makeSiblingPath, poseidon_2 } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
 import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
+import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
+import { PrfsSetElementDataType } from "@taigalabs/prfs-entities/bindings/PrfsSetElementDataType";
+import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -52,6 +55,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [walletAddr, setWalletAddr] = React.useState("");
+
+  const { mutateAsync: getPrfsSetElement } = useMutation({
+    mutationFn: (req: GetPrfsSetElementRequest) => {
+      return prfsApi2("get_prfs_set_element", req);
+    },
+  });
 
   const { mutateAsync: getPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
@@ -112,11 +121,50 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       });
 
       const { set_id, merkle_root } = prfsSet;
-      console.log(123, set_id, merkle_root);
-
-      const leafVal = "";
-
       try {
+        // let val = node.val;
+        let leafVal = addr;
+        const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
+          set_id,
+          label: addr,
+        });
+
+        if (getPrfsSetElementPayload) {
+          const data = getPrfsSetElementPayload.prfs_set_element
+            ?.data as unknown as PrfsSetElementData[];
+
+          if (data.length > 2) {
+            throw new Error("Data of cardinality over 2 is currently not supported");
+          }
+
+          for (const d of data) {
+            switch (d?.type) {
+              case "Hex32": {
+                break;
+              }
+              case "Int": {
+                break;
+              }
+              default:
+                return;
+            }
+            // match d.r#type {
+            //     PrfsSetElementDataType::Hex32 => {
+            //         let u = U256::from_be_hex(&d.val);
+            //         let bytes = u.to_be_bytes();
+            //         args[idx] = bytes;
+            //     }
+            //     PrfsSetElementDataType::Int => {
+            //         let int128 = d.val.parse::<u128>().unwrap();
+            //         let u = U256::from_u128(int128);
+            //         let bytes = u.to_be_bytes();
+            //         args[idx] = bytes;
+            //     }
+            // };
+          }
+          // await poseidon_2()
+        }
+
         const { payload, error } = await getPrfsTreeLeafIndices({
           set_id,
           leaf_vals: [addr],
@@ -196,7 +244,14 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         console.error(err);
       }
     },
-    [setWalletAddr, setFormValues, prfsSet, getPrfsTreeLeafIndices, setFormErrors],
+    [
+      setWalletAddr,
+      setFormValues,
+      prfsSet,
+      getPrfsTreeLeafIndices,
+      setFormErrors,
+      getPrfsSetElement,
+    ],
   );
 
   const label = React.useMemo(() => {
