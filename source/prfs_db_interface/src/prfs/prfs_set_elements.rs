@@ -20,12 +20,11 @@ INSERT INTO prfs_set_elements
 
     query_builder.push_values(atsts.iter().enumerate(), |mut b, (idx, atst)| {
         let total_val = atst.total_value_usd.floor();
-        let cm = &atst.cm[2..];
         let data = sqlx::types::Json::from(vec![
             PrfsSetElementData {
                 label: "cm".to_string(),
                 r#type: PrfsSetElementDataType::WalletCm,
-                val: cm.to_string(),
+                val: atst.cm.to_string(),
             },
             PrfsSetElementData {
                 label: "total_val".to_string(),
@@ -44,7 +43,12 @@ INSERT INTO prfs_set_elements
 
     query_builder.push(
         r#"
-ON CONFLICT DO NOTHING
+ON CONFLICT (label, set_id) DO UPDATE SET (
+label, set_id, ref, data, status, updated_at
+) = (
+excluded.label, excluded.set_id, excluded.ref, excluded.data, excluded.status,
+now()
+)
     "#,
     );
 
