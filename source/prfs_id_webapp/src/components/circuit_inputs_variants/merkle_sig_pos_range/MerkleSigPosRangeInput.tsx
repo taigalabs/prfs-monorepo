@@ -138,15 +138,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           }
 
           for (const d of data) {
-            switch (d?.type) {
-              case "Hex32": {
-                break;
-              }
-              case "Int": {
-                break;
-              }
-              default:
-                return;
+            if (d.label === "cm") {
             }
             // match d.r#type {
             //     PrfsSetElementDataType::Hex32 => {

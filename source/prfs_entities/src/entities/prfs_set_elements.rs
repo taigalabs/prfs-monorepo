@@ -36,6 +36,6 @@ pub enum PrfsSetElementStatus {
 #[ts(export)]
 #[sqlx(type_name = "VARCHAR")]
 pub enum PrfsSetElementDataType {
-    Hex32,
+    WalletCm,
     Int,
 }

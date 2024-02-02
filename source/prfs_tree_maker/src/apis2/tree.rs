@@ -21,7 +21,7 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
 
         for (idx, d) in data.iter().enumerate() {
             match d.r#type {
-                PrfsSetElementDataType::Hex32 => {
+                PrfsSetElementDataType::WalletCm => {
                     let u = U256::from_be_hex(&d.val);
                     let bytes = u.to_be_bytes();
                     args[idx] = bytes;
@@ -35,7 +35,6 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
             };
         }
 
-        // println!("data: {:?}", data);
         // println!("args: {:?}", args);
         let val = poseidon_2(&args[0], &args[1]).unwrap();
         // let val = format!("0x{}", hex::encode(val));
