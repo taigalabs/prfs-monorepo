@@ -53,7 +53,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [walletAddr, setWalletAddr] = React.useState("");
 
-  const { mutateAsync: GetPrfsTreeLeafIndices } = useMutation({
+  const { mutateAsync: getPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
       return prfsApi2("get_prfs_tree_leaf_indices", req);
     },
@@ -117,7 +117,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       const leafVal = "";
 
       try {
-        const { payload, error } = await GetPrfsTreeLeafIndices({
+        const { payload, error } = await getPrfsTreeLeafIndices({
           set_id,
           leaf_vals: [addr],
         });
@@ -196,7 +196,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         console.error(err);
       }
     },
-    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors],
+    [setWalletAddr, setFormValues, prfsSet, getPrfsTreeLeafIndices, setFormErrors],
   );
 
   const label = React.useMemo(() => {
