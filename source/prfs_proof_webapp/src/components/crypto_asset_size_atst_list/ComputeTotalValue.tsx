@@ -76,7 +76,7 @@ const Modal: React.FC<ModalProps> = ({
 
 const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
   credential,
-  handleSucceedCompute,
+  rerender,
 }) => {
   const { prfsProofCredential } = useSignedInUser();
   const [isOpen, setIsOpen] = React.useState(false);
@@ -104,7 +104,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
               </p>
             </>,
           );
-          handleSucceedCompute();
+          rerender();
         }
       } catch (err) {
         setComputeStatus(CommonStatus.Standby);
@@ -115,7 +115,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
     computeCryptoSizeTotalValuesRequest,
     setComputeMsg,
     setComputeStatus,
-    handleSucceedCompute,
+    rerender,
   ]);
 
   const createBase = React.useCallback(() => {
@@ -151,7 +151,7 @@ export default ComputeTotalValueDialog;
 
 export interface ComputeTotalValueDialogProps {
   credential: LocalPrfsProofCredential;
-  handleSucceedCompute: () => void;
+  rerender: () => void;
 }
 
 export interface ModalProps {

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 import styles from "./CryptoAssetSizeAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -18,7 +19,7 @@ import ComputeTotalValueDialog from "./ComputeTotalValue";
 const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { prfsProofCredential } = useSignedInUser();
-  const [nonce, rerender] = React.useReducer(x => x + 1, 0);
+  const { nonce, rerender } = useRerender();
 
   return (
     <>
@@ -30,10 +31,7 @@ const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
           <AttestationsTopMenu>
             {prfsProofCredential?.account_id === MASTER_ACCOUNT_ID && (
               <li>
-                <ComputeTotalValueDialog
-                  credential={prfsProofCredential}
-                  handleSucceedCompute={rerender}
-                />
+                <ComputeTotalValueDialog credential={prfsProofCredential} rerender={rerender} />
               </li>
             )}
           </AttestationsTopMenu>
