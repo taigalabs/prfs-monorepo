@@ -26,7 +26,7 @@ import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
 import { PrfsSetElementDataType } from "@taigalabs/prfs-entities/bindings/PrfsSetElementDataType";
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
-import { bytesToNumberBE, hexToNumber } from "@noble/curves/abstract/utils";
+import { bytesToNumberBE, bytesToNumberLE, hexToNumber } from "@noble/curves/abstract/utils";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -179,15 +179,13 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           }
 
           const a = await poseidon_2_bigint(args);
-          const b = bytesToBigInt(a);
-          console.log("poseidon: %s, int: %s", a, b);
-
-          return;
+          leafVal = bytesToNumberLE(a).toString();
+          console.log("poseidon: %s, int le: %s, int be: %s", a, leafVal);
         }
 
         const { payload, error } = await getPrfsTreeLeafIndices({
           set_id,
-          leaf_vals: [addr],
+          leaf_vals: [leafVal],
         });
 
         if (error) {
@@ -200,20 +198,16 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }
 
         if (!payload) {
-          return;
+          throw new Error("Get Prfs Tree Leaf Indices failed");
         }
 
-        let pos_w = null;
-        // console.log("nodes", payload.prfs_tree_nodes);
-
-        for (const node of payload.prfs_tree_nodes) {
-          if (node.val === addr.toLowerCase()) {
-            pos_w = node.pos_w;
-          }
+        if (payload.prfs_tree_nodes.length < 1) {
+          throw new Error("Empty tree nodes response");
         }
 
-        if (pos_w === null) {
-          throw new Error("Address is not part of a set");
+        let pos_w = payload.prfs_tree_nodes[0].pos_w;
+        if (!pos_w) {
+          throw new Error("'pos_w' shouldn't be empty");
         }
 
         const leafIdx = Number(pos_w);
