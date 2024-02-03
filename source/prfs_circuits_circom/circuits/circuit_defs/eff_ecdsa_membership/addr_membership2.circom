@@ -4,7 +4,7 @@ include "./eff_ecdsa.circom";
 include "./ecdsa.circom";
 include "./tree.circom";
 include "./to_address/zk-identity/eth.circom";
-include "../poseidon/poseidon.circom";
+include "../../poseidon/poseidon.circom";
 
 include "./bigint.circom";
 include "./secp256k1_func.circom";

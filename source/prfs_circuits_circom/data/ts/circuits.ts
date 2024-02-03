@@ -123,6 +123,92 @@ const circuits: PrfsCircuit[] = [
       },
     ],
   },
+  {
+    circuit_id: "0x0000000000000000000000000000000000000000000000000000000000000002",
+    circuit_type_id: "MERKLE_POS_RANGE_V1",
+    created_at: "2024-02-02T00:00:00-00:00",
+    label: "Merkle pos range v1",
+    author: "SYSTEM_NATIVE",
+    num_public_inputs: 0,
+    desc: "Merkle pos range v1",
+    circuit_dsl: "Circom 2",
+    arithmetization: "R1CS",
+    proof_algorithm: "Spartan",
+    elliptic_curve: "Secp256k1",
+    finite_field: "Z_(2^256-2^32-977)",
+    build_properties: {
+      instance_path: "instances/merkle_pos_range_v1.circom",
+    },
+    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    driver_version: "0.1.0",
+    driver_properties: {
+      wtns_gen_url: "",
+      circuit_url: "",
+    },
+    raw_circuit_inputs_meta: [
+      {
+        label: "Tx",
+        desc: "Tx description",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "Ty",
+        desc: "Ty description",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "Ux",
+        desc: "Ux description",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "Uy",
+        desc: "Uy description",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "Merkle root",
+        desc: "Vector commitment (Merkle root) of a set",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "Serial number",
+        desc: "A cryptographic commitment made out of 's'",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "m",
+        desc: "Message",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "r",
+        desc: "R value of a signature",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "s",
+        desc: "S value of a siganture",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "pathIndices",
+        desc: "Merkle path indices",
+        type: "FIELD_ELEMENT_VECTOR",
+      },
+      {
+        label: "siblings",
+        desc: "Siblings of a leaf in a Merkle path towards the root",
+        type: "FIELD_ELEMENT_VECTOR",
+      },
+    ],
+  },
 ];
 
 export default circuits;
