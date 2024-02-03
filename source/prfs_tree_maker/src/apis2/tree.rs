@@ -28,7 +28,8 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
                         &d.val
                     };
                     let u = U256::from_be_hex(&val);
-                    let bytes = u.to_be_bytes();
+                    let bytes = u.to_le_bytes();
+                    println!("cm: {:?}, int: {},  bytes: {:?}", val, u, bytes);
                     args[idx] = bytes;
                 }
                 PrfsSetElementDataType::Int => {
@@ -40,7 +41,7 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
             };
         }
 
-        println!("args: {:?}, elem: {:?}", args, elem);
+        // println!("args: {:?}, elem: {:?}", args, elem);
         let val = poseidon_2(&args[0], &args[1]).unwrap();
         let val2 = U256::from_be_bytes(val);
         println!("val: {:?}, val2: {:?}", val, val2);

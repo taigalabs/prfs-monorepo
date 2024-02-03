@@ -63,6 +63,7 @@ export async function poseidon_2_bigint(msg: bigint[]): Promise<Uint8Array> {
     mBytes.set(bigIntToLeBytes(msg[i], 32), i * 32);
   }
 
+  console.log("poseidon, mbytes: %s", mBytes);
   const hashed = wasm.poseidon_2(mBytes.subarray(0, 32), mBytes.subarray(32, 64));
   return hashed;
 }

@@ -165,8 +165,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
                   throw new Error(`Commitment does not match, addr: ${addr}`);
                 }
 
-                console.log(11, cm);
                 const val = hexToNumber(cm.substring(2));
+                console.log("cm: %s, val: %s", cm, val);
                 args[idx] = val;
                 break;
               }
@@ -180,7 +180,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
           const a = await poseidon_2_bigint(args);
           const b = bytesToBigInt(a);
-          console.log(11, args, a, b);
+          console.log("poseidon: %o, int: %s, args: %o", a, b, args);
 
           return;
         }
