@@ -1,5 +1,5 @@
 pragma circom 2.1.2;
 
-include "../circuit_defs/eff_ecdsa_membership/addr_membership2.circom";
+include "../circuit_defs/merkle_pos_range/merkle_pos_range.circom";
 
-component main { public[ root, serialNo ]} = AddrMembership2(32);
+component main { public[ root ]} = MerklePosRange(32);

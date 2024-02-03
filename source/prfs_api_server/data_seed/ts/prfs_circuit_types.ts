@@ -80,6 +80,30 @@ const circuit_types: PrfsCircuitType[] = [
       },
     ],
   },
+  {
+    circuit_type_id: "MERKLE_POS_RANGE_V1",
+    author: "SYSTEM_NATIVE",
+    created_at: "2023-10-01T16:39:57-08:00",
+    desc: "Simple hash proof 1",
+    circuit_inputs_meta: [
+      {
+        name: "hash",
+        label: "Hash data",
+        desc: "Hash function",
+        type: "HASH_DATA_1",
+        show_priority: 0,
+      },
+    ],
+    public_inputs_meta: [
+      {
+        name: "msgHash",
+        label: "hash image",
+        desc: "Hash image",
+        type: "STRING",
+        show_priority: 0,
+      },
+    ],
+  },
 ];
 
 export default circuit_types;

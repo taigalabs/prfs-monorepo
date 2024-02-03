@@ -154,55 +154,15 @@ const circuits: PrfsCircuit[] = [
     },
     raw_circuit_inputs_meta: [
       {
-        label: "Tx",
-        desc: "Tx description",
+        label: "leaf",
+        desc: "Leaf of a tree",
         type: "FIELD_ELEMENT",
-        public: true,
-      },
-      {
-        label: "Ty",
-        desc: "Ty description",
-        type: "FIELD_ELEMENT",
-        public: true,
-      },
-      {
-        label: "Ux",
-        desc: "Ux description",
-        type: "FIELD_ELEMENT",
-        public: true,
-      },
-      {
-        label: "Uy",
-        desc: "Uy description",
-        type: "FIELD_ELEMENT",
-        public: true,
       },
       {
         label: "Merkle root",
         desc: "Vector commitment (Merkle root) of a set",
         type: "FIELD_ELEMENT",
         public: true,
-      },
-      {
-        label: "Serial number",
-        desc: "A cryptographic commitment made out of 's'",
-        type: "FIELD_ELEMENT",
-        public: true,
-      },
-      {
-        label: "m",
-        desc: "Message",
-        type: "FIELD_ELEMENT",
-      },
-      {
-        label: "r",
-        desc: "R value of a signature",
-        type: "FIELD_ELEMENT",
-      },
-      {
-        label: "s",
-        desc: "S value of a siganture",
-        type: "FIELD_ELEMENT",
       },
       {
         label: "pathIndices",
@@ -214,6 +174,12 @@ const circuits: PrfsCircuit[] = [
         desc: "Siblings of a leaf in a Merkle path towards the root",
         type: "FIELD_ELEMENT_VECTOR",
       },
+      // {
+      //   label: "Serial number",
+      //   desc: "A cryptographic commitment made out of 's'",
+      //   type: "FIELD_ELEMENT",
+      //   public: true,
+      // },
     ],
   },
 ];

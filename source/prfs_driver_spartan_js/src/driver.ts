@@ -110,13 +110,20 @@ export default class SpartanDriver implements CircuitDriver {
   async prove(args: ProveArgs<any>): Promise<ProveReceipt> {
     try {
       switch (args.circuitTypeId) {
-        case "SIMPLE_HASH_1": {
+        case "SIMPLE_HASH_V1": {
           const { proveSimpleHash } = await import("./provers/simple_hash/simple_hash");
 
           return proveSimpleHash(args, this.handlers, this.wtnsGen, this.circuit);
         }
-        case "MEMBERSHIP_PROOF_1": {
+        case "MEMBERSHIP_PROOF_V1": {
           const { proveMembership } = await import("./provers/membership_proof/membership_proof_1");
+
+          return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
+        }
+        case "MERKLE_POS_RANGE_V1": {
+          const { proveMembership } = await import(
+            "./provers/merkle_pos_range/merkle_pos_range_v1"
+          );
 
           return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
         }
