@@ -3,6 +3,7 @@ import {
   ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
   SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
   MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
+  MERKLE_POS_RANGE_INPUT_TYPE_V1,
 } from "@taigalabs/prfs-circuit-interface";
 import { MERKLE_POS_RANGE_V1_CIRCUIT_ID } from "@taigalabs/prfs-circuits-circom";
 import path from "path";
@@ -57,13 +58,13 @@ const sig_data_circuit_input = {
   value: "",
 };
 
-const merkle_sig_pos_range_v1_circuit_input = {
-  desc: "Address",
-  name: "merkle_sig_pos_range",
-  type: "MERKLE_SIG_POS_RANGE_V1",
-  label: "Member",
-  value: "",
-};
+// const merkle_sig_pos_range_v1_circuit_input = {
+//   desc: "Address",
+//   name: "merkle_sig_pos_range",
+//   type: "MERKLE_SIG_POS_RANGE_V1",
+//   label: "Member",
+//   value: "",
+// };
 
 const simple_hash_1 = {
   desc: "Hash data",
@@ -333,22 +334,15 @@ const proof_types: PrfsProofType[] = [
     circuit_type_id: MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
-      // {
-      //   ref_type: "PRFS_SET",
-      //   ref_value: "10000000-0000-0000-0000-100000000004",
-      //   desc: "Who you are among those",
-      //   name: "merkleProof",
-      //   type: "MERKLE_PROOF_1",
-      //   element_type: "ADDRESS",
-      //   label: "Member",
-      //   value: "",
-      // },
-      // sig_data_circuit_input,
       {
         ref_type: "PRFS_SET",
         ref_value: "crypto_holders",
-        element_type: "COMMITMENT",
-        ...merkle_sig_pos_range_v1_circuit_input,
+        desc: "Who you are among those",
+        name: "merkleProof",
+        type: MERKLE_POS_RANGE_INPUT_TYPE_V1,
+        element_type: "ADDRESS",
+        label: "Member",
+        value: "",
       },
     ],
     driver_properties: {

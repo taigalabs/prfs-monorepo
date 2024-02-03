@@ -109,6 +109,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
             console.error("Input validation fail to create a proof");
           }
 
+          console.log("inputs", inputs);
           setCreateProofStatus(Status.InProgress);
           const proveReceipt = await driver.prove({
             inputs,

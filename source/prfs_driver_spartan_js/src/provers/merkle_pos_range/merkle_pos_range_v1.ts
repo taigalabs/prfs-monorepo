@@ -21,6 +21,7 @@ export async function proveMembership(
   circuit: Uint8Array,
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
+  console.log("inputs: %o", inputs);
   const { leaf, merkleProof } = inputs;
   // const { msgRaw, msgHash, sig } = sigData;
 
