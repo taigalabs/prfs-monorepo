@@ -1,26 +1,12 @@
 pragma circom 2.1.2;
 
-include "./eff_ecdsa.circom";
-include "./ecdsa.circom";
-include "./tree.circom";
-include "./to_address/zk-identity/eth.circom";
+include "../../lib/tree/tree.circom";
 include "../../lib/poseidon/poseidon.circom";
 
-include "./bigint.circom";
-include "./secp256k1_func.circom";
+include "../../lib/bigint.circom";
+include "../../lib/secp256k1_func.circom";
 
-/**
- *  AddrMembership
- *  ==============
- *  
- *  Checks that an inputted efficient ECDSA signature (definition and discussion 
- *  can be found at https://personaelabs.org/posts/efficient-ecdsa-1/) 
- *  is signed by a public key that when converted to an address is a member of
- *  a Merkle tree of addresses. The public key is extracted from the efficient 
- *  ECDSA signature in EfficientECDSA(), and converted to an address by Keccak
- *  hashing the public key in PubkeyToAddress().
- */
-template AddrMembership2(nLevels) {
+template MerklePosRange(nLevels) {
     // eff ecdsa
     signal input Tx; 
     signal input Ty; 

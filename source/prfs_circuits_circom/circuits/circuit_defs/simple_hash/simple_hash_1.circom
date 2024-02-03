@@ -6,7 +6,7 @@ include "../eff_ecdsa_membership/tree.circom";
 include "../eff_ecdsa_membership/to_address/zk-identity/eth.circom";
 include "../eff_ecdsa_membership/bigint.circom";
 include "../eff_ecdsa_membership/secp256k1_func.circom";
-include "../../poseidon/poseidon.circom";
+include "../../lib/poseidon/poseidon.circom";
 
 template SimpleHash1() {
     signal input msgRawInt;

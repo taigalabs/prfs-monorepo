@@ -1,5 +1,5 @@
 pragma circom 2.1.2;
 
-include "../../poseidon/poseidon.circom";
+include "../../lib/poseidon/poseidon.circom";
 
 component main = Poseidon();
