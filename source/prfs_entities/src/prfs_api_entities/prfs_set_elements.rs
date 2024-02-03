@@ -36,7 +36,7 @@ pub struct GetPrfsSetElementsResponse {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsSetElementRequest {
-    pub atst_id: String,
+    pub label: String,
     pub set_id: String,
 }
 

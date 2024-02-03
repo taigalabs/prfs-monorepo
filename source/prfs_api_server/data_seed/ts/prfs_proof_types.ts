@@ -1,4 +1,10 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import {
+  ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
+  SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
+  MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
+} from "@taigalabs/prfs-circuit-interface";
+import { MERKLE_POS_RANGE_V1_CIRCUIT_ID } from "@taigalabs/prfs-circuits-circom";
 import path from "path";
 import fs from "fs";
 
@@ -31,17 +37,17 @@ const proofTypes = (() => {
   return proofTypes;
 })();
 
-const ADDR_MEMBERSHIP2_1_CIRCUIT_URL =
-  "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit";
+const ADDR_MEMBERSHIP2_V1_CIRCUIT_URL = `prfs://${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}/${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}.spartan.circuit`;
 
-const ADDR_MEMBERSHIP2_1_WTNS_GEN_URL =
-  "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm";
+const ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL = `prfs://${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}/${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}_js/${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}.wasm`;
 
-const SIMPLE_HASH_1_CIRCUIT_URL =
-  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1.spartan.circuit";
+const SIMPLE_HASH_V1_CIRCUIT_URL = `prfs://${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}/${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}.spartan.circuit`;
 
-const SIMPLE_HASH_1_WTNS_GEN_URL =
-  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1_js/simple_hash_1_1.wasm";
+const SIMPLE_HASH_V1_WTNS_GEN_URL = `prfs://${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}/${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}_js/${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}.wasm`;
+
+const MERKLE_POS_RANGE_V1_CIRCUIT_URL = `prfs://${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}/${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}.spartan.circuit`;
+
+const MERKLE_POS_RANGE_V1_WTNS_GEN_URL = `prfs://${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}/${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}_js/${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}.wasm`;
 
 const sig_data_circuit_input = {
   desc: "Message over which a signature is made",
@@ -78,7 +84,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/Ethereum_logo_translucent.svg",
     img_caption: "0.0001",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -95,8 +101,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-05-01T16:39:57-08:00",
   },
@@ -110,7 +116,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/bayc-footer.webp",
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -127,8 +133,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-08-01T16:39:57-08:00",
   },
@@ -142,7 +148,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/nonce.jpeg",
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -159,8 +165,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-05-01T16:39:57-08:00",
   },
@@ -174,7 +180,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/aave.png",
     img_caption: "150",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -197,8 +203,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-09-21T16:39:57-08:00",
   },
@@ -213,7 +219,7 @@ const proof_types: PrfsProofType[] = [
       "https://d1w1533jipmvi2.cloudfront.net/padlock-clipart-design-illustration-free-png.webp",
     img_caption: "0.0001",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -226,8 +232,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-09-01T16:39:57-08:00",
   },
@@ -241,13 +247,13 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/hash.png",
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000001",
-    circuit_type_id: "SIMPLE_HASH_1",
+    circuit_type_id: SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [simple_hash_1],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: SIMPLE_HASH_1_CIRCUIT_URL,
-      wtns_gen_url: SIMPLE_HASH_1_WTNS_GEN_URL,
+      circuit_url: SIMPLE_HASH_V1_CIRCUIT_URL,
+      wtns_gen_url: SIMPLE_HASH_V1_WTNS_GEN_URL,
     },
     created_at: "2023-09-01T16:39:57-08:00",
   },
@@ -261,7 +267,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/paradigm_logo.jpg",
     img_caption: null,
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -278,8 +284,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-10-26T16:39:57-08:00",
   },
@@ -293,7 +299,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/2023_eth_global_istanbul_logo.png",
     img_caption: null,
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -310,8 +316,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-11-19T16:39:57-08:00",
   },
@@ -323,8 +329,8 @@ const proof_types: PrfsProofType[] = [
     expression: "Has assets in crypto worth X USD",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/money-cash-icon-png.webp",
     img_caption: null,
-    circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_id: MERKLE_POS_RANGE_V1_CIRCUIT_ID,
+    circuit_type_id: MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       // {
@@ -347,8 +353,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: MERKLE_POS_RANGE_V1_CIRCUIT_URL,
+      wtns_gen_url: MERKLE_POS_RANGE_V1_WTNS_GEN_URL,
     },
     created_at: "2024-01-29T16:39:57-08:00",
   },

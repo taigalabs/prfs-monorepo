@@ -4,13 +4,25 @@ import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
-import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
+import {
+  makeCommitment,
+  makePathIndices,
+  makeSiblingPath,
+  poseidon_2_bigint,
+} from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import {
+  PRFS_ATTESTATION_STEM,
+  PrfsIdCredential,
+  QueryPresetVals,
+} from "@taigalabs/prfs-id-sdk-web";
 import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
+import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
+import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
+import { bytesToNumberLE, hexToNumber } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -29,10 +41,10 @@ import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddres
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
     return (
-      "Root: " +
-      value.root.toString().substring(0, 6) +
-      "... / First sibling: " +
-      value.siblings[0].toString().substring(0, 6) +
+      "Merkle root: " +
+      value.root.toString().substring(0, 5) +
+      "..., First sibling: " +
+      value.siblings[0].toString().substring(0, 5) +
       "..."
     );
   }, [value]);
@@ -53,7 +65,13 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [walletAddr, setWalletAddr] = React.useState("");
 
-  const { mutateAsync: GetPrfsTreeLeafIndices } = useMutation({
+  const { mutateAsync: getPrfsSetElement } = useMutation({
+    mutationFn: (req: GetPrfsSetElementRequest) => {
+      return prfsApi2("get_prfs_set_element", req);
+    },
+  });
+
+  const { mutateAsync: getPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
       return prfsApi2("get_prfs_tree_leaf_indices", req);
     },
@@ -112,14 +130,57 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       });
 
       const { set_id, merkle_root } = prfsSet;
-      console.log(123, set_id, merkle_root);
-
-      const leafVal = "";
-
       try {
-        const { payload, error } = await GetPrfsTreeLeafIndices({
+        // let val = node.val;
+        let leafVal = addr;
+        const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
-          leaf_vals: [addr],
+          label: addr,
+        });
+
+        if (getPrfsSetElementPayload) {
+          const data = getPrfsSetElementPayload.prfs_set_element
+            ?.data as unknown as PrfsSetElementData[];
+
+          if (data.length > 2) {
+            throw new Error("Data of cardinality over 2 is currently not supported");
+          }
+
+          let args = [BigInt(0), BigInt(0)];
+          for (let idx = 0; idx < data.length; idx += 1) {
+            const d = data[idx];
+            switch (d.type) {
+              case "WalletCm": {
+                const cm = await makeCommitment(
+                  credential.secret_key,
+                  `${PRFS_ATTESTATION_STEM}${addr}`,
+                );
+
+                if (d.val !== cm) {
+                  throw new Error(`Commitment does not match, addr: ${addr}`);
+                }
+
+                const val = hexToNumber(cm.substring(2));
+                console.log("cm: %s, val: %s", cm, val);
+                args[idx] = val;
+                break;
+              }
+
+              case "Int": {
+                args[idx] = BigInt(d.val);
+                break;
+              }
+            }
+          }
+
+          const a = await poseidon_2_bigint(args);
+          leafVal = bytesToNumberLE(a).toString();
+          console.log("poseidon: %s, int le: %s, int be: %s", a, leafVal);
+        }
+
+        const { payload, error } = await getPrfsTreeLeafIndices({
+          set_id,
+          leaf_vals: [leafVal],
         });
 
         if (error) {
@@ -132,20 +193,16 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }
 
         if (!payload) {
-          return;
+          throw new Error("Get Prfs Tree Leaf Indices failed");
         }
 
-        let pos_w = null;
-        // console.log("nodes", payload.prfs_tree_nodes);
-
-        for (const node of payload.prfs_tree_nodes) {
-          if (node.val === addr.toLowerCase()) {
-            pos_w = node.pos_w;
-          }
+        if (payload.prfs_tree_nodes.length < 1) {
+          throw new Error("Empty tree nodes response");
         }
 
-        if (pos_w === null) {
-          throw new Error("Address is not part of a set");
+        let pos_w = payload.prfs_tree_nodes[0].pos_w;
+        if (!pos_w) {
+          throw new Error("'pos_w' shouldn't be empty");
         }
 
         const leafIdx = Number(pos_w);
@@ -183,8 +240,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           siblings: siblings as bigint[],
           pathIndices,
         };
-
-        console.log(11, siblingNodesData, merkleProof);
+        console.log("merkleProof: %o", merkleProof);
 
         setFormValues((prevVals: any) => {
           return {
@@ -196,7 +252,14 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         console.error(err);
       }
     },
-    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors],
+    [
+      setWalletAddr,
+      setFormValues,
+      prfsSet,
+      getPrfsTreeLeafIndices,
+      setFormErrors,
+      getPrfsSetElement,
+    ],
   );
 
   const label = React.useMemo(() => {

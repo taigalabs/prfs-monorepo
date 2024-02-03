@@ -1,19 +1,16 @@
-use colored::Colorize;
 use prfs_crypto::{
-    convert_32bytes_into_decimal_string,
-    crypto_bigint::{self, Encoding, U256},
+    convert_32bytes_le_into_decimal_string, convert_dec_into_32bytes, convert_hex_into_32bytes,
+    crypto_bigint::{Encoding, U256},
     hex, poseidon_2, ZERO_NODE,
 };
-use prfs_db_interface::prfs;
-use prfs_entities::entities::{PrfsSet, PrfsSetElement, PrfsSetElementDataType, PrfsTreeNode};
-use rust_decimal::{prelude::FromPrimitive, Decimal};
+use prfs_entities::entities::{PrfsSet, PrfsSetElement, PrfsSetElementDataType};
 use std::u128;
 
 use crate::TreeMakerError;
 
-pub fn create_leaves(set_elements: Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>, TreeMakerError> {
+pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>, TreeMakerError> {
     let mut nodes = vec![];
-    for (elem_idx, elem) in set_elements.iter().enumerate() {
+    for (_, elem) in set_elements.iter().enumerate() {
         let data = &elem.data;
         let mut args = [ZERO_NODE, ZERO_NODE];
 
@@ -23,29 +20,34 @@ pub fn create_leaves(set_elements: Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>,
 
         for (idx, d) in data.iter().enumerate() {
             match d.r#type {
-                PrfsSetElementDataType::Hex32 => {
-                    let u = U256::from_be_hex(&d.val);
-                    let bytes = u.to_be_bytes();
+                PrfsSetElementDataType::WalletCm => {
+                    let val = if d.val.starts_with("0x") {
+                        &d.val[2..]
+                    } else {
+                        &d.val
+                    };
+                    let bytes = convert_hex_into_32bytes(&val).unwrap();
+                    println!("cm: {:?}, bytes: {:?}", val, bytes);
                     args[idx] = bytes;
                 }
                 PrfsSetElementDataType::Int => {
-                    let int128 = d.val.parse::<u128>().unwrap();
-                    let u = U256::from_u128(int128);
-                    let bytes = u.to_be_bytes();
+                    // let int128 = d.val.parse::<u128>().unwrap();
+                    // let u = U256::from_u128(int128);
+                    // let bytes = u.to_be_bytes();
+                    let bytes = convert_dec_into_32bytes(&d.val).unwrap();
                     args[idx] = bytes;
                 }
             };
         }
 
-        // println!("data: {:?}", data);
-        // println!("args: {:?}", args);
+        // println!("args: {:?}, elem: {:?}", args, elem);
         let val = poseidon_2(&args[0], &args[1]).unwrap();
-        // let val = format!("0x{}", hex::encode(val));
-        // let val = U256::from_be_bytes(val);
-        println!("val: {:?}", val);
+        let int = convert_32bytes_le_into_decimal_string(&val).unwrap();
+        // let val2 = U256::from_be_bytes(val);
+        println!("poseidon: {:?}, int: {}", val, int);
 
-        // let node = PrfsTreeNode {
-        //     pos_w: Decimal::from_u64(elem_idx as u64).unwrap(),
+        // let node = RawPrfsTreeNode {
+        //     pos_w: elem.element_idx,
         //     pos_h: 0,
         //     meta: None,
         //     val,

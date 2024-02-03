@@ -1,16 +1,12 @@
-use super::DriverPropertyMeta;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
-use uuid::Uuid;
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PrfsCircuit {
-    #[ts(type = "string")]
-    pub circuit_id: Uuid,
-
+    pub circuit_id: String,
     pub circuit_type_id: String,
     pub label: String,
     pub desc: String,

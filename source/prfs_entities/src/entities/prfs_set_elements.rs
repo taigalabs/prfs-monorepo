@@ -1,3 +1,4 @@
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use strum_macros::{Display, EnumString};
 use ts_rs::TS;
@@ -5,10 +6,12 @@ use ts_rs::TS;
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct PrfsSetElement {
-    pub name: String,
+    pub label: String,
     pub set_id: String,
     #[ts(type = "Record<string, string>[]")]
     pub data: sqlx::types::Json<Vec<PrfsSetElementData>>,
+    #[ts(type = "number")]
+    pub element_idx: Decimal,
     pub r#ref: Option<String>,
     pub status: PrfsSetElementStatus,
 }
@@ -33,6 +36,6 @@ pub enum PrfsSetElementStatus {
 #[ts(export)]
 #[sqlx(type_name = "VARCHAR")]
 pub enum PrfsSetElementDataType {
-    Hex32,
+    WalletCm,
     Int,
 }

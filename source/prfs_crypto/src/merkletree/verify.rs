@@ -1,5 +1,5 @@
 use crate::{
-    convert_32bytes_into_decimal_string, convert_dec_into_32bytes, convert_hex_into_32bytes,
+    convert_32bytes_le_into_decimal_string, convert_dec_into_32bytes, convert_hex_into_32bytes,
     hash_two, MerkleProof,
 };
 
@@ -24,7 +24,7 @@ pub fn verify(merkle_proof: MerkleProof, leaf: [u8; 32]) {
         }
     }
 
-    let st = convert_32bytes_into_decimal_string(&curr).unwrap();
+    let st = convert_32bytes_le_into_decimal_string(&curr).unwrap();
 
     assert_eq!(
         st, merkle_proof.root,

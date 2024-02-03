@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
-use uuid::Uuid;
 
 use crate::entities::{CircuitInput, PrfsProofType};
 
@@ -37,9 +36,7 @@ pub struct CreatePrfsProofTypeRequest {
     pub author: String,
     pub label: String,
     pub desc: String,
-
-    #[ts(type = "'<Uuid>' | string")]
-    pub circuit_id: Uuid,
+    pub circuit_id: String,
     pub circuit_type_id: String,
     pub circuit_driver_id: String,
     pub expression: String,

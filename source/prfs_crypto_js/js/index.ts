@@ -1,5 +1,6 @@
 export { PrivateKey, encrypt, decrypt, PublicKey } from "eciesjs";
 export { toUtf8Bytes } from "ethers/lib/utils";
+export { hexToNumber, bytesToNumberLE } from "@noble/curves/abstract/utils";
 
 export { initWasm } from "./wasm_wrapper/wasm";
 

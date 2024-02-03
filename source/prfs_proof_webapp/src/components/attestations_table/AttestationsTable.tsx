@@ -31,6 +31,10 @@ export const AttestationTableBodyInner: React.FC<AttestationsProps> = ({
   );
 };
 
+export const AttestationLoading: React.FC<AttestationsProps> = ({ children, className }) => {
+  return <div className={cn(styles.loading, className)}>{children}</div>;
+};
+
 export const AttestationTableHeader: React.FC<AttestationsProps> = ({ children, className }) => {
   return <div className={cn(styles.tableHeader, className)}>{children}</div>;
 };

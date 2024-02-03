@@ -61,7 +61,7 @@ pub async fn create_tree_nodes(
         parent_nodes = vec![];
         for (idx, node) in parent.iter().enumerate() {
             // println!("node: {:?}, idx: {}", node, idx);
-            let val = prfs_crypto::convert_32bytes_into_decimal_string(node).unwrap();
+            let val = prfs_crypto::convert_32bytes_le_into_decimal_string(node).unwrap();
 
             let n = PrfsTreeNode {
                 pos_w: Decimal::from(idx),

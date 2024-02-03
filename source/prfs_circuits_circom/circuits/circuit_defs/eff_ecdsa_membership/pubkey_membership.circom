@@ -1,8 +1,8 @@
 pragma circom 2.1.2;
 
-include "./eff_ecdsa.circom";
-include "./tree.circom";
-include "../poseidon/poseidon.circom";
+include "../../gadgets/eff_ecdsa.circom";
+include "../../gadgets/tree.circom";
+include "../../gadgets/poseidon/poseidon.circom";
 
 /**
  *  PubkeyMembership

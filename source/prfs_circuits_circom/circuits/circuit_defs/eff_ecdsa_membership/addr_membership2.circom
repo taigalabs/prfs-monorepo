@@ -1,13 +1,12 @@
 pragma circom 2.1.2;
 
-include "./eff_ecdsa.circom";
-include "./ecdsa.circom";
-include "./tree.circom";
-include "./to_address/zk-identity/eth.circom";
-include "../poseidon/poseidon.circom";
-
-include "./bigint.circom";
-include "./secp256k1_func.circom";
+include "../../gadgets/ecdsa.circom";
+include "../../gadgets/eff_ecdsa.circom";
+include "../../gadgets/tree.circom";
+include "../../gadgets/to_address/zk-identity/eth.circom";
+include "../../gadgets/poseidon/poseidon.circom";
+include "../../gadgets/bigint.circom";
+include "../../gadgets/secp256k1_func.circom";
 
 /**
  *  AddrMembership

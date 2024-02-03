@@ -15,6 +15,7 @@ import {
   WALLET_CACHE_KEY,
   WALLET_CM_STEM,
   EncryptType,
+  PRFS_ATTESTATION_STEM,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
@@ -55,8 +56,8 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
   const claimSecret = React.useMemo(() => {
-    const handle = formData[WALLET_ADDR];
-    return `PRFS_ATST_${handle}`;
+    const walletAddr = formData[WALLET_ADDR];
+    return `${PRFS_ATTESTATION_STEM}${walletAddr}`;
   }, [formData[WALLET_ADDR]]);
 
   const handleClickGenerate = React.useCallback(() => {

@@ -18,6 +18,7 @@ import {
   AttestationTableRow,
   AttestationTableBodyInner,
   AttestationTableCell,
+  AttestationLoading,
 } from "@/components/attestations_table/AttestationsTable";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
@@ -110,9 +111,9 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
   return (
     <div className={styles.wrapper}>
       {status === "pending" ? (
-        <p>Loading...</p>
+        <AttestationLoading>Loading...</AttestationLoading>
       ) : status === "error" ? (
-        <span>Error: {(error as Error).message}</span>
+        <AttestationLoading>Error: {(error as Error).message}</AttestationLoading>
       ) : (
         <>
           <AttestationTableHeader

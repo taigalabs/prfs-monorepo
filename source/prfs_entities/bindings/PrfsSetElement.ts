@@ -2,9 +2,10 @@
 import type { PrfsSetElementStatus } from "./PrfsSetElementStatus";
 
 export interface PrfsSetElement {
-  name: string;
+  label: string;
   set_id: string;
   data: Record<string, string>[];
+  element_idx: number;
   ref: string | null;
   status: PrfsSetElementStatus;
 }

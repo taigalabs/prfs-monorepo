@@ -13,10 +13,12 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import ImportSetElementsDialog from "./ImportSetElementsDialog";
 import CreateTreeDialog from "./CreateTreeDialog";
+import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 const Set: React.FC<SetProps> = ({ set_id }) => {
   const i18n = React.useContext(i18nContext);
-  const [nonce, rerender] = React.useReducer(x => x + 1, 0);
+  const { nonce, rerender } = useRerender();
+  console.log(11, rerender);
 
   return (
     <>
@@ -27,10 +29,10 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
         <AttestationsHeaderRow>
           <ul className={styles.topMenu}>
             <li>
-              <ImportSetElementsDialog />
+              <ImportSetElementsDialog rerender={rerender} />
             </li>
             <li>
-              <CreateTreeDialog handleSucceedCreate={rerender} />
+              <CreateTreeDialog rerender={rerender} />
             </li>
           </ul>
         </AttestationsHeaderRow>

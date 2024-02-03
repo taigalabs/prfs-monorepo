@@ -25,7 +25,7 @@ const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
-  handleClickCreate,
+  handleClickCreateTree,
   computeStatus,
   computeMsg,
 }) => {
@@ -37,9 +37,9 @@ const Modal: React.FC<ModalProps> = ({
     if (computeStatus === CommonStatus.Done) {
       setIsOpen(false);
     } else {
-      handleClickCreate();
+      handleClickCreateTree();
     }
-  }, [handleClickCreate, computeStatus, setIsOpen]);
+  }, [handleClickCreateTree, computeStatus, setIsOpen]);
 
   return (
     <DefaultModalWrapper>
@@ -78,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSucceedCreate }) => {
+const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender }) => {
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: createTreeRequest } = useMutation({
     mutationFn: (req: CreateTreeOfPrfsSetRequest) => {
@@ -89,7 +89,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
   const [isOpen, setIsOpen] = React.useState(false);
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
-  const handleClickCreate = React.useCallback(async () => {
+  const handleClickCreateTree = React.useCallback(async () => {
     if (prfsProofCredential && prfsProofCredential.account_id === MASTER_ACCOUNT_ID) {
       setComputeStatus(CommonStatus.InProgress);
       try {
@@ -118,7 +118,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
               </p>
             </>,
           );
-          handleSucceedCreate();
+          rerender();
         }
       } catch (err: any) {
         setComputeStatus(CommonStatus.Standby);
@@ -129,13 +129,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
         );
       }
     }
-  }, [
-    prfsProofCredential,
-    createTreeRequest,
-    setComputeMsg,
-    setComputeStatus,
-    handleSucceedCreate,
-  ]);
+  }, [prfsProofCredential, createTreeRequest, setComputeMsg, setComputeStatus, rerender]);
 
   const createBase = React.useCallback(() => {
     return (
@@ -165,7 +159,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
       <DialogDefault isOpen={isOpen} setIsOpen={setIsOpen} createBase={createBase}>
         <Modal
           setIsOpen={setIsOpen}
-          handleClickCreate={handleClickCreate}
+          handleClickCreateTree={handleClickCreateTree}
           computeStatus={computeStatus}
           computeMsg={computeMsg}
         />
@@ -177,12 +171,12 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ handleSu
 export default CreateTreeDialog;
 
 export interface ImportPrfsSetElementsDialogProps {
-  handleSucceedCreate: () => void;
+  rerender: () => void;
 }
 
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleClickCreate: () => void;
+  handleClickCreateTree: () => void;
   computeStatus: CommonStatus;
   computeMsg: React.ReactNode;
 }

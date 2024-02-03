@@ -29,20 +29,20 @@ import { paths } from "@/paths";
 const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = () => {
   const i18n = React.useContext(i18nContext);
 
-  const createBase = React.useCallback((isOpen: boolean) => {
-    return (
-      <Button
-        variant="light_blue_1"
-        className={styles.createBtn}
-        contentClassName={styles.addBtnContent}
-      >
-        <a href={paths.sets__create}>
-          <HiPlus />
-          <span>{i18n.create_set}</span>
-        </a>
-      </Button>
-    );
-  }, []);
+  // const createBase = React.useCallback((isOpen: boolean) => {
+  //   return (
+  //     <Button
+  //       variant="light_blue_1"
+  //       className={styles.createBtn}
+  //       contentClassName={styles.addBtnContent}
+  //     >
+  //       <a href={paths.sets__create}>
+  //         <HiPlus />
+  //         <span>{i18n.create_set}</span>
+  //       </a>
+  //     </Button>
+  //   );
+  // }, []);
 
   // const createPopover = React.useCallback(
   //   (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {

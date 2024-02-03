@@ -309,6 +309,7 @@ export default {
   wallet: "Wallet",
   write_to_shy: "Write to shy",
   element_type: "Element type",
+  element_index: "Element index",
   elliptic_curve: "Elliptic curve",
   elements: "Elements",
   finite_field: "Finite field",

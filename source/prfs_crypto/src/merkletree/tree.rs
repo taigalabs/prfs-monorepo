@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     hash_two,
-    hexutils::{convert_32bytes_into_decimal_string, convert_hex_into_32bytes},
+    hexutils::{convert_32bytes_le_into_decimal_string, convert_hex_into_32bytes},
     make_path_indices, PrfsCryptoError,
 };
 
@@ -72,7 +72,7 @@ pub fn make_merkle_proof(
         .expect(&format!("nodes at {} should exist", depth))
         .get(0)
     {
-        Some(r) => convert_32bytes_into_decimal_string(r)?,
+        Some(r) => convert_32bytes_le_into_decimal_string(r)?,
         None => return Err(format!("root does not exist, depth: {}", depth).into()),
     };
 
@@ -101,7 +101,7 @@ pub fn make_merkle_proof(
             }
         };
 
-        let s = convert_32bytes_into_decimal_string(sibling)?;
+        let s = convert_32bytes_le_into_decimal_string(sibling)?;
         // println!("\nsibling({}, {}): {:?}, decimal: {}", h, s_idx, sibling, s);
 
         siblings.push(s);

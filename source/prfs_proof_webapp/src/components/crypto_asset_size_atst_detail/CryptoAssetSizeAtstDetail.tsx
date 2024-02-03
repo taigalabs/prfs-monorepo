@@ -55,7 +55,7 @@ const CryptoAssetSizeAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ a
     atst && (
       <div className={styles.wrapper}>
         <AttestationDetailTopMenuRow>
-          <Link href={paths.attestations__twitter}>
+          <Link href={paths.attestations__crypto_asset_size}>
             <ButtonCircleContainer>
               <FaArrowLeft />
             </ButtonCircleContainer>
