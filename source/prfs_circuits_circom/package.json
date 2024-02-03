@@ -9,6 +9,7 @@
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
     "@taigalabs/prfs-entities": "*",
+    "@taigalabs/prfs-circuit-interface": "*",
     "bn.js": "^5.2.1",
     "circom_tester": "^0.0.19",
     "circomlib": "^2.0.5",

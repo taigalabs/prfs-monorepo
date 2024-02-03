@@ -6,6 +6,7 @@ packages:
   - "source/prfs_docs_website"
   - "source/prfs_driver_spartan_js"
   - "source/prfs_driver_interface"
+  - "source/prfs_circuit_interface"
   - "source/prfs_circuits_circom"
   - "source/prfs_crypto_js"
   - "source/prfs_web3_js"

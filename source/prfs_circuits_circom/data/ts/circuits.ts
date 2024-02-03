@@ -1,8 +1,9 @@
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-
-export const ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID = "addr_membership2_v1";
-export const SIMPLE_HASH_V1_CIRCUIT_TYPE_ID = "simple_hash_v1";
-export const MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID = "merkle_pos_range_v1";
+import {
+  ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
+  MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
+  SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
+} from "@taigalabs/prfs-circuit-interface";
 
 export const MERKLE_POS_RANGE_V1_CIRCUIT_ID =
   "0x0000000000000000000000000000000000000000000000000000000000000002";
@@ -24,7 +25,7 @@ const circuits: PrfsCircuit[] = [
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     driver_version: "0.1.0",
     build_properties: {
-      instance_path: "instances/addr_membership2_v1.circom",
+      instance_path: `instances/${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}.circom`,
     },
     driver_properties: {
       wtns_gen_url: "",
@@ -108,7 +109,7 @@ const circuits: PrfsCircuit[] = [
     elliptic_curve: "Secp256k1",
     finite_field: "Z_(2^256-2^32-977)",
     build_properties: {
-      instance_path: "instances/simple_hash_v1.circom",
+      instance_path: `instances/${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}.circom`,
     },
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     driver_version: "0.1.0",
@@ -144,7 +145,7 @@ const circuits: PrfsCircuit[] = [
     elliptic_curve: "Secp256k1",
     finite_field: "Z_(2^256-2^32-977)",
     build_properties: {
-      instance_path: "instances/merkle_pos_range_v1.circom",
+      instance_path: `instances/${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}.circom`,
     },
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     driver_version: "0.1.0",
