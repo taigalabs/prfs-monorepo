@@ -1,8 +1,9 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import {
-  ADDR_MEMBERSHIP2_V1,
-  SIMPLE_HASH_V1,
-  MERKLE_POS_RANGE_V1,
+  ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
+  SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
+  MERKLE_POS_RANGE_V1_CIRCUIT_ID,
+  MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
 } from "@taigalabs/prfs-circuits-circom";
 import path from "path";
 import fs from "fs";
@@ -36,13 +37,17 @@ const proofTypes = (() => {
   return proofTypes;
 })();
 
-const ADDR_MEMBERSHIP2_V1_CIRCUIT_URL = `prfs://${ADDR_MEMBERSHIP2_V1}/${ADDR_MEMBERSHIP2_V1}.spartan.circuit`;
+const ADDR_MEMBERSHIP2_V1_CIRCUIT_URL = `prfs://${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}/${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}.spartan.circuit`;
 
-const ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL = `prfs://${ADDR_MEMBERSHIP2_V1}/${ADDR_MEMBERSHIP2_V1}_js/${ADDR_MEMBERSHIP2_V1}.wasm`;
+const ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL = `prfs://${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}/${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}_js/${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}.wasm`;
 
-const SIMPLE_HASH_V1_CIRCUIT_URL = `prfs://${SIMPLE_HASH_V1}/${SIMPLE_HASH_V1}.spartan.circuit`;
+const SIMPLE_HASH_V1_CIRCUIT_URL = `prfs://${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}/${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}.spartan.circuit`;
 
-const SIMPLE_HASH_V1_WTNS_GEN_URL = `prfs://${SIMPLE_HASH_V1}/${SIMPLE_HASH_V1}_js/${SIMPLE_HASH_V1}.wasm`;
+const SIMPLE_HASH_V1_WTNS_GEN_URL = `prfs://${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}/${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}_js/${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}.wasm`;
+
+const MERKLE_POS_RANGE_V1_CIRCUIT_URL = `prfs://${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}/${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}.spartan.circuit`;
+
+const MERKLE_POS_RANGE_V1_WTNS_GEN_URL = `prfs://${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}/${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}_js/${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}.wasm`;
 
 const sig_data_circuit_input = {
   desc: "Message over which a signature is made",
@@ -324,8 +329,8 @@ const proof_types: PrfsProofType[] = [
     expression: "Has assets in crypto worth X USD",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/money-cash-icon-png.webp",
     img_caption: null,
-    circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_id: MERKLE_POS_RANGE_V1_CIRCUIT_ID,
+    circuit_type_id: MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       // {
@@ -348,8 +353,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
+      circuit_url: MERKLE_POS_RANGE_V1_CIRCUIT_URL,
+      wtns_gen_url: MERKLE_POS_RANGE_V1_WTNS_GEN_URL,
     },
     created_at: "2024-01-29T16:39:57-08:00",
   },
