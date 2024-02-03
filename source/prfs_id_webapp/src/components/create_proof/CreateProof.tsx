@@ -27,6 +27,7 @@ import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 import { useAppSelector } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
+import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 
 enum Status {
   Standby,
@@ -183,7 +184,11 @@ const CreateProof: React.FC<CreateProofProps> = ({
       </QueryItem>
     </>
   ) : (
-    <div>Loading...</div>
+    <div className={styles.overlayPlaceholder}>
+      <Overlay>
+        <Spinner size={18} color={colors.blue_12} />
+      </Overlay>
+    </div>
   );
 };
 

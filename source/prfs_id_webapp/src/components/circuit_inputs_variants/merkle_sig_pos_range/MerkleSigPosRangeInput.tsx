@@ -180,7 +180,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
           const a = await poseidon_2_bigint(args);
           const b = bytesToBigInt(a);
-          console.log("poseidon: %o, int: %s, args: %o", a, b, args);
+          console.log("poseidon: %s, int: %s", a, b);
 
           return;
         }

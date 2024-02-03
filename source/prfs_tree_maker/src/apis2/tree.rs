@@ -1,10 +1,9 @@
 use prfs_crypto::{
+    convert_32bytes_le_into_decimal_string, convert_dec_into_32bytes, convert_hex_into_32bytes,
     crypto_bigint::{Encoding, U256},
     hex, poseidon_2, ZERO_NODE,
 };
-use prfs_entities::entities::{
-    PrfsSet, PrfsSetElement, PrfsSetElementDataType, PrfsTreeNode, RawPrfsTreeNode,
-};
+use prfs_entities::entities::{PrfsSet, PrfsSetElement, PrfsSetElementDataType};
 use std::u128;
 
 use crate::TreeMakerError;
@@ -27,15 +26,15 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
                     } else {
                         &d.val
                     };
-                    let u = U256::from_be_hex(&val);
-                    let bytes = u.to_le_bytes();
-                    println!("cm: {:?}, int: {},  bytes: {:?}", val, u, bytes);
+                    let bytes = convert_hex_into_32bytes(&val).unwrap();
+                    println!("cm: {:?}, bytes: {:?}", val, bytes);
                     args[idx] = bytes;
                 }
                 PrfsSetElementDataType::Int => {
-                    let int128 = d.val.parse::<u128>().unwrap();
-                    let u = U256::from_u128(int128);
-                    let bytes = u.to_be_bytes();
+                    // let int128 = d.val.parse::<u128>().unwrap();
+                    // let u = U256::from_u128(int128);
+                    // let bytes = u.to_be_bytes();
+                    let bytes = convert_dec_into_32bytes(&d.val).unwrap();
                     args[idx] = bytes;
                 }
             };
@@ -43,8 +42,9 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
 
         // println!("args: {:?}, elem: {:?}", args, elem);
         let val = poseidon_2(&args[0], &args[1]).unwrap();
-        let val2 = U256::from_be_bytes(val);
-        println!("val: {:?}, val2: {:?}", val, val2);
+        let int = convert_32bytes_le_into_decimal_string(&val).unwrap();
+        // let val2 = U256::from_be_bytes(val);
+        println!("poseidon: {:?}, int: {}", val, int);
 
         // let node = RawPrfsTreeNode {
         //     pos_w: elem.element_idx,
