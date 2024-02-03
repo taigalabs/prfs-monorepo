@@ -1,12 +1,12 @@
 pragma circom 2.1.2;
 
-include "../eff_ecdsa_membership/eff_ecdsa.circom";
-include "../eff_ecdsa_membership/ecdsa.circom";
-include "../eff_ecdsa_membership/tree.circom";
-include "../eff_ecdsa_membership/to_address/zk-identity/eth.circom";
-include "../eff_ecdsa_membership/bigint.circom";
-include "../eff_ecdsa_membership/secp256k1_func.circom";
-include "../../lib/poseidon/poseidon.circom";
+include "../../gadgets/eff_ecdsa.circom";
+include "../../gadgets/tree.circom";
+include "../../gadgets/to_address/zk-identity/eth.circom";
+include "../../gadgets/bigint.circom";
+include "../../gadgets/secp256k1_func.circom";
+include "../../gadgets/ecdsa.circom";
+include "../../gadgets/poseidon/poseidon.circom";
 
 template SimpleHash1() {
     signal input msgRawInt;

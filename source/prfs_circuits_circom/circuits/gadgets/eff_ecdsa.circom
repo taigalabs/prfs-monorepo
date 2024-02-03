@@ -1,8 +1,8 @@
 pragma circom 2.1.2;
 
-include "../../../node_modules/circomlib/circuits/bitify.circom";
+include "../../node_modules/circomlib/circuits/bitify.circom";
 
-include "../../gadgets/secp256k1/mul.circom";
+include "./secp256k1/mul.circom";
 
 /**
  *  EfficientECDSA

@@ -1,10 +1,10 @@
 pragma circom 2.1.2;
 
-include "../../lib/tree/tree.circom";
-include "../../lib/poseidon/poseidon.circom";
+include "../../gadgets/tree/tree.circom";
+include "../../gadgets/poseidon/poseidon.circom";
 
-include "../../lib/bigint.circom";
-include "../../lib/secp256k1_func.circom";
+include "../../gadgets/bigint.circom";
+include "../../gadgets/secp256k1_func.circom";
 
 template MerklePosRange(nLevels) {
     // eff ecdsa

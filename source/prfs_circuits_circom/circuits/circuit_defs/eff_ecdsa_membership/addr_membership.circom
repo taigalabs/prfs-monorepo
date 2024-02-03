@@ -1,8 +1,8 @@
 pragma circom 2.1.2;
 
-include "./eff_ecdsa.circom";
-include "./tree.circom";
-include "./to_address/zk-identity/eth.circom";
+include "../../gadgets/eff_ecdsa.circom";
+include "../../gadgets/tree.circom";
+include "../../gadgets/to_address/zk-identity/eth.circom";
 
 /**
  *  AddrMembership

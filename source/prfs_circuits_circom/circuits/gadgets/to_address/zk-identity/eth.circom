@@ -1,6 +1,6 @@
 pragma circom 2.0.2;
 
-include "../../../../../node_modules/circomlib/circuits/bitify.circom";
+include "../../../../node_modules/circomlib/circuits/bitify.circom";
 
 include "../vocdoni-keccak/keccak.circom";
 

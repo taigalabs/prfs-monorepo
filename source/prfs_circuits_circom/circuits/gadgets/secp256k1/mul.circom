@@ -1,11 +1,13 @@
 pragma circom 2.1.2;
 
-include "../../../../node_modules/circomlib/circuits/bitify.circom";
-include "../../../../node_modules/circomlib/circuits/comparators.circom";
-include "../../../../node_modules/circomlib/circuits/gates.circom";
+include "../../../node_modules/circomlib/circuits/bitify.circom";
+include "../../../node_modules/circomlib/circuits/comparators.circom";
+include "../../../node_modules/circomlib/circuits/gates.circom";
 
 include "./add.circom";
 include "./double.circom";
+
+// 
 
 /**
  *  Secp256k1Mul
