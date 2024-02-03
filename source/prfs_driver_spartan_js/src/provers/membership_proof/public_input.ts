@@ -2,7 +2,7 @@ import { ec as EC } from "elliptic";
 import BN from "bn.js";
 import JSONBig from "json-bigint";
 import { bufferToHex, toBuffer } from "@ethereumjs/util";
-import { BufferHex } from "@taigalabs/prfs-proof-interface";
+import { BufferHex } from "@taigalabs/prfs-circuit-interface";
 import { bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 
 import { EffECDSAPubInput } from "@/types";

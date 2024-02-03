@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { BufferHex } from "@taigalabs/prfs-proof-interface";
+import { BufferHex } from "@taigalabs/prfs-circuit-interface";
 import { EffECDSAPubInput } from "../../types";
 export declare class MembershipProofPublicInput {
     r: bigint;

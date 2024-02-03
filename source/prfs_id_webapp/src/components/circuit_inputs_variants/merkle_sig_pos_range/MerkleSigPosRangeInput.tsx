@@ -19,7 +19,7 @@ import {
   PrfsIdCredential,
   QueryPresetVals,
 } from "@taigalabs/prfs-id-sdk-web";
-import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
+import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
 import { bytesToNumberLE, hexToNumber } from "@taigalabs/prfs-crypto-js";

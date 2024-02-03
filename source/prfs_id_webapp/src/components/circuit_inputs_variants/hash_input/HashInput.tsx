@@ -3,7 +3,7 @@ import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { bytesLeToBigInt, poseidon_2_bigint } from "@taigalabs/prfs-crypto-js";
 import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
-import { HashData } from "@taigalabs/prfs-proof-interface";
+import { HashData } from "@taigalabs/prfs-circuit-interface";
 import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./HashInput.module.scss";
