@@ -3,7 +3,7 @@ import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 const circuits: PrfsCircuit[] = [
   {
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: "addr_membership2_v1",
     created_at: "2023-05-01T16:39:57-08:00",
     label: "addr_membership2_1",
     author: "SYSTEM_NATIVE",
@@ -17,7 +17,7 @@ const circuits: PrfsCircuit[] = [
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     driver_version: "0.1.0",
     build_properties: {
-      instance_path: "instances/addr_membership2_1.circom",
+      instance_path: "instances/addr_membership2_v1.circom",
     },
     driver_properties: {
       wtns_gen_url: "",
@@ -89,7 +89,7 @@ const circuits: PrfsCircuit[] = [
   },
   {
     circuit_id: "00000000-0000-0000-0000-000000000001",
-    circuit_type_id: "SIMPLE_HASH_1",
+    circuit_type_id: "simple_hash_v1",
     created_at: "2023-10-01T16:39:57-08:00",
     label: "simple_hash_1_1",
     author: "SYSTEM_NATIVE",
@@ -101,7 +101,7 @@ const circuits: PrfsCircuit[] = [
     elliptic_curve: "Secp256k1",
     finite_field: "Z_(2^256-2^32-977)",
     build_properties: {
-      instance_path: "instances/simple_hash_1_1.circom",
+      instance_path: "instances/simple_hash_v1.circom",
     },
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     driver_version: "0.1.0",
@@ -125,7 +125,7 @@ const circuits: PrfsCircuit[] = [
   },
   {
     circuit_id: "0x0000000000000000000000000000000000000000000000000000000000000002",
-    circuit_type_id: "MERKLE_POS_RANGE_V1",
+    circuit_type_id: "merkle_pos_range_v1",
     created_at: "2024-02-02T00:00:00-00:00",
     label: "Merkle pos range v1",
     author: "SYSTEM_NATIVE",

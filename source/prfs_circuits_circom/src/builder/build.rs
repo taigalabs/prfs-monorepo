@@ -5,13 +5,13 @@ use std::{io::Write, path::PathBuf, process::Command};
 
 pub fn run() {
     println!("{} building {}", "Start".green(), env!("CARGO_PKG_NAME"),);
-
     clean_build();
 
     let mut circuits = read_circuits_json();
 
     let mut circuit_list = vec![];
     for mut circuit in &mut circuits {
+        circuit_type_id_should_match_file_stem(&circuit);
         compile_circuits(&circuit);
         make_spartan(&mut circuit);
         create_circuit_json(&mut circuit);
@@ -28,6 +28,19 @@ fn clean_build() {
     }
 }
 
+fn circuit_type_id_should_match_file_stem(circuit: &PrfsCircuit) {
+    let instance_path = &circuit.build_properties.get("instance_path").unwrap();
+    let circuit_src_path = PATHS.circuits.join(&instance_path);
+    let file_stem = circuit_src_path
+        .file_stem()
+        .unwrap()
+        .to_os_string()
+        .into_string()
+        .unwrap();
+
+    assert_eq!(circuit.circuit_type_id, file_stem);
+}
+
 fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> String {
     match file_kind {
         FileKind::R1CS => {
@@ -40,15 +53,18 @@ fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> String {
                 .into_string()
                 .unwrap();
 
-            format!("{}/{}.r1cs", &circuit.circuit_id, file_stem)
+            format!("{}/{}.r1cs", &circuit.circuit_type_id, file_stem)
         }
         FileKind::Spartan => {
-            format!("{}/{}.spartan.circuit", circuit.circuit_id, circuit.label)
+            format!(
+                "{}/{}.spartan.circuit",
+                circuit.circuit_type_id, circuit.circuit_type_id
+            )
         }
         FileKind::WtnsGen => {
             format!(
                 "{}/{}_js/{}.wasm",
-                circuit.circuit_id, circuit.label, circuit.label,
+                circuit.circuit_type_id, circuit.circuit_type_id, circuit.circuit_type_id,
             )
         }
     }
@@ -103,7 +119,7 @@ fn compile_circuits(circuit: &PrfsCircuit) {
             let circuit_src_path = PATHS.circuits.join(&instance_path);
             println!("circuit_src_path: {:?}", circuit_src_path);
 
-            let build_path = PATHS.build.join(&circuit.circuit_id.to_string());
+            let build_path = PATHS.build.join(&circuit.circuit_type_id.to_string());
             println!("circuit_build_path: {:?}", build_path);
 
             std::fs::create_dir_all(&build_path).unwrap();
@@ -140,13 +156,9 @@ fn create_circuit_json(circuit: &mut PrfsCircuit) {
     let circuit_url = circuit.driver_properties.get_mut("circuit_url").unwrap();
     *circuit_url = format!("prfs://{}", spartan_circuit_path);
 
-    // let circuit_build_json = CircuitBuildJson {
-    //     circuit: circuit.clone(),
-    // };
-
     let circuit_json_path = PATHS
         .build
-        .join(format!("{}/circuit.json", circuit.circuit_id));
+        .join(format!("{}/circuit.json", circuit.circuit_type_id));
     let mut fd = std::fs::File::create(&circuit_json_path).unwrap();
     let circuit_json_str = serde_json::to_string_pretty(&circuit).unwrap();
     fd.write_all(&circuit_json_str.into_bytes()).unwrap();
