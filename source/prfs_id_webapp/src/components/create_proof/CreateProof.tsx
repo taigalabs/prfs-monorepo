@@ -11,6 +11,7 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
+import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -27,7 +28,6 @@ import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 import { useAppSelector } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
-import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 
 enum Status {
   Standby,
@@ -157,7 +157,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
           <div className={styles.moduleWrapper}>
             {loadDriverStatus === LoadDriverStatus.InProgress && (
               <div className={styles.overlay}>
-                <Spinner size={28} color={colors.blue_12} />
+                <Spinner size={24} color={colors.blue_12} />
               </div>
             )}
             <TutorialStepper

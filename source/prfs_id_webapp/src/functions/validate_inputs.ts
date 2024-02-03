@@ -67,9 +67,27 @@ export async function validateInputs(
         break;
       }
 
+      case "MERKLE_SIG_POS_RANGE_V1": {
+        const val: SpartanMerkleProof | undefined = formValues[input.name];
+
+        if (!val) {
+          hasError = true;
+          formErrors[input.name] = "Input is empty";
+        } else {
+          const { root, siblings, pathIndices } = val;
+
+          if (!root || !siblings || !pathIndices) {
+            hasError = true;
+            formErrors[input.name] = "Merkle path is not provided. Have you put address?";
+          }
+        }
+
+        break;
+      }
+
       default: {
         hasError = true;
-        formErrors[input.name] = "Invalid input";
+        formErrors[input.name] = `Invalid input type type: ${input.type}`;
         break;
       }
     }
