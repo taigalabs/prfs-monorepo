@@ -6,3 +6,20 @@
 .or {
   /* padding: 0 3px; */
 }
+
+.interactiveArea {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+
+  .addressInput {
+    /* padding-right: 70px; */
+  }
+}
+
+.computedValue {
+  padding: 2px 6px;
+  color: var(--gray-30);
+  font-size: 13px;
+}

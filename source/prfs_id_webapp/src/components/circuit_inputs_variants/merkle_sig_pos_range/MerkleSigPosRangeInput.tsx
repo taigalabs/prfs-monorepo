@@ -5,13 +5,10 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import {
-  bytesToBigInt,
   makeCommitment,
   makePathIndices,
   makeSiblingPath,
-  poseidon_2,
   poseidon_2_bigint,
-  uint8ArrayToNum,
 } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
@@ -24,9 +21,8 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
-import { PrfsSetElementDataType } from "@taigalabs/prfs-entities/bindings/PrfsSetElementDataType";
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
-import { bytesToNumberBE, bytesToNumberLE, hexToNumber } from "@noble/curves/abstract/utils";
+import { bytesToNumberLE, hexToNumber } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -41,15 +37,14 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import { hexlify } from "ethers/lib/utils";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
     return (
-      "Root: " +
-      value.root.toString().substring(0, 6) +
-      "... / First sibling: " +
-      value.siblings[0].toString().substring(0, 6) +
+      "Merkle root: " +
+      value.root.toString().substring(0, 5) +
+      "..., First sibling: " +
+      value.siblings[0].toString().substring(0, 5) +
       "..."
     );
   }, [value]);
@@ -245,8 +240,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           siblings: siblings as bigint[],
           pathIndices,
         };
-
-        console.log(11, siblingNodesData, merkleProof);
+        console.log("merkleProof: %o", merkleProof);
 
         setFormValues((prevVals: any) => {
           return {
