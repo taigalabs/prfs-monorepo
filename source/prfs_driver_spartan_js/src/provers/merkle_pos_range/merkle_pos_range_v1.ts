@@ -58,6 +58,7 @@ export async function proveMembership(
     // r,
     // s,
     // m: BigInt(m.toString()),
+    leaf,
 
     // merkle root
     root: merkleProof.root,
@@ -131,6 +132,6 @@ export async function verifyMembership(
 
 export interface MerklePosRangeInputs {
   // sigData: SigData;
-  leaf: string;
+  leaf: bigint;
   merkleProof: SpartanMerkleProof;
 }

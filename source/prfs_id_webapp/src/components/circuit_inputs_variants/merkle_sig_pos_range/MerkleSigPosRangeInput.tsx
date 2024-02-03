@@ -173,9 +173,9 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             }
           }
 
-          const a = await poseidon_2_bigint(args);
-          leafVal = bytesToNumberLE(a).toString();
-          console.log("poseidon: %s, int le: %s, int be: %s", a, leafVal);
+          const _leaf = await poseidon_2_bigint(args);
+          leafVal = bytesToNumberLE(_leaf).toString();
+          // console.log("poseidon: %s, int le: %s, int be: %s", a, leafVal);
         }
 
         const { payload, error } = await getPrfsTreeLeafIndices({
