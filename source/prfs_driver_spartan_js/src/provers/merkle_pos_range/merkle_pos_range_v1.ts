@@ -1,62 +1,62 @@
 import { BN } from "bn.js";
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { toBuffer } from "@ethereumjs/util";
-import { SigData, SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
+import { SigData, SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface";
 
 import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
 import { makePoseidon } from "@/utils/poseidon";
 import { PrfsHandlers } from "@/types";
 import {
-  MembershipProofCircuitPubInput,
-  MembershipProofPublicInput,
+  MerklePosRangeCircuitPubInput,
+  MerklePosRangePublicInput,
   computeEffEcdsaPubInput,
   verifyEffEcdsaPubInput,
 } from "./public_input";
 import { SECP256K1_P } from "@/math/secp256k1";
 
 export async function proveMembership(
-  args: ProveArgs<MembershipProveInputs>,
+  args: ProveArgs<MerklePosRangeInputs>,
   handlers: PrfsHandlers,
   wtnsGen: Uint8Array,
   circuit: Uint8Array,
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
-  const { sigData, merkleProof } = inputs;
-  const { msgRaw, msgHash, sig } = sigData;
+  const { leaf, merkleProof } = inputs;
+  // const { msgRaw, msgHash, sig } = sigData;
 
-  const { r, s, v } = fromSig(sig);
+  // const { r, s, v } = fromSig(sig);
   const poseidon = makePoseidon(handlers);
 
-  let serialNo;
-  try {
-    serialNo = await poseidon([s, BigInt(0)]);
-  } catch (err) {
-    throw new Error(`Error Poseidon hashing, err: ${err}`);
-  }
+  // let serialNo;
+  // try {
+  //   serialNo = await poseidon([s, BigInt(0)]);
+  // } catch (err) {
+  //   throw new Error(`Error Poseidon hashing, err: ${err}`);
+  // }
 
-  const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, toBuffer(msgHash));
+  // const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, toBuffer(msgHash));
 
   eventListener({
     type: "CREATE_PROOF_EVENT",
     payload: { type: "info", payload: "Computed ECDSA pub input" },
   });
 
-  const circuitPubInput = new MembershipProofCircuitPubInput(
+  const circuitPubInput = new MerklePosRangeCircuitPubInput(
     merkleProof.root,
-    effEcdsaPubInput.Tx,
-    effEcdsaPubInput.Ty,
-    effEcdsaPubInput.Ux,
-    effEcdsaPubInput.Uy,
-    serialNo,
+    // effEcdsaPubInput.Tx,
+    // effEcdsaPubInput.Ty,
+    // effEcdsaPubInput.Ux,
+    // effEcdsaPubInput.Uy,
+    // serialNo,
   );
 
-  const publicInput = new MembershipProofPublicInput(r, v, msgRaw, msgHash, circuitPubInput);
-  const m = new BN(toBuffer(msgHash)).mod(SECP256K1_P);
+  const publicInput = new MerklePosRangePublicInput(circuitPubInput);
+  // const m = new BN(toBuffer(msgHash)).mod(SECP256K1_P);
 
   const witnessGenInput = {
-    r,
-    s,
-    m: BigInt(m.toString()),
+    // r,
+    // s,
+    // m: BigInt(m.toString()),
 
     // merkle root
     root: merkleProof.root,
@@ -64,12 +64,12 @@ export async function proveMembership(
     pathIndices: merkleProof.pathIndices,
 
     // Eff ECDSA PubInput
-    Tx: effEcdsaPubInput.Tx,
-    Ty: effEcdsaPubInput.Ty,
-    Ux: effEcdsaPubInput.Ux,
-    Uy: effEcdsaPubInput.Uy,
+    // Tx: effEcdsaPubInput.Tx,
+    // Ty: effEcdsaPubInput.Ty,
+    // Ux: effEcdsaPubInput.Ux,
+    // Uy: effEcdsaPubInput.Uy,
 
-    serialNo,
+    // serialNo,
   };
 
   // console.log("witnessGenInput: %o", witnessGenInput);
@@ -111,8 +111,8 @@ export async function verifyMembership(
   const { proof } = args;
   const { proofBytes, publicInputSer } = proof;
 
-  const publicInput = MembershipProofPublicInput.deserialize(publicInputSer);
-  const isPubInputValid = verifyEffEcdsaPubInput(publicInput as MembershipProofPublicInput);
+  const publicInput = MerklePosRangePublicInput.deserialize(publicInputSer);
+  const isPubInputValid = verifyEffEcdsaPubInput(publicInput as MerklePosRangePublicInput);
 
   let isProofValid;
   try {
@@ -128,7 +128,8 @@ export async function verifyMembership(
   return isProofValid && isPubInputValid;
 }
 
-export interface MembershipProveInputs {
-  sigData: SigData;
+export interface MerklePosRangeInputs {
+  // sigData: SigData;
+  leaf: string;
   merkleProof: SpartanMerkleProof;
 }

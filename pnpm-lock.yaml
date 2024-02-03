@@ -612,9 +612,6 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
-      '@taigalabs/prfs-proof-interface':
-        specifier: '*'
-        version: link:../prfs_proof_interface
 
   source/prfs_driver_spartan_js:
     dependencies:
@@ -636,9 +633,6 @@ importers:
       '@taigalabs/prfs-driver-interface':
         specifier: '*'
         version: link:../prfs_driver_interface
-      '@taigalabs/prfs-proof-interface':
-        specifier: '*'
-        version: link:../prfs_proof_interface
       bn.js:
         specifier: ^5.2.1
         version: 5.2.1
@@ -970,6 +964,9 @@ importers:
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
+      '@taigalabs/prfs-circuit-interface':
+        specifier: '*'
+        version: link:../prfs_circuit_interface
       '@taigalabs/prfs-crypto-js':
         specifier: '*'
         version: link:../prfs_crypto_js
@@ -994,9 +991,6 @@ importers:
       '@taigalabs/prfs-proof-gen-js':
         specifier: '*'
         version: link:../prfs_proof_gen_js
-      '@taigalabs/prfs-proof-interface':
-        specifier: '*'
-        version: link:../prfs_proof_interface
       '@taigalabs/prfs-react-lib':
         specifier: '*'
         version: link:../prfs_react_lib
@@ -1303,28 +1297,6 @@ importers:
       typescript:
         specifier: 5.1.6
         version: 5.1.6
-
-  source/prfs_proof_interface:
-    dependencies:
-      '@ethereumjs/util':
-        specifier: ^8.0.3
-        version: 8.1.0
-      '@taigalabs/prfs-crypto-js':
-        specifier: '*'
-        version: link:../prfs_crypto_js
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
-      ethers:
-        specifier: ^5
-        version: 5.7.2
-    devDependencies:
-      '@types/node':
-        specifier: 20.3.1
-        version: 20.3.1
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
 
   source/prfs_proof_webapp:
     dependencies:

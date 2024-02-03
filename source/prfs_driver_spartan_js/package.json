@@ -23,7 +23,6 @@
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-circuit-interface": "*",
     "@taigalabs/prfs-circuits-circom": "*",
-    "@taigalabs/prfs-proof-interface": "*",
     "bn.js": "^5.2.1",
     "comlink": "^4.3.1",
     "json-bigint": "^1.0.0",

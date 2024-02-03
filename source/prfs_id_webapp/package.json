@@ -22,7 +22,7 @@
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@taigalabs/prfs-entities": "*",
-    "@taigalabs/prfs-proof-interface": "*",
+    "@taigalabs/prfs-circuit-interface": "*",
     "@taigalabs/prfs-i18n": "*",
     "@taigalabs/prfs-web3-js": "*",
     "@taigalabs/prfs-id-sdk-web": "*",

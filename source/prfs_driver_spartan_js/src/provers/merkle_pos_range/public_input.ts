@@ -2,7 +2,7 @@ import { ec as EC } from "elliptic";
 import BN from "bn.js";
 import JSONBig from "json-bigint";
 import { bufferToHex, toBuffer } from "@ethereumjs/util";
-import { BufferHex } from "@taigalabs/prfs-proof-interface";
+import { BufferHex } from "@taigalabs/prfs-circuit-interface";
 import { bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 
 import { EffECDSAPubInput } from "@/types";
@@ -11,24 +11,20 @@ import { SECP256K1_N } from "@/math/secp256k1";
 const ec = new EC("secp256k1");
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
-export class MembershipProofPublicInput {
-  r: bigint;
-  rV: bigint;
-  msgRaw: string;
-  msgHash: BufferHex;
-  circuitPubInput: MembershipProofCircuitPubInput;
+export class MerklePosRangePublicInput {
+  // r: bigint;
+  // rV: bigint;
+  // msgRaw: string;
+  // msgHash: BufferHex;
+  circuitPubInput: MerklePosRangeCircuitPubInput;
 
   constructor(
-    r: bigint,
-    rV: bigint,
-    msgRaw: string,
-    msgHash: BufferHex,
-    circuitPubInput: MembershipProofCircuitPubInput,
+    circuitPubInput: MerklePosRangeCircuitPubInput, // msgHash: BufferHex, // msgRaw: string, // rV: bigint, // r: bigint,
   ) {
-    this.r = r;
-    this.rV = rV;
-    this.msgRaw = msgRaw;
-    this.msgHash = msgHash;
+    // this.r = r;
+    // this.rV = rV;
+    // this.msgRaw = msgRaw;
+    // this.msgHash = msgHash;
     this.circuitPubInput = circuitPubInput;
   }
 
@@ -36,51 +32,51 @@ export class MembershipProofPublicInput {
     return JSONbigNative.stringify(this);
   }
 
-  static deserialize(publicInputSer: string): MembershipProofPublicInput {
-    const obj = JSONbigNative.parse(publicInputSer) as MembershipProofPublicInput;
+  static deserialize(publicInputSer: string): MerklePosRangePublicInput {
+    const obj = JSONbigNative.parse(publicInputSer) as MerklePosRangePublicInput;
 
     const circuitPubInputObj = obj.circuitPubInput;
 
-    const circuitPubInput = new MembershipProofCircuitPubInput(
+    const circuitPubInput = new MerklePosRangeCircuitPubInput(
       circuitPubInputObj.merkleRoot,
-      circuitPubInputObj.Tx,
-      circuitPubInputObj.Ty,
-      circuitPubInputObj.Ux,
-      circuitPubInputObj.Uy,
-      circuitPubInputObj.serialNo,
+      // circuitPubInputObj.Tx,
+      // circuitPubInputObj.Ty,
+      // circuitPubInputObj.Ux,
+      // circuitPubInputObj.Uy,
+      // circuitPubInputObj.serialNo,
     );
 
-    return new MembershipProofPublicInput(obj.r, obj.rV, obj.msgRaw, obj.msgHash, circuitPubInput);
+    return new MerklePosRangePublicInput(circuitPubInput);
   }
 }
 
-export class MembershipProofCircuitPubInput {
+export class MerklePosRangeCircuitPubInput {
   merkleRoot: bigint;
-  Tx: bigint;
-  Ty: bigint;
-  Ux: bigint;
-  Uy: bigint;
-  serialNo: bigint;
+  // Tx: bigint;
+  // Ty: bigint;
+  // Ux: bigint;
+  // Uy: bigint;
+  // serialNo: bigint;
 
   constructor(
     merkleRoot: bigint,
-    Tx: bigint,
-    Ty: bigint,
-    Ux: bigint,
-    Uy: bigint,
-    serialNo: bigint,
+    // Tx: bigint,
+    // Ty: bigint,
+    // Ux: bigint,
+    // Uy: bigint,
+    // serialNo: bigint,
   ) {
     this.merkleRoot = merkleRoot;
-    this.Tx = Tx;
-    this.Ty = Ty;
-    this.Ux = Ux;
-    this.Uy = Uy;
-    this.serialNo = serialNo;
+    // this.Tx = Tx;
+    // this.Ty = Ty;
+    // this.Ux = Ux;
+    // this.Uy = Uy;
+    // this.serialNo = serialNo;
   }
 
   serialize(): Uint8Array {
     try {
-      const elems = [this.merkleRoot, this.Tx, this.Ty, this.Ux, this.Uy, this.serialNo];
+      const elems = [this.merkleRoot];
 
       let serialized = new Uint8Array(32 * elems.length);
 
@@ -96,16 +92,16 @@ export class MembershipProofCircuitPubInput {
     }
   }
 
-  static deserialize(serialized: Uint8Array): MembershipProofCircuitPubInput {
+  static deserialize(serialized: Uint8Array): MerklePosRangeCircuitPubInput {
     try {
       const merkleRoot = bytesToBigInt(serialized.slice(0, 32));
-      const Tx = bytesToBigInt(serialized.slice(32, 64));
-      const Ty = bytesToBigInt(serialized.slice(64, 96));
-      const Ux = bytesToBigInt(serialized.slice(96, 128));
-      const Uy = bytesToBigInt(serialized.slice(128, 160));
-      const serialNo = bytesToBigInt(serialized.slice(160, 192));
+      // const Tx = bytesToBigInt(serialized.slice(32, 64));
+      // const Ty = bytesToBigInt(serialized.slice(64, 96));
+      // const Ux = bytesToBigInt(serialized.slice(96, 128));
+      // const Uy = bytesToBigInt(serialized.slice(128, 160));
+      // const serialNo = bytesToBigInt(serialized.slice(160, 192));
 
-      return new MembershipProofCircuitPubInput(merkleRoot, Tx, Ty, Ux, Uy, serialNo);
+      return new MerklePosRangeCircuitPubInput(merkleRoot);
     } catch (err) {
       throw new Error(`Cannot deserialize circuit pub input, err: ${err}`);
     }
@@ -165,20 +161,17 @@ export const computeEffEcdsaPubInput = (
   };
 };
 
-export const verifyEffEcdsaPubInput = (pubInput: MembershipProofPublicInput): boolean => {
-  const expectedCircuitInput = computeEffEcdsaPubInput(
-    pubInput.r,
-    pubInput.rV,
-    toBuffer(pubInput.msgHash),
-  );
-
-  const circuitPubInput = pubInput.circuitPubInput;
-
-  const isValid =
-    expectedCircuitInput.Tx === circuitPubInput.Tx &&
-    expectedCircuitInput.Ty === circuitPubInput.Ty &&
-    expectedCircuitInput.Ux === circuitPubInput.Ux &&
-    expectedCircuitInput.Uy === circuitPubInput.Uy;
-
-  return isValid;
+export const verifyEffEcdsaPubInput = (pubInput: MerklePosRangePublicInput): boolean => {
+  // const expectedCircuitInput = computeEffEcdsaPubInput(
+  //   pubInput.r,
+  //   pubInput.rV,
+  //   toBuffer(pubInput.msgHash),
+  // );
+  // const circuitPubInput = pubInput.circuitPubInput;
+  // const isValid =
+  //   expectedCircuitInput.Tx === circuitPubInput.Tx &&
+  //   expectedCircuitInput.Ty === circuitPubInput.Ty &&
+  //   expectedCircuitInput.Ux === circuitPubInput.Ux &&
+  //   expectedCircuitInput.Uy === circuitPubInput.Uy;
+  return true;
 };
