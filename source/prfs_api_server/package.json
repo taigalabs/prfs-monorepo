@@ -6,7 +6,8 @@
     "create-bindings": "ts-node create_bindings.ts"
   },
   "dependencies": {
-    "@taigalabs/prfs-entities": "*"
+    "@taigalabs/prfs-entities": "*",
+    "@taigalabs/prfs-circuits-circom": "*"
   },
   "devDependencies": {
     "@types/json-bigint": "^1.0.1",

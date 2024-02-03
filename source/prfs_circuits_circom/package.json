@@ -2,6 +2,7 @@
   "name": "@taigalabs/prfs-circuits-circom",
   "version": "0.1.0",
   "license": "MIT",
+  "main": "./data/ts/circuits.ts",
   "scripts": {
     "create-bindings": "ts-node ./create_bindings.ts"
   },

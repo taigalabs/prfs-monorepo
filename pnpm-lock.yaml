@@ -198,6 +198,9 @@ importers:
 
   source/prfs_api_server:
     dependencies:
+      '@taigalabs/prfs-circuits-circom':
+        specifier: '*'
+        version: link:../prfs_circuits_circom
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
@@ -984,9 +987,6 @@ importers:
       dompurify:
         specifier: ^3.0.6
         version: 3.0.6
-      elliptic:
-        specifier: ^6.5.4
-        version: 6.5.4
       ethers:
         specifier: ^5
         version: 5.7.2

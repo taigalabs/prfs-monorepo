@@ -16,7 +16,7 @@ pub fn run() {
         make_spartan(&mut circuit);
         create_circuit_json(&mut circuit);
 
-        circuit_list.push(circuit.circuit_id.to_string());
+        circuit_list.push(circuit.circuit_type_id.to_string());
     }
 
     create_list_json(&circuit_list);

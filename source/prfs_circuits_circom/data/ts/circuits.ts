@@ -1,9 +1,13 @@
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 
+export const ADDR_MEMBERSHIP2_V1 = "addr_membership2_v1";
+export const SIMPLE_HASH_V1 = "simple_hash_v1";
+export const MERKLE_POS_RANGE_V1 = "merkle_pos_range_v1";
+
 const circuits: PrfsCircuit[] = [
   {
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "addr_membership2_v1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1,
     created_at: "2023-05-01T16:39:57-08:00",
     label: "addr_membership2_1",
     author: "SYSTEM_NATIVE",
@@ -89,7 +93,7 @@ const circuits: PrfsCircuit[] = [
   },
   {
     circuit_id: "00000000-0000-0000-0000-000000000001",
-    circuit_type_id: "simple_hash_v1",
+    circuit_type_id: SIMPLE_HASH_V1,
     created_at: "2023-10-01T16:39:57-08:00",
     label: "simple_hash_1_1",
     author: "SYSTEM_NATIVE",
@@ -125,7 +129,7 @@ const circuits: PrfsCircuit[] = [
   },
   {
     circuit_id: "0x0000000000000000000000000000000000000000000000000000000000000002",
-    circuit_type_id: "merkle_pos_range_v1",
+    circuit_type_id: MERKLE_POS_RANGE_V1,
     created_at: "2024-02-02T00:00:00-00:00",
     label: "Merkle pos range v1",
     author: "SYSTEM_NATIVE",

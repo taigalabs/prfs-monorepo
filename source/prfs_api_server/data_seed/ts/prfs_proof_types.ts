@@ -1,4 +1,9 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import {
+  ADDR_MEMBERSHIP2_V1,
+  SIMPLE_HASH_V1,
+  MERKLE_POS_RANGE_V1,
+} from "@taigalabs/prfs-circuits-circom";
 import path from "path";
 import fs from "fs";
 
@@ -31,17 +36,13 @@ const proofTypes = (() => {
   return proofTypes;
 })();
 
-const ADDR_MEMBERSHIP2_1_CIRCUIT_URL =
-  "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit";
+const ADDR_MEMBERSHIP2_V1_CIRCUIT_URL = `prfs://${ADDR_MEMBERSHIP2_V1}/${ADDR_MEMBERSHIP2_V1}.spartan.circuit`;
 
-const ADDR_MEMBERSHIP2_1_WTNS_GEN_URL =
-  "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm";
+const ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL = `prfs://${ADDR_MEMBERSHIP2_V1}/${ADDR_MEMBERSHIP2_V1}_js/${ADDR_MEMBERSHIP2_V1}.wasm`;
 
-const SIMPLE_HASH_1_CIRCUIT_URL =
-  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1.spartan.circuit";
+const SIMPLE_HASH_V1_CIRCUIT_URL = `prfs://${SIMPLE_HASH_V1}/${SIMPLE_HASH_V1}.spartan.circuit`;
 
-const SIMPLE_HASH_1_WTNS_GEN_URL =
-  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1_js/simple_hash_1_1.wasm";
+const SIMPLE_HASH_V1_WTNS_GEN_URL = `prfs://${SIMPLE_HASH_V1}/${SIMPLE_HASH_V1}_js/${SIMPLE_HASH_V1}.wasm`;
 
 const sig_data_circuit_input = {
   desc: "Message over which a signature is made",
@@ -95,8 +96,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-05-01T16:39:57-08:00",
   },
@@ -127,8 +128,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-08-01T16:39:57-08:00",
   },
@@ -159,8 +160,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-05-01T16:39:57-08:00",
   },
@@ -197,8 +198,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-09-21T16:39:57-08:00",
   },
@@ -226,8 +227,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-09-01T16:39:57-08:00",
   },
@@ -246,8 +247,8 @@ const proof_types: PrfsProofType[] = [
     circuit_inputs: [simple_hash_1],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: SIMPLE_HASH_1_CIRCUIT_URL,
-      wtns_gen_url: SIMPLE_HASH_1_WTNS_GEN_URL,
+      circuit_url: SIMPLE_HASH_V1_CIRCUIT_URL,
+      wtns_gen_url: SIMPLE_HASH_V1_WTNS_GEN_URL,
     },
     created_at: "2023-09-01T16:39:57-08:00",
   },
@@ -278,8 +279,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-10-26T16:39:57-08:00",
   },
@@ -310,8 +311,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2023-11-19T16:39:57-08:00",
   },
@@ -347,8 +348,8 @@ const proof_types: PrfsProofType[] = [
     ],
     driver_properties: {
       version: "0.0.1",
-      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
     created_at: "2024-01-29T16:39:57-08:00",
   },
