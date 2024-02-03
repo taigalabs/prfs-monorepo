@@ -198,6 +198,9 @@ importers:
 
   source/prfs_api_server:
     dependencies:
+      '@taigalabs/prfs-circuit-interface':
+        specifier: '*'
+        version: link:../prfs_circuit_interface
       '@taigalabs/prfs-circuits-circom':
         specifier: '*'
         version: link:../prfs_circuits_circom
@@ -621,6 +624,9 @@ importers:
       '@taigalabs/async-incremental-merkle-tree':
         specifier: '*'
         version: link:../../externals/incremental-merkle-tree
+      '@taigalabs/prfs-circuit-interface':
+        specifier: '*'
+        version: link:../prfs_circuit_interface
       '@taigalabs/prfs-circuits-circom':
         specifier: '*'
         version: link:../prfs_circuits_circom

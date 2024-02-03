@@ -8,7 +8,7 @@
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/Ethereum_logo_translucent.svg",
     "img_caption": "0.0001",
     "circuit_id": "00000000-0000-0000-0000-000000000000",
-    "circuit_type_id": "MEMBERSHIP_PROOF_1",
+    "circuit_type_id": "addr_membership2_v1",
     "circuit_driver_id": "SPARTAN_CIRCOM_1",
     "circuit_inputs": [
       {
@@ -45,7 +45,7 @@
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/bayc-footer.webp",
     "img_caption": "",
     "circuit_id": "00000000-0000-0000-0000-000000000000",
-    "circuit_type_id": "MEMBERSHIP_PROOF_1",
+    "circuit_type_id": "addr_membership2_v1",
     "circuit_driver_id": "SPARTAN_CIRCOM_1",
     "circuit_inputs": [
       {
@@ -82,7 +82,7 @@
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/nonce.jpeg",
     "img_caption": "",
     "circuit_id": "00000000-0000-0000-0000-000000000000",
-    "circuit_type_id": "MEMBERSHIP_PROOF_1",
+    "circuit_type_id": "addr_membership2_v1",
     "circuit_driver_id": "SPARTAN_CIRCOM_1",
     "circuit_inputs": [
       {
@@ -119,7 +119,7 @@
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/aave.png",
     "img_caption": "150",
     "circuit_id": "00000000-0000-0000-0000-000000000000",
-    "circuit_type_id": "MEMBERSHIP_PROOF_1",
+    "circuit_type_id": "addr_membership2_v1",
     "circuit_driver_id": "SPARTAN_CIRCOM_1",
     "circuit_inputs": [
       {
@@ -156,7 +156,7 @@
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/padlock-clipart-design-illustration-free-png.webp",
     "img_caption": "0.0001",
     "circuit_id": "00000000-0000-0000-0000-000000000000",
-    "circuit_type_id": "MEMBERSHIP_PROOF_1",
+    "circuit_type_id": "addr_membership2_v1",
     "circuit_driver_id": "SPARTAN_CIRCOM_1",
     "circuit_inputs": [
       {
@@ -183,7 +183,7 @@
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/hash.png",
     "img_caption": "",
     "circuit_id": "00000000-0000-0000-0000-000000000001",
-    "circuit_type_id": "SIMPLE_HASH_1",
+    "circuit_type_id": "simple_hash_v1",
     "circuit_driver_id": "SPARTAN_CIRCOM_1",
     "circuit_inputs": [
       {
@@ -210,7 +210,7 @@
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/paradigm_logo.jpg",
     "img_caption": null,
     "circuit_id": "00000000-0000-0000-0000-000000000000",
-    "circuit_type_id": "MEMBERSHIP_PROOF_1",
+    "circuit_type_id": "addr_membership2_v1",
     "circuit_driver_id": "SPARTAN_CIRCOM_1",
     "circuit_inputs": [
       {
@@ -247,7 +247,7 @@
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/2023_eth_global_istanbul_logo.png",
     "img_caption": null,
     "circuit_id": "00000000-0000-0000-0000-000000000000",
-    "circuit_type_id": "MEMBERSHIP_PROOF_1",
+    "circuit_type_id": "addr_membership2_v1",
     "circuit_driver_id": "SPARTAN_CIRCOM_1",
     "circuit_inputs": [
       {

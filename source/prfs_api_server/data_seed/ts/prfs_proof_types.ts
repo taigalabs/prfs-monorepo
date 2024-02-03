@@ -2,9 +2,9 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import {
   ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
   SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
-  MERKLE_POS_RANGE_V1_CIRCUIT_ID,
   MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
-} from "@taigalabs/prfs-circuits-circom";
+} from "@taigalabs/prfs-circuit-interface";
+import { MERKLE_POS_RANGE_V1_CIRCUIT_ID } from "@taigalabs/prfs-circuits-circom";
 import path from "path";
 import fs from "fs";
 
@@ -84,7 +84,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/Ethereum_logo_translucent.svg",
     img_caption: "0.0001",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -116,7 +116,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/bayc-footer.webp",
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -148,7 +148,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/nonce.jpeg",
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -180,7 +180,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/aave.png",
     img_caption: "150",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -219,7 +219,7 @@ const proof_types: PrfsProofType[] = [
       "https://d1w1533jipmvi2.cloudfront.net/padlock-clipart-design-illustration-free-png.webp",
     img_caption: "0.0001",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -247,7 +247,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/hash.png",
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000001",
-    circuit_type_id: "SIMPLE_HASH_1",
+    circuit_type_id: SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [simple_hash_1],
     driver_properties: {
@@ -267,7 +267,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/paradigm_logo.jpg",
     img_caption: null,
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -299,7 +299,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/2023_eth_global_istanbul_logo.png",
     img_caption: null,
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
