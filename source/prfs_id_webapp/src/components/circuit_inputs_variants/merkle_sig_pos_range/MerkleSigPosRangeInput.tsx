@@ -243,7 +243,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         };
         console.log("merkleProof: %o", merkleProof);
 
-        setFormValues(prevVals => {
+        setFormValues(() => {
           return {
             leaf: leafVal,
             asset_size: BigInt(1),
