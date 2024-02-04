@@ -1,7 +1,11 @@
 import { BN } from "bn.js";
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { toBuffer } from "@ethereumjs/util";
-import { SigData, SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface";
+import {
+  MerklePosRangeInputs,
+  SigData,
+  SpartanMerkleProof,
+} from "@taigalabs/prfs-circuit-interface";
 
 import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
 import { makePoseidon } from "@/utils/poseidon";
@@ -130,8 +134,8 @@ export async function verifyMembership(
   return isProofValid && isPubInputValid;
 }
 
-export interface MerklePosRangeInputs {
-  // sigData: SigData;
-  leaf: bigint;
-  merkleProof: SpartanMerkleProof;
-}
+// export interface MerklePosRangeInputs {
+//   // sigData: SigData;
+//   leaf: bigint;
+//   merkleProof: SpartanMerkleProof;
+// }

@@ -1,4 +1,5 @@
 import { CircuitInputType } from "@taigalabs/prfs-entities/bindings/CircuitInputType";
+
 export const ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID = "addr_membership2_v1";
 
 export const SIMPLE_HASH_V1_CIRCUIT_TYPE_ID = "simple_hash_v1";
