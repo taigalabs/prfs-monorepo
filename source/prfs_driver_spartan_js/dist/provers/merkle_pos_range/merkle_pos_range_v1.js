@@ -1,12 +1,10 @@
 import { snarkJsWitnessGen } from "../../utils/utils";
-import { makePoseidon } from "../../utils/poseidon";
 import { MerklePosRangeCircuitPubInput, MerklePosRangePublicInput, verifyEffEcdsaPubInput, } from "./public_input";
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
+    // console.log("inputs: %o", inputs);
     const { leaf, merkleProof } = inputs;
-    // const { msgRaw, msgHash, sig } = sigData;
-    // const { r, s, v } = fromSig(sig);
-    const poseidon = makePoseidon(handlers);
+    // const poseidon = makePoseidon(handlers);
     // let serialNo;
     // try {
     //   serialNo = await poseidon([s, BigInt(0)]);
@@ -25,6 +23,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         // r,
         // s,
         // m: BigInt(m.toString()),
+        leaf,
         // merkle root
         root: merkleProof.root,
         siblings: merkleProof.siblings,
@@ -36,6 +35,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         // Uy: effEcdsaPubInput.Uy,
         // serialNo,
     };
+    console.log(11, witnessGenInput);
     // console.log("witnessGenInput: %o", witnessGenInput);
     const witness = await snarkJsWitnessGen(witnessGenInput, wtnsGen);
     eventListener({
@@ -77,3 +77,8 @@ export async function verifyMembership(args, handlers, circuit) {
     }
     return isProofValid && isPubInputValid;
 }
+// export interface MerklePosRangeInputs {
+//   // sigData: SigData;
+//   leaf: bigint;
+//   merkleProof: SpartanMerkleProof;
+// }

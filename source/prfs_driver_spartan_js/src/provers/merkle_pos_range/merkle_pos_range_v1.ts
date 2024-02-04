@@ -25,12 +25,10 @@ export async function proveMembership(
   circuit: Uint8Array,
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
-  console.log("inputs: %o", inputs);
+  // console.log("inputs: %o", inputs);
   const { leaf, merkleProof } = inputs;
-  // const { msgRaw, msgHash, sig } = sigData;
 
-  // const { r, s, v } = fromSig(sig);
-  const poseidon = makePoseidon(handlers);
+  // const poseidon = makePoseidon(handlers);
 
   // let serialNo;
   // try {
@@ -77,6 +75,8 @@ export async function proveMembership(
 
     // serialNo,
   };
+
+  console.log(11, witnessGenInput);
 
   // console.log("witnessGenInput: %o", witnessGenInput);
   const witness = await snarkJsWitnessGen(witnessGenInput, wtnsGen);
