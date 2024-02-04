@@ -32,6 +32,7 @@ template MerklePosRange(nLevels) {
     lessThan.in[1] <-- asset_size_max_limit;
 
     log("lessThan", lessThan.out);
+    lessThan.out === 1;
 
     // Serial number
     // component poseidon = Poseidon();
