@@ -1,4 +1,5 @@
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
+import { SimpleHashProveArgs } from "@taigalabs/prfs-circuit-interface";
 import { BN } from "bn.js";
 
 import { PrfsHandlers } from "@/types";
@@ -74,12 +75,4 @@ export async function verifyMembership(
   }
 
   return isProofValid;
-}
-
-export interface SimpleHashProveArgs {
-  hashData: {
-    msgRaw: string;
-    msgRawInt: bigint;
-    msgHash: bigint;
-  };
 }
