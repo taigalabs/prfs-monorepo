@@ -163,7 +163,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
               }
 
               const val = hexToNumber(cm.substring(2));
-              // console.log("cm: %s, val: %s", cm, val);
+              console.log("cm: %s, val: %s", cm, val);
               args[idx] = val;
               break;
             }
@@ -177,7 +177,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         const _leaf = await poseidon_2_bigint(args);
         const leafVal = bytesToNumberLE(_leaf);
-        // console.log("poseidon: %s, int le: %s, int be: %s", a, leafVal);
+        console.log("args: %s, poseidon: %s, ", args, leafVal);
 
         const { payload, error } = await getPrfsTreeLeafIndices({
           set_id,
@@ -214,7 +214,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           return { pos_h: idx, pos_w };
         });
 
-        // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
+        console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
         const siblingNodesData = await getPrfsTreeNodesByPosRequest({
           set_id,

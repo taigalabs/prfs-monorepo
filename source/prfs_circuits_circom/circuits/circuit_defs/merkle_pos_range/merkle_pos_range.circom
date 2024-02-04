@@ -28,6 +28,7 @@ template MerklePosRange(nLevels) {
     // poseidon.inputs[0] <== s;
     // poseidon.inputs[1] <== 0;
     // serialNo === poseidon.out;
+    log("leaf", leaf); 
 
     component merkleProof = MerkleTreeInclusionProof(nLevels);
     merkleProof.leaf <== leaf;
@@ -37,8 +38,7 @@ template MerklePosRange(nLevels) {
         merkleProof.siblings[i] <== siblings[i];
     }
 
-    log("root (given)", root); 
-    // log("merkleProof root", merkleProof.root);
+    log("root", root, "merkleProof root", merkleProof.root);
 
     root === merkleProof.root;
 }

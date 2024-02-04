@@ -10,7 +10,7 @@ use crate::TreeMakerError;
 
 pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>, TreeMakerError> {
     let mut nodes = vec![];
-    for (_, elem) in set_elements.iter().enumerate() {
+    for (idx, elem) in set_elements.iter().enumerate() {
         let data = &elem.data;
         let mut args = [ZERO_NODE, ZERO_NODE];
 
@@ -44,7 +44,7 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
         let val = poseidon_2(&args[0], &args[1]).unwrap();
         let int = convert_32bytes_le_into_decimal_string(&val).unwrap();
         // let val2 = U256::from_be_bytes(val);
-        println!("poseidon: {:?}, int: {}", val, int);
+        println!("idx: {}, poseidon: {:?}, int: {}", idx, val, int);
 
         // let node = RawPrfsTreeNode {
         //     pos_w: elem.element_idx,
