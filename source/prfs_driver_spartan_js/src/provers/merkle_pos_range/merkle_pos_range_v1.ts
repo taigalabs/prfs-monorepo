@@ -26,7 +26,7 @@ export async function proveMembership(
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
   // console.log("inputs: %o", inputs);
-  const { leaf, merkleProof } = inputs;
+  const { leaf, merkleProof, asset_size, asset_size_max_limit } = inputs;
 
   // const poseidon = makePoseidon(handlers);
 
@@ -61,6 +61,8 @@ export async function proveMembership(
     // s,
     // m: BigInt(m.toString()),
     leaf,
+    asset_size,
+    asset_size_max_limit,
 
     // merkle root
     root: merkleProof.root,
