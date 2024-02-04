@@ -1,12 +1,10 @@
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import {
   ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
+  MERKLE_POS_RANGE_V1_CIRCUIT_ID,
   MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
   SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
 } from "@taigalabs/prfs-circuit-interface";
-
-export const MERKLE_POS_RANGE_V1_CIRCUIT_ID =
-  "0x0000000000000000000000000000000000000000000000000000000000000002";
 
 const circuits: PrfsCircuit[] = [
   {

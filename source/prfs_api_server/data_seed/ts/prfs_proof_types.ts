@@ -4,8 +4,8 @@ import {
   SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
   MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
   MERKLE_POS_RANGE_INPUT_TYPE_V1,
+  MERKLE_POS_RANGE_V1_CIRCUIT_ID,
 } from "@taigalabs/prfs-circuit-interface";
-import { MERKLE_POS_RANGE_V1_CIRCUIT_ID } from "@taigalabs/prfs-circuits-circom";
 import path from "path";
 import fs from "fs";
 
