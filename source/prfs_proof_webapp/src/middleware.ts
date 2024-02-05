@@ -10,6 +10,7 @@ const hosts = (() => {
 
   const ret = {
     console: consoleHost,
+    temp: "temp.localhost:3000",
   };
   console.log("[middleware] hosts: %o", ret);
   return ret;
@@ -55,6 +56,11 @@ export default async function middleware(req: NextRequest) {
   if (hostname === hosts.console) {
     // console.log(22, new URL(`/console${path === "/" ? "" : path}`, req.url));
     return NextResponse.rewrite(new URL(`/console${path === "/" ? "" : path}`, req.url));
+  }
+
+  if (hostname === hosts.temp) {
+    // console.log(22, new URL(`/console${path === "/" ? "" : path}`, req.url));
+    return NextResponse.rewrite(new URL(`/${path === "/" ? "" : path}`, req.url));
   }
 
   // // special case for `vercel.pub` domain

@@ -5,6 +5,7 @@ import "@taigalabs/prfs-react-lib/src/global.scss";
 
 import "./globals.scss";
 import TopProvider from "@/components/top_provider/TopProvider";
+import { PRFS_CONSOLE } from "@/app_id";
 
 export const metadata: Metadata = {
   robots: {
@@ -42,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}
       </Script>
       <body suppressHydrationWarning={true}>
-        <TopProvider>{children}</TopProvider>
+        <TopProvider appId={PRFS_CONSOLE}>{children}</TopProvider>
       </body>
     </html>
   );

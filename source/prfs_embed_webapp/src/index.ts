@@ -13,9 +13,14 @@ async function main() {
   const messageQueue = new MessageQueue();
   setupStorageListener(messageQueue);
   setupParentMsgHandler(messageQueue);
-  await sendMsgToParent(newPrfsIdMsg("HANDSHAKE", null));
 
+  await sendMsgToParent(newPrfsIdMsg("HANDSHAKE", null));
   console.log("[prfs-embed] Handshaked with parent");
+
+  setInterval(() => {
+    const a = window.localStorage.getItem("prfs_msg__prfs_proof");
+    console.log(11, a, window.location.hostname);
+  }, 4000);
 }
 
 main().then();
