@@ -22,6 +22,7 @@ import {
   MastheadWrapper,
 } from "@/components/masthead/Masthead";
 import { envs } from "@/envs";
+import { PRFS_PROOF } from "@/app_id";
 
 const ProofTypeSelectedMasthead: React.FC<ProofTypeMastheadProps> = ({
   isActivated,
@@ -62,7 +63,7 @@ const ProofTypeSelectedMasthead: React.FC<ProofTypeMastheadProps> = ({
             <PrfsAppsPopoverDefault />
           </MastheadRightGroupMenu>
           <MastheadRightGroupMenu className={cn(styles.signInBtn)}>
-            <PrfsIdSignInBtn />
+            <PrfsIdSignInBtn appId={PRFS_PROOF} />
           </MastheadRightGroupMenu>
         </MastheadRightGroup>
       </MastheadMain>

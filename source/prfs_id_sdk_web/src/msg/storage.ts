@@ -9,6 +9,7 @@ export function createStorageKey(appId: string) {
 
 export function dispatchStorageMsg(msg: StorageMsg<any>) {
   if (msg.appId) {
+    console.log("dispatch appId: %s", msg.appId);
     const ky = createStorageKey(msg.appId);
     window.localStorage.setItem(ky, msg.value);
   } else {
@@ -18,6 +19,7 @@ export function dispatchStorageMsg(msg: StorageMsg<any>) {
 
 export async function setupStorageListener(messageQueue: MessageQueue) {
   async function listener(ev: StorageEvent) {
+    console.log("ev", ev);
     if (ev.key) {
       const port = messageQueue.dequeue(ev.key);
       if (port) {

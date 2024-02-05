@@ -111,7 +111,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       const encrypted = JSON.stringify(
         encrypt(appSignInArgs.public_key, Buffer.from(JSON.stringify(payload))),
       );
-      console.log("Encrypted credential", encrypted);
+      // console.log("Encrypted credential", encrypted);
 
       try {
         if (prfsEmbed) {

@@ -31,7 +31,12 @@ import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
 import { useRandomKeyPair } from "@/hooks/key";
 
-const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noCredential }) => {
+const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
+  className,
+  label,
+  noCredential,
+  appId,
+}) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
@@ -45,7 +50,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
     return {
       nonce: Math.random() * 1000000,
-      app_id: "prfs_proof",
+      app_id: appId,
       sign_in_data: [AppSignInData.ID_POSEIDON],
       public_key: pkHex,
     };
@@ -107,14 +112,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
     console.log("Failed init Prfs Proof credential!");
   }, []);
 
-  // if (!isCredentialInitialized) {
-  //   return (
-  //     <Overlay className={styles.wrapper}>
-  //       <Spinner size={24} color="#5c5c5c" />
-  //     </Overlay>
-  //   );
-  // }
-
   return prfsProofCredential ? (
     noCredential ? (
       <div>Loading...</div>
@@ -147,4 +144,5 @@ export interface PrfsIdSignInBtnProps {
   className?: string;
   label?: string;
   noCredential?: boolean;
+  appId: string;
 }

@@ -21,6 +21,7 @@ import { envs } from "@/envs";
 import AppLogo from "../app_logo/AppLogo";
 import { consolePaths, paths } from "@/paths";
 import { urls } from "@/urls";
+import { PRFS_CONSOLE } from "@/app_id";
 
 const SetsMasthead: React.FC<AttestationsMastheadProps> = ({
   handleClickShowLeftBar,
@@ -62,7 +63,7 @@ const SetsMasthead: React.FC<AttestationsMastheadProps> = ({
             <PrfsAppsPopoverDefault />
           </MastheadRightGroupMenu>
           <MastheadRightGroupMenu className={cn(styles.signInBtn)}>
-            <PrfsIdSignInBtn />
+            <PrfsIdSignInBtn appId={PRFS_CONSOLE} />
           </MastheadRightGroupMenu>
         </MastheadRightGroup>
       </MastheadMain>

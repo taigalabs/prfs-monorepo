@@ -26,7 +26,7 @@ import {
   AttestationListItemUnordered,
 } from "@/components/create_attestation/CreateAtstComponents";
 import { useSignedInUser } from "@/hooks/user";
-import { paths } from "@/paths";
+import { consolePaths, paths } from "@/paths";
 
 const SET_ID = "set_id";
 const LABEL = "label";
@@ -98,7 +98,7 @@ const CreateSet: React.FC<CreateSetProps> = () => {
         }
         if (payload) {
           setIsNavigating(true);
-          router.push(paths.console__sets);
+          router.push(consolePaths.sets);
         }
       } catch (err) {
         setCreateStatus(Status.Standby);
