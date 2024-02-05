@@ -4,8 +4,8 @@ export function getPrfsDevEndpoints() {
   const env: Endpoint = {
     prfs_code_repository: "https://github.com/taigalabs/prfs-monorepo",
     taigalabs_website: "http://localhost:3060",
-    prfs_console_webapp: "console.localhost:3000",
-    prfs_proof_webapp: "localhost:3000",
+    prfs_console_webapp: "http://console.localhost:3000",
+    prfs_proof_webapp: "http://localhost:3000",
     prfs_embed_webapp: "http://localhost:3010",
     prfs_id_webapp: "http://localhost:3011",
     prfs_poll_webapp: "http://localhost:3021",

@@ -38,10 +38,12 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
         return;
       }
 
+      console.log(123);
       const resp = await sendMsgToChild(
         newPrfsIdMsg("REQUEST_SIGN_IN", { appId: appSignInArgs.app_id }),
         prfsEmbed,
       );
+      console.log(12223, resp);
       if (resp) {
         try {
           const buf = parseBuffer(resp);

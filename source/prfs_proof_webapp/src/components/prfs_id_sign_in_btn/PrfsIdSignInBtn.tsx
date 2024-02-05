@@ -54,6 +54,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
       if (sk) {
+        console.log("success");
+
         let decrypted: string;
         try {
           decrypted = decrypt(sk.secret, encrypted).toString();

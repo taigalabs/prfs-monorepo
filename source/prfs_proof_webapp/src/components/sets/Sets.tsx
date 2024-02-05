@@ -8,7 +8,7 @@ import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 
 import styles from "./Sets.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { consolePaths, paths } from "@/paths";
+import { consolePaths } from "@/paths";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import SetLeftBar from "./SetLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
@@ -27,8 +27,7 @@ const Sets: React.FC<SetsProps> = ({ children }) => {
   React.useEffect(() => {
     if (isCredentialInitialized) {
       if (prfsProofCredential === null) {
-        console.log(322);
-        // router.push(consolePaths.sets__crypto_holders);
+        router.push(consolePaths.accounts);
       }
     }
   }, [isCredentialInitialized, prfsProofCredential, router]);

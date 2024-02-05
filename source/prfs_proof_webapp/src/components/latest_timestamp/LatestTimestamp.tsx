@@ -3,15 +3,21 @@ import dayjs from "dayjs";
 
 import styles from "./LatestTimestamp.module.scss";
 import { getI18N } from "@/i18n/get_i18n";
+import { envs } from "@/envs";
 
 export const isRecentlyUpdated = (() => {
-  const lastDay = dayjs(process.env.NEXT_PUBLIC_UPDATE_TIMESTAMP);
-  const now = dayjs();
-  const d = now.diff(lastDay, "day");
-  if (d <= 7) {
+  try {
+    const lastDay = dayjs(envs.NEXT_PUBLIC_LAUNCH_TIMESTAMP);
+    const now = dayjs();
+    const d = now.diff(lastDay, "day");
+    if (d <= 7) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.log("Error getting the latest Git timestamp", err);
     return true;
-  } else {
-    return false;
   }
 })();
 

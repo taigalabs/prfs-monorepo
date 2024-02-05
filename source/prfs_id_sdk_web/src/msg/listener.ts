@@ -3,7 +3,6 @@ import {
   SignInSuccessPayload,
   StorageMsg,
   RequestPayload,
-  // CommitmentSuccessPayload,
   ProofGenSuccessPayload,
 } from "./msg";
 import { MessageQueue } from "./queue";
