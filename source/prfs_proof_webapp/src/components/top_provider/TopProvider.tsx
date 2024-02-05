@@ -22,13 +22,13 @@ const wagmiConfig = createConfig({
 
 const queryClient = new QueryClient();
 
-const TopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const TopProvider: React.FC<TopProviderProps> = ({ children, appId }) => {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <PrfsReactComponentsI18NProvider>
           <PrfsEmbedProvider
-            appId="prfs_proof"
+            appId={appId}
             prfsEmbedEndpoint={envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT}
           >
             <StateProvider store={store}>
@@ -42,3 +42,8 @@ const TopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 export default TopProvider;
+
+export interface TopProviderProps {
+  children: React.ReactNode;
+  appId: string;
+}
