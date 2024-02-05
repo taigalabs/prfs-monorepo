@@ -10,7 +10,10 @@ import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
 import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
-import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface";
+import {
+  SpartanMerkleProof,
+  MERKLE_POS_RANGE_INPUT_TYPE_V1,
+} from "@taigalabs/prfs-circuit-interface";
 
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRaw from "./MerkleProofRaw";

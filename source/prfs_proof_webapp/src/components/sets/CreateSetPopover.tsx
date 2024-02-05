@@ -7,7 +7,7 @@ import Popover from "@taigalabs/prfs-react-lib/src/popover/Popover";
 
 import styles from "./CreateSetPopover.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
+import { consolePaths, paths } from "@/paths";
 
 // const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
 //   const i18n = React.useContext(i18nContext);
@@ -57,7 +57,7 @@ const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = () => {
       className={styles.createBtn}
       contentClassName={styles.addBtnContent}
     >
-      <a href={paths.sets__create}>
+      <a href={consolePaths.sets__create}>
         <HiPlus />
         <span>{i18n.create_set}</span>
       </a>

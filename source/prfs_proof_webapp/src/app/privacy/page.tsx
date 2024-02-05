@@ -12,8 +12,6 @@ import { getI18N } from "@/i18n/get_i18n";
 import PrivacyDoc from "@/components/privacy_doc/PrivacyDoc";
 
 const PrivacyPage = async () => {
-  const i18n = await getI18N();
-
   return (
     <DefaultLayout>
       <DefaultBody>

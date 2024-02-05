@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 import styles from "./AttestationLeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
+import { consolePaths, paths } from "@/paths";
 import CreateSetPopover from "./CreateSetPopover";
 import {
   LeftBarItem,
@@ -41,7 +41,7 @@ const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
       </LeftBarTopMenu>
       <LeftBarMenu>
         <LeftBarItem>
-          <Link href={paths.sets__crypto_holders}>
+          <Link href={consolePaths.sets__crypto_holders}>
             <LeftBarItemButton isHighlighted={name === CRYPTO_HOLDERS}>
               <FaBitcoin />
               <span>{i18n.crypto_holders}</span>

@@ -11,28 +11,11 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import Sets from "@/components/sets/Sets";
 import SetList from "@/components/set_list/SetList";
-import { paths } from "@/paths";
+import { consolePaths, paths } from "@/paths";
+import { envs } from "@/envs";
 
 const SetsPage: React.FC<SetPageProps> = () => {
-  return redirect(paths.sets__crypto_holders);
-  // return (
-  //   <DefaultLayout>
-  //     <AttestationsDefaultBody>
-  //       <Suspense>
-  //         <Sets>
-  //           <AttestationsMain>
-  //             <AttestationsMainInner>
-  //               <SetList />
-  //             </AttestationsMainInner>
-  //           </AttestationsMain>
-  //         </Sets>
-  //       </Suspense>
-  //     </AttestationsDefaultBody>
-  //     <DefaultFooter>
-  //       <GlobalFooter />
-  //     </DefaultFooter>
-  //   </DefaultLayout>
-  // );
+  return redirect(consolePaths.sets__crypto_holders);
 };
 
 export default SetsPage;

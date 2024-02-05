@@ -1,31 +1,11 @@
-import React, { Suspense } from "react";
+import React from "react";
+import { redirect } from "next/navigation";
 
-import styles from "./page.module.scss";
-import DefaultLayout, {
-  DefaultBody,
-  DefaultFooter,
-} from "@/components/layouts/default_layout/DefaultLayout";
+import { consolePaths, paths } from "@/paths";
+import { urls } from "@/urls";
 
-const ConsolePage = () => {
-  return (
-    <DefaultLayout>
-      123
-      {/* <DefaultBody noMinWidth> */}
-      {/*   <Suspense> */}
-      {/*     <HomeMasthead /> */}
-      {/*   </Suspense> */}
-      {/*   <Suspense> */}
-      {/*     <SearchProofTypeForm /> */}
-      {/*   </Suspense> */}
-      {/* </DefaultBody> */}
-      {/* <DefaultFooter> */}
-      {/*   <GlobalFooter /> */}
-      {/*   <Suspense> */}
-      {/*     <TutorialPlaceholder /> */}
-      {/*   </Suspense> */}
-      {/* </DefaultFooter> */}
-    </DefaultLayout>
-  );
+const ConsolePage: React.FC = () => {
+  redirect(consolePaths.sets);
 };
 
 export default ConsolePage;
