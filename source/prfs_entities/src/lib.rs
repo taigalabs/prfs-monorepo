@@ -9,4 +9,6 @@ pub mod shy_api_entities;
 pub mod snap_entities;
 pub mod syn_entities;
 
+// mod example;
+
 pub use sqlx;

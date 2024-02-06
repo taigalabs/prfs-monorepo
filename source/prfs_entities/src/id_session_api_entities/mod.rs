@@ -1,11 +1,9 @@
-use std::collections::HashMap;
-
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use sqlx::prelude::Type;
 use ts_rs::TS;
 
-#[derive(Serialize, Deserialize, Debug, TS)]
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
 #[ts(export)]
 pub struct PrfsSignUpRequest2 {
     pub account_id: String,
@@ -13,13 +11,22 @@ pub struct PrfsSignUpRequest2 {
     pub avatar_color: String,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
+#[ts(export)]
+pub struct PrfsIdMsg<T> {
+    r#type: PrfsIdMsgType,
+    error: Option<String>,
+    payload: Option<T>,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[allow(non_camel_case_types)]
+#[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsIdSessionMsg {
-    RequestSignIn(RequestSignInPayload),
-    RequestProofGen(RequestProofGenPayload),
-    RequestVerifyProof(RequestVerifyProofPayload),
+    REQUEST_SIGN_IN(PrfsIdMsg<RequestSignInPayload>),
+    REQUEST_PROOF_GEN(PrfsIdMsg<RequestProofGenPayload>),
+    REQUEST_VERIFY_PROOF(PrfsIdMsg<RequestVerifyProofPayload>),
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

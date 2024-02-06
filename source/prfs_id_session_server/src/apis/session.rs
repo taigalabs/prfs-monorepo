@@ -5,7 +5,7 @@ use hyper_tungstenite2::{tungstenite, HyperWebsocket};
 use hyper_utils::error::ApiHandleError;
 use hyper_utils::io::{full, BytesBoxBody};
 use prfs_common_server_state::ServerState;
-use prfs_entities::id_session_api_entities::PrfsIdSessionMsg;
+use prfs_entities::id_session_api_entities::{PrfsIdMsg, PrfsIdMsgType};
 use std::sync::Arc;
 use tungstenite::error::ProtocolError;
 use tungstenite::handshake::derive_accept_key;
@@ -44,27 +44,30 @@ async fn serve_websocket(websocket: HyperWebsocket) -> Result<(), IdSessionServe
             Message::Text(msg) => {
                 println!("Received text message: {msg}");
 
-                let prfs_id_session_msg: PrfsIdSessionMsg = match serde_json::from_str(&msg) {
-                    Ok(m) => m,
-                    Err(err) => {
-                        let err_str = err.to_string();
-                        websocket.send(Message::text(err_str)).await?;
+                let prfs_id_session_msg: PrfsIdMsg<serde_json::Value> =
+                    match serde_json::from_str(&msg) {
+                        Ok(m) => m,
+                        Err(err) => {
+                            let err_str = err.to_string();
+                            websocket.send(Message::text(err_str)).await?;
 
-                        return Ok(());
-                    }
-                };
+                            return Ok(());
+                        }
+                    };
 
-                match prfs_id_session_msg {
-                    PrfsIdSessionMsg::RequestSignIn(msg) => {
-                        println!("123");
-                    }
-                    PrfsIdSessionMsg::RequestProofGen(m) => {
-                        println!("234");
-                    }
-                    _ => {
-                        println!("error")
-                    }
-                };
+                println!("prfs_id_session_msg: {:?}", prfs_id_session_msg);
+
+                // match prfs_id_session_msg {
+                //     PrfsIdSessionMsg::RequestSignIn(msg) => {
+                //         println!("123");
+                //     }
+                //     PrfsIdSessionMsg::RequestProofGen(m) => {
+                //         println!("234");
+                //     }
+                //     _ => {
+                //         println!("error")
+                //     }
+                // };
 
                 websocket
                     .send(Message::text("Thank you, come again."))

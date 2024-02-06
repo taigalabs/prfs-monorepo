@@ -41,7 +41,9 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
       const { send, receive } = await openSession();
       send({
-        RequestSignIn: {
+        type: "REQUEST_SIGN_IN",
+        error: null,
+        payload: {
           app_id: appSignInArgs.app_id,
         },
       });
