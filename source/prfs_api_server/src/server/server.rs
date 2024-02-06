@@ -8,10 +8,11 @@ use std::sync::Arc;
 use tokio::net::TcpListener;
 
 use crate::server::router::route;
+use crate::ApiServerError;
 
 const PORT: u16 = 4000;
 
-pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), Box<dyn std::error::Error>> {
+pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), ApiServerError> {
     let addr = SocketAddr::from(([0, 0, 0, 0], PORT));
     println!("prfs_api_server launching, addr: {}", addr);
 

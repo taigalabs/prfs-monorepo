@@ -31,10 +31,10 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
 tracing-appender = "0.2"
 uuid = { version = "1.4.1", features = ["v4", "serde"] }
-tokio-tungstenite = "0.21"
-tungstenite = "0.21"
-hyper-tungstenite = "0.13"
-futures = { version = "0.3" }
+# tokio-tungstenite = "0.21"
+# tungstenite = "0.21"
+# hyper-tungstenite = "0.13"
+# futures = { version = "0.3" }
 
 hyper_utils = { path = "../hyper_utils" }
 prfs_db_interface = { path = "../prfs_db_interface" }

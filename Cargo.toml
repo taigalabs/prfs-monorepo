@@ -8,6 +8,7 @@ members = [
 
   # utils
   "source/hyper_utils",
+  "source/hyper_tungstenite2",
 
   # prfs lib
   "source/prfs_db_interface",

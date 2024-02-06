@@ -34,7 +34,7 @@ pub async fn id_server_routes(
         (&Method::POST, v0_path!("sign_in_prfs_identity")) => {
             prfs_identities::sign_in_prfs_identity(req, state).await
         }
-        (&Method::GET, v0_path!("open_session")) => session::open_session(req, state).await,
+        // (&Method::GET, v0_path!("open_session")) => session::open_session(req, state).await,
         _ => {
             println!("{} Route not found!, {}", ID_API, req.uri());
             Ok(Response::builder()

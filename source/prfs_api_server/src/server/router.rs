@@ -2,7 +2,7 @@ use futures::{SinkExt, StreamExt};
 use http_body_util::{BodyExt, Full};
 use hyper::body::{Bytes, Incoming};
 use hyper::{header, Method, Request, Response};
-use hyper_tungstenite::{tungstenite, HyperWebsocket};
+use hyper_tungstenite2::{tungstenite, HyperWebsocket};
 use hyper_utils::cors::handle_cors;
 use hyper_utils::io::{full, BytesBoxBody};
 use hyper_utils::resp::ApiResponse;
@@ -217,8 +217,8 @@ async fn handle_request(
     mut request: Request<Incoming>,
 ) -> Result<Response<BytesBoxBody>, ApiServerError> {
     // Check if the request is a websocket upgrade request.
-    if hyper_tungstenite::is_upgrade_request(&request) {
-        let (response, websocket) = hyper_tungstenite::upgrade(&mut request, None).unwrap();
+    if hyper_tungstenite2::is_upgrade_request(&request) {
+        let (response, websocket) = hyper_tungstenite2::upgrade(&mut request, None).unwrap();
 
         // Spawn a task to handle the websocket connection.
         tokio::spawn(async move {
@@ -229,11 +229,17 @@ async fn handle_request(
 
         // Return the response so the spawned future can continue.
         // return Ok(response.boxed());
-        let resp = response.map(|b| b.boxed());
-        let e = resp.map_err(|err| hyper::Error::from("".into()));
+        let resp = response.map(|b| b);
+        panic!();
+        // let b = resp
+        //     .into_body()
+        //     .map_err(|err| Into::<ApiServerError>::into(""));
+        // let e = resp
+        //     .map_err(|err| hyper::Error::from("".into()))
+        //     .into_inner();
         // let a = resp.map_err(|err| "er");
 
-        return Ok(resp);
+        // return Ok(resp);
         // return Ok(a);
     } else {
         panic!();
