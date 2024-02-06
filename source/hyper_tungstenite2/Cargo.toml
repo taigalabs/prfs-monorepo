@@ -47,3 +47,5 @@ pin-project-lite = "0.2.10"
 tokio = "1.2.0"
 tokio-tungstenite = "0.21.0"
 tungstenite = "0.21.0"
+
+hyper_utils = { path = "../hyper_utils" }
