@@ -22,9 +22,11 @@ use crate::IdServerError;
 
 /// Handle a HTTP or WebSocket request.
 pub async fn open_session(mut req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
+    println!("111");
     // Result<Response<BytesBoxBody>, ApiHandleError>
     // Check if the request is a websocket upgrade request.
     if hyper_tungstenite::is_upgrade_request(&req) {
+        println!("222");
         let (response, websocket) = hyper_tungstenite::upgrade(&mut req, None).unwrap();
 
         // Spawn a task to handle the websocket connection.
@@ -48,6 +50,7 @@ pub async fn open_session(mut req: Request<Incoming>, state: Arc<ServerState>) -
 
 /// Handle a websocket connection.
 async fn serve_websocket(websocket: HyperWebsocket) -> Result<(), IdServerError> {
+    println!("123");
     let mut websocket = websocket.await?;
     while let Some(message) = websocket.next().await {
         match message? {
