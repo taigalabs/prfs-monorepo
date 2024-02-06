@@ -1,8 +1,7 @@
-use http_body_util::{BodyExt, Full};
-use hyper::body::{Bytes, Incoming};
-use hyper::{header, Method, Request, Response};
+use hyper::body::Incoming;
+use hyper::{Method, Request, Response};
 use hyper_utils::cors::handle_cors;
-use hyper_utils::io::{full, BytesBoxBody};
+use hyper_utils::io::BytesBoxBody;
 use hyper_utils::resp::ApiResponse;
 use prfs_atst_server::server::router::{atst_server_routes, ATST_API};
 use prfs_common_server_state::ServerState;
@@ -10,7 +9,6 @@ use prfs_id_server::server::router::id_server_routes;
 use prfs_id_server::server::ID_API;
 use prfs_id_session_server::server::{id_session_server_routes, ID_SESSION_API};
 use shy_api_server::server::router::{shy_server_routes, SHY_API};
-use std::convert::Infallible;
 use std::sync::Arc;
 
 use super::middleware::{handle_not_found, log};
@@ -20,7 +18,6 @@ use crate::apis::{
     prfs_polls, prfs_proof_instances, prfs_proof_types, prfs_set_elements, prfs_sets,
     prfs_tree_nodes,
 };
-use crate::ApiServerError;
 
 macro_rules! v0_path {
     ($path: tt) => {
@@ -32,10 +29,6 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
     log(&req);
 
     let p = req.uri().path();
-
-    // if req.uri().path() == "/a" {
-    //     return handle_request(req).await.unwrap();
-    // }
 
     let resp = if p.starts_with(ID_API) {
         id_server_routes(req, state).await
@@ -171,38 +164,3 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
         Err(err) => return ApiResponse::new_error(err).into_hyper_response(),
     }
 }
-
-// pub fn upgrade<B>(
-//     mut request: impl std::borrow::BorrowMut<Request<B>>,
-//     config: Option<WebSocketConfig>,
-// ) -> Result<(Response<Full<Bytes>>, HyperWebsocket), ProtocolError> {
-//     let request = request.borrow_mut();
-
-//     let key = request
-//         .headers()
-//         .get("Sec-WebSocket-Key")
-//         .ok_or(ProtocolError::MissingSecWebSocketKey)?;
-//     if request
-//         .headers()
-//         .get("Sec-WebSocket-Version")
-//         .map(|v| v.as_bytes())
-//         != Some(b"13")
-//     {
-//         return Err(ProtocolError::MissingSecWebSocketVersionHeader);
-//     }
-
-//     let response = Response::builder()
-//         .status(hyper::StatusCode::SWITCHING_PROTOCOLS)
-//         .header(hyper::header::CONNECTION, "upgrade")
-//         .header(hyper::header::UPGRADE, "websocket")
-//         .header("Sec-WebSocket-Accept", &derive_accept_key(key.as_bytes()))
-//         .body(Full::<Bytes>::from("switching to websocket protocol"))
-//         .expect("bug: failed to build response");
-
-//     let stream = HyperWebsocket {
-//         inner: hyper::upgrade::on(request),
-//         config,
-//     };
-
-//     Ok((response, stream))
-// }
