@@ -7,6 +7,7 @@ import {
   newPrfsIdMsg,
   sendMsgToChild,
   parseBuffer,
+  openSession,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
@@ -39,7 +40,8 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       }
 
       console.log(123);
-      const ws = new WebSocket("ws://localhost:4000/id_session_api/v0/open_session");
+      // const ws = new WebSocket("ws://localhost:4000/id_session_api/v0/open_session");
+      const ws = openSession();
       // const ws = new WebSocket("ws://localhost:3005/");
       // ws.onopen = () => {
       //   console.log("Connection Established!");

@@ -6,3 +6,4 @@ export * from "./attestation";
 export * from "./credential";
 export * from "./queries";
 export * from "./tutorial";
+export * from "./session";
