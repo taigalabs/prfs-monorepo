@@ -39,18 +39,19 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
         return;
       }
 
-      console.log(123);
-      const ws = new WebSocket("wss://api.prfs.xyz/id_session_api/v0/open_session");
-      // const ws = openSession();
+      // const ws = new WebSocket("wss://api.prfs.xyz/id_session_api/v0/open_session");
+      const ws = openSession();
       // const ws = new WebSocket("ws://localhost:3005/");
-      // ws.onopen = () => {
-      //   console.log("Connection Established!");
-      //   ws.send(JSON.stringify({ a: 1 }));
-      // };
-      ws.addEventListener("open", (ev: any) => {
-        console.log("open!");
-        ws.send("Connection established");
-      });
+      ws.onopen = () => {
+        console.log("Connection Established!");
+        ws.send(JSON.stringify({ a: 1 }));
+      };
+
+      ws.onmessage = ev => {
+        // const msg = JSON.parse(ev.data);
+        console.log("server message", ev.data);
+        // const time = new Date(msg.date);
+      };
 
       const resp = await sendMsgToChild(
         newPrfsIdMsg("REQUEST_SIGN_IN", { appId: appSignInArgs.app_id }),

@@ -12,6 +12,7 @@ export function getPrfsDevEndpoints() {
     prfs_api_server: "http://localhost:4000",
     prfs_asset_server: "http://localhost:4010",
     prfs_sdk_web: "http://localhost:3012",
+    prfs_id_session_server_socket: "ws://localhost:4000",
     prfs_docs_website: "http://localhost:3061",
     shy_webapp: "http://localhost:3022",
     shy_docs_website: "http://localhost:3062",
@@ -30,6 +31,7 @@ export function getPrfsProdEndpoints() {
     prfs_embed_webapp: "https://sdk.prfs.xyz",
     prfs_poll_webapp: "https://poll.prfs.xyz",
     prfs_api_server: "https://api.prfs.xyz",
+    prfs_id_session_server_socket: "wss://api.prfs.xyz",
     prfs_asset_server: "https://d16rd1gzhabnej.cloudfront.net/assets/circuits",
     prfs_sdk_web: "https://sdk.prfs.xyz",
     prfs_docs_website: "https://docs.prfs.xyz",
@@ -52,6 +54,7 @@ export interface Endpoint {
   prfs_docs_website: string;
   prfs_api_server: string;
   prfs_asset_server: string;
+  prfs_id_session_server_socket: string;
   shy_webapp: string;
   shy_docs_website: string;
 }

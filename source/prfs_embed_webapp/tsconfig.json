@@ -6,6 +6,7 @@
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "outDir": "./build",
     "incremental": true,
     "esModuleInterop": true,
     "module": "CommonJS",

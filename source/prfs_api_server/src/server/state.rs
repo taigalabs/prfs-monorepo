@@ -1,12 +1,13 @@
-use crate::{envs::ENVS, paths::PATHS, ApiServerError};
 use chrono::{DateTime, Utc};
 use colored::Colorize;
-use ethers_core::k256::{ecdsa::SigningKey, Secp256k1};
 use ethers_signers::{LocalWallet, Signer, Wallet};
 use git2::{Oid, Repository};
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::database2::Database2;
 use prfs_web_fetcher::destinations::infura::InfuraFetcher;
+use std::collections::HashMap;
+
+use crate::{envs::ENVS, paths::PATHS, ApiServerError};
 
 pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
     let repo = match Repository::open(&PATHS.workspace_dir) {
@@ -50,5 +51,6 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
         launch_time,
         commit_hash,
         infura_fetcher,
+        session_map: HashMap::new(),
     })
 }
