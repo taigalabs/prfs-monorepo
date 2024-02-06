@@ -3,6 +3,7 @@ use hyper::service::service_fn;
 use hyper::{Request, Response};
 use hyper_util::rt::TokioIo;
 use prfs_common_server_state::ServerState;
+use prfs_db_interface::events::start_listening_to_prfs_id_session_events;
 use std::net::SocketAddr;
 use std::sync::Arc;
 use tokio::net::TcpListener;
@@ -20,9 +21,16 @@ pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), ApiServer
     let mut http = http1::Builder::new();
     http.keep_alive(true);
 
+    let server_state_clone = server_state.clone();
+    tokio::task::spawn(async move {
+        let pool = &server_state_clone.db2.pool;
+        start_listening_to_prfs_id_session_events(&pool)
+            .await
+            .unwrap();
+    });
+
     loop {
         let (stream, _) = listener.accept().await?;
-
         let io = TokioIo::new(stream);
         let server_state = server_state.clone();
 
