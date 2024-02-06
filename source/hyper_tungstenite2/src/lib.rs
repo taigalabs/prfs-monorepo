@@ -2,6 +2,7 @@ use http_body_util::Full;
 use hyper::body::Bytes;
 use hyper::{Request, Response};
 use hyper_util::rt::TokioIo;
+use hyper_utils::io::{full, BytesBoxBody};
 use pin_project_lite::pin_project;
 use std::pin::Pin;
 use std::task::{Context, Poll};
@@ -45,7 +46,7 @@ pin_project! {
 pub fn upgrade<B>(
     mut request: impl std::borrow::BorrowMut<Request<B>>,
     config: Option<WebSocketConfig>,
-) -> Result<(Response<Full<Bytes>>, HyperWebsocket), ProtocolError> {
+) -> Result<(Response<BytesBoxBody>, HyperWebsocket), ProtocolError> {
     let request = request.borrow_mut();
 
     let key = request
@@ -66,7 +67,7 @@ pub fn upgrade<B>(
         .header(hyper::header::CONNECTION, "upgrade")
         .header(hyper::header::UPGRADE, "websocket")
         .header("Sec-WebSocket-Accept", &derive_accept_key(key.as_bytes()))
-        .body(Full::<Bytes>::from("switching to websocket protocol"))
+        .body(full("switching to websocket protocol"))
         .expect("bug: failed to build response");
 
     let stream = HyperWebsocket {

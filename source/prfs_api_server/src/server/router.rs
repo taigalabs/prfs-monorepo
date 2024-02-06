@@ -33,14 +33,12 @@ macro_rules! v0_path {
     };
 }
 
-type Error2 = Box<dyn std::error::Error + Send + Sync + 'static>;
-
 pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<BytesBoxBody> {
     log(&req);
 
     let p = req.uri().path();
 
-    if req.uri().path() == "a" {
+    if req.uri().path() == "/a" {
         return handle_request(req).await.unwrap();
     }
 
@@ -230,7 +228,6 @@ async fn handle_request(
         // Return the response so the spawned future can continue.
         // return Ok(response.boxed());
         let resp = response.map(|b| b);
-        panic!();
         // let b = resp
         //     .into_body()
         //     .map_err(|err| Into::<ApiServerError>::into(""));
@@ -239,12 +236,11 @@ async fn handle_request(
         //     .into_inner();
         // let a = resp.map_err(|err| "er");
 
-        // return Ok(resp);
+        return Ok(resp);
         // return Ok(a);
     } else {
-        panic!();
         // Handle regular HTTP requests here.
-        // Ok(Response::new(Full::<Bytes>::from("Hello HTTP!")))
+        Ok(Response::new(full("Hello HTTP!")))
     }
 }
 
