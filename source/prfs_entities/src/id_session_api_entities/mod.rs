@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use sqlx::prelude::Type;
@@ -17,6 +19,7 @@ pub struct PrfsSignUpRequest2 {
 pub enum PrfsIdSessionMsg {
     RequestSignIn(RequestSignInPayload),
     RequestProofGen(RequestProofGenPayload),
+    RequestVerifyProof(RequestVerifyProofPayload),
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
@@ -27,8 +30,34 @@ pub struct RequestSignInPayload {
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
+pub struct RequestVerifyProofPayload {
+    app_id: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
 pub struct RequestProofGenPayload {
     app_id: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct SignInSuccessPayload {
+    account_id: String,
+    public_key: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct ProofGenSuccessPayload {
+    #[ts(type = "Record<string, any>")]
+    receipt: serde_json::Value,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct VerifyProofSuccessPayload {
+    is_verified: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Type, TS)]

@@ -58,7 +58,7 @@ async fn serve_websocket(websocket: HyperWebsocket) -> Result<(), IdSessionServe
                     PrfsIdSessionMsg::RequestSignIn(msg) => {
                         println!("123");
                     }
-                    PrfsIdSessionMsg::RequestSignIn(m) => {
+                    PrfsIdSessionMsg::RequestProofGen(m) => {
                         println!("234");
                     }
                     _ => {
