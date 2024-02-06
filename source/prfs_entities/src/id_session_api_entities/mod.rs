@@ -13,6 +13,26 @@ pub struct PrfsSignUpRequest2 {
     pub avatar_color: String,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[allow(non_camel_case_types)]
+#[ts(export)]
+pub enum PrfsIdSessionMsg {
+    RequestSignIn(RequestSignInPayload),
+    RequestProofGen(RequestProofGenPayload),
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct RequestSignInPayload {
+    app_id: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct RequestProofGenPayload {
+    app_id: String,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, Type, TS)]
 #[sqlx(type_name = "VARCHAR")]
 #[allow(non_camel_case_types)]
@@ -27,14 +47,3 @@ pub enum PrfsIdMsgType {
     REQUEST_VERIFY_PROOF,
     GET_MSG,
 }
-
-// export type PrfsIdMsgType =
-//   //
-//   | "HANDSHAKE"
-//   | "SIGN_IN_RESULT"
-//   | "PROOF_GEN_RESULT"
-//   | "VERIFY_PROOF_RESULT"
-//   | "REQUEST_SIGN_IN"
-//   | "REQUEST_PROOF_GEN"
-//   | "REQUEST_VERIFY_PROOF"
-//   | "GET_MSG";

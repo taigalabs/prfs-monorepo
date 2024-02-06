@@ -1,3 +1,5 @@
+import {} from "@taigalabs/prfs-entities/bindings/PrfsIdSessionMsg";
+
 let endpoint: string;
 if (typeof process !== "undefined") {
   if (!process.env.NEXT_PUBLIC_PRFS_ID_SESSION_SOCKET_ENDPOINT) {
@@ -28,7 +30,7 @@ export async function openSession(): Promise<PrfsIdSession> {
       return promise;
     }
 
-    function send(data: any) {
+    function send(data: PrfsIdSessionMsg) {
       const stringified = JSON.stringify(data);
       ws.send(stringified);
     }
