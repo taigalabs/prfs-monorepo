@@ -16,7 +16,7 @@ use crate::IdSessionServerError;
 /// Handle a HTTP or WebSocket request.
 pub async fn open_session(
     mut request: Request<Incoming>,
-    state: Arc<ServerState>,
+    _state: Arc<ServerState>,
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     // Check if the request is a websocket upgrade request.
     if hyper_tungstenite2::is_upgrade_request(&request) {
@@ -29,21 +29,8 @@ pub async fn open_session(
             }
         });
 
-        // Return the response so the spawned future can continue.
-        // return Ok(response.boxed());
-        let resp = response.map(|b| b);
-        // let b = resp
-        //     .into_body()
-        //     .map_err(|err| Into::<ApiServerError>::into(""));
-        // let e = resp
-        //     .map_err(|err| hyper::Error::from("".into()))
-        //     .into_inner();
-        // let a = resp.map_err(|err| "er");
-
-        return Ok(resp);
-        // return Ok(a);
+        return Ok(response);
     } else {
-        // Handle regular HTTP requests here.
         Ok(Response::new(full("Hello HTTP!")))
     }
 }
