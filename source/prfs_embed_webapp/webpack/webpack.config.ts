@@ -36,12 +36,11 @@ const config: webpack.Configuration = {
   plugins: [
     new NodePolyfillPlugin(),
     new webpack.DefinePlugin({
-      "process.env.NEXT_PUBLIC_PRFS_SDK_VERSION": str(process.env.NEXT_PUBLIC_PRFS_SDK_VERSION),
       "process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT": str(
         process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT,
       ),
-      "process.env.NEXT_PUBLIC_PRFS_ASSET_ACCESS_ENDPOINT": str(
-        process.env.NEXT_PUBLIC_PRFS_ASSET_ACCESS_ENDPOINT,
+      "process.env.NEXT_PUBLIC_PRFS_ID_SESSION_SOCKET_ENDPOINT": str(
+        process.env.NEXT_PUBLIC_PRFS_ID_SESSION_SOCKET_ENDPOINT,
       ),
     }),
   ],

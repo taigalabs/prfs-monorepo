@@ -19,7 +19,7 @@
     "paths": {},
     "noEmit": false
   },
-  "include": ["./server/**/*"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "ts-node": {
     "compilerOptions": {
