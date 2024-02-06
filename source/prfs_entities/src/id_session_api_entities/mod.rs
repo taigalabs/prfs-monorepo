@@ -3,8 +3,6 @@ use serde::{Deserialize, Serialize};
 use sqlx::prelude::Type;
 use ts_rs::TS;
 
-use crate::entities::PrfsAccount;
-
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct PrfsSignUpRequest2 {

@@ -40,7 +40,11 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       }
 
       const { send, receive } = await openSession();
-      send("power");
+      send({
+        RequestSignIn: {
+          app_id: appSignInArgs.app_id,
+        },
+      });
       const data = await receive();
       console.log(11, data);
 
