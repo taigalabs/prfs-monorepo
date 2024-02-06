@@ -11,7 +11,11 @@ use prfs_common_server_state::ServerState;
 use prfs_id_server::server::router::id_server_routes;
 use prfs_id_server::server::ID_API;
 use shy_api_server::server::router::{shy_server_routes, SHY_API};
+use std::convert::Infallible;
 use std::sync::Arc;
+use tungstenite::error::ProtocolError;
+use tungstenite::handshake::derive_accept_key;
+use tungstenite::protocol::WebSocketConfig;
 use tungstenite::Message;
 
 use super::middleware::{handle_not_found, log};
@@ -173,6 +177,41 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
     }
 }
 
+// pub fn upgrade<B>(
+//     mut request: impl std::borrow::BorrowMut<Request<B>>,
+//     config: Option<WebSocketConfig>,
+// ) -> Result<(Response<Full<Bytes>>, HyperWebsocket), ProtocolError> {
+//     let request = request.borrow_mut();
+
+//     let key = request
+//         .headers()
+//         .get("Sec-WebSocket-Key")
+//         .ok_or(ProtocolError::MissingSecWebSocketKey)?;
+//     if request
+//         .headers()
+//         .get("Sec-WebSocket-Version")
+//         .map(|v| v.as_bytes())
+//         != Some(b"13")
+//     {
+//         return Err(ProtocolError::MissingSecWebSocketVersionHeader);
+//     }
+
+//     let response = Response::builder()
+//         .status(hyper::StatusCode::SWITCHING_PROTOCOLS)
+//         .header(hyper::header::CONNECTION, "upgrade")
+//         .header(hyper::header::UPGRADE, "websocket")
+//         .header("Sec-WebSocket-Accept", &derive_accept_key(key.as_bytes()))
+//         .body(Full::<Bytes>::from("switching to websocket protocol"))
+//         .expect("bug: failed to build response");
+
+//     let stream = HyperWebsocket {
+//         inner: hyper::upgrade::on(request),
+//         config,
+//     };
+
+//     Ok((response, stream))
+// }
+
 /// Handle a HTTP or WebSocket request.
 async fn handle_request(
     mut request: Request<Incoming>,
@@ -191,8 +230,11 @@ async fn handle_request(
         // Return the response so the spawned future can continue.
         // return Ok(response.boxed());
         let resp = response.map(|b| b.boxed());
-        // let a = resp.map_err(|err| hyper::Error::from(""));
+        let e = resp.map_err(|err| hyper::Error::from("".into()));
+        // let a = resp.map_err(|err| "er");
+
         return Ok(resp);
+        // return Ok(a);
     } else {
         panic!();
         // Handle regular HTTP requests here.
