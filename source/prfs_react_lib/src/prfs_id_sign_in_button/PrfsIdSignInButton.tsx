@@ -39,12 +39,14 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       }
 
       console.log(123);
-      const ws = new WebSocket("ws://localhost:4000/id_api/v0/open_session");
+      const ws = new WebSocket("ws://localhost:4000/a");
+      // const ws = new WebSocket("ws://localhost:3005/");
       // ws.onopen = () => {
       //   console.log("Connection Established!");
       //   ws.send(JSON.stringify({ a: 1 }));
       // };
       ws.addEventListener("open", (ev: any) => {
+        console.log("open!");
         ws.send("Connection established");
       });
 

@@ -23,7 +23,7 @@ macro_rules! v0_path {
 
 // As the project is at its early stage, 'prfs_id_server' runs on top of 'prfs_api_server'.
 pub async fn id_server_routes(
-    mut req: Request<hyper::body::Incoming>,
+    req: Request<hyper::body::Incoming>,
     state: Arc<ServerState>,
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     return match (req.method(), req.uri().path()) {

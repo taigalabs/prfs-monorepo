@@ -16,6 +16,8 @@ pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), Box<dyn s
     println!("prfs_api_server launching, addr: {}", addr);
 
     let listener = TcpListener::bind(addr).await?;
+    let mut http = http1::Builder::new();
+    http.keep_alive(true);
 
     loop {
         let (stream, _) = listener.accept().await?;
@@ -33,12 +35,9 @@ pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), Box<dyn s
             }
         });
 
+        let connection = http.serve_connection(io, service).with_upgrades();
         tokio::task::spawn(async move {
-            if let Err(err) = http1::Builder::new()
-                // `service_fn` converts our function in a `Service`
-                .serve_connection(io, service)
-                .await
-            {
+            if let Err(err) = connection.await {
                 println!("Error serving connection: {:?}", err);
             }
         });

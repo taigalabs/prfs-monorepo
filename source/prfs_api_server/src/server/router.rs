@@ -1,7 +1,10 @@
-use hyper::body::Incoming;
-use hyper::{Method, Request, Response};
+use futures::{SinkExt, StreamExt};
+use http_body_util::{BodyExt, Full};
+use hyper::body::{Bytes, Incoming};
+use hyper::{header, Method, Request, Response};
+use hyper_tungstenite::{tungstenite, HyperWebsocket};
 use hyper_utils::cors::handle_cors;
-use hyper_utils::io::BytesBoxBody;
+use hyper_utils::io::{full, BytesBoxBody};
 use hyper_utils::resp::ApiResponse;
 use prfs_atst_server::server::router::{atst_server_routes, ATST_API};
 use prfs_common_server_state::ServerState;
@@ -9,6 +12,7 @@ use prfs_id_server::server::router::id_server_routes;
 use prfs_id_server::server::ID_API;
 use shy_api_server::server::router::{shy_server_routes, SHY_API};
 use std::sync::Arc;
+use tungstenite::Message;
 
 use super::middleware::{handle_not_found, log};
 use crate::apis::status::handle_server_status;
@@ -17,6 +21,7 @@ use crate::apis::{
     prfs_polls, prfs_proof_instances, prfs_proof_types, prfs_set_elements, prfs_sets,
     prfs_tree_nodes,
 };
+use crate::ApiServerError;
 
 macro_rules! v0_path {
     ($path: tt) => {
@@ -24,10 +29,16 @@ macro_rules! v0_path {
     };
 }
 
+type Error2 = Box<dyn std::error::Error + Send + Sync + 'static>;
+
 pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<BytesBoxBody> {
     log(&req);
 
     let p = req.uri().path();
+
+    if req.uri().path() == "a" {
+        return handle_request(req).await.unwrap();
+    }
 
     let resp = if p.starts_with(ID_API) {
         id_server_routes(req, state).await
@@ -160,4 +171,75 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
         Ok(r) => return r,
         Err(err) => return ApiResponse::new_error(err).into_hyper_response(),
     }
+}
+
+/// Handle a HTTP or WebSocket request.
+async fn handle_request(
+    mut request: Request<Incoming>,
+) -> Result<Response<BytesBoxBody>, ApiServerError> {
+    // Check if the request is a websocket upgrade request.
+    if hyper_tungstenite::is_upgrade_request(&request) {
+        let (response, websocket) = hyper_tungstenite::upgrade(&mut request, None).unwrap();
+
+        // Spawn a task to handle the websocket connection.
+        tokio::spawn(async move {
+            if let Err(e) = serve_websocket(websocket).await {
+                eprintln!("Error in websocket connection: {e}");
+            }
+        });
+
+        // Return the response so the spawned future can continue.
+        // return Ok(response.boxed());
+        let resp = response.map(|b| b.boxed());
+        // let a = resp.map_err(|err| hyper::Error::from(""));
+        return Ok(resp);
+    } else {
+        panic!();
+        // Handle regular HTTP requests here.
+        // Ok(Response::new(Full::<Bytes>::from("Hello HTTP!")))
+    }
+}
+
+/// Handle a websocket connection.
+async fn serve_websocket(websocket: HyperWebsocket) -> Result<(), ApiServerError> {
+    let mut websocket = websocket.await?;
+    while let Some(message) = websocket.next().await {
+        match message? {
+            Message::Text(msg) => {
+                println!("Received text message: {msg}");
+                websocket
+                    .send(Message::text("Thank you, come again."))
+                    .await?;
+            }
+            Message::Binary(msg) => {
+                println!("Received binary message: {msg:02X?}");
+                websocket
+                    .send(Message::binary(b"Thank you, come again.".to_vec()))
+                    .await?;
+            }
+            Message::Ping(msg) => {
+                // No need to send a reply: tungstenite takes care of this for you.
+                println!("Received ping message: {msg:02X?}");
+            }
+            Message::Pong(msg) => {
+                println!("Received pong message: {msg:02X?}");
+            }
+            Message::Close(msg) => {
+                // No need to send a reply: tungstenite takes care of this for you.
+                if let Some(msg) = &msg {
+                    println!(
+                        "Received close message with code {} and message: {}",
+                        msg.code, msg.reason
+                    );
+                } else {
+                    println!("Received close message");
+                }
+            }
+            Message::Frame(_msg) => {
+                unreachable!();
+            }
+        }
+    }
+
+    Ok(())
 }
