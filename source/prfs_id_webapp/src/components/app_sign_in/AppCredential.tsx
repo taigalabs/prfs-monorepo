@@ -133,13 +133,6 @@ const AppCredential: React.FC<AppCredentialProps> = ({
           if (error) {
             console.error(error);
           }
-          // await sendMsgToChild(
-          //   newPrfsIdMsg("SIGN_IN_RESULT", {
-          //     appId: appSignInArgs.app_id,
-          //     value: encrypted,
-          //   }),
-          //   prfsEmbed,
-          // );
           window.close();
         }
       } catch (err: any) {

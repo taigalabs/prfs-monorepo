@@ -64,25 +64,19 @@ RETURNING key
 
 pub async fn delete_prfs_session(
     tx: &mut Transaction<'_, Postgres>,
-    key: String,
-    sig: String,
-    // session: PrfsSession,
-) -> String {
-    let query = "INSERT INTO prfs_proof_instances \
-            (proof_instance_id, proof_type_id, proof, public_inputs, short_id, prfs_ack_sig)
-            VALUES ($1, $2, $3, $4, $5, $6) returning proof_instance_id";
+    key: &String,
+    _ticket: &String,
+) -> Result<(), DbInterfaceError> {
+    let query = r#"
+DELETE FROM prfs_id_sessions 
+WHERE key=$1
+RETURNING key
+"#;
 
-    // let row = sqlx::query(query)
-    //     .bind(&session.proof_instance_id)
-    //     .bind(&session.proof_type_id)
-    //     .bind(&session.proof)
-    //     .fetch_one(&mut **tx)
-    //     .await
-    //     .unwrap();
+    let _row = sqlx::query(query)
+        .bind(&key)
+        .fetch_optional(&mut **tx)
+        .await?;
 
-    // let proof_instance_id: uuid::Uuid = row.get("proof_instance_id");
-
-    // println!("proof_instance_id: {}", proof_instance_id);
-
-    query.to_string()
+    return Ok(());
 }

@@ -3,7 +3,7 @@ use futures::{SinkExt, StreamExt};
 use hyper::body::Incoming;
 use hyper::upgrade::Upgraded;
 use hyper::{Request, Response};
-use hyper_tungstenite2::{tungstenite, HyperWebsocket};
+use hyper_tungstenite2::{peer_map, tungstenite, HyperWebsocket};
 use hyper_util::rt::TokioIo;
 use hyper_utils::error::ApiHandleError;
 use hyper_utils::io::{full, BytesBoxBody};
@@ -11,8 +11,8 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::entities::PrfsIdSession;
 use prfs_entities::id_session_api_entities::{
-    OpenSessionMsgPayload, OpenSessionResult, PrfsIdSessionMsg, PrfsIdSessionResponse,
-    PrfsIdSessionResponsePayload,
+    CloseSessionMsgPayload, OpenSessionMsgPayload, OpenSessionResult, PrfsIdSessionMsg,
+    PrfsIdSessionResponse, PrfsIdSessionResponsePayload,
 };
 use std::sync::Arc;
 use tokio::sync::Mutex;
@@ -52,6 +52,7 @@ async fn serve_websocket(
     let websocket = websocket.await?;
     let (tx, mut rx) = websocket.split();
     let tx = Arc::new(Mutex::new(tx));
+    let mut key = String::from("");
 
     while let Some(message) = rx.next().await {
         match message? {
@@ -74,7 +75,11 @@ async fn serve_websocket(
 
                 match prfs_id_session_msg {
                     PrfsIdSessionMsg::OPEN_SESSION(payload) => {
+                        key = payload.key.to_string();
                         handle_open_session(tx.clone(), payload, state.clone()).await;
+                    }
+                    PrfsIdSessionMsg::CLOSE_SESSION(payload) => {
+                        handle_close_session(tx.clone(), payload, state.clone()).await;
                     }
                 };
             }
@@ -102,6 +107,10 @@ async fn serve_websocket(
                 } else {
                     println!("Received close message");
                 }
+
+                let mut peer_map = state.peer_map.lock().await;
+                peer_map.remove(&key);
+                println!("Current peer_map size: {}", peer_map.len());
             }
             Message::Frame(_msg) => {
                 unreachable!();
@@ -130,8 +139,8 @@ async fn handle_open_session(
         .await
         .unwrap();
 
-    let mut peer_map_lock = state.peer_map.lock().await;
-    peer_map_lock.insert(key.to_string(), tx.clone());
+    let mut peer_map = state.peer_map.lock().await;
+    peer_map.insert(key.to_string(), tx.clone());
 
     trx.commit().await.unwrap();
 
@@ -139,6 +148,34 @@ async fn handle_open_session(
         error: None,
         payload: Some(PrfsIdSessionResponsePayload::OpenSessionResult(
             key.to_string(),
+        )),
+    };
+    let resp = serde_json::to_string(&resp).unwrap();
+    let mut tx_lock = tx.lock().await;
+    tx_lock.send(Message::text(resp)).await.unwrap();
+}
+
+async fn handle_close_session(
+    tx: Arc<Mutex<SplitSink<WebSocketStream<TokioIo<Upgraded>>, Message>>>,
+    msg: CloseSessionMsgPayload,
+    state: Arc<ServerState>,
+) {
+    let pool = &state.db2.pool;
+    let mut trx = pool.begin().await.unwrap();
+
+    let key = prfs::delete_prfs_session(&mut trx, &msg.key, &msg.ticket)
+        .await
+        .unwrap();
+
+    // let mut peer_map_lock = state.peer_map.lock().await;
+    // peer_map_lock.insert(key.to_string(), tx.clone());
+
+    trx.commit().await.unwrap();
+
+    let resp = PrfsIdSessionResponse {
+        error: None,
+        payload: Some(PrfsIdSessionResponsePayload::CloseSessionResult(
+            msg.key.to_string(),
         )),
     };
     let resp = serde_json::to_string(&resp).unwrap();

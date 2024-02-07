@@ -9,6 +9,7 @@ use ts_rs::TS;
 #[ts(export)]
 pub enum PrfsIdSessionMsg {
     OPEN_SESSION(OpenSessionMsgPayload),
+    CLOSE_SESSION(CloseSessionMsgPayload),
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
@@ -23,6 +24,7 @@ pub struct PrfsIdSessionResponse {
 #[ts(export)]
 pub enum PrfsIdSessionResponsePayload {
     OpenSessionResult(String),
+    CloseSessionResult(String),
     PutSessionValueResult(String),
 }
 
@@ -36,6 +38,19 @@ pub struct OpenSessionMsgPayload {
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct OpenSessionResult {
+    pub key: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct CloseSessionMsgPayload {
+    pub key: String,
+    pub ticket: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct CloseSessionResult {
     pub key: String,
 }
 

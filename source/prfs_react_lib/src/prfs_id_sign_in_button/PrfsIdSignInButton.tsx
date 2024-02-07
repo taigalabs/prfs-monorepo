@@ -39,7 +39,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
         return;
       }
 
-      const { send, receive } = await createSession();
+      const { ws, send, receive } = await createSession();
       send({
         type: "OPEN_SESSION",
         key: appSignInArgs.session_key,
@@ -61,28 +61,26 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
           if (session.payload) {
             const buf = parseBuffer(session.payload);
             handleSucceedSignIn(buf);
+
+            send({
+              type: "CLOSE_SESSION",
+              key: appSignInArgs.session_key,
+              ticket: "TICKET",
+            });
+            const closeSessionResp = await receive();
+            console.log("closeSessionresp", closeSessionResp);
           }
         } catch (err) {
           console.error(err);
         }
       } else {
+        console.error(
+          "Session didn't get the response, something's wrong, session key: %s",
+          appSignInArgs.session_key,
+        );
       }
 
-      // const resp = await sendMsgToChild(
-      //   newPrfsIdMsg("REQUEST_SIGN_IN", { appId: appSignInArgs.app_id }),
-      //   prfsEmbed,
-      // );
-      //
-      // if (resp) {
-      //   try {
-      //     const buf = parseBuffer(resp);
-      //     handleSucceedSignIn(buf);
-      //   } catch (err) {
-      //     console.error(err);
-      //   }
-      // } else {
-      //   console.error("Returned val is empty");
-      // }
+      ws.close();
     });
   }, [
     appSignInArgs,
