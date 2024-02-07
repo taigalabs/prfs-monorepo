@@ -15,6 +15,7 @@
     "@react-icons/all-files": "^4.1.0",
     "@tabler/icons-react": "^2.32.0",
     "@taigalabs/prfs-api-js": "*",
+    "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-i18n": "*",

@@ -1511,6 +1511,9 @@ importers:
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
       '@taigalabs/prfs-driver-interface':
         specifier: '*'
         version: link:../prfs_driver_interface

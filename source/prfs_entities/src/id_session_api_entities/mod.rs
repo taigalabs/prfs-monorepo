@@ -24,9 +24,14 @@ pub struct PrfsIdMsg<T> {
 #[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsIdSessionMsg {
-    REQUEST_SIGN_IN(PrfsIdMsg<RequestSignInPayload>),
-    REQUEST_PROOF_GEN(PrfsIdMsg<RequestProofGenPayload>),
-    REQUEST_VERIFY_PROOF(PrfsIdMsg<RequestVerifyProofPayload>),
+    OPEN_SESSION(OpenSessionMsgPayload),
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct OpenSessionMsgPayload {
+    key: String,
+    ticket: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

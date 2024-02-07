@@ -16,6 +16,7 @@ import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
 import Overlay from "../overlay/Overlay";
 import Spinner from "../spinner/Spinner";
+import { PrivateKey } from "../../../prfs_crypto_js/dist";
 
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
@@ -39,13 +40,13 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
         return;
       }
 
+      const sk = new PrivateKey();
+      const sessionKey = sk.toHex();
       const { send, receive } = await openSession();
       send({
-        type: "REQUEST_SIGN_IN",
-        error: null,
-        payload: {
-          app_id: appSignInArgs.app_id,
-        },
+        type: "OPEN_SESSION",
+        key: sessionKey,
+        ticket: "TICKET",
       });
       const data = await receive();
       console.log(11, data);
