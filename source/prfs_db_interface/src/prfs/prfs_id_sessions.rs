@@ -1,4 +1,5 @@
 use crate::database2::Database2;
+use crate::DbInterfaceError;
 use prfs_entities::entities::{PrfsProofType, PrfsSession};
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 use rust_decimal::Decimal;
@@ -27,32 +28,33 @@ pub async fn get_prfs_session(pool: &Pool<Postgres>, key: String) -> PrfsProofTy
     return ret;
 }
 
-pub async fn insert_prfs_session(
+pub async fn upsert_prfs_session(
     tx: &mut Transaction<'_, Postgres>,
-    session: PrfsSession,
-) -> String {
-    let query = "INSERT INTO prfs_proof_instances \
-            (proof_instance_id, proof_type_id, proof, public_inputs, short_id, prfs_ack_sig)
-            VALUES ($1, $2, $3, $4, $5, $6) returning proof_instance_id";
+    session: &PrfsSession,
+) -> Result<String, DbInterfaceError> {
+    let query = r#"
+INSERT INTO prfs_id_sessions 
+(key, value, ticket)
+VALUES ($1, $2, $3) 
+ON CONFLICT (key) DO UPDATE SET (
+value, ticket, updated_at
+) = (
+excluded.value, excluded.ticket, now()
+)
+RETURNING key
+"#;
 
-    // let proof_instance = proof_instances.get(0).unwrap();
+    let row = sqlx::query(query)
+        .bind(&session.key)
+        .bind(&session.value)
+        .bind(&session.ticket)
+        .fetch_one(&mut **tx)
+        .await
+        .unwrap();
 
-    // let row = sqlx::query(query)
-    //     .bind(&proof_instance.proof_instance_id)
-    //     .bind(&proof_instance.proof_type_id)
-    //     .bind(&proof_instance.proof)
-    //     .bind(&proof_instance.public_inputs)
-    //     .bind(&proof_instance.short_id)
-    //     .bind(&proof_instance.prfs_ack_sig)
-    //     .fetch_one(&mut **tx)
-    //     .await
-    //     .unwrap();
+    let key: String = row.get("key");
 
-    // let proof_instance_id: uuid::Uuid = row.get("proof_instance_id");
-
-    // println!("proof_instance_id: {}", proof_instance_id);
-
-    query.to_string()
+    Ok(key)
 }
 
 pub async fn delete_prfs_session(
@@ -65,15 +67,10 @@ pub async fn delete_prfs_session(
             (proof_instance_id, proof_type_id, proof, public_inputs, short_id, prfs_ack_sig)
             VALUES ($1, $2, $3, $4, $5, $6) returning proof_instance_id";
 
-    // let proof_instance = proof_instances.get(0).unwrap();
-
     // let row = sqlx::query(query)
-    //     .bind(&proof_instance.proof_instance_id)
-    //     .bind(&proof_instance.proof_type_id)
-    //     .bind(&proof_instance.proof)
-    //     .bind(&proof_instance.public_inputs)
-    //     .bind(&proof_instance.short_id)
-    //     .bind(&proof_instance.prfs_ack_sig)
+    //     .bind(&session.proof_instance_id)
+    //     .bind(&session.proof_type_id)
+    //     .bind(&session.proof)
     //     .fetch_one(&mut **tx)
     //     .await
     //     .unwrap();

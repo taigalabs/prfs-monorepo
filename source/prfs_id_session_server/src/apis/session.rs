@@ -1,20 +1,23 @@
 use futures::{SinkExt, StreamExt};
 use hyper::body::Incoming;
+use hyper::upgrade::Upgraded;
 use hyper::{Request, Response};
 use hyper_tungstenite2::{tungstenite, HyperWebsocket};
+use hyper_util::rt::TokioIo;
 use hyper_utils::error::ApiHandleError;
 use hyper_utils::io::{full, BytesBoxBody};
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
+use prfs_entities::entities::PrfsSession;
 use prfs_entities::id_session_api_entities::{
-    OpenSessionMsgPayload, PrfsIdMsg, PrfsIdSessionMsg, RequestSignInPayload,
+    OpenSessionMsgPayload, OpenSessionResult, PrfsIdSessionMsg,
 };
 use std::sync::Arc;
+use tokio_tungstenite::WebSocketStream;
 use tungstenite::Message;
 
 use crate::IdSessionServerError;
 
-/// Handle a HTTP or WebSocket request.
 pub async fn open_session(
     mut request: Request<Incoming>,
     state: Arc<ServerState>,
@@ -61,18 +64,15 @@ async fn serve_websocket(
 
                 println!("prfs_id_session_msg: {:?}", prfs_id_session_msg);
                 match prfs_id_session_msg {
-                    PrfsIdSessionMsg::OPEN_SESSION(m) => {
+                    PrfsIdSessionMsg::OPEN_SESSION(payload) => {
                         println!("22233");
-                        handle_open_session(m, state.clone());
-                    }
-                    _ => {
-                        println!("222");
+                        handle_open_session(&mut websocket, payload, state.clone()).await;
                     }
                 };
 
-                websocket
-                    .send(Message::text("Thank you, come again."))
-                    .await?;
+                // websocket
+                //     .send(Message::text("Thank you, come again."))
+                //     .await?;
             }
             Message::Binary(msg) => {
                 println!("Received binary message: {msg:02X?}");
@@ -107,14 +107,23 @@ async fn serve_websocket(
     Ok(())
 }
 
-async fn handle_open_session(msg: OpenSessionMsgPayload, state: Arc<ServerState>) {
-    println!("123");
+async fn handle_open_session(
+    socket: &mut WebSocketStream<TokioIo<Upgraded>>,
+    msg: OpenSessionMsgPayload,
+    state: Arc<ServerState>,
+) {
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    // prfs::open
+    let session = PrfsSession {
+        key: msg.key,
+        value: "".to_string(),
+        ticket: msg.ticket,
+    };
 
-    // let identity_id = prfs::insert_prfs_identity(&mut tx, &prfs_identity)
-    //     .await
-    //     .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.ID_ALREADY_EXISTS, err))?;
+    let key = prfs::upsert_prfs_session(&mut tx, &session).await.unwrap();
+
+    let resp = OpenSessionResult { key };
+    let resp = serde_json::to_string(&resp).unwrap();
+    socket.send(Message::text(resp)).await.unwrap();
 }

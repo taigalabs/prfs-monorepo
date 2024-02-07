@@ -3,22 +3,6 @@ use serde::{Deserialize, Serialize};
 use sqlx::prelude::Type;
 use ts_rs::TS;
 
-#[derive(Serialize, Deserialize, Debug, Clone, TS)]
-#[ts(export)]
-pub struct PrfsSignUpRequest2 {
-    pub account_id: String,
-    pub public_key: String,
-    pub avatar_color: String,
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone, TS)]
-#[ts(export)]
-pub struct PrfsIdMsg<T> {
-    // r#type: PrfsIdMsgType,
-    error: Option<String>,
-    payload: Option<T>,
-}
-
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[allow(non_camel_case_types)]
 #[serde(tag = "type")]
@@ -30,59 +14,32 @@ pub enum PrfsIdSessionMsg {
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct OpenSessionMsgPayload {
-    key: String,
-    ticket: String,
+    pub key: String,
+    pub ticket: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub struct RequestSignInPayload {
-    app_id: String,
+pub struct OpenSessionResult {
+    pub key: String,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[ts(export)]
-pub struct RequestVerifyProofPayload {
-    app_id: String,
-}
+// #[derive(Debug, Serialize, Deserialize, Clone, TS)]
+// #[ts(export)]
+// pub struct SignInSuccessPayload {
+//     account_id: String,
+//     public_key: String,
+// }
 
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[ts(export)]
-pub struct RequestProofGenPayload {
-    app_id: String,
-}
+// #[derive(Debug, Serialize, Deserialize, Clone, TS)]
+// #[ts(export)]
+// pub struct ProofGenSuccessPayload {
+//     #[ts(type = "Record<string, any>")]
+//     receipt: serde_json::Value,
+// }
 
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[ts(export)]
-pub struct SignInSuccessPayload {
-    account_id: String,
-    public_key: String,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[ts(export)]
-pub struct ProofGenSuccessPayload {
-    #[ts(type = "Record<string, any>")]
-    receipt: serde_json::Value,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[ts(export)]
-pub struct VerifyProofSuccessPayload {
-    is_verified: bool,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, Type, TS)]
-#[sqlx(type_name = "VARCHAR")]
-#[allow(non_camel_case_types)]
-#[ts(export)]
-pub enum PrfsIdMsgType {
-    HANDSHAKE,
-    SIGN_IN_RESULT,
-    PROOF_GEN_RESULT,
-    VERIFY_PROOF_RESULT,
-    REQUEST_SIGN_IN,
-    REQUEST_PROOF_GEN,
-    REQUEST_VERIFY_PROOF,
-    GET_MSG,
-}
+// #[derive(Debug, Serialize, Deserialize, Clone, TS)]
+// #[ts(export)]
+// pub struct VerifyProofSuccessPayload {
+//     is_verified: bool,
+// }
