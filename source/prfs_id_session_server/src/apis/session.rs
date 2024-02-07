@@ -49,6 +49,7 @@ async fn serve_websocket(websocket: HyperWebsocket) -> Result<(), IdSessionServe
                 let prfs_id_session_msg: PrfsIdSessionMsg = match serde_json::from_str(&msg) {
                     Ok(m) => m,
                     Err(err) => {
+                        println!("err: {:?}", err);
                         let err_str = err.to_string();
                         websocket.send(Message::text(err_str)).await?;
 
@@ -56,14 +57,17 @@ async fn serve_websocket(websocket: HyperWebsocket) -> Result<(), IdSessionServe
                     }
                 };
 
-                // println!("prfs_id_session_msg: {:?}", prfs_id_session_msg);
+                println!("prfs_id_session_msg: {:?}", prfs_id_session_msg);
                 match prfs_id_session_msg {
                     PrfsIdSessionMsg::REQUEST_SIGN_IN(m) => {
+                        println!("22233");
                         handle_request_sign_in(m);
                     }
                     PrfsIdSessionMsg::REQUEST_PROOF_GEN(m) => {}
                     PrfsIdSessionMsg::REQUEST_VERIFY_PROOF(m) => {}
-                    _ => (),
+                    _ => {
+                        println!("222");
+                    }
                 };
 
                 // match prfs_id_session_msg {

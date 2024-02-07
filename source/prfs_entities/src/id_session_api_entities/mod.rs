@@ -14,7 +14,7 @@ pub struct PrfsSignUpRequest2 {
 #[derive(Serialize, Deserialize, Debug, Clone, TS)]
 #[ts(export)]
 pub struct PrfsIdMsg<T> {
-    r#type: PrfsIdMsgType,
+    // r#type: PrfsIdMsgType,
     error: Option<String>,
     payload: Option<T>,
 }
