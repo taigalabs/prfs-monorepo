@@ -34,7 +34,7 @@ import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
 import styles from "./CreateTwitterAccAtst.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useRandomKeyPair } from "@/hooks/key";
+import { useRandomKeyPair, useSessionKey } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
 import {
@@ -100,6 +100,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   });
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
+  const session_key = useSessionKey();
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
@@ -163,6 +164,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         },
       ],
       public_key: pkHex,
+      session_key,
     };
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
@@ -245,6 +247,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     setValidation,
     setValidationMsg,
     setValidationStatus,
+    session_key,
   ]);
 
   const handleClickStartOver = React.useCallback(() => {

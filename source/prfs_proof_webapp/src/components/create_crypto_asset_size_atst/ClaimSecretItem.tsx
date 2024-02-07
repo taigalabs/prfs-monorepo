@@ -19,11 +19,13 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
+import { secp256k1 } from "@taigalabs/prfs-crypto-js/secp256k1";
+import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useRandomKeyPair } from "@/hooks/key";
+import { useRandomKeyPair, useSessionKey } from "@/hooks/key";
 import { envs } from "@/envs";
 import {
   AttestationListItem,
@@ -59,6 +61,10 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
     const walletAddr = formData[WALLET_ADDR];
     return `${PRFS_ATTESTATION_STEM}${walletAddr}`;
   }, [formData[WALLET_ADDR]]);
+  // const priv = secp256k1.utils.randomPrivateKey();
+  // const pk = secp256k1.getPublicKey(priv);
+  // const session_key = toHex(pk);
+  const session_key = useSessionKey();
 
   const handleClickGenerate = React.useCallback(() => {
     const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10, WALLET_CM_STEM);
@@ -82,6 +88,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         },
       ],
       public_key: pkHex,
+      session_key,
     };
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
@@ -146,6 +153,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
     setStep,
     setWalletCacheKeys,
     setWalletAddrEnc,
+    session_key,
   ]);
   return (
     <AttestationListItem isDisabled={step < AttestationStep.GENERATE_CLAIM}>

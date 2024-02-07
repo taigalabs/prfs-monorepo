@@ -13,7 +13,6 @@
     "@floating-ui/react": "^0.24.8",
     "@mdx-js/react": "^2.3.0",
     "@next/mdx": "^13.5.4",
-    "@noble/curves": "^1.2.0",
     "@phosphor-icons/react": "^2.0.10",
     "@react-icons/all-files": "^4.1.0",
     "@reduxjs/toolkit": "2.0.1",

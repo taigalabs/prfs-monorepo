@@ -1337,9 +1337,6 @@ importers:
       '@next/mdx':
         specifier: ^13.5.4
         version: 13.5.4(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
-      '@noble/curves':
-        specifier: ^1.2.0
-        version: 1.2.0
       '@phosphor-icons/react':
         specifier: ^2.0.10
         version: 2.0.10(react-dom@18.2.0)(react@18.2.0)

@@ -11,8 +11,8 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::entities::PrfsIdSession;
 use prfs_entities::id_session_api_entities::{
-    CloseSessionMsgPayload, OpenSessionMsgPayload, OpenSessionResult, PrfsIdSessionMsg,
-    PrfsIdSessionResponse, PrfsIdSessionResponsePayload,
+    CloseSessionMsgPayload, CloseSessionResult, OpenSessionMsgPayload, OpenSessionResult,
+    PrfsIdSessionMsg, PrfsIdSessionResponse, PrfsIdSessionResponsePayload,
 };
 use std::sync::Arc;
 use tokio::sync::Mutex;
@@ -131,7 +131,7 @@ async fn handle_open_session(
 
     let session = PrfsIdSession {
         key: msg.key,
-        value: "".to_string(),
+        value: vec![],
         ticket: msg.ticket,
     };
 
@@ -146,8 +146,10 @@ async fn handle_open_session(
 
     let resp = PrfsIdSessionResponse {
         error: None,
-        payload: Some(PrfsIdSessionResponsePayload::OpenSessionResult(
-            key.to_string(),
+        payload: Some(PrfsIdSessionResponsePayload::OPEN_SESSION_RESULT(
+            OpenSessionResult {
+                key: key.to_string(),
+            },
         )),
     };
     let resp = serde_json::to_string(&resp).unwrap();
@@ -163,7 +165,7 @@ async fn handle_close_session(
     let pool = &state.db2.pool;
     let mut trx = pool.begin().await.unwrap();
 
-    let key = prfs::delete_prfs_session(&mut trx, &msg.key, &msg.ticket)
+    let _key = prfs::delete_prfs_session(&mut trx, &msg.key, &msg.ticket)
         .await
         .unwrap();
 
@@ -174,8 +176,10 @@ async fn handle_close_session(
 
     let resp = PrfsIdSessionResponse {
         error: None,
-        payload: Some(PrfsIdSessionResponsePayload::CloseSessionResult(
-            msg.key.to_string(),
+        payload: Some(PrfsIdSessionResponsePayload::CLOSE_SESSION_RESULT(
+            CloseSessionResult {
+                key: msg.key.to_string(),
+            },
         )),
     };
     let resp = serde_json::to_string(&resp).unwrap();

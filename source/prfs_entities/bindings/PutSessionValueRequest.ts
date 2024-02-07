@@ -2,6 +2,6 @@
 
 export interface PutSessionValueRequest {
   key: string;
-  value: string;
+  value: Array<number>;
   ticket: string;
 }

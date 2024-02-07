@@ -12,6 +12,7 @@ import {
   createSession,
   newPrfsIdMsg,
   parseBuffer,
+  parseBufferOfArray,
   sendMsgToChild,
 } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
@@ -106,8 +107,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           }
 
           if (session.payload) {
+            if (session.payload.type !== "PUT_SESSION_VALUE_RESULT") {
+              console.error("Wrong session payload type at this point, msg: %s", session.payload);
+              return;
+            }
             // const buf = parseBuffer(resp);
-            const buf = parseBuffer(session.payload);
+            const buf = parseBufferOfArray(session.payload.value);
             let decrypted: string;
             try {
               decrypted = decrypt(sk.secret, buf).toString();

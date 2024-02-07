@@ -19,13 +19,14 @@ pub struct PrfsIdSessionResponse {
     pub payload: Option<PrfsIdSessionResponsePayload>,
 }
 
+#[allow(non_camel_case_types)]
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[serde(untagged)]
+#[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsIdSessionResponsePayload {
-    OpenSessionResult(String),
-    CloseSessionResult(String),
-    PutSessionValueResult(String),
+    OPEN_SESSION_RESULT(OpenSessionResult),
+    CLOSE_SESSION_RESULT(CloseSessionResult),
+    PUT_SESSION_VALUE_RESULT(PutSessionValueResult),
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
@@ -58,7 +59,7 @@ pub struct CloseSessionResult {
 #[ts(export)]
 pub struct PutSessionValueRequest {
     pub key: String,
-    pub value: String,
+    pub value: Vec<u8>,
     pub ticket: String,
 }
 
@@ -67,6 +68,13 @@ pub struct PutSessionValueRequest {
 pub struct PutSessionValueResponse {
     // pub r#type: PrfsidSessionApiResponseType,
     pub key: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct PutSessionValueResult {
+    pub key: String,
+    pub value: Vec<u8>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

@@ -3,7 +3,10 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
     entities::PrfsIdSession,
-    id_session_api_entities::{PrfsIdSessionResponse, PrfsIdSessionResponsePayload},
+    id_session_api_entities::{
+        OpenSessionResult, PrfsIdSessionResponse, PrfsIdSessionResponsePayload,
+        PutSessionValueResult,
+    },
     sqlx::{pool, postgres::PgListener},
 };
 use std::sync::Arc;
@@ -35,7 +38,12 @@ pub async fn start_listening_to_prfs_id_session_events(
                 if let Some(s) = session_result {
                     let resp = PrfsIdSessionResponse {
                         error: None,
-                        payload: Some(PrfsIdSessionResponsePayload::OpenSessionResult(s.value)),
+                        payload: Some(PrfsIdSessionResponsePayload::PUT_SESSION_VALUE_RESULT(
+                            PutSessionValueResult {
+                                key: session_key.to_string(),
+                                value: s.value,
+                            },
+                        )),
                     };
                     let resp = serde_json::to_string(&resp).unwrap();
                     let mut tx_lock = tx.lock().await;
