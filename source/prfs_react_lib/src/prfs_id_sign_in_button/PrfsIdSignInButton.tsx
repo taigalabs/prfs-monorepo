@@ -7,11 +7,9 @@ import {
   newPrfsIdMsg,
   sendMsgToChild,
   parseBuffer,
-  openSession,
+  createSession,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
-import { secp256k1 } from "@taigalabs/prfs-crypto-js/secp256k1";
-import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import Button from "../button/Button";
@@ -47,7 +45,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       // const msg = new Uint8Array(32).fill(1); // message hash (not message) in ecdsa
       // const sig = secp256k1.sign(msg, priv); // `{prehash: true}` option is available
 
-      const { send, receive } = await openSession();
+      const { send, receive } = await createSession();
       send({
         type: "OPEN_SESSION",
         key: appSignInArgs.session_key,

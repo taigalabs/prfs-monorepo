@@ -23,7 +23,7 @@ pub async fn id_session_server_routes(
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
         (&Method::GET, v0_path!("open_session")) => open::open_session(req, state).await,
-        (&Method::GET, v0_path!("put_session_val")) => val::put_session_val(req, state).await,
+        (&Method::POST, v0_path!("put_session_val")) => val::put_session_val(req, state).await,
         _ => {
             println!("{} Route not found!, {}", ID_SESSION_API, req.uri());
             Ok(Response::builder()

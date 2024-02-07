@@ -53,7 +53,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   const { mutateAsync: putSessionValueRequest } = useMutation({
     mutationFn: (req: PutSessionValueRequest) => {
       return idSessionApi({
-        type: "PUT_SESSION_VAL",
+        type: "put_session_val",
         ...req,
       });
     },
@@ -61,7 +61,6 @@ const AppCredential: React.FC<AppCredentialProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      console.log(111);
       try {
         console.log("credential", credential);
         const title = (
@@ -127,11 +126,17 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         if (prfsEmbed) {
           console.log("sending");
 
-          // const { payload } = await putSessionValueRequest({
-          //   key: appSignInArgs.session_key,
-          //   value: "",
-          //   ticket: "",
-          // });
+          const { payload, error } = await putSessionValueRequest({
+            key: appSignInArgs.session_key,
+            value: encrypted,
+            ticket: "TICKET",
+          });
+
+          if (error) {
+            console.error(error);
+          } else {
+            // window.close();
+          }
 
           // await sendMsgToChild(
           //   newPrfsIdMsg("SIGN_IN_RESULT", {
@@ -141,7 +146,6 @@ const AppCredential: React.FC<AppCredentialProps> = ({
           //   prfsEmbed,
           // );
         }
-        // window.close();
       } catch (err: any) {
         setErrorMsg(err.toString());
       }

@@ -11,7 +11,7 @@ if (typeof process !== "undefined") {
   throw new Error("process is undefined");
 }
 
-export async function openSession(): Promise<PrfsIdSession> {
+export async function createSession(): Promise<PrfsIdSession> {
   const callbackQueue: { resolve: (data: PrfsIdSessionResponse) => void; reject: () => void }[] =
     [];
   const dataQueue: PrfsIdSessionResponse[] = [];

@@ -50,7 +50,6 @@ const AppSignIn: React.FC = () => {
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   React.useEffect(() => {
-    console.log(11122);
     if (appSignInArgs) {
       const { public_key, app_id } = appSignInArgs;
 
