@@ -15,7 +15,7 @@ pub enum PrfsIdSessionMsg {
 #[ts(export)]
 pub struct PrfsIdSessionResponse {
     pub error: Option<String>,
-    pub payload: PrfsIdSessionResponsePayload,
+    pub payload: Option<PrfsIdSessionResponsePayload>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
@@ -41,8 +41,9 @@ pub struct OpenSessionResult {
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PutSessionValueRequest {
-    key: String,
-    value: String,
+    pub key: String,
+    pub value: String,
+    pub ticket: String,
 }
 
 // #[derive(Debug, Serialize, Deserialize, Clone, TS)]

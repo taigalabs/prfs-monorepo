@@ -56,9 +56,12 @@ async fn serve_websocket(
                 let prfs_id_session_msg: PrfsIdSessionMsg = match serde_json::from_str(&msg) {
                     Ok(m) => m,
                     Err(err) => {
-                        println!("err: {:?}", err);
-                        let err_str = err.to_string();
-                        websocket.send(Message::text(err_str)).await?;
+                        let resp = PrfsIdSessionResponse {
+                            error: Some(err.to_string()),
+                            payload: None,
+                        };
+                        let resp = serde_json::to_string(&resp).unwrap();
+                        websocket.send(Message::text(resp)).await.unwrap();
 
                         return Ok(());
                     }
@@ -67,7 +70,6 @@ async fn serve_websocket(
                 println!("prfs_id_session_msg: {:?}", prfs_id_session_msg);
                 match prfs_id_session_msg {
                     PrfsIdSessionMsg::OPEN_SESSION(payload) => {
-                        println!("22233");
                         handle_open_session(&mut websocket, payload, state.clone()).await;
                     }
                 };
@@ -123,11 +125,13 @@ async fn handle_open_session(
         ticket: msg.ticket,
     };
 
-    let key = prfs::upsert_prfs_session(&mut tx, &session).await.unwrap();
+    let key = prfs::upsert_prfs_id_session(&mut tx, &session)
+        .await
+        .unwrap();
 
     let resp = PrfsIdSessionResponse {
         error: None,
-        payload: PrfsIdSessionResponsePayload::OpenSessionResult(key),
+        payload: Some(PrfsIdSessionResponsePayload::OpenSessionResult(key)),
     };
     let resp = serde_json::to_string(&resp).unwrap();
     socket.send(Message::text(resp)).await.unwrap();

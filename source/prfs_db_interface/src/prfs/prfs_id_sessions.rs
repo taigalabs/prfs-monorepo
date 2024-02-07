@@ -4,31 +4,24 @@ use prfs_entities::entities::{PrfsProofType, PrfsSession};
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 use rust_decimal::Decimal;
 
-pub async fn get_prfs_session(pool: &Pool<Postgres>, key: String) -> PrfsProofType {
-    let query = "SELECT * from prfs_proof_types where proof_type_id=$1";
+pub async fn get_prfs_id_session(pool: &Pool<Postgres>, key: &String) -> PrfsIdSession {
+    let query = r#"
+SELECT * FROM prfs_id_session 
+WHERE key=$1
+"#;
 
     let row = sqlx::query(query).bind(&key).fetch_one(pool).await.unwrap();
 
-    let ret = PrfsProofType {
-        proof_type_id: row.get("proof_type_id"),
-        expression: row.get("expression"),
-        img_url: row.get("img_url"),
-        img_caption: row.get("img_caption"),
-        label: row.get("label"),
-        author: row.get("author"),
-        desc: row.get("desc"),
-        circuit_id: row.get("circuit_id"),
-        circuit_type_id: row.get("circuit_type_id"),
-        circuit_inputs: row.get("circuit_inputs"),
-        circuit_driver_id: row.get("circuit_driver_id"),
-        driver_properties: row.get("driver_properties"),
-        created_at: row.get("created_at"),
+    let ret = PrfsIdSession {
+        key: row.get("key"),
+        value: row.get("value"),
+        ticket: row.get("ticket"),
     };
 
     return ret;
 }
 
-pub async fn upsert_prfs_session(
+pub async fn upsert_prfs_id_session(
     tx: &mut Transaction<'_, Postgres>,
     session: &PrfsSession,
 ) -> Result<String, DbInterfaceError> {

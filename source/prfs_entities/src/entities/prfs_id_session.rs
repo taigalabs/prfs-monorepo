@@ -7,7 +7,7 @@ use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub struct PrfsSession {
+pub struct PrfsIdSession {
     pub key: String,
     pub value: String,
     pub ticket: String,

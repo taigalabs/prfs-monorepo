@@ -26,12 +26,16 @@ pub async fn put_session_val(
     let req: PutSessionValueRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-    let prfs_identity = PrfsIdentity {
-        identity_id: req.identity_id.to_string(),
-        avatar_color: req.avatar_color.to_string(),
+
+    let old_session = prfs::get_prfs_id_session(&pool, &req.key).await;
+
+    let session = PrfsSession {
+        key: req.key,
+        value: req.value,
+        ticket: req.ticket,
     };
 
-    let identity_id = prfs::insert_prfs_identity(&mut tx, &prfs_identity)
+    let key = prfs::upsert_prfs_id_session(&mut tx, &prfs_identity)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.ID_ALREADY_EXISTS, err))?;
 

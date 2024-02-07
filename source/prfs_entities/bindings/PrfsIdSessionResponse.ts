@@ -3,5 +3,5 @@ import type { PrfsIdSessionResponsePayload } from "./PrfsIdSessionResponsePayloa
 
 export interface PrfsIdSessionResponse {
   error: string | null;
-  payload: PrfsIdSessionResponsePayload;
+  payload: PrfsIdSessionResponsePayload | null;
 }
