@@ -5,13 +5,8 @@ use hyper_tungstenite2::{tungstenite, HyperWebsocket};
 use hyper_utils::error::ApiHandleError;
 use hyper_utils::io::{full, BytesBoxBody};
 use prfs_common_server_state::ServerState;
-use prfs_entities::id_session_api_entities::{
-    PrfsIdMsg, PrfsIdMsgType, PrfsIdSessionMsg, RequestSignInPayload,
-};
+use prfs_entities::id_session_api_entities::{PrfsIdMsg, PrfsIdSessionMsg, RequestSignInPayload};
 use std::sync::Arc;
-use tungstenite::error::ProtocolError;
-use tungstenite::handshake::derive_accept_key;
-use tungstenite::protocol::WebSocketConfig;
 use tungstenite::Message;
 
 use crate::IdSessionServerError;
@@ -69,18 +64,6 @@ async fn serve_websocket(websocket: HyperWebsocket) -> Result<(), IdSessionServe
                         println!("222");
                     }
                 };
-
-                // match prfs_id_session_msg {
-                //     PrfsIdSessionMsg::RequestSignIn(msg) => {
-                //         println!("123");
-                //     }
-                //     PrfsIdSessionMsg::RequestProofGen(m) => {
-                //         println!("234");
-                //     }
-                //     _ => {
-                //         println!("error")
-                //     }
-                // };
 
                 websocket
                     .send(Message::text("Thank you, come again."))
