@@ -14,9 +14,10 @@ import {
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { idApi } from "@taigalabs/prfs-api-js";
+import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
+import { PutSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutSessionValueRequest";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -54,6 +55,14 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
+    },
+  });
+  const { mutateAsync: putSessionValueRequest } = useMutation({
+    mutationFn: (req: PutSessionValueRequest) => {
+      return idSessionApi({
+        type: "put_session_val",
+        ...req,
+      });
     },
   });
   const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>(null);
@@ -151,22 +160,39 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       console.log("receipt: %o, encrypted", processedReceipt, encrypted);
 
       try {
-        await sendMsgToChild(
-          newPrfsIdMsg("PROOF_GEN_RESULT", {
-            appId: proofGenArgs.app_id,
-            value: encrypted,
-          }),
-          prfsEmbed,
-        );
+        const { error } = await putSessionValueRequest({
+          key: proofGenArgs.session_key,
+          value: encrypted,
+          ticket: "TICKET",
+        });
+
+        if (error) {
+          console.error(error);
+        }
+
+        setCreateProofStatus(Status.Standby);
+        window.close();
+        // await sendMsgToChild(
+        //   newPrfsIdMsg("PROOF_GEN_RESULT", {
+        //     appId: proofGenArgs.app_id,
+        //     value: encrypted,
+        //   }),
+        //   prfsEmbed,
+        // );
       } catch (err: any) {
-        await sendMsgToChild(newPrfsIdErrorMsg("PROOF_GEN_RESULT", err.toString()), prfsEmbed);
+        // await sendMsgToChild(newPrfsIdErrorMsg("PROOF_GEN_RESULT", err.toString()), prfsEmbed);
         console.error(err);
       }
-
-      setCreateProofStatus(Status.Standby);
-      window.close();
     }
-  }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt, setCreateProofStatus]);
+  }, [
+    searchParams,
+    proofGenArgs,
+    credential,
+    setErrorMsg,
+    receipt,
+    setCreateProofStatus,
+    putSessionValueRequest,
+  ]);
 
   const handleCloseErrorDialog = React.useCallback(() => {}, []);
 

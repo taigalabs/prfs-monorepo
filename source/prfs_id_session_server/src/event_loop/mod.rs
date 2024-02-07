@@ -26,20 +26,29 @@ pub async fn start_listening_to_prfs_id_session_events(
         let notification = listener.recv().await?;
         // println!("prfs id session channel ev: {notification:?}");
 
-        let session: PrfsIdSession = serde_json::from_str(notification.payload()).unwrap();
-        println!("prfs id session channel ev key: {}", session.key);
+        let session_key: String = serde_json::from_str(notification.payload()).unwrap();
+        println!("prfs id session channel ev key: {}", session_key);
 
         let peer_map = server_state.peer_map.lock().await;
-        if let Some(tx) = peer_map.get(&session.key) {
-            let resp = PrfsIdSessionResponse {
-                error: None,
-                payload: Some(PrfsIdSessionResponsePayload::OpenSessionResult(
-                    session.value,
-                )),
-            };
-            let resp = serde_json::to_string(&resp).unwrap();
-            let mut tx_lock = tx.lock().await;
-            tx_lock.send(Message::text(resp)).await.unwrap();
+        if let Some(tx) = peer_map.get(&session_key) {
+            if let Ok(session_result) = prfs::get_prfs_id_session(&pool, &session_key).await {
+                if let Some(s) = session_result {
+                    let resp = PrfsIdSessionResponse {
+                        error: None,
+                        payload: Some(PrfsIdSessionResponsePayload::OpenSessionResult(s.value)),
+                    };
+                    let resp = serde_json::to_string(&resp).unwrap();
+                    let mut tx_lock = tx.lock().await;
+                    tx_lock.send(Message::text(resp)).await.unwrap();
+                }
+            } else {
+                println!("Strange, session isn't found, key: {}", session_key);
+            }
+        } else {
+            println!(
+                "Can't find the peer, she might have closed the connection, key: {}",
+                session_key
+            );
         }
     }
 }
