@@ -74,10 +74,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         return;
       }
 
-      const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
-        prfsEmbed,
-      );
+      // const resp = await sendMsgToChild(
+      //   newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
+      //   prfsEmbed,
+      // );
 
       if (resp) {
         try {
