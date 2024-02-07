@@ -1,5 +1,5 @@
 import { AsyncIncrementalMerkleTree } from "@taigalabs/async-incremental-merkle-tree";
-import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
+import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface";
 import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 
 import { AsyncHashFn } from "@/types";

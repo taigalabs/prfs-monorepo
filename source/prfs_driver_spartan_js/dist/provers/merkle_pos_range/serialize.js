@@ -1,4 +1,5 @@
-export {};
+"use strict";
+// import { MembershipProofCircuitPubInput, MembershipProofPublicInput } from "./public_input";
 // export function serializePublicInput(publicInput: MembershipProofPublicInput): string {
 //   const { circuitPubInput, msgHash, r, rV, msgRaw } = publicInput;
 //   const { merkleRoot, Tx, Ty, Ux, Uy, serialNo } = circuitPubInput;

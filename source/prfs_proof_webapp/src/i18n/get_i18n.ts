@@ -7,8 +7,8 @@ export async function getI18N(): Promise<I18NData> {
     const data = await fetch(`${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/api/i18n`);
     const json = await data.json();
     return json["en"] || en;
-  } catch (err) {
-    console.error(`Error fetching i18n, ${err}`);
+  } catch (err: unknown) {
+    console.error("Error fetching i18n: %o", err);
     return en;
   }
 }

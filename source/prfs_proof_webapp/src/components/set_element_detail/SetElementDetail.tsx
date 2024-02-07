@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 import styles from "./SetElementDetail.module.scss";
-import { paths } from "@/paths";
+import { consolePaths, paths } from "@/paths";
 import {
   AttestationDetailBox,
   AttestationDetailBoxInner,
@@ -50,7 +50,7 @@ const SetElementDetail: React.FC<SetElementDetailProps> = ({ element_label, set_
   return setElement ? (
     <div className={styles.wrapper}>
       <AttestationDetailTopMenuRow>
-        <Link href={paths.sets__crypto_holders}>
+        <Link href={consolePaths.sets__crypto_holders}>
           <ButtonCircleContainer>
             <FaArrowLeft />
           </ButtonCircleContainer>

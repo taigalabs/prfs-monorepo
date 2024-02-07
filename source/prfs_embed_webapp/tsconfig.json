@@ -6,6 +6,7 @@
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "outDir": "./build",
     "incremental": true,
     "esModuleInterop": true,
     "module": "CommonJS",
@@ -18,7 +19,7 @@
     "paths": {},
     "noEmit": false
   },
-  "include": ["./server/**/*"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "ts-node": {
     "compilerOptions": {

@@ -12,11 +12,11 @@ import {
   makeColor,
   AppSignInArgs,
 } from "@taigalabs/prfs-id-sdk-web";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { useMutation } from "@tanstack/react-query";
 import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import { secp256k1 } from "@taigalabs/prfs-crypto-js/secp256k1";
+import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -31,7 +31,12 @@ import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
 import { useRandomKeyPair } from "@/hooks/key";
 
-const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noCredential }) => {
+const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
+  className,
+  label,
+  noCredential,
+  appId,
+}) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
@@ -42,12 +47,17 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   });
   const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
   const { sk, pkHex } = useRandomKeyPair();
+  const priv = secp256k1.utils.randomPrivateKey();
+  const pk = secp256k1.getPublicKey(priv);
+  const session_key = toHex(pk);
+
   const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
     return {
       nonce: Math.random() * 1000000,
-      app_id: "prfs_proof",
+      app_id: appId,
       sign_in_data: [AppSignInData.ID_POSEIDON],
       public_key: pkHex,
+      session_key,
     };
   }, [pkHex]);
 
@@ -105,14 +115,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
     console.log("Failed init Prfs Proof credential!");
   }, []);
 
-  // if (!isCredentialInitialized) {
-  //   return (
-  //     <Overlay className={styles.wrapper}>
-  //       <Spinner size={24} color="#5c5c5c" />
-  //     </Overlay>
-  //   );
-  // }
-
   return prfsProofCredential ? (
     noCredential ? (
       <div>Loading...</div>
@@ -145,4 +147,5 @@ export interface PrfsIdSignInBtnProps {
   className?: string;
   label?: string;
   noCredential?: boolean;
+  appId: string;
 }

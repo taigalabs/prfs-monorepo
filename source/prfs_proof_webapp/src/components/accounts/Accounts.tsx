@@ -11,7 +11,7 @@ import { paths } from "@/paths";
 import { useSignedInUser } from "@/hooks/user";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 
-const Accounts: React.FC<AccountsProps> = ({}) => {
+const Accounts: React.FC<AccountsProps> = ({ appId }) => {
   const i18n = React.useContext(i18nContext);
   const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
   const router = useRouter();
@@ -44,6 +44,7 @@ const Accounts: React.FC<AccountsProps> = ({}) => {
               className={styles.prfsIDSignInBtn}
               label={i18n.sign_in_with_prfs_id}
               noCredential
+              appId={appId}
             />
           </li>
         </ul>
@@ -54,4 +55,6 @@ const Accounts: React.FC<AccountsProps> = ({}) => {
 
 export default Accounts;
 
-export interface AccountsProps {}
+export interface AccountsProps {
+  appId: string;
+}

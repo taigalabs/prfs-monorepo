@@ -1,10 +1,10 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { BufferHex, SigData } from "@taigalabs/prfs-proof-interface";
+import { BufferHex, SigData } from "@taigalabs/prfs-circuit-interface";
 import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
-import { useSignMessage } from "@taigalabs/prfs-web3-js/wagmi";
-import { bufferToHex, hashPersonalMessage } from "@taigalabs/prfs-web3-js/ethereumjs";
+import { useSignMessage } from "@taigalabs/prfs-crypto-deps-js/wagmi";
+import { bufferToHex, hashPersonalMessage } from "@taigalabs/prfs-crypto-deps-js/ethereumjs";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/i18n/context";

@@ -75,6 +75,33 @@ module.exports = (phase, { defaultConfig }) => {
       ];
     },
 
+    // async rewrites() {
+    //   return {
+    //     beforeFiles: [
+    //       {
+    //         source: "/:path*",
+    //         has: [
+    //           {
+    //             type: "host",
+    //             value: "console.localhost",
+    //           },
+    //         ],
+    //         destination: "/console/:path*",
+    //       },
+    //       {
+    //         source: "/:path*",
+    //         has: [
+    //           {
+    //             type: "host",
+    //             value: "console.prfs.xyz",
+    //           },
+    //         ],
+    //         destination: "/console/:path*",
+    //       },
+    //     ],
+    //   };
+    // },
+
     eslint: {
       ignoreDuringBuilds: true,
     },

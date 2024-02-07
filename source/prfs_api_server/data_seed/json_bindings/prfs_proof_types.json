@@ -290,10 +290,10 @@
       {
         "ref_type": "PRFS_SET",
         "ref_value": "crypto_holders",
-        "element_type": "COMMITMENT",
-        "desc": "Address",
-        "name": "merkle_sig_pos_range",
+        "desc": "Who you are among those",
+        "name": "merkleProof",
         "type": "MERKLE_SIG_POS_RANGE_V1",
+        "element_type": "ADDRESS",
         "label": "Member",
         "value": ""
       }

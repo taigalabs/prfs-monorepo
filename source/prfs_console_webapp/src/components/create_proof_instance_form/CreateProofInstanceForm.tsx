@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { ethers } from "ethers";
 import { v4 as uuidv4, parse as parseUuid } from "uuid";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
@@ -45,15 +44,12 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   React.useEffect(() => {
     async function fn() {
       if (selectedProofType) {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-
+        // const provider = new ethers.providers.Web3Provider(window.ethereum);
         // const proofGenElement = prfs.create("proof-gen", {
         //   proofTypeId: selectedProofType.proof_type_id,
         //   provider,
         // });
-
         // await proofGenElement.mount("#prfs-sdk-container");
-
         // setProofGenElement(proofGenElement);
       }
     }

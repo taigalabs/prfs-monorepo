@@ -43,6 +43,7 @@ const AppSignIn: React.FC = () => {
       const args = parseAppSignInSearchParams(searchParams as URLSearchParams);
       return args;
     } catch (err) {
+      console.error(err);
       return null;
     }
   }, [searchParams]);

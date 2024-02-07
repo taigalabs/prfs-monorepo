@@ -12,7 +12,8 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { idApi } from "@taigalabs/prfs-api-js";
+import { PutSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutSessionValueRequest";
+import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./AppCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -47,6 +48,14 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
+    },
+  });
+  const { mutateAsync: putSessionValueRequest } = useMutation({
+    mutationFn: (req: PutSessionValueRequest) => {
+      return idSessionApi({
+        type: "put_session_val",
+        ...req,
+      });
     },
   });
 
@@ -111,25 +120,26 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       const encrypted = JSON.stringify(
         encrypt(appSignInArgs.public_key, Buffer.from(JSON.stringify(payload))),
       );
-      console.log("Encrypted credential", encrypted);
+      // console.log("Encrypted credential", encrypted);
 
       try {
         if (prfsEmbed) {
-          await sendMsgToChild(
-            newPrfsIdMsg("SIGN_IN_RESULT", {
-              appId: appSignInArgs.app_id,
-              // key: appSignInArgs.public_key,
-              value: encrypted,
-            }),
-            prfsEmbed,
-          );
+          const { error } = await putSessionValueRequest({
+            key: appSignInArgs.session_key,
+            value: encrypted,
+            ticket: "TICKET",
+          });
+
+          if (error) {
+            console.error(error);
+          }
+          window.close();
         }
-        window.close();
       } catch (err: any) {
         setErrorMsg(err.toString());
       }
     }
-  }, [searchParams, appSignInArgs, credential, setErrorMsg, signInData]);
+  }, [searchParams, appSignInArgs, credential, setErrorMsg, signInData, putSessionValueRequest]);
 
   return (
     <>

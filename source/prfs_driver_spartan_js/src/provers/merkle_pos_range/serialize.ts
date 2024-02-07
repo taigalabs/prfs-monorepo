@@ -1,4 +1,4 @@
-import { MembershipProofCircuitPubInput, MembershipProofPublicInput } from "./public_input";
+// import { MembershipProofCircuitPubInput, MembershipProofPublicInput } from "./public_input";
 
 // export function serializePublicInput(publicInput: MembershipProofPublicInput): string {
 //   const { circuitPubInput, msgHash, r, rV, msgRaw } = publicInput;

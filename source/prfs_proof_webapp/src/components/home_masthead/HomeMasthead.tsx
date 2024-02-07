@@ -14,6 +14,7 @@ import {
   MastheadRightGroupMenu,
   MastheadWrapper,
 } from "@/components/masthead/Masthead";
+import { PRFS_PROOF } from "@/app_id";
 
 const HomeMasthead: React.FC<HomeMastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -31,7 +32,7 @@ const HomeMasthead: React.FC<HomeMastheadProps> = () => {
           <PrfsAppsPopoverDefault disableMarkIsOpen />
         </MastheadRightGroupMenu>
         <MastheadRightGroupMenu className={cn(styles.signInBtn, styles.menu)}>
-          <PrfsIdSignInBtn />
+          <PrfsIdSignInBtn appId={PRFS_PROOF} />
         </MastheadRightGroupMenu>
       </MastheadRightGroup>
     </MastheadWrapper>

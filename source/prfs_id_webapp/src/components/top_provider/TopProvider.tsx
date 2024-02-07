@@ -4,8 +4,8 @@ import React from "react";
 import { Provider as ReduxProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-lib/src/i18n/i18nContext";
-import { http, createConfig, WagmiProvider } from "@taigalabs/prfs-web3-js/wagmi";
-import { mainnet, sepolia } from "@taigalabs/prfs-web3-js/wagmi/chains";
+import { http, createConfig, WagmiProvider } from "@taigalabs/prfs-crypto-deps-js/wagmi";
+import { mainnet, sepolia } from "@taigalabs/prfs-crypto-deps-js/wagmi/chains";
 import { PrfsEmbedProvider } from "@taigalabs/prfs-id-sdk-react/src/context";
 
 import { I18nProvider } from "@/i18n/context";

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "clean": "rimraf dist/ build/",
-    "create-envs": "ts-node createEnvs.ts",
+    "create-envs": "ts-node create_envs.ts",
     "dev": "pnpm run create-envs && ts-node ./server/dev.server.ts",
     "webpack": "webpack build --config ./webpack/prod.config.ts && cp index.html dist/",
     "build": "pnpm run clean && pnpm run create-envs --production && pnpm run webpack",
@@ -17,6 +17,7 @@
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
+    "@taigalabs/prfs-env-js": "*",
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-env-js": "*",
     "@taigalabs/prfs-id-sdk-web": "*",

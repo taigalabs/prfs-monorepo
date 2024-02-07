@@ -7,6 +7,7 @@ import {
   newPrfsIdMsg,
   sendMsgToChild,
   parseBuffer,
+  createSession,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
@@ -38,20 +39,48 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
         return;
       }
 
-      const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: appSignInArgs.app_id }),
-        prfsEmbed,
-      );
-      if (resp) {
+      const { ws, send, receive } = await createSession();
+      send({
+        type: "OPEN_SESSION",
+        key: appSignInArgs.session_key,
+        ticket: "TICKET",
+      });
+      const openSessionResp = await receive();
+      if (openSessionResp?.error) {
+        console.error(openSessionResp?.error);
+        return;
+      }
+
+      const session = await receive();
+      if (session) {
         try {
-          const buf = parseBuffer(resp);
-          handleSucceedSignIn(buf);
+          if (session.error) {
+            console.error(session.error);
+          }
+
+          if (session.payload) {
+            const buf = parseBuffer(session.payload);
+            handleSucceedSignIn(buf);
+
+            send({
+              type: "CLOSE_SESSION",
+              key: appSignInArgs.session_key,
+              ticket: "TICKET",
+            });
+            const closeSessionResp = await receive();
+            console.log("closeSessionresp", closeSessionResp);
+          }
         } catch (err) {
           console.error(err);
         }
       } else {
-        console.error("Returned val is empty");
+        console.error(
+          "Session didn't get the response, something's wrong, session key: %s",
+          appSignInArgs.session_key,
+        );
       }
+
+      ws.close();
     });
   }, [
     appSignInArgs,

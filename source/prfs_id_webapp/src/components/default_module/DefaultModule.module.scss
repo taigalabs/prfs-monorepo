@@ -30,6 +30,7 @@
 
 .form {
   border-radius: 10px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -192,7 +193,7 @@
 
   .btnRow {
     &:not(.noSidePadding) {
-      padding: 0 40px;
+      padding: 0 16px;
     }
   }
 }

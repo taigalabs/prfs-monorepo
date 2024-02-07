@@ -17,7 +17,7 @@ import {
   AttestationTableBodyInner,
   AttestationTableCell,
 } from "@/components/attestations_table/AttestationsTable";
-import { paths } from "@/paths";
+import { consolePaths, paths } from "@/paths";
 
 const Row: React.FC<RowProps> = ({ row, style, router }) => {
   const name = React.useMemo(() => {
@@ -36,7 +36,7 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
     }
   }, [row.data]);
   const handleClick = React.useCallback(() => {
-    router.push(`${paths.sets}/${row.set_id}/${row.label}`);
+    router.push(`${consolePaths.sets}/${row.set_id}/${row.label}`);
   }, [router, row]);
 
   return (

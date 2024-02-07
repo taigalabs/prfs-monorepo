@@ -2,6 +2,7 @@ use hyper::body::Incoming;
 use hyper::Request;
 use hyper_utils::io::{parse_req, ApiHandlerResult};
 use hyper_utils::resp::ApiResponse;
+use hyper_utils::ApiHandleError;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
@@ -32,7 +33,7 @@ pub async fn sign_up_prfs_account(
     let account_id = prfs::insert_prfs_account(&mut tx, &prfs_account)
         .await
         .map_err(|err| {
-            hyper_utils::ApiHandleError::from(
+            ApiHandleError::from(
                 &API_ERROR_CODES.USER_ALREADY_EXISTS,
                 format!("account_id: {}, err: {}", req.account_id, err).into(),
             )

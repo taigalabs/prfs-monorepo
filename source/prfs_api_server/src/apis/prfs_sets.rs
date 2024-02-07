@@ -162,7 +162,7 @@ pub async fn compute_prfs_set_merkle_root(
         deleted_row_count, &req.set_id
     );
 
-    let leaf_nodes = prfs::get_prfs_tree_leaf_nodes_all_by_set_id(pool, &req.set_id)
+    let leaf_nodes = prfs::get_prfs_tree_leaf_nodes_by_set_id(pool, &req.set_id, 0, 60000)
         .await
         .unwrap();
 
@@ -195,6 +195,8 @@ pub async fn create_tree_of_prfs_set(
     let set_elements = prfs::get_prfs_set_elements(&pool, &set.set_id, 0, 50000)
         .await
         .unwrap();
+
+    // prfs::get_prfs_tree_nodes_by_pos(pool, set_id, pos)
 
     let mut count = 0;
     let leaves = tree::create_leaves(&set_elements).unwrap();

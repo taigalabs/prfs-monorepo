@@ -9,6 +9,7 @@ import SigDataInput from "@/components/circuit_inputs_variants/sig_data_input/Si
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import HashInput from "@/components/circuit_inputs_variants/hash_input/HashInput";
 import MerkleSigPosRangeInput from "@/components/circuit_inputs_variants/merkle_sig_pos_range/MerkleSigPosRangeInput";
+import { MERKLE_POS_RANGE_INPUT_TYPE_V1 } from "@taigalabs/prfs-circuit-interface";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
   circuitInputs,

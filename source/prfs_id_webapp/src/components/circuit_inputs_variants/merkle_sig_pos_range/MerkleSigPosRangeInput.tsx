@@ -19,7 +19,7 @@ import {
   PrfsIdCredential,
   QueryPresetVals,
 } from "@taigalabs/prfs-id-sdk-web";
-import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
+import { SpartanMerkleProof, MerklePosRangeInputs } from "@taigalabs/prfs-circuit-interface";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
 import { bytesToNumberLE, hexToNumber } from "@taigalabs/prfs-crypto-js";
@@ -131,56 +131,57 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
       const { set_id, merkle_root } = prfsSet;
       try {
-        // let val = node.val;
-        let leafVal = addr;
+        // let leafVal = addr;
         const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
           label: addr,
         });
 
-        if (getPrfsSetElementPayload) {
-          const data = getPrfsSetElementPayload.prfs_set_element
-            ?.data as unknown as PrfsSetElementData[];
+        if (!getPrfsSetElementPayload) {
+          throw new Error("no payload from prfs set element");
+        }
 
-          if (data.length > 2) {
-            throw new Error("Data of cardinality over 2 is currently not supported");
-          }
+        const data = getPrfsSetElementPayload.prfs_set_element
+          ?.data as unknown as PrfsSetElementData[];
 
-          let args = [BigInt(0), BigInt(0)];
-          for (let idx = 0; idx < data.length; idx += 1) {
-            const d = data[idx];
-            switch (d.type) {
-              case "WalletCm": {
-                const cm = await makeCommitment(
-                  credential.secret_key,
-                  `${PRFS_ATTESTATION_STEM}${addr}`,
-                );
+        if (data.length > 2) {
+          throw new Error("Data of cardinality over 2 is currently not supported");
+        }
 
-                if (d.val !== cm) {
-                  throw new Error(`Commitment does not match, addr: ${addr}`);
-                }
+        let args = [BigInt(0), BigInt(0)];
+        for (let idx = 0; idx < data.length; idx += 1) {
+          const d = data[idx];
+          switch (d.type) {
+            case "WalletCm": {
+              const cm = await makeCommitment(
+                credential.secret_key,
+                `${PRFS_ATTESTATION_STEM}${addr}`,
+              );
 
-                const val = hexToNumber(cm.substring(2));
-                console.log("cm: %s, val: %s", cm, val);
-                args[idx] = val;
-                break;
+              if (d.val !== cm) {
+                throw new Error(`Commitment does not match, addr: ${addr}`);
               }
 
-              case "Int": {
-                args[idx] = BigInt(d.val);
-                break;
-              }
+              const val = hexToNumber(cm.substring(2));
+              console.log("cm: %s, val: %s", cm, val);
+              args[idx] = val;
+              break;
+            }
+
+            case "Int": {
+              args[idx] = BigInt(d.val);
+              break;
             }
           }
-
-          const a = await poseidon_2_bigint(args);
-          leafVal = bytesToNumberLE(a).toString();
-          console.log("poseidon: %s, int le: %s, int be: %s", a, leafVal);
         }
+
+        const _leaf = await poseidon_2_bigint(args);
+        const leafVal = bytesToNumberLE(_leaf);
+        console.log("args: %s, poseidon: %s, ", args, leafVal);
 
         const { payload, error } = await getPrfsTreeLeafIndices({
           set_id,
-          leaf_vals: [leafVal],
+          leaf_vals: [leafVal.toString()],
         });
 
         if (error) {
@@ -213,7 +214,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           return { pos_h: idx, pos_w };
         });
 
-        // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
+        console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
         const siblingNodesData = await getPrfsTreeNodesByPosRequest({
           set_id,
@@ -242,10 +243,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         };
         console.log("merkleProof: %o", merkleProof);
 
-        setFormValues((prevVals: any) => {
+        setFormValues(() => {
           return {
-            ...prevVals,
-            [circuitInput.name]: merkleProof,
+            leaf: leafVal,
+            asset_size: BigInt(1),
+            asset_size_max_limit: BigInt(5),
+            merkleProof,
           };
         });
       } catch (err) {
@@ -305,7 +308,7 @@ export interface MerkleSigPosRangeInputProps {
   circuitInput: CircuitInput;
   value: SpartanMerkleProof | undefined;
   error: string | undefined;
-  setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setFormValues: React.Dispatch<React.SetStateAction<MerklePosRangeInputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;

@@ -10,3 +10,4 @@ export * from "./signature";
 export * from "./id";
 export * from "./poseidon";
 export * from "./commitment";
+export * from "./addr";
