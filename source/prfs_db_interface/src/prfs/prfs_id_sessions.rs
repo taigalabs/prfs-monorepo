@@ -2,26 +2,34 @@ use crate::database2::Database2;
 use crate::DbInterfaceError;
 use prfs_entities::entities::{PrfsIdSession, PrfsProofType};
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
-use rust_decimal::Decimal;
 
-pub async fn get_prfs_id_session(pool: &Pool<Postgres>, key: &String) -> Option<PrfsIdSession> {
+pub async fn get_prfs_id_session(
+    pool: &Pool<Postgres>,
+    key: &String,
+) -> Result<Option<PrfsIdSession>, DbInterfaceError> {
     let query = r#"
-SELECT * FROM prfs_id_session 
+SELECT * FROM prfs_id_sessions
 WHERE key=$1
 "#;
 
-    let row = sqlx::query(query).bind(&key).fetch_one(pool).await;
+    let row_result = sqlx::query(query).bind(&key).fetch_optional(pool).await;
 
-    if let Ok(r) = row {
-        let ret = PrfsIdSession {
-            key: r.get("key"),
-            value: r.get("value"),
-            ticket: r.get("ticket"),
-        };
-
-        return Some(ret);
-    } else {
-        return None;
+    match row_result {
+        Ok(row) => {
+            if let Some(r) = row {
+                let ret = PrfsIdSession {
+                    key: r.get("key"),
+                    value: r.get("value"),
+                    ticket: r.get("ticket"),
+                };
+                return Ok(Some(ret));
+            } else {
+                return Err(format!("Prfs id session does not exist, key: {}", key).into());
+            }
+        }
+        Err(err) => {
+            return Err(err.into());
+        }
     }
 }
 

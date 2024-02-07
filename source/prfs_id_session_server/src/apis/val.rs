@@ -19,13 +19,9 @@ pub async fn put_session_val(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let _old_session =
-        prfs::get_prfs_id_session(&pool, &req.key)
-            .await
-            .ok_or(ApiHandleError::from(
-                &API_ERROR_CODE.UNKNOWN_ERROR,
-                format!("session does not exist, key: {}", &req.key).into(),
-            ))?;
+    let _old_session = prfs::get_prfs_id_session(&pool, &req.key)
+        .await
+        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))?;
 
     let session = PrfsIdSession {
         key: req.key.to_string(),
