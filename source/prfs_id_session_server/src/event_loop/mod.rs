@@ -24,9 +24,11 @@ pub async fn start_listening_to_prfs_id_session_events(
 
     loop {
         let notification = listener.recv().await?;
-        println!("[from recv]: {notification:?}");
+        // println!("prfs id session channel ev: {notification:?}");
 
         let session: PrfsIdSession = serde_json::from_str(notification.payload()).unwrap();
+        println!("prfs id session channel ev key: {}", session.key);
+
         let peer_map = server_state.peer_map.lock().await;
         if let Some(tx) = peer_map.get(&session.key) {
             let resp = PrfsIdSessionResponse {
