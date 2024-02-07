@@ -10,9 +10,9 @@ http-body-util = "0.1.0"
 hyper = { version = "1.0.0" }
 hyper-util = { version = "0.1.0", features = ["tokio"] }
 pin-project-lite = "0.2.10"
-# tokio = "1.2.0"
 tokio = { version = "1", features = ["full"] }
 tokio-tungstenite = "0.21.0"
 tungstenite = "0.21.0"
+futures = { version = "0.3" }
 
 hyper_utils = { path = "../hyper_utils" }

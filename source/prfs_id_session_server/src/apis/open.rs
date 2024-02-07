@@ -1,3 +1,4 @@
+use futures::stream::SplitSink;
 use futures::{SinkExt, StreamExt};
 use hyper::body::Incoming;
 use hyper::upgrade::Upgraded;
@@ -13,7 +14,9 @@ use prfs_entities::id_session_api_entities::{
     OpenSessionMsgPayload, OpenSessionResult, PrfsIdSessionMsg, PrfsIdSessionResponse,
     PrfsIdSessionResponsePayload,
 };
+use prfs_entities::sqlx::migrate::Migrate;
 use std::sync::Arc;
+use tokio::sync::Mutex;
 use tokio_tungstenite::WebSocketStream;
 use tungstenite::Message;
 
@@ -47,8 +50,11 @@ async fn serve_websocket(
     websocket: HyperWebsocket,
     state: Arc<ServerState>,
 ) -> Result<(), IdSessionServerError> {
-    let mut websocket = websocket.await?;
-    while let Some(message) = websocket.next().await {
+    let websocket = websocket.await?;
+    let (mut tx, mut rx) = websocket.split();
+    let tx = Arc::new(Mutex::new(tx));
+
+    while let Some(message) = rx.next().await {
         match message? {
             Message::Text(msg) => {
                 println!("Received text message: {msg}");
@@ -61,7 +67,8 @@ async fn serve_websocket(
                             payload: None,
                         };
                         let resp = serde_json::to_string(&resp).unwrap();
-                        websocket.send(Message::text(resp)).await.unwrap();
+                        let mut tx_lock = tx.lock().await;
+                        tx_lock.send(Message::text(resp)).await.unwrap();
 
                         return Ok(());
                     }
@@ -70,17 +77,14 @@ async fn serve_websocket(
                 println!("prfs_id_session_msg: {:?}", prfs_id_session_msg);
                 match prfs_id_session_msg {
                     PrfsIdSessionMsg::OPEN_SESSION(payload) => {
-                        handle_open_session(&mut websocket, payload, state.clone()).await;
+                        handle_open_session(tx.clone(), payload, state.clone()).await;
                     }
                 };
-
-                // websocket
-                //     .send(Message::text("Thank you, come again."))
-                //     .await?;
             }
             Message::Binary(msg) => {
                 println!("Received binary message: {msg:02X?}");
-                websocket
+                let mut tx_lock = tx.lock().await;
+                tx_lock
                     .send(Message::binary(b"Thank you, come again.".to_vec()))
                     .await?;
             }
@@ -112,12 +116,12 @@ async fn serve_websocket(
 }
 
 async fn handle_open_session(
-    socket: &mut WebSocketStream<TokioIo<Upgraded>>,
+    tx: Arc<Mutex<SplitSink<WebSocketStream<TokioIo<Upgraded>>, Message>>>,
     msg: OpenSessionMsgPayload,
     state: Arc<ServerState>,
 ) {
     let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+    let mut trx = pool.begin().await.unwrap();
 
     let session = PrfsIdSession {
         key: msg.key,
@@ -125,14 +129,21 @@ async fn handle_open_session(
         ticket: msg.ticket,
     };
 
-    let key = prfs::upsert_prfs_id_session(&mut tx, &session)
+    let key = prfs::upsert_prfs_id_session(&mut trx, &session)
         .await
         .unwrap();
 
     let resp = PrfsIdSessionResponse {
         error: None,
-        payload: Some(PrfsIdSessionResponsePayload::OpenSessionResult(key)),
+        payload: Some(PrfsIdSessionResponsePayload::OpenSessionResult(
+            key.to_string(),
+        )),
     };
     let resp = serde_json::to_string(&resp).unwrap();
-    socket.send(Message::text(resp)).await.unwrap();
+
+    let mut peer_map_lock = state.peer_map.lock().await;
+    peer_map_lock.insert(key, tx.clone()).unwrap();
+
+    let mut tx_lock = tx.lock().await;
+    tx_lock.send(Message::text(resp)).await.unwrap();
 }
