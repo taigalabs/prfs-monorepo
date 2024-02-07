@@ -9,6 +9,7 @@ import {
   API_PATH,
   ProofGenSuccessPayload,
   QueryType,
+  createSession,
   newPrfsIdMsg,
   parseBuffer,
   sendMsgToChild,
@@ -17,6 +18,7 @@ import { decrypt } from "@taigalabs/prfs-crypto-js";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -24,6 +26,7 @@ import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useRandomKeyPair } from "@/hooks/key";
 import { useAppSelector } from "@/state/hooks";
+import { secp256k1 } from "@taigalabs/prfs-crypto-js/secp256k1";
 
 const PROOF = "Proof";
 
@@ -44,6 +47,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const { tutorialId } = useTutorial();
   const { openPopup } = usePopup();
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
+  const priv = secp256k1.utils.randomPrivateKey();
+  const pk = secp256k1.getPublicKey(priv);
+  const session_key = toHex(pk);
 
   const handleClickCreateProof = React.useCallback(async () => {
     const proofGenArgs: ProofGenArgs = {
@@ -57,6 +63,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         },
       ],
       public_key: pkHex,
+      session_key,
     };
 
     if (tutorialId) {
@@ -74,36 +81,56 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         return;
       }
 
+      const { ws, send, receive } = await createSession();
+      send({
+        type: "OPEN_SESSION",
+        key: proofGenArgs.session_key,
+        ticket: "TICKET",
+      });
+      const openSessionResp = await receive();
+      if (openSessionResp?.error) {
+        console.error(openSessionResp?.error);
+        return;
+      }
+
       // const resp = await sendMsgToChild(
       //   newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
       //   prfsEmbed,
       // );
+      const session = await receive();
 
-      if (resp) {
+      if (session) {
         try {
-          const buf = parseBuffer(resp);
-          let decrypted: string;
-          try {
-            decrypted = decrypt(sk.secret, buf).toString();
-          } catch (err) {
-            console.error("cannot decrypt payload", err);
-            return;
+          if (session.error) {
+            console.error(session.error);
           }
 
-          let payload: ProofGenSuccessPayload;
-          try {
-            payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-          } catch (err) {
-            console.error("cannot parse payload", err);
-            return;
-          }
+          if (session.payload) {
+            // const buf = parseBuffer(resp);
+            const buf = parseBuffer(session.payload);
+            let decrypted: string;
+            try {
+              decrypted = decrypt(sk.secret, buf).toString();
+            } catch (err) {
+              console.error("cannot decrypt payload", err);
+              return;
+            }
 
-          const proof = payload.receipt[PROOF] as ProveReceipt;
-          if (proof) {
-            handleCreateProofResult(proof);
-          } else {
-            console.error("no proof delivered");
-            return;
+            let payload: ProofGenSuccessPayload;
+            try {
+              payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+            } catch (err) {
+              console.error("cannot parse payload", err);
+              return;
+            }
+
+            const proof = payload.receipt[PROOF] as ProveReceipt;
+            if (proof) {
+              handleCreateProofResult(proof);
+            } else {
+              console.error("no proof delivered");
+              return;
+            }
           }
         } catch (err) {
           console.error(err);
