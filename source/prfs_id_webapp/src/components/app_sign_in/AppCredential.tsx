@@ -31,6 +31,14 @@ enum AppCredentialStatus {
   Standby,
 }
 
+function usePutSessionVal() {
+  return useMutation({
+    mutationFn: (req: PrfsIdentitySignUpRequest) => {
+      return idApi("sign_up_prfs_identity", req);
+    },
+  });
+}
+
 const AppCredential: React.FC<AppCredentialProps> = ({
   handleClickPrev,
   appSignInArgs,
@@ -116,13 +124,14 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       try {
         if (prfsEmbed) {
           console.log("sending");
-          await sendMsgToChild(
-            newPrfsIdMsg("SIGN_IN_RESULT", {
-              appId: appSignInArgs.app_id,
-              value: encrypted,
-            }),
-            prfsEmbed,
-          );
+
+          // await sendMsgToChild(
+          //   newPrfsIdMsg("SIGN_IN_RESULT", {
+          //     appId: appSignInArgs.app_id,
+          //     value: encrypted,
+          //   }),
+          //   prfsEmbed,
+          // );
         }
         // window.close();
       } catch (err: any) {

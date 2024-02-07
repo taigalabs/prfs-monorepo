@@ -38,6 +38,13 @@ pub struct OpenSessionResult {
     pub key: String,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct PutSessionValueRequest {
+    key: String,
+    value: String,
+}
+
 // #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 // #[ts(export)]
 // pub struct SignInSuccessPayload {

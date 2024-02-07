@@ -37,7 +37,8 @@ pub async fn open_session(
 
         return Ok(response);
     } else {
-        Ok(Response::new(full("Hello HTTP!")))
+        // At this point, normal HTTP request shouldn't be reached
+        Ok(Response::new(full("Wrong path")))
     }
 }
 

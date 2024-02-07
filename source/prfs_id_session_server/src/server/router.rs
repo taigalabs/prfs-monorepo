@@ -5,7 +5,7 @@ use hyper_utils::io::{full, BytesBoxBody};
 use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 
-use crate::apis::session;
+use crate::apis::{open, val};
 
 static NOTFOUND: &[u8] = b"Not Found";
 pub const ID_SESSION_API: &'static str = "/id_session_api";
@@ -22,7 +22,8 @@ pub async fn id_session_server_routes(
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
-        (&Method::GET, v0_path!("open_session")) => session::open_session(req, state).await,
+        (&Method::GET, v0_path!("open_session")) => open::open_session(req, state).await,
+        (&Method::GET, v0_path!("put_session_val")) => val::put_session_val(req, state).await,
         _ => {
             println!("{} Route not found!, {}", ID_SESSION_API, req.uri());
             Ok(Response::builder()
