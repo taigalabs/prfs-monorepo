@@ -23,6 +23,7 @@ pub struct PrfsIdSessionResponse {
 #[ts(export)]
 pub enum PrfsIdSessionResponsePayload {
     OpenSessionResult(String),
+    PutSessionValueResult(String),
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

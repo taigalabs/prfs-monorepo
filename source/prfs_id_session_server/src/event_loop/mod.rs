@@ -1,0 +1,43 @@
+use futures::SinkExt;
+use prfs_common_server_state::ServerState;
+use prfs_db_interface::prfs;
+use prfs_entities::{
+    entities::PrfsIdSession,
+    id_session_api_entities::{PrfsIdSessionResponse, PrfsIdSessionResponsePayload},
+    sqlx::{pool, postgres::PgListener},
+};
+use std::sync::Arc;
+use tungstenite::Message;
+
+use crate::IdSessionServerError;
+
+pub const PRFS_ID_SESSION_CHAN: &str = "prfs_id_session_chan";
+
+pub async fn start_listening_to_prfs_id_session_events(
+    server_state: Arc<ServerState>,
+) -> Result<(), IdSessionServerError> {
+    println!("Start_listening to prfs id session events");
+    let pool = &server_state.db2.pool;
+
+    let mut listener = PgListener::connect_with(&pool).await.unwrap();
+    listener.listen(PRFS_ID_SESSION_CHAN).await.unwrap();
+
+    loop {
+        let notification = listener.recv().await?;
+        println!("[from recv]: {notification:?}");
+
+        let session: PrfsIdSession = serde_json::from_str(notification.payload()).unwrap();
+        let peer_map = server_state.peer_map.lock().await;
+        if let Some(tx) = peer_map.get(&session.key) {
+            let resp = PrfsIdSessionResponse {
+                error: None,
+                payload: Some(PrfsIdSessionResponsePayload::OpenSessionResult(
+                    session.value,
+                )),
+            };
+            let resp = serde_json::to_string(&resp).unwrap();
+            let mut tx_lock = tx.lock().await;
+            tx_lock.send(Message::text(resp)).await.unwrap();
+        }
+    }
+}
