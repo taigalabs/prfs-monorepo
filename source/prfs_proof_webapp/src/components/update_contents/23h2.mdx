@@ -4,6 +4,12 @@
 
 - Reorganize circuit interface. `prfs-circuit-interface` is added.
 
+### Prfs Id
+
+- Sunset localStorage-based message between windows for security reason. (Check out ITP "tracking
+  prevention" of WebKit). Instead, we do this using websocket.
+- Now only a 'app_sign_in' API is updated accordingly.
+
 ## 2024-02-01
 
 ### Prfs Proof
