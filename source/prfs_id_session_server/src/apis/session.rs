@@ -5,7 +5,10 @@ use hyper_tungstenite2::{tungstenite, HyperWebsocket};
 use hyper_utils::error::ApiHandleError;
 use hyper_utils::io::{full, BytesBoxBody};
 use prfs_common_server_state::ServerState;
-use prfs_entities::id_session_api_entities::{PrfsIdMsg, PrfsIdSessionMsg, RequestSignInPayload};
+use prfs_db_interface::prfs;
+use prfs_entities::id_session_api_entities::{
+    OpenSessionMsgPayload, PrfsIdMsg, PrfsIdSessionMsg, RequestSignInPayload,
+};
 use std::sync::Arc;
 use tungstenite::Message;
 
@@ -14,15 +17,16 @@ use crate::IdSessionServerError;
 /// Handle a HTTP or WebSocket request.
 pub async fn open_session(
     mut request: Request<Incoming>,
-    _state: Arc<ServerState>,
+    state: Arc<ServerState>,
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     // Check if the request is a websocket upgrade request.
     if hyper_tungstenite2::is_upgrade_request(&request) {
         let (response, websocket) = hyper_tungstenite2::upgrade(&mut request, None).unwrap();
 
         // Spawn a task to handle the websocket connection.
-        tokio::spawn(async move {
-            if let Err(e) = serve_websocket(websocket).await {
+        // let state_clone = state.clone();
+        tokio::spawn(async {
+            if let Err(e) = serve_websocket(websocket, state).await {
                 eprintln!("Error in websocket connection: {e}");
             }
         });
@@ -34,7 +38,10 @@ pub async fn open_session(
 }
 
 /// Handle a websocket connection.
-async fn serve_websocket(websocket: HyperWebsocket) -> Result<(), IdSessionServerError> {
+async fn serve_websocket(
+    websocket: HyperWebsocket,
+    state: Arc<ServerState>,
+) -> Result<(), IdSessionServerError> {
     let mut websocket = websocket.await?;
     while let Some(message) = websocket.next().await {
         match message? {
@@ -54,12 +61,10 @@ async fn serve_websocket(websocket: HyperWebsocket) -> Result<(), IdSessionServe
 
                 println!("prfs_id_session_msg: {:?}", prfs_id_session_msg);
                 match prfs_id_session_msg {
-                    PrfsIdSessionMsg::REQUEST_SIGN_IN(m) => {
+                    PrfsIdSessionMsg::OPEN_SESSION(m) => {
                         println!("22233");
-                        handle_request_sign_in(m);
+                        handle_open_session(m, state.clone());
                     }
-                    PrfsIdSessionMsg::REQUEST_PROOF_GEN(m) => {}
-                    PrfsIdSessionMsg::REQUEST_VERIFY_PROOF(m) => {}
                     _ => {
                         println!("222");
                     }
@@ -102,6 +107,14 @@ async fn serve_websocket(websocket: HyperWebsocket) -> Result<(), IdSessionServe
     Ok(())
 }
 
-fn handle_request_sign_in(msg: PrfsIdMsg<RequestSignInPayload>) {
+async fn handle_open_session(msg: OpenSessionMsgPayload, state: Arc<ServerState>) {
     println!("123");
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    // prfs::open
+
+    // let identity_id = prfs::insert_prfs_identity(&mut tx, &prfs_identity)
+    //     .await
+    //     .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.ID_ALREADY_EXISTS, err))?;
 }
