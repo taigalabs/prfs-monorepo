@@ -41,7 +41,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       }
 
       const sk = new PrivateKey();
-      const sessionKey = sk.toHex();
+      const sessionKey = sk.publicKey.toHex();
       const { send, receive } = await openSession();
       send({
         type: "OPEN_SESSION",

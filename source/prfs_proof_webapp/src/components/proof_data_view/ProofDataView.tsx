@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { Proof } from "@taigalabs/prfs-driver-interface";
-import { utils } from "ethers";
+import { toHex } from "@taigalabs/prfs-web3-js/viem";
 import JSONBig from "json-bigint";
 
 import styles from "./ProofDataView.module.scss";
@@ -47,7 +47,7 @@ const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, isCard }) => {
 
   const { proofRaw, size, proofRawMinified } = React.useMemo(() => {
     const size = proof.proofBytes.length;
-    const proofRaw = utils.hexlify(proof.proofBytes);
+    const proofRaw = toHex(new Uint8Array(proof.proofBytes));
     const proofRawMinified = proofRaw.length > 256 ? proofRaw.substring(0, 256) : proofRaw;
 
     return { proofRaw, size, proofRawMinified };
