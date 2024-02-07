@@ -61,6 +61,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
 
   React.useEffect(() => {
     async function fn() {
+      console.log(111);
       try {
         console.log("credential", credential);
         const title = (
@@ -126,11 +127,11 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         if (prfsEmbed) {
           console.log("sending");
 
-          const { payload } = await putSessionValueRequest({
-            key: appSignInArgs.session_key,
-            value: "",
-            ticket: "",
-          });
+          // const { payload } = await putSessionValueRequest({
+          //   key: appSignInArgs.session_key,
+          //   value: "",
+          //   ticket: "",
+          // });
 
           // await sendMsgToChild(
           //   newPrfsIdMsg("SIGN_IN_RESULT", {

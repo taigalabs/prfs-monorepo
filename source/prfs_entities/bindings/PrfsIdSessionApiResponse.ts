@@ -3,5 +3,5 @@ import type { DeleteSessionValueResponse } from "./DeleteSessionValueResponse";
 import type { PutSessionValueResponse } from "./PutSessionValueResponse";
 
 export type PrfsIdSessionApiResponse =
-  | ({ type: "PUT_SESSION_VAL" } & PutSessionValueResponse)
-  | ({ type: "DELETE_SESSION_VAL" } & DeleteSessionValueResponse);
+  | ({ type: "put_session_val" } & PutSessionValueResponse)
+  | ({ type: "delete_session_val" } & DeleteSessionValueResponse);

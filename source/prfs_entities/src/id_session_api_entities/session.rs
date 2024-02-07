@@ -1,5 +1,3 @@
-use std::marker::PhantomData;
-
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use sqlx::prelude::Type;
@@ -73,17 +71,8 @@ pub struct DeleteSessionValueResponse {
 #[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsIdSessionApiRequest {
-    PUT_SESSION_VAL(PutSessionValueRequest),
-    DELETE_SESSION_VAL(DeleteSessionValueRequest),
-}
-
-#[allow(non_camel_case_types)]
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[serde(tag = "type")]
-#[ts(export)]
-pub enum PrfsidSessionApiResponseType {
-    PUT_SESSION_VAL,
-    DELETE_SESSION_VAL,
+    put_session_val(PutSessionValueRequest),
+    delete_session_val(DeleteSessionValueRequest),
 }
 
 #[allow(non_camel_case_types)]
@@ -91,6 +80,6 @@ pub enum PrfsidSessionApiResponseType {
 #[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsIdSessionApiResponse {
-    PUT_SESSION_VAL(PutSessionValueResponse),
-    DELETE_SESSION_VAL(DeleteSessionValueResponse),
+    put_session_val(PutSessionValueResponse),
+    delete_session_val(DeleteSessionValueResponse),
 }

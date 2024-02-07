@@ -1,28 +1,19 @@
 import { PrfsIdSessionApiRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdSessionApiRequest";
 import { PrfsIdSessionApiResponse } from "@taigalabs/prfs-entities/bindings/PrfsIdSessionApiResponse";
 import { PutSessionValueResponse } from "@taigalabs/prfs-entities/bindings/PutSessionValueResponse";
-
-import { api } from "../utils";
-import { PrfsApiResponse } from "../types";
 import { DeleteSessionValueResponse } from "@taigalabs/prfs-entities/bindings/DeleteSessionValueResponse";
 import { PutSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutSessionValueRequest";
 import { DeleteSessionValueRequest } from "@taigalabs/prfs-entities/bindings/DeleteSessionValueRequest";
 
-// type RequestName = "sign_up_prfs_identity" | "sign_in_prfs_identity";
+import { api } from "../utils";
+import { PrfsApiResponse } from "../types";
 
-// type Req<T extends RequestName> = //
-//   T extends "sign_up_prfs_identity"
-//     ? PrfsIdentitySignUpRequest
-//     : T extends "sign_in_prfs_identity"
-//     ? PrfsIdentitySignInRequest
-//     : never;
+type RqeustTypes = PrfsIdSessionApiRequest["type"];
 
-type S = PrfsIdSessionApiRequest["type"];
-
-type Resp<T extends S> = //
+type Resp<T extends RqeustTypes> = //
   T extends "PUT_SESSION_VAL"
     ? PrfsApiResponse<PutSessionValueResponse>
-    : T extends DeleteSessionValueRequest
+    : T extends "DELETE_SESSION_VAL"
     ? PrfsApiResponse<DeleteSessionValueResponse>
     : any;
 
@@ -36,9 +27,7 @@ if (typeof process !== "undefined") {
   throw new Error("process is undefined");
 }
 
-export async function idSessionApi<T extends PrfsIdSessionApiRequest["type"]>(
-  req: PrfsIdSessionApiRequest,
-) {
+export async function idSessionApi<T extends R["type"], R extends PrfsIdSessionApiRequest>(req: R) {
   return (await api(
     {
       path: req.type,
@@ -47,12 +36,3 @@ export async function idSessionApi<T extends PrfsIdSessionApiRequest["type"]>(
     endpoint,
   )) as Resp<T>;
 }
-
-const a: { type: "PUT_SESSION_VAL" } & PutSessionValueRequest = {
-  type: "PUT_SESSION_VAL",
-  key: "",
-  value: "",
-  ticket: "",
-};
-
-let b = idSessionApi(a);

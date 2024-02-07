@@ -3,5 +3,5 @@ import type { DeleteSessionValueRequest } from "./DeleteSessionValueRequest";
 import type { PutSessionValueRequest } from "./PutSessionValueRequest";
 
 export type PrfsIdSessionApiRequest =
-  | ({ type: "PUT_SESSION_VAL" } & PutSessionValueRequest)
-  | ({ type: "DELETE_SESSION_VAL" } & DeleteSessionValueRequest);
+  | ({ type: "put_session_val" } & PutSessionValueRequest)
+  | ({ type: "delete_session_val" } & DeleteSessionValueRequest);

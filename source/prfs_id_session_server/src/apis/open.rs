@@ -73,7 +73,7 @@ async fn serve_websocket(
                 };
 
                 match prfs_id_session_msg {
-                    PrfsIdSessionMsg::OPEN_SESSION(payload) => {
+                    PrfsIdSessionMsg::open_session(payload) => {
                         handle_open_session(tx.clone(), payload, state.clone()).await;
                     }
                 };
@@ -139,7 +139,7 @@ async fn handle_open_session(
     let resp = serde_json::to_string(&resp).unwrap();
 
     let mut peer_map_lock = state.peer_map.lock().await;
-    peer_map_lock.insert(key, tx.clone()).unwrap();
+    peer_map_lock.insert(key, tx.clone());
 
     let mut tx_lock = tx.lock().await;
     tx_lock.send(Message::text(resp)).await.unwrap();

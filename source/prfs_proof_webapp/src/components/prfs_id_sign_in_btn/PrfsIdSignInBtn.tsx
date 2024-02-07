@@ -15,6 +15,8 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import { secp256k1 } from "@taigalabs/prfs-crypto-js/secp256k1";
+import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -45,12 +47,17 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   });
   const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
   const { sk, pkHex } = useRandomKeyPair();
+  const priv = secp256k1.utils.randomPrivateKey();
+  const pk = secp256k1.getPublicKey(priv);
+  const session_key = toHex(pk);
+
   const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
     return {
       nonce: Math.random() * 1000000,
       app_id: appId,
       sign_in_data: [AppSignInData.ID_POSEIDON],
       public_key: pkHex,
+      session_key,
     };
   }, [pkHex]);
 

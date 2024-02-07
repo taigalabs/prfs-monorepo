@@ -14,6 +14,7 @@ console.log("webpack entryPath: %s, distPath: %s", entryPath, distPath);
 
 const config: webpack.Configuration = {
   mode: "development",
+  devtool: false,
   entry: entryPath,
   module: {
     rules: [

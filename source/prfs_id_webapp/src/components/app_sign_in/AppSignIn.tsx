@@ -43,12 +43,14 @@ const AppSignIn: React.FC = () => {
       const args = parseAppSignInSearchParams(searchParams as URLSearchParams);
       return args;
     } catch (err) {
+      console.error(err);
       return null;
     }
   }, [searchParams]);
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   React.useEffect(() => {
+    console.log(11122);
     if (appSignInArgs) {
       const { public_key, app_id } = appSignInArgs;
 

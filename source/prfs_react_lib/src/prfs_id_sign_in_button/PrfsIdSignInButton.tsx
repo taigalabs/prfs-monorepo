@@ -41,16 +41,16 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
         return;
       }
 
-      const priv = secp256k1.utils.randomPrivateKey();
-      const pk = secp256k1.getPublicKey(priv);
-      const sessionKey = toHex(pk);
+      // const priv = secp256k1.utils.randomPrivateKey();
+      // const pk = secp256k1.getPublicKey(priv);
+      // const sessionKey = toHex(pk);
       // const msg = new Uint8Array(32).fill(1); // message hash (not message) in ecdsa
       // const sig = secp256k1.sign(msg, priv); // `{prehash: true}` option is available
 
       const { send, receive } = await openSession();
       send({
         type: "OPEN_SESSION",
-        key: sessionKey,
+        key: appSignInArgs.session_key,
         ticket: "TICKET",
       });
       const openSessionResp = await receive();
