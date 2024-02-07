@@ -11,7 +11,6 @@ if (typeof process !== "undefined") {
 }
 
 export async function openSession(): Promise<PrfsIdSession> {
-  console.log("open session");
   const callbackQueue: { resolve: (data: PrfsIdSessionMsg) => void; reject: () => void }[] = [];
   const dataQueue: PrfsIdSessionMsg[] = [];
 
