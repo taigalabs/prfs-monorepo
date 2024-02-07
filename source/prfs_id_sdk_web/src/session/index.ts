@@ -48,15 +48,20 @@ export async function createSession(): Promise<PrfsIdSession> {
     };
 
     ws.onmessage = ev => {
-      if (callbackQueue.length !== 0) {
-        // Somebody is waiting to receive this message.
-        const elem = callbackQueue.shift();
-        if (elem) {
-          elem.resolve(ev.data);
+      try {
+        let data = JSON.parse(ev.data);
+        if (callbackQueue.length !== 0) {
+          // Somebody is waiting to receive this message.
+          const elem = callbackQueue.shift();
+          if (elem) {
+            elem.resolve(data);
+          }
+          return;
         }
-        return;
+        dataQueue.push(data);
+      } catch (err) {
+        console.error("Failed to parse the session response, err: %s, data: %s", err, ev.data);
       }
-      dataQueue.push(ev.data);
     };
   });
 }

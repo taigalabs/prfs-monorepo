@@ -124,9 +124,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
 
       try {
         if (prfsEmbed) {
-          console.log("sending");
-
-          const { payload, error } = await putSessionValueRequest({
+          const { error } = await putSessionValueRequest({
             key: appSignInArgs.session_key,
             value: encrypted,
             ticket: "TICKET",
@@ -134,10 +132,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
 
           if (error) {
             console.error(error);
-          } else {
-            // window.close();
           }
-
           // await sendMsgToChild(
           //   newPrfsIdMsg("SIGN_IN_RESULT", {
           //     appId: appSignInArgs.app_id,
@@ -145,6 +140,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
           //   }),
           //   prfsEmbed,
           // );
+          window.close();
         }
       } catch (err: any) {
         setErrorMsg(err.toString());

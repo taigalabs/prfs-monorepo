@@ -51,14 +51,28 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
         return;
       }
 
-      const sessionVal = await receive();
-      console.log(11, sessionVal);
+      const session = await receive();
+      if (session) {
+        try {
+          if (session.error) {
+            console.error(session.error);
+          }
+
+          if (session.payload) {
+            const buf = parseBuffer(session.payload);
+            handleSucceedSignIn(buf);
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+      }
 
       // const resp = await sendMsgToChild(
       //   newPrfsIdMsg("REQUEST_SIGN_IN", { appId: appSignInArgs.app_id }),
       //   prfsEmbed,
       // );
-      // console.log(12223, resp);
+      //
       // if (resp) {
       //   try {
       //     const buf = parseBuffer(resp);
