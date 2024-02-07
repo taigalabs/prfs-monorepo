@@ -13,6 +13,20 @@ pub enum PrfsIdSessionMsg {
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
+pub struct PrfsIdSessionResponse {
+    pub error: Option<String>,
+    pub payload: PrfsIdSessionResponsePayload,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[serde(untagged)]
+#[ts(export)]
+pub enum PrfsIdSessionResponsePayload {
+    OpenSessionResult(String),
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
 pub struct OpenSessionMsgPayload {
     pub key: String,
     pub ticket: String,

@@ -10,7 +10,8 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::entities::PrfsSession;
 use prfs_entities::id_session_api_entities::{
-    OpenSessionMsgPayload, OpenSessionResult, PrfsIdSessionMsg,
+    OpenSessionMsgPayload, OpenSessionResult, PrfsIdSessionMsg, PrfsIdSessionResponse,
+    PrfsIdSessionResponsePayload,
 };
 use std::sync::Arc;
 use tokio_tungstenite::WebSocketStream;
@@ -123,7 +124,10 @@ async fn handle_open_session(
 
     let key = prfs::upsert_prfs_session(&mut tx, &session).await.unwrap();
 
-    let resp = OpenSessionResult { key };
+    let resp = PrfsIdSessionResponse {
+        error: None,
+        payload: PrfsIdSessionResponsePayload::OpenSessionResult(key),
+    };
     let resp = serde_json::to_string(&resp).unwrap();
     socket.send(Message::text(resp)).await.unwrap();
 }

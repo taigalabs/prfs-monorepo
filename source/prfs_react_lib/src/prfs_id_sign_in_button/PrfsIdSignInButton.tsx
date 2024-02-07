@@ -53,8 +53,14 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
         key: sessionKey,
         ticket: "TICKET",
       });
-      const data = await receive();
-      // console.log(11, data);
+      const openSessionResp = await receive();
+      if (openSessionResp?.error) {
+        console.error(openSessionResp?.error);
+        return;
+      }
+
+      const sessionVal = await receive();
+      console.log(11, sessionVal);
 
       // const resp = await sendMsgToChild(
       //   newPrfsIdMsg("REQUEST_SIGN_IN", { appId: appSignInArgs.app_id }),

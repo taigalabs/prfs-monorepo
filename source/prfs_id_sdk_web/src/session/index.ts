@@ -1,4 +1,5 @@
 import { PrfsIdSessionMsg } from "@taigalabs/prfs-entities/bindings/PrfsIdSessionMsg";
+import { PrfsIdSessionResponse } from "@taigalabs/prfs-entities/bindings/PrfsIdSessionResponse";
 
 let endpoint: string;
 if (typeof process !== "undefined") {
@@ -11,8 +12,9 @@ if (typeof process !== "undefined") {
 }
 
 export async function openSession(): Promise<PrfsIdSession> {
-  const callbackQueue: { resolve: (data: PrfsIdSessionMsg) => void; reject: () => void }[] = [];
-  const dataQueue: PrfsIdSessionMsg[] = [];
+  const callbackQueue: { resolve: (data: PrfsIdSessionResponse) => void; reject: () => void }[] =
+    [];
+  const dataQueue: PrfsIdSessionResponse[] = [];
 
   return new Promise((resolve, _reject) => {
     const ws = new WebSocket(`${endpoint}/open_session`);
@@ -23,7 +25,7 @@ export async function openSession(): Promise<PrfsIdSession> {
         return Promise.resolve(dataQueue.shift());
       }
 
-      const promise = new Promise<PrfsIdSessionMsg>((resolve, reject) => {
+      const promise = new Promise<PrfsIdSessionResponse>((resolve, reject) => {
         callbackQueue.push({ resolve, reject });
       });
 
@@ -61,6 +63,6 @@ export async function openSession(): Promise<PrfsIdSession> {
 
 export interface PrfsIdSession {
   ws: WebSocket;
-  receive: () => Promise<PrfsIdSessionMsg | undefined>;
+  receive: () => Promise<PrfsIdSessionResponse | undefined>;
   send: (data: PrfsIdSessionMsg) => void;
 }
