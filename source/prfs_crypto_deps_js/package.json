@@ -1,5 +1,5 @@
 {
-  "name": "@taigalabs/prfs-web3-js",
+  "name": "@taigalabs/prfs-crypto-deps-js",
   "version": "0.0.1",
   "license": "MIT",
   "main": "./src/index.ts",

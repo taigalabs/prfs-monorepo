@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { Proof } from "@taigalabs/prfs-driver-interface";
-import { toHex } from "@taigalabs/prfs-web3-js/viem";
+import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
 import JSONBig from "json-bigint";
 
 import styles from "./ProofDataView.module.scss";

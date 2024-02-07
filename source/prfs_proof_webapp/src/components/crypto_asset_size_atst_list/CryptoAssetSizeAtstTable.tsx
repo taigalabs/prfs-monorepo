@@ -8,7 +8,7 @@ import { PrfsCryptoAssetSizeAtst } from "@taigalabs/prfs-entities/bindings/PrfsC
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { abbrevAddr } from "@taigalabs/prfs-web3-js";
+import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CryptoAssetSizeAtstTable.module.scss";
 import { paths } from "@/paths";

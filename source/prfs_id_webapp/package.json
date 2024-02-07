@@ -25,7 +25,7 @@
     "@taigalabs/prfs-circuit-interface": "*",
     "@taigalabs/prfs-env-js": "*",
     "@taigalabs/prfs-i18n": "*",
-    "@taigalabs/prfs-web3-js": "*",
+    "@taigalabs/prfs-crypto-deps-js": "*",
     "@taigalabs/prfs-id-sdk-web": "*",
     "@taigalabs/prfs-id-sdk-react": "*",
     "@taigalabs/prfs-react-lib": "*",

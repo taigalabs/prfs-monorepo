@@ -10,13 +10,13 @@ import {
   openSession,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { secp256k1 } from "@taigalabs/prfs-crypto-js/secp256k1";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
 import Overlay from "../overlay/Overlay";
 import Spinner from "../spinner/Spinner";
-import { PrivateKey } from "../../../prfs_crypto_js/dist";
 
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
@@ -40,16 +40,23 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
         return;
       }
 
-      const sk = new PrivateKey();
-      const sessionKey = sk.publicKey.toHex();
+      const priv = secp256k1.utils.randomPrivateKey();
+      const sessionKey = secp256k1.getPublicKey(priv);
+      // toHex;
+
+      // const msg = new Uint8Array(32).fill(1); // message hash (not message) in ecdsa
+      // const sig = secp256k1.sign(msg, priv); // `{prehash: true}` option is available
+
+      // const sk = new PrivateKey();
+      // const sessionKey = sk.publicKey.toHex();
       const { send, receive } = await openSession();
-      send({
-        type: "OPEN_SESSION",
-        key: sessionKey,
-        ticket: "TICKET",
-      });
-      const data = await receive();
-      console.log(11, data);
+      // send({
+      //   type: "OPEN_SESSION",
+      //   key: sessionKey,
+      //   ticket: "TICKET",
+      // });
+      // const data = await receive();
+      // console.log(11, data);
 
       // const resp = await sendMsgToChild(
       //   newPrfsIdMsg("REQUEST_SIGN_IN", { appId: appSignInArgs.app_id }),

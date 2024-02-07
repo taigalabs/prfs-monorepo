@@ -1,4 +1,4 @@
-import { MetaMaskInpageProvider } from "@taigalabs/prfs-web3-js/metamask/providers";
+import { MetaMaskInpageProvider } from "@taigalabs/prfs-crypto-deps-js/metamask/providers";
 import { PrfsProofSnapItem } from "@taigalabs/prfs-entities/bindings/PrfsProofSnapItem";
 
 import { defaultSnapOrigin } from "./config";

@@ -5,9 +5,9 @@ import {
   useConnect,
   useDisconnect,
   useEnsName,
-} from "@taigalabs/prfs-web3-js/wagmi";
+} from "@taigalabs/prfs-crypto-deps-js/wagmi";
 import cn from "classnames";
-import { abbrevAddr } from "@taigalabs/prfs-web3-js";
+import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./WalletModal.module.scss";
 import Button from "../button/Button";

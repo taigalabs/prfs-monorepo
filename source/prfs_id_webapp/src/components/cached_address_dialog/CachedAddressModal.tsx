@@ -9,7 +9,7 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import styles from "./CachedAddressModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
-import { abbrevAddr } from "@taigalabs/prfs-web3-js";
+import { abbrevAddr } from "@taigalabs/prfs-crypto-deps-js";
 
 function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<string[] | null>(null);

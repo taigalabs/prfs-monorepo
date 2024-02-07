@@ -21,7 +21,7 @@ impl BuildTask for BuildPrfsCryptoJsTask {
         build_wasm(build_handle);
         sanity_check(build_handle);
         embed_wasm(build_handle);
-        build_js(build_handle);
+        // build_js(build_handle);
 
         Ok(())
     }
@@ -126,12 +126,12 @@ fn embed_wasm(_build_handle: &BuildHandle) {
     std::fs::write(wasm_bytes_path, contents).unwrap();
 }
 
-fn build_js(_build_handle: &BuildHandle) {
-    let status = Command::new(JS_ENGINE)
-        .current_dir(&PATHS.prfs_crypto_js)
-        .args(["run", "build"])
-        .status()
-        .expect(&format!("{} command failed to start", JS_ENGINE));
+// fn build_js(_build_handle: &BuildHandle) {
+//     let status = Command::new(JS_ENGINE)
+//         .current_dir(&PATHS.prfs_crypto_js)
+//         .args(["run", "build"])
+//         .status()
+//         .expect(&format!("{} command failed to start", JS_ENGINE));
 
-    assert!(status.success());
-}
+//     assert!(status.success());
+// }
