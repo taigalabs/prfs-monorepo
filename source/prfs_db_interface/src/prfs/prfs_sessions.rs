@@ -54,3 +54,33 @@ pub async fn insert_prfs_session(
 
     query.to_string()
 }
+
+pub async fn delete_prfs_session(
+    tx: &mut Transaction<'_, Postgres>,
+    key: String,
+    sig: String,
+    // session: PrfsSession,
+) -> String {
+    let query = "INSERT INTO prfs_proof_instances \
+            (proof_instance_id, proof_type_id, proof, public_inputs, short_id, prfs_ack_sig)
+            VALUES ($1, $2, $3, $4, $5, $6) returning proof_instance_id";
+
+    // let proof_instance = proof_instances.get(0).unwrap();
+
+    // let row = sqlx::query(query)
+    //     .bind(&proof_instance.proof_instance_id)
+    //     .bind(&proof_instance.proof_type_id)
+    //     .bind(&proof_instance.proof)
+    //     .bind(&proof_instance.public_inputs)
+    //     .bind(&proof_instance.short_id)
+    //     .bind(&proof_instance.prfs_ack_sig)
+    //     .fetch_one(&mut **tx)
+    //     .await
+    //     .unwrap();
+
+    // let proof_instance_id: uuid::Uuid = row.get("proof_instance_id");
+
+    // println!("proof_instance_id: {}", proof_instance_id);
+
+    query.to_string()
+}
