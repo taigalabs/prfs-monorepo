@@ -12,7 +12,8 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { idApi } from "@taigalabs/prfs-api-js";
+import { PutSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutSessionValueRequest";
+import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./AppCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -31,14 +32,6 @@ enum AppCredentialStatus {
   Standby,
 }
 
-function usePutSessionVal() {
-  return useMutation({
-    mutationFn: (req: PrfsIdentitySignUpRequest) => {
-      return idApi("sign_up_prfs_identity", req);
-    },
-  });
-}
-
 const AppCredential: React.FC<AppCredentialProps> = ({
   handleClickPrev,
   appSignInArgs,
@@ -55,6 +48,14 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
+    },
+  });
+  const { mutateAsync: putSessionValueRequest } = useMutation({
+    mutationFn: (req: PutSessionValueRequest) => {
+      return idSessionApi({
+        type: "PUT_SESSION_VAL",
+        ...req,
+      });
     },
   });
 
@@ -125,6 +126,12 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         if (prfsEmbed) {
           console.log("sending");
 
+          const { payload } = await putSessionValueRequest({
+            key: appSignInArgs.session_key,
+            value: "",
+            ticket: "",
+          });
+
           // await sendMsgToChild(
           //   newPrfsIdMsg("SIGN_IN_RESULT", {
           //     appId: appSignInArgs.app_id,
@@ -138,7 +145,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         setErrorMsg(err.toString());
       }
     }
-  }, [searchParams, appSignInArgs, credential, setErrorMsg, signInData]);
+  }, [searchParams, appSignInArgs, credential, setErrorMsg, signInData, putSessionValueRequest]);
 
   return (
     <>

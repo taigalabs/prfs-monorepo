@@ -10,6 +10,7 @@ export function parseAppSignInSearchParams(searchParams: URLSearchParams): AppSi
   const app_id = searchParams.get("app_id");
   const sign_in_data = searchParams.get("sign_in_data");
   const nonce = searchParams.get("nonce");
+  const session_key = searchParams.get("session_key");
 
   if (!app_id) {
     throw new Error("app id missing");
@@ -27,10 +28,15 @@ export function parseAppSignInSearchParams(searchParams: URLSearchParams): AppSi
     throw new Error("nonce missing");
   }
 
+  if (!session_key) {
+    throw new Error("session_key missing");
+  }
+
   const args: AppSignInArgs = {
     app_id,
     nonce: Number(nonce),
     public_key,
+    session_key,
     sign_in_data: JSON.parse(decodeURIComponent(sign_in_data)),
   };
   return args;
@@ -45,4 +51,5 @@ export interface AppSignInArgs {
   app_id: string;
   sign_in_data: AppSignInData[];
   public_key: string;
+  session_key: string;
 }

@@ -14,7 +14,6 @@ use prfs_entities::id_session_api_entities::{
     OpenSessionMsgPayload, OpenSessionResult, PrfsIdSessionMsg, PrfsIdSessionResponse,
     PrfsIdSessionResponsePayload,
 };
-use prfs_entities::sqlx::migrate::Migrate;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tokio_tungstenite::WebSocketStream;
@@ -51,14 +50,13 @@ async fn serve_websocket(
     state: Arc<ServerState>,
 ) -> Result<(), IdSessionServerError> {
     let websocket = websocket.await?;
-    let (mut tx, mut rx) = websocket.split();
+    let (tx, mut rx) = websocket.split();
     let tx = Arc::new(Mutex::new(tx));
 
     while let Some(message) = rx.next().await {
         match message? {
             Message::Text(msg) => {
-                println!("Received text message: {msg}");
-
+                // println!("Received text message: {msg}");
                 let prfs_id_session_msg: PrfsIdSessionMsg = match serde_json::from_str(&msg) {
                     Ok(m) => m,
                     Err(err) => {
@@ -74,7 +72,6 @@ async fn serve_websocket(
                     }
                 };
 
-                println!("prfs_id_session_msg: {:?}", prfs_id_session_msg);
                 match prfs_id_session_msg {
                     PrfsIdSessionMsg::OPEN_SESSION(payload) => {
                         handle_open_session(tx.clone(), payload, state.clone()).await;
