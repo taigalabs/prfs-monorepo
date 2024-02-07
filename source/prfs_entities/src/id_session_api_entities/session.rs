@@ -46,6 +46,12 @@ pub struct PutSessionValueRequest {
     pub ticket: String,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct PutSessionValueResponse {
+    pub key: String,
+}
+
 // #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 // #[ts(export)]
 // pub struct SignInSuccessPayload {

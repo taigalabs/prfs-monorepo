@@ -32,3 +32,4 @@ git2 = "0.18.1"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_web_fetcher = { path = "../prfs_web_fetcher" }
+hyper_tungstenite2 = { path = "../hyper_tungstenite2/" }

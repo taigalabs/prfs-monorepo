@@ -8,7 +8,7 @@ use hyper_utils::error::ApiHandleError;
 use hyper_utils::io::{full, BytesBoxBody};
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::entities::PrfsSession;
+use prfs_entities::entities::PrfsIdSession;
 use prfs_entities::id_session_api_entities::{
     OpenSessionMsgPayload, OpenSessionResult, PrfsIdSessionMsg, PrfsIdSessionResponse,
     PrfsIdSessionResponsePayload,
@@ -119,7 +119,7 @@ async fn handle_open_session(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let session = PrfsSession {
+    let session = PrfsIdSession {
         key: msg.key,
         value: "".to_string(),
         ticket: msg.ticket,

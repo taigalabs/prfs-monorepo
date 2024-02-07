@@ -1,29 +1,33 @@
 use crate::database2::Database2;
 use crate::DbInterfaceError;
-use prfs_entities::entities::{PrfsProofType, PrfsSession};
+use prfs_entities::entities::{PrfsIdSession, PrfsProofType};
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 use rust_decimal::Decimal;
 
-pub async fn get_prfs_id_session(pool: &Pool<Postgres>, key: &String) -> PrfsIdSession {
+pub async fn get_prfs_id_session(pool: &Pool<Postgres>, key: &String) -> Option<PrfsIdSession> {
     let query = r#"
 SELECT * FROM prfs_id_session 
 WHERE key=$1
 "#;
 
-    let row = sqlx::query(query).bind(&key).fetch_one(pool).await.unwrap();
+    let row = sqlx::query(query).bind(&key).fetch_one(pool).await;
 
-    let ret = PrfsIdSession {
-        key: row.get("key"),
-        value: row.get("value"),
-        ticket: row.get("ticket"),
-    };
+    if let Ok(r) = row {
+        let ret = PrfsIdSession {
+            key: r.get("key"),
+            value: r.get("value"),
+            ticket: r.get("ticket"),
+        };
 
-    return ret;
+        return Some(ret);
+    } else {
+        return None;
+    }
 }
 
 pub async fn upsert_prfs_id_session(
     tx: &mut Transaction<'_, Postgres>,
-    session: &PrfsSession,
+    session: &PrfsIdSession,
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_id_sessions 

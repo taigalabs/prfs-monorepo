@@ -6,6 +6,8 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::database2::Database2;
 use prfs_web_fetcher::destinations::infura::InfuraFetcher;
 use std::collections::HashMap;
+use std::sync::Arc;
+use tokio::sync::Mutex;
 
 use crate::{envs::ENVS, paths::PATHS, ApiServerError};
 
@@ -51,6 +53,6 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
         launch_time,
         commit_hash,
         infura_fetcher,
-        session_map: HashMap::new(),
+        peer_map: Arc::new(Mutex::new(HashMap::new())),
     })
 }

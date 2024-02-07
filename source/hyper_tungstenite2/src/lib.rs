@@ -1,3 +1,5 @@
+pub mod peer_map;
+
 use hyper::{Request, Response};
 use hyper_util::rt::TokioIo;
 use hyper_utils::io::{full, BytesBoxBody};

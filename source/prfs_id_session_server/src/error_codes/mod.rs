@@ -13,16 +13,14 @@ use serde::{Deserialize, Serialize};
 
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize)]
-pub struct PrfsIdApiErrorCodes {
+pub struct PrfsIdSessionApiErrorCodes {
     pub UNKNOWN_ERROR: ApiHandleErrorCode,
-    pub CANNOT_FIND_ID: ApiHandleErrorCode,
-    pub ID_ALREADY_EXISTS: ApiHandleErrorCode,
 }
 
 lazy_static::lazy_static! {
-    pub static ref API_ERROR_CODE: PrfsIdApiErrorCodes = {
+    pub static ref API_ERROR_CODE: PrfsIdSessionApiErrorCodes = {
         let error_codes_str = include_str!("../../data_api/error_codes.json");
-        let ret: PrfsIdApiErrorCodes = serde_json::from_str(error_codes_str).unwrap();
+        let ret: PrfsIdSessionApiErrorCodes = serde_json::from_str(error_codes_str).unwrap();
 
         ret
     };
