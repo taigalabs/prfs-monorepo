@@ -13,7 +13,6 @@ export function parseBuffer(val: string): Buffer {
 
 export function parseBufferOfArray(val: number[]): Buffer {
   try {
-    // const v = JSON.parse(val);
     if (val) {
       return Buffer.from(val);
     } else {

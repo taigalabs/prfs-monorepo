@@ -206,6 +206,11 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
           return;
         }
 
+        if (session.payload.value.length === 0) {
+          console.error("Commitment is empty, session_key: %s", session_key);
+          return;
+        }
+
         const buf = parseBufferOfArray(session.payload.value);
         let decrypted = decrypt(sk.secret, buf).toString();
 
@@ -229,45 +234,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         console.error(err);
         return;
       }
-
-      // const resp = await sendMsgToChild(
-      //   newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
-      //   prfsEmbed,
-      // );
-
-      // if (resp) {
-      //   try {
-      //     const buf = parseBuffer(resp);
-      //     let decrypted: string;
-      //     try {
-      //       decrypted = decrypt(sk.secret, buf).toString();
-      //     } catch (err) {
-      //       console.error("cannot decrypt payload", err);
-      //       return;
-      //     }
-
-      //     let payload: ProofGenSuccessPayload;
-      //     try {
-      //       payload = JSON.parse(decrypted);
-      //     } catch (err) {
-      //       console.error("cannot parse payload", err);
-      //       return;
-      //     }
-
-      //     const cm = payload.receipt[CLAIM];
-      //     if (cm) {
-      //       setClaimCm(cm);
-      //       setStep(AttestationStep.POST_TWEET);
-      //     } else {
-      //       console.error("no commitment delivered");
-      //       return;
-      //     }
-      //   } catch (err) {
-      //     console.error(err);
-      //   }
-      // } else {
-      //   console.error("Returned val is empty");
-      // }
     });
   }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
 
@@ -482,11 +448,15 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                   </div>
                   <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div>
                   <div className={styles.validateBtnRow}>
-                    <AttestationListItemBtn type="button" handleClick={handleClickValidate}>
-                      {validationStatus === Status.InProgress && (
-                        <Spinner size={20} color={colors.gray_32} borderWidth={2} />
-                      )}
+                    <AttestationListItemBtn
+                      className={styles.validateBtn}
+                      type="button"
+                      handleClick={handleClickValidate}
+                    >
                       <span>{i18n.validate}</span>
+                      {validationStatus === Status.InProgress && (
+                        <Spinner size={14} color={colors.gray_32} borderWidth={2} />
+                      )}
                     </AttestationListItemBtn>
                     <div className={styles.msg}>{validationMsg}</div>
                   </div>
@@ -514,10 +484,10 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                 disabled={!validation || createStatus === Status.InProgress}
               >
                 <div className={styles.content}>
-                  {createStatus === Status.InProgress && (
-                    <Spinner size={20} borderWidth={2} color={colors.white_100} />
-                  )}
                   <span>{i18n.create}</span>
+                  {createStatus === Status.InProgress && (
+                    <Spinner size={14} borderWidth={2} color={colors.white_100} />
+                  )}
                 </div>
               </Button>
             </div>
