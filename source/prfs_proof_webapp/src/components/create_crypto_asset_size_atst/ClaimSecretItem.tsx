@@ -17,6 +17,7 @@ import {
   EncryptType,
   PRFS_ATTESTATION_STEM,
   createSession,
+  parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 
@@ -99,49 +100,69 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         console.error(err);
         return;
       }
-      // const resp = await sendMsgToChild(
-      //   newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
-      //   prfsEmbed,
-      // );
 
-      if (resp) {
-        try {
-          const buf = parseBuffer(resp);
-          let decrypted: string;
-          try {
-            decrypted = decrypt(sk.secret, buf).toString();
-          } catch (err) {
-            console.error("cannot decrypt payload", err);
-            return;
-          }
+      if (!sessionStream) {
+        console.error("Couldn't open a session");
+        return;
+      }
 
-          let payload: ProofGenSuccessPayload;
-          try {
-            payload = JSON.parse(decrypted);
-          } catch (err) {
-            console.error("cannot parse payload", err);
-            return;
-          }
+      const { ws, send, receive } = sessionStream;
+      const session = await receive();
+      if (!session) {
+        console.error("Coultn' retreieve session");
+        return;
+      }
 
-          const {
-            [CLAIM]: cm,
-            [ENCRYPT_WALLET_ADDR]: walletAddrEncrypted,
-            ...rest
-          } = payload.receipt;
-          if (cm) {
-            setClaimCm(cm);
-            setWalletCacheKeys(rest);
-            setWalletAddrEnc(walletAddrEncrypted);
-            setStep(AttestationStep.POST_TWEET);
-          } else {
-            console.error("no commitment delivered");
-            return;
-          }
-        } catch (err) {
-          console.error(err);
+      try {
+        if (session.error) {
+          console.error(session.error);
+          return;
         }
-      } else {
-        console.error("Returned val is empty");
+
+        if (!session.payload) {
+          console.error("Session doesn't have a payload");
+          return;
+        }
+
+        if (session.payload.type !== "put_prfs_id_session_value_result") {
+          console.error("Wrong session payload type at this point, msg: %s", session.payload);
+          return;
+        }
+
+        const buf = parseBufferOfArray(session.payload.value);
+        // const buf = parseBuffer(resp);
+        let decrypted: string;
+        try {
+          decrypted = decrypt(sk.secret, buf).toString();
+        } catch (err) {
+          console.error("cannot decrypt payload", err);
+          return;
+        }
+
+        let payload: ProofGenSuccessPayload;
+        try {
+          payload = JSON.parse(decrypted);
+        } catch (err) {
+          console.error("cannot parse payload", err);
+          return;
+        }
+
+        const {
+          [CLAIM]: cm,
+          [ENCRYPT_WALLET_ADDR]: walletAddrEncrypted,
+          ...rest
+        } = payload.receipt;
+        if (cm) {
+          setClaimCm(cm);
+          setWalletCacheKeys(rest);
+          setWalletAddrEnc(walletAddrEncrypted);
+          setStep(AttestationStep.POST_TWEET);
+        } else {
+          console.error("no commitment delivered");
+          return;
+        }
+      } catch (err) {
+        console.error(err);
       }
     });
   }, [

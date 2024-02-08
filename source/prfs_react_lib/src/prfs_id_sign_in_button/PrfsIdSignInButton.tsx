@@ -22,10 +22,8 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   handleSucceedSignIn,
   prfsIdEndpoint,
   isLoading,
-  prfsEmbedEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
-  // const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
 
   const handleClickSignIn = React.useCallback(async () => {
@@ -33,19 +31,24 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      const { ws, send, receive } = await createSession();
-      send({
-        type: "open_prfs_id_session",
-        key: appSignInArgs.session_key,
-        value: null,
-        ticket: "TICKET",
-      });
-      const openSessionResp = await receive();
-      if (openSessionResp?.error) {
-        console.error(openSessionResp?.error);
+      let sessionStream;
+      try {
+        sessionStream = await createSession({
+          key: appSignInArgs.session_key,
+          value: null,
+          ticket: "TICKET",
+        });
+      } catch (err) {
+        console.error(err);
         return;
       }
 
+      if (!sessionStream) {
+        console.error("Couldn't open a session");
+        return;
+      }
+
+      const { ws, send, receive } = sessionStream;
       const session = await receive();
       if (session) {
         try {
@@ -67,8 +70,11 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
               key: appSignInArgs.session_key,
               ticket: "TICKET",
             });
+
             const closeSessionResp = await receive();
-            // console.log("closeSessionresp", closeSessionResp);
+            if (!closeSessionResp) {
+              console.error("Could get the close sessionr response");
+            }
           }
         } catch (err) {
           console.error(err);
@@ -82,14 +88,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
       ws.close();
     });
-  }, [
-    appSignInArgs,
-    prfsIdEndpoint,
-    prfsEmbedEndpoint,
-    // isPrfsReady,
-    handleSucceedSignIn,
-    openPopup,
-  ]);
+  }, [appSignInArgs, prfsIdEndpoint, handleSucceedSignIn, openPopup]);
 
   return (
     <Button
@@ -121,5 +120,4 @@ export interface PrfsIdSignInButtonProps {
   isLoading?: boolean;
   handleSucceedSignIn: (encrypted: Buffer) => void;
   prfsIdEndpoint: string;
-  prfsEmbedEndpoint: string;
 }
