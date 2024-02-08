@@ -1,7 +1,7 @@
 import React from "react";
 import { PrivateKey } from "@taigalabs/prfs-crypto-js";
 import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
-import { secp256k1 } from "@taigalabs/prfs-crypto-js/secp256k1";
+import { secp256k1 } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
 
 export function useRandomKeyPair(): { sk: PrivateKey; pkHex: string } {
   const secretKeyRef = React.useRef<PrivateKey | null>(null);

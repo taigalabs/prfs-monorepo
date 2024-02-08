@@ -14,15 +14,14 @@ import { useRouter } from "next/navigation";
 import {
   CommitmentType,
   makeAccAttestation,
-  newPrfsIdMsg,
   API_PATH,
-  parseBuffer,
   makeProofGenSearchParams,
   ProofGenArgs,
   QueryType,
   ProofGenSuccessPayload,
   createSession,
   parseBufferOfArray,
+  createSessionKey,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
@@ -31,7 +30,6 @@ import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/Attes
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
 import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
 import { usePopup } from "@taigalabs/prfs-id-sdk-react";
-import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import common from "@/styles/common.module.scss";
@@ -102,7 +100,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     },
   });
   const { openPopup } = usePopup();
-  // const session_key = useSessionKey();
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
@@ -169,6 +166,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(() => {
+    const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
       app_id: "prfs_proof",
@@ -288,7 +286,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     setValidation,
     setValidationMsg,
     setValidationStatus,
-    session_key,
   ]);
 
   const handleClickStartOver = React.useCallback(() => {
