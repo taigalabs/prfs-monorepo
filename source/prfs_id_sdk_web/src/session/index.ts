@@ -11,12 +11,16 @@ if (typeof process !== "undefined") {
   throw new Error("process is undefined");
 }
 
-export async function createSession(): Promise<PrfsIdSession> {
+export async function createSession({
+  key,
+  value,
+  ticket,
+}: CreateSessionArgs): Promise<PrfsIdSessionStream> {
   const callbackQueue: { resolve: (data: PrfsIdSessionResponse) => void; reject: () => void }[] =
     [];
   const dataQueue: PrfsIdSessionResponse[] = [];
 
-  return new Promise((resolve, _reject) => {
+  const prom = new Promise<PrfsIdSessionStream>((resolve, _reject) => {
     const ws = new WebSocket(`${endpoint}/open_prfs_id_session`);
 
     async function receive() {
@@ -63,10 +67,35 @@ export async function createSession(): Promise<PrfsIdSession> {
       }
     };
   });
+
+  const { ws, send, receive } = await prom;
+  send({
+    type: "open_prfs_id_session",
+    key,
+    value,
+    ticket,
+  });
+
+  const openSessionResp = await receive();
+  if (openSessionResp?.error) {
+    return Promise.reject(null);
+  }
+
+  return {
+    ws,
+    send,
+    receive,
+  };
 }
 
-export interface PrfsIdSession {
+export interface PrfsIdSessionStream {
   ws: WebSocket;
   receive: () => Promise<PrfsIdSessionResponse | undefined>;
   send: (data: PrfsIdSessionMsg) => void;
+}
+
+export interface CreateSessionArgs {
+  key: string;
+  value: number[] | null;
+  ticket: string;
 }

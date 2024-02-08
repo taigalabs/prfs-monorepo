@@ -64,19 +64,19 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
       const bytes = toUtf8Bytes(data);
 
       openPopup(endpoint, async () => {
-        const { ws, send, receive } = await createSession();
-        send({
-          type: "open_prfs_id_session",
-          key: verifyProofArgs.session_key,
-          value: Array.from(bytes),
-          ticket: "TICKET",
-        });
-        const openSessionResp = await receive();
-        if (openSessionResp?.error) {
-          console.error(openSessionResp?.error);
+        let sessionStream;
+        try {
+          sessionStream = await createSession({
+            key: verifyProofArgs.session_key,
+            value: Array.from(bytes),
+            ticket: "TICKET",
+          });
+        } catch (err) {
+          console.error(err);
           return;
         }
 
+        const { ws, send, receive } = sessionStream;
         const session = await receive();
         if (!session) {
           console.error("Coudln't get the session, session_key: %s", session_key);

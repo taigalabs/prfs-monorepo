@@ -16,11 +16,9 @@ import {
   WALLET_CM_STEM,
   EncryptType,
   PRFS_ATTESTATION_STEM,
+  createSession,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePopup } from "@taigalabs/prfs-id-sdk-react";
-import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
-import { secp256k1 } from "@taigalabs/prfs-crypto-js/secp256k1";
-import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -55,15 +53,11 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const { sk, pkHex } = useRandomKeyPair();
-  // const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
   const claimSecret = React.useMemo(() => {
     const walletAddr = formData[WALLET_ADDR];
     return `${PRFS_ATTESTATION_STEM}${walletAddr}`;
   }, [formData[WALLET_ADDR]]);
-  // const priv = secp256k1.utils.randomPrivateKey();
-  // const pk = secp256k1.getPublicKey(priv);
-  // const session_key = toHex(pk);
   const session_key = useSessionKey();
 
   const handleClickGenerate = React.useCallback(() => {
@@ -94,10 +88,21 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
-        prfsEmbed,
-      );
+      let sessionStream;
+      try {
+        sessionStream = await createSession({
+          key: proofGenArgs.session_key,
+          value: null,
+          ticket: "TICKET",
+        });
+      } catch (err) {
+        console.error(err);
+        return;
+      }
+      // const resp = await sendMsgToChild(
+      //   newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
+      //   prfsEmbed,
+      // );
 
       if (resp) {
         try {

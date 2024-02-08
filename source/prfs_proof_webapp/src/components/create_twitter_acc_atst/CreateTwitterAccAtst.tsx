@@ -171,19 +171,19 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      const { ws, send, receive } = await createSession();
-      send({
-        type: "open_prfs_id_session",
-        key: proofGenArgs.session_key,
-        value: null,
-        ticket: "TICKET",
-      });
-      const openSessionResp = await receive();
-      if (openSessionResp?.error) {
-        console.error(openSessionResp?.error);
+      let sessionStream;
+      try {
+        sessionStream = await createSession({
+          key: proofGenArgs.session_key,
+          value: null,
+          ticket: "TICKET",
+        });
+      } catch (err) {
+        console.error(err);
         return;
       }
 
+      const { ws, send, receive } = sessionStream;
       const session = await receive();
       if (!session) {
         console.error("Coultn' retreieve session");

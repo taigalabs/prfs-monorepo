@@ -23,6 +23,7 @@ import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useRandomKeyPair, useSessionKey } from "@/hooks/key";
 import { useAppSelector } from "@/state/hooks";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
 const PROOF = "Proof";
 
@@ -70,19 +71,24 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      const { ws, send, receive } = await createSession();
-      send({
-        type: "open_prfs_id_session",
-        key: proofGenArgs.session_key,
-        value: null,
-        ticket: "TICKET",
-      });
-      const openSessionResp = await receive();
-      if (openSessionResp?.error) {
-        console.error(openSessionResp?.error);
+      let sessionStream;
+      try {
+        sessionStream = await createSession({
+          key: proofGenArgs.session_key,
+          value: null,
+          ticket: "TICKET",
+        });
+      } catch (err) {
+        console.error(err);
         return;
       }
 
+      if (!sessionStream) {
+        console.error("Couldn't open a session");
+        return;
+      }
+
+      const { ws, send, receive } = sessionStream;
       const session = await receive();
       if (!session) {
         console.error("Coultn' retreieve session");
