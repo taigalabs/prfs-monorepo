@@ -9,7 +9,7 @@ import {
   createSession,
   parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
-import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import Button from "../button/Button";
@@ -27,7 +27,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   prfsEmbedEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
+  // const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
 
   const handleClickSignIn = React.useCallback(async () => {
@@ -35,14 +35,11 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!prfsEmbed || !isPrfsReady) {
-        return;
-      }
-
       const { ws, send, receive } = await createSession();
       send({
         type: "open_prfs_id_session",
         key: appSignInArgs.session_key,
+        value: null,
         ticket: "TICKET",
       });
       const openSessionResp = await receive();
@@ -91,7 +88,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     appSignInArgs,
     prfsIdEndpoint,
     prfsEmbedEndpoint,
-    isPrfsReady,
+    // isPrfsReady,
     handleSucceedSignIn,
     openPopup,
   ]);
@@ -103,7 +100,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       noTransition
       handleClick={handleClickSignIn}
       noShadow
-      disabled={!isPrfsReady}
     >
       <div className={styles.wrapper}>
         {isLoading ? (
