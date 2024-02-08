@@ -4,7 +4,6 @@ import React from "react";
 import { PrfsIdCredential, parseAppSignInSearchParams } from "@taigalabs/prfs-id-sdk-web";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./AppSignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -47,7 +46,6 @@ const AppSignIn: React.FC = () => {
       return null;
     }
   }, [searchParams]);
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   React.useEffect(() => {
     if (appSignInArgs) {
@@ -60,12 +58,10 @@ const AppSignIn: React.FC = () => {
         setSignInStatus(SignInStatus.Error);
         setErrorDialogMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
-        if (isPrfsReady) {
-          setSignInStatus(SignInStatus.Standby);
-        }
+        setSignInStatus(SignInStatus.Standby);
       }
     }
-  }, [appSignInArgs, setSignInStatus, setErrorDialogMsg, setStep, isPrfsReady]);
+  }, [appSignInArgs, setSignInStatus, setErrorDialogMsg, setStep]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -102,7 +98,6 @@ const AppSignIn: React.FC = () => {
               credential={credential}
               appSignInArgs={appSignInArgs}
               handleClickPrev={handleClickPrev}
-              prfsEmbed={prfsEmbed}
             />
           )
         );

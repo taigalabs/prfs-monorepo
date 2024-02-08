@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
-import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./ProofGen.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -52,7 +51,6 @@ const ProofGen: React.FC = () => {
       return null;
     }
   }, [searchParams]);
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   React.useEffect(() => {
     if (proofGenArgs) {
@@ -63,16 +61,14 @@ const ProofGen: React.FC = () => {
       } else if (!app_id) {
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
-        if (isPrfsReady) {
-          setStatus(Status.Standby);
-        }
+        setStatus(Status.Standby);
       }
 
       if (tutorial) {
         dispatch(goToStep(tutorial.step));
       }
     }
-  }, [searchParams, setStatus, setErrorMsg, setStep, proofGenArgs, isPrfsReady, dispatch]);
+  }, [searchParams, setStatus, setErrorMsg, setStep, proofGenArgs, dispatch]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -108,7 +104,6 @@ const ProofGen: React.FC = () => {
             credential={credential}
             proofGenArgs={proofGenArgs}
             handleClickPrev={handleClickPrev}
-            prfsEmbed={prfsEmbed}
           />
         ) : (
           <div>Invalid access. Credential does not exist</div>

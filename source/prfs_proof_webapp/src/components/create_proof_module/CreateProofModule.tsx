@@ -4,7 +4,7 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import cn from "classnames";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
-import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
   ProofGenSuccessPayload,
@@ -38,11 +38,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const step = useAppSelector(state => state.tutorial.tutorialStep);
-  const [status, setStatus] = React.useState(Status.Loading);
+  const [status, setStatus] = React.useState(Status.Standby);
   const { sk, pkHex } = useRandomKeyPair();
   const { tutorialId } = useTutorial();
   const { openPopup } = usePopup();
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const session_key = useSessionKey();
 
   const handleClickCreateProof = React.useCallback(async () => {
@@ -71,10 +70,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!prfsEmbed || !isPrfsReady) {
-        return;
-      }
-
       const { ws, send, receive } = await createSession();
       send({
         type: "open_prfs_id_session",
@@ -89,58 +84,64 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       }
 
       const session = await receive();
-      if (session) {
-        try {
-          if (session.error) {
-            console.error(session.error);
-          }
+      if (!session) {
+        console.error("Coultn' retreieve session");
+        return;
+      }
 
-          if (session.payload) {
-            if (session.payload.type !== "put_prfs_id_session_value_result") {
-              console.error("Wrong session payload type at this point, msg: %s", session.payload);
-              return;
-            }
-            const buf = parseBufferOfArray(session.payload.value);
-            let decrypted: string;
-            try {
-              decrypted = decrypt(sk.secret, buf).toString();
-            } catch (err) {
-              console.error("cannot decrypt payload", err);
-              return;
-            }
-
-            let payload: ProofGenSuccessPayload;
-            try {
-              payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-            } catch (err) {
-              console.error("cannot parse payload", err);
-              return;
-            }
-
-            const proof = payload.receipt[PROOF] as ProveReceipt;
-            if (proof) {
-              handleCreateProofResult(proof);
-            } else {
-              console.error("no proof delivered");
-              return;
-            }
-          }
-        } catch (err) {
-          console.error(err);
+      try {
+        if (session.error) {
+          console.error(session.error);
+          return;
         }
-      } else {
-        console.error("Returned val is empty");
+
+        if (!session.payload) {
+          console.error("Session doesn't have a payload");
+          return;
+        }
+
+        if (session.payload.type !== "put_prfs_id_session_value_result") {
+          console.error("Wrong session payload type at this point, msg: %s", session.payload);
+          return;
+        }
+
+        const buf = parseBufferOfArray(session.payload.value);
+        let decrypted: string;
+        try {
+          decrypted = decrypt(sk.secret, buf).toString();
+        } catch (err) {
+          console.error("cannot decrypt payload", err);
+          return;
+        }
+
+        let payload: ProofGenSuccessPayload;
+        try {
+          payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+        } catch (err) {
+          console.error("cannot parse payload", err);
+          return;
+        }
+
+        const proof = payload.receipt[PROOF] as ProveReceipt;
+        if (proof) {
+          handleCreateProofResult(proof);
+        } else {
+          console.error("no proof delivered");
+          return;
+        }
+      } catch (err) {
+        console.error(err);
       }
 
       ws.close();
     });
   }, [proofType, handleCreateProofResult, setSystemMsg, status, session_key]);
 
-  React.useEffect(() => {
-    if (isPrfsReady) {
-      setStatus(Status.Standby);
-    }
-  }, [setStatus, isPrfsReady]);
+  // React.useEffect(() => {
+  //   if (isPrfsReady) {
+  //     setStatus(Status.Standby);
+  //   }
+  // }, [setStatus, isPrfsReady]);
 
   return (
     <div className={styles.wrapper}>

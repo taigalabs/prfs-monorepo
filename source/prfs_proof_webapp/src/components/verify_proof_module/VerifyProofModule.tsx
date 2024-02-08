@@ -4,7 +4,7 @@ import cn from "classnames";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
   VerifyProofArgs,
@@ -31,7 +31,6 @@ export enum VerifyProofStatus {
 const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeId }) => {
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(VerifyProofStatus.Standby);
   const { openPopup } = usePopup();
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { tutorialId } = useTutorial();
   const { sk, pkHex } = useRandomKeyPair();
   const i18n = React.useContext(i18nContext);
@@ -65,10 +64,6 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
       const bytes = toUtf8Bytes(data);
 
       openPopup(endpoint, async () => {
-        if (!prfsEmbed || !isPrfsReady) {
-          return;
-        }
-
         const { ws, send, receive } = await createSession();
         send({
           type: "open_prfs_id_session",
@@ -131,7 +126,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
     } catch (err) {
       console.error(err);
     }
-  }, [setVerifyProofStatus, prfsEmbed, isPrfsReady, tutorialId, openPopup, session_key]);
+  }, [setVerifyProofStatus, tutorialId, openPopup, session_key]);
 
   const btnContent = React.useMemo(() => {
     switch (verifyProofStatus) {

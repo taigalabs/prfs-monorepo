@@ -42,7 +42,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   handleClickPrev,
   proofGenArgs,
   credential,
-  prfsEmbed,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -126,7 +125,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus, setErrorDialogMsg]);
 
   const handleClickSubmit = React.useCallback(async () => {
-    if (proofGenArgs && credential && prfsEmbed && status === Status.Standby) {
+    if (proofGenArgs && credential && status === Status.Standby) {
       const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
@@ -231,5 +230,4 @@ export interface ProofGenFormProps {
   handleClickPrev: () => void;
   credential: PrfsIdCredential;
   proofGenArgs: ProofGenArgs | null;
-  prfsEmbed: HTMLIFrameElement | null;
 }

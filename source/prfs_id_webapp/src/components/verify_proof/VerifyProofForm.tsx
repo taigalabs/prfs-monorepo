@@ -99,7 +99,7 @@ const ProofData: React.FC<ProofDataProps> = ({ proof }) => {
   );
 };
 
-const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfsEmbed }) => {
+const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs }) => {
   const i18n = React.useContext(i18nContext);
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(Status.Standby);
   const [proof, setProof] = React.useState<Proof | null>(null);
@@ -113,7 +113,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
 
   React.useEffect(() => {
     async function fn() {
-      if (prfsEmbed && verifyProofArgs && sessionValueData) {
+      if (verifyProofArgs && sessionValueData) {
         const { session_key } = verifyProofArgs;
         const { payload } = sessionValueData;
         if (!payload) {
@@ -142,10 +142,10 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
       }
     }
     fn().then();
-  }, [prfsEmbed, setProof, sessionValueData]);
+  }, [setProof, sessionValueData]);
 
   const handleClickSubmit = React.useCallback(async () => {
-    if (verifyProofArgs && prfsEmbed && proof && data && proofType && driver) {
+    if (verifyProofArgs && proof && data && proofType && driver) {
       try {
         setVerifyProofStatus(Status.InProgress);
         await delay(500);
@@ -253,7 +253,6 @@ export default VerifyProofForm;
 
 export interface VerifyProofFormProps {
   verifyProofArgs: VerifyProofArgs | null;
-  prfsEmbed: HTMLIFrameElement | null;
 }
 
 export interface ProofDataProps {

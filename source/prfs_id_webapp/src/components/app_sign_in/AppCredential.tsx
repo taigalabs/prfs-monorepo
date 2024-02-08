@@ -30,7 +30,6 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   handleClickPrev,
   appSignInArgs,
   credential,
-  prfsEmbed,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -117,18 +116,16 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       // console.log("Encrypted credential", encrypted);
 
       try {
-        if (prfsEmbed) {
-          const { error } = await putSessionValueRequest({
-            key: appSignInArgs.session_key,
-            value: encrypted,
-            ticket: "TICKET",
-          });
+        const { error } = await putSessionValueRequest({
+          key: appSignInArgs.session_key,
+          value: encrypted,
+          ticket: "TICKET",
+        });
 
-          if (error) {
-            console.error(error);
-          }
-          window.close();
+        if (error) {
+          console.error(error);
         }
+        window.close();
       } catch (err: any) {
         setErrorMsg(err.toString());
       }
@@ -183,5 +180,4 @@ export interface AppCredentialProps {
   handleClickPrev: () => void;
   credential: PrfsIdCredential;
   appSignInArgs: AppSignInArgs;
-  prfsEmbed: HTMLIFrameElement | null;
 }

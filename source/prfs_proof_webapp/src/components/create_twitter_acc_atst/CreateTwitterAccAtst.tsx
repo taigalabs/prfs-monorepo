@@ -21,6 +21,8 @@ import {
   ProofGenArgs,
   QueryType,
   ProofGenSuccessPayload,
+  createSession,
+  parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
@@ -28,7 +30,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
 import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
-import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
@@ -98,7 +100,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return atstApi("attest_twitter_acc", req);
     },
   });
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
   const session_key = useSessionKey();
 
@@ -170,47 +171,103 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!prfsEmbed || !isPrfsReady) {
+      const { ws, send, receive } = await createSession();
+      send({
+        type: "open_prfs_id_session",
+        key: proofGenArgs.session_key,
+        value: null,
+        ticket: "TICKET",
+      });
+      const openSessionResp = await receive();
+      if (openSessionResp?.error) {
+        console.error(openSessionResp?.error);
         return;
       }
 
-      const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
-        prfsEmbed,
-      );
-      if (resp) {
-        try {
-          const buf = parseBuffer(resp);
-          let decrypted: string;
-          try {
-            decrypted = decrypt(sk.secret, buf).toString();
-          } catch (err) {
-            console.error("cannot decrypt payload", err);
-            return;
-          }
-
-          let payload: ProofGenSuccessPayload;
-          try {
-            payload = JSON.parse(decrypted);
-          } catch (err) {
-            console.error("cannot parse payload", err);
-            return;
-          }
-
-          const cm = payload.receipt[CLAIM];
-          if (cm) {
-            setClaimCm(cm);
-            setStep(AttestationStep.POST_TWEET);
-          } else {
-            console.error("no commitment delivered");
-            return;
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      } else {
-        console.error("Returned val is empty");
+      const session = await receive();
+      if (!session) {
+        console.error("Coultn' retreieve session");
+        return;
       }
+
+      try {
+        if (session.error) {
+          console.error(session.error);
+          return;
+        }
+
+        if (!session.payload) {
+          console.error("Session doesn't have a payload");
+          return;
+        }
+
+        if (session.payload.type !== "put_prfs_id_session_value_result") {
+          console.error("Wrong session payload type at this point, msg: %s", session.payload);
+          return;
+        }
+
+        const buf = parseBufferOfArray(session.payload.value);
+        let decrypted = decrypt(sk.secret, buf).toString();
+
+        let payload: ProofGenSuccessPayload;
+        try {
+          payload = JSON.parse(decrypted);
+        } catch (err) {
+          console.error("cannot parse payload", err);
+          return;
+        }
+
+        const cm = payload.receipt[CLAIM];
+        if (cm) {
+          setClaimCm(cm);
+          setStep(AttestationStep.POST_TWEET);
+        } else {
+          console.error("no commitment delivered");
+          return;
+        }
+      } catch (err) {
+        console.error(err);
+        return;
+      }
+
+      // const resp = await sendMsgToChild(
+      //   newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
+      //   prfsEmbed,
+      // );
+
+      // if (resp) {
+      //   try {
+      //     const buf = parseBuffer(resp);
+      //     let decrypted: string;
+      //     try {
+      //       decrypted = decrypt(sk.secret, buf).toString();
+      //     } catch (err) {
+      //       console.error("cannot decrypt payload", err);
+      //       return;
+      //     }
+
+      //     let payload: ProofGenSuccessPayload;
+      //     try {
+      //       payload = JSON.parse(decrypted);
+      //     } catch (err) {
+      //       console.error("cannot parse payload", err);
+      //       return;
+      //     }
+
+      //     const cm = payload.receipt[CLAIM];
+      //     if (cm) {
+      //       setClaimCm(cm);
+      //       setStep(AttestationStep.POST_TWEET);
+      //     } else {
+      //       console.error("no commitment delivered");
+      //       return;
+      //     }
+      //   } catch (err) {
+      //     console.error(err);
+      //   }
+      // } else {
+      //   console.error("Returned val is empty");
+      // }
     });
   }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
 

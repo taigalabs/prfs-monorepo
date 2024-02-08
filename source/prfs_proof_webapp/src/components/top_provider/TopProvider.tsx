@@ -4,7 +4,6 @@ import React from "react";
 import { Provider as StateProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-lib/src/i18n/i18nContext";
-import { PrfsEmbedProvider } from "@taigalabs/prfs-id-sdk-react/src/context";
 import { http, createConfig, WagmiProvider } from "@taigalabs/prfs-crypto-deps-js/wagmi";
 import { mainnet, sepolia } from "@taigalabs/prfs-crypto-deps-js/wagmi/chains";
 
@@ -27,14 +26,9 @@ const TopProvider: React.FC<TopProviderProps> = ({ children, appId }) => {
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <PrfsReactComponentsI18NProvider>
-          <PrfsEmbedProvider
-            appId={appId}
-            prfsEmbedEndpoint={envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT}
-          >
-            <StateProvider store={store}>
-              <I18nProvider>{children}</I18nProvider>
-            </StateProvider>
-          </PrfsEmbedProvider>
+          <StateProvider store={store}>
+            <I18nProvider>{children}</I18nProvider>
+          </StateProvider>
         </PrfsReactComponentsI18NProvider>
       </QueryClientProvider>
     </WagmiProvider>

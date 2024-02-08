@@ -4,8 +4,6 @@ import {
   API_PATH,
   AppSignInArgs,
   makeAppSignInSearchParams,
-  sendMsgToChild,
-  parseBuffer,
   createSession,
   parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
