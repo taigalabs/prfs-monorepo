@@ -10,24 +10,19 @@ import {
   ProofGenSuccessPayload,
   QueryType,
   createSession,
-  newPrfsIdMsg,
-  parseBuffer,
   parseBufferOfArray,
-  sendMsgToChild,
 } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
-import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
-import { useRandomKeyPair } from "@/hooks/key";
+import { useRandomKeyPair, useSessionKey } from "@/hooks/key";
 import { useAppSelector } from "@/state/hooks";
-import { secp256k1 } from "@taigalabs/prfs-crypto-js/secp256k1";
 
 const PROOF = "Proof";
 
@@ -48,9 +43,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const { tutorialId } = useTutorial();
   const { openPopup } = usePopup();
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
-  const priv = secp256k1.utils.randomPrivateKey();
-  const pk = secp256k1.getPublicKey(priv);
-  const session_key = toHex(pk);
+  const session_key = useSessionKey();
 
   const handleClickCreateProof = React.useCallback(async () => {
     const proofGenArgs: ProofGenArgs = {
@@ -140,7 +133,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
       ws.close();
     });
-  }, [proofType, handleCreateProofResult, setSystemMsg, status]);
+  }, [proofType, handleCreateProofResult, setSystemMsg, status, session_key]);
 
   React.useEffect(() => {
     if (isPrfsReady) {

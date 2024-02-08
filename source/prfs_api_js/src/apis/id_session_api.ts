@@ -1,20 +1,20 @@
 import { PrfsIdSessionApiRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdSessionApiRequest";
 import { PrfsIdSessionApiResponse } from "@taigalabs/prfs-entities/bindings/PrfsIdSessionApiResponse";
-import { PutSessionValueResponse } from "@taigalabs/prfs-entities/bindings/PutSessionValueResponse";
-import { DeleteSessionValueResponse } from "@taigalabs/prfs-entities/bindings/DeleteSessionValueResponse";
-import { PutSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutSessionValueRequest";
-import { DeleteSessionValueRequest } from "@taigalabs/prfs-entities/bindings/DeleteSessionValueRequest";
+import { PutPrfsIdSessionValueResponse } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueResponse";
+import { DeletePrfsIdSessionValueResponse } from "@taigalabs/prfs-entities/bindings/DeletePrfsIdSessionValueResponse";
+import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
+import { DeletePrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/DeletePrfsIdSessionValueRequest";
 
 import { api } from "../utils";
 import { PrfsApiResponse } from "../types";
 
-type RqeustTypes = PrfsIdSessionApiRequest["type"];
+type RequestTypes = PrfsIdSessionApiRequest["type"];
 
-type Resp<T extends RqeustTypes> = //
-  T extends "PUT_SESSION_VAL"
-    ? PrfsApiResponse<PutSessionValueResponse>
-    : T extends "DELETE_SESSION_VAL"
-    ? PrfsApiResponse<DeleteSessionValueResponse>
+type Resp<T extends RequestTypes> = //
+  T extends "put_session_val"
+    ? PrfsApiResponse<PutPrfsIdSessionValueResponse>
+    : T extends "delete_session_val"
+    ? PrfsApiResponse<DeletePrfsIdSessionValueResponse>
     : any;
 
 let endpoint: string;

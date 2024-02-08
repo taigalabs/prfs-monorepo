@@ -12,7 +12,7 @@ import {
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { useQuery } from "@tanstack/react-query";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { idSessionApi, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
@@ -89,6 +89,18 @@ const ProofData: React.FC<ProofDataProps> = ({ proof }) => {
   );
 };
 
+function useSessionData(session_key: string) {
+  return useQuery({
+    queryKey: ["get_session_value", session_key],
+    queryFn: async () => {
+      return idSessionApi("get_session_value", {
+        label: element_label,
+        set_id,
+      });
+    },
+  });
+}
+
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfsEmbed }) => {
   const i18n = React.useContext(i18nContext);
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(Status.Standby);
@@ -102,20 +114,19 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
   React.useEffect(() => {
     async function fn() {
       if (prfsEmbed && verifyProofArgs) {
-        const resp = await sendMsgToChild(
-          newPrfsIdMsg("GET_MSG", {
-            appId: verifyProofArgs?.app_id,
-          }),
-          prfsEmbed,
-        );
-
-        try {
-          const payload: Proof = JSON.parse(resp);
-          payload.proofBytes = new Uint8Array(payload.proofBytes);
-          setProof(payload);
-        } catch (err) {
-          console.error(err);
-        }
+        // const resp = await sendMsgToChild(
+        //   newPrfsIdMsg("GET_MSG", {
+        //     appId: verifyProofArgs?.app_id,
+        //   }),
+        //   prfsEmbed,
+        // );
+        // try {
+        //   const payload: Proof = JSON.parse(resp);
+        //   payload.proofBytes = new Uint8Array(payload.proofBytes);
+        //   setProof(payload);
+        // } catch (err) {
+        //   console.error(err);
+        // }
       }
     }
     fn().then();

@@ -4,8 +4,7 @@ use prfs_db_interface::prfs;
 use prfs_entities::{
     entities::PrfsIdSession,
     id_session_api_entities::{
-        OpenSessionResult, PrfsIdSessionResponse, PrfsIdSessionResponsePayload,
-        PutSessionValueResult,
+        PrfsIdSessionResponse, PrfsIdSessionResponsePayload, PutPrfsIdSessionValueResult,
     },
     sqlx::{pool, postgres::PgListener},
 };
@@ -38,8 +37,8 @@ pub async fn start_listening_to_prfs_id_session_events(
                 if let Some(s) = session_result {
                     let resp = PrfsIdSessionResponse {
                         error: None,
-                        payload: Some(PrfsIdSessionResponsePayload::PUT_SESSION_VALUE_RESULT(
-                            PutSessionValueResult {
+                        payload: Some(PrfsIdSessionResponsePayload::PutPrfsIdSessionValueResult(
+                            PutPrfsIdSessionValueResult {
                                 key: session_key.to_string(),
                                 value: s.value,
                             },

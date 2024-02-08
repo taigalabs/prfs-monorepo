@@ -11,8 +11,8 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::entities::PrfsIdSession;
 use prfs_entities::id_session_api_entities::{
-    CloseSessionMsgPayload, CloseSessionResult, OpenSessionMsgPayload, OpenSessionResult,
-    PrfsIdSessionMsg, PrfsIdSessionResponse, PrfsIdSessionResponsePayload,
+    ClosePrfsIdSessionMsgPayload, ClosePrfsIdSessionResult, OpenPrfsIdSessionMsgPayload,
+    OpenPrfsIdSessionResult, PrfsIdSessionMsg, PrfsIdSessionResponse, PrfsIdSessionResponsePayload,
 };
 use std::sync::Arc;
 use tokio::sync::Mutex;
@@ -21,7 +21,7 @@ use tungstenite::Message;
 
 use crate::IdSessionServerError;
 
-pub async fn open_session(
+pub async fn open_prfs_id_session(
     mut request: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
@@ -29,8 +29,6 @@ pub async fn open_session(
     if hyper_tungstenite2::is_upgrade_request(&request) {
         let (response, websocket) = hyper_tungstenite2::upgrade(&mut request, None).unwrap();
 
-        // Spawn a task to handle the websocket connection.
-        // let state_clone = state.clone();
         tokio::spawn(async {
             if let Err(e) = serve_websocket(websocket, state).await {
                 eprintln!("Error in websocket connection: {e}");
@@ -39,7 +37,7 @@ pub async fn open_session(
 
         return Ok(response);
     } else {
-        // At this point, normal HTTP request shouldn't be reached
+        // Normal HTTP request shouldn't be reached at this route
         Ok(Response::new(full("Wrong path")))
     }
 }
@@ -74,11 +72,11 @@ async fn serve_websocket(
                 };
 
                 match prfs_id_session_msg {
-                    PrfsIdSessionMsg::OPEN_SESSION(payload) => {
+                    PrfsIdSessionMsg::OpenPrfsIdSession(payload) => {
                         key = payload.key.to_string();
                         handle_open_session(tx.clone(), payload, state.clone()).await;
                     }
-                    PrfsIdSessionMsg::CLOSE_SESSION(payload) => {
+                    PrfsIdSessionMsg::ClosePrfsIdSession(payload) => {
                         handle_close_session_by_user(tx.clone(), payload, state.clone()).await;
                     }
                 };
@@ -124,7 +122,7 @@ async fn serve_websocket(
 
 async fn handle_open_session(
     tx: Arc<Mutex<SplitSink<WebSocketStream<TokioIo<Upgraded>>, Message>>>,
-    msg: OpenSessionMsgPayload,
+    msg: OpenPrfsIdSessionMsgPayload,
     state: Arc<ServerState>,
 ) {
     let pool = &state.db2.pool;
@@ -147,8 +145,8 @@ async fn handle_open_session(
 
     let resp = PrfsIdSessionResponse {
         error: None,
-        payload: Some(PrfsIdSessionResponsePayload::OPEN_SESSION_RESULT(
-            OpenSessionResult {
+        payload: Some(PrfsIdSessionResponsePayload::OpenPrfsIdSessionResult(
+            OpenPrfsIdSessionResult {
                 key: key.to_string(),
             },
         )),
@@ -160,7 +158,7 @@ async fn handle_open_session(
 
 async fn handle_close_session_by_user(
     tx: Arc<Mutex<SplitSink<WebSocketStream<TokioIo<Upgraded>>, Message>>>,
-    msg: CloseSessionMsgPayload,
+    msg: ClosePrfsIdSessionMsgPayload,
     state: Arc<ServerState>,
 ) {
     let pool = &state.db2.pool;
@@ -170,15 +168,12 @@ async fn handle_close_session_by_user(
         .await
         .unwrap();
 
-    // let mut peer_map_lock = state.peer_map.lock().await;
-    // peer_map_lock.insert(key.to_string(), tx.clone());
-
     trx.commit().await.unwrap();
 
     let resp = PrfsIdSessionResponse {
         error: None,
-        payload: Some(PrfsIdSessionResponsePayload::CLOSE_SESSION_RESULT(
-            CloseSessionResult {
+        payload: Some(PrfsIdSessionResponsePayload::ClosePrfsIdSessionResult(
+            ClosePrfsIdSessionResult {
                 key: msg.key.to_string(),
             },
         )),
