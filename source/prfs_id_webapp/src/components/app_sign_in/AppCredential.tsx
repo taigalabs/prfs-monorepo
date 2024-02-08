@@ -117,9 +117,12 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         account_id: signInData.account_id,
         public_key: signInData.public_key,
       };
-      const encrypted = JSON.stringify(
-        encrypt(appSignInArgs.public_key, Buffer.from(JSON.stringify(payload))),
-      );
+      // const encrypted = JSON.stringify(
+      //   encrypt(appSignInArgs.public_key, Buffer.from(JSON.stringify(payload))),
+      // );
+      const encrypted = [
+        ...encrypt(appSignInArgs.public_key, Buffer.from(JSON.stringify(payload))),
+      ];
       // console.log("Encrypted credential", encrypted);
 
       try {

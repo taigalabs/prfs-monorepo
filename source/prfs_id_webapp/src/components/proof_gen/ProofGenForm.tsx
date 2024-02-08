@@ -154,9 +154,10 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       const payload: ProofGenSuccessPayload = {
         receipt: processedReceipt,
       };
-      const encrypted = JSON.stringify(
-        encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload))),
-      );
+      // const encrypted = JSON.stringify(
+      //   encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload))),
+      // );
+      const encrypted = [...encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload)))];
       console.log("receipt: %o, encrypted", processedReceipt, encrypted);
 
       try {

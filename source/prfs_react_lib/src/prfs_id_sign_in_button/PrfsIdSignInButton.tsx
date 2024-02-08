@@ -8,6 +8,7 @@ import {
   sendMsgToChild,
   parseBuffer,
   createSession,
+  parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
@@ -59,7 +60,12 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
           }
 
           if (session.payload) {
-            const buf = parseBuffer(session.payload);
+            if (session.payload.type !== "PUT_SESSION_VALUE_RESULT") {
+              console.error("Wrong sesseion type at this point. Payload: %s", session.payload);
+              return;
+            }
+
+            const buf = parseBufferOfArray(session.payload.value);
             handleSucceedSignIn(buf);
 
             send({
