@@ -25,6 +25,7 @@ pub async fn scrape_tweet(
     twitter_handle: &str,
 ) -> Result<TwitterAccValidation, WebScraperError> {
     println!("scrape tweet, url: {}", tweet_url);
+
     let mut res = TwitterAccValidation {
         atst_type: String::from(""),
         dest: String::from(""),
@@ -64,7 +65,7 @@ pub async fn scrape_tweet(
 
     {
         // Extact commitments
-        let str = tab.get_content().unwrap();
+        let str = tab.get_content().expect("anchor content should be found");
         let (_, [_, atst_type, dest, account_id, cm]) = re
             .captures(&str)
             .ok_or(TweetScrapeError::AttestationWrongForm)?
@@ -79,7 +80,9 @@ pub async fn scrape_tweet(
 
     {
         // Extract a username and an avatar URL
-        let elems = tab.find_elements(&anchor_selector).unwrap();
+        let elems = tab
+            .find_elements(&anchor_selector)
+            .expect("username should be found");
 
         for el in elems {
             let spans = el.find_elements("span").unwrap();

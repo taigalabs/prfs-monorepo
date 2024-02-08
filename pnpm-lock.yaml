@@ -457,6 +457,9 @@ importers:
       '@metamask/providers':
         specifier: 14.0.2
         version: 14.0.2
+      '@noble/curves':
+        specifier: ^1.2.0
+        version: 1.2.0
       '@taigalabs/prfs-crypto-js':
         specifier: '*'
         version: link:../prfs_crypto_js
@@ -497,9 +500,6 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
-      '@noble/curves':
-        specifier: ^1.2.0
-        version: 1.2.0
       '@taigalabs/async-incremental-merkle-tree':
         specifier: '*'
         version: link:../../externals/incremental-merkle-tree
@@ -934,6 +934,9 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
+      '@taigalabs/prfs-crypto-deps-js':
+        specifier: '*'
+        version: link:../prfs_crypto_deps_js
       '@taigalabs/prfs-crypto-js':
         specifier: '*'
         version: link:../prfs_crypto_js

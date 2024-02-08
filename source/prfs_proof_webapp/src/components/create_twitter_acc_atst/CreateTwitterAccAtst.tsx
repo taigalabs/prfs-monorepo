@@ -102,7 +102,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     },
   });
   const { openPopup } = usePopup();
-  const session_key = useSessionKey();
+  // const session_key = useSessionKey();
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
@@ -135,22 +135,37 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   const handleChangeTwitterHandle = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value, name } = e.target;
-
       if (name === TWITTER_HANDLE) {
         if (value.length < 30) {
+          setClaimCm(null);
           setFormData(oldVal => ({
             ...oldVal,
             [name]: value,
+            [TWEET_URL]: "",
           }));
+
+          if (step > AttestationStep.GENERATE_CLAIM) {
+            setStep(AttestationStep.INPUT_TWITTER_HANDLE);
+          }
         }
-      } else {
+      }
+    },
+    [setFormData, setClaimCm, setStep, step],
+  );
+
+  const handleChangeTweetUrl = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value, name } = e.target;
+
+      if (name === TWEET_URL) {
+        setValidation(null);
         setFormData(oldVal => ({
           ...oldVal,
           [name]: value,
         }));
       }
     },
-    [setFormData],
+    [setFormData, setValidation],
   );
 
   const handleClickGenerate = React.useCallback(() => {
@@ -446,7 +461,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                       error={""}
                       label={i18n.tweet_url}
                       value={formData.tweet_url}
-                      handleChangeValue={handleChangeTwitterHandle}
+                      handleChangeValue={handleChangeTweetUrl}
                     />
                   </div>
                   <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div>
