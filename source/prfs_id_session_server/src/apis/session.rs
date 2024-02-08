@@ -128,9 +128,10 @@ async fn handle_open_session(
     let pool = &state.db2.pool;
     let mut trx = pool.begin().await.unwrap();
 
+    let val = msg.value.unwrap_or(vec![]);
     let session = PrfsIdSession {
         key: msg.key,
-        value: vec![],
+        value: val,
         ticket: msg.ticket,
     };
 

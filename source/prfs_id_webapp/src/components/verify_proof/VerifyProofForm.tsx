@@ -2,13 +2,7 @@ import React from "react";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
-import {
-  sendMsgToChild,
-  newPrfsIdMsg,
-  newPrfsIdErrorMsg,
-  VerifyProofArgs,
-  VerifyProofResultPayload,
-} from "@taigalabs/prfs-id-sdk-web";
+import { VerifyProofArgs, VerifyProofResultPayload } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { useQuery } from "@tanstack/react-query";
@@ -37,6 +31,8 @@ import {
 } from "@/components/default_module/QueryItem";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
+import { toUtf8String } from "ethers/lib/utils";
+import { usePutSessionValue } from "@/hooks/session";
 
 enum Status {
   InProgress,
@@ -113,29 +109,36 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
     data?.payload?.prfs_proof_type,
   );
   const { data: sessionValueData } = useSessionValue(verifyProofArgs?.session_key);
+  const { mutateAsync: putSessionValueRequest } = usePutSessionValue();
 
   React.useEffect(() => {
     async function fn() {
-      if (prfsEmbed && verifyProofArgs) {
-        console.log(3);
-        const payload = sessionValueData?.payload;
-        if (payload) {
-          const a = payload.session;
-          console.log(22, a);
+      if (prfsEmbed && verifyProofArgs && sessionValueData) {
+        const { session_key } = verifyProofArgs;
+        const { payload } = sessionValueData;
+        if (!payload) {
+          console.error(
+            "Session retrieval api didn't work. Something is wrong. key: %s",
+            session_key,
+          );
+          return;
         }
-        // const resp = await sendMsgToChild(
-        //   newPrfsIdMsg("GET_MSG", {
-        //     appId: verifyProofArgs?.app_id,
-        //   }),
-        //   prfsEmbed,
-        // );
-        // try {
-        //   const payload: Proof = JSON.parse(resp);
-        //   payload.proofBytes = new Uint8Array(payload.proofBytes);
-        //   setProof(payload);
-        // } catch (err) {
-        //   console.error(err);
-        // }
+
+        const { session } = payload;
+        if (!session) {
+          console.error("Payload should have a session at this point. key: %s", session_key);
+          return;
+        }
+
+        if (session.value.length === 0) {
+          console.error("Payload should have a proof data at this point. key: %s", session_key);
+          return;
+        }
+
+        const valueStr = toUtf8String(session.value);
+        const proof: Proof = JSON.parse(valueStr);
+        proof.proofBytes = new Uint8Array(proof.proofBytes);
+        setProof(proof);
       }
     }
     fn().then();
@@ -143,37 +146,37 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
 
   const handleClickSubmit = React.useCallback(async () => {
     if (verifyProofArgs && prfsEmbed && proof && data && proofType && driver) {
-      setVerifyProofStatus(Status.InProgress);
-      await delay(500);
-      const res = await driver.verify({
-        proof,
-        circuitTypeId: proofType?.circuit_type_id,
-      });
-      const payload: VerifyProofResultPayload = {
-        result: res,
-      };
-      const encrypted = JSON.stringify(
-        encrypt(verifyProofArgs.public_key, Buffer.from(JSON.stringify(payload))),
-      );
-      console.log("payload: %o, encrypted", payload, encrypted);
-
       try {
-        // await sendMsgToChild(
-        //   newPrfsIdMsg("VERIFY_PROOF_RESULT", {
-        //     appId: verifyProofArgs.app_id,
-        //     // key: proofGenArgs.public_key,
-        //     value: encrypted,
-        //   }),
-        //   prfsEmbed,
-        // );
+        setVerifyProofStatus(Status.InProgress);
+        await delay(500);
+        const res = await driver.verify({
+          proof,
+          circuitTypeId: proofType?.circuit_type_id,
+        });
+        const payload: VerifyProofResultPayload = {
+          result: res,
+        };
+        const encrypted = encrypt(verifyProofArgs.public_key, Buffer.from(JSON.stringify(payload)));
+        console.log("payload: %o, encrypted", payload, encrypted);
+        const { payload: putSessionResp } = await putSessionValueRequest({
+          key: verifyProofArgs.session_key,
+          value: [...encrypted],
+          ticket: "TICKET",
+        });
+
+        if (!putSessionResp) {
+          console.error(
+            "Couldn't get put session response, session_key: %s",
+            verifyProofArgs.session_key,
+          );
+        }
+        window.close();
       } catch (err: any) {
-        await sendMsgToChild(newPrfsIdErrorMsg("VERIFY_PROOF_RESULT", err.toString()), prfsEmbed);
         console.error(err);
       }
       setVerifyProofStatus(Status.Standby);
-      window.close();
     }
-  }, [verifyProofArgs, setErrorMsg, data, setVerifyProofStatus, driver]);
+  }, [verifyProofArgs, setErrorMsg, data, setVerifyProofStatus, driver, putSessionValueRequest]);
 
   const proofType = data?.payload?.prfs_proof_type;
 

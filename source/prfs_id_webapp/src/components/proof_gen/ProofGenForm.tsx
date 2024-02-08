@@ -31,6 +31,7 @@ import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import EncryptView from "@/components/encrypt/EncryptView";
+import { usePutSessionValue } from "@/hooks/session";
 
 enum Status {
   InProgress,
@@ -54,14 +55,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       return idApi("sign_in_prfs_identity", req);
     },
   });
-  const { mutateAsync: putSessionValueRequest } = useMutation({
-    mutationFn: (req: PutPrfsIdSessionValueRequest) => {
-      return idSessionApi({
-        type: "put_prfs_id_session_value",
-        ...req,
-      });
-    },
-  });
+  const { mutateAsync: putSessionValueRequest } = usePutSessionValue();
   const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>(null);
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
     <div className={styles.sidePadding}>Loading...</div>,

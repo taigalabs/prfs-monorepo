@@ -2,5 +2,6 @@
 
 export interface OpenPrfsIdSessionMsgPayload {
   key: string;
+  value: Array<number> | null;
   ticket: string;
 }

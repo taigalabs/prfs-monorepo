@@ -79,6 +79,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       send({
         type: "open_prfs_id_session",
         key: proofGenArgs.session_key,
+        value: null,
         ticket: "TICKET",
       });
       const openSessionResp = await receive();

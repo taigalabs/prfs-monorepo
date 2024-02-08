@@ -11,15 +11,11 @@ import {
   VerifyProofResultPayload,
   createSession,
   makeVerifyProofSearchParams,
-  newPrfsIdMsg,
-  parseBuffer,
-  sendMsgToChild,
+  parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useRandomKeyPair, useSessionKey } from "@/hooks/key";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
-import { useMutation } from "@tanstack/react-query";
-import { idSessionApi } from "@taigalabs/prfs-api-js";
-import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
+import { decrypt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -41,14 +37,6 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
   const i18n = React.useContext(i18nContext);
   const step = useAppSelector(state => state.tutorial.tutorialStep);
   const session_key = useSessionKey();
-  const { mutateAsync: putSessionValueRequest } = useMutation({
-    mutationFn: (req: PutPrfsIdSessionValueRequest) => {
-      return idSessionApi({
-        type: "put_prfs_id_session_value",
-        ...req,
-      });
-    },
-  });
 
   const handleClickVerify = React.useCallback(async () => {
     try {
@@ -74,18 +62,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
         proofBytes: Array.from(proof.proofBytes),
       };
       const data = JSON.stringify(prf);
-      const buf = Buffer.from(data);
-
-      const { payload } = await putSessionValueRequest({
-        key: session_key,
-        value: [...buf],
-        ticket: "TICKET",
-      });
-
-      if (!payload) {
-        console.error("Failed to upload proof in session, key: %s", session_key);
-        return;
-      }
+      const bytes = toUtf8Bytes(data);
 
       openPopup(endpoint, async () => {
         if (!prfsEmbed || !isPrfsReady) {
@@ -96,6 +73,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
         send({
           type: "open_prfs_id_session",
           key: verifyProofArgs.session_key,
+          value: Array.from(bytes),
           ticket: "TICKET",
         });
         const openSessionResp = await receive();
@@ -105,70 +83,55 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
         }
 
         const session = await receive();
-        if (session) {
-          try {
-            if (session.error) {
-              console.error(session.error);
-            }
-
-            if (session.payload) {
-              if (session.payload.type !== "put_prfs_id_session_value_result") {
-                console.error("Wrong session payload type at this point, msg: %s", session.payload);
-                return;
-              }
-            }
-          } catch (err) {}
+        if (!session) {
+          console.error("Coudln't get the session, session_key: %s", session_key);
+          return;
         }
 
-        // const resp = await sendMsgToChild(
-        //   newPrfsIdMsg("REQUEST_VERIFY_PROOF", { appId: verifyProofArgs.app_id, data }),
-        //   prfsEmbed,
-        // );
+        try {
+          if (session.error) {
+            console.error(session.error);
+          }
 
-        // if (resp) {
-        //   try {
-        //     const buf = parseBuffer(resp);
-        //     let decrypted: string;
-        //     try {
-        //       decrypted = decrypt(sk.secret, buf).toString();
-        //     } catch (err) {
-        //       console.error("cannot decrypt payload", err);
-        //       return;
-        //     }
+          if (session.payload) {
+            if (session.payload.type !== "put_prfs_id_session_value_result") {
+              console.error("Wrong session payload type at this point, msg: %s", session.payload);
+              return;
+            }
 
-        //     let payload: VerifyProofResultPayload;
-        //     try {
-        //       payload = JSON.parse(decrypted) as VerifyProofResultPayload;
-        //     } catch (err) {
-        //       console.error("cannot parse payload", err);
-        //       return;
-        //     }
+            const buf = parseBufferOfArray(session.payload.value);
+            let decrypted: string;
+            try {
+              decrypted = decrypt(sk.secret, buf).toString();
+            } catch (err) {
+              console.error("cannot decrypt payload", err);
+              return;
+            }
 
-        //     if (payload.result) {
-        //       setVerifyProofStatus(VerifyProofStatus.Valid);
-        //     } else {
-        //       setVerifyProofStatus(VerifyProofStatus.Invalid);
-        //     }
-        //   } catch (err) {
-        //     console.error(err);
-        //   }
-        // } else {
-        //   console.error("Returned val is empty");
-        // }
-        //
+            let payload: VerifyProofResultPayload;
+            try {
+              payload = JSON.parse(decrypted) as VerifyProofResultPayload;
+            } catch (err) {
+              console.error("cannot parse payload", err);
+              return;
+            }
+
+            if (payload.result) {
+              setVerifyProofStatus(VerifyProofStatus.Valid);
+            } else {
+              setVerifyProofStatus(VerifyProofStatus.Invalid);
+            }
+
+            ws.close();
+          }
+        } catch (err) {
+          console.error(err);
+        }
       });
     } catch (err) {
       console.error(err);
     }
-  }, [
-    setVerifyProofStatus,
-    prfsEmbed,
-    isPrfsReady,
-    tutorialId,
-    openPopup,
-    session_key,
-    putSessionValueRequest,
-  ]);
+  }, [setVerifyProofStatus, prfsEmbed, isPrfsReady, tutorialId, openPopup, session_key]);
 
   const btnContent = React.useMemo(() => {
     switch (verifyProofStatus) {

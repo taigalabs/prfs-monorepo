@@ -25,6 +25,7 @@ pub struct PrfsIdSessionResponse {
 #[ts(export)]
 pub struct OpenPrfsIdSessionMsgPayload {
     pub key: String,
+    pub value: Option<Vec<u8>>,
     pub ticket: String,
 }
 
