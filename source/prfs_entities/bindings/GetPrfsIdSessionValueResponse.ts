@@ -2,5 +2,5 @@
 import type { PrfsIdSession } from "./PrfsIdSession";
 
 export interface GetPrfsIdSessionValueResponse {
-  session: PrfsIdSession;
+  session: PrfsIdSession | null;
 }

@@ -3,7 +3,7 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
     entities::PrfsIdSession,
-    id_session_api_entities::{
+    id_session_api::{
         PrfsIdSessionResponse, PrfsIdSessionResponsePayload, PutPrfsIdSessionValueResult,
     },
     sqlx::{pool, postgres::PgListener},

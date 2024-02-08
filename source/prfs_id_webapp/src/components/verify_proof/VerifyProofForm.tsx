@@ -54,14 +54,16 @@ function useProofType(proofTypeId: string | undefined) {
   });
 }
 
-export function useSessionData(session_key: string) {
+export function useSessionValue(session_key: string | undefined) {
   return useQuery({
-    queryKey: ["get_session_value", session_key],
+    queryKey: ["get_prfs_id_session_value", session_key],
     queryFn: async () => {
-      return idSessionApi("get_session_value", {
-        label: element_label,
-        set_id,
-      });
+      if (session_key) {
+        return idSessionApi({
+          type: "get_prfs_id_session_value",
+          key: session_key,
+        });
+      }
     },
   });
 }
@@ -110,10 +112,17 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
   const { driver, driverArtifacts, loadDriverStatus, loadDriverProgress } = useLoadDriver(
     data?.payload?.prfs_proof_type,
   );
+  const { data: sessionValueData } = useSessionValue(verifyProofArgs?.session_key);
 
   React.useEffect(() => {
     async function fn() {
       if (prfsEmbed && verifyProofArgs) {
+        console.log(3);
+        const payload = sessionValueData?.payload;
+        if (payload) {
+          const a = payload.session;
+          console.log(22, a);
+        }
         // const resp = await sendMsgToChild(
         //   newPrfsIdMsg("GET_MSG", {
         //     appId: verifyProofArgs?.app_id,
@@ -130,7 +139,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
       }
     }
     fn().then();
-  }, [prfsEmbed, setProof]);
+  }, [prfsEmbed, setProof, sessionValueData]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (verifyProofArgs && prfsEmbed && proof && data && proofType && driver) {
@@ -149,14 +158,14 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
       console.log("payload: %o, encrypted", payload, encrypted);
 
       try {
-        await sendMsgToChild(
-          newPrfsIdMsg("VERIFY_PROOF_RESULT", {
-            appId: verifyProofArgs.app_id,
-            // key: proofGenArgs.public_key,
-            value: encrypted,
-          }),
-          prfsEmbed,
-        );
+        // await sendMsgToChild(
+        //   newPrfsIdMsg("VERIFY_PROOF_RESULT", {
+        //     appId: verifyProofArgs.app_id,
+        //     // key: proofGenArgs.public_key,
+        //     value: encrypted,
+        //   }),
+        //   prfsEmbed,
+        // );
       } catch (err: any) {
         await sendMsgToChild(newPrfsIdErrorMsg("VERIFY_PROOF_RESULT", err.toString()), prfsEmbed);
         console.error(err);

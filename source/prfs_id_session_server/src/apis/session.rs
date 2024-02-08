@@ -10,7 +10,7 @@ use hyper_utils::io::{full, BytesBoxBody};
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::entities::PrfsIdSession;
-use prfs_entities::id_session_api_entities::{
+use prfs_entities::id_session_api::{
     ClosePrfsIdSessionMsgPayload, ClosePrfsIdSessionResult, OpenPrfsIdSessionMsgPayload,
     OpenPrfsIdSessionResult, PrfsIdSessionMsg, PrfsIdSessionResponse, PrfsIdSessionResponsePayload,
 };

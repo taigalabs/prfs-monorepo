@@ -44,7 +44,7 @@ pub struct GetPrfsIdSessionValueRequest {
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct GetPrfsIdSessionValueResponse {
-    pub session: PrfsIdSession,
+    pub session: Option<PrfsIdSession>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

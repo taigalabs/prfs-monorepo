@@ -17,7 +17,7 @@ export async function createSession(): Promise<PrfsIdSession> {
   const dataQueue: PrfsIdSessionResponse[] = [];
 
   return new Promise((resolve, _reject) => {
-    const ws = new WebSocket(`${endpoint}/open_session`);
+    const ws = new WebSocket(`${endpoint}/open_prfs_id_session`);
 
     async function receive() {
       if (dataQueue.length !== 0) {
