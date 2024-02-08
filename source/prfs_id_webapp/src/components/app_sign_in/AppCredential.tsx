@@ -1,18 +1,12 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useSearchParams } from "next/navigation";
-import {
-  SignInSuccessPayload,
-  PrfsIdCredential,
-  AppSignInArgs,
-  sendMsgToChild,
-  newPrfsIdMsg,
-} from "@taigalabs/prfs-id-sdk-web";
+import { SignInSuccessPayload, PrfsIdCredential, AppSignInArgs } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { PutSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutSessionValueRequest";
+import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
 import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./AppCredential.module.scss";
@@ -51,9 +45,9 @@ const AppCredential: React.FC<AppCredentialProps> = ({
     },
   });
   const { mutateAsync: putSessionValueRequest } = useMutation({
-    mutationFn: (req: PutSessionValueRequest) => {
+    mutationFn: (req: PutPrfsIdSessionValueRequest) => {
       return idSessionApi({
-        type: "put_session_val",
+        type: "put_prfs_id_session_value",
         ...req,
       });
     },

@@ -4,7 +4,6 @@ import {
   API_PATH,
   AppSignInArgs,
   makeAppSignInSearchParams,
-  newPrfsIdMsg,
   sendMsgToChild,
   parseBuffer,
   createSession,
@@ -42,7 +41,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
       const { ws, send, receive } = await createSession();
       send({
-        type: "OPEN_SESSION",
+        type: "open_prfs_id_session",
         key: appSignInArgs.session_key,
         ticket: "TICKET",
       });
@@ -60,7 +59,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
           }
 
           if (session.payload) {
-            if (session.payload.type !== "PUT_SESSION_VALUE_RESULT") {
+            if (session.payload.type !== "put_prfs_id_session_value_result") {
               console.error("Wrong sesseion type at this point. Payload: %s", session.payload);
               return;
             }
@@ -69,7 +68,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
             handleSucceedSignIn(buf);
 
             send({
-              type: "CLOSE_SESSION",
+              type: "close_prfs_id_session",
               key: appSignInArgs.session_key,
               ticket: "TICKET",
             });

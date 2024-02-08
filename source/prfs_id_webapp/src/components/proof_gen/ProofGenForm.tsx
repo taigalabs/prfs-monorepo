@@ -4,9 +4,6 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
   PrfsIdCredential,
-  sendMsgToChild,
-  newPrfsIdMsg,
-  newPrfsIdErrorMsg,
   ProofGenArgs,
   QueryType,
   ProofGenSuccessPayload,
@@ -17,7 +14,7 @@ import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/Prf
 import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
-import { PutSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutSessionValueRequest";
+import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -58,9 +55,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     },
   });
   const { mutateAsync: putSessionValueRequest } = useMutation({
-    mutationFn: (req: PutSessionValueRequest) => {
+    mutationFn: (req: PutPrfsIdSessionValueRequest) => {
       return idSessionApi({
-        type: "put_session_val",
+        type: "put_prfs_id_session_value",
         ...req,
       });
     },
@@ -154,11 +151,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       const payload: ProofGenSuccessPayload = {
         receipt: processedReceipt,
       };
-      // const encrypted = JSON.stringify(
-      //   encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload))),
-      // );
       const encrypted = [...encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload)))];
-      console.log("receipt: %o, encrypted", processedReceipt, encrypted);
+      // console.log("receipt: %o, encrypted", processedReceipt, encrypted);
 
       try {
         const { error } = await putSessionValueRequest({
@@ -173,15 +167,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
         setCreateProofStatus(Status.Standby);
         window.close();
-        // await sendMsgToChild(
-        //   newPrfsIdMsg("PROOF_GEN_RESULT", {
-        //     appId: proofGenArgs.app_id,
-        //     value: encrypted,
-        //   }),
-        //   prfsEmbed,
-        // );
       } catch (err: any) {
-        // await sendMsgToChild(newPrfsIdErrorMsg("PROOF_GEN_RESULT", err.toString()), prfsEmbed);
         console.error(err);
       }
     }

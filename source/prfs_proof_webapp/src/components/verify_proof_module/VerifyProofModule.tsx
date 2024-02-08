@@ -17,15 +17,14 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import { useRandomKeyPair, useSessionKey } from "@/hooks/key";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
-import { decrypt } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
+import { idSessionApi } from "@taigalabs/prfs-api-js";
+import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { envs } from "@/envs";
 import { useAppSelector } from "@/state/hooks";
-import { idSessionApi } from "@taigalabs/prfs-api-js";
-import { PutSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutSessionValueRequest";
 
 export enum VerifyProofStatus {
   Standby,
@@ -43,9 +42,9 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
   const step = useAppSelector(state => state.tutorial.tutorialStep);
   const session_key = useSessionKey();
   const { mutateAsync: putSessionValueRequest } = useMutation({
-    mutationFn: (req: PutSessionValueRequest) => {
+    mutationFn: (req: PutPrfsIdSessionValueRequest) => {
       return idSessionApi({
-        type: "put_session_val",
+        type: "put_prfs_id_session_value",
         ...req,
       });
     },
@@ -95,7 +94,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
 
         const { ws, send, receive } = await createSession();
         send({
-          type: "OPEN_SESSION",
+          type: "open_prfs_id_session",
           key: verifyProofArgs.session_key,
           ticket: "TICKET",
         });
@@ -113,13 +112,14 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
             }
 
             if (session.payload) {
-              if (session.payload.type !== "PUT_SESSION_VALUE_RESULT") {
+              if (session.payload.type !== "put_prfs_id_session_value_result") {
                 console.error("Wrong session payload type at this point, msg: %s", session.payload);
                 return;
               }
             }
           } catch (err) {}
         }
+
         // const resp = await sendMsgToChild(
         //   newPrfsIdMsg("REQUEST_VERIFY_PROOF", { appId: verifyProofArgs.app_id, data }),
         //   prfsEmbed,

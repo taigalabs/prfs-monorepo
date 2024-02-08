@@ -77,7 +77,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
       const { ws, send, receive } = await createSession();
       send({
-        type: "OPEN_SESSION",
+        type: "open_prfs_id_session",
         key: proofGenArgs.session_key,
         ticket: "TICKET",
       });
@@ -95,7 +95,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           }
 
           if (session.payload) {
-            if (session.payload.type !== "PUT_SESSION_VALUE_RESULT") {
+            if (session.payload.type !== "put_prfs_id_session_value_result") {
               console.error("Wrong session payload type at this point, msg: %s", session.payload);
               return;
             }

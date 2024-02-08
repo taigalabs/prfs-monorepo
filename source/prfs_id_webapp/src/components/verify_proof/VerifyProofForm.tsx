@@ -54,6 +54,18 @@ function useProofType(proofTypeId: string | undefined) {
   });
 }
 
+export function useSessionData(session_key: string) {
+  return useQuery({
+    queryKey: ["get_session_value", session_key],
+    queryFn: async () => {
+      return idSessionApi("get_session_value", {
+        label: element_label,
+        set_id,
+      });
+    },
+  });
+}
+
 const ProofData: React.FC<ProofDataProps> = ({ proof }) => {
   const i18n = React.useContext(i18nContext);
   const res = React.useMemo(() => {
@@ -88,18 +100,6 @@ const ProofData: React.FC<ProofDataProps> = ({ proof }) => {
     </div>
   );
 };
-
-function useSessionData(session_key: string) {
-  return useQuery({
-    queryKey: ["get_session_value", session_key],
-    queryFn: async () => {
-      return idSessionApi("get_session_value", {
-        label: element_label,
-        set_id,
-      });
-    },
-  });
-}
 
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfsEmbed }) => {
   const i18n = React.useContext(i18nContext);
