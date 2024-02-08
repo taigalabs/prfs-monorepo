@@ -39,7 +39,6 @@ export async function createSession(): Promise<PrfsIdSession> {
 
     ws.onopen = () => {
       console.log("Prfs id session established!");
-
       resolve({
         ws,
         receive,
