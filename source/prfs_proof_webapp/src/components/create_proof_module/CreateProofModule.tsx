@@ -94,12 +94,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         return;
       }
 
-      // const resp = await sendMsgToChild(
-      //   newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
-      //   prfsEmbed,
-      // );
       const session = await receive();
-
       if (session) {
         try {
           if (session.error) {
@@ -111,7 +106,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               console.error("Wrong session payload type at this point, msg: %s", session.payload);
               return;
             }
-            // const buf = parseBuffer(resp);
             const buf = parseBufferOfArray(session.payload.value);
             let decrypted: string;
             try {
@@ -143,6 +137,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       } else {
         console.error("Returned val is empty");
       }
+
+      ws.close();
     });
   }, [proofType, handleCreateProofResult, setSystemMsg, status]);
 

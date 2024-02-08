@@ -79,7 +79,7 @@ async fn serve_websocket(
                         handle_open_session(tx.clone(), payload, state.clone()).await;
                     }
                     PrfsIdSessionMsg::CLOSE_SESSION(payload) => {
-                        handle_close_session(tx.clone(), payload, state.clone()).await;
+                        handle_close_session_by_user(tx.clone(), payload, state.clone()).await;
                     }
                 };
             }
@@ -108,6 +108,7 @@ async fn serve_websocket(
                     println!("Received close message");
                 }
 
+                handle_close_session_by_system(tx.clone(), &key, state.clone()).await;
                 let mut peer_map = state.peer_map.lock().await;
                 peer_map.remove(&key);
                 println!("Current peer_map size: {}", peer_map.len());
@@ -157,7 +158,7 @@ async fn handle_open_session(
     tx_lock.send(Message::text(resp)).await.unwrap();
 }
 
-async fn handle_close_session(
+async fn handle_close_session_by_user(
     tx: Arc<Mutex<SplitSink<WebSocketStream<TokioIo<Upgraded>>, Message>>>,
     msg: CloseSessionMsgPayload,
     state: Arc<ServerState>,
@@ -185,4 +186,19 @@ async fn handle_close_session(
     let resp = serde_json::to_string(&resp).unwrap();
     let mut tx_lock = tx.lock().await;
     tx_lock.send(Message::text(resp)).await.unwrap();
+}
+
+async fn handle_close_session_by_system(
+    _tx: Arc<Mutex<SplitSink<WebSocketStream<TokioIo<Upgraded>>, Message>>>,
+    key: &String,
+    state: Arc<ServerState>,
+) {
+    let pool = &state.db2.pool;
+    let mut trx = pool.begin().await.unwrap();
+
+    let _key = prfs::delete_prfs_session_without_dicket(&mut trx, &key)
+        .await
+        .unwrap();
+
+    trx.commit().await.unwrap();
 }

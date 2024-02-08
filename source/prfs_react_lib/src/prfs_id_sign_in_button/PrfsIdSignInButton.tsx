@@ -74,7 +74,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
               ticket: "TICKET",
             });
             const closeSessionResp = await receive();
-            console.log("closeSessionresp", closeSessionResp);
+            // console.log("closeSessionresp", closeSessionResp);
           }
         } catch (err) {
           console.error(err);
