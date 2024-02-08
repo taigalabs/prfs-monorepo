@@ -43,24 +43,33 @@ const SignatureItem: React.FC<SigantureItemProps> = ({
   const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
 
   const handleClickValidate = React.useCallback(async () => {
+    setIsSigValid(false);
     const sig = formData[SIGNATURE];
     const wallet_addr = formData[WALLET_ADDR];
 
     if (claimCm && sig.length > 0 && wallet_addr.length > 0) {
-      const valid = await verifyMessage({
-        address: wallet_addr as any,
-        message: claimCm,
-        signature: sig as any,
-      });
+      try {
+        const valid = await verifyMessage({
+          address: wallet_addr as any,
+          message: claimCm,
+          signature: sig as any,
+        });
 
-      if (valid) {
-        setValidationMsg(
-          <span className={styles.green}>
-            <FaCheck />
-          </span>,
-        );
-        setIsSigValid(true);
-      } else {
+        if (valid) {
+          setValidationMsg(
+            <span className={styles.green}>
+              <FaCheck />
+            </span>,
+          );
+          setIsSigValid(true);
+        } else {
+          setValidationMsg(
+            <span className={styles.error}>
+              <IoClose />
+            </span>,
+          );
+        }
+      } catch (err) {
         setValidationMsg(
           <span className={styles.error}>
             <IoClose />

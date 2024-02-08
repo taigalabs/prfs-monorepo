@@ -71,6 +71,7 @@ enum AttestationStep {
 enum Status {
   Standby,
   InProgress,
+  Error,
 }
 
 const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = () => {
@@ -238,6 +239,8 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
 
   const handleClickValidate = React.useCallback(async () => {
+    setValidation(null);
+
     const tweet_url = formData[TWEET_URL];
     const twitter_handle = formData[TWITTER_HANDLE];
 
