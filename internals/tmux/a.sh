@@ -24,7 +24,7 @@ tmux send-keys "./ci dev_prfs_asset_server" ENTER
 
 # Prfs embed webapp
 tmux select-pane -t prfs_a:1.3
-tmux send-keys "./ci dev_prfs_embed_webapp" ENTER
+# tmux send-keys "./ci dev_prfs_embed_webapp" ENTER
 
 # Prfs id webapp
 tmux select-pane -t prfs_a:1.4
