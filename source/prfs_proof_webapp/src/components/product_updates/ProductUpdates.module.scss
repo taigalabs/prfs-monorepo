@@ -1,2 +1,9 @@
-.main {
+.versionMeta {
+  padding: 12px 0;
+}
+
+.row {
+  &:not(:first-child) {
+    padding-top: 12px;
+  }
 }
