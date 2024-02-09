@@ -10,6 +10,7 @@ import {
   ProofGenSuccessPayload,
   QueryType,
   createSession,
+  createSessionKey,
   parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
@@ -21,9 +22,8 @@ import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
-import { useRandomKeyPair, useSessionKey } from "@/hooks/key";
+import { useRandomKeyPair } from "@/hooks/key";
 import { useAppSelector } from "@/state/hooks";
-import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
 const PROOF = "Proof";
 
@@ -43,9 +43,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const { sk, pkHex } = useRandomKeyPair();
   const { tutorialId } = useTutorial();
   const { openPopup } = usePopup();
-  const session_key = useSessionKey();
 
   const handleClickCreateProof = React.useCallback(async () => {
+    const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
       app_id: "prfs_proof",
@@ -141,13 +141,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
       ws.close();
     });
-  }, [proofType, handleCreateProofResult, setSystemMsg, status, session_key]);
-
-  // React.useEffect(() => {
-  //   if (isPrfsReady) {
-  //     setStatus(Status.Standby);
-  //   }
-  // }, [setStatus, isPrfsReady]);
+  }, [proofType, handleCreateProofResult, setSystemMsg, status]);
 
   return (
     <div className={styles.wrapper}>

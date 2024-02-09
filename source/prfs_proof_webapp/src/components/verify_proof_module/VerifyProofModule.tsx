@@ -10,10 +10,11 @@ import {
   VerifyProofArgs,
   VerifyProofResultPayload,
   createSession,
+  createSessionKey,
   makeVerifyProofSearchParams,
   parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
-import { useRandomKeyPair, useSessionKey } from "@/hooks/key";
+import { useRandomKeyPair } from "@/hooks/key";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import { decrypt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 
@@ -35,10 +36,10 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
   const { sk, pkHex } = useRandomKeyPair();
   const i18n = React.useContext(i18nContext);
   const step = useAppSelector(state => state.tutorial.tutorialStep);
-  const session_key = useSessionKey();
 
   const handleClickVerify = React.useCallback(async () => {
     try {
+      const session_key = createSessionKey();
       const verifyProofArgs: VerifyProofArgs = {
         nonce: Math.random() * 1000000,
         app_id: "prfs_proof",
@@ -126,7 +127,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
     } catch (err) {
       console.error(err);
     }
-  }, [setVerifyProofStatus, tutorialId, openPopup, session_key]);
+  }, [setVerifyProofStatus, tutorialId, openPopup]);
 
   const btnContent = React.useMemo(() => {
     switch (verifyProofStatus) {

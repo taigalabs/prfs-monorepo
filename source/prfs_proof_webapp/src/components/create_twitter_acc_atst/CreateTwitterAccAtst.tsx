@@ -34,7 +34,7 @@ import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 import styles from "./CreateTwitterAccAtst.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useRandomKeyPair, useSessionKey } from "@/hooks/key";
+import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
 import {

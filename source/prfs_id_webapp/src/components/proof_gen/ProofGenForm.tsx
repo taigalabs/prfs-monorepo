@@ -14,7 +14,6 @@ import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/Prf
 import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
-import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -159,9 +158,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         }
 
         setCreateProofStatus(Status.Standby);
-        console.log(123);
-
-        // window.close();
+        window.close();
       } catch (err: any) {
         console.error(err);
       }

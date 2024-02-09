@@ -4,9 +4,7 @@ import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import {
   CommitmentType,
-  newPrfsIdMsg,
   API_PATH,
-  parseBuffer,
   makeProofGenSearchParams,
   ProofGenArgs,
   QueryType,
@@ -18,13 +16,14 @@ import {
   PRFS_ATTESTATION_STEM,
   createSession,
   parseBufferOfArray,
+  createSessionKey,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useRandomKeyPair, useSessionKey } from "@/hooks/key";
+import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import {
   AttestationListItem,
@@ -59,10 +58,10 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
     const walletAddr = formData[WALLET_ADDR];
     return `${PRFS_ATTESTATION_STEM}${walletAddr}`;
   }, [formData[WALLET_ADDR]]);
-  const session_key = useSessionKey();
 
   const handleClickGenerate = React.useCallback(() => {
     const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10, WALLET_CM_STEM);
+    const session_key = createSessionKey();
 
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
@@ -176,7 +175,6 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
     setStep,
     setWalletCacheKeys,
     setWalletAddrEnc,
-    session_key,
   ]);
   return (
     <AttestationListItem isDisabled={step < AttestationStep.GENERATE_CLAIM}>
