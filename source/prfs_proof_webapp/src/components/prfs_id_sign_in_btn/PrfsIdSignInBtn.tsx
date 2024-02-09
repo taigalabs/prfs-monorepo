@@ -16,8 +16,6 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
-// import { secp256k1 } from "@taigalabs/prfs-crypto-js/secp256k1";
-// import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -48,9 +46,9 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   });
   const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
   const { sk, pkHex } = useRandomKeyPair();
-  const session_key = createSessionKey();
 
   const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
+    const session_key = createSessionKey();
     return {
       nonce: Math.random() * 1000000,
       app_id: appId,
@@ -58,11 +56,16 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
       public_key: pkHex,
       session_key,
     };
-  }, [pkHex]);
+  }, [pkHex, appId]);
 
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
       if (sk) {
+        if (encrypted.length === 0) {
+          console.error("encrypted buffer is empty, session_key: %s", appSignInArgs.session_key);
+          return;
+        }
+
         let decrypted: string;
         try {
           decrypted = decrypt(sk.secret, encrypted).toString();
@@ -102,7 +105,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         dispatch(signInPrfs(credential));
       }
     },
-    [router, dispatch, prfsSignInRequest, setSignUpData],
+    [router, dispatch, prfsSignInRequest, setSignUpData, appSignInArgs],
   );
 
   const handleClickSignOut = React.useCallback(() => {
