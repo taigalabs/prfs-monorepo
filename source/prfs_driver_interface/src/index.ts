@@ -1,4 +1,4 @@
-import { CreateProofEvent, DriverEvent, DriverEventListener } from "./events";
+import { CreateProofEvent, DriverEventListener } from "./events";
 
 export * from "./events";
 
