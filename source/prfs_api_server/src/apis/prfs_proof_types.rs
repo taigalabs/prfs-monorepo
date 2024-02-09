@@ -6,15 +6,14 @@ use hyper_utils::{
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    entities::{CircuitInput, PrfsProofType, PrfsSet},
-    prfs_api_entities::{
+    entities::PrfsProofType,
+    prfs_api::{
         CreatePrfsProofTypeRequest, CreatePrfsProofTypeResponse,
         GetPrfsProofTypeByProofTypeIdRequest, GetPrfsProofTypeByProofTypeIdResponse,
         GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
     },
-    sqlx::types::Json,
 };
-use std::{convert::Infallible, sync::Arc};
+use std::sync::Arc;
 
 const LIMIT: i32 = 10;
 
@@ -70,9 +69,6 @@ pub async fn create_prfs_proof_type(
         circuit_id: req.circuit_id,
         circuit_type_id: req.circuit_type_id.to_string(),
         circuit_driver_id: req.circuit_driver_id.to_string(),
-        circuit_inputs: Json::from(req.circuit_inputs.clone()),
-        driver_properties: Json::from(req.driver_properties.clone()),
-
         created_at: chrono::offset::Utc::now(),
     };
 

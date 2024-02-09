@@ -25,9 +25,7 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
         desc: row.get("desc"),
         circuit_id: row.get("circuit_id"),
         circuit_type_id: row.get("circuit_type_id"),
-        circuit_inputs: row.get("circuit_inputs"),
         circuit_driver_id: row.get("circuit_driver_id"),
-        driver_properties: row.get("driver_properties"),
         created_at: row.get("created_at"),
     };
 
@@ -65,9 +63,7 @@ LIMIT $2
             desc: row.get("desc"),
             circuit_id: row.get("circuit_id"),
             circuit_type_id: row.get("circuit_type_id"),
-            circuit_inputs: row.get("circuit_inputs"),
             circuit_driver_id: row.get("circuit_driver_id"),
-            driver_properties: row.get("driver_properties"),
             created_at: row.get("created_at"),
         })
         .collect();
@@ -80,9 +76,9 @@ pub async fn insert_prfs_proof_type(
     proof_type: &PrfsProofType,
 ) -> i64 {
     let query = "INSERT INTO prfs_proof_types \
-(proof_type_id, author, label, \"desc\", circuit_id, circuit_inputs,\
-circuit_driver_id, driver_properties, expression, img_url, img_caption, circuit_type_id) \
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning id";
+(proof_type_id, author, label, \"desc\", circuit_id,\
+circuit_driver_id, expression, img_url, img_caption, circuit_type_id) \
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning id";
 
     let row = sqlx::query(query)
         .bind(&proof_type.proof_type_id)
@@ -90,9 +86,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning id";
         .bind(&proof_type.label)
         .bind(&proof_type.desc)
         .bind(&proof_type.circuit_id)
-        .bind(&proof_type.circuit_inputs)
         .bind(&proof_type.circuit_driver_id)
-        .bind(&proof_type.driver_properties)
         .bind(&proof_type.expression)
         .bind(&proof_type.img_url)
         .bind(&proof_type.img_caption)

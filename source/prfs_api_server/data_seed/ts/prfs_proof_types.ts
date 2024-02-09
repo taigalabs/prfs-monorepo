@@ -39,22 +39,6 @@ const proofTypes = (() => {
   return proofTypes;
 })();
 
-const sig_data_circuit_input = {
-  desc: "Message over which a signature is made",
-  name: "sigData",
-  type: "SIG_DATA_1",
-  label: "Signature",
-  value: "",
-};
-
-const simple_hash_1 = {
-  desc: "Hash data",
-  name: "hashData",
-  type: "HASH_DATA_1",
-  label: "Hash data",
-  value: "",
-};
-
 const proof_types: PrfsProofType[] = [
   {
     proof_type_id: proofTypeIds.ETH_0_0001_1,
@@ -68,10 +52,6 @@ const proof_types: PrfsProofType[] = [
     circuit_id: "00000000-0000-0000-0000-000000000000",
     circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: SPARTAN_DRIVER_V1_ID,
-    driver_properties: {
-      circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
-      wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
-    },
     created_at: "2023-05-01T16:39:57-08:00",
   },
   {
@@ -86,11 +66,6 @@ const proof_types: PrfsProofType[] = [
     circuit_id: "00000000-0000-0000-0000-000000000001",
     circuit_type_id: SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: SPARTAN_DRIVER_V1_ID,
-    circuit_inputs: [simple_hash_1],
-    driver_properties: {
-      circuit_url: SIMPLE_HASH_V1_CIRCUIT_URL,
-      wtns_gen_url: SIMPLE_HASH_V1_WTNS_GEN_URL,
-    },
     created_at: "2023-09-01T16:39:57-08:00",
   },
   {
@@ -104,22 +79,6 @@ const proof_types: PrfsProofType[] = [
     circuit_id: MERKLE_POS_RANGE_V1_CIRCUIT_ID,
     circuit_type_id: MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: SPARTAN_DRIVER_V1_ID,
-    circuit_inputs: [
-      {
-        ref_type: "PRFS_SET",
-        ref_value: "crypto_holders",
-        desc: "Who you are among those",
-        name: "merkleProof",
-        type: MERKLE_POS_RANGE_INPUT_TYPE_V1,
-        element_type: "ADDRESS",
-        label: "Member",
-        value: "",
-      },
-    ],
-    driver_properties: {
-      circuit_url: MERKLE_POS_RANGE_V1_CIRCUIT_URL,
-      wtns_gen_url: MERKLE_POS_RANGE_V1_WTNS_GEN_URL,
-    },
     created_at: "2024-01-29T16:39:57-08:00",
   },
 ];

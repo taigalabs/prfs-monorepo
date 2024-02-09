@@ -7,9 +7,7 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
     entities::PrfsAccount,
-    id_api_entities::{
-        PrfsSignInRequest, PrfsSignInResponse, PrfsSignUpRequest, PrfsSignUpResponse,
-    },
+    id_api::{PrfsSignInRequest, PrfsSignInResponse, PrfsSignUpRequest, PrfsSignUpResponse},
     sqlx::types::Json,
 };
 use std::sync::Arc;

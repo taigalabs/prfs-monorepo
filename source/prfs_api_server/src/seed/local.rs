@@ -6,8 +6,7 @@ use prfs_entities::{
         PrfsAccount, PrfsCircuit, PrfsCircuitDriver, PrfsCircuitInputType, PrfsCircuitType,
         PrfsPolicyItem, PrfsProofType, PrfsSet,
     },
-    seed_entities::DynamicSetJson,
-    syn_entities::PrfsCircuitSyn1,
+    seed::DynamicSetJson,
 };
 use serde::de::DeserializeOwned;
 use std::{

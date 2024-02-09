@@ -6,14 +6,11 @@ use hyper_utils::{
 };
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::{
-    prfs_api_entities::{
-        GetPrfsCircuitByCircuitIdRequest, GetPrfsCircuitByCircuitIdResponse,
-        GetPrfsCircuitsRequest, GetPrfsCircuitsResponse,
-    },
-    syn_entities::PrfsCircuitSyn1,
+use prfs_entities::prfs_api::{
+    GetPrfsCircuitByCircuitIdRequest, GetPrfsCircuitByCircuitIdResponse, GetPrfsCircuitsRequest,
+    GetPrfsCircuitsResponse,
 };
-use std::{convert::Infallible, sync::Arc};
+use std::sync::Arc;
 
 pub async fn get_prfs_circuits(
     req: Request<Incoming>,

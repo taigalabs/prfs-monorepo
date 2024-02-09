@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
 
-use crate::entities::{CircuitInput, PrfsProofType};
+use crate::entities::PrfsProofType;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -42,7 +42,6 @@ pub struct CreatePrfsProofTypeRequest {
     pub expression: String,
     pub img_url: Option<String>,
     pub img_caption: Option<String>,
-    pub circuit_inputs: Vec<CircuitInput>,
     pub driver_properties: HashMap<String, String>,
 }
 

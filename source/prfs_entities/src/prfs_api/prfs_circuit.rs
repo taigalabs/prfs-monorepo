@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 use uuid::Uuid;
 
-use crate::syn_entities::PrfsCircuitSyn1;
+use super::syn::PrfsCircuitSyn1;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]

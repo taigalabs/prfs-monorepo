@@ -1,7 +1,6 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
-use uuid::Uuid;
 
 // #[derive(Serialize, Deserialize, Debug, TS)]
 // #[ts(export)]

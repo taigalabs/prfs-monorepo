@@ -3,7 +3,8 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 use uuid::Uuid;
 
-use crate::{entities::PrfsProofInstance, syn_entities::PrfsProofInstanceSyn1};
+use super::PrfsProofInstanceSyn1;
+use crate::entities::PrfsProofInstance;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -48,13 +49,10 @@ pub struct GetPrfsProofInstanceByShortIdRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreatePrfsProofInstanceRequest {
-    #[ts(type = "'<Uuid>' | string")]
-    pub proof_instance_id: Uuid,
-
+    pub proof_instance_id: String,
     pub account_id: Option<String>,
     pub proof_type_id: String,
     pub proof: Vec<u8>,
-
     #[ts(type = "Record<string, any>")]
     pub public_inputs: sqlx::types::Json<serde_json::Value>,
 }
@@ -62,8 +60,6 @@ pub struct CreatePrfsProofInstanceRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreatePrfsProofInstanceResponse {
-    #[ts(type = "'<Uuid>' | string")]
-    pub proof_instance_id: uuid::Uuid,
-
+    pub proof_instance_id: String,
     pub prfs_ack_sig: String,
 }

@@ -17,29 +17,24 @@ pub struct PrfsProofType {
     pub circuit_id: String,
     pub circuit_type_id: String,
     pub circuit_driver_id: String,
-    #[ts(type = "Record<string, any>")]
-    pub driver_properties: sqlx::types::Json<HashMap<String, String>>,
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[ts(export)]
-pub struct CircuitInput {
-    pub name: String,
-    pub label: String,
-    pub r#type: CircuitInputType,
-    pub desc: String,
-    pub value: String,
-
-    #[serde(default = "default_units")]
-    pub units: i16,
-
-    pub element_type: Option<String>,
-
-    pub ref_type: Option<String>,
-    pub ref_value: Option<String>,
-}
+// #[derive(Debug, Serialize, Deserialize, Clone, TS)]
+// #[ts(export)]
+// pub struct CircuitInput {
+//     pub name: String,
+//     pub label: String,
+//     pub r#type: CircuitInputType,
+//     pub desc: String,
+//     pub value: String,
+//     #[serde(default = "default_units")]
+//     pub units: i16,
+//     pub element_type: Option<String>,
+//     pub ref_type: Option<String>,
+//     pub ref_value: Option<String>,
+// }
 
 fn default_units() -> i16 {
     1

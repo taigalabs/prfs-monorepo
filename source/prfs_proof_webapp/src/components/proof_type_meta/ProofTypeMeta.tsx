@@ -3,11 +3,11 @@ import cn from "classnames";
 import DOMPurify from "dompurify";
 import * as marked from "marked";
 import dayjs from "dayjs";
+import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 
 import styles from "./ProofTypeMeta.module.scss";
 import { i18nContext } from "@/i18n/context";
-import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
-import { Markdown } from "../markdown/Markdown";
+import { Markdown } from "@/components/markdown/Markdown";
 
 const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
   proofTypeDesc,

@@ -1,13 +1,9 @@
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use ts_rs::TS;
 use uuid::Uuid;
 
-use crate::{
-    entities::{PollQuestion, PrfsPoll, PrfsProofInstance},
-    syn_entities::PrfsProofInstanceSyn1,
-};
+use crate::entities::{PollQuestion, PrfsPoll};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -75,8 +71,7 @@ pub struct SubmitPrfsPollResponseRequest {
     pub serial_no: String,
     #[ts(type = "string[]")]
     pub value: sqlx::types::Json<Vec<String>>,
-    #[ts(type = "string")]
-    pub proof_instance_id: Uuid,
+    pub proof_instance_id: String,
     pub account_id: Option<String>,
     pub proof_type_id: String,
     pub proof: Vec<u8>,

@@ -1,5 +1,5 @@
 use headless_chrome::{Browser, LaunchOptions};
-use prfs_entities::atst_api_entities::TwitterAccValidation;
+use prfs_entities::atst_api::TwitterAccValidation;
 use regex::Regex;
 use thiserror::Error;
 

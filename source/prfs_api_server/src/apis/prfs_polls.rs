@@ -1,19 +1,18 @@
 use ethers_signers::Signer;
 use hyper::body::Incoming;
-use hyper::{Request, Response};
-use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
+use hyper::Request;
+use hyper_utils::io::{parse_req, ApiHandlerResult};
 use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::entities::{PrfsPoll, PrfsProofInstance};
-use prfs_entities::prfs_api_entities::{
+use prfs_entities::entities::PrfsProofInstance;
+use prfs_entities::prfs_api::{
     CreatePrfsPollRequest, CreatePrfsPollResponse, GetPrfsPollByPollIdRequest,
     GetPrfsPollByPollIdResponse, GetPrfsPollResultByPollIdRequest,
     GetPrfsPollResultByPollIdResponse, GetPrfsPollsRequest, GetPrfsPollsResponse,
     SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse,
 };
-use std::{convert::Infallible, sync::Arc};
-use uuid::Uuid;
+use std::sync::Arc;
 
 pub async fn get_prfs_polls(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetPrfsPollsRequest = parse_req(req).await;
@@ -83,8 +82,8 @@ pub async fn submit_prfs_poll_response(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
     let req: SubmitPrfsPollResponseRequest = parse_req(req).await;
-    let proof_instance_id_128 = req.proof_instance_id.as_u128();
-    let short_id = &base62::encode(proof_instance_id_128)[..8];
+    let proof_instance_id_bytes = req.proof_instance_id.as_bytes();
+    let short_id = &base_62::encode(proof_instance_id_bytes)[..8];
 
     let partial_proof = req.proof[..10]
         .iter()
@@ -104,7 +103,7 @@ pub async fn submit_prfs_poll_response(
         .to_string();
 
     let prfs_proof_instance = PrfsProofInstance {
-        proof_instance_id: req.proof_instance_id,
+        proof_instance_id: req.proof_instance_id.to_string(),
         proof_type_id: req.proof_type_id.to_string(),
         short_id: short_id.to_string(),
         proof: req.proof.to_vec(),

@@ -1,10 +1,6 @@
-use prfs_entities::entities::{PrfsCircuitDriver, PrfsCircuitInputType, PrfsCircuitType};
-use prfs_entities::sqlx::{self, types::Json, Pool, Postgres, Row, Transaction};
-use prfs_entities::{
-    entities::{PrfsProofInstance, PrfsProofType},
-    syn_entities::PrfsProofInstanceSyn1,
-};
-use rust_decimal::Decimal;
+use prfs_entities::entities::PrfsCircuitInputType;
+use prfs_entities::entities::{PrfsProofInstance, PrfsProofType};
+use prfs_entities::sqlx::{self, Postgres, Row, Transaction};
 
 pub async fn insert_prfs_circuit_input_type(
     tx: &mut Transaction<'_, Postgres>,

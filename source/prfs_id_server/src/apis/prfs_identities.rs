@@ -6,7 +6,7 @@ use hyper_utils::ApiHandleError;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::entities::PrfsIdentity;
-use prfs_entities::prfs_api_entities::{
+use prfs_entities::prfs_api::{
     PrfsIdentitySignInRequest, PrfsIdentitySignInResponse, PrfsIdentitySignUpRequest,
     PrfsIdentitySignUpResponse,
 };

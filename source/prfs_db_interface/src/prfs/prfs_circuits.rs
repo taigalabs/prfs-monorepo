@@ -1,11 +1,7 @@
 use prfs_entities::entities::{PrfsCircuit, PrfsCircuitDriver, PrfsCircuitType};
+use prfs_entities::entities::{PrfsProofInstance, PrfsProofType};
+use prfs_entities::prfs_api::PrfsCircuitSyn1;
 use prfs_entities::sqlx::{self, types::Json, Pool, Postgres, Row, Transaction};
-use prfs_entities::syn_entities::PrfsCircuitSyn1;
-use prfs_entities::{
-    entities::{PrfsProofInstance, PrfsProofType},
-    syn_entities::PrfsProofInstanceSyn1,
-};
-use rust_decimal::Decimal;
 use uuid::Uuid;
 
 pub async fn get_prfs_circuit_syn1_by_circuit_id(

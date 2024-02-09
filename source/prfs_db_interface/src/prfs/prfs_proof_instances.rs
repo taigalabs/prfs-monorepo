@@ -1,8 +1,6 @@
+use prfs_entities::entities::{PrfsProofInstance, PrfsProofType};
+use prfs_entities::prfs_api::PrfsProofInstanceSyn1;
 use prfs_entities::sqlx::{self, types::Json, Pool, Postgres, Row, Transaction};
-use prfs_entities::{
-    entities::{PrfsProofInstance, PrfsProofType},
-    syn_entities::PrfsProofInstanceSyn1,
-};
 use rust_decimal::Decimal;
 
 pub async fn get_prfs_proof_instance_syn1_by_instance_id(
@@ -181,7 +179,7 @@ pub async fn get_prfs_proof_instances(
 pub async fn insert_prfs_proof_instances(
     tx: &mut Transaction<'_, Postgres>,
     proof_instances: &Vec<PrfsProofInstance>,
-) -> uuid::Uuid {
+) -> String {
     let query = "INSERT INTO prfs_proof_instances \
             (proof_instance_id, proof_type_id, proof, public_inputs, short_id, prfs_ack_sig)
             VALUES ($1, $2, $3, $4, $5, $6) returning proof_instance_id";
@@ -199,7 +197,7 @@ pub async fn insert_prfs_proof_instances(
         .await
         .unwrap();
 
-    let proof_instance_id: uuid::Uuid = row.get("proof_instance_id");
+    let proof_instance_id: String = row.get("proof_instance_id");
 
     println!("proof_instance_id: {}", proof_instance_id);
 

@@ -1,8 +1,7 @@
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::{entities::PrfsSetElement, syn_entities::PrfsSetIns1};
+use crate::entities::PrfsSetElement;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]

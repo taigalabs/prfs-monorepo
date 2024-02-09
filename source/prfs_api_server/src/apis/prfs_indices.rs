@@ -5,18 +5,11 @@ use hyper_utils::{
 };
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::{
-    entities::{CircuitInput, PrfsIndex, PrfsProofType, PrfsSet},
-    prfs_api_entities::{
-        AddPrfsIndexRequest, AddPrfsIndexResponse, CreatePrfsProofTypeRequest,
-        CreatePrfsProofTypeResponse, GetLeastRecentPrfsIndexRequest,
-        GetLeastRecentPrfsIndexResponse, GetPrfsIndicesRequest, GetPrfsIndicesResponse,
-        GetPrfsProofTypeByProofTypeIdRequest, GetPrfsProofTypeByProofTypeIdResponse,
-        GetPrfsProofTypesRequest, GetPrfsProofTypesResponse, GetPrfsTreeLeafIndicesRequest,
-    },
-    sqlx::types::Json,
+use prfs_entities::prfs_api::{
+    AddPrfsIndexRequest, AddPrfsIndexResponse, GetLeastRecentPrfsIndexRequest,
+    GetLeastRecentPrfsIndexResponse, GetPrfsIndicesRequest, GetPrfsIndicesResponse,
 };
-use std::{collections::HashMap, convert::Infallible, sync::Arc};
+use std::{collections::HashMap, sync::Arc};
 
 const LIMIT: i32 = 10;
 

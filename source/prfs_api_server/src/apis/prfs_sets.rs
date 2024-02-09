@@ -1,4 +1,3 @@
-use ethers_core::k256::{elliptic_curve::bigint::Encoding, U256};
 use hyper::{body::Incoming, Request, Response};
 use hyper_utils::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
@@ -9,19 +8,18 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
     entities::PrfsTreeNode,
-    prfs_api_entities::{
+    prfs_api::{
         ComputePrfsSetMerkleRootRequest, ComputePrfsSetMerkleRootResponse,
         CreatePrfsDynamicSetElementRequest, CreatePrfsDynamicSetElementResponse,
         CreatePrfsSetRequest, CreatePrfsSetResponse, CreateTreeOfPrfsSetRequest,
         CreateTreeOfPrfsSetResponse, GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse,
         GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest, GetPrfsSetsResponse,
-        UpdatePrfsTreeNodeRequest,
     },
 };
 use prfs_tree_maker::apis2::tree;
 use prfs_tree_maker::tree_maker_apis;
 use rust_decimal::Decimal;
-use std::{convert::Infallible, sync::Arc};
+use std::sync::Arc;
 
 use crate::error_codes::API_ERROR_CODES;
 
