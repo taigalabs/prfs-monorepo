@@ -4,7 +4,6 @@ import React from "react";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { parseVerifyProofSearchParams } from "@taigalabs/prfs-id-sdk-web";
-import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./VerifyProof.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -41,7 +40,6 @@ const VerifyProof: React.FC = () => {
       return null;
     }
   }, [searchParams]);
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   React.useEffect(() => {
     if (verifyProofArgs) {
@@ -54,16 +52,14 @@ const VerifyProof: React.FC = () => {
       } else if (!proof_type_id) {
         setErrorMsg("Invalid URL. 'proof_type_id' is missing. Closing the window");
       } else {
-        if (isPrfsReady) {
-          setStatus(Status.Standby);
-        }
+        setStatus(Status.Standby);
       }
 
       if (tutorial) {
         dispatch(goToStep(tutorial.step));
       }
     }
-  }, [setStatus, setErrorMsg, verifyProofArgs, isPrfsReady, dispatch]);
+  }, [setStatus, setErrorMsg, verifyProofArgs, dispatch]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -79,7 +75,7 @@ const VerifyProof: React.FC = () => {
             <Spinner color="#1b62c0" />
           </div>
         ) : (
-          <VerifyProofForm verifyProofArgs={verifyProofArgs} prfsEmbed={prfsEmbed} />
+          <VerifyProofForm verifyProofArgs={verifyProofArgs} />
         )}
         <TutorialDefault tutorial={verifyProofArgs?.tutorial} />
       </DefaultForm>

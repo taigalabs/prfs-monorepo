@@ -4,9 +4,7 @@ import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import {
   CommitmentType,
-  newPrfsIdMsg,
   API_PATH,
-  parseBuffer,
   makeProofGenSearchParams,
   ProofGenArgs,
   QueryType,
@@ -16,9 +14,11 @@ import {
   WALLET_CM_STEM,
   EncryptType,
   PRFS_ATTESTATION_STEM,
+  createSession,
+  parseBufferOfArray,
+  createSessionKey,
 } from "@taigalabs/prfs-id-sdk-web";
-import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
-import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
+import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -53,7 +53,6 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const { sk, pkHex } = useRandomKeyPair();
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
   const claimSecret = React.useMemo(() => {
     const walletAddr = formData[WALLET_ADDR];
@@ -62,6 +61,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
 
   const handleClickGenerate = React.useCallback(() => {
     const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10, WALLET_CM_STEM);
+    const session_key = createSessionKey();
 
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
@@ -82,57 +82,86 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         },
       ],
       public_key: pkHex,
+      session_key,
     };
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!prfsEmbed || !isPrfsReady) {
+      let sessionStream;
+      try {
+        sessionStream = await createSession({
+          key: proofGenArgs.session_key,
+          value: null,
+          ticket: "TICKET",
+        });
+      } catch (err) {
+        console.error(err);
         return;
       }
 
-      const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
-        prfsEmbed,
-      );
-      if (resp) {
-        try {
-          const buf = parseBuffer(resp);
-          let decrypted: string;
-          try {
-            decrypted = decrypt(sk.secret, buf).toString();
-          } catch (err) {
-            console.error("cannot decrypt payload", err);
-            return;
-          }
+      if (!sessionStream) {
+        console.error("Couldn't open a session");
+        return;
+      }
 
-          let payload: ProofGenSuccessPayload;
-          try {
-            payload = JSON.parse(decrypted);
-          } catch (err) {
-            console.error("cannot parse payload", err);
-            return;
-          }
+      const { ws, send, receive } = sessionStream;
+      const session = await receive();
+      if (!session) {
+        console.error("Coultn' retreieve session");
+        return;
+      }
 
-          const {
-            [CLAIM]: cm,
-            [ENCRYPT_WALLET_ADDR]: walletAddrEncrypted,
-            ...rest
-          } = payload.receipt;
-          if (cm) {
-            setClaimCm(cm);
-            setWalletCacheKeys(rest);
-            setWalletAddrEnc(walletAddrEncrypted);
-            setStep(AttestationStep.POST_TWEET);
-          } else {
-            console.error("no commitment delivered");
-            return;
-          }
-        } catch (err) {
-          console.error(err);
+      try {
+        if (session.error) {
+          console.error(session.error);
+          return;
         }
-      } else {
-        console.error("Returned val is empty");
+
+        if (!session.payload) {
+          console.error("Session doesn't have a payload");
+          return;
+        }
+
+        if (session.payload.type !== "put_prfs_id_session_value_result") {
+          console.error("Wrong session payload type at this point, msg: %s", session.payload);
+          return;
+        }
+
+        const buf = parseBufferOfArray(session.payload.value);
+        // const buf = parseBuffer(resp);
+        let decrypted: string;
+        try {
+          decrypted = decrypt(sk.secret, buf).toString();
+        } catch (err) {
+          console.error("cannot decrypt payload", err);
+          return;
+        }
+
+        let payload: ProofGenSuccessPayload;
+        try {
+          payload = JSON.parse(decrypted);
+        } catch (err) {
+          console.error("cannot parse payload", err);
+          return;
+        }
+
+        const {
+          [CLAIM]: cm,
+          [ENCRYPT_WALLET_ADDR]: walletAddrEncrypted,
+          ...rest
+        } = payload.receipt;
+        if (cm) {
+          setClaimCm(cm);
+          setWalletCacheKeys(rest);
+          setWalletAddrEnc(walletAddrEncrypted);
+          setStep(AttestationStep.POST_TWEET);
+        } else {
+          console.error("no commitment delivered");
+          return;
+        }
+      } catch (err) {
+        console.error(err);
       }
     });
   }, [

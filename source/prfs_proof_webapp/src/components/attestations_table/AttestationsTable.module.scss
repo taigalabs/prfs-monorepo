@@ -50,7 +50,7 @@
   font-weight: 500;
 
   &:first-child {
-    padding: 0px 10px;
+    padding: 0px 10px 0 16px;
   }
 }
 
@@ -60,7 +60,7 @@
   align-items: center;
 
   &:first-child {
-    padding: 4px 10px;
+    padding: 4px 10px 4px 16px;
   }
 }
 
@@ -104,7 +104,15 @@
     padding: 16px 16px 20px;
   }
 
-  .title {
-    /* padding-left: 34px; */
+  .tableHeaderCell {
+    &:first-child {
+      padding: 0px 10px 0 10px;
+    }
+  }
+
+  .tableCell {
+    &:first-child {
+      padding: 4px 10px 4px 10px;
+    }
   }
 }

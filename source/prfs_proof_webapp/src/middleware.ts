@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { envs } from "./envs";
-// import { getToken } from "next-auth/jwt";
 
 const hosts = (() => {
   const consoleHost = envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT.replace(
@@ -76,6 +75,5 @@ export default async function middleware(req: NextRequest) {
   // console.log(123, hostname, path, new URL(`/${hostname}${path}`));
 
   // rewrite everything else to `/[domain]/[slug] dynamic route
-  // return NextResponse.rewrite(new URL(`/${hostname}${path}`));
-  return NextResponse.next();
+  return NextResponse.rewrite(new URL(`/proof${path === "/" ? "" : path}`, req.url));
 }

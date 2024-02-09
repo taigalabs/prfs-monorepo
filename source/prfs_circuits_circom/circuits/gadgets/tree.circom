@@ -43,8 +43,8 @@ template MerkleTreeInclusionProof(nLevels) {
         poseidons[i].inputs[0] <== mux[i].out[0];
         poseidons[i].inputs[1] <== mux[i].out[1];
 
-        log("merkle: nLevel: ", i, "left: ", poseidons[i].inputs[0], "right", poseidons[i].inputs[1]);
-        log("merkle: nLevel: ", i, "poseidon Hash: ", poseidons[i].out);
+        // log("merkle: nLevel: ", i, "left: ", poseidons[i].inputs[0], "right", poseidons[i].inputs[1]);
+        // log("merkle: nLevel: ", i, "poseidon Hash: ", poseidons[i].out);
 
         hashes[i + 1] <== poseidons[i].out;
     }

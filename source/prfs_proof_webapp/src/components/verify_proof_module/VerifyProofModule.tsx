@@ -4,19 +4,19 @@ import cn from "classnames";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
   VerifyProofArgs,
   VerifyProofResultPayload,
+  createSession,
+  createSessionKey,
   makeVerifyProofSearchParams,
-  newPrfsIdMsg,
-  parseBuffer,
-  sendMsgToChild,
+  parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useRandomKeyPair } from "@/hooks/key";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
-import { decrypt } from "@taigalabs/prfs-crypto-js";
+import { decrypt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -32,7 +32,6 @@ export enum VerifyProofStatus {
 const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeId }) => {
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(VerifyProofStatus.Standby);
   const { openPopup } = usePopup();
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { tutorialId } = useTutorial();
   const { sk, pkHex } = useRandomKeyPair();
   const i18n = React.useContext(i18nContext);
@@ -40,11 +39,13 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
 
   const handleClickVerify = React.useCallback(async () => {
     try {
+      const session_key = createSessionKey();
       const verifyProofArgs: VerifyProofArgs = {
         nonce: Math.random() * 1000000,
         app_id: "prfs_proof",
         public_key: pkHex,
         proof_type_id: proofTypeId,
+        session_key,
       };
 
       if (tutorialId) {
@@ -56,24 +57,45 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
       const searchParams = makeVerifyProofSearchParams(verifyProofArgs);
       const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.verify_proof}${searchParams}`;
 
+      const prf = {
+        ...proof,
+        proofBytes: Array.from(proof.proofBytes),
+      };
+      const data = JSON.stringify(prf);
+      const bytes = toUtf8Bytes(data);
+
       openPopup(endpoint, async () => {
-        if (!prfsEmbed || !isPrfsReady) {
+        let sessionStream;
+        try {
+          sessionStream = await createSession({
+            key: verifyProofArgs.session_key,
+            value: Array.from(bytes),
+            ticket: "TICKET",
+          });
+        } catch (err) {
+          console.error(err);
           return;
         }
 
-        const prf = {
-          ...proof,
-          proofBytes: Array.from(proof.proofBytes),
-        };
-        const data = JSON.stringify(prf);
-        const resp = await sendMsgToChild(
-          newPrfsIdMsg("REQUEST_VERIFY_PROOF", { appId: verifyProofArgs.app_id, data }),
-          prfsEmbed,
-        );
+        const { ws, send, receive } = sessionStream;
+        const session = await receive();
+        if (!session) {
+          console.error("Coudln't get the session, session_key: %s", session_key);
+          return;
+        }
 
-        if (resp) {
-          try {
-            const buf = parseBuffer(resp);
+        try {
+          if (session.error) {
+            console.error(session.error);
+          }
+
+          if (session.payload) {
+            if (session.payload.type !== "put_prfs_id_session_value_result") {
+              console.error("Wrong session payload type at this point, msg: %s", session.payload);
+              return;
+            }
+
+            const buf = parseBufferOfArray(session.payload.value);
             let decrypted: string;
             try {
               decrypted = decrypt(sk.secret, buf).toString();
@@ -95,17 +117,17 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
             } else {
               setVerifyProofStatus(VerifyProofStatus.Invalid);
             }
-          } catch (err) {
-            console.error(err);
+
+            ws.close();
           }
-        } else {
-          console.error("Returned val is empty");
+        } catch (err) {
+          console.error(err);
         }
       });
     } catch (err) {
       console.error(err);
     }
-  }, [setVerifyProofStatus, prfsEmbed, isPrfsReady, tutorialId, openPopup]);
+  }, [setVerifyProofStatus, tutorialId, openPopup]);
 
   const btnContent = React.useMemo(() => {
     switch (verifyProofStatus) {

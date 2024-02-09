@@ -14,13 +14,14 @@ import { useRouter } from "next/navigation";
 import {
   CommitmentType,
   makeAccAttestation,
-  newPrfsIdMsg,
   API_PATH,
-  parseBuffer,
   makeProofGenSearchParams,
   ProofGenArgs,
   QueryType,
   ProofGenSuccessPayload,
+  createSession,
+  parseBufferOfArray,
+  createSessionKey,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
@@ -28,8 +29,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
 import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
-import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
-import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
+import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import common from "@/styles/common.module.scss";
@@ -69,6 +69,7 @@ enum AttestationStep {
 enum Status {
   Standby,
   InProgress,
+  Error,
 }
 
 const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = () => {
@@ -98,7 +99,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return atstApi("attest_twitter_acc", req);
     },
   });
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
 
   React.useEffect(() => {
@@ -132,25 +132,41 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   const handleChangeTwitterHandle = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value, name } = e.target;
-
       if (name === TWITTER_HANDLE) {
         if (value.length < 30) {
+          setClaimCm(null);
           setFormData(oldVal => ({
             ...oldVal,
             [name]: value,
+            [TWEET_URL]: "",
           }));
+
+          if (step > AttestationStep.GENERATE_CLAIM) {
+            setStep(AttestationStep.INPUT_TWITTER_HANDLE);
+          }
         }
-      } else {
+      }
+    },
+    [setFormData, setClaimCm, setStep, step],
+  );
+
+  const handleChangeTweetUrl = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value, name } = e.target;
+
+      if (name === TWEET_URL) {
+        setValidation(null);
         setFormData(oldVal => ({
           ...oldVal,
           [name]: value,
         }));
       }
     },
-    [setFormData],
+    [setFormData, setValidation],
   );
 
   const handleClickGenerate = React.useCallback(() => {
+    const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
       app_id: "prfs_proof",
@@ -163,56 +179,81 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         },
       ],
       public_key: pkHex,
+      session_key,
     };
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!prfsEmbed || !isPrfsReady) {
+      let sessionStream;
+      try {
+        sessionStream = await createSession({
+          key: proofGenArgs.session_key,
+          value: null,
+          ticket: "TICKET",
+        });
+      } catch (err) {
+        console.error(err);
         return;
       }
 
-      const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
-        prfsEmbed,
-      );
-      if (resp) {
-        try {
-          const buf = parseBuffer(resp);
-          let decrypted: string;
-          try {
-            decrypted = decrypt(sk.secret, buf).toString();
-          } catch (err) {
-            console.error("cannot decrypt payload", err);
-            return;
-          }
+      const { ws, send, receive } = sessionStream;
+      const session = await receive();
+      if (!session) {
+        console.error("Coultn' retreieve session");
+        return;
+      }
 
-          let payload: ProofGenSuccessPayload;
-          try {
-            payload = JSON.parse(decrypted);
-          } catch (err) {
-            console.error("cannot parse payload", err);
-            return;
-          }
-
-          const cm = payload.receipt[CLAIM];
-          if (cm) {
-            setClaimCm(cm);
-            setStep(AttestationStep.POST_TWEET);
-          } else {
-            console.error("no commitment delivered");
-            return;
-          }
-        } catch (err) {
-          console.error(err);
+      try {
+        if (session.error) {
+          console.error(session.error);
+          return;
         }
-      } else {
-        console.error("Returned val is empty");
+
+        if (!session.payload) {
+          console.error("Session doesn't have a payload");
+          return;
+        }
+
+        if (session.payload.type !== "put_prfs_id_session_value_result") {
+          console.error("Wrong session payload type at this point, msg: %s", session.payload);
+          return;
+        }
+
+        if (session.payload.value.length === 0) {
+          console.error("Commitment is empty, session_key: %s", session_key);
+          return;
+        }
+
+        const buf = parseBufferOfArray(session.payload.value);
+        let decrypted = decrypt(sk.secret, buf).toString();
+
+        let payload: ProofGenSuccessPayload;
+        try {
+          payload = JSON.parse(decrypted);
+        } catch (err) {
+          console.error("cannot parse payload", err);
+          return;
+        }
+
+        const cm = payload.receipt[CLAIM];
+        if (cm) {
+          setClaimCm(cm);
+          setStep(AttestationStep.POST_TWEET);
+        } else {
+          console.error("no commitment delivered");
+          return;
+        }
+      } catch (err) {
+        console.error(err);
+        return;
       }
     });
   }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
 
   const handleClickValidate = React.useCallback(async () => {
+    setValidation(null);
+
     const tweet_url = formData[TWEET_URL];
     const twitter_handle = formData[TWITTER_HANDLE];
 
@@ -417,16 +458,20 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                       error={""}
                       label={i18n.tweet_url}
                       value={formData.tweet_url}
-                      handleChangeValue={handleChangeTwitterHandle}
+                      handleChangeValue={handleChangeTweetUrl}
                     />
                   </div>
                   <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div>
                   <div className={styles.validateBtnRow}>
-                    <AttestationListItemBtn type="button" handleClick={handleClickValidate}>
-                      {validationStatus === Status.InProgress && (
-                        <Spinner size={20} color={colors.gray_32} borderWidth={2} />
-                      )}
+                    <AttestationListItemBtn
+                      className={styles.validateBtn}
+                      type="button"
+                      handleClick={handleClickValidate}
+                    >
                       <span>{i18n.validate}</span>
+                      {validationStatus === Status.InProgress && (
+                        <Spinner size={14} color={colors.gray_32} borderWidth={2} />
+                      )}
                     </AttestationListItemBtn>
                     <div className={styles.msg}>{validationMsg}</div>
                   </div>
@@ -454,10 +499,10 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                 disabled={!validation || createStatus === Status.InProgress}
               >
                 <div className={styles.content}>
-                  {createStatus === Status.InProgress && (
-                    <Spinner size={20} borderWidth={2} color={colors.white_100} />
-                  )}
                   <span>{i18n.create}</span>
+                  {createStatus === Status.InProgress && (
+                    <Spinner size={14} borderWidth={2} color={colors.white_100} />
+                  )}
                 </div>
               </Button>
             </div>

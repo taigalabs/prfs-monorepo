@@ -161,5 +161,4 @@ export default PostCreateMenu;
 export interface PostCreateMenuProps {
   proofType: PrfsProofType;
   proveReceipt: ProveReceipt;
-  // proofGenElement: ProofGenElement;
 }

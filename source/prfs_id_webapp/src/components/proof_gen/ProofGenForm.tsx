@@ -4,9 +4,6 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
   PrfsIdCredential,
-  sendMsgToChild,
-  newPrfsIdMsg,
-  newPrfsIdErrorMsg,
   ProofGenArgs,
   QueryType,
   ProofGenSuccessPayload,
@@ -14,7 +11,7 @@ import {
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { idApi } from "@taigalabs/prfs-api-js";
+import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 
@@ -33,6 +30,7 @@ import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import EncryptView from "@/components/encrypt/EncryptView";
+import { usePutSessionValue } from "@/hooks/session";
 
 enum Status {
   InProgress,
@@ -43,7 +41,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   handleClickPrev,
   proofGenArgs,
   credential,
-  prfsEmbed,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -56,6 +53,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       return idApi("sign_in_prfs_identity", req);
     },
   });
+  const { mutateAsync: putSessionValueRequest } = usePutSessionValue();
   const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>(null);
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
     <div className={styles.sidePadding}>Loading...</div>,
@@ -126,7 +124,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus, setErrorDialogMsg]);
 
   const handleClickSubmit = React.useCallback(async () => {
-    if (proofGenArgs && credential && prfsEmbed && status === Status.Standby) {
+    if (proofGenArgs && credential && status === Status.Standby) {
       const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
@@ -145,28 +143,35 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       const payload: ProofGenSuccessPayload = {
         receipt: processedReceipt,
       };
-      const encrypted = JSON.stringify(
-        encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload))),
-      );
-      console.log("receipt: %o, encrypted", processedReceipt, encrypted);
+      const encrypted = [...encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload)))];
+      // console.log("receipt: %o, encrypted", processedReceipt, encrypted);
 
       try {
-        await sendMsgToChild(
-          newPrfsIdMsg("PROOF_GEN_RESULT", {
-            appId: proofGenArgs.app_id,
-            value: encrypted,
-          }),
-          prfsEmbed,
-        );
+        const { error } = await putSessionValueRequest({
+          key: proofGenArgs.session_key,
+          value: encrypted,
+          ticket: "TICKET",
+        });
+
+        if (error) {
+          console.error(error);
+        }
+
+        setCreateProofStatus(Status.Standby);
+        window.close();
       } catch (err: any) {
-        await sendMsgToChild(newPrfsIdErrorMsg("PROOF_GEN_RESULT", err.toString()), prfsEmbed);
         console.error(err);
       }
-
-      setCreateProofStatus(Status.Standby);
-      window.close();
     }
-  }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt, setCreateProofStatus]);
+  }, [
+    searchParams,
+    proofGenArgs,
+    credential,
+    setErrorMsg,
+    receipt,
+    setCreateProofStatus,
+    putSessionValueRequest,
+  ]);
 
   const handleCloseErrorDialog = React.useCallback(() => {}, []);
 
@@ -224,5 +229,4 @@ export interface ProofGenFormProps {
   handleClickPrev: () => void;
   credential: PrfsIdCredential;
   proofGenArgs: ProofGenArgs | null;
-  prfsEmbed: HTMLIFrameElement | null;
 }

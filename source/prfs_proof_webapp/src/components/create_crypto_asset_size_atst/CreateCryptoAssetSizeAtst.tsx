@@ -258,7 +258,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   }, [setStep, cryptoAssets]);
 
   return isNavigating ? (
-    <div>Navigating...</div>
+    <div className={styles.sidePadding}>Navigating...</div>
   ) : (
     <>
       <AttestationsHeader>

@@ -1,18 +1,12 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useSearchParams } from "next/navigation";
-import {
-  SignInSuccessPayload,
-  PrfsIdCredential,
-  AppSignInArgs,
-  sendMsgToChild,
-  newPrfsIdMsg,
-} from "@taigalabs/prfs-id-sdk-web";
+import { SignInSuccessPayload, PrfsIdCredential, AppSignInArgs } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { PutSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutSessionValueRequest";
+import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
 import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./AppCredential.module.scss";
@@ -36,7 +30,6 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   handleClickPrev,
   appSignInArgs,
   credential,
-  prfsEmbed,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -51,9 +44,9 @@ const AppCredential: React.FC<AppCredentialProps> = ({
     },
   });
   const { mutateAsync: putSessionValueRequest } = useMutation({
-    mutationFn: (req: PutSessionValueRequest) => {
+    mutationFn: (req: PutPrfsIdSessionValueRequest) => {
       return idSessionApi({
-        type: "put_session_val",
+        type: "put_prfs_id_session_value",
         ...req,
       });
     },
@@ -117,24 +110,22 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         account_id: signInData.account_id,
         public_key: signInData.public_key,
       };
-      const encrypted = JSON.stringify(
-        encrypt(appSignInArgs.public_key, Buffer.from(JSON.stringify(payload))),
-      );
+      const encrypted = [
+        ...encrypt(appSignInArgs.public_key, Buffer.from(JSON.stringify(payload))),
+      ];
       // console.log("Encrypted credential", encrypted);
 
       try {
-        if (prfsEmbed) {
-          const { error } = await putSessionValueRequest({
-            key: appSignInArgs.session_key,
-            value: encrypted,
-            ticket: "TICKET",
-          });
+        const { error } = await putSessionValueRequest({
+          key: appSignInArgs.session_key,
+          value: encrypted,
+          ticket: "TICKET",
+        });
 
-          if (error) {
-            console.error(error);
-          }
-          window.close();
+        if (error) {
+          console.error(error);
         }
+        window.close();
       } catch (err: any) {
         setErrorMsg(err.toString());
       }
@@ -161,7 +152,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
             <p className={styles.title}>Make sure you trust {appSignInArgs.app_id} app</p>
             <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
           </div>
-          <DefaultModuleBtnRow>
+          <DefaultModuleBtnRow noSidePadding>
             <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
               {i18n.go_back}
             </Button>
@@ -189,5 +180,4 @@ export interface AppCredentialProps {
   handleClickPrev: () => void;
   credential: PrfsIdCredential;
   appSignInArgs: AppSignInArgs;
-  prfsEmbed: HTMLIFrameElement | null;
 }

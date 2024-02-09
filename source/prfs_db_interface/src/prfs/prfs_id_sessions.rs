@@ -80,3 +80,21 @@ RETURNING key
 
     return Ok(());
 }
+
+pub async fn delete_prfs_session_without_dicket(
+    tx: &mut Transaction<'_, Postgres>,
+    key: &String,
+) -> Result<(), DbInterfaceError> {
+    let query = r#"
+DELETE FROM prfs_id_sessions
+WHERE key=$1
+RETURNING key
+"#;
+
+    let _row = sqlx::query(query)
+        .bind(&key)
+        .fetch_optional(&mut **tx)
+        .await?;
+
+    return Ok(());
+}

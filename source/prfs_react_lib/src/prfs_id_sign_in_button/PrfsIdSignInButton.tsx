@@ -4,12 +4,10 @@ import {
   API_PATH,
   AppSignInArgs,
   makeAppSignInSearchParams,
-  newPrfsIdMsg,
-  sendMsgToChild,
-  parseBuffer,
   createSession,
+  parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
-import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import Button from "../button/Button";
@@ -24,10 +22,8 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   handleSucceedSignIn,
   prfsIdEndpoint,
   isLoading,
-  prfsEmbedEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup } = usePopup();
 
   const handleClickSignIn = React.useCallback(async () => {
@@ -35,22 +31,24 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!prfsEmbed || !isPrfsReady) {
+      let sessionStream;
+      try {
+        sessionStream = await createSession({
+          key: appSignInArgs.session_key,
+          value: null,
+          ticket: "TICKET",
+        });
+      } catch (err) {
+        console.error(err);
         return;
       }
 
-      const { ws, send, receive } = await createSession();
-      send({
-        type: "OPEN_SESSION",
-        key: appSignInArgs.session_key,
-        ticket: "TICKET",
-      });
-      const openSessionResp = await receive();
-      if (openSessionResp?.error) {
-        console.error(openSessionResp?.error);
+      if (!sessionStream) {
+        console.error("Couldn't open a session");
         return;
       }
 
+      const { ws, send, receive } = sessionStream;
       const session = await receive();
       if (session) {
         try {
@@ -59,16 +57,24 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
           }
 
           if (session.payload) {
-            const buf = parseBuffer(session.payload);
+            if (session.payload.type !== "put_prfs_id_session_value_result") {
+              console.error("Wrong sesseion type at this point. Payload: %s", session.payload);
+              return;
+            }
+
+            const buf = parseBufferOfArray(session.payload.value);
             handleSucceedSignIn(buf);
 
             send({
-              type: "CLOSE_SESSION",
+              type: "close_prfs_id_session",
               key: appSignInArgs.session_key,
               ticket: "TICKET",
             });
+
             const closeSessionResp = await receive();
-            console.log("closeSessionresp", closeSessionResp);
+            if (!closeSessionResp) {
+              console.error("Could get the close sessionr response");
+            }
           }
         } catch (err) {
           console.error(err);
@@ -82,14 +88,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
       ws.close();
     });
-  }, [
-    appSignInArgs,
-    prfsIdEndpoint,
-    prfsEmbedEndpoint,
-    isPrfsReady,
-    handleSucceedSignIn,
-    openPopup,
-  ]);
+  }, [appSignInArgs, prfsIdEndpoint, handleSucceedSignIn, openPopup]);
 
   return (
     <Button
@@ -98,7 +97,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       noTransition
       handleClick={handleClickSignIn}
       noShadow
-      disabled={!isPrfsReady}
     >
       <div className={styles.wrapper}>
         {isLoading ? (
@@ -122,5 +120,4 @@ export interface PrfsIdSignInButtonProps {
   isLoading?: boolean;
   handleSucceedSignIn: (encrypted: Buffer) => void;
   prfsIdEndpoint: string;
-  prfsEmbedEndpoint: string;
 }

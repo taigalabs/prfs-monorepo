@@ -8,7 +8,7 @@ import { Markdown } from "@/components/markdown/Markdown";
 import DocMasthead from "../doc_masthead/DocMasthead";
 import { paths } from "@/paths";
 import { i18nContext } from "@/i18n/context";
-import { MastheadPlaceholder } from "../masthead/Masthead";
+import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import DocumentView from "@/components/document_view/DocumentView";
 
 const ProductUpdates = () => {

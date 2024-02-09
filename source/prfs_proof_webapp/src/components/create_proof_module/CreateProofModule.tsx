@@ -4,14 +4,14 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import cn from "classnames";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
-import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
   ProofGenSuccessPayload,
   QueryType,
-  newPrfsIdMsg,
-  parseBuffer,
-  sendMsgToChild,
+  createSession,
+  createSessionKey,
+  parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
@@ -39,13 +39,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const step = useAppSelector(state => state.tutorial.tutorialStep);
-  const [status, setStatus] = React.useState(Status.Loading);
+  const [status, setStatus] = React.useState(Status.Standby);
   const { sk, pkHex } = useRandomKeyPair();
   const { tutorialId } = useTutorial();
   const { openPopup } = usePopup();
-  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   const handleClickCreateProof = React.useCallback(async () => {
+    const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
       app_id: "prfs_proof",
@@ -57,6 +57,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         },
       ],
       public_key: pkHex,
+      session_key,
     };
 
     if (tutorialId) {
@@ -70,55 +71,77 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!prfsEmbed || !isPrfsReady) {
+      let sessionStream;
+      try {
+        sessionStream = await createSession({
+          key: proofGenArgs.session_key,
+          value: null,
+          ticket: "TICKET",
+        });
+      } catch (err) {
+        console.error(err);
         return;
       }
 
-      const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
-        prfsEmbed,
-      );
-
-      if (resp) {
-        try {
-          const buf = parseBuffer(resp);
-          let decrypted: string;
-          try {
-            decrypted = decrypt(sk.secret, buf).toString();
-          } catch (err) {
-            console.error("cannot decrypt payload", err);
-            return;
-          }
-
-          let payload: ProofGenSuccessPayload;
-          try {
-            payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-          } catch (err) {
-            console.error("cannot parse payload", err);
-            return;
-          }
-
-          const proof = payload.receipt[PROOF] as ProveReceipt;
-          if (proof) {
-            handleCreateProofResult(proof);
-          } else {
-            console.error("no proof delivered");
-            return;
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      } else {
-        console.error("Returned val is empty");
+      if (!sessionStream) {
+        console.error("Couldn't open a session");
+        return;
       }
+
+      const { ws, send, receive } = sessionStream;
+      const session = await receive();
+      if (!session) {
+        console.error("Coultn' retreieve session");
+        return;
+      }
+
+      try {
+        if (session.error) {
+          console.error(session.error);
+          return;
+        }
+
+        if (!session.payload) {
+          console.error("Session doesn't have a payload");
+          return;
+        }
+
+        if (session.payload.type !== "put_prfs_id_session_value_result") {
+          console.error("Wrong session payload type at this point, msg: %s", session.payload);
+          return;
+        }
+
+        const buf = parseBufferOfArray(session.payload.value);
+        let decrypted: string;
+        try {
+          decrypted = decrypt(sk.secret, buf).toString();
+        } catch (err) {
+          console.error("cannot decrypt payload", err);
+          return;
+        }
+
+        let payload: ProofGenSuccessPayload;
+        try {
+          payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+        } catch (err) {
+          console.error("cannot parse payload", err);
+          return;
+        }
+
+        const proof = payload.receipt[PROOF] as ProveReceipt;
+        if (proof) {
+          handleCreateProofResult(proof);
+        } else {
+          console.error("no proof delivered");
+          return;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+
+      ws.close();
     });
   }, [proofType, handleCreateProofResult, setSystemMsg, status]);
-
-  React.useEffect(() => {
-    if (isPrfsReady) {
-      setStatus(Status.Standby);
-    }
-  }, [setStatus, isPrfsReady]);
 
   return (
     <div className={styles.wrapper}>

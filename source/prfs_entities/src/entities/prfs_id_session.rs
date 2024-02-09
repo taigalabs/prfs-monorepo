@@ -9,6 +9,6 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct PrfsIdSession {
     pub key: String,
-    pub value: String,
+    pub value: Vec<u8>,
     pub ticket: String,
 }

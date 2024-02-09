@@ -14,6 +14,7 @@ export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofG
   const app_id = searchParams.get("app_id");
   const nonce = searchParams.get("nonce");
   const queries = searchParams.get("queries");
+  const session_key = searchParams.get("session_key");
   const tutorial = searchParams.get("tutorial");
 
   if (!app_id) {
@@ -32,10 +33,15 @@ export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofG
     throw new Error("nonce missing");
   }
 
+  if (!session_key) {
+    throw new Error("session_key missing");
+  }
+
   const args: ProofGenArgs = {
     app_id,
     nonce: Number(nonce),
     public_key,
+    session_key,
     queries: JSON.parse(decodeURIComponent(queries)),
   };
 
@@ -50,6 +56,7 @@ export interface ProofGenArgs {
   app_id: string;
   queries: ProofGenQuery[];
   public_key: string;
+  session_key: string;
   tutorial?: TutorialArgs;
 }
 

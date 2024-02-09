@@ -11,6 +11,7 @@ export function parseVerifyProofSearchParams(searchParams: URLSearchParams): Ver
   const app_id = searchParams.get("app_id");
   const proof_type_id = searchParams.get("proof_type_id");
   const nonce = searchParams.get("nonce");
+  const session_key = searchParams.get("session_key");
   const tutorial = searchParams.get("tutorial");
 
   if (!app_id) {
@@ -29,11 +30,16 @@ export function parseVerifyProofSearchParams(searchParams: URLSearchParams): Ver
     throw new Error("nonce missing");
   }
 
+  if (!session_key) {
+    throw new Error("session_key missing");
+  }
+
   const args: VerifyProofArgs = {
     app_id,
     nonce: Number(nonce),
     public_key,
     proof_type_id,
+    session_key,
   };
 
   if (tutorial) {
@@ -48,5 +54,6 @@ export interface VerifyProofArgs {
   app_id: string;
   proof_type_id: string;
   public_key: string;
+  session_key: string;
   tutorial?: TutorialArgs;
 }

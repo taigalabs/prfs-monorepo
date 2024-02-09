@@ -52,7 +52,6 @@ async function createEnvs(values: CliArgs) {
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: ep.prfs_api_server,
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: ep.prfs_asset_server,
     NEXT_PUBLIC_PRFS_ID_SESSION_SOCKET_ENDPOINT: ep.prfs_id_session_server_socket,
-    NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: ep.prfs_sdk_web,
     NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT: ep.prfs_docs_website,
   };
 
