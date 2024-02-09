@@ -7,7 +7,7 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
-import { decrypt } from "@taigalabs/prfs-crypto-js";
+import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -168,7 +168,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   const handleClickGenerate = React.useCallback(() => {
     const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
-      nonce: Math.random() * 1000000,
+      nonce: makeRandInt(1000000),
       app_id: "prfs_proof",
       queries: [
         {

@@ -16,7 +16,7 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import { useRandomKeyPair } from "@/hooks/key";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
-import { decrypt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
+import { decrypt, makeRandInt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -41,7 +41,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
     try {
       const session_key = createSessionKey();
       const verifyProofArgs: VerifyProofArgs = {
-        nonce: Math.random() * 1000000,
+        nonce: makeRandInt(1000000),
         app_id: "prfs_proof",
         public_key: pkHex,
         proof_type_id: proofTypeId,

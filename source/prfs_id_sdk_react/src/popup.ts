@@ -1,6 +1,3 @@
-import React from "react";
-// import { PrfsEmbedContext } from "./context";
-
 export function usePopup() {
   function openPopup(endpoint: string, callback: (popup: Window) => Promise<any>) {
     // Open the window
@@ -17,7 +14,3 @@ export function usePopup() {
 
   return { openPopup };
 }
-
-// export function usePrfsEmbed() {
-//   return React.useContext(PrfsEmbedContext);
-// }

@@ -13,7 +13,7 @@ import {
   createSessionKey,
   parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
-import { decrypt } from "@taigalabs/prfs-crypto-js";
+import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
@@ -47,7 +47,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const handleClickCreateProof = React.useCallback(async () => {
     const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
-      nonce: Math.random() * 1000000,
+      nonce: makeRandInt(1000000),
       app_id: "prfs_proof",
       queries: [
         {
