@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
-import { decrypt } from "@taigalabs/prfs-crypto-js";
+import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import {
   CommitmentType,
   API_PATH,
@@ -64,7 +64,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
     const session_key = createSessionKey();
 
     const proofGenArgs: ProofGenArgs = {
-      nonce: Math.random() * 1000000,
+      nonce: makeRandInt(1000000),
       app_id: "prfs_proof",
       queries: [
         {

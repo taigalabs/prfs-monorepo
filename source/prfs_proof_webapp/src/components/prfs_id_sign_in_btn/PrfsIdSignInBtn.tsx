@@ -3,7 +3,7 @@
 import React from "react";
 import cn from "classnames";
 import { useRouter } from "next/navigation";
-import { decrypt } from "@taigalabs/prfs-crypto-js";
+import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
 import {
@@ -50,7 +50,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
     const session_key = createSessionKey();
     return {
-      nonce: Math.random() * 1000000,
+      nonce: makeRandInt(1000000),
       app_id: appId,
       sign_in_data: [AppSignInData.ID_POSEIDON],
       public_key: pkHex,
