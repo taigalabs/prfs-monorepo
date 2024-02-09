@@ -1,21 +1,12 @@
-import { ec as EC } from "elliptic";
-import BN from "bn.js";
+import { bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 import JSONBig from "json-bigint";
 
-import { SECP256K1_N } from "@/math/secp256k1";
-import { bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
-
-const ec = new EC("secp256k1");
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
 export class SimpleHashPublicInput {
-  // msgRaw: string;
-  // msgRawInt: bigint;
   circuitPubInput: SimpleHashCircuitPubInput;
 
   constructor(circuitPubInput: SimpleHashCircuitPubInput) {
-    // this.msgRaw = msgRaw;
-    // this.msgRawInt = msgRawInt;
     this.circuitPubInput = circuitPubInput;
   }
 
