@@ -6,13 +6,6 @@ export interface MembershipProveInputs {
   merkleProof: SpartanMerkleProof;
 }
 
-export interface MerklePosRangeInputs {
-  leaf: bigint;
-  asset_size: bigint;
-  asset_size_max_limit: bigint;
-  merkleProof: SpartanMerkleProof;
-}
-
 export interface SimpleHashProveArgs {
   hashData: {
     msgRaw: string;
