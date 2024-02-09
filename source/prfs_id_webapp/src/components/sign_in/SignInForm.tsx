@@ -136,7 +136,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
               stored credentials
             </span>
           </p>
-          <DefaultModuleBtnRow>
+          <DefaultModuleBtnRow noSidePadding>
             <Button
               variant="transparent_blue_2"
               noTransition
