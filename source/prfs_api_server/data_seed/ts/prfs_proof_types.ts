@@ -1,3 +1,4 @@
+import { SPARTAN_DRIVER_V1_ID } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import {
   ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
@@ -5,19 +6,19 @@ import {
   MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
   MERKLE_POS_RANGE_INPUT_TYPE_V1,
   MERKLE_POS_RANGE_V1_CIRCUIT_ID,
+  ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
+  ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
+  SIMPLE_HASH_V1_CIRCUIT_URL,
+  SIMPLE_HASH_V1_WTNS_GEN_URL,
+  MERKLE_POS_RANGE_V1_CIRCUIT_URL,
+  MERKLE_POS_RANGE_V1_WTNS_GEN_URL,
 } from "@taigalabs/prfs-circuit-interface";
 import path from "path";
 import fs from "fs";
 
 const proofTypeIds = {
   ETH_0_0001_1: "ETH_0_0001_1",
-  BAYC_1: "BAYC_1",
-  NONCE_MEMBER_1: "NONCE_MEMBER_1",
-  AAVE_STAKERS_1: "AAVE_STAKERS_1",
-  ZAUTH_SIGN_IN_1: "ZAUTH_SIGN_IN_1",
   SIMPLE_HASH_1: "SIMPLE_HASH_1",
-  CONSUMER_CRYPTO_HACKERS_1: "CONSUMER_CRYPTO_HACKERS_1",
-  "2023_ETH_GLOBAL_ISTANBUL_HACKERS": "2023_ETH_GLOBAL_ISTANBUL_HACKERS",
   CRYPTO_ASSET_SIZE_V1: "CRYPTO_ASSET_SIZE_V1",
 };
 
@@ -37,18 +38,6 @@ const proofTypes = (() => {
 
   return proofTypes;
 })();
-
-// const ADDR_MEMBERSHIP2_V1_CIRCUIT_URL = `prfs://${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}/${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}.spartan.circuit`;
-
-// const ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL = `prfs://${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}/${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}_js/${ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID}.wasm`;
-
-// const SIMPLE_HASH_V1_CIRCUIT_URL = `prfs://${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}/${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}.spartan.circuit`;
-
-// const SIMPLE_HASH_V1_WTNS_GEN_URL = `prfs://${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}/${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}_js/${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}.wasm`;
-
-// const MERKLE_POS_RANGE_V1_CIRCUIT_URL = `prfs://${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}/${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}.spartan.circuit`;
-
-// const MERKLE_POS_RANGE_V1_WTNS_GEN_URL = `prfs://${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}/${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}_js/${MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID}.wasm`;
 
 const sig_data_circuit_input = {
   desc: "Message over which a signature is made",
@@ -78,7 +67,7 @@ const proof_types: PrfsProofType[] = [
     img_caption: "0.0001",
     circuit_id: "00000000-0000-0000-0000-000000000000",
     circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
-    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    circuit_driver_id: SPARTAN_DRIVER_V1_ID,
     circuit_inputs: [
       {
         ref_type: "PRFS_SET",
@@ -110,7 +99,7 @@ const proof_types: PrfsProofType[] = [
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000001",
     circuit_type_id: SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
-    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    circuit_driver_id: SPARTAN_DRIVER_V1_ID,
     circuit_inputs: [simple_hash_1],
     driver_properties: {
       version: "0.0.1",
@@ -129,7 +118,7 @@ const proof_types: PrfsProofType[] = [
     img_caption: null,
     circuit_id: MERKLE_POS_RANGE_V1_CIRCUIT_ID,
     circuit_type_id: MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
-    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    circuit_driver_id: SPARTAN_DRIVER_V1_ID,
     circuit_inputs: [
       {
         ref_type: "PRFS_SET",

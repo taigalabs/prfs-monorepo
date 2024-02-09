@@ -204,6 +204,9 @@ importers:
       '@taigalabs/prfs-circuits-circom':
         specifier: '*'
         version: link:../prfs_circuits_circom
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
