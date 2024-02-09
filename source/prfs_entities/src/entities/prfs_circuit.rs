@@ -17,19 +17,14 @@ pub struct PrfsCircuit {
     pub proof_algorithm: String,
     pub elliptic_curve: String,
     pub finite_field: String,
-
     #[ts(type = "Record<string, string>")]
     pub build_properties: sqlx::types::Json<HashMap<String, String>>,
-
     pub circuit_driver_id: String,
     pub driver_version: String,
-
     #[ts(type = "Record<string, string>")]
     pub driver_properties: sqlx::types::Json<HashMap<String, String>>,
-
     #[ts(type = "Record<string, any>[]")]
     pub raw_circuit_inputs_meta: sqlx::types::Json<Vec<RawCircuitInputMeta>>,
-
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }

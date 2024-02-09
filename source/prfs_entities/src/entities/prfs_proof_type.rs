@@ -1,5 +1,4 @@
 use chrono::{DateTime, Utc};
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use sqlx::Type;
 use std::collections::HashMap;
@@ -15,16 +14,11 @@ pub struct PrfsProofType {
     pub expression: String,
     pub img_url: Option<String>,
     pub img_caption: Option<String>,
-
     pub circuit_id: String,
     pub circuit_type_id: String,
     pub circuit_driver_id: String,
-    #[ts(type = "Record<string, any>[]")]
-    pub circuit_inputs: sqlx::types::Json<Vec<CircuitInput>>,
-
     #[ts(type = "Record<string, any>")]
     pub driver_properties: sqlx::types::Json<HashMap<String, String>>,
-
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }

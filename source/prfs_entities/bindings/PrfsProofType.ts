@@ -11,7 +11,6 @@ export interface PrfsProofType {
   circuit_id: string;
   circuit_type_id: string;
   circuit_driver_id: string;
-  circuit_inputs: Record<string, any>[];
   driver_properties: Record<string, any>;
   created_at: string;
 }

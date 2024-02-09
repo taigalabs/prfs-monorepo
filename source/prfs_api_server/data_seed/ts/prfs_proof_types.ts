@@ -68,21 +68,7 @@ const proof_types: PrfsProofType[] = [
     circuit_id: "00000000-0000-0000-0000-000000000000",
     circuit_type_id: ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
     circuit_driver_id: SPARTAN_DRIVER_V1_ID,
-    circuit_inputs: [
-      {
-        ref_type: "PRFS_SET",
-        ref_value: "00000000-0000-0000-0000-000000000001",
-        desc: "Who you are among those",
-        name: "merkleProof",
-        type: "MERKLE_PROOF_1",
-        element_type: "ADDRESS",
-        label: "Member",
-        value: "",
-      },
-      sig_data_circuit_input,
-    ],
     driver_properties: {
-      version: "0.0.1",
       circuit_url: ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
       wtns_gen_url: ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
     },
@@ -102,7 +88,6 @@ const proof_types: PrfsProofType[] = [
     circuit_driver_id: SPARTAN_DRIVER_V1_ID,
     circuit_inputs: [simple_hash_1],
     driver_properties: {
-      version: "0.0.1",
       circuit_url: SIMPLE_HASH_V1_CIRCUIT_URL,
       wtns_gen_url: SIMPLE_HASH_V1_WTNS_GEN_URL,
     },
@@ -132,7 +117,6 @@ const proof_types: PrfsProofType[] = [
       },
     ],
     driver_properties: {
-      version: "0.0.1",
       circuit_url: MERKLE_POS_RANGE_V1_CIRCUIT_URL,
       wtns_gen_url: MERKLE_POS_RANGE_V1_WTNS_GEN_URL,
     },
