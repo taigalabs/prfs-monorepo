@@ -3,7 +3,6 @@ import Link from "next/link";
 import { v4 as uuidv4, parse as parseUuid } from "uuid";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-// import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
@@ -22,8 +21,6 @@ import { paths } from "@/paths";
 import { ContentAreaRow } from "../content_area/ContentArea";
 import { useAppSelector } from "@/state/hooks";
 
-// const prfs = new PrfsSDK("test");
-
 const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
@@ -32,7 +29,6 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const [errMsg, setErrMsg] = React.useState("");
   const [formAlert, setFormAlert] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType | undefined>();
-  // const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
 
   const handleSelectProofType = React.useCallback(
     (val: PrfsProofType) => {
