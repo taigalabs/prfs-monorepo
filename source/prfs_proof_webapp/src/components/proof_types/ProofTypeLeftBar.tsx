@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 import styles from "./ProofTypeLeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { consolePaths, paths } from "@/paths";
+import { consolePaths } from "@/paths";
 import CreateProofTypePopover from "./CreateProofTypePopover";
 import {
   LeftBarItem,
@@ -17,20 +17,17 @@ import {
   LeftBarWrapper,
 } from "@/components/left_bar/LeftBar";
 
-const TWITTER = "twitter";
-const CRYPTO_ASSET_SIZE = "crypto_asset_size";
-
 const ProofTypeLeftbar: React.FC<AttestationLeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const pathname = usePathname();
-  const name = React.useMemo(() => {
-    const segments = pathname.split("/");
+  // const pathname = usePathname();
+  // const name = React.useMemo(() => {
+  //   const segments = pathname.split("/");
 
-    if (segments.length > 2) {
-      return segments[2];
-    }
-    return null;
-  }, [pathname]);
+  //   if (segments.length > 2) {
+  //     return segments[2];
+  //   }
+  //   return null;
+  // }, [pathname]);
 
   return (
     <LeftBarWrapper>

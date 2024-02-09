@@ -9,25 +9,25 @@ import styles from "./CreateProofTypePopover.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
-const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
-  const i18n = React.useContext(i18nContext);
-  const handleClickItem = React.useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
+// const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
+//   const i18n = React.useContext(i18nContext);
+//   const handleClickItem = React.useCallback(() => {
+//     setIsOpen(false);
+//   }, [setIsOpen]);
 
-  return (
-    <div className={styles.modal}>
-      <ul className={styles.menu}>
-        <li onClick={handleClickItem}>
-          <Link href={paths.attestations__create__twitter}>{i18n.twitter}</Link>
-        </li>
-        <li onClick={handleClickItem}>
-          <Link href={paths.attestations__create__crypto_asset_size}>{i18n.crypto_asset_size}</Link>
-        </li>
-      </ul>
-    </div>
-  );
-};
+//   return (
+//     <div className={styles.modal}>
+//       <ul className={styles.menu}>
+//         <li onClick={handleClickItem}>
+//           <Link href={paths.attestations__create__twitter}>{i18n.twitter}</Link>
+//         </li>
+//         <li onClick={handleClickItem}>
+//           <Link href={paths.attestations__create__crypto_asset_size}>{i18n.crypto_asset_size}</Link>
+//         </li>
+//       </ul>
+//     </div>
+//   );
+// };
 
 const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = () => {
   const i18n = React.useContext(i18nContext);
