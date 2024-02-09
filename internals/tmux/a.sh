@@ -26,12 +26,12 @@ tmux send-keys "./ci dev_prfs_asset_server" ENTER
 tmux select-pane -t prfs_a:1.3
 tmux send-keys "./ci dev_prfs_embed_webapp" ENTER
 
-# Prfs proof webapp
-tmux select-pane -t prfs_a:1.4
-tmux send-keys "./ci dev_prfs_proof_webapp" ENTER
-
 # Prfs id webapp
-tmux select-pane -t prfs_a:1.5
+tmux select-pane -t prfs_a:1.4
 tmux send-keys "./ci dev_prfs_id_webapp" ENTER
+
+# Prfs proof webapp
+tmux select-pane -t prfs_a:1.5
+tmux send-keys "./ci dev_prfs_proof_webapp" ENTER
 
 tmux attach -t prfs_a
