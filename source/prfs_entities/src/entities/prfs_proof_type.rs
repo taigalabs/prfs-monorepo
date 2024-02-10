@@ -1,5 +1,6 @@
 use chrono::{DateTime, Utc};
 use prfs_circuit_interface::circuit_types::{CircuitTypeData, CircuitTypeId};
+use prfs_driver_interface::CircuitDriverId;
 use serde::{Deserialize, Serialize};
 use sqlx::Type;
 use std::collections::HashMap;
@@ -20,7 +21,7 @@ pub struct PrfsProofType {
     pub circuit_type_id: CircuitTypeId,
     #[ts(type = "Record<string, any>")]
     pub circuit_type_data: sqlx::types::Json<CircuitTypeData>,
-    pub circuit_driver_id: String,
+    pub circuit_driver_id: CircuitDriverId,
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }
