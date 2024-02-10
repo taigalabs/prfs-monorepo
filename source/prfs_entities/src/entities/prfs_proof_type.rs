@@ -1,4 +1,5 @@
 use chrono::{DateTime, Utc};
+use prfs_circuit_interface::{CircuitTypeData, CircuitTypeId};
 use serde::{Deserialize, Serialize};
 use sqlx::Type;
 use std::collections::HashMap;
@@ -15,7 +16,9 @@ pub struct PrfsProofType {
     pub img_url: Option<String>,
     pub img_caption: Option<String>,
     pub circuit_id: String,
-    pub circuit_type_id: String,
+    pub circuit_type_id: CircuitTypeId,
+    #[ts(type = "Record<string, any>")]
+    pub circuit_type_data: sqlx::types::Json<CircuitTypeData>,
     pub circuit_driver_id: String,
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
@@ -36,19 +39,6 @@ pub struct PrfsProofType {
 //     pub ref_value: Option<String>,
 // }
 
-fn default_units() -> i16 {
-    1
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, Type, TS)]
-#[sqlx(type_name = "VARCHAR")]
-#[allow(non_camel_case_types)]
-#[ts(export)]
-pub enum CircuitInputType {
-    HASH_DATA_1,
-    MERKLE_PROOF_1,
-    SIG_DATA_1,
-    PASSCODE,
-    PASSCODE_CONFIRM,
-    MERKLE_SIG_POS_RANGE_V1,
-}
+// fn default_units() -> i16 {
+//     1
+// }
