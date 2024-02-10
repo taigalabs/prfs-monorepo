@@ -21,6 +21,7 @@ pub struct PrfsProofType {
     pub circuit_type_id: CircuitTypeId,
     #[ts(type = "Record<string, any>")]
     pub circuit_type_data: sqlx::types::Json<CircuitTypeData>,
+    #[ts(inline)]
     pub circuit_driver_id: CircuitDriverId,
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
