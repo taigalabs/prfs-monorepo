@@ -2,7 +2,8 @@ import React from "react";
 import cn from "classnames";
 import { bytesLeToBigInt, poseidon_2_bigint } from "@taigalabs/prfs-crypto-js";
 import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
-import { HashData, SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface";
+import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
+import { HashData } from "@taigalabs/prfs-circuit-interface/bindings/HashData";
 import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SimpleHashInput.module.scss";

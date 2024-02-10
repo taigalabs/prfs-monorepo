@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use sqlx::Type;
 use ts_rs::TS;
 
-use crate::circuit_types::SpartanMerkleProof;
+use super::SpartanMerkleProof;
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[allow(non_snake_case)]

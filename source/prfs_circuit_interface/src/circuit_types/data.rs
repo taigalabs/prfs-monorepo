@@ -2,10 +2,7 @@ use serde::{Deserialize, Serialize};
 use sqlx::Type;
 use ts_rs::TS;
 
-use crate::{
-    addr_membership::AddrMembershipV1Data, merkle_sig_pos_range::MerkleSigPosRangeV1Data,
-    simple_hash::SimpleHashV1Data,
-};
+use super::{AddrMembershipV1Data, MerkleSigPosRangeV1Data, SimpleHashV1Data};
 
 #[derive(Debug, Serialize, Deserialize, Clone, Type, TS)]
 #[allow(non_camel_case_types)]
@@ -35,4 +32,13 @@ pub struct SpartanMerkleProof {
     root: i64,
     siblings: Vec<i64>,
     pathIndices: Vec<i16>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[allow(non_snake_case)]
+#[ts(export)]
+pub struct SigData {
+    msgRaw: String,
+    msgHash: String,
+    sig: String,
 }

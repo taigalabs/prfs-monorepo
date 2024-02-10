@@ -1,7 +1,6 @@
 import React from "react";
 import cn from "classnames";
-// import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { BufferHex, SigData } from "@taigalabs/prfs-circuit-interface";
+import { SigData } from "@taigalabs/prfs-circuit-interface/bindings/SigData";
 import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import { useSignMessage } from "@taigalabs/prfs-crypto-deps-js/wagmi";
 import { bufferToHex, hashPersonalMessage } from "@taigalabs/prfs-crypto-deps-js/ethereumjs";
@@ -104,7 +103,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
 
       const newValue: SigData = {
         msgRaw,
-        msgHash: bufferToHex(msgHash) as BufferHex,
+        msgHash: bufferToHex(msgHash),
         sig,
       };
       setFormValues(oldVals => ({

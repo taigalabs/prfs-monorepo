@@ -19,10 +19,11 @@ import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 
 import styles from "./MerkleProofRaw.module.scss";
 import { i18nContext } from "@/i18n/context";
+import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
 
 const MerkleProofRawModal: React.FC<MerkleProofRawModalProps> = ({
   prfsSet,
-  circuitInput,
+  circuitTypeData,
   handleClickRawSubmit,
   setIsOpen,
 }) => {
@@ -87,7 +88,7 @@ const MerkleProofRawModal: React.FC<MerkleProofRawModalProps> = ({
 const MerkleProofRaw: React.FC<MerkleProofRawProps> = ({
   prfsSet,
   children,
-  circuitInput,
+  circuitTypeData,
   handleClickRawSubmit,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -122,7 +123,7 @@ const MerkleProofRaw: React.FC<MerkleProofRawProps> = ({
                 >
                   <MerkleProofRawModal
                     prfsSet={prfsSet}
-                    circuitInput={circuitInput}
+                    circuitTypeData={circuitTypeData}
                     handleClickRawSubmit={handleClickRawSubmit}
                     setIsOpen={setIsOpen}
                   />
@@ -141,13 +142,13 @@ export default MerkleProofRaw;
 export interface MerkleProofRawProps {
   children: React.ReactNode;
   prfsSet: PrfsSet | undefined;
-  circuitInput: CircuitInput;
+  circuitTypeData: AddrMembershipV1Data;
   handleClickRawSubmit: (merkleProof: SpartanMerkleProof) => void;
 }
 
 export interface MerkleProofRawModalProps {
   prfsSet: PrfsSet | undefined;
-  circuitInput: CircuitInput;
+  circuitTypeData: AddrMembershipV1Data;
   handleClickRawSubmit: (merkleProof: SpartanMerkleProof) => void;
   setIsOpen: (b: boolean) => void;
 }

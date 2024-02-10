@@ -10,6 +10,8 @@ import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetP
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
 import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
+import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
+import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
 
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRaw from "./MerkleProofRaw";
@@ -23,6 +25,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
+import { Transmuted } from "../formErrorTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -38,8 +41,8 @@ const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   return <div className={styles.computedValue}>{val}</div>;
 };
 
-const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
-  circuitInput,
+const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
+  circuitTypeData,
   value,
   error,
   setFormErrors,
@@ -69,32 +72,30 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      if (circuitInput.ref_type === "PRFS_SET") {
-        if (!circuitInput.ref_value) {
-          console.error("Prfs set ref value is not provided");
-          return;
-        }
-
-        const { payload } = await getPrfsSetBySetId({
-          set_id: circuitInput.ref_value,
-        });
-
-        if (payload) {
-          setPrfsSet(payload.prfs_set);
-        }
-      } else {
-        console.error("Prfs set not found");
-      }
+      // if (circuitInput.ref_type === "PRFS_SET") {
+      //   if (!circuitInput.ref_value) {
+      //     console.error("Prfs set ref value is not provided");
+      //     return;
+      //   }
+      //   const { payload } = await getPrfsSetBySetId({
+      //     set_id: circuitInput.ref_value,
+      //   });
+      //   if (payload) {
+      //     setPrfsSet(payload.prfs_set);
+      //   }
+      // } else {
+      //   console.error("Prfs set not found");
+      // }
     }
     fn().then();
-  }, [circuitInput, setPrfsSet, getPrfsSetBySetId]);
+  }, [circuitTypeData, setPrfsSet, getPrfsSetBySetId]);
 
   const handleClickRawSubmit = React.useCallback(
     (merkleProof: SpartanMerkleProof) => {
       setFormValues((prevVals: any) => {
         return {
           ...prevVals,
-          [circuitInput.name]: merkleProof,
+          merkleProof: merkleProof,
         };
       });
 
@@ -220,7 +221,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           </ConnectWallet>
           <span className={styles.or}> or </span>
           <MerkleProofRaw
-            circuitInput={circuitInput}
+            circuitTypeData={circuitTypeData}
             prfsSet={prfsSet}
             handleClickRawSubmit={handleClickRawSubmit}
           >
@@ -232,7 +233,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         <div className={styles.interactiveArea}>
           <input
             className={styles.addressInput}
-            placeholder={`${circuitInput.desc}`}
+            placeholder={`${circuitTypeData.desc}`}
             value={walletAddr}
             readOnly
           />
@@ -244,14 +245,14 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   );
 };
 
-export default MerkleProofInput;
+export default AddrMembershipInput;
 
 export interface MerkleProofInputProps {
-  circuitInput: any;
+  circuitTypeData: AddrMembershipV1Data;
   value: SpartanMerkleProof | undefined;
   error: string | undefined;
-  setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  setFormValues: React.Dispatch<React.SetStateAction<AddrMembershipV1Inputs>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<AddrMembershipV1Inputs>>>;
   presetVals?: QueryPresetVals;
 }
 
