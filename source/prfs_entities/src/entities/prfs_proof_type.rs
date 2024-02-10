@@ -1,5 +1,5 @@
 use chrono::{DateTime, Utc};
-use prfs_circuit_interface::{CircuitTypeData, CircuitTypeId};
+use prfs_circuit_interface::circuit_types::{CircuitTypeData, CircuitTypeId};
 use serde::{Deserialize, Serialize};
 use sqlx::Type;
 use std::collections::HashMap;

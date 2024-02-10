@@ -1,4 +1,4 @@
-use prfs_circuit_interface::{CircuitTypeData, CircuitTypeId};
+use prfs_circuit_interface::circuit_types::{CircuitTypeData, CircuitTypeId};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;

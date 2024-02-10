@@ -1,5 +1,6 @@
 import { SPARTAN_DRIVER_V1_ID } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { MerkleSigPosRangeV1 } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1";
 import {
   ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
   SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
@@ -71,13 +72,13 @@ const proof_types: PrfsProofType[] = [
     proof_type_id: proofTypeIds.CRYPTO_ASSET_SIZE_V1,
     label: "Cryto asset size claim",
     author: "Prfs",
-    desc: proofTypeDesc.CRYPTO_ASSET_SIZE_V1
+    desc: proofTypeDesc.CRYPTO_ASSET_SIZE_V1,
     expression: "Has assets in crypto worth X USD",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/money-cash-icon-png.webp",
     img_caption: null,
     circuit_id: MERKLE_POS_RANGE_V1_CIRCUIT_ID,
     circuit_type_id: MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE,
-    circuit_type_data: {},
+    circuit_type_data: {} as MerkleSigPosRangeV1,
     circuit_driver_id: SPARTAN_DRIVER_V1_ID,
     created_at: "2024-01-29T16:39:57-08:00",
   },
