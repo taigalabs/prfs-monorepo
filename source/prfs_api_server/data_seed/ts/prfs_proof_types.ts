@@ -21,7 +21,7 @@ const proofTypeIds = {
   CRYPTO_ASSET_SIZE_V1: "CRYPTO_ASSET_SIZE_V1",
 };
 
-const proofTypes = (() => {
+const proofTypeDesc = (() => {
   const currDir = path.dirname(__filename);
 
   const proofTypes = { ...proofTypeIds };
@@ -57,7 +57,7 @@ const proof_types: PrfsProofType[] = [
     proof_type_id: proofTypeIds.SIMPLE_HASH_1,
     label: "Simple hash",
     author: "Prfs",
-    desc: "Proves he/she knows the preimage of a cryptographic hash function",
+    desc: proofTypeDesc.SIMPLE_HASH_1,
     expression: "Knows hash argument",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/hash.png",
     img_caption: "",
@@ -71,7 +71,7 @@ const proof_types: PrfsProofType[] = [
     proof_type_id: proofTypeIds.CRYPTO_ASSET_SIZE_V1,
     label: "Cryto asset size claim",
     author: "Prfs",
-    desc: "Proves he/she has certain amount of crypto assets",
+    desc: proofTypeDesc.CRYPTO_ASSET_SIZE_V1
     expression: "Has assets in crypto worth X USD",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/money-cash-icon-png.webp",
     img_caption: null,
