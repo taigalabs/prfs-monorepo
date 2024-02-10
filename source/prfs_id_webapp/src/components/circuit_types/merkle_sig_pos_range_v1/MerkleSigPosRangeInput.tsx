@@ -1,5 +1,4 @@
 import React from "react";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
@@ -19,10 +18,12 @@ import {
   PrfsIdCredential,
   QueryPresetVals,
 } from "@taigalabs/prfs-id-sdk-web";
-import { SpartanMerkleProof, MerklePosRangeInputs } from "@taigalabs/prfs-circuit-interface";
+import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface";
+import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
 import { bytesToNumberLE, hexToNumber } from "@taigalabs/prfs-crypto-js";
+import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -37,6 +38,7 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
+import { Transmuted } from "@/components/circuit_types/formErrorTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -53,7 +55,7 @@ const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
 };
 
 const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
-  circuitInput,
+  circuitTypeData,
   value,
   credential,
   error,
@@ -91,14 +93,14 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      if (circuitInput.ref_type === "PRFS_SET") {
-        if (!circuitInput.ref_value) {
-          console.error("Prfs set ref value is not provided");
+      if (circuitTypeData) {
+        if (!circuitTypeData.prfs_set_id) {
+          console.error("Prfs set id is not provided");
           return;
         }
 
         const { payload } = await getPrfsSetBySetId({
-          set_id: circuitInput.ref_value,
+          set_id: circuitTypeData.prfs_set_id,
         });
 
         if (payload) {
@@ -109,7 +111,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       }
     }
     fn().then();
-  }, [circuitInput, setPrfsSet, getPrfsSetBySetId]);
+  }, [circuitTypeData, setPrfsSet, getPrfsSetBySetId]);
 
   const handleChangeAddress = React.useCallback(
     async (addr: string) => {
@@ -125,7 +127,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       setFormErrors((prevVals: any) => {
         return {
           ...prevVals,
-          [circuitInput.name]: undefined,
+          merkleProof: undefined,
         };
       });
 
@@ -188,7 +190,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           setFormErrors((prevVals: any) => {
             return {
               ...prevVals,
-              [circuitInput.name]: error,
+              merkleProof: error,
             };
           });
         }
@@ -266,8 +268,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   );
 
   const label = React.useMemo(() => {
-    return `${circuitInput.label} (${prfsSet ? prfsSet.label : i18n.loading})`;
-  }, [circuitInput, prfsSet]);
+    return `${circuitTypeData.label} (${prfsSet ? prfsSet.label : i18n.loading})`;
+  }, [circuitTypeData, prfsSet]);
 
   return (
     <FormInput>
@@ -290,7 +292,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         <div className={styles.interactiveArea}>
           <input
             className={styles.addressInput}
-            placeholder={`${circuitInput.desc}`}
+            placeholder={`${circuitTypeData.desc}`}
             value={walletAddr}
             readOnly
           />
@@ -305,11 +307,11 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 export default MerkleSigPosRangeInput;
 
 export interface MerkleSigPosRangeInputProps {
-  circuitInput: CircuitInput;
+  circuitTypeData: MerkleSigPosRangeV1Data;
   value: SpartanMerkleProof | undefined;
   error: string | undefined;
-  setFormValues: React.Dispatch<React.SetStateAction<MerklePosRangeInputs>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<MerkleSigPosRangeV1Inputs>>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;
 }

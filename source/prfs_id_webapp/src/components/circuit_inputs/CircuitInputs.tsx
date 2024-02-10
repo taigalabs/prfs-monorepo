@@ -5,11 +5,7 @@ import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CircuitInputs.module.scss";
 import { i18nContext } from "@/i18n/context";
-import MerkleProofInput from "@/components/circuit_inputs_variants/merkle_proof_input/MerkleProofInput";
-import SigDataInput from "@/components/circuit_inputs_variants/sig_data_input/SigDataInput";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
-import HashInput from "@/components/circuit_inputs_variants/hash_input/HashInput";
-import MerkleSigPosRangeInput from "@/components/circuit_inputs_variants/merkle_sig_pos_range/MerkleSigPosRangeInput";
 // import { MERKLE_POS_RANGE_INPUT_TYPE_V1 } from "@taigalabs/prfs-circuit-interface";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({

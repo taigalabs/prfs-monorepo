@@ -1,5 +1,4 @@
 import React from "react";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
@@ -10,10 +9,7 @@ import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
 import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
-import {
-  SpartanMerkleProof,
-  MERKLE_POS_RANGE_INPUT_TYPE_V1,
-} from "@taigalabs/prfs-circuit-interface";
+import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface";
 
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRaw from "./MerkleProofRaw";
@@ -251,7 +247,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 export default MerkleProofInput;
 
 export interface MerkleProofInputProps {
-  circuitInput: CircuitInput;
+  circuitInput: any;
   value: SpartanMerkleProof | undefined;
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;

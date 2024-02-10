@@ -38,6 +38,7 @@ pub struct CreatePrfsProofTypeRequest {
     pub label: String,
     pub desc: String,
     pub circuit_id: String,
+    #[ts(inline)]
     pub circuit_type_id: CircuitTypeId,
     #[ts(type = "Record<string, any>")]
     pub circuit_type_data: sqlx::types::Json<CircuitTypeData>,

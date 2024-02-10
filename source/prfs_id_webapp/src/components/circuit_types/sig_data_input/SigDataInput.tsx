@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+// import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { BufferHex, SigData } from "@taigalabs/prfs-circuit-interface";
 import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import { useSignMessage } from "@taigalabs/prfs-crypto-deps-js/wagmi";
@@ -149,7 +149,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
 export default SigDataInput;
 
 export interface SigDataInputProps {
-  circuitInput: CircuitInput;
+  circuitInput: any;
   value: SigData | undefined;
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;

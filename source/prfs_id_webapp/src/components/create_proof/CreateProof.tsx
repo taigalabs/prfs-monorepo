@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { CreateProofEvent } from "@taigalabs/prfs-driver-interface";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import cn from "classnames";
@@ -28,6 +27,7 @@ import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 import { useAppSelector } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
+import { CircuitTypeData } from "@taigalabs/prfs-circuit-interface/bindings/CircuitTypeData";
 
 enum Status {
   Standby,
@@ -168,7 +168,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
             >
               <div className={styles.form}>
                 <CircuitInputs
-                  circuitInputs={proofType.circuit_inputs as CircuitInput[]}
+                  circuitTypeData={proofType.circuit_type_data as CircuitTypeData}
                   formValues={formValues}
                   setFormValues={setFormValues}
                   formErrors={formErrors}

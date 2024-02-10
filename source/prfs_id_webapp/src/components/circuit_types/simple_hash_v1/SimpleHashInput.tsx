@@ -1,12 +1,11 @@
 import React from "react";
 import cn from "classnames";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { bytesLeToBigInt, poseidon_2_bigint } from "@taigalabs/prfs-crypto-js";
 import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
-import { HashData } from "@taigalabs/prfs-circuit-interface";
+import { HashData, SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface";
 import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
-import styles from "./HashInput.module.scss";
+import styles from "./SimpleHashInput.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   FormError,
@@ -16,6 +15,8 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
+import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
+import { Transmuted } from "../formErrorTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -32,8 +33,8 @@ const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   return <div className={styles.computedValue}>{val}</div>;
 };
 
-const HashInput: React.FC<HashInputProps> = ({
-  circuitInput,
+const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
+  circuitTypeData,
   value,
   error,
   setFormErrors,
@@ -53,7 +54,7 @@ const HashInput: React.FC<HashInputProps> = ({
       setFormValues(oldVals => {
         return {
           ...oldVals,
-          [circuitInput.name]: defaultHashData,
+          hashData: defaultHashData,
         };
       });
     }
@@ -64,7 +65,7 @@ const HashInput: React.FC<HashInputProps> = ({
       if (error && error.length > 0) {
         setFormErrors(oldVals => {
           const newVals = { ...oldVals };
-          delete newVals[circuitInput.name];
+          delete newVals.hashData;
           return newVals;
         });
       }
@@ -72,11 +73,11 @@ const HashInput: React.FC<HashInputProps> = ({
       const newVal = ev.target.value;
 
       setFormValues(oldVals => {
-        const oldVal = oldVals[circuitInput.name] || {};
+        const oldVal = oldVals.hashData || {};
 
         return {
           ...oldVals,
-          [circuitInput.name]: {
+          hashData: {
             ...oldVal,
             msgRaw: newVal,
           },
@@ -95,7 +96,7 @@ const HashInput: React.FC<HashInputProps> = ({
 
       setFormValues(oldVals => ({
         ...oldVals,
-        [circuitInput.name]: {
+        hashData: {
           msgRaw,
           msgRawInt,
           msgHash,
@@ -103,7 +104,7 @@ const HashInput: React.FC<HashInputProps> = ({
       }));
     } else {
       setFormErrors(oldVals => {
-        const newVals = { ...oldVals, [circuitInput.name]: "Type some value to hash" };
+        const newVals = { ...oldVals, hashData: "Type some value to hash" };
         return newVals;
       });
     }
@@ -112,7 +113,7 @@ const HashInput: React.FC<HashInputProps> = ({
   return (
     <FormInput>
       <FormInputTitleRow>
-        <FormInputTitle>{circuitInput.label}</FormInputTitle>
+        <FormInputTitle>{circuitTypeData.label}</FormInputTitle>
         <FormInputBtnRow>
           <button className={styles.hashBtn} onClick={handleClickHash} type="button">
             {i18n.hash}
@@ -122,7 +123,7 @@ const HashInput: React.FC<HashInputProps> = ({
       <InputWrapper>
         <div className={styles.interactiveArea}>
           <input
-            placeholder={circuitInput.desc}
+            placeholder={circuitTypeData.desc}
             value={value?.msgRaw?.toString() || ""}
             onChange={handleChangeRaw}
           />
@@ -134,14 +135,14 @@ const HashInput: React.FC<HashInputProps> = ({
   );
 };
 
-export default HashInput;
+export default SimpleHashInput;
 
-export interface HashInputProps {
-  circuitInput: CircuitInput;
+export interface SimpleHashInputProps {
+  circuitTypeData: SimpleHashV1Data;
   value: HashData | undefined;
   error: string | undefined;
-  setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  setFormValues: React.Dispatch<React.SetStateAction<SimpleHashV1Inputs>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<SimpleHashV1Inputs>>>;
   presetVals?: QueryPresetVals;
 }
 
