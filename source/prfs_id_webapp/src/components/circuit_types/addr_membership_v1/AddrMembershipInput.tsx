@@ -118,7 +118,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
       setFormErrors((prevVals: any) => {
         return {
           ...prevVals,
-          [circuitInput.name]: undefined,
+          merkleProof: undefined,
         };
       });
 
@@ -134,7 +134,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
           setFormErrors((prevVals: any) => {
             return {
               ...prevVals,
-              [circuitInput.name]: error,
+              merkleProof: error,
             };
           });
         }
@@ -195,7 +195,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
         setFormValues((prevVals: any) => {
           return {
             ...prevVals,
-            [circuitInput.name]: merkleProof,
+            merkleProof: merkleProof,
           };
         });
       } catch (err) {
@@ -206,8 +206,8 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
   );
 
   const label = React.useMemo(() => {
-    return `${circuitInput.label} (${prfsSet ? prfsSet.label : i18n.loading})`;
-  }, [circuitInput, prfsSet]);
+    return `${circuitTypeData.label} (${prfsSet ? prfsSet.label : i18n.loading})`;
+  }, [circuitTypeData, prfsSet]);
 
   return (
     <FormInput>

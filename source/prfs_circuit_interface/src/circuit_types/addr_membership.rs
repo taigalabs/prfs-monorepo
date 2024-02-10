@@ -16,6 +16,6 @@ pub struct AddrMembershipV1Inputs {
 #[ts(export)]
 pub struct AddrMembershipV1Data {
     label: String,
-    value: String,
+    desc: String,
     prfs_set_id: String,
 }

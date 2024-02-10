@@ -59,6 +59,9 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
           }
         }
 
+        if (proofType.circuit_driver_id) {
+        }
+
         const driverProps = interpolateSystemAssetEndpoint(
           proofType.driver_properties,
           `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
