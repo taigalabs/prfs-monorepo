@@ -1,6 +1,7 @@
 import { SPARTAN_DRIVER_V1_ID } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { MerkleSigPosRangeV1 } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1";
+import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
+import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import {
   ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
   SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
@@ -64,7 +65,7 @@ const proof_types: PrfsProofType[] = [
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000001",
     circuit_type_id: SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
-    circuit_type_data: {},
+    circuit_type_data: {} as SimpleHashV1Data,
     circuit_driver_id: SPARTAN_DRIVER_V1_ID,
     created_at: "2023-09-01T16:39:57-08:00",
   },
@@ -78,7 +79,7 @@ const proof_types: PrfsProofType[] = [
     img_caption: null,
     circuit_id: MERKLE_POS_RANGE_V1_CIRCUIT_ID,
     circuit_type_id: MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE,
-    circuit_type_data: {} as MerkleSigPosRangeV1,
+    circuit_type_data: { prfs_set_id: "crypto_holders" } as MerkleSigPosRangeV1Data,
     circuit_driver_id: SPARTAN_DRIVER_V1_ID,
     created_at: "2024-01-29T16:39:57-08:00",
   },
