@@ -4,7 +4,7 @@ use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[allow(non_camel_case_types)]
-#[serde(tag = "type", rename_all = "snake_case")]
+#[serde(untagged, rename_all = "snake_case")]
 #[ts(export)]
 pub enum CircuitTypeData {
     SimpleHashV1(SimpleHashV1),

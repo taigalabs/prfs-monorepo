@@ -67,7 +67,8 @@ pub async fn create_prfs_proof_type(
         img_url: req.img_url,
         img_caption: req.img_caption,
         circuit_id: req.circuit_id,
-        circuit_type_id: req.circuit_type_id.to_string(),
+        circuit_type_id: req.circuit_type_id,
+        circuit_type_data: req.circuit_type_data,
         circuit_driver_id: req.circuit_driver_id.to_string(),
         created_at: chrono::offset::Utc::now(),
     };
