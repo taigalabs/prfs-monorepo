@@ -1,5 +1,4 @@
-// import { SpartanMerkleProof } from "@bindings/SpartanMerkleProof";
-import { CircuitTypeId } from "@bindings/CircuitTypeId";
+import { CircuitTypeId } from "../../bindings/CircuitTypeId";
 
 export const MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE: CircuitTypeId = "merkle_sig_pos_range_v1";
 
@@ -11,10 +10,3 @@ ${MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE}.spartan.circuit`;
 
 export const MERKLE_SIG_POS_RANGE_V1_WTNS_GEN_URL = `prfs://${MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE}/\
 ${MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE}_js/${MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE}.wasm`;
-
-// export interface MerkleSigPosRangeV1Inputs {
-//   leaf: bigint;
-//   asset_size: bigint;
-//   asset_size_max_limit: bigint;
-//   merkleProof: SpartanMerkleProof;
-// }

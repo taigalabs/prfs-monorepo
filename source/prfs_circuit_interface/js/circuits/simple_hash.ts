@@ -1,4 +1,4 @@
-// import { HashData } from "../hash_data";
+import { HashData } from "../../bindings/HashData";
 
 export const SIMPLE_HASH_V1_CIRCUIT_TYPE_ID = "simple_hash_v1";
 
@@ -9,7 +9,7 @@ export const SIMPLE_HASH_V1_WTNS_GEN_URL = `prfs://${SIMPLE_HASH_V1_CIRCUIT_TYPE
 ${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}_js/${SIMPLE_HASH_V1_CIRCUIT_TYPE_ID}.wasm`;
 
 export interface SimpleHashV1Inputs {
-  // hashData: HashData;
+  hashData: HashData;
 }
 
 export interface SimpleHashV1Data {

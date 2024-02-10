@@ -1,9 +1,8 @@
 import React from "react";
 import JSONbig from "json-bigint";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface";
+import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import cn from "classnames";
 import {
   useFloating,

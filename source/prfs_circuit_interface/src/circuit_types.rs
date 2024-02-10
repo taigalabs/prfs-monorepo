@@ -2,7 +2,10 @@ use serde::{Deserialize, Serialize};
 use sqlx::Type;
 use ts_rs::TS;
 
-use crate::{merkle_sig_pos_range::MerkleSigPosRangeV1Data, simple_hash::SimpleHashV1Data};
+use crate::{
+    addr_membership::AddrMembershipV1Data, merkle_sig_pos_range::MerkleSigPosRangeV1Data,
+    simple_hash::SimpleHashV1Data,
+};
 
 #[derive(Debug, Serialize, Deserialize, Clone, Type, TS)]
 #[allow(non_camel_case_types)]
@@ -11,6 +14,7 @@ use crate::{merkle_sig_pos_range::MerkleSigPosRangeV1Data, simple_hash::SimpleHa
 #[ts(export)]
 pub enum CircuitTypeId {
     SimpleHashV1,
+    AddrMembershipV1,
     MerkleSigPosRangeV1,
 }
 
@@ -20,6 +24,7 @@ pub enum CircuitTypeId {
 #[ts(export)]
 pub enum CircuitTypeData {
     SimpleHashV1(SimpleHashV1Data),
+    AddrMembershipV1(AddrMembershipV1Data),
     MerkleSigPosRangeV1(MerkleSigPosRangeV1Data),
 }
 
