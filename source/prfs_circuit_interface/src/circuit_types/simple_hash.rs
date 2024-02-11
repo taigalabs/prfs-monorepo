@@ -21,7 +21,7 @@ pub struct SimpleHashV1Data {
 #[allow(non_snake_case)]
 #[ts(export)]
 pub struct HashData {
-    msgRaw: Option<String>,
-    msgRawInt: Option<u64>,
-    msgHash: Option<u64>,
+    msgRaw: String,
+    msgRawInt: u64,
+    msgHash: u64,
 }

@@ -1,9 +1,9 @@
 import { BN } from "bn.js";
 import { toBuffer } from "@ethereumjs/util";
-import { fromSig, snarkJsWitnessGen } from "../../utils/utils";
-import { makePoseidon } from "../../utils/poseidon";
+import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
+import { makePoseidon } from "@/utils/poseidon";
 import { MembershipProofCircuitPubInput, MembershipProofPublicInput, computeEffEcdsaPubInput, verifyEffEcdsaPubInput, } from "./public_input";
-import { SECP256K1_P } from "../../math/secp256k1";
+import { SECP256K1_P } from "@/math/secp256k1";
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     const { sigData, merkleProof } = inputs;

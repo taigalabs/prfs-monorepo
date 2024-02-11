@@ -7,7 +7,7 @@ import {
 } from "@taigalabs/prfs-driver-interface";
 import {
   ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
-  MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID,
+  MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE_ID,
   SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
 } from "@taigalabs/prfs-circuit-interface";
 
@@ -125,7 +125,7 @@ export default class SpartanDriver implements CircuitDriver {
 
           return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
         }
-        case MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID: {
+        case MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE_ID: {
           const { proveMembership } = await import(
             "./provers/merkle_pos_range/merkle_pos_range_v1"
           );
@@ -157,7 +157,7 @@ export default class SpartanDriver implements CircuitDriver {
 
           return verifyMembership(args, this.handlers, this.circuit);
         }
-        case MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID: {
+        case MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE_ID: {
           const { verifyMembership } = await import(
             "./provers/merkle_pos_range/merkle_pos_range_v1"
           );

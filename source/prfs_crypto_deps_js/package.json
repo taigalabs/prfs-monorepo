@@ -11,7 +11,6 @@
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
     "@metamask/providers": "14.0.2",
-    "@taigalabs/prfs-crypto-js": "*",
     "@noble/curves": "^1.2.0",
     "classnames": "^2.3.2",
     "ethers": "^5",

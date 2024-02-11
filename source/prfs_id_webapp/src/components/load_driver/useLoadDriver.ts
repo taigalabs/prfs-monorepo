@@ -59,21 +59,29 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
           }
         }
 
-        if (proofType.circuit_driver_id) {
+        const { circuit_driver_id } = proofType;
+        if (!circuit_driver_id) {
+          console.error("Circuit driver id is not given");
+          return undefined;
         }
 
-        const driverProps = interpolateSystemAssetEndpoint(
-          proofType.driver_properties,
-          `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
-        );
+        switch (circuit_driver_id) {
+          case "spartan_circom_v1": {
+          }
+        }
 
-        setLoadDriverStatus(LoadDriverStatus.InProgress);
+        // const driverProps = interpolateSystemAssetEndpoint(
+        //   proofType.driver_properties,
+        //   `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
+        // );
+
+        // setLoadDriverStatus(LoadDriverStatus.InProgress);
         const driver = await initCircuitDriver(
           proofType.circuit_driver_id,
-          driverProps,
           handleDriverEv,
+          `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
         );
-        setDriver(driver);
+        // setDriver(driver);
       }
     }
     fn().then();

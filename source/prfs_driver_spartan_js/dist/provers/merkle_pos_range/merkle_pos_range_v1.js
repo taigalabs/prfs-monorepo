@@ -1,4 +1,4 @@
-import { snarkJsWitnessGen } from "../../utils/utils";
+import { snarkJsWitnessGen } from "@/utils/utils";
 import { MerklePosRangeCircuitPubInput, MerklePosRangePublicInput, verifyEffEcdsaPubInput, } from "./public_input";
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;

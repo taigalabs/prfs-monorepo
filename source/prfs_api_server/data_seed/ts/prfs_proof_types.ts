@@ -5,14 +5,14 @@ import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindi
 import {
   ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
   SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
-  MERKLE_POS_RANGE_V1_CIRCUIT_ID,
+  MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
   ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
-  MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE,
+  MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE_ID,
   ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
   SIMPLE_HASH_V1_CIRCUIT_URL,
   SIMPLE_HASH_V1_WTNS_GEN_URL,
-  MERKLE_POS_RANGE_V1_CIRCUIT_URL,
-  MERKLE_POS_RANGE_V1_WTNS_GEN_URL,
+  MERKLE_SIG_POS_RANGE_V1_CIRCUIT_URL,
+  MERKLE_SIG_POS_RANGE_V1_WTNS_GEN_URL,
 } from "@taigalabs/prfs-circuit-interface";
 import path from "path";
 import fs from "fs";
@@ -77,8 +77,8 @@ const proof_types: PrfsProofType[] = [
     expression: "Has assets in crypto worth X USD",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/money-cash-icon-png.webp",
     img_caption: null,
-    circuit_id: MERKLE_POS_RANGE_V1_CIRCUIT_ID,
-    circuit_type_id: MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE,
+    circuit_id: MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
+    circuit_type_id: MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE_ID,
     circuit_type_data: { prfs_set_id: "crypto_holders" } as MerkleSigPosRangeV1Data,
     circuit_driver_id: SPARTAN_DRIVER_V1_ID,
     created_at: "2024-01-29T16:39:57-08:00",

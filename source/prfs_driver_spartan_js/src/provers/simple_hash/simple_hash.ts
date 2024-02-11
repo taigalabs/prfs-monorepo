@@ -1,5 +1,5 @@
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
-import { SimpleHashProveInputs } from "@taigalabs/prfs-circuit-interface";
+import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
 
 import { PrfsHandlers } from "@/types";
 import { makePoseidon } from "@/utils/poseidon";
@@ -7,14 +7,14 @@ import { SimpleHashCircuitPubInput, SimpleHashPublicInput } from "./public_input
 import { snarkJsWitnessGen } from "@/utils/utils";
 
 export async function proveSimpleHash(
-  args: ProveArgs<SimpleHashProveInputs>,
+  args: ProveArgs<SimpleHashV1Inputs>,
   handlers: PrfsHandlers,
   wtnsGen: Uint8Array,
   circuit: Uint8Array,
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
   const { hashData } = inputs;
-  const { msgRaw, msgRawInt, msgHash } = hashData;
+  const { msgRawInt, msgHash } = hashData;
 
   const circuitPubInput = new SimpleHashCircuitPubInput(msgHash);
   const publicInput = new SimpleHashPublicInput(circuitPubInput);

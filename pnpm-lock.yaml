@@ -463,9 +463,6 @@ importers:
       '@noble/curves':
         specifier: ^1.2.0
         version: 1.2.0
-      '@taigalabs/prfs-crypto-js':
-        specifier: '*'
-        version: link:../prfs_crypto_js
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
