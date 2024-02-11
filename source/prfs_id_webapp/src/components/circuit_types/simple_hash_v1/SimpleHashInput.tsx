@@ -46,7 +46,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
 
   React.useEffect(() => {
     if (value === undefined) {
-      const defaultHashData: HashData = {
+      const defaultHashData: Transmuted<HashData> = {
         msgRaw: null,
         msgRawInt: null,
         msgHash: null,

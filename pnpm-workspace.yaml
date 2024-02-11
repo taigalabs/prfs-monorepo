@@ -17,6 +17,7 @@ packages:
   - "source/prfs_id_sdk_web"
   - "source/prfs_id_sdk_react"
   - "source/prfs_proof_gen_js"
+  - "source/prfs_ts_utils"
   - "source/prfs_api_js"
   - "source/prfs_api_server"
   - "source/prfs_snap"

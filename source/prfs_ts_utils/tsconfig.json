@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "lib": ["es2020", "DOM"],
+    "declaration": true,
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["./js/**/*", "./js/**/*.wasm", "./js/**/package.json"],
+  "exclude": [
+    "./jest.config.js",
+    "./node_modules",
+    "./tests",
+    "./build",
+    "./dist",
+    "./js/wasm_wrapper/build"
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
+}
