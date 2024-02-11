@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { EffECDSAPubInput } from "@/types";
+import { EffECDSAPubInput } from "../../types";
 export declare class MerklePosRangePublicInput {
     circuitPubInput: MerklePosRangeCircuitPubInput;
     constructor(circuitPubInput: MerklePosRangeCircuitPubInput);

@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { PrfsHandlers } from "@/types";
+import { PrfsHandlers } from "../types";
 export declare class Poseidon {
     handlers: PrfsHandlers;
     constructor(handlers: PrfsHandlers);

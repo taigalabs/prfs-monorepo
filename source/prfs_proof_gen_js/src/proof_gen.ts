@@ -15,7 +15,7 @@ export async function initCircuitDriver(
       const mod = await import("@taigalabs/prfs-driver-spartan-js");
       const driverProps: SpartanCircomDriverProperties = {};
       const driver = await mod.default.newInstance(
-        driverProps as SpartanCircomDriverProperties,
+        driverProps as SprtanCircomDriverProperties,
         eventListener,
       );
       return driver;

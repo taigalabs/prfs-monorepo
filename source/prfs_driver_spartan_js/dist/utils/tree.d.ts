@@ -1,5 +1,5 @@
-import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface";
-import { AsyncHashFn } from "@/types";
+import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
+import { AsyncHashFn } from "../types";
 export declare class Tree {
     depth: number;
     private treeInner;

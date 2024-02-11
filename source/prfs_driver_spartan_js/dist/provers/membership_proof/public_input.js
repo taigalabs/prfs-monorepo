@@ -3,7 +3,7 @@ import BN from "bn.js";
 import JSONBig from "json-bigint";
 import { toBuffer } from "@ethereumjs/util";
 import { bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
-import { SECP256K1_N } from "@/math/secp256k1";
+import { SECP256K1_N } from "../../math/secp256k1";
 const ec = new EC("secp256k1");
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 export class MembershipProofPublicInput {
