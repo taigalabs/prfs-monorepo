@@ -1,4 +1,5 @@
 use prfs_circuit_interface::circuit_types::{CircuitTypeData, CircuitTypeId};
+use prfs_driver_interface::CircuitDriverId;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
@@ -42,7 +43,7 @@ pub struct CreatePrfsProofTypeRequest {
     pub circuit_type_id: CircuitTypeId,
     #[ts(type = "Record<string, any>")]
     pub circuit_type_data: sqlx::types::Json<CircuitTypeData>,
-    pub circuit_driver_id: String,
+    pub circuit_driver_id: CircuitDriverId,
     pub expression: String,
     pub img_url: Option<String>,
     pub img_caption: Option<String>,
