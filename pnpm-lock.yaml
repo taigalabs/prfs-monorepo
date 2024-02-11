@@ -637,6 +637,9 @@ importers:
 
   source/prfs_driver_interface:
     dependencies:
+      '@taigalabs/prfs-circuit-interface':
+        specifier: '*'
+        version: link:../prfs_circuit_interface
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities

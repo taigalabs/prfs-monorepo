@@ -1,3 +1,5 @@
+import { CircuitTypeId } from "@taigalabs/prfs-circuit-interface/bindings/CircuitTypeId";
+
 import { CreateProofEvent, DriverEventListener } from "./events";
 
 export interface CircuitDriverGen {
@@ -15,13 +17,13 @@ export interface CircuitDriver {
 
 export interface ProveArgs<T> {
   inputs: T;
-  circuitTypeId: string;
+  circuitTypeId: CircuitTypeId;
   eventListener: (ev: CreateProofEvent) => void;
 }
 
 export interface VerifyArgs {
   proof: Proof;
-  circuitTypeId: string;
+  circuitTypeId: CircuitTypeId;
 }
 
 export interface Proof {

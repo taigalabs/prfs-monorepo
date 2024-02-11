@@ -3,7 +3,7 @@ import {
   DriverEventListener,
   SPARTAN_CIRCOM_V1,
 } from "@taigalabs/prfs-driver-interface";
-import { type SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
+import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
 
 export async function initCircuitDriver(
   driverId: string,
