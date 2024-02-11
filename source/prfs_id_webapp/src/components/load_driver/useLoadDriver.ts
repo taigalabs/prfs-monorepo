@@ -76,11 +76,11 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
         // );
 
         // setLoadDriverStatus(LoadDriverStatus.InProgress);
-        const driver = await initCircuitDriver(
-          proofType.circuit_driver_id,
-          handleDriverEv,
-          `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
-        );
+        // const driver = await initCircuitDriver(
+        //   proofType.circuit_driver_id,
+        //   handleDriverEv,
+        //   `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
+        // );
         // setDriver(driver);
       }
     }

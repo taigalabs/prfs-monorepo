@@ -7,7 +7,7 @@ include "../../gadgets/poseidon/poseidon.circom";
 include "../../gadgets/bigint.circom";
 include "../../gadgets/secp256k1_func.circom";
 
-template MerklePosRange(nLevels) {
+template MerkleSigPosRange(nLevels) {
     // eff ecdsa
     // signal input Tx; 
     // signal input Ty; 

@@ -1,21 +1,21 @@
 import {
   CircuitDriver,
   DriverEventListener,
-  SPARTAN_DRIVER_V1_ID,
+  SPARTAN_CIRCOM_V1,
 } from "@taigalabs/prfs-driver-interface";
 import { type SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
 
 export async function initCircuitDriver(
   driverId: string,
+  driverProps: Record<string, any>,
   eventListener: DriverEventListener,
-  assetServerEndpoint: string,
 ): Promise<CircuitDriver> {
   switch (driverId) {
-    case SPARTAN_DRIVER_V1_ID: {
+    case SPARTAN_CIRCOM_V1: {
       const mod = await import("@taigalabs/prfs-driver-spartan-js");
-      const driverProps: SpartanCircomDriverProperties = {};
+
       const driver = await mod.default.newInstance(
-        driverProps as SprtanCircomDriverProperties,
+        driverProps as SpartanCircomDriverProperties,
         eventListener,
       );
       return driver;
