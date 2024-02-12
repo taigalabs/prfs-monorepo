@@ -838,6 +838,9 @@ importers:
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
+      '@taigalabs/prfs-circuit-artifacts-uri-resolver':
+        specifier: '*'
+        version: link:../prfs_circuit_artifacts_uri_resolver
       '@taigalabs/prfs-circuit-interface':
         specifier: '*'
         version: link:../prfs_circuit_interface

@@ -23,6 +23,7 @@
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-circuit-interface": "*",
+    "@taigalabs/prfs-circuit-artifacts-uri-resolver": "*",
     "@taigalabs/prfs-env-js": "*",
     "@taigalabs/prfs-i18n": "*",
     "@taigalabs/prfs-crypto-deps-js": "*",

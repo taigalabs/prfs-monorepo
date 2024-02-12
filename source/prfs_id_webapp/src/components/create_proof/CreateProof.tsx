@@ -97,12 +97,15 @@ const CreateProof: React.FC<CreateProofProps> = ({
         if (!proofType) {
           return;
         }
+
         if (!driver) {
           return;
         }
+
         if (createProofStatus === Status.InProgress) {
           return;
         }
+
         try {
           const inputs = await validateInputs(formValues, proofType, setFormErrors);
           if (inputs === null) {

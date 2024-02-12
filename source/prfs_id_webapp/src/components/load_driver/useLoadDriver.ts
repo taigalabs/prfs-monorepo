@@ -5,6 +5,11 @@ import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/pr
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import { envs } from "@/envs";
+import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
+import {
+  resolveCircuitUrl,
+  resolveWtnsGenUrl,
+} from "@taigalabs/prfs-circuit-artifacts-uri-resolver";
 
 export enum LoadDriverStatus {
   Standby,
@@ -67,6 +72,23 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
 
         switch (circuit_driver_id) {
           case "spartan_circom_v1": {
+            const wtns_gen_url = resolveWtnsGenUrl(
+              envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT,
+              proofType.circuit_type_id,
+            );
+
+            const circuit_url = resolveCircuitUrl(
+              envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT,
+              proofType.circuit_type_id,
+            );
+
+            const driverProps: SpartanCircomDriverProperties = {
+              version: "",
+              wtns_gen_url,
+              circuit_url,
+            };
+
+            console.log(123, driverProps);
           }
         }
 
