@@ -4,7 +4,6 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import cn from "classnames";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
-// import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
   ProofGenSuccessPayload,

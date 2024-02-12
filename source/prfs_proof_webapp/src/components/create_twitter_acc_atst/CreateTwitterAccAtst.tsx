@@ -30,7 +30,6 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
 import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
-// import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import common from "@/styles/common.module.scss";

@@ -19,7 +19,6 @@ import {
   createSessionKey,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-// import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";

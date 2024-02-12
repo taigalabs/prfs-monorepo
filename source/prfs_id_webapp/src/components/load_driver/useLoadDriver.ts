@@ -14,6 +14,7 @@ import {
 export enum LoadDriverStatus {
   Standby,
   InProgress,
+  Error,
 }
 
 export interface DriverArtifacts {
@@ -88,8 +89,6 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
               circuit_url,
             };
 
-            console.log(123, driverProps);
-
             setLoadDriverStatus(LoadDriverStatus.InProgress);
             const driver = await initCircuitDriver(
               proofType.circuit_driver_id,
@@ -97,13 +96,11 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
               handleDriverEv,
             );
             setDriver(driver);
+            break;
           }
+          default:
+            console.error("This circuit driver is not supported yet", circuit_driver_id);
         }
-
-        // const driverProps = interpolateSystemAssetEndpoint(
-        //   proofType.driver_properties,
-        //   `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
-        // );
       }
     }
     fn().then();

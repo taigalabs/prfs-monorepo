@@ -5,10 +5,10 @@ import userReducer from "./userReducer";
 import tutorialReducer from "./tutorialReducer";
 
 const logger = createLogger({
-  // level: {
-  //   prevState: false,
-  //   nextState: false,
-  // },
+  level: {
+    prevState: false,
+    nextState: false,
+  },
 });
 
 export const store = configureStore({

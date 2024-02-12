@@ -11,6 +11,7 @@ import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prf
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
+import { CircuitTypeData } from "@taigalabs/prfs-circuit-interface/bindings/CircuitTypeData";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -27,7 +28,6 @@ import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 import { useAppSelector } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
-import { CircuitTypeData } from "@taigalabs/prfs-circuit-interface/bindings/CircuitTypeData";
 
 enum Status {
   Standby,
@@ -171,7 +171,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
             >
               <div className={styles.form}>
                 <CircuitInputs
-                  circuitTypeData={proofType.circuit_type_data as CircuitTypeData}
+                  proofType={proofType}
                   formValues={formValues}
                   setFormValues={setFormValues}
                   formErrors={formErrors}

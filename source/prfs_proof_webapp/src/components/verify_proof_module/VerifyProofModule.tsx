@@ -4,7 +4,6 @@ import cn from "classnames";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-// import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
   VerifyProofArgs,

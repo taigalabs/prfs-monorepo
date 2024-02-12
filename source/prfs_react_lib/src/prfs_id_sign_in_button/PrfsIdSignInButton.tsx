@@ -8,7 +8,6 @@ import {
   parseBufferOfArray,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-// import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import Button from "../button/Button";
@@ -25,7 +24,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   isLoading,
 }) => {
   const i18n = React.useContext(i18nContext);
-  // const { openPopup } = usePopup();
 
   const handleClickSignIn = React.useCallback(async () => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);

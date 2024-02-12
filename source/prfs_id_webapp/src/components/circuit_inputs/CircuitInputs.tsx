@@ -6,10 +6,14 @@ import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import styles from "./CircuitInputs.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import MerkleSigPosRangeInput from "@/components/circuit_types/merkle_sig_pos_range_v1/MerkleSigPosRangeInput";
+import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
+import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 // import { MERKLE_POS_RANGE_INPUT_TYPE_V1 } from "@taigalabs/prfs-circuit-interface";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
-  circuitTypeData,
+  proofType,
   formValues,
   formErrors,
   setFormValues,
@@ -20,7 +24,25 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   const i18n = React.useContext(i18nContext);
 
   const circuitInputsElem = React.useMemo(() => {
-    const entriesElem = [null];
+    switch (proofType.circuit_type_id) {
+      case "merkle_sig_pos_range_v1": {
+        return (
+          <MerkleSigPosRangeInput
+            circuitTypeData={proofType.circuit_type_data as MerkleSigPosRangeV1Data}
+            value={formValues.merkleProof as SpartanMerkleProof}
+            error={formErrors.merkleProof}
+            setFormValues={setFormValues}
+            setFormErrors={setFormErrors as any}
+            presetVals={presetVals}
+            credential={credential}
+          />
+        );
+      }
+      default:
+        return null;
+    }
+
+    // console.log(22, proofType);
     // for (const [idx, input] of circuitInputs.entries()) {
     //   switch (input.type) {
     //     case "MERKLE_PROOF_1": {
@@ -95,9 +117,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
     //     }
     //   }
     // }
-
-    return entriesElem;
-  }, [circuitTypeData, formValues, setFormValues, formErrors]);
+  }, [proofType, formValues, setFormValues, formErrors]);
 
   return <>{circuitInputsElem}</>;
 };
@@ -105,7 +125,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
 export default CircuitInputs;
 
 export interface CircuitInputsProps {
-  circuitTypeData: CircuitTypeData;
+  proofType: PrfsProofType;
   formValues: Record<string, any>;
   formErrors: Record<string, string>;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;

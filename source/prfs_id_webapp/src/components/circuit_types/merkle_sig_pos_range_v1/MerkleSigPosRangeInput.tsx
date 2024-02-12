@@ -268,7 +268,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   );
 
   const label = React.useMemo(() => {
-    return `${circuitTypeData.label} (${prfsSet ? prfsSet.label : i18n.loading})`;
+    return `${"label"} (${prfsSet ? prfsSet.label : i18n.loading})`;
   }, [circuitTypeData, prfsSet]);
 
   return (
@@ -290,12 +290,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       </FormInputTitleRow>
       <InputWrapper>
         <div className={styles.interactiveArea}>
-          <input
-            className={styles.addressInput}
-            placeholder={`${circuitTypeData.desc}`}
-            value={walletAddr}
-            readOnly
-          />
+          <input className={styles.addressInput} placeholder={"desc"} value={walletAddr} readOnly />
         </div>
       </InputWrapper>
       {value && <ComputedValue value={value} />}
