@@ -10,7 +10,8 @@ impl BuildTask for BuildJsDependenciesTask {
     }
 
     fn run(&self, _build_handle: &mut BuildHandle) -> Result<(), CiError> {
-        let dependencies = ["externals/incremental-merkle-tree"];
+        // let dependencies = ["externals/incremental-merkle-tree"];
+        let dependencies: Vec<&str> = vec![];
 
         for dep in dependencies {
             let dependency_path = PATHS.curr_dir.join(dep);
