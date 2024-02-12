@@ -73,22 +73,30 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
         switch (circuit_driver_id) {
           case "spartan_circom_v1": {
             const wtns_gen_url = resolveWtnsGenUrl(
-              envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT,
+              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
               proofType.circuit_type_id,
             );
 
             const circuit_url = resolveCircuitUrl(
-              envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT,
+              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
               proofType.circuit_type_id,
             );
 
             const driverProps: SpartanCircomDriverProperties = {
-              version: "",
+              version: "0.0.1",
               wtns_gen_url,
               circuit_url,
             };
 
             console.log(123, driverProps);
+
+            setLoadDriverStatus(LoadDriverStatus.InProgress);
+            const driver = await initCircuitDriver(
+              proofType.circuit_driver_id,
+              driverProps,
+              handleDriverEv,
+            );
+            setDriver(driver);
           }
         }
 
@@ -96,14 +104,6 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
         //   proofType.driver_properties,
         //   `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
         // );
-
-        // setLoadDriverStatus(LoadDriverStatus.InProgress);
-        // const driver = await initCircuitDriver(
-        //   proofType.circuit_driver_id,
-        //   handleDriverEv,
-        //   `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
-        // );
-        // setDriver(driver);
       }
     }
     fn().then();
