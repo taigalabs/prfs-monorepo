@@ -11,7 +11,7 @@ use super::{AddrMembershipV1Data, MerkleSigPosRangeV1Data, SimpleHashV1Data};
 #[ts(export)]
 pub enum CircuitTypeId {
     SimpleHashV1,
-    AddrMembership2V1,
+    AddrMembershipV1,
     MerkleSigPosRangeV1,
 }
 
