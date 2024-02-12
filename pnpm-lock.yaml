@@ -113,6 +113,15 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
+  source/prfs_circuit_artifacts_uri_resolver:
+    devDependencies:
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+
   source/prfs_circuit_interface:
     dependencies:
       '@taigalabs/prfs-entities':
@@ -1143,6 +1152,9 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
+      '@taigalabs/prfs-circuit-artifacts-uri-resolver':
+        specifier: '*'
+        version: link:../prfs_circuit_artifacts_uri_resolver
       '@taigalabs/prfs-circuit-interface':
         specifier: '*'
         version: link:../prfs_circuit_interface
