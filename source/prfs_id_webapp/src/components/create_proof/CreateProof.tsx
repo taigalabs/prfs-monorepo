@@ -107,15 +107,15 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
 
         try {
-          const inputs = await validateInputs(formValues, proofType, setFormErrors);
-          if (inputs === null) {
-            console.error("Input validation fail to create a proof");
-          }
+          // const inputs = await validateInputs(formValues, proofType, setFormErrors);
+          // if (inputs === null) {
+          //   console.error("Input validation fail to create a proof");
+          // }
 
-          console.log("inputs", inputs);
+          console.log("Form values", formValues);
           setCreateProofStatus(Status.InProgress);
           const proveReceipt = await driver.prove({
-            inputs,
+            inputs: formValues,
             circuitTypeId: proofType.circuit_type_id,
             eventListener: handleProofGenEvent,
           });

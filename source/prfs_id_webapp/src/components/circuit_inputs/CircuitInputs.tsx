@@ -1,6 +1,5 @@
 import React from "react";
 import { CircuitTypeData } from "@taigalabs/prfs-circuit-interface/bindings/CircuitTypeData";
-// import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CircuitInputs.module.scss";
@@ -10,7 +9,8 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import MerkleSigPosRangeInput from "@/components/circuit_types/merkle_sig_pos_range_v1/MerkleSigPosRangeInput";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
-// import { MERKLE_POS_RANGE_INPUT_TYPE_V1 } from "@taigalabs/prfs-circuit-interface";
+import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
+import { Transmuted } from "../circuit_types/formErrorTypes";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
   proofType,
@@ -29,8 +29,8 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
         return (
           <MerkleSigPosRangeInput
             circuitTypeData={proofType.circuit_type_data as MerkleSigPosRangeV1Data}
-            value={formValues.merkleProof as SpartanMerkleProof}
-            error={formErrors.merkleProof}
+            value={formValues as MerkleSigPosRangeV1Inputs}
+            error={formErrors as Transmuted<MerkleSigPosRangeV1Inputs>}
             setFormValues={setFormValues}
             setFormErrors={setFormErrors as any}
             presetVals={presetVals}

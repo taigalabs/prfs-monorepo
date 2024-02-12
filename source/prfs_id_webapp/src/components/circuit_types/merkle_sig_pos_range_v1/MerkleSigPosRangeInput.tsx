@@ -42,13 +42,17 @@ import { Transmuted } from "@/components/circuit_types/formErrorTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
-    return (
-      "Merkle root: " +
-      value.root.toString().substring(0, 5) +
-      "..., First sibling: " +
-      value.siblings[0].toString().substring(0, 5) +
-      "..."
-    );
+    if (value.merkleProof) {
+      return (
+        "Merkle root: " +
+        value.merkleProof.root.toString().substring(0, 5) +
+        "..., First sibling: " +
+        value.merkleProof.siblings[0].toString().substring(0, 5) +
+        "..."
+      );
+    }
+
+    return null;
   }, [value]);
 
   return <div className={styles.computedValue}>{val}</div>;
@@ -61,11 +65,11 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   error,
   setFormErrors,
   setFormValues,
-  presetVals,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [walletAddr, setWalletAddr] = React.useState("");
+  console.log("Form value", value);
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
@@ -271,6 +275,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     return `${"label"} (${prfsSet ? prfsSet.label : i18n.loading})`;
   }, [circuitTypeData, prfsSet]);
 
+  console.log(44, error);
+
   return (
     <FormInput>
       <FormInputTitleRow>
@@ -294,7 +300,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         </div>
       </InputWrapper>
       {value && <ComputedValue value={value} />}
-      {error && <FormError>{error}</FormError>}
+      {error && <FormError>{error.toString()}</FormError>}
     </FormInput>
   );
 };
@@ -303,8 +309,8 @@ export default MerkleSigPosRangeInput;
 
 export interface MerkleSigPosRangeInputProps {
   circuitTypeData: MerkleSigPosRangeV1Data;
-  value: SpartanMerkleProof | undefined;
-  error: string | undefined;
+  value: MerkleSigPosRangeV1Inputs | undefined;
+  error: Transmuted<MerkleSigPosRangeV1Inputs> | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<MerkleSigPosRangeV1Inputs>>>;
   presetVals?: QueryPresetVals;
@@ -312,5 +318,5 @@ export interface MerkleSigPosRangeInputProps {
 }
 
 export interface ComputedValueProps {
-  value: SpartanMerkleProof;
+  value: MerkleSigPosRangeV1Inputs;
 }
