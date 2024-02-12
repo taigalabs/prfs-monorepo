@@ -8,3 +8,4 @@ export * from "./queries";
 export * from "./tutorial";
 export * from "./session";
 export * from "./parse";
+export * from "./popup";

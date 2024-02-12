@@ -22,6 +22,7 @@ import {
   createSession,
   parseBufferOfArray,
   createSessionKey,
+  openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
@@ -29,7 +30,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
 import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
-import { usePopup } from "@taigalabs/prfs-id-sdk-react";
+// import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import common from "@/styles/common.module.scss";
@@ -99,7 +100,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return atstApi("attest_twitter_acc", req);
     },
   });
-  const { openPopup } = usePopup();
+  // const { openPopup } = usePopup();
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
@@ -165,7 +166,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     [setFormData, setValidation],
   );
 
-  const handleClickGenerate = React.useCallback(() => {
+  const handleClickGenerate = React.useCallback(async () => {
     const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
@@ -184,72 +185,75 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
-    openPopup(endpoint, async () => {
-      let sessionStream;
+    const popup = openPopup(endpoint);
+    if (!popup) {
+      return;
+    }
+
+    let sessionStream;
+    try {
+      sessionStream = await createSession({
+        key: proofGenArgs.session_key,
+        value: null,
+        ticket: "TICKET",
+      });
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+
+    const { ws, send, receive } = sessionStream;
+    const session = await receive();
+    if (!session) {
+      console.error("Coultn' retreieve session");
+      return;
+    }
+
+    try {
+      if (session.error) {
+        console.error(session.error);
+        return;
+      }
+
+      if (!session.payload) {
+        console.error("Session doesn't have a payload");
+        return;
+      }
+
+      if (session.payload.type !== "put_prfs_id_session_value_result") {
+        console.error("Wrong session payload type at this point, msg: %s", session.payload);
+        return;
+      }
+
+      if (session.payload.value.length === 0) {
+        console.error("Commitment is empty, session_key: %s", session_key);
+        return;
+      }
+
+      const buf = parseBufferOfArray(session.payload.value);
+      let decrypted = decrypt(sk.secret, buf).toString();
+
+      let payload: ProofGenSuccessPayload;
       try {
-        sessionStream = await createSession({
-          key: proofGenArgs.session_key,
-          value: null,
-          ticket: "TICKET",
-        });
+        payload = JSON.parse(decrypted);
       } catch (err) {
-        console.error(err);
+        console.error("cannot parse payload", err);
         return;
       }
 
-      const { ws, send, receive } = sessionStream;
-      const session = await receive();
-      if (!session) {
-        console.error("Coultn' retreieve session");
+      const cm = payload.receipt[CLAIM];
+      if (cm) {
+        setClaimCm(cm);
+        setStep(AttestationStep.POST_TWEET);
+      } else {
+        console.error("no commitment delivered");
         return;
       }
-
-      try {
-        if (session.error) {
-          console.error(session.error);
-          return;
-        }
-
-        if (!session.payload) {
-          console.error("Session doesn't have a payload");
-          return;
-        }
-
-        if (session.payload.type !== "put_prfs_id_session_value_result") {
-          console.error("Wrong session payload type at this point, msg: %s", session.payload);
-          return;
-        }
-
-        if (session.payload.value.length === 0) {
-          console.error("Commitment is empty, session_key: %s", session_key);
-          return;
-        }
-
-        const buf = parseBufferOfArray(session.payload.value);
-        let decrypted = decrypt(sk.secret, buf).toString();
-
-        let payload: ProofGenSuccessPayload;
-        try {
-          payload = JSON.parse(decrypted);
-        } catch (err) {
-          console.error("cannot parse payload", err);
-          return;
-        }
-
-        const cm = payload.receipt[CLAIM];
-        if (cm) {
-          setClaimCm(cm);
-          setStep(AttestationStep.POST_TWEET);
-        } else {
-          console.error("no commitment delivered");
-          return;
-        }
-      } catch (err) {
-        console.error(err);
-        return;
-      }
-    });
-  }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+  }, [formData, step, claimSecret, sk, pkHex, setClaimCm, setStep]);
 
   const handleClickValidate = React.useCallback(async () => {
     setValidation(null);

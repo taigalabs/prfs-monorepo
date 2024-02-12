@@ -1,8 +1,8 @@
 import { CircuitTypeId } from "../../bindings/CircuitTypeId";
 
-export const ADDR_MEMBERSHIP_V1: CircuitTypeId = "addr_membership_v1";
+export const ADDR_MEMBERSHIP2_V1: CircuitTypeId = "addr_membership2_v1";
 
-export const ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID =
+export const ADDR_MEMBERSHIP2_V1_CIRCUIT_ID =
   "0x0000000000000000000000000000000000000000000000000000000000000001";
 
 // export const ADDR_MEMBERSHIP2_V1_CIRCUIT_URL = `prfs://${ADDR_MEMBERSHIP_V1}/\

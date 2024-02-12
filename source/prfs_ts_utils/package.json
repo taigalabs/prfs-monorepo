@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
-    "@taigalabs/async-incremental-merkle-tree": "*",
     "@taigalabs/prfs-crypto-deps-js": "*",
     "@types/rimraf": "^3.0.2",
     "eciesjs": "^0.4.5",

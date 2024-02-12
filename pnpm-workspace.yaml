@@ -1,6 +1,5 @@
 packages:
   # Externals
-  - "externals/incremental-merkle-tree"
 
   # Prfs
   - "source/prfs_docs_website"
@@ -15,7 +14,6 @@ packages:
   - "source/prfs_env_js"
   - "source/prfs_react_lib"
   - "source/prfs_id_sdk_web"
-  - "source/prfs_id_sdk_react"
   - "source/prfs_proof_gen_js"
   - "source/prfs_ts_utils"
   - "source/prfs_api_js"

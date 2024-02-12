@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
-    "@taigalabs/async-incremental-merkle-tree": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-circuit-interface": "*",

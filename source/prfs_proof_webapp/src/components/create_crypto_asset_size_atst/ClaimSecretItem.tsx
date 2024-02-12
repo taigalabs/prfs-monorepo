@@ -17,8 +17,9 @@ import {
   createSession,
   parseBufferOfArray,
   createSessionKey,
+  openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { usePopup } from "@taigalabs/prfs-id-sdk-react";
+// import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -53,13 +54,13 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const { sk, pkHex } = useRandomKeyPair();
-  const { openPopup } = usePopup();
+  // const { openPopup } = usePopup();
   const claimSecret = React.useMemo(() => {
     const walletAddr = formData[WALLET_ADDR];
     return `${PRFS_ATTESTATION_STEM}${walletAddr}`;
   }, [formData[WALLET_ADDR]]);
 
-  const handleClickGenerate = React.useCallback(() => {
+  const handleClickGenerate = React.useCallback(async () => {
     const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10, WALLET_CM_STEM);
     const session_key = createSessionKey();
 
@@ -87,95 +88,95 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
-    openPopup(endpoint, async () => {
-      let sessionStream;
+    const popup = openPopup(endpoint);
+    if (!popup) {
+      return;
+    }
+
+    let sessionStream;
+    try {
+      sessionStream = await createSession({
+        key: proofGenArgs.session_key,
+        value: null,
+        ticket: "TICKET",
+      });
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+
+    if (!sessionStream) {
+      console.error("Couldn't open a session");
+      return;
+    }
+
+    const { ws, send, receive } = sessionStream;
+    const session = await receive();
+    if (!session) {
+      console.error("Coultn' retreieve session");
+      return;
+    }
+
+    try {
+      if (session.error) {
+        console.error(session.error);
+        return;
+      }
+
+      if (!session.payload) {
+        console.error("Session doesn't have a payload");
+        return;
+      }
+
+      if (session.payload.type !== "put_prfs_id_session_value_result") {
+        console.error("Wrong session payload type at this point, msg: %s", session.payload);
+        return;
+      }
+
+      const buf = parseBufferOfArray(session.payload.value);
+      // const buf = parseBuffer(resp);
+      let decrypted: string;
       try {
-        sessionStream = await createSession({
-          key: proofGenArgs.session_key,
-          value: null,
-          ticket: "TICKET",
-        });
+        decrypted = decrypt(sk.secret, buf).toString();
       } catch (err) {
-        console.error(err);
+        console.error("cannot decrypt payload", err);
         return;
       }
 
-      if (!sessionStream) {
-        console.error("Couldn't open a session");
-        return;
-      }
-
-      const { ws, send, receive } = sessionStream;
-      const session = await receive();
-      if (!session) {
-        console.error("Coultn' retreieve session");
-        return;
-      }
-
+      let payload: ProofGenSuccessPayload;
       try {
-        if (session.error) {
-          console.error(session.error);
-          return;
-        }
-
-        if (!session.payload) {
-          console.error("Session doesn't have a payload");
-          return;
-        }
-
-        if (session.payload.type !== "put_prfs_id_session_value_result") {
-          console.error("Wrong session payload type at this point, msg: %s", session.payload);
-          return;
-        }
-
-        const buf = parseBufferOfArray(session.payload.value);
-        // const buf = parseBuffer(resp);
-        let decrypted: string;
-        try {
-          decrypted = decrypt(sk.secret, buf).toString();
-        } catch (err) {
-          console.error("cannot decrypt payload", err);
-          return;
-        }
-
-        let payload: ProofGenSuccessPayload;
-        try {
-          payload = JSON.parse(decrypted);
-        } catch (err) {
-          console.error("cannot parse payload", err);
-          return;
-        }
-
-        const {
-          [CLAIM]: cm,
-          [ENCRYPT_WALLET_ADDR]: walletAddrEncrypted,
-          ...rest
-        } = payload.receipt;
-        if (cm) {
-          setClaimCm(cm);
-          setWalletCacheKeys(rest);
-          setWalletAddrEnc(walletAddrEncrypted);
-          setStep(AttestationStep.POST_TWEET);
-        } else {
-          console.error("no commitment delivered");
-          return;
-        }
+        payload = JSON.parse(decrypted);
       } catch (err) {
-        console.error(err);
+        console.error("cannot parse payload", err);
+        return;
       }
-    });
+
+      const { [CLAIM]: cm, [ENCRYPT_WALLET_ADDR]: walletAddrEncrypted, ...rest } = payload.receipt;
+      if (cm) {
+        setClaimCm(cm);
+        setWalletCacheKeys(rest);
+        setWalletAddrEnc(walletAddrEncrypted);
+        setStep(AttestationStep.POST_TWEET);
+      } else {
+        console.error("no commitment delivered");
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }, [
     formData,
     step,
     claimSecret,
     sk,
     pkHex,
-    openPopup,
+    // openPopup,
     setClaimCm,
     setStep,
     setWalletCacheKeys,
     setWalletAddrEnc,
   ]);
+
   return (
     <AttestationListItem isDisabled={step < AttestationStep.GENERATE_CLAIM}>
       <AttestationListItemOverlay />

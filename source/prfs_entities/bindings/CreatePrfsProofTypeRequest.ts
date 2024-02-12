@@ -6,7 +6,7 @@ export interface CreatePrfsProofTypeRequest {
   label: string;
   desc: string;
   circuit_id: string;
-  circuit_type_id: "simple_hash_v1" | "addr_membership_v1" | "merkle_sig_pos_range_v1";
+  circuit_type_id: "simple_hash_v1" | "addr_membership_2v1" | "merkle_sig_pos_range_v1";
   circuit_type_data: Record<string, any>;
   circuit_driver_id: "spartan_circom_v1";
   expression: string;
