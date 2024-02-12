@@ -2,6 +2,4 @@
 
 export interface MerkleSigPosRangeV1Data {
   prfs_set_id: string;
-  label: string;
-  desc: string;
 }

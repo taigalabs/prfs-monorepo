@@ -17,11 +17,11 @@ pub enum CircuitTypeId {
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[allow(non_camel_case_types)]
-#[serde(untagged, rename_all = "snake_case")]
+#[serde(tag = "type", rename_all = "snake_case")]
 #[ts(export)]
 pub enum CircuitTypeData {
     SimpleHashV1(SimpleHashV1Data),
-    AddrMembership2V1(AddrMembershipV1Data),
+    AddrMembershipV1(AddrMembershipV1Data),
     MerkleSigPosRangeV1(MerkleSigPosRangeV1Data),
 }
 

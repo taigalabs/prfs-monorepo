@@ -13,8 +13,8 @@ pub struct SimpleHashV1Inputs {
 #[allow(non_snake_case)]
 #[ts(export)]
 pub struct SimpleHashV1Data {
-    label: String,
-    desc: String,
+    // label: String,
+    // desc: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

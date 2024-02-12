@@ -15,7 +15,7 @@ pub struct AddrMembershipV1Inputs {
 #[allow(non_snake_case)]
 #[ts(export)]
 pub struct AddrMembershipV1Data {
-    label: String,
-    desc: String,
+    // label: String,
+    // desc: String,
     prfs_set_id: String,
 }

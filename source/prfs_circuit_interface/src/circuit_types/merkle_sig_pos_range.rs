@@ -19,6 +19,6 @@ pub struct MerkleSigPosRangeV1Inputs {
 #[ts(export)]
 pub struct MerkleSigPosRangeV1Data {
     prfs_set_id: String,
-    label: String,
-    desc: String,
+    // label: String,
+    // desc: String,
 }

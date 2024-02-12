@@ -1,21 +1,16 @@
-import { SPARTAN_DRIVER_V1_ID } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { CircuitTypeData } from "@taigalabs/prfs-circuit-interface/bindings/CircuitTypeData";
 import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import {
-  ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID,
-  SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
+  MERKLE_SIG_POS_RANGE_V1,
   MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
-  ADDR_MEMBERSHIP2_V1_CIRCUIT_URL,
-  MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE_ID,
-  ADDR_MEMBERSHIP2_V1_WTNS_GEN_URL,
-  SIMPLE_HASH_V1_CIRCUIT_URL,
-  SIMPLE_HASH_V1_WTNS_GEN_URL,
-  MERKLE_SIG_POS_RANGE_V1_CIRCUIT_URL,
-  MERKLE_SIG_POS_RANGE_V1_WTNS_GEN_URL,
+  SIMPLE_HASH_V1,
+  SIMPLE_HASH_V1_CIRCUIT_ID,
 } from "@taigalabs/prfs-circuit-interface";
 import path from "path";
 import fs from "fs";
+import { SPARTAN_CIRCOM_V1 } from "@taigalabs/prfs-driver-interface";
 
 const proofTypeIds = {
   ETH_0_0001_1: "ETH_0_0001_1",
@@ -63,10 +58,12 @@ const proof_types: PrfsProofType[] = [
     expression: "Knows hash argument",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/hash.png",
     img_caption: "",
-    circuit_id: "00000000-0000-0000-0000-000000000001",
-    circuit_type_id: SIMPLE_HASH_V1_CIRCUIT_TYPE_ID,
-    circuit_type_data: {} as SimpleHashV1Data,
-    circuit_driver_id: SPARTAN_DRIVER_V1_ID,
+    circuit_id: SIMPLE_HASH_V1_CIRCUIT_ID,
+    circuit_type_id: SIMPLE_HASH_V1,
+    circuit_type_data: {
+      type: "simple_hash_v1",
+    } as CircuitTypeData,
+    circuit_driver_id: SPARTAN_CIRCOM_V1,
     created_at: "2023-09-01T16:39:57-08:00",
   },
   {
@@ -78,9 +75,12 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://d1w1533jipmvi2.cloudfront.net/money-cash-icon-png.webp",
     img_caption: null,
     circuit_id: MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
-    circuit_type_id: MERKLE_SIG_POS_RANGE_V1_CIRCUIT_TYPE_ID,
-    circuit_type_data: { prfs_set_id: "crypto_holders" } as MerkleSigPosRangeV1Data,
-    circuit_driver_id: SPARTAN_DRIVER_V1_ID,
+    circuit_type_id: MERKLE_SIG_POS_RANGE_V1,
+    circuit_type_data: {
+      type: "merkle_sig_pos_range_v1",
+      prfs_set_id: "crypto_holders",
+    } as CircuitTypeData,
+    circuit_driver_id: SPARTAN_CIRCOM_V1,
     created_at: "2024-01-29T16:39:57-08:00",
   },
 ];

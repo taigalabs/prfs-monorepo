@@ -1,5 +1,7 @@
 use chrono::{DateTime, Utc};
-use prfs_circuit_interface::circuit_types::{CircuitTypeData, CircuitTypeId};
+use prfs_circuit_interface::circuit_types::{
+    CircuitTypeData, CircuitTypeId, MerkleSigPosRangeV1Data,
+};
 use prfs_driver_interface::CircuitDriverId;
 use serde::{Deserialize, Serialize};
 use sqlx::Type;
