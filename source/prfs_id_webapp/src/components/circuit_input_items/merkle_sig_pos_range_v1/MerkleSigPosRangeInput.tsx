@@ -4,12 +4,14 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import {
+  bytesLeToBigInt,
+  bytesToNumberBE,
   makeCommitment,
   makeCommitmentBySigBytes,
   makePathIndices,
   makeSiblingPath,
   poseidon_2,
-  poseidon_2_bigint,
+  poseidon_2_bigint_le,
   prfsSign,
 } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
@@ -42,7 +44,8 @@ import {
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
 import { Transmuted } from "@/components/circuit_input_items/formErrorTypes";
-import { hexlify } from "ethers/lib/utils";
+import { arrayify, hexlify } from "ethers/lib/utils";
+import { bytesToNumber, numberToBytes } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -167,22 +170,44 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
               const _sig = await prfsSign(credential.secret_key, `${PRFS_ATTESTATION_STEM}${addr}`);
               const sigBytes = _sig.toCompactRawBytes();
               const cm = await makeCommitmentBySigBytes(sigBytes);
+              const aa = arrayify(cm);
+              console.log(234, aa);
               // sig = bytesToNumberLE(sigBytes);
 
+              // const cmNum = bytesToNumberLE(sigBytes);
               sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
               sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
-              const a = await poseidon_2_bigint([sigUpper, sigLower]);
+              const a = await poseidon_2_bigint_le([sigUpper, sigLower]);
+              const b = await poseidon_2(sigBytes);
+              const sig = bytesToNumberLE(a);
+              // const sig2 = bytesToNumberBE(a);
               // const b = await poseidon_2(sigBytes);
-              console.log(111, sigUpper, sigLower);
-              console.log(123, sigBytes, hexlify(a), cm);
+              console.log(
+                111,
+                _sig.toCompactHex(),
+                sigUpper,
+                sigLower,
+                a,
+                b,
+                sig,
+                hexlify(a),
+                hexlify(sig),
+                cm,
+                // sig2,
+                // hexlify(sig2),
+              );
+              // console.log(123, sigBytes, hexlify(a), cm);
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
               }
 
-              const val = hexToNumber(cm.substring(2));
-              // console.log("cm: %s, val: %s", cm, val);
+              // const val = hexToNumber(cm.substring(2));
+              const val = bytesToNumberLE(a);
+              const val3 = bytesToNumberBE(a);
+              console.log(444, val, val3);
               args[0] = val;
+              // console.log("cm: %s, val: %s", cm, val);
               break;
             }
             default:
@@ -202,9 +227,9 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           }
         })();
 
-        const _leaf = await poseidon_2_bigint(args);
-        const leafVal = bytesToNumberLE(_leaf);
-        console.log("args: %s, poseidon: %s, ", args, leafVal);
+        const leafBytes = await poseidon_2_bigint_le(args);
+        const leafVal = bytesToNumberLE(leafBytes);
+        console.log("leafBytes: %o, args: %s, leafVal: %s, ", leafBytes, args, leafVal);
 
         const { payload, error } = await getPrfsTreeLeafIndices({
           set_id,

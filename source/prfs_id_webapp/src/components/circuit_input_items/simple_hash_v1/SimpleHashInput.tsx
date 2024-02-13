@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { bytesLeToBigInt, poseidon_2_bigint } from "@taigalabs/prfs-crypto-js";
+import { bytesLeToBigInt, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
 import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
 import { HashData } from "@taigalabs/prfs-circuit-interface/bindings/HashData";
@@ -92,7 +92,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
     if (value?.hashData.msgRaw) {
       const msgRaw = value.hashData.msgRaw;
       const msgRawInt = stringToBigInt(msgRaw);
-      const bytes = await poseidon_2_bigint([msgRawInt, BigInt(0)]);
+      const bytes = await poseidon_2_bigint_le([msgRawInt, BigInt(0)]);
       const msgHash = bytesLeToBigInt(bytes);
 
       setFormValues(oldVals => ({

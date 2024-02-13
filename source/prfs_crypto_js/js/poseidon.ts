@@ -48,7 +48,7 @@ export async function poseidon_2(msg: string | Uint8Array): Promise<Uint8Array> 
   return hashed;
 }
 
-export async function poseidon_2_bigint(msg: bigint[]): Promise<Uint8Array> {
+export async function poseidon_2_bigint_le(msg: bigint[]): Promise<Uint8Array> {
   if (wasmSingleton.wasm === null) {
     const w = await initWasm();
     wasmSingleton.wasm = w;

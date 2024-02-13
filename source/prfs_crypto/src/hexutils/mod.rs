@@ -21,3 +21,10 @@ pub fn convert_32bytes_le_into_decimal_string(val: &[u8; 32]) -> Result<String, 
     let u = U256::from_little_endian(val);
     Ok(u.to_string())
 }
+
+// pub fn decode_hex(s: &str) -> Result<Vec<u8>, ParseIntError> {
+//     (0..s.len())
+//         .step_by(2)
+//         .map(|i| u8::from_str_radix(&s[i..i + 2], 16))
+//         .collect()
+// }
