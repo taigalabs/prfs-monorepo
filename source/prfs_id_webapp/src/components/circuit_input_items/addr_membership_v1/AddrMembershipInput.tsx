@@ -26,7 +26,7 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import MerkleProofInput from "./MerkleProofInput";
-import { Transmuted } from "../formErrorTypes";
+import { Transmuted } from "@/components/circuit_input_items/formErrorTypes";
 import SigDataInput from "./SigDataInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {

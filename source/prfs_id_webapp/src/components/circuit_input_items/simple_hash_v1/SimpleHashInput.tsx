@@ -17,7 +17,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
-import { Transmuted } from "../formErrorTypes";
+import { Transmuted } from "@/components/circuit_input_items/formErrorTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {

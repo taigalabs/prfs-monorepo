@@ -2,7 +2,6 @@ import React from "react";
 import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CircuitInputs.module.scss";
-import { i18nContext } from "@/i18n/context";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import MerkleSigPosRangeInput from "@/components/circuit_input_items/merkle_sig_pos_range_v1/MerkleSigPosRangeInput";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
@@ -24,8 +23,6 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   presetVals,
   credential,
 }) => {
-  const i18n = React.useContext(i18nContext);
-
   const circuitInputsElem = React.useMemo(() => {
     switch (proofType.circuit_type_id) {
       case "merkle_sig_pos_range_v1": {
