@@ -58,6 +58,9 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
+  commit_hash: "Commit hash",
+  launch_time: "Launch time",
+  build_time: "Build time",
   import_from: "Import from",
   import: "Import",
   channels: "Channels",
@@ -318,6 +321,7 @@ export default {
   prfs_id: "Prfs ID",
   metamask: "Metamask",
   message: "Message",
+  message_to_hash: "Message to hash",
   wallet_cache_keys: "Wallet cache keys",
   metamask_desc:
     "We currently support Metamask. Check out how you install install it if you haven't already",

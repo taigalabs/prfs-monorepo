@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { CreateProofEvent } from "@taigalabs/prfs-driver-interface";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import cn from "classnames";
@@ -12,6 +11,7 @@ import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prf
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
+import { CircuitTypeData } from "@taigalabs/prfs-circuit-interface/bindings/CircuitTypeData";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -97,22 +97,25 @@ const CreateProof: React.FC<CreateProofProps> = ({
         if (!proofType) {
           return;
         }
+
         if (!driver) {
           return;
         }
+
         if (createProofStatus === Status.InProgress) {
           return;
         }
+
         try {
-          const inputs = await validateInputs(formValues, proofType, setFormErrors);
-          if (inputs === null) {
-            console.error("Input validation fail to create a proof");
+          const isValid = validateInputs(formValues, proofType, setFormErrors);
+          if (!isValid) {
+            throw new Error("Input validation fail to create a proof");
           }
 
-          console.log("inputs", inputs);
+          console.log("Form values", formValues);
           setCreateProofStatus(Status.InProgress);
           const proveReceipt = await driver.prove({
-            inputs,
+            inputs: formValues,
             circuitTypeId: proofType.circuit_type_id,
             eventListener: handleProofGenEvent,
           });
@@ -168,7 +171,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
             >
               <div className={styles.form}>
                 <CircuitInputs
-                  circuitInputs={proofType.circuit_inputs as CircuitInput[]}
+                  proofType={proofType}
                   formValues={formValues}
                   setFormValues={setFormValues}
                   formErrors={formErrors}

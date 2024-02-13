@@ -1,20 +1,18 @@
-use crate::{
-    database2::Database2,
-    utils::{concat_cols, concat_values},
-    DbInterfaceError,
-};
+use crate::DbInterfaceError;
 use chrono::{DateTime, Utc};
+use prfs_entities::entities::{PrfsSet, PrfsSetType};
+use prfs_entities::prfs_api::PrfsSetIns1;
 use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use prfs_entities::{
-    entities::{PrfsSet, PrfsSetType},
-    syn_entities::PrfsSetIns1,
-};
 
 pub async fn get_prfs_set_by_set_id(
     pool: &Pool<Postgres>,
     set_id: &String,
 ) -> Result<PrfsSet, DbInterfaceError> {
-    let query = format!("SELECT * from prfs_sets where set_id=$1");
+    let query = r#"
+SELECT * 
+FROM prfs_sets 
+WHERE set_id=$1
+"#;
 
     let row = sqlx::query(&query)
         .bind(&set_id)

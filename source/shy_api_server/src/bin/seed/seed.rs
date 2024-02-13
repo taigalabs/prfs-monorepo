@@ -1,9 +1,8 @@
 use colored::Colorize;
+use prfs_entities::shy_api::ShyChannel;
 use serde::de::DeserializeOwned;
 use shy_api_server::paths::PATHS;
 use std::{collections::HashMap, path::PathBuf};
-
-use prfs_entities::shy_api_entities::ShyChannel;
 
 const SHY_CHANNELS_JSON: &str = "shy_channels.json";
 

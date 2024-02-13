@@ -31,8 +31,8 @@ pub async fn start_listening_to_prfs_id_session_events(
         let session_key: String = serde_json::from_str(notification.payload()).unwrap();
         println!("prfs id session channel ev key: {}", session_key);
 
-        let peer_map = server_state.peer_map.lock().await;
-        if let Some(tx) = peer_map.get(&session_key) {
+        let peer_map_lock = server_state.peer_map.lock().await;
+        if let Some(tx) = peer_map_lock.get(&session_key) {
             if let Ok(session_result) = prfs::get_prfs_id_session(&pool, &session_key).await {
                 if let Some(s) = session_result {
                     let resp = PrfsIdSessionResponse {
@@ -53,8 +53,10 @@ pub async fn start_listening_to_prfs_id_session_events(
             }
         } else {
             println!(
-                "Can't find the peer, she might have closed the connection, key: {}",
-                session_key
+                "Can't find the peer, she might have closed the connection, key: {},\
+                    peer map len: {}",
+                session_key,
+                peer_map_lock.len(),
             );
         }
     }

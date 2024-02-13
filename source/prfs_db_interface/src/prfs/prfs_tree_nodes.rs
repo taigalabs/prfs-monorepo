@@ -1,6 +1,6 @@
-use crate::{database2::Database2, DbInterfaceError};
+use crate::DbInterfaceError;
 use prfs_entities::entities::{PrfsSetType, PrfsTreeNode};
-use prfs_entities::prfs_api_entities::NodePos;
+use prfs_entities::prfs_api::NodePos;
 use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use rust_decimal::Decimal;
 

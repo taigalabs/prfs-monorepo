@@ -1,8 +1,9 @@
 packages:
   # Externals
-  - "externals/incremental-merkle-tree"
 
   # Prfs
+  - "source/incremental-merkle-tree2"
+  - "source/prfs_circuit_artifacts_uri_resolver"
   - "source/prfs_docs_website"
   - "source/prfs_driver_spartan_js"
   - "source/prfs_driver_interface"
@@ -15,8 +16,8 @@ packages:
   - "source/prfs_env_js"
   - "source/prfs_react_lib"
   - "source/prfs_id_sdk_web"
-  - "source/prfs_id_sdk_react"
   - "source/prfs_proof_gen_js"
+  - "source/prfs_ts_utils"
   - "source/prfs_api_js"
   - "source/prfs_api_server"
   - "source/prfs_snap"
@@ -24,7 +25,6 @@ packages:
   - "source/prfs_console_webapp"
   - "source/prfs_poll_webapp"
   - "source/prfs_id_webapp"
-  - "source/prfs_embed_webapp"
 
   # Shy
   - "source/shy_webapp"

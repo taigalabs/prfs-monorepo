@@ -1,13 +1,12 @@
 /// <reference types="node" />
-import { BufferHex } from "@taigalabs/prfs-circuit-interface";
 import { EffECDSAPubInput } from "../../types";
 export declare class MembershipProofPublicInput {
     r: bigint;
     rV: bigint;
     msgRaw: string;
-    msgHash: BufferHex;
+    msgHash: string;
     circuitPubInput: MembershipProofCircuitPubInput;
-    constructor(r: bigint, rV: bigint, msgRaw: string, msgHash: BufferHex, circuitPubInput: MembershipProofCircuitPubInput);
+    constructor(r: bigint, rV: bigint, msgRaw: string, msgHash: string, circuitPubInput: MembershipProofCircuitPubInput);
     serialize(): string;
     static deserialize(publicInputSer: string): MembershipProofPublicInput;
 }

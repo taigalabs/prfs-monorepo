@@ -8,6 +8,7 @@
   "dependencies": {
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-circuit-interface": "*",
+    "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-circuits-circom": "*"
   },
   "devDependencies": {

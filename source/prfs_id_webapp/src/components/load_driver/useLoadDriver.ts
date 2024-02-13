@@ -1,14 +1,20 @@
 import React from "react";
 import { CircuitDriver, DriverEvent } from "@taigalabs/prfs-driver-interface";
 import dayjs from "dayjs";
-import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
+import { initCircuitDriver } from "@taigalabs/prfs-proof-gen-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import { envs } from "@/envs";
+import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
+import {
+  resolveCircuitUrl,
+  resolveWtnsGenUrl,
+} from "@taigalabs/prfs-circuit-artifacts-uri-resolver";
 
 export enum LoadDriverStatus {
   Standby,
   InProgress,
+  Error,
 }
 
 export interface DriverArtifacts {
@@ -59,18 +65,42 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
           }
         }
 
-        const driverProps = interpolateSystemAssetEndpoint(
-          proofType.driver_properties,
-          `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
-        );
+        const { circuit_driver_id } = proofType;
+        if (!circuit_driver_id) {
+          console.error("Circuit driver id is not given");
+          return undefined;
+        }
 
-        setLoadDriverStatus(LoadDriverStatus.InProgress);
-        const driver = await initCircuitDriver(
-          proofType.circuit_driver_id,
-          driverProps,
-          handleDriverEv,
-        );
-        setDriver(driver);
+        switch (circuit_driver_id) {
+          case "spartan_circom_v1": {
+            const wtns_gen_url = resolveWtnsGenUrl(
+              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
+              proofType.circuit_type_id,
+            );
+
+            const circuit_url = resolveCircuitUrl(
+              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
+              proofType.circuit_type_id,
+            );
+
+            const driverProps: SpartanCircomDriverProperties = {
+              version: "0.0.1",
+              wtns_gen_url,
+              circuit_url,
+            };
+
+            setLoadDriverStatus(LoadDriverStatus.InProgress);
+            const driver = await initCircuitDriver(
+              proofType.circuit_driver_id,
+              driverProps,
+              handleDriverEv,
+            );
+            setDriver(driver);
+            break;
+          }
+          default:
+            console.error("This circuit driver is not supported yet", circuit_driver_id);
+        }
       }
     }
     fn().then();

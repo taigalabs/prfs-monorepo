@@ -20,7 +20,6 @@
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-i18n": "*",
     "@taigalabs/prfs-id-sdk-web": "*",
-    "@taigalabs/prfs-id-sdk-react": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-crypto-deps-js": "*",
     "@tanstack/react-query": "5.17.9",

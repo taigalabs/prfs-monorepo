@@ -21,7 +21,7 @@ const wagmiConfig = createConfig({
 
 const queryClient = new QueryClient();
 
-const TopProvider: React.FC<TopProviderProps> = ({ children, appId }) => {
+const TopProvider: React.FC<TopProviderProps> = ({ children }) => {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
@@ -39,5 +39,4 @@ export default TopProvider;
 
 export interface TopProviderProps {
   children: React.ReactNode;
-  appId: string;
 }

@@ -5,12 +5,9 @@ use hyper_utils::{
 };
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::{
-    entities::{PrfsCircuitDriver, PrfsCircuitType},
-    prfs_api_entities::{
-        GetPrfsCircuitTypeByCircuitTypeIdRequest, GetPrfsCircuitTypeByCircuitTypeIdResponse,
-        GetPrfsCircuitTypesRequest, GetPrfsCircuitTypesResponse,
-    },
+use prfs_entities::prfs_api::{
+    GetPrfsCircuitTypeByCircuitTypeIdRequest, GetPrfsCircuitTypeByCircuitTypeIdResponse,
+    GetPrfsCircuitTypesRequest, GetPrfsCircuitTypesResponse,
 };
 use std::sync::Arc;
 

@@ -1,0 +1,16 @@
+{
+  "name": "@taigalabs/prfs-circuit-artifacts-uri-resolver",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "scripts": {
+    "build": "pnpm clean && tsc",
+    "clean": "rimraf ./build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "20.3.1",
+    "rimraf": "^3.0.2"
+  }
+}

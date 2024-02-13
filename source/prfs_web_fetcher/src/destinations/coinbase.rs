@@ -8,11 +8,9 @@ use hyper::Request;
 use hyper::Uri;
 use hyper_tls::HttpsConnector;
 use hyper_util::{client::legacy::Client, rt::TokioExecutor};
-use prfs_entities::atst_api_entities::CoinbaseExchangeRates;
-use rust_decimal::Decimal;
+use prfs_entities::atst_api::CoinbaseExchangeRates;
 use serde::Deserialize;
 use serde::Serialize;
-use serde_json::json;
 
 use crate::WebFetcherError;
 

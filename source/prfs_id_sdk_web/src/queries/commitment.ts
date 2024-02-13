@@ -1,12 +1,5 @@
 import { QueryType } from "./query";
 
-// export interface CommitmentArgs {
-//   appId: string;
-//   nonce: number;
-//   publicKey: string;
-//   cms: CommitmentQuery[];
-// }
-
 export interface CommitmentQuery {
   name: string;
   preImage: string;

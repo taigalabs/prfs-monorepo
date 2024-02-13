@@ -6,10 +6,7 @@ import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Attestations from "@/components/attestations/Attestations";
 import CreateAttestation from "@/components/create_attestation/CreateAttestation";
 import CreateTwitterAccAtst from "@/components/create_twitter_acc_atst/CreateTwitterAccAtst";
-import {
-  AttestationsDefaultBody,
-  AttestationsMain,
-} from "@/components/attestations/AttestationComponents";
+import { AttestationsDefaultBody } from "@/components/attestations/AttestationComponents";
 
 const CreateTwitterAttestionPage = () => {
   return (

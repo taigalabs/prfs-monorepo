@@ -3,7 +3,7 @@ import { snarkJsWitnessGen } from "../../utils/utils";
 export async function proveSimpleHash(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     const { hashData } = inputs;
-    const { msgRaw, msgRawInt, msgHash } = hashData;
+    const { msgRawInt, msgHash } = hashData;
     const circuitPubInput = new SimpleHashCircuitPubInput(msgHash);
     const publicInput = new SimpleHashPublicInput(circuitPubInput);
     const witnessGenInput = {

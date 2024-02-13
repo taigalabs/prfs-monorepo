@@ -103,13 +103,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
-        <div
-          ref={parentRef}
-          style={{
-            height: "300px",
-            overflow: "auto",
-          }}
-        >
+        <div ref={parentRef} className={styles.inner}>
           <div
             style={{
               height: `${rowVirtualizer.getTotalSize()}px`,

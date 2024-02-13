@@ -5,12 +5,11 @@ use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
 use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
-use prfs_entities::shy_api_entities::{
+use prfs_entities::shy_api::{
     CreateShyPostRequest, CreateShyPostResponse, GetShyChannelsResponse, GetShyPostsRequest,
     GetShyPostsResponse,
 };
-use std::{convert::Infallible, sync::Arc};
-use uuid::Uuid;
+use std::sync::Arc;
 
 const LIMIT: i32 = 15;
 

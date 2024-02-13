@@ -1,17 +1,12 @@
 use prfs_entities::entities::{PrfsCircuitDriver, PrfsCircuitType};
+use prfs_entities::entities::{PrfsProofInstance, PrfsProofType};
 use prfs_entities::sqlx::{self, types::Json, Pool, Postgres, Row, Transaction};
-use prfs_entities::{
-    entities::{PrfsProofInstance, PrfsProofType},
-    syn_entities::PrfsProofInstanceSyn1,
-};
 use rust_decimal::Decimal;
 
 pub async fn get_prfs_circuit_types(pool: &Pool<Postgres>) -> Vec<PrfsCircuitType> {
     let query = r#"
-select *
-from prfs_circuit_types"#;
-
-    // println!("query: {}", query);
+SELECT *
+FROM prfs_circuit_types"#;
 
     let rows = sqlx::query(query).fetch_all(pool).await.unwrap();
 

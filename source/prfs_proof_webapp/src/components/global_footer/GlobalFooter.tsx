@@ -6,6 +6,7 @@ import styles from "./GlobalFooter.module.scss";
 import { paths } from "@/paths";
 import LatestTimestamp from "@/components/latest_timestamp/LatestTimestamp";
 import { getI18N } from "@/i18n/get_i18n";
+import { urls } from "@/urls";
 
 const GlobalFooter: React.FC<GlobalFooterProps> = async ({ transparent }) => {
   const i18n = await getI18N();
@@ -15,7 +16,7 @@ const GlobalFooter: React.FC<GlobalFooterProps> = async ({ transparent }) => {
       <ul className={styles.leftList}>
         <li>{i18n.english}</li>
         <li>
-          <Link className={styles.updates} href={paths.updates}>
+          <Link className={styles.updates} href={urls.updates}>
             <span>{i18n.updates}</span>
             <LatestTimestamp />
           </Link>

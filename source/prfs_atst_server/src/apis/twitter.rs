@@ -5,7 +5,7 @@ use hyper_utils::resp::ApiResponse;
 use hyper_utils::ApiHandleError;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::atst_api_entities::{
+use prfs_entities::atst_api::{
     AttestTwitterAccRequest, AttestTwitterAccResponse, GetTwitterAccAtstRequest,
     GetTwitterAccAtstResponse, GetTwitterAccAtstsRequest, GetTwitterAccAtstsResponse,
     ValidateTwitterAccRequest, ValidateTwitterAccResponse,
@@ -15,7 +15,6 @@ use prfs_web_scraper::destinations::twitter;
 use std::sync::Arc;
 
 use crate::error_codes::API_ERROR_CODE;
-use crate::AtstServerError;
 
 const LIMIT: i32 = 20;
 

@@ -2,7 +2,7 @@
   "name": "@taigalabs/prfs-circuit-interface",
   "version": "0.1.0",
   "license": "MIT",
-  "main": "./src/index.ts",
+  "main": "./js/index.ts",
   "scripts": {},
   "dependencies": {
     "@taigalabs/prfs-entities": "*"

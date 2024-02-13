@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
-    "@taigalabs/async-incremental-merkle-tree": "*",
+    "@taigalabs/incremental-merkle-tree2": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-circuit-interface": "*",
@@ -27,7 +27,7 @@
     "comlink": "^4.3.1",
     "json-bigint": "^1.0.0",
     "lodash.throttle": "^4.1.1",
-    "snarkjs": "0.7.0",
+    "snarkjs": "0.7.3",
     "wasm-feature-detect": "^1.2.11"
   },
   "devDependencies": {

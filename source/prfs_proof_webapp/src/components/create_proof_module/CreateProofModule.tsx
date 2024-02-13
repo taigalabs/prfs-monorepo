@@ -4,16 +4,16 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import cn from "classnames";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
-import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
   ProofGenSuccessPayload,
   QueryType,
   createSession,
   createSessionKey,
+  openPopup,
   parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
-import { decrypt } from "@taigalabs/prfs-crypto-js";
+import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
@@ -42,12 +42,11 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const [status, setStatus] = React.useState(Status.Standby);
   const { sk, pkHex } = useRandomKeyPair();
   const { tutorialId } = useTutorial();
-  const { openPopup } = usePopup();
 
   const handleClickCreateProof = React.useCallback(async () => {
     const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
-      nonce: Math.random() * 1000000,
+      nonce: makeRandInt(1000000),
       app_id: "prfs_proof",
       queries: [
         {
@@ -70,77 +69,81 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
-    openPopup(endpoint, async () => {
-      let sessionStream;
+    const popup = openPopup(endpoint);
+    if (!popup) {
+      console.error("Popup couldn't be open");
+      return;
+    }
+    let sessionStream;
+    try {
+      sessionStream = await createSession({
+        key: proofGenArgs.session_key,
+        value: null,
+        ticket: "TICKET",
+      });
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+
+    if (!sessionStream) {
+      console.error("Couldn't open a session");
+      return;
+    }
+
+    const { ws, send, receive } = sessionStream;
+    const session = await receive();
+    if (!session) {
+      console.error("Coultn' retreieve session");
+      return;
+    }
+
+    try {
+      if (session.error) {
+        console.error(session.error);
+        return;
+      }
+
+      if (!session.payload) {
+        console.error("Session doesn't have a payload");
+        return;
+      }
+
+      if (session.payload.type !== "put_prfs_id_session_value_result") {
+        console.error("Wrong session payload type at this point, msg: %s", session.payload);
+        return;
+      }
+
+      const buf = parseBufferOfArray(session.payload.value);
+      let decrypted: string;
       try {
-        sessionStream = await createSession({
-          key: proofGenArgs.session_key,
-          value: null,
-          ticket: "TICKET",
-        });
+        decrypted = decrypt(sk.secret, buf).toString();
       } catch (err) {
-        console.error(err);
+        console.error("cannot decrypt payload", err);
         return;
       }
 
-      if (!sessionStream) {
-        console.error("Couldn't open a session");
-        return;
-      }
-
-      const { ws, send, receive } = sessionStream;
-      const session = await receive();
-      if (!session) {
-        console.error("Coultn' retreieve session");
-        return;
-      }
-
+      let payload: ProofGenSuccessPayload;
       try {
-        if (session.error) {
-          console.error(session.error);
-          return;
-        }
-
-        if (!session.payload) {
-          console.error("Session doesn't have a payload");
-          return;
-        }
-
-        if (session.payload.type !== "put_prfs_id_session_value_result") {
-          console.error("Wrong session payload type at this point, msg: %s", session.payload);
-          return;
-        }
-
-        const buf = parseBufferOfArray(session.payload.value);
-        let decrypted: string;
-        try {
-          decrypted = decrypt(sk.secret, buf).toString();
-        } catch (err) {
-          console.error("cannot decrypt payload", err);
-          return;
-        }
-
-        let payload: ProofGenSuccessPayload;
-        try {
-          payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-        } catch (err) {
-          console.error("cannot parse payload", err);
-          return;
-        }
-
-        const proof = payload.receipt[PROOF] as ProveReceipt;
-        if (proof) {
-          handleCreateProofResult(proof);
-        } else {
-          console.error("no proof delivered");
-          return;
-        }
+        payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
       } catch (err) {
-        console.error(err);
+        console.error("cannot parse payload", err);
+        return;
       }
 
-      ws.close();
-    });
+      const proof = payload.receipt[PROOF] as ProveReceipt;
+      if (proof) {
+        handleCreateProofResult(proof);
+      } else {
+        console.error("no proof delivered");
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    ws.close();
+    popup.close();
   }, [proofType, handleCreateProofResult, setSystemMsg, status]);
 
   return (

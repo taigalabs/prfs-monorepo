@@ -11,7 +11,7 @@ import {
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
+import { idApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 
@@ -137,16 +137,18 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         return;
       }
 
-      setCreateProofStatus(Status.InProgress);
-      await delay(500);
-      const processedReceipt = await processReceipt(receipt);
-      const payload: ProofGenSuccessPayload = {
-        receipt: processedReceipt,
-      };
-      const encrypted = [...encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload)))];
-      // console.log("receipt: %o, encrypted", processedReceipt, encrypted);
-
       try {
+        setCreateProofStatus(Status.InProgress);
+        await delay(500);
+        const processedReceipt = await processReceipt(receipt);
+        const payload: ProofGenSuccessPayload = {
+          receipt: processedReceipt,
+        };
+        const encrypted = [
+          ...encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload))),
+        ];
+        // console.log("receipt: %o, encrypted", processedReceipt, encrypted);
+
         const { error } = await putSessionValueRequest({
           key: proofGenArgs.session_key,
           value: encrypted,
@@ -155,12 +157,15 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
         if (error) {
           console.error(error);
+          setErrorMsg(error.toString());
+          return;
         }
 
         setCreateProofStatus(Status.Standby);
         window.close();
       } catch (err: any) {
         console.error(err);
+        setCreateProofStatus(Status.Standby);
       }
     }
   }, [

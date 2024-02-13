@@ -17,23 +17,69 @@ impl BuildTask for BuildPrfsEntitiesTSBindingTask {
     }
 
     fn run(&self, _build_handle: &mut BuildHandle) -> Result<(), CiError> {
-        if PATHS.prfs_entities_bindings.exists() {
-            std::fs::remove_dir_all(&PATHS.prfs_entities_bindings).unwrap();
-        }
-
-        let status = Command::new("cargo")
-            .args(["test", "-p", "prfs_entities"])
-            .status()
-            .expect(&format!("{} command failed to start", JS_ENGINE));
-
-        assert!(status.success());
-
-        if let None = which(PRETTIERD).ok() {
-            println!("{} not found, not formatting", PRETTIERD.red());
-        } else {
-            format_ts_files(&PATHS.prfs_entities_bindings);
-        }
+        create_bindings_prfs_entities();
+        create_bindings_prfs_circuit_interface();
+        create_bindings_prfs_driver_interface();
 
         Ok(())
+    }
+}
+
+fn create_bindings_prfs_entities() {
+    if PATHS.prfs_entities__bindings.exists() {
+        std::fs::remove_dir_all(&PATHS.prfs_entities__bindings).unwrap();
+    }
+
+    let status = Command::new("cargo")
+        .args(["test", "-p", "prfs_entities"])
+        .status()
+        .expect(&format!("{} command failed to start", JS_ENGINE));
+
+    assert!(status.success());
+
+    if let None = which(PRETTIERD).ok() {
+        println!("{} not found, not formatting", PRETTIERD.red());
+    } else {
+        format_ts_files(&PATHS.prfs_entities__bindings);
+    }
+}
+
+fn create_bindings_prfs_circuit_interface() {
+    let bindings_path = PATHS.prfs_circuit_interface.join("bindings");
+    if bindings_path.exists() {
+        std::fs::remove_dir_all(&bindings_path).unwrap();
+    }
+
+    let status = Command::new("cargo")
+        .args(["test", "-p", "prfs_circuit_interface"])
+        .status()
+        .expect(&format!("{} command failed to start", JS_ENGINE));
+
+    assert!(status.success());
+
+    if let None = which(PRETTIERD).ok() {
+        println!("{} not found, not formatting", PRETTIERD.red());
+    } else {
+        format_ts_files(&bindings_path);
+    }
+}
+
+fn create_bindings_prfs_driver_interface() {
+    let bindings_path = PATHS.prfs_driver_interface.join("bindings");
+    if bindings_path.exists() {
+        std::fs::remove_dir_all(&bindings_path).unwrap();
+    }
+
+    let status = Command::new("cargo")
+        .args(["test", "-p", "prfs_driver_interface"])
+        .status()
+        .expect(&format!("{} command failed to start", JS_ENGINE));
+
+    assert!(status.success());
+
+    if let None = which(PRETTIERD).ok() {
+        println!("{} not found, not formatting", PRETTIERD.red());
+    } else {
+        format_ts_files(&bindings_path);
     }
 }

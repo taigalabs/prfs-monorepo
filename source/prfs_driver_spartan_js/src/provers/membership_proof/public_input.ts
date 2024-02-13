@@ -2,7 +2,6 @@ import { ec as EC } from "elliptic";
 import BN from "bn.js";
 import JSONBig from "json-bigint";
 import { bufferToHex, toBuffer } from "@ethereumjs/util";
-import { BufferHex } from "@taigalabs/prfs-circuit-interface";
 import { bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 
 import { EffECDSAPubInput } from "@/types";
@@ -15,14 +14,14 @@ export class MembershipProofPublicInput {
   r: bigint;
   rV: bigint;
   msgRaw: string;
-  msgHash: BufferHex;
+  msgHash: string;
   circuitPubInput: MembershipProofCircuitPubInput;
 
   constructor(
     r: bigint,
     rV: bigint,
     msgRaw: string,
-    msgHash: BufferHex,
+    msgHash: string,
     circuitPubInput: MembershipProofCircuitPubInput,
   ) {
     this.r = r;

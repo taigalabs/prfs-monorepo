@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use super::PrfsAtstStatus;
-use crate::atst_api_entities::CryptoAsset;
+use crate::atst_api::CryptoAsset;
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]

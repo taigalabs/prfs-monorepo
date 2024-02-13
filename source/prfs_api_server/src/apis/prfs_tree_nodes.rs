@@ -5,12 +5,12 @@ use hyper_utils::{
 };
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::prfs_api_entities::{
+use prfs_entities::prfs_api::{
     GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesBySetIdRequest,
     GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse, UpdatePrfsTreeNodeRequest,
     UpdatePrfsTreeNodeResponse,
 };
-use std::{convert::Infallible, sync::Arc};
+use std::sync::Arc;
 
 pub async fn get_prfs_tree_nodes_by_pos(
     req: Request<Incoming>,

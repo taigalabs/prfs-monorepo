@@ -1,4 +1,3 @@
-import { ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID, MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID, SIMPLE_HASH_V1_CIRCUIT_TYPE_ID, } from "@taigalabs/prfs-circuit-interface";
 import { Tree } from "./utils/tree";
 import { makePoseidon } from "./utils/poseidon";
 import { initWasm } from "./wasm_wrapper/load_worker";
@@ -75,15 +74,15 @@ export default class SpartanDriver {
     async prove(args) {
         try {
             switch (args.circuitTypeId) {
-                case SIMPLE_HASH_V1_CIRCUIT_TYPE_ID: {
+                case "simple_hash_v1": {
                     const { proveSimpleHash } = await import("./provers/simple_hash/simple_hash");
                     return proveSimpleHash(args, this.handlers, this.wtnsGen, this.circuit);
                 }
-                case ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID: {
+                case "addr_membership_v1": {
                     const { proveMembership } = await import("./provers/membership_proof/membership_proof_1");
                     return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
                 }
-                case MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID: {
+                case "merkle_sig_pos_range_v1": {
                     const { proveMembership } = await import("./provers/merkle_pos_range/merkle_pos_range_v1");
                     return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
                 }
@@ -99,15 +98,15 @@ export default class SpartanDriver {
     async verify(args) {
         try {
             switch (args.circuitTypeId) {
-                case SIMPLE_HASH_V1_CIRCUIT_TYPE_ID: {
+                case "simple_hash_v1": {
                     const { verifyMembership } = await import("./provers/simple_hash/simple_hash");
                     return verifyMembership(args, this.handlers, this.circuit);
                 }
-                case ADDR_MEMBERSHIP2_V1_CIRCUIT_TYPE_ID: {
+                case "addr_membership_v1": {
                     const { verifyMembership } = await import("./provers/membership_proof/membership_proof_1");
                     return verifyMembership(args, this.handlers, this.circuit);
                 }
-                case MERKLE_POS_RANGE_V1_CIRCUIT_TYPE_ID: {
+                case "merkle_sig_pos_range_v1": {
                     const { verifyMembership } = await import("./provers/merkle_pos_range/merkle_pos_range_v1");
                     return verifyMembership(args, this.handlers, this.circuit);
                 }

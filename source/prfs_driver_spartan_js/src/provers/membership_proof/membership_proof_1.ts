@@ -1,11 +1,7 @@
 import { BN } from "bn.js";
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { toBuffer } from "@ethereumjs/util";
-import {
-  MembershipProveInputs,
-  SigData,
-  SpartanMerkleProof,
-} from "@taigalabs/prfs-circuit-interface";
+import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
 
 import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
 import { makePoseidon } from "@/utils/poseidon";
@@ -19,7 +15,7 @@ import {
 import { SECP256K1_P } from "@/math/secp256k1";
 
 export async function proveMembership(
-  args: ProveArgs<MembershipProveInputs>,
+  args: ProveArgs<AddrMembershipV1Inputs>,
   handlers: PrfsHandlers,
   wtnsGen: Uint8Array,
   circuit: Uint8Array,

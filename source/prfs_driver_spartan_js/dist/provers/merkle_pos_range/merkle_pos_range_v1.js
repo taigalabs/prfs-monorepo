@@ -80,7 +80,6 @@ export async function verifyMembership(args, handlers, circuit) {
     return isProofValid && isPubInputValid;
 }
 // export interface MerklePosRangeInputs {
-//   // sigData: SigData;
 //   leaf: bigint;
 //   merkleProof: SpartanMerkleProof;
 // }

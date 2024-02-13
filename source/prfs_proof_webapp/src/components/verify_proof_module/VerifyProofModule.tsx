@@ -4,7 +4,6 @@ import cn from "classnames";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import { usePopup } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
   VerifyProofArgs,
@@ -12,11 +11,12 @@ import {
   createSession,
   createSessionKey,
   makeVerifyProofSearchParams,
+  openPopup,
   parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useRandomKeyPair } from "@/hooks/key";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
-import { decrypt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
+import { decrypt, makeRandInt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -31,7 +31,7 @@ export enum VerifyProofStatus {
 
 const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeId }) => {
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(VerifyProofStatus.Standby);
-  const { openPopup } = usePopup();
+  // const { openPopup } = usePopup();
   const { tutorialId } = useTutorial();
   const { sk, pkHex } = useRandomKeyPair();
   const i18n = React.useContext(i18nContext);
@@ -41,7 +41,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
     try {
       const session_key = createSessionKey();
       const verifyProofArgs: VerifyProofArgs = {
-        nonce: Math.random() * 1000000,
+        nonce: makeRandInt(1000000),
         app_id: "prfs_proof",
         public_key: pkHex,
         proof_type_id: proofTypeId,
@@ -64,70 +64,73 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
       const data = JSON.stringify(prf);
       const bytes = toUtf8Bytes(data);
 
-      openPopup(endpoint, async () => {
-        let sessionStream;
-        try {
-          sessionStream = await createSession({
-            key: verifyProofArgs.session_key,
-            value: Array.from(bytes),
-            ticket: "TICKET",
-          });
-        } catch (err) {
-          console.error(err);
-          return;
+      const popup = openPopup(endpoint);
+      if (!popup) {
+        return;
+      }
+
+      let sessionStream;
+      try {
+        sessionStream = await createSession({
+          key: verifyProofArgs.session_key,
+          value: Array.from(bytes),
+          ticket: "TICKET",
+        });
+      } catch (err) {
+        console.error(err);
+        return;
+      }
+
+      const { ws, send, receive } = sessionStream;
+      const session = await receive();
+      if (!session) {
+        console.error("Coudln't get the session, session_key: %s", session_key);
+        return;
+      }
+
+      try {
+        if (session.error) {
+          console.error(session.error);
         }
 
-        const { ws, send, receive } = sessionStream;
-        const session = await receive();
-        if (!session) {
-          console.error("Coudln't get the session, session_key: %s", session_key);
-          return;
-        }
-
-        try {
-          if (session.error) {
-            console.error(session.error);
+        if (session.payload) {
+          if (session.payload.type !== "put_prfs_id_session_value_result") {
+            console.error("Wrong session payload type at this point, msg: %s", session.payload);
+            return;
           }
 
-          if (session.payload) {
-            if (session.payload.type !== "put_prfs_id_session_value_result") {
-              console.error("Wrong session payload type at this point, msg: %s", session.payload);
-              return;
-            }
-
-            const buf = parseBufferOfArray(session.payload.value);
-            let decrypted: string;
-            try {
-              decrypted = decrypt(sk.secret, buf).toString();
-            } catch (err) {
-              console.error("cannot decrypt payload", err);
-              return;
-            }
-
-            let payload: VerifyProofResultPayload;
-            try {
-              payload = JSON.parse(decrypted) as VerifyProofResultPayload;
-            } catch (err) {
-              console.error("cannot parse payload", err);
-              return;
-            }
-
-            if (payload.result) {
-              setVerifyProofStatus(VerifyProofStatus.Valid);
-            } else {
-              setVerifyProofStatus(VerifyProofStatus.Invalid);
-            }
-
-            ws.close();
+          const buf = parseBufferOfArray(session.payload.value);
+          let decrypted: string;
+          try {
+            decrypted = decrypt(sk.secret, buf).toString();
+          } catch (err) {
+            console.error("cannot decrypt payload", err);
+            return;
           }
-        } catch (err) {
-          console.error(err);
+
+          let payload: VerifyProofResultPayload;
+          try {
+            payload = JSON.parse(decrypted) as VerifyProofResultPayload;
+          } catch (err) {
+            console.error("cannot parse payload", err);
+            return;
+          }
+
+          if (payload.result) {
+            setVerifyProofStatus(VerifyProofStatus.Valid);
+          } else {
+            setVerifyProofStatus(VerifyProofStatus.Invalid);
+          }
+
+          ws.close();
         }
-      });
+      } catch (err) {
+        console.error(err);
+      }
     } catch (err) {
       console.error(err);
     }
-  }, [setVerifyProofStatus, tutorialId, openPopup]);
+  }, [setVerifyProofStatus, tutorialId]);
 
   const btnContent = React.useMemo(() => {
     switch (verifyProofStatus) {

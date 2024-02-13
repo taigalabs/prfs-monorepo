@@ -1,13 +1,7 @@
-use crate::{
-    database2::Database2,
-    utils::{concat_cols, concat_values},
-    DbInterfaceError,
-};
-use chrono::{DateTime, Utc};
-use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
+use crate::DbInterfaceError;
 use prfs_entities::{
-    entities::{PrfsSet, PrfsSetType},
-    shy_api_entities::ShyPost,
+    shy_api::ShyPost,
+    sqlx::{self, Pool, Postgres, Row, Transaction},
 };
 
 pub async fn get_shy_posts(

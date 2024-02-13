@@ -1,18 +1,18 @@
 use ethers_signers::Signer;
 use hyper::body::Incoming;
-use hyper::{Request, Response};
-use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
+use hyper::Request;
+use hyper_utils::io::{parse_req, ApiHandlerResult};
 use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::entities::PrfsProofInstance;
-use prfs_entities::prfs_api_entities::{
+use prfs_entities::prfs_api::{
     CreatePrfsProofInstanceRequest, CreatePrfsProofInstanceResponse,
     GetPrfsProofInstanceByInstanceIdRequest, GetPrfsProofInstanceByInstanceIdResponse,
     GetPrfsProofInstanceByShortIdRequest, GetPrfsProofInstanceByShortIdResponse,
     GetPrfsProofInstancesRequest, GetPrfsProofInstancesResponse,
 };
-use std::{convert::Infallible, sync::Arc};
+use std::sync::Arc;
 
 pub async fn get_prfs_proof_instances(
     req: Request<Incoming>,
@@ -70,8 +70,8 @@ pub async fn create_prfs_proof_instance(
     let req: CreatePrfsProofInstanceRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-    let proof_instance_id_128 = req.proof_instance_id.as_u128();
-    let short_id = &base62::encode(proof_instance_id_128)[..8];
+    let proof_instance_id_bytes = req.proof_instance_id.as_bytes();
+    let short_id = &base_62::encode(proof_instance_id_bytes)[..8];
 
     let partial_proof = req.proof[..10]
         .iter()
@@ -91,7 +91,7 @@ pub async fn create_prfs_proof_instance(
         .to_string();
 
     let prfs_proof_instance = PrfsProofInstance {
-        proof_instance_id: req.proof_instance_id,
+        proof_instance_id: req.proof_instance_id.to_string(),
         proof_type_id: req.proof_type_id,
         short_id: short_id.to_string(),
         proof: req.proof.to_vec(),

@@ -1,6 +1,6 @@
 use crate::DbInterfaceError;
 use prfs_entities::entities::{PrfsAccount, PrfsPolicyItem, PrfsPoll};
-use prfs_entities::prfs_api_entities::CreatePrfsPollRequest;
+use prfs_entities::prfs_api::CreatePrfsPollRequest;
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 use uuid::Uuid;
 

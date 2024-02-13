@@ -19,7 +19,6 @@
   "devDependencies": {
     "@personaelabs/spartan-ecdsa": "*",
     "@types/json-bigint": "^1.0.1",
-    "@zk-kit/incremental-merkle-tree": "*",
     "chalk": "4.1.0",
     "jest": "^29.3.1",
     "json-bigint": "^1.0.0",
