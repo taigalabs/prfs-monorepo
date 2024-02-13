@@ -6,7 +6,6 @@ export function getPrfsDevEndpoints() {
     taigalabs_website: "http://localhost:3060",
     prfs_console_webapp: "http://console.localhost:3000",
     prfs_proof_webapp: "http://localhost:3000",
-    prfs_embed_webapp: "http://localhost:3010",
     prfs_id_webapp: "http://localhost:3011",
     prfs_poll_webapp: "http://localhost:3021",
     prfs_api_server: "http://localhost:4000",
@@ -27,7 +26,6 @@ export function getPrfsProdEndpoints() {
     prfs_console_webapp: "https://console.prfs.xyz",
     prfs_proof_webapp: "https://www.prfs.xyz",
     prfs_id_webapp: "http://id.prfs.xyz",
-    prfs_embed_webapp: "https://sdk.prfs.xyz",
     prfs_poll_webapp: "https://poll.prfs.xyz",
     prfs_api_server: "https://api.prfs.xyz",
     prfs_id_session_server_socket: "wss://api.prfs.xyz",
@@ -43,7 +41,6 @@ export function getPrfsProdEndpoints() {
 export interface Endpoint {
   taigalabs_website: string;
   prfs_code_repository: string;
-  prfs_embed_webapp: string;
   prfs_id_webapp: string;
   prfs_console_webapp: string;
   prfs_proof_webapp: string;

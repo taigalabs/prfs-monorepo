@@ -17,7 +17,7 @@ export async function fetchAsset(assetName, url, eventListener) {
     const contentLen = response.headers.get("Content-Length");
     const totalLen = typeof contentLen === "string" && parseInt(contentLen);
     if (!totalLen) {
-        throw new Error("Content length is not parsable");
+        throw new Error(`Content length is not parsable, assetName: ${assetName}`);
     }
     const emitProgress = throttle((val) => {
         eventListener(val);

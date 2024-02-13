@@ -32,7 +32,6 @@ pub struct Paths {
     pub prfs_proof_webapp: PathBuf,
     pub prfs_poll_webapp: PathBuf,
     pub prfs_id_webapp: PathBuf,
-    pub prfs_embed_webapp: PathBuf,
     // asset server
     pub prfs_asset_server: PathBuf,
     pub prfs_asset_server_assets: PathBuf,
@@ -81,13 +80,11 @@ impl Paths {
         let prfs_asset_server_assets = curr_dir.join("source/prfs_asset_server/assets");
         let prfs_asset_server_assets_local = curr_dir.join("source/prfs_asset_server/assets/local");
 
-        let e2e_test_web = curr_dir.join("source/e2e_test_web");
         let prfs_api_server = curr_dir.join("source/prfs_api_server");
         let prfs_auth_op_server = curr_dir.join("source/prfs_auth_op_server");
         let prfs_crypto_js = curr_dir.join("source/prfs_crypto_js");
         let prfs_crypto_js__build = curr_dir.join("source/prfs_crypto_js/build");
         let prfs_id_webapp = curr_dir.join("source/prfs_id_webapp");
-        let prfs_embed_webapp = curr_dir.join("source/prfs_embed_webapp");
         let prfs_entities__bindings = curr_dir.join("source/prfs_entities/bindings");
 
         let prfs_driver_spartan_js = curr_dir.join("source/prfs_driver_spartan_js");
@@ -119,7 +116,6 @@ impl Paths {
             prfs_proof_webapp,
             prfs_poll_webapp,
             prfs_id_webapp,
-            prfs_embed_webapp,
             prfs_circuits_circom,
             prfs_snap,
             prfs_circuit_interface,
