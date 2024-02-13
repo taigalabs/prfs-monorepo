@@ -12,7 +12,8 @@ template MerkleSigPosRange(nLevels) {
     signal input assetSizeMaxLimit;
     signal input sig;
 
-    // merkle proof
+    /// merkle proof
+    // leaf = pos(pos(sig, 0), assetSize)
     signal input leaf;
     signal input root;
     signal input pathIndices[nLevels];
@@ -28,9 +29,17 @@ template MerkleSigPosRange(nLevels) {
     // Serial number
     component poseidon = Poseidon();
     poseidon.inputs[0] <== sig;
-    poseidon.inputs[1] <== assetSize;
-    log("leaf", leaf, "computed", poseidon.out); 
-    leaf === poseidon.out;
+    poseidon.inputs[1] <== 0;
+
+    var _sig = poseidon.out;
+    log("_sig", _sig);
+
+    component poseidon2 = Poseidon();
+    poseidon2.inputs[0] <== _sig;
+    poseidon2.inputs[1] <== assetSize;
+
+    log("leaf", leaf, "computed", poseidon2.out);
+    leaf === poseidon2.out;
 
     component merkleProof = MerkleTreeInclusionProof(nLevels);
     merkleProof.leaf <== leaf;

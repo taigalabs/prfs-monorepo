@@ -5,9 +5,10 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import {
   makeCommitment,
-  makeCommitmentBySig,
+  makeCommitmentBySigBytes,
   makePathIndices,
   makeSiblingPath,
+  poseidon_2,
   poseidon_2_bigint,
   prfsSign,
 } from "@taigalabs/prfs-crypto-js";
@@ -41,6 +42,7 @@ import {
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
 import { Transmuted } from "@/components/circuit_input_items/formErrorTypes";
+import { hexlify } from "ethers/lib/utils";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -154,15 +156,20 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           throw new Error("Only data of cardinality 2 is currently supported");
         }
 
-        let sig: bigint;
+        let sig: bigint = BigInt(0);
         const args: bigint[] = [];
         await (async () => {
           const d = data[0];
           switch (d.type) {
             case "WalletCm": {
               const _sig = await prfsSign(credential.secret_key, `${PRFS_ATTESTATION_STEM}${addr}`);
-              const cm = await makeCommitmentBySig(_sig);
-              sig = bytesToNumberLE(_sig.toCompactRawBytes());
+              const sigBytes = _sig.toCompactRawBytes();
+              const cm = await makeCommitmentBySigBytes(sigBytes);
+              sig = bytesToNumberLE(sigBytes);
+
+              const a = await poseidon_2_bigint([sig, BigInt(0)]);
+              const b = await poseidon_2(sigBytes);
+              console.log(123, hexlify(a), hexlify(b), cm);
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
@@ -256,16 +263,18 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           siblings: siblings as bigint[],
           pathIndices,
         };
-        console.log("merkleProof: %o", merkleProof);
+
+        const formValues = {
+          sig,
+          leaf: leafVal,
+          assetSize: args[1],
+          assetSizeMaxLimit: BigInt(5),
+          merkleProof,
+        };
+        console.log("formValues: %o", formValues);
 
         setFormValues(() => {
-          return {
-            sig,
-            leaf: leafVal,
-            assetSize: args[1],
-            assetSizeMaxLimit: BigInt(5),
-            merkleProof,
-          };
+          return formValues;
         });
       } catch (err) {
         console.error(err);

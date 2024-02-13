@@ -2,7 +2,6 @@ import { hexlify } from "ethers/lib/utils";
 
 import { poseidon_2 } from "./poseidon";
 import { prfsSign } from "./signature";
-import { RecoveredSignatureType } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
 
 export async function makeCommitment(sk: string, preImage: string) {
   const sig = await prfsSign(sk, preImage);
@@ -13,8 +12,7 @@ export async function makeCommitment(sk: string, preImage: string) {
   return hashedHex;
 }
 
-export async function makeCommitmentBySig(sig: RecoveredSignatureType) {
-  const sigBytes = sig.toCompactRawBytes();
+export async function makeCommitmentBySigBytes(sigBytes: Uint8Array) {
   const hashed = await poseidon_2(sigBytes);
   const hashedHex = hexlify(hashed);
 
