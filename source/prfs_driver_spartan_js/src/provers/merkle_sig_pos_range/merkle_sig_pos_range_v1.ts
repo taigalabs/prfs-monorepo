@@ -23,7 +23,7 @@ export async function proveMembership(
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
   // console.log("inputs: %o", inputs);
-  const { leaf, merkleProof, assetSize, assetSizeMaxLimit } = inputs;
+  const { sig, leaf, merkleProof, assetSize, assetSizeMaxLimit } = inputs;
 
   // const poseidon = makePoseidon(handlers);
 
@@ -57,6 +57,7 @@ export async function proveMembership(
     // r,
     // s,
     // m: BigInt(m.toString()),
+    sig,
     leaf,
     assetSize,
     assetSizeMaxLimit,
@@ -75,7 +76,7 @@ export async function proveMembership(
     // serialNo,
   };
 
-  console.log(11, witnessGenInput);
+  console.log("witnessGenInput", witnessGenInput);
 
   // console.log("witnessGenInput: %o", witnessGenInput);
   const witness = await snarkJsWitnessGen(witnessGenInput, wtnsGen);

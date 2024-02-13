@@ -3,7 +3,7 @@ import { MerklePosRangeCircuitPubInput, MerklePosRangePublicInput, verifyEffEcds
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     // console.log("inputs: %o", inputs);
-    const { leaf, merkleProof, assetSize, assetSizeMaxLimit } = inputs;
+    const { sig, leaf, merkleProof, assetSize, assetSizeMaxLimit } = inputs;
     // const poseidon = makePoseidon(handlers);
     // let serialNo;
     // try {
@@ -23,6 +23,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         // r,
         // s,
         // m: BigInt(m.toString()),
+        sig,
         leaf,
         assetSize,
         assetSizeMaxLimit,
@@ -37,7 +38,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         // Uy: effEcdsaPubInput.Uy,
         // serialNo,
     };
-    console.log(11, witnessGenInput);
+    console.log("witnessGenInput", witnessGenInput);
     // console.log("witnessGenInput: %o", witnessGenInput);
     const witness = await snarkJsWitnessGen(witnessGenInput, wtnsGen);
     eventListener({

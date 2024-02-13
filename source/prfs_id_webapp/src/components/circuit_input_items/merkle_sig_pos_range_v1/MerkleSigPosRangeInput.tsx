@@ -71,7 +71,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [walletAddr, setWalletAddr] = React.useState("");
-  // const [dataElem, setDataElem] = React.useState<React.ReactNode>(null);
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
@@ -155,27 +154,24 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           throw new Error("Only data of cardinality 2 is currently supported");
         }
 
-        const args = [];
+        let sig: bigint;
+        const args: bigint[] = [];
         await (async () => {
           const d = data[0];
           switch (d.type) {
             case "WalletCm": {
-              const sig = await prfsSign(credential.secret_key, `${PRFS_ATTESTATION_STEM}${addr}`);
-              const cm = await makeCommitmentBySig(sig);
+              const _sig = await prfsSign(credential.secret_key, `${PRFS_ATTESTATION_STEM}${addr}`);
+              const cm = await makeCommitmentBySig(_sig);
+              sig = bytesToNumberLE(_sig.toCompactRawBytes());
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
               }
 
               const val = hexToNumber(cm.substring(2));
-              console.log("cm: %s, val: %s", cm, val);
+              // console.log("cm: %s, val: %s", cm, val);
               args[0] = val;
-              return (
-                <div>
-                  <p>{i18n.commitment}</p>
-                  <p>{d.val}</p>
-                </div>
-              );
+              break;
             }
             default:
               throw new Error("Unsupported data type for the first element");
@@ -187,12 +183,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           switch (d.type) {
             case "Int": {
               args[1] = BigInt(d.val);
-              return (
-                <div>
-                  <p>{i18n.value}</p>
-                  <p>{d.val}</p>
-                </div>
-              );
+              break;
             }
             default:
               throw new Error("Unsupported data type for the second element");
@@ -269,8 +260,9 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         setFormValues(() => {
           return {
+            sig,
             leaf: leafVal,
-            assetSize: BigInt(1),
+            assetSize: args[1],
             assetSizeMaxLimit: BigInt(5),
             merkleProof,
           };
