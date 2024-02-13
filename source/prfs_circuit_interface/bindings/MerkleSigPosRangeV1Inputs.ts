@@ -3,7 +3,7 @@ import type { SpartanMerkleProof } from "./SpartanMerkleProof";
 
 export interface MerkleSigPosRangeV1Inputs {
   leaf: bigint;
-  asset_size: bigint;
-  asset_size_max_limit: bigint;
+  assetSize: bigint;
+  assetSizeMaxLimit: bigint;
   merkleProof: SpartanMerkleProof;
 }

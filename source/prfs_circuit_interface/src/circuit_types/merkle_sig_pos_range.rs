@@ -9,8 +9,8 @@ use super::SpartanMerkleProof;
 #[ts(export)]
 pub struct MerkleSigPosRangeV1Inputs {
     leaf: i64,
-    asset_size: i64,
-    asset_size_max_limit: i64,
+    assetSize: i64,
+    assetSizeMaxLimit: i64,
     merkleProof: SpartanMerkleProof,
 }
 

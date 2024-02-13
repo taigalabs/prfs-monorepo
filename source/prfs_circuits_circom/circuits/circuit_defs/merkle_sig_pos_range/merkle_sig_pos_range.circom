@@ -19,8 +19,8 @@ template MerkleSigPosRange(nLevels) {
     // signal input s;
     // signal input serialNo;
     signal input leaf;
-    signal input asset_size;
-    signal input asset_size_max_limit;
+    signal input assetSize;
+    signal input assetSizeMaxLimit;
 
     // merkle proof
     signal input root;
@@ -28,8 +28,8 @@ template MerkleSigPosRange(nLevels) {
     signal input siblings[nLevels];
 
     component lessThan = LessThan(16);
-    lessThan.in[0] <-- asset_size;
-    lessThan.in[1] <-- asset_size_max_limit;
+    lessThan.in[0] <-- assetSize;
+    lessThan.in[1] <-- assetSizeMaxLimit;
 
     log("lessThan", lessThan.out);
     lessThan.out === 1;

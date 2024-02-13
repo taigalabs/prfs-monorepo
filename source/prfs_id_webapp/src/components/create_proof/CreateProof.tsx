@@ -15,7 +15,7 @@ import { CircuitTypeData } from "@taigalabs/prfs-circuit-interface/bindings/Circ
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { validateInputs } from "@/functions/validate_inputs";
+import { validateInputs } from "./validate_inputs";
 import CircuitInputs from "@/components/circuit_inputs/CircuitInputs";
 import {
   QueryItem,

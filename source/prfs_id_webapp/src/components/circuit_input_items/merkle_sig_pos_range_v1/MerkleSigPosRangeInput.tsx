@@ -69,7 +69,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [walletAddr, setWalletAddr] = React.useState("");
-  console.log("Form value", value);
+  console.log(22, error);
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
@@ -252,8 +252,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         setFormValues(() => {
           return {
             leaf: leafVal,
-            asset_size: BigInt(1),
-            asset_size_max_limit: BigInt(5),
+            assetSize: BigInt(1),
+            assetSizeMaxLimit: BigInt(5),
             merkleProof,
           };
         });
