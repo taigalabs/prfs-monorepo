@@ -8,21 +8,11 @@ include "../../gadgets/bigint.circom";
 include "../../gadgets/secp256k1_func.circom";
 
 template MerkleSigPosRange(nLevels) {
-    // eff ecdsa
-    // signal input Tx; 
-    // signal input Ty; 
-    // signal input Ux;
-    // signal input Uy;
-
-    // signal input m;
-    // signal input r;
-    // signal input s;
-    // signal input serialNo;
-    signal input leaf;
     signal input assetSize;
     signal input assetSizeMaxLimit;
 
     // merkle proof
+    signal input leaf;
     signal input root;
     signal input pathIndices[nLevels];
     signal input siblings[nLevels];
@@ -35,9 +25,9 @@ template MerkleSigPosRange(nLevels) {
     lessThan.out === 1;
 
     // Serial number
-    // component poseidon = Poseidon();
-    // poseidon.inputs[0] <== s;
-    // poseidon.inputs[1] <== 0;
+    component poseidon = Poseidon();
+    poseidon.inputs[0] <== serialNo;
+    poseidon.inputs[1] <== 0;
     // serialNo === poseidon.out;
     log("leaf", leaf); 
 

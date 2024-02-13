@@ -5,9 +5,11 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import {
   makeCommitment,
+  makeCommitmentBySig,
   makePathIndices,
   makeSiblingPath,
   poseidon_2_bigint,
+  prfsSign,
 } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
@@ -69,7 +71,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [walletAddr, setWalletAddr] = React.useState("");
-  console.log(22, error);
+  // const [dataElem, setDataElem] = React.useState<React.ReactNode>(null);
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
@@ -137,7 +139,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
       const { set_id, merkle_root } = prfsSet;
       try {
-        // let leafVal = addr;
         const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
           label: addr,
@@ -150,19 +151,17 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         const data = getPrfsSetElementPayload.prfs_set_element
           ?.data as unknown as PrfsSetElementData[];
 
-        if (data.length > 2) {
-          throw new Error("Data of cardinality over 2 is currently not supported");
+        if (data.length !== 2) {
+          throw new Error("Only data of cardinality 2 is currently supported");
         }
 
-        let args = [BigInt(0), BigInt(0)];
-        for (let idx = 0; idx < data.length; idx += 1) {
-          const d = data[idx];
+        const args = [];
+        await (async () => {
+          const d = data[0];
           switch (d.type) {
             case "WalletCm": {
-              const cm = await makeCommitment(
-                credential.secret_key,
-                `${PRFS_ATTESTATION_STEM}${addr}`,
-              );
+              const sig = await prfsSign(credential.secret_key, `${PRFS_ATTESTATION_STEM}${addr}`);
+              const cm = await makeCommitmentBySig(sig);
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
@@ -170,16 +169,35 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
               const val = hexToNumber(cm.substring(2));
               console.log("cm: %s, val: %s", cm, val);
-              args[idx] = val;
-              break;
+              args[0] = val;
+              return (
+                <div>
+                  <p>{i18n.commitment}</p>
+                  <p>{d.val}</p>
+                </div>
+              );
             }
-
-            case "Int": {
-              args[idx] = BigInt(d.val);
-              break;
-            }
+            default:
+              throw new Error("Unsupported data type for the first element");
           }
-        }
+        })();
+
+        (() => {
+          const d = data[1];
+          switch (d.type) {
+            case "Int": {
+              args[1] = BigInt(d.val);
+              return (
+                <div>
+                  <p>{i18n.value}</p>
+                  <p>{d.val}</p>
+                </div>
+              );
+            }
+            default:
+              throw new Error("Unsupported data type for the second element");
+          }
+        })();
 
         const _leaf = await poseidon_2_bigint(args);
         const leafVal = bytesToNumberLE(_leaf);
@@ -268,6 +286,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       getPrfsTreeLeafIndices,
       setFormErrors,
       getPrfsSetElement,
+      // setDataElem,
     ],
   );
 
