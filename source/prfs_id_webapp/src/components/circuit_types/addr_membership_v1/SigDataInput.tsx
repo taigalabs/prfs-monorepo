@@ -16,6 +16,9 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { prfsSign } from "@taigalabs/prfs-crypto-js";
+import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
+import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
+import { Transmuted } from "../formErrorTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -30,13 +33,21 @@ const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
 };
 
 const SigDataInput: React.FC<SigDataInputProps> = ({
-  circuitInput,
+  circuitTypeData,
   value,
-  setFormValues,
   error,
   setFormErrors,
+  setFormValues,
   presetVals,
   credential,
+
+  // circuitInput,
+  // value,
+  // setFormValues,
+  // error,
+  // setFormErrors,
+  // presetVals,
+  // credential,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [isPresetAssigned, setIsPresetAssigned] = React.useState(false);
@@ -47,19 +58,17 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
       if (!isPresetAssigned && presetVals) {
         console.log("init", presetVals);
         setIsPresetAssigned(true);
-        setFormValues(async oldVals => {
-          const oldVal: Record<string, any> = oldVals[circuitInput.name] || {};
-          const newVal = { ...oldVal };
-          const presetVal = presetVals[circuitInput.name] || {};
-
-          if (presetVal.msgRaw) {
-            newVal.msgRaw = presetVal.msgRaw;
-            const sig = await prfsSign(credential.secret_key, newVal.msgRaw);
-            // console.log(11, sig);
-          }
-
-          return newVal;
-        });
+        // setFormValues(oldVals => {
+        // const oldVal: Record<string, any> = oldVals[circuitInput.name] || {};
+        // const newVal = { ...oldVal };
+        // const presetVal = presetVals[circuitInput.name] || {};
+        // if (presetVal.msgRaw) {
+        //   newVal.msgRaw = presetVal.msgRaw;
+        //   const sig = await prfsSign(credential.secret_key, newVal.msgRaw);
+        //   // console.log(11, sig);
+        // }
+        // return newVal;
+        // });
       }
     }
     fn().then();
@@ -68,17 +77,17 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       if (value) {
-        value.sig = "";
-        value.msgHash = "0x0";
+        value.sigData.sig = "";
+        value.sigData.msgHash = "0x0";
       }
 
       const newVal = ev.target.value;
       setFormValues(oldVals => {
-        const oldVal = oldVals[circuitInput.name] || {};
+        const oldVal = oldVals.sigData || {};
 
         return {
           ...oldVals,
-          [circuitInput.name]: {
+          sigData: {
             ...oldVal,
             msgRaw: newVal,
           },
@@ -88,7 +97,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
       setFormErrors((oldVals: any) => {
         return {
           ...oldVals,
-          [circuitInput.name]: undefined,
+          sigData: undefined,
         };
       });
     },
@@ -97,7 +106,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
 
   const handleClickSign = React.useCallback(async () => {
     if (value) {
-      const msgRaw = value.msgRaw;
+      const msgRaw = value.sigData.msgRaw;
       const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
       const sig = await signMessageAsync({ message: msgRaw });
 
@@ -108,13 +117,13 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
       };
       setFormValues(oldVals => ({
         ...oldVals,
-        [circuitInput.name]: newValue,
+        sigData: newValue,
       }));
     } else {
       setFormErrors((oldVals: any) => {
         return {
           ...oldVals,
-          [circuitInput.name]: "Type some message on which to put a signature",
+          sigData: "Type some message on which to put a signature",
         };
       });
     }
@@ -123,7 +132,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
   return (
     <FormInput>
       <FormInputTitleRow>
-        <FormInputTitle>{circuitInput.label}</FormInputTitle>
+        <FormInputTitle>{"Signature"}</FormInputTitle>
         <FormInputBtnRow>
           <button className={styles.signBtn} onClick={handleClickSign} type="button">
             {i18n.sign}
@@ -133,14 +142,14 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
       <InputWrapper>
         <div className={styles.interactiveArea}>
           <input
-            placeholder={circuitInput.desc}
-            value={value?.msgRaw || ""}
+            placeholder={"Signature"}
+            value={value?.sigData.msgRaw || ""}
             onChange={handleChangeRaw}
           />
         </div>
       </InputWrapper>
-      {value?.sig && <ComputedValue value={value} />}
-      {error && <FormError>{error}</FormError>}
+      {value?.sigData && <ComputedValue value={value.sigData} />}
+      {error?.sigData && <FormError>{error.sigData}</FormError>}
     </FormInput>
   );
 };
@@ -148,11 +157,17 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
 export default SigDataInput;
 
 export interface SigDataInputProps {
-  circuitInput: any;
-  value: SigData | undefined;
-  error: string | undefined;
-  setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  // circuitInput: any;
+  // value: SigData | undefined;
+  // error: string | undefined;
+  // setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  // setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  // presetVals?: QueryPresetVals;
+  circuitTypeData: AddrMembershipV1Data;
+  value: AddrMembershipV1Inputs | undefined;
+  error: Transmuted<AddrMembershipV1Inputs> | undefined;
+  setFormValues: React.Dispatch<React.SetStateAction<AddrMembershipV1Inputs>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<AddrMembershipV1Inputs>>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;
 }

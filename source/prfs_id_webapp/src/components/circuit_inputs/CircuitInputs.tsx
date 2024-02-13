@@ -38,6 +38,12 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
           />
         );
       }
+      case "addr_membership_v1": {
+        break;
+      }
+      case "simple_hash_v1": {
+        break;
+      }
       default:
         return null;
     }

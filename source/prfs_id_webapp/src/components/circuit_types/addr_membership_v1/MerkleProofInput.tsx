@@ -8,7 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
@@ -25,9 +25,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
-import MerkleProofInput from "./MerkleProofInput";
 import { Transmuted } from "../formErrorTypes";
-import SigDataInput from "./SigDataInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -43,13 +41,12 @@ const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   return <div className={styles.computedValue}>{val}</div>;
 };
 
-const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
+const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitTypeData,
   value,
   error,
   setFormErrors,
   setFormValues,
-  credential,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
@@ -214,59 +211,43 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
 
   return (
     <>
-      <MerkleProofInput
-        circuitTypeData={circuitTypeData}
-        value={value}
-        error={error}
-        setFormErrors={setFormErrors}
-        setFormValues={setFormValues}
-      />
-      <SigDataInput
-        circuitTypeData={circuitTypeData}
-        value={value}
-        error={error}
-        setFormErrors={setFormErrors}
-        setFormValues={setFormValues}
-        credential={credential}
-      />
-
-      {/* <FormInput> */}
-      {/*   <FormInputTitleRow> */}
-      {/*     <FormInputTitle> */}
-      {/*       <span className={styles.inputLabel}>{label}</span> */}
-      {/*     </FormInputTitle> */}
-      {/*     <FormInputBtnRow> */}
-      {/*       <ConnectWallet handleChangeAddress={handleChangeAddress}> */}
-      {/*         <FormInputButton type="button">{i18n.connect}</FormInputButton> */}
-      {/*       </ConnectWallet> */}
-      {/*       <span className={styles.or}> or </span> */}
-      {/*       <MerkleProofRaw */}
-      {/*         circuitTypeData={circuitTypeData} */}
-      {/*         prfsSet={prfsSet} */}
-      {/*         handleClickRawSubmit={handleClickRawSubmit} */}
-      {/*       > */}
-      {/*         <FormInputButton type="button">{i18n.edit_raw}</FormInputButton> */}
-      {/*       </MerkleProofRaw> */}
-      {/*     </FormInputBtnRow> */}
-      {/*   </FormInputTitleRow> */}
-      {/*   <InputWrapper> */}
-      {/*     <div className={styles.interactiveArea}> */}
-      {/*       <input */}
-      {/*         className={styles.addressInput} */}
-      {/*         placeholder={`Wallet address`} */}
-      {/*         value={walletAddr} */}
-      {/*         readOnly */}
-      {/*       /> */}
-      {/*     </div> */}
-      {/*   </InputWrapper> */}
-      {/*   {value && <ComputedValue value={value} />} */}
-      {/*   {error && <FormError>{error}</FormError>} */}
-      {/* </FormInput> */}
+      <FormInput>
+        <FormInputTitleRow>
+          <FormInputTitle>
+            <span className={styles.inputLabel}>{label}</span>
+          </FormInputTitle>
+          <FormInputBtnRow>
+            <ConnectWallet handleChangeAddress={handleChangeAddress}>
+              <FormInputButton type="button">{i18n.connect}</FormInputButton>
+            </ConnectWallet>
+            <span className={styles.or}> or </span>
+            <MerkleProofRaw
+              circuitTypeData={circuitTypeData}
+              prfsSet={prfsSet}
+              handleClickRawSubmit={handleClickRawSubmit}
+            >
+              <FormInputButton type="button">{i18n.edit_raw}</FormInputButton>
+            </MerkleProofRaw>
+          </FormInputBtnRow>
+        </FormInputTitleRow>
+        <InputWrapper>
+          <div className={styles.interactiveArea}>
+            <input
+              className={styles.addressInput}
+              placeholder={`Wallet address`}
+              value={walletAddr}
+              readOnly
+            />
+          </div>
+        </InputWrapper>
+        {value?.merkleProof && <ComputedValue value={value.merkleProof} />}
+        {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
+      </FormInput>
     </>
   );
 };
 
-export default AddrMembershipInput;
+export default MerkleProofInput;
 
 export interface MerkleProofInputProps {
   circuitTypeData: AddrMembershipV1Data;
@@ -275,7 +256,6 @@ export interface MerkleProofInputProps {
   setFormValues: React.Dispatch<React.SetStateAction<AddrMembershipV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<AddrMembershipV1Inputs>>>;
   presetVals?: QueryPresetVals;
-  credential: PrfsIdCredential;
 }
 
 export interface ComputedValueProps {

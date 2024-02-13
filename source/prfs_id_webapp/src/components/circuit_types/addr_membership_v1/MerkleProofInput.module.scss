@@ -1,0 +1,64 @@
+.interactiveArea {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+
+  .addressInput {
+    /* padding-right: 70px; */
+  }
+}
+
+.computedValue {
+  padding: 2px 8px;
+  color: var(--gray-30);
+  font-size: 13px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.inputLabel {
+  max-width: 288px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.setLabel {
+  margin-left: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btnGroup {
+  align-items: center;
+  display: flex;
+  position: absolute;
+  right: 2px;
+
+  button {
+    cursor: pointer;
+    color: var(--aqua-blue-50);
+  }
+}
+
+.addressBtn {
+  font-weight: 500;
+  color: var(--aqua-blue-50);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--aqua-blue-40);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .title {
+    align-items: normal;
+    flex-direction: column;
+  }
+}
