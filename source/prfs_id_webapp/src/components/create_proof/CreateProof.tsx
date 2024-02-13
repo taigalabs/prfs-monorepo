@@ -107,10 +107,11 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
 
         try {
-          // const inputs = await validateInputs(formValues, proofType, setFormErrors);
-          // if (inputs === null) {
-          //   console.error("Input validation fail to create a proof");
-          // }
+          const isValid = validateInputs(formValues, proofType, setFormErrors);
+          if (!isValid) {
+            console.error("Input validation fail to create a proof");
+            return;
+          }
 
           console.log("Form values", formValues);
           setCreateProofStatus(Status.InProgress);
