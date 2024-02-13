@@ -9,7 +9,6 @@ pub mod dev_prfs_api_server;
 pub mod dev_prfs_asset_server;
 pub mod dev_prfs_console_webapp;
 pub mod dev_prfs_docs_website;
-pub mod dev_prfs_embed_webapp;
 pub mod dev_prfs_id_webapp;
 pub mod dev_prfs_poll_webapp;
 pub mod dev_prfs_proof_webapp;
@@ -21,7 +20,6 @@ pub mod start_prfs_api_server;
 pub mod start_prfs_asset_server;
 pub mod start_prfs_console_webapp;
 pub mod start_prfs_docs_website;
-pub mod start_prfs_embed_webapp;
 pub mod start_prfs_id_webapp;
 pub mod start_prfs_poll_webapp;
 pub mod start_prfs_proof_webapp;
@@ -34,7 +32,6 @@ pub mod docker_run_asset_server;
 pub mod docker_run_default;
 pub mod docker_run_postgres;
 pub mod docker_run_prfs_console_webapp;
-pub mod docker_run_prfs_embed_webapp;
 pub mod docker_run_prfs_proof_webapp;
 
 // seed

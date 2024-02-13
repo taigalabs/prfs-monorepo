@@ -21,7 +21,7 @@
     "author": "Prfs",
     "desc": "Proves he/she has the assets in cryptocurrency worth of X US dollars.\n\n## About crypto assets\n",
     "expression": "Has assets in crypto worth X USD",
-    "img_url": "https://d1w1533jipmvi2.cloudfront.net/money-cash-icon-png.webp",
+    "img_url": "https://d1w1533jipmvi2.cloudfront.net/money_cash_1.webp",
     "img_caption": null,
     "circuit_id": "0x0000000000000000000000000000000000000000000000000000000000000002",
     "circuit_type_id": "merkle_sig_pos_range_v1",

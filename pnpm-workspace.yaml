@@ -25,7 +25,6 @@ packages:
   - "source/prfs_console_webapp"
   - "source/prfs_poll_webapp"
   - "source/prfs_id_webapp"
-  - "source/prfs_embed_webapp"
 
   # Shy
   - "source/shy_webapp"

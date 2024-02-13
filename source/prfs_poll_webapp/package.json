@@ -35,7 +35,6 @@
     "react-redux": "^8.1.2",
     "redux-logger": "^3.0.6",
     "sass": "^1.63.6",
-    "snarkjs": "0.7.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

@@ -9,11 +9,10 @@ use crate::{
     build_handle::BuildHandle,
     cmds::{
         build_prfs_crypto_js, dev_prfs_api_server, dev_prfs_asset_server, dev_prfs_console_webapp,
-        dev_prfs_docs_website, dev_prfs_embed_webapp, dev_prfs_id_webapp, dev_prfs_poll_webapp,
-        dev_prfs_proof_webapp, dev_shy_webapp, docker_run_default, docker_run_prfs_console_webapp,
-        docker_run_prfs_embed_webapp, docker_run_prfs_proof_webapp, seed_prfs_api_data,
-        seed_shy_api_data, start_prfs_api_server, start_prfs_asset_server,
-        start_prfs_console_webapp, start_prfs_docs_website, start_prfs_embed_webapp,
+        dev_prfs_docs_website, dev_prfs_id_webapp, dev_prfs_poll_webapp, dev_prfs_proof_webapp,
+        dev_shy_webapp, docker_run_default, docker_run_prfs_console_webapp,
+        docker_run_prfs_proof_webapp, seed_prfs_api_data, seed_shy_api_data, start_prfs_api_server,
+        start_prfs_asset_server, start_prfs_console_webapp, start_prfs_docs_website,
         start_prfs_id_webapp, start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp,
         vercel_deploy,
     },
@@ -40,7 +39,6 @@ fn main() {
         .subcommand(command!(dev_prfs_proof_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_poll_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_id_webapp::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!(dev_prfs_embed_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("dev_shy_webapp").arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_docs_website::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_asset_server::CMD_NAME).arg(Arg::new("extra_args")))
@@ -53,7 +51,6 @@ fn main() {
         .subcommand(command!(start_prfs_proof_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_id_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_poll_webapp::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!(start_prfs_embed_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_shy_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_docs_website::CMD_NAME).arg(Arg::new("extra_args")))
         // docker
@@ -63,7 +60,6 @@ fn main() {
         .subcommand(command!("docker_run_api_server").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_asset_server").arg(Arg::new("extra_args")))
         .subcommand(command!(docker_run_default::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!(docker_run_prfs_embed_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("docker_down_all").arg(Arg::new("extra_args")))
         // seed
         .subcommand(command!(seed_prfs_api_data::CMD_NAME))
@@ -108,9 +104,6 @@ fn main() {
         Some((dev_prfs_id_webapp::CMD_NAME, sub_matches)) => {
             dev_prfs_id_webapp::run(sub_matches);
         }
-        Some((dev_prfs_embed_webapp::CMD_NAME, sub_matches)) => {
-            dev_prfs_embed_webapp::run(sub_matches);
-        }
         Some((dev_shy_webapp::CMD_NAME, sub_matches)) => {
             dev_shy_webapp::run(sub_matches);
         }
@@ -145,9 +138,6 @@ fn main() {
         Some((start_prfs_poll_webapp::CMD_NAME, sub_matches)) => {
             start_prfs_poll_webapp::run(sub_matches);
         }
-        Some((start_prfs_embed_webapp::CMD_NAME, sub_matches)) => {
-            start_prfs_embed_webapp::run(sub_matches);
-        }
         Some((start_shy_webapp::CMD_NAME, sub_matches)) => {
             cmds::start_shy_webapp::run(sub_matches);
         }
@@ -163,9 +153,6 @@ fn main() {
         }
         Some((docker_run_prfs_proof_webapp::CMD_NAME, sub_matches)) => {
             cmds::docker_run_prfs_proof_webapp::run(sub_matches);
-        }
-        Some((docker_run_prfs_embed_webapp::CMD_NAME, sub_matches)) => {
-            docker_run_prfs_embed_webapp::run(sub_matches);
         }
         Some(("docker_run_api_server", sub_matches)) => {
             cmds::docker_run_api_server::run(sub_matches);
