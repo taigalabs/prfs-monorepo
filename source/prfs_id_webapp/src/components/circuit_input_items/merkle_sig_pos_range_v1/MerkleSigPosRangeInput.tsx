@@ -167,9 +167,11 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
               const cm = await makeCommitmentBySigBytes(sigBytes);
               sig = bytesToNumberLE(sigBytes);
 
-              const a = await poseidon_2_bigint([sig, BigInt(0)]);
-              const b = await poseidon_2(sigBytes);
-              console.log(123, hexlify(a), hexlify(b), cm);
+              const sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
+              const sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
+              // const a = await poseidon_2_bigint([sig1, sig2]);
+              // const b = await poseidon_2(sigBytes);
+              // console.log(123, sigBytes, hexlify(a), hexlify(b), cm);
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
