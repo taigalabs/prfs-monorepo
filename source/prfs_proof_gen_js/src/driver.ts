@@ -25,16 +25,16 @@ export async function initCircuitDriver(
   }
 }
 
-export function interpolateSystemAssetEndpoint(
-  driverProperties: Record<string, any>,
-  prfsAssetEndpoint: string,
-): Record<string, any> {
-  const ret: Record<string, any> = {};
+// export function interpolateSystemAssetEndpoint(
+//   driverProperties: Record<string, any>,
+//   prfsAssetEndpoint: string,
+// ): Record<string, any> {
+//   const ret: Record<string, any> = {};
 
-  for (const key in driverProperties) {
-    const val = driverProperties[key];
-    ret[key] = val.replace("prfs://", `${prfsAssetEndpoint}/`);
-  }
+//   for (const key in driverProperties) {
+//     const val = driverProperties[key];
+//     ret[key] = val.replace("prfs://", `${prfsAssetEndpoint}/`);
+//   }
 
-  return ret;
-}
+//   return ret;
+// }

@@ -206,7 +206,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
   );
 
   const label = React.useMemo(() => {
-    return `${circuitTypeData.label} (${prfsSet ? prfsSet.label : i18n.loading})`;
+    return `Membership (${prfsSet ? prfsSet.label : i18n.loading})`;
   }, [circuitTypeData, prfsSet]);
 
   return (
@@ -233,7 +233,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
         <div className={styles.interactiveArea}>
           <input
             className={styles.addressInput}
-            placeholder={`${circuitTypeData.desc}`}
+            placeholder={`Wallet address`}
             value={walletAddr}
             readOnly
           />

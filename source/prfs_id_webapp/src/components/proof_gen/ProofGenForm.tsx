@@ -144,7 +144,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         const payload: ProofGenSuccessPayload = {
           receipt: processedReceipt,
         };
-        console.log(22, payload);
         const encrypted = [
           ...encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload))),
         ];
@@ -163,7 +162,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         }
 
         setCreateProofStatus(Status.Standby);
-        // window.close();
+        window.close();
       } catch (err: any) {
         console.error(err);
         setCreateProofStatus(Status.Standby);

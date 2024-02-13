@@ -272,7 +272,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   );
 
   const label = React.useMemo(() => {
-    return `${"label"} (${prfsSet ? prfsSet.label : i18n.loading})`;
+    return `Member (${prfsSet ? prfsSet.label : i18n.loading})`;
   }, [circuitTypeData, prfsSet]);
 
   return (

@@ -1,7 +1,7 @@
 import React from "react";
 import { CircuitDriver, DriverEvent } from "@taigalabs/prfs-driver-interface";
 import dayjs from "dayjs";
-import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
+import { initCircuitDriver } from "@taigalabs/prfs-proof-gen-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import { envs } from "@/envs";
