@@ -44,7 +44,7 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
   return (
     <div className={styles.wrapper}>
       <div className={styles.headerSection}>
-        <a href={proofTypeUrl}>
+        <a>
           <div className={styles.top}>
             <div className={styles.left}>
               <div className={styles.imgContainer}>

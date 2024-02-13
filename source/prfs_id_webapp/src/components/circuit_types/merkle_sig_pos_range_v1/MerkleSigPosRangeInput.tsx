@@ -275,8 +275,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     return `${"label"} (${prfsSet ? prfsSet.label : i18n.loading})`;
   }, [circuitTypeData, prfsSet]);
 
-  console.log(44, error);
-
   return (
     <FormInput>
       <FormInputTitleRow>
@@ -300,7 +298,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         </div>
       </InputWrapper>
       {value && <ComputedValue value={value} />}
-      {error && <FormError>{error.toString()}</FormError>}
+      {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
     </FormInput>
   );
 };

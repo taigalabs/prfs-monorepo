@@ -72,6 +72,7 @@ const proof_types: PrfsProofType[] = [
     author: "Prfs",
     desc: proofTypeDesc.CRYPTO_ASSET_SIZE_V1,
     expression: "Has assets in crypto worth X USD",
+    // money-cash-icon-png.webp
     img_url: "https://d1w1533jipmvi2.cloudfront.net/money-cash-icon-png.webp",
     img_caption: null,
     circuit_id: MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
