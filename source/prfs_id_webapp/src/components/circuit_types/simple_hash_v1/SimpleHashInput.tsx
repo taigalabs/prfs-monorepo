@@ -4,7 +4,7 @@ import { bytesLeToBigInt, poseidon_2_bigint } from "@taigalabs/prfs-crypto-js";
 import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
 import { HashData } from "@taigalabs/prfs-circuit-interface/bindings/HashData";
-import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SimpleHashInput.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -63,7 +63,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
 
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
-      if (error && error.length > 0) {
+      if (error?.hashData && error.hashData.length > 0) {
         setFormErrors(oldVals => {
           const newVals = { ...oldVals };
           delete newVals.hashData;
@@ -89,8 +89,8 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
   );
 
   const handleClickHash = React.useCallback(async () => {
-    if (value && value.msgRaw) {
-      const msgRaw = value.msgRaw;
+    if (value?.hashData.msgRaw) {
+      const msgRaw = value.hashData.msgRaw;
       const msgRawInt = stringToBigInt(msgRaw);
       const bytes = await poseidon_2_bigint([msgRawInt, BigInt(0)]);
       const msgHash = bytesLeToBigInt(bytes);
@@ -125,13 +125,13 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
         <div className={styles.interactiveArea}>
           <input
             placeholder={circuitTypeData.desc}
-            value={value?.msgRaw?.toString() || ""}
+            value={value?.hashData.msgRaw?.toString() || ""}
             onChange={handleChangeRaw}
           />
         </div>
       </InputWrapper>
-      {value?.msgHash ? <ComputedValue value={value} /> : null}
-      {error && <FormError>{error}</FormError>}
+      {value?.hashData.msgHash ? <ComputedValue value={value.hashData} /> : null}
+      {error?.hashData && <FormError>{error.hashData}</FormError>}
     </FormInput>
   );
 };
@@ -139,12 +139,20 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
 export default SimpleHashInput;
 
 export interface SimpleHashInputProps {
+  // circuitTypeData: SimpleHashV1Data;
+  // value: HashData | undefined;
+  // error: string | undefined;
+  // setFormValues: React.Dispatch<React.SetStateAction<SimpleHashV1Inputs>>;
+  // setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<SimpleHashV1Inputs>>>;
+  // presetVals?: QueryPresetVals;
+
   circuitTypeData: SimpleHashV1Data;
-  value: HashData | undefined;
-  error: string | undefined;
+  value: SimpleHashV1Inputs | undefined;
+  error: Transmuted<SimpleHashV1Inputs> | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<SimpleHashV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<SimpleHashV1Inputs>>>;
   presetVals?: QueryPresetVals;
+  credential: PrfsIdCredential;
 }
 
 export interface ComputedValueProps {

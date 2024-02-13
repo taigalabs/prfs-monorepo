@@ -11,6 +11,12 @@ import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindi
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { Transmuted } from "../circuit_types/formErrorTypes";
+import AddrMembershipInput from "../circuit_types/addr_membership_v1/AddrMembershipInput";
+import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
+import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
+import SimpleHashInput from "../circuit_types/simple_hash_v1/SimpleHashInput";
+import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
+import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
   proofType,
@@ -39,9 +45,30 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
         );
       }
       case "addr_membership_v1": {
-        break;
+        return (
+          <AddrMembershipInput
+            circuitTypeData={proofType.circuit_type_data as AddrMembershipV1Data}
+            value={formValues as AddrMembershipV1Inputs}
+            error={formErrors as Transmuted<AddrMembershipV1Inputs>}
+            setFormValues={setFormValues}
+            setFormErrors={setFormErrors as any}
+            presetVals={presetVals}
+            credential={credential}
+          />
+        );
       }
       case "simple_hash_v1": {
+        return (
+          <SimpleHashInput
+            circuitTypeData={proofType.circuit_type_data as SimpleHashV1Data}
+            value={formValues as SimpleHashV1Inputs}
+            error={formErrors as Transmuted<SimpleHashV1Inputs>}
+            setFormValues={setFormValues}
+            setFormErrors={setFormErrors as any}
+            presetVals={presetVals}
+            credential={credential}
+          />
+        );
         break;
       }
       default:
