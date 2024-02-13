@@ -321,6 +321,7 @@ export default {
   prfs_id: "Prfs ID",
   metamask: "Metamask",
   message: "Message",
+  message_to_hash: "Message to hash",
   wallet_cache_keys: "Wallet cache keys",
   metamask_desc:
     "We currently support Metamask. Check out how you install install it if you haven't already",

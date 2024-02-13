@@ -111,6 +111,12 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
     }
   }, [value, setFormValues]);
 
+  const msgRaw = React.useMemo(() => {
+    if (value?.hashData) {
+      return value.hashData.msgRaw.toString();
+    } else return "";
+  }, [value?.hashData]);
+
   return (
     <FormInput>
       <FormInputTitleRow>
@@ -123,14 +129,10 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
       </FormInputTitleRow>
       <InputWrapper>
         <div className={styles.interactiveArea}>
-          <input
-            placeholder={circuitTypeData.desc}
-            value={value?.hashData.msgRaw?.toString() || ""}
-            onChange={handleChangeRaw}
-          />
+          <input placeholder={i18n.message_to_hash} value={msgRaw} onChange={handleChangeRaw} />
         </div>
       </InputWrapper>
-      {value?.hashData.msgHash ? <ComputedValue value={value.hashData} /> : null}
+      {value?.hashData && <ComputedValue value={value.hashData} />}
       {error?.hashData && <FormError>{error.hashData}</FormError>}
     </FormInput>
   );
@@ -139,13 +141,6 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
 export default SimpleHashInput;
 
 export interface SimpleHashInputProps {
-  // circuitTypeData: SimpleHashV1Data;
-  // value: HashData | undefined;
-  // error: string | undefined;
-  // setFormValues: React.Dispatch<React.SetStateAction<SimpleHashV1Inputs>>;
-  // setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<SimpleHashV1Inputs>>>;
-  // presetVals?: QueryPresetVals;
-
   circuitTypeData: SimpleHashV1Data;
   value: SimpleHashV1Inputs | undefined;
   error: Transmuted<SimpleHashV1Inputs> | undefined;
