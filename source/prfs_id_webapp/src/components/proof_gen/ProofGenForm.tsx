@@ -11,7 +11,7 @@ import {
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
+import { idApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 
