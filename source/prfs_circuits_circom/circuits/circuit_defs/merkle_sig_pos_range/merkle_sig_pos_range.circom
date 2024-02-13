@@ -10,7 +10,8 @@ include "../../gadgets/secp256k1_func.circom";
 template MerkleSigPosRange(nLevels) {
     signal input assetSize;
     signal input assetSizeMaxLimit;
-    signal input sig;
+    signal input sigUpper;
+    signal input sigLower;
 
     /// merkle proof
     // leaf = pos(pos(sig, 0), assetSize)
@@ -26,13 +27,12 @@ template MerkleSigPosRange(nLevels) {
     log("lessThan", lessThan.out);
     lessThan.out === 1;
 
-    // Serial number
-    component poseidon = Poseidon();
-    poseidon.inputs[0] <== sig;
-    poseidon.inputs[1] <== 0;
+    component poseidon1 = Poseidon();
+    poseidon1.inputs[0] <== sigUpper;
+    poseidon1.inputs[1] <== sigLower;
 
-    var _sig = poseidon.out;
-    log("_sig", _sig);
+    var _sig = poseidon1.out;
+    log("sigUpper", sigUpper, "sigLower", sigLower, "_sig", _sig);
 
     component poseidon2 = Poseidon();
     poseidon2.inputs[0] <== _sig;

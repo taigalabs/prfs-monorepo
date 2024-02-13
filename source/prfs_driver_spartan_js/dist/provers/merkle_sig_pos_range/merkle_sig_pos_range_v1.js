@@ -3,7 +3,7 @@ import { MerklePosRangeCircuitPubInput, MerklePosRangePublicInput, verifyEffEcds
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     // console.log("inputs: %o", inputs);
-    const { sig, leaf, merkleProof, assetSize, assetSizeMaxLimit } = inputs;
+    const { sigLower, sigUpper, leaf, merkleProof, assetSize, assetSizeMaxLimit } = inputs;
     // const poseidon = makePoseidon(handlers);
     // let serialNo;
     // try {
@@ -23,7 +23,8 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         // r,
         // s,
         // m: BigInt(m.toString()),
-        sig,
+        sigUpper,
+        sigLower,
         leaf,
         assetSize,
         assetSizeMaxLimit,

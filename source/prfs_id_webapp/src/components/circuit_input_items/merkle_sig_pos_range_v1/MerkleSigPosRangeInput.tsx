@@ -156,7 +156,9 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           throw new Error("Only data of cardinality 2 is currently supported");
         }
 
-        let sig: bigint = BigInt(0);
+        // let sig: bigint = BigInt(0);
+        let sigUpper: bigint = BigInt(0);
+        let sigLower: bigint = BigInt(0);
         const args: bigint[] = [];
         await (async () => {
           const d = data[0];
@@ -165,13 +167,14 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
               const _sig = await prfsSign(credential.secret_key, `${PRFS_ATTESTATION_STEM}${addr}`);
               const sigBytes = _sig.toCompactRawBytes();
               const cm = await makeCommitmentBySigBytes(sigBytes);
-              sig = bytesToNumberLE(sigBytes);
+              // sig = bytesToNumberLE(sigBytes);
 
-              const sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
-              const sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
-              // const a = await poseidon_2_bigint([sig1, sig2]);
+              sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
+              sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
+              const a = await poseidon_2_bigint([sigUpper, sigLower]);
               // const b = await poseidon_2(sigBytes);
-              // console.log(123, sigBytes, hexlify(a), hexlify(b), cm);
+              console.log(111, sigUpper, sigLower);
+              console.log(123, sigBytes, hexlify(a), cm);
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
@@ -267,7 +270,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         };
 
         const formValues = {
-          sig,
+          sigUpper,
+          sigLower,
           leaf: leafVal,
           assetSize: args[1],
           assetSizeMaxLimit: BigInt(5),
