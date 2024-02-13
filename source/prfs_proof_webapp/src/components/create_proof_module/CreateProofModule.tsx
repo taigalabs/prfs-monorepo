@@ -42,7 +42,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const [status, setStatus] = React.useState(Status.Standby);
   const { sk, pkHex } = useRandomKeyPair();
   const { tutorialId } = useTutorial();
-  // const { openPopup } = usePopup();
 
   const handleClickCreateProof = React.useCallback(async () => {
     const session_key = createSessionKey();
@@ -71,6 +70,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     const popup = openPopup(endpoint);
+    if (!popup) {
+      console.error("Popup couldn't be open");
+      return;
+    }
     let sessionStream;
     try {
       sessionStream = await createSession({
@@ -140,6 +143,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     }
 
     ws.close();
+    popup.close();
   }, [proofType, handleCreateProofResult, setSystemMsg, status]);
 
   return (
