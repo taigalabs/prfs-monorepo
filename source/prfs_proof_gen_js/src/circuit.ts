@@ -1,4 +1,4 @@
-import { resolveCircuitUrl } from "@taigalabs/prfs-circuit-artifacts-uri-resolver";
+import { resolveCircuitUrl } from "@taigalabs/prfs-circuit-artifact-uri-resolver";
 import { CircuitTypeId } from "@taigalabs/prfs-circuit-interface/bindings/CircuitTypeId";
 import { DriverId } from "@taigalabs/prfs-driver-interface";
 

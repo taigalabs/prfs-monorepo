@@ -14,7 +14,7 @@
   "dependencies": {
     "@taigalabs/prfs-circuit-interface": "*",
     "@taigalabs/prfs-driver-interface": "*",
-    "@taigalabs/prfs-circuit-artifacts-uri-resolver": "*",
+    "@taigalabs/prfs-circuit-artifact-uri-resolver": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@ethereumjs/util": "^8.0.3",
     "@taigalabs/prfs-entities": "*",

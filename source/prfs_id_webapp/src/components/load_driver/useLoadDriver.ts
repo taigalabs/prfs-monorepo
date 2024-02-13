@@ -9,7 +9,7 @@ import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js
 import {
   resolveCircuitUrl,
   resolveWtnsGenUrl,
-} from "@taigalabs/prfs-circuit-artifacts-uri-resolver";
+} from "@taigalabs/prfs-circuit-artifact-uri-resolver";
 
 export enum LoadDriverStatus {
   Standby,

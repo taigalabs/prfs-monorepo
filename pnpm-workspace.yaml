@@ -3,7 +3,7 @@ packages:
 
   # Prfs
   - "source/incremental-merkle-tree2"
-  - "source/prfs_circuit_artifacts_uri_resolver"
+  - "source/prfs_circuit_artifact_uri_resolver"
   - "source/prfs_docs_website"
   - "source/prfs_driver_spartan_js"
   - "source/prfs_driver_interface"
