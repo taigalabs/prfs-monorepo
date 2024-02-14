@@ -28,27 +28,6 @@ use crate::apis::{asset_meta, assets};
 //         .build()
 //         .unwrap()
 // }
-pub async fn route<B>(
-    req: Request<B>,
-    state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, std::io::Error> {
-    if req.uri().path() == "/" {
-        // let res = Response::builder()
-        //     .status(StatusCode::MOVED_PERMANENTLY)
-        //     .header(header::LOCATION, "/hyper_staticfile/")
-        //     .body(Body::Empty)
-        //     .expect("unable to build response");
-        // Ok(res)
-        panic!();
-    } else {
-        let a = state.static_serve.clone().serve(req).await.unwrap();
-        let b = a.into_body();
-
-        let resp = Response::builder().status(StatusCode::OK).body(b).unwrap();
-
-        Ok(resp)
-    }
-}
 
 // async fn handle_request<B>(req: Request<B>, static_: Static) -> Result<Response<Body>, IoError> {
 //     if req.uri().path() == "/" {
