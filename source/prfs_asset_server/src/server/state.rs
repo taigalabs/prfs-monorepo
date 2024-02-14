@@ -3,6 +3,7 @@ use hyper_staticfile::Static;
 
 use crate::{envs::ENVS, paths::PATHS};
 
+#[derive(Clone)]
 pub struct ServerState {
     pub static_serve: Static,
 }

@@ -1,5 +1,5 @@
 use axum::{
-    extract::Request,
+    extract::{Request, State},
     handler::HandlerWithoutStateExt,
     http::{HeaderValue, StatusCode},
     routing::get,
@@ -19,6 +19,8 @@ use tower_http::{
     services::{ServeDir, ServeFile},
     trace::TraceLayer,
 };
+
+use crate::paths::PATHS;
 
 use super::ServerState;
 
@@ -75,26 +77,26 @@ fn using_serve_dir_with_handler_as_service() -> Router {
         (StatusCode::NOT_FOUND, "Not found")
     }
 
-    // you can convert handler function to service
-    let service = handle_404.into_service();
-
-    let serve_dir = ServeDir::new("assets").not_found_service(service);
+    let state = ServerState::init();
+    let serve_dir = ServeDir::new(&PATHS.assets);
 
     Router::new()
-        .route("/foo", get(handle_server_status))
-        .fallback_service(serve_dir)
+        .route("/", get(handle_server_status))
+        .nest_service("/assets", serve_dir)
+        .with_state(state)
+        .fallback_service(handle_404.into_service())
         .layer(
             CorsLayer::new()
-                .allow_origin("http://localhost:3000".parse::<HeaderValue>().unwrap())
-                .allow_methods([Method::GET]),
+                .allow_origin("*".parse::<HeaderValue>().unwrap())
+                .allow_methods([Method::GET, Method::POST]),
         )
 }
 
 async fn serve(app: Router, port: u16) {
     let addr = SocketAddr::from(([127, 0, 0, 1], port));
     let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
-    // tracing::debug!("listening on {}", listener.local_addr().unwrap());
 
+    // tracing::debug!("listening on {}", listener.local_addr().unwrap());
     println!("Asset server running on http://{}/", addr);
     axum::serve(listener, app.layer(TraceLayer::new_for_http()))
         .await
@@ -106,20 +108,13 @@ pub struct ServerStatus {
     status: String,
 }
 
-async fn handle_server_status(// this argument tells axum to parse the request body
-    // as JSON into a `CreateUser` type
-    // Json(payload): Json<ServerState>,
+async fn handle_server_status(
+    State(_state): State<ServerState>,
 ) -> (StatusCode, Json<ServerStatus>) {
-    // insert your application logic here
-    // let user = User {
-    //     id: 1337,
-    //     username: payload.username,
-    // };
-
     // this will be converted into a JSON response
     // with a status code of `201 Created`
     (
-        StatusCode::CREATED,
+        StatusCode::OK,
         Json(ServerStatus {
             status: "Ok".to_string(),
         }),
