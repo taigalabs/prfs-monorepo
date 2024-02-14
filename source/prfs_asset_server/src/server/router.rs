@@ -1,31 +1,88 @@
-use hyper::{header, Body, Request, Response, StatusCode};
-use routerify::prelude::*;
-use routerify::{Middleware, RequestInfo, Router};
-use routerify_cors::enable_cors_all;
+use http_body_util::BodyExt;
+use hyper::body::Incoming;
+use hyper::{header, Method, Request, Response, StatusCode};
+use hyper_staticfile::Body;
+use hyper_utils::cors::handle_cors;
+use hyper_utils::io::{full, BytesBoxBody};
+use hyper_utils::resp::ApiResponse;
+use hyper_utils::ApiHandleError;
 use std::convert::Infallible;
 use std::sync::Arc;
 
 use super::ServerState;
 use crate::apis::{asset_meta, assets};
 
-pub fn make_router(server_state: Arc<ServerState>) -> Router<Body, Infallible> {
-    Router::builder()
-        .data(server_state)
-        .middleware(Middleware::pre(logger))
-        .middleware(enable_cors_all())
-        .get("/", status_handler)
-        .get("/assets/*", assets::get_assets)
-        .post("/upload", assets::upload_assets)
-        .post(
-            "/api/v0/get_prfs_asset_meta/",
-            asset_meta::get_prfs_asset_meta,
-        )
-        .err_handler_with_info(error_handler)
-        .build()
-        .unwrap()
+// pub fn make_router(server_state: Arc<ServerState>) -> Router<Body, Infallible> {
+//     Router::builder()
+//         .data(server_state)
+//         .middleware(Middleware::pre(logger))
+//         .middleware(enable_cors_all())
+//         .get("/", status_handler)
+//         .get("/assets/*", assets::get_assets)
+//         .post("/upload", assets::upload_assets)
+//         .post(
+//             "/api/v0/get_prfs_asset_meta/",
+//             asset_meta::get_prfs_asset_meta,
+//         )
+//         .err_handler_with_info(error_handler)
+//         .build()
+//         .unwrap()
+// }
+pub async fn route<B>(
+    req: Request<B>,
+    state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, std::io::Error> {
+    if req.uri().path() == "/" {
+        // let res = Response::builder()
+        //     .status(StatusCode::MOVED_PERMANENTLY)
+        //     .header(header::LOCATION, "/hyper_staticfile/")
+        //     .body(Body::Empty)
+        //     .expect("unable to build response");
+        // Ok(res)
+        panic!();
+    } else {
+        let a = state.static_serve.clone().serve(req).await.unwrap();
+        let b = a.into_body();
+
+        let resp = Response::builder().status(StatusCode::OK).body(b).unwrap();
+
+        Ok(resp)
+    }
 }
 
-async fn status_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
+// async fn handle_request<B>(req: Request<B>, static_: Static) -> Result<Response<Body>, IoError> {
+//     if req.uri().path() == "/" {
+//         let res = ResponseBuilder::new()
+//             .status(StatusCode::MOVED_PERMANENTLY)
+//             .header(header::LOCATION, "/hyper_staticfile/")
+//             .body(Body::Empty)
+//             .expect("unable to build response");
+//         Ok(res)
+//     } else {
+//         static_.clone().serve(req).await
+//     }
+// }
+
+// pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<BytesBoxBody> {
+//     let resp = match (req.method(), req.uri().path()) {
+//         (&Method::OPTIONS, _) => handle_cors(),
+//         (&Method::GET, "/") => handle_server_status(req, state).await,
+//         (&Method::GET, "/assets/*", assets::get_assets)
+//         _ => handle_not_found(req, state).await,
+//     };
+
+//     // Inline const is not availble at the moment
+//     // https://github.com/rodrimati1992/const_format_crates/issues/17
+//     match resp {
+//         Ok(r) => return r,
+//         Err(err) => return ApiResponse::new_error(err).into_hyper_response(),
+//     }
+// }
+
+async fn handle_server_status(
+    _req: Request<Incoming>,
+    _state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     println!("status handler!");
 
     // let data = "prfs asset server is working".to_string();
@@ -35,28 +92,31 @@ async fn status_handler(_req: Request<Body>) -> Result<Response<Body>, Infallibl
 
     let res = Response::builder()
         .header(header::CONTENT_TYPE, "application/json")
-        .body(Body::from(data.to_string()))
+        .body(full(data.to_string()))
         .unwrap();
 
     Ok(res)
 }
 
-async fn logger(req: Request<Body>) -> Result<Request<Body>, Infallible> {
-    println!(
-        "{} {} {}",
-        req.remote_addr(),
-        req.method(),
-        req.uri().path()
-    );
+async fn handle_not_found(
+    _req: Request<Incoming>,
+    _state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, ApiHandleError> {
+    let resp = Response::builder()
+        .status(StatusCode::NOT_FOUND)
+        .body(full(format!("Resource not found",)))
+        .unwrap();
 
-    Ok(req)
+    Ok(resp)
 }
 
-async fn error_handler(err: routerify::RouteError, _: RequestInfo) -> Response<Body> {
-    eprintln!("{}", err);
+// async fn logger(req: Request<Incoming>) -> Result<Request<BytesBoxBody>, Infallible> {
+//     println!(
+//         "{} {} {}",
+//         req.remote_addr(),
+//         req.method(),
+//         req.uri().path()
+//     );
 
-    Response::builder()
-        .status(StatusCode::INTERNAL_SERVER_ERROR)
-        .body(Body::from(format!("Something went wrong: {}", err)))
-        .unwrap()
-}
+//     Ok(req)
+// }

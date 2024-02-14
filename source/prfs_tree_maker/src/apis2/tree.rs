@@ -26,11 +26,8 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
                         &d.val
                     };
 
-                    let leaf_decimal = primitive_types::U256::from_str_radix(&val, 16)?;
-                    println!("leaf decimal {}", leaf_decimal);
-
-                    let ll = hex::decode(&val).unwrap();
-                    println!("ll: {:?}", ll);
+                    // let leaf_decimal = primitive_types::U256::from_str_radix(&val, 16)?;
+                    // println!("leaf decimal {}", leaf_decimal);
 
                     let bytes = convert_hex_into_32bytes(&val).unwrap();
                     println!("cm: {:?}, bytes: {:?}", val, bytes);

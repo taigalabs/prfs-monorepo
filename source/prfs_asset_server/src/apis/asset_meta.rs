@@ -1,11 +1,16 @@
-use hyper::{Body, Request, Response};
+use hyper::{body::Incoming, Request};
+// use hyper::{Body, Request, Response};
+use hyper_utils::{
+    io::{parse_req, ApiHandlerResult, BytesBoxBody},
+    resp::ApiResponse,
+    ApiHandleError,
+};
 use prfs_entities::asset::{GetPrfsAssetMetaRequest, GetPrfsAssetMetaResponse};
-use std::convert::Infallible;
 
-use super::request::parse_req;
-use super::response::ApiResponse;
+// use super::request::parse_req;
+// use super::response::ApiResponse;
 
-pub async fn get_prfs_asset_meta(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn get_prfs_asset_meta(req: Request<Incoming>) -> ApiHandlerResult {
     let req: GetPrfsAssetMetaRequest = parse_req(req).await;
 
     let resp = ApiResponse::new_success(GetPrfsAssetMetaResponse {

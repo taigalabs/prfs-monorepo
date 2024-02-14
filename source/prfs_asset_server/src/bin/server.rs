@@ -1,15 +1,14 @@
 use colored::Colorize;
-use hyper::Server;
+// use hyper::Server;
 use hyper_staticfile::Static;
 use prfs_asset_server::envs::ENVS;
 use prfs_asset_server::paths::PATHS;
-use prfs_asset_server::server::{make_router, ServerState};
+// use prfs_asset_server::server::{make_router, ServerState};
 use prfs_asset_server::{local, AssetServerError};
-use routerify::RouterService;
+// use routerify::RouterService;
+use prfs_asset_server::server;
 use std::net::SocketAddr;
 use std::sync::Arc;
-
-const PORT: u16 = 4010;
 
 #[tokio::main]
 async fn main() -> Result<(), AssetServerError> {
@@ -17,18 +16,7 @@ async fn main() -> Result<(), AssetServerError> {
 
     local::setup_local_assets();
 
-    let server_state = Arc::new(ServerState::init());
-
-    let router = make_router(server_state);
-    let service = RouterService::new(router).unwrap();
-    let addr: SocketAddr = ([0, 0, 0, 0], PORT).into();
-    let server = Server::bind(&addr).serve(service);
-
-    println!("Server is running on: {}", addr);
-
-    if let Err(err) = server.await {
-        eprintln!("Server error: {}", err);
-    }
+    server::run_server().await;
 
     Ok(())
 }
