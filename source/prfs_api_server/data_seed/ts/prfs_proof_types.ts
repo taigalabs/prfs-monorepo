@@ -79,6 +79,51 @@ const proof_types: PrfsProofType[] = [
     circuit_type_data: {
       type: "merkle_sig_pos_range_v1",
       prfs_set_id: "crypto_holders",
+      range_data: {
+        label: "Asset size in USD",
+        options: [
+          {
+            label: "0 - 10",
+            lower_bound: BigInt(0),
+            upper_bound: BigInt(10),
+          },
+          {
+            label: "10 - 1K",
+            lower_bound: BigInt(10),
+            upper_bound: BigInt(1000),
+          },
+          {
+            label: "1K - 10K",
+            lower_bound: BigInt(1000),
+            upper_bound: BigInt(10000),
+          },
+          {
+            label: "10K - 100K",
+            lower_bound: BigInt(10000),
+            upper_bound: BigInt(100000),
+          },
+          {
+            label: "100K - 1M",
+            lower_bound: BigInt(100000),
+            upper_bound: BigInt(1000000),
+          },
+          {
+            label: "1M - 10M",
+            lower_bound: BigInt(1000000),
+            upper_bound: BigInt(10000000),
+          },
+          {
+            label: "10M - 50M",
+            lower_bound: BigInt(10000000),
+            upper_bound: BigInt(50000000),
+          },
+          {
+            label: "50M - 1B",
+            lower_bound: BigInt(50000000),
+            upper_bound: BigInt(1000000000),
+          },
+        ],
+      },
     } as CircuitTypeData,
     circuit_driver_id: SPARTAN_CIRCOM_V1,
     created_at: "2024-01-29T16:39:57-08:00",

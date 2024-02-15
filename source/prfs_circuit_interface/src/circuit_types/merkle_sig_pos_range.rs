@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use sqlx::Type;
 use ts_rs::TS;
 
-use super::SpartanMerkleProof;
+use super::{RangeData, SpartanMerkleProof};
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[allow(non_snake_case)]
@@ -22,6 +22,5 @@ pub struct MerkleSigPosRangeV1Inputs {
 #[ts(export)]
 pub struct MerkleSigPosRangeV1Data {
     prfs_set_id: String,
-    // label: String,
-    // desc: String,
+    range_data: RangeData,
 }

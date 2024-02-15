@@ -379,9 +379,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           <p>Asset range in USD (automatic)</p>
           <InputWrapper>
             <select value={1} onChange={() => {}}>
-              <option value={-1} disabled>
-                Assets in USD
-              </option>
               <option value={0} disabled>
                 0 - 1
               </option>
