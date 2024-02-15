@@ -9,7 +9,7 @@ use prfs_circuits_circom::CircuitBuildListJson;
 use serde_json::{json, Value};
 use std::fs;
 use tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
-use tracing::{info_span, Span};
+use tracing::{info, info_span, Span};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use super::ServerState;
@@ -18,8 +18,15 @@ pub fn route() -> Router {
     let state = ServerState::init();
     let serve_dir = ServeDir::new(&state.circuits_build_path);
 
-    tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::INFO)
+    tracing_subscriber::registry()
+        .with(
+            tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
+                // axum logs rejections from built-in extractors with the `axum::rejection`
+                // target, at `TRACE` level. `axum::rejection=trace` enables showing those events
+                "prfs_asset_server=info,tower_http=info,axum::rejection=trace".into()
+            }),
+        )
+        .with(tracing_subscriber::fmt::layer())
         .init();
 
     Router::new()
@@ -28,25 +35,9 @@ pub fn route() -> Router {
         .with_state(state)
         .fallback_service(handle_404.into_service())
         .layer(
-            TraceLayer::new_for_http()
-                .make_span_with(|request: &Request<_>| {
-                    // Log the matched route's path (with placeholders not filled in).
-                    // Use request.uri() or OriginalUri if you want the real path.
-                    let matched_path = request
-                        .extensions()
-                        .get::<MatchedPath>()
-                        .map(MatchedPath::as_str);
-
-                    info_span!(
-                        "http_request",
-                        method = ?request.method(),
-                        matched_path,
-                        some_other_field = tracing::field::Empty,
-                    )
-                })
-                .on_request(|_request: &Request<_>, span: &Span| {
-                    span.record("power", 1);
-                }),
+            TraceLayer::new_for_http().on_request(|request: &Request<_>, _span: &Span| {
+                info!("{} - {}", request.method(), request.uri());
+            }),
         )
         .layer(
             CorsLayer::new()
