@@ -112,18 +112,20 @@ export default class SpartanDriver implements CircuitDriver {
     try {
       switch (args.circuitTypeId) {
         case "simple_hash_v1": {
-          const { proveSimpleHash } = await import("./provers/simple_hash/simple_hash");
+          const { proveSimpleHash } = await import("./proof_types/simple_hash/simple_hash");
 
           return proveSimpleHash(args, this.handlers, this.wtnsGen, this.circuit);
         }
         case "addr_membership_v1": {
-          const { proveMembership } = await import("./provers/membership_proof/membership_proof_1");
+          const { proveMembership } = await import(
+            "./proof_types/membership_proof/membership_proof_1"
+          );
 
           return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
         }
         case "merkle_sig_pos_range_v1": {
           const { proveMembership } = await import(
-            "./provers/merkle_sig_pos_range/merkle_sig_pos_range_v1"
+            "./proof_types/merkle_sig_pos_range/merkle_sig_pos_range_v1"
           );
 
           return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
@@ -142,20 +144,20 @@ export default class SpartanDriver implements CircuitDriver {
     try {
       switch (args.circuitTypeId) {
         case "simple_hash_v1": {
-          const { verifyMembership } = await import("./provers/simple_hash/simple_hash");
+          const { verifyMembership } = await import("./proof_types/simple_hash/simple_hash");
 
           return verifyMembership(args, this.handlers, this.circuit);
         }
         case "addr_membership_v1": {
           const { verifyMembership } = await import(
-            "./provers/membership_proof/membership_proof_1"
+            "./proof_types/membership_proof/membership_proof_1"
           );
 
           return verifyMembership(args, this.handlers, this.circuit);
         }
         case "merkle_sig_pos_range_v1": {
           const { verifyMembership } = await import(
-            "./provers/merkle_sig_pos_range/merkle_sig_pos_range_v1"
+            "./proof_types/merkle_sig_pos_range/merkle_sig_pos_range_v1"
           );
 
           return verifyMembership(args, this.handlers, this.circuit);
