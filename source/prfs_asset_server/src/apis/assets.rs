@@ -14,28 +14,28 @@ use tokio::io::AsyncWriteExt;
 use crate::paths::PATHS;
 use crate::server::ServerState;
 
-pub async fn get_assets(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> Result<Response<Body>, Infallible> {
-    // let state = req.data::<Arc<ServerState>>().unwrap();
+// pub async fn get_assets(
+//     req: Request<Incoming>,
+//     state: Arc<ServerState>,
+// ) -> Result<Response<Body>, Infallible> {
+//     // let state = req.data::<Arc<ServerState>>().unwrap();
 
-    let uri_segment = req.uri().path();
-    let uri_segment = uri_segment.strip_prefix("/assets").unwrap();
+//     let uri_segment = req.uri().path();
+//     let uri_segment = uri_segment.strip_prefix("/assets").unwrap();
 
-    let request = Request::get(format!("/{}", uri_segment)).body(()).unwrap();
-    match state.static_serve.clone().serve(request).await {
-        Ok(r) => {
-            // let b = full(r.body());
-            // let resp = ApiResponse::new_success(b);
-            return Ok(r);
-        }
+//     let request = Request::get(format!("/{}", uri_segment)).body(()).unwrap();
+//     match state.static_serve.clone().serve(request).await {
+//         Ok(r) => {
+//             // let b = full(r.body());
+//             // let resp = ApiResponse::new_success(b);
+//             return Ok(r);
+//         }
 
-        Err(err) => {
-            return Ok(Response::new(Body::Empty));
-        }
-    };
-}
+//         Err(err) => {
+//             return Ok(Response::new(Body::Empty));
+//         }
+//     };
+// }
 
 // pub async fn upload_assets(req: Request<Incoming>) -> ApiHandlerResult {
 //     let boundary = req

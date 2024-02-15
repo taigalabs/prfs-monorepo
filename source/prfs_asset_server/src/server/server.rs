@@ -1,95 +1,17 @@
-use axum::{
-    extract::{Request, State},
-    handler::HandlerWithoutStateExt,
-    http::{HeaderValue, StatusCode},
-    routing::get,
-    Json, Router,
-};
-use http_body_util::Full;
-use hyper::{body::Body, header, service::service_fn, Method, Response};
-use hyper_014::body::Bytes;
-use hyper_util::rt::TokioIo;
-use hyper_utils::io::empty;
-use serde::{Deserialize, Serialize};
+use axum::Router;
 use std::net::SocketAddr;
-use tokio::net::TcpListener;
-use tower::ServiceExt;
-use tower_http::{
-    cors::CorsLayer,
-    services::{ServeDir, ServeFile},
-    trace::TraceLayer,
-};
+use tower_http::trace::TraceLayer;
 
-use crate::paths::PATHS;
-
-use super::ServerState;
-
-// use crate::server::{route, ServerState};
+use super::route;
 
 const PORT: u16 = 4010;
 
 pub async fn run_server() {
     tokio::join!(serve(using_serve_dir_with_handler_as_service(), PORT),);
-
-    // let router = make_router(server_state);
-    // // let service = RouterService::new(router).unwrap();
-    // let addr: SocketAddr = ([0, 0, 0, 0], PORT).into();
-    // let server = Server::bind(&addr).serve(service);
-
-    // println!("Server is running on: {}", addr);
-
-    // if let Err(err) = server.await {
-    //     eprintln!("Server error: {}", err);
-    // }
-    //
-    // let static_ = Static::new(Path::new("target/doc/"));
-    // let server_state = Arc::new(ServerState::init());
-
-    // let addr: SocketAddr = ([127, 0, 0, 1], 3000).into();
-    // let listener = TcpListener::bind(addr)
-    //     .await
-    //     .expect("Failed to create TCP listener");
-
-    // eprintln!("Doc server running on http://{}/", addr);
-    // loop {
-    //     let (stream, _) = listener
-    //         .accept()
-    //         .await
-    //         .expect("Failed to accept TCP connection");
-
-    //     let server_state_clone = server_state.clone();
-    //     tokio::spawn(async move {
-    //         if let Err(err) = hyper::server::conn::http1::Builder::new()
-    //             .serve_connection(
-    //                 TokioIo::new(stream),
-    //                 service_fn(move |req| route(req, server_state_clone.clone())),
-    //             )
-    //             .await
-    //         {
-    //             eprintln!("Error serving connection: {:?}", err);
-    //         }
-    //     });
-    // }
 }
 
 fn using_serve_dir_with_handler_as_service() -> Router {
-    async fn handle_404() -> (StatusCode, &'static str) {
-        (StatusCode::NOT_FOUND, "Not found")
-    }
-
-    let state = ServerState::init();
-    let serve_dir = ServeDir::new(&PATHS.assets);
-
-    Router::new()
-        .route("/", get(handle_server_status))
-        .nest_service("/assets", serve_dir)
-        .with_state(state)
-        .fallback_service(handle_404.into_service())
-        .layer(
-            CorsLayer::new()
-                .allow_origin("*".parse::<HeaderValue>().unwrap())
-                .allow_methods([Method::GET, Method::POST]),
-        )
+    route()
 }
 
 async fn serve(app: Router, port: u16) {
@@ -102,40 +24,3 @@ async fn serve(app: Router, port: u16) {
         .await
         .unwrap();
 }
-
-#[derive(Serialize, Deserialize)]
-pub struct ServerStatus {
-    status: String,
-}
-
-async fn handle_server_status(
-    State(_state): State<ServerState>,
-) -> (StatusCode, Json<ServerStatus>) {
-    // this will be converted into a JSON response
-    // with a status code of `201 Created`
-    (
-        StatusCode::OK,
-        Json(ServerStatus {
-            status: "Ok".to_string(),
-        }),
-    )
-}
-
-// async fn handle_server_status(
-//     _req: Request<Incoming>,
-//     _state: Arc<ServerState>,
-// ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
-//     println!("status handler!");
-
-//     // let data = "prfs asset server is working".to_string();
-//     let data = serde_json::json!({
-//         "status": "Ok",
-//     });
-
-//     let res = Response::builder()
-//         .header(header::CONTENT_TYPE, "application/json")
-//         .body(full(data.to_string()))
-//         .unwrap();
-
-//     Ok(res)
-// }

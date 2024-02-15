@@ -1,17 +1,6 @@
-use colored::Colorize;
-use hyper_staticfile::Static;
+use serde::{Deserialize, Serialize};
 
-use crate::{envs::ENVS, paths::PATHS};
-
-#[derive(Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct ServerState {
-    pub static_serve: Static,
-}
-
-impl ServerState {
-    pub fn init() -> ServerState {
-        let static_serve = Static::new(&PATHS.assets);
-
-        ServerState { static_serve }
-    }
+    pub status: String,
 }
