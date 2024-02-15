@@ -6,7 +6,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import MerkleSigPosRangeInput from "@/components/circuit_input_items/merkle_sig_pos_range_v1/MerkleSigPosRangeInput";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { FormErrors } from "@/components/circuit_input_items/formErrorTypes";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
 import AddrMembershipInput from "@/components/circuit_input_items/addr_membership_v1/AddrMembershipInput";
 import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
@@ -42,7 +42,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
         return (
           <AddrMembershipInput
             circuitTypeData={proofType.circuit_type_data as AddrMembershipV1Data}
-            value={formValues as AddrMembershipV1Inputs | undefined}
+            value={formValues as FormValues<AddrMembershipV1Inputs>}
             error={formErrors as FormErrors<AddrMembershipV1Inputs>}
             setFormValues={setFormValues}
             setFormErrors={setFormErrors as any}
@@ -55,7 +55,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
         return (
           <SimpleHashInput
             circuitTypeData={proofType.circuit_type_data as SimpleHashV1Data}
-            value={formValues as SimpleHashV1Inputs | undefined}
+            value={formValues as FormValues<SimpleHashV1Inputs>}
             error={formErrors as FormErrors<SimpleHashV1Inputs>}
             setFormValues={setFormValues}
             setFormErrors={setFormErrors as any}

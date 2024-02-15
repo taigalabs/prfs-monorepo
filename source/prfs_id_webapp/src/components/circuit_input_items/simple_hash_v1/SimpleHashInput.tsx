@@ -17,7 +17,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
-import { FormErrors } from "@/components/circuit_input_items/formErrorTypes";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -88,7 +88,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
   );
 
   const handleClickHash = React.useCallback(async () => {
-    if (value?.hashData.msgRaw) {
+    if (value.hashData?.msgRaw) {
       const msgRaw = value.hashData.msgRaw;
       const msgRawInt = stringToBigInt(msgRaw);
       const bytes = await poseidon_2_bigint_le([msgRawInt, BigInt(0)]);
@@ -141,7 +141,7 @@ export default SimpleHashInput;
 
 export interface SimpleHashInputProps {
   circuitTypeData: SimpleHashV1Data;
-  value: SimpleHashV1Inputs | undefined;
+  value: FormValues<SimpleHashV1Inputs>;
   error: FormErrors<SimpleHashV1Inputs> | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<SimpleHashV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<SimpleHashV1Inputs>>>;

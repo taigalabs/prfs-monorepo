@@ -1,5 +1,9 @@
 import React from "react";
 
+export type FormValues<T> = {
+  [Key in keyof T]: undefined | T[Key];
+};
+
 export type FormErrors<T> = {
-  [Key in keyof T]: null | React.ReactNode;
+  [Key in keyof T]: undefined | React.ReactNode;
 };

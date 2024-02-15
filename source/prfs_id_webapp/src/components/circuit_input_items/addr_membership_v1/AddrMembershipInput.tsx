@@ -26,7 +26,7 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import MerkleProofInput from "./MerkleProofInput";
-import { FormErrors } from "@/components/circuit_input_items/formErrorTypes";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
 import SigDataInput from "./SigDataInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
@@ -270,8 +270,8 @@ export default AddrMembershipInput;
 
 export interface MerkleProofInputProps {
   circuitTypeData: AddrMembershipV1Data;
-  value: AddrMembershipV1Inputs | undefined;
-  error: FormErrors<AddrMembershipV1Inputs> | undefined;
+  value: FormValues<AddrMembershipV1Inputs>;
+  error: FormErrors<AddrMembershipV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<AddrMembershipV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<AddrMembershipV1Inputs>>>;
   presetVals?: QueryPresetVals;
