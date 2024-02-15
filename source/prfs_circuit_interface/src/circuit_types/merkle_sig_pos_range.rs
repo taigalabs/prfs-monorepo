@@ -14,10 +14,8 @@ pub struct MerkleSigPosRangeV1Inputs {
     assetSizeGreaterEqThan: i64,
     assetSizeLessThan: i64,
     merkleProof: SpartanMerkleProof,
-    nonce: i64,
-    ephemeralPubKeyX: i64,
+    nonces: Vec<i64>,
     serialNo: i64,
-    pubKeySerialNo: i64,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

@@ -23,9 +23,7 @@ template MerkleSigPosRange(nLevels) {
     signal input siblings[nLevels];
 
     signal input nonce;
-    signal input ephemeralPubKeyX;
     signal input serialNo;
-    signal input pubKeySerialNo;
 
     component greaterEqThan = GreaterEqThan(16);
     greaterEqThan.in[0] <-- assetSize;
@@ -56,11 +54,6 @@ template MerkleSigPosRange(nLevels) {
     poseidon3.inputs[1] <== nonce;
     // log("serialNo", serialNo, "computed", poseidon3.out);
     serialNo === poseidon3.out;
-
-    component poseidon4 = Poseidon();
-    poseidon4.inputs[0] <== _sig;
-    poseidon4.inputs[1] <== ephemeralPubKeyX;
-    pubKeySerialNo === poseidon4.out;
 
     component merkleProof = MerkleTreeInclusionProof(nLevels);
     merkleProof.leaf <== leaf;
