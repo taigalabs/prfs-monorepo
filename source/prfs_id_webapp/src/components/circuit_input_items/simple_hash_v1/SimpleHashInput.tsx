@@ -103,10 +103,12 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
         },
       }));
     } else {
-      setFormErrors(oldVals => {
-        const newVals = { ...oldVals, hashData: "Type some value to hash" };
-        return newVals;
-      });
+      const hashDataError = <span>Type some input to get hash result</span>;
+
+      setFormErrors(oldVals => ({
+        ...oldVals,
+        hashData: hashDataError,
+      }));
     }
   }, [value, setFormValues]);
 
