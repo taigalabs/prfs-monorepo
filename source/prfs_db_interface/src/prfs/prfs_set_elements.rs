@@ -151,3 +151,21 @@ WHERE set_id=$1 AND label=$2
 
     Ok(atst)
 }
+
+pub async fn delete_prfs_set_elements(
+    tx: &mut Transaction<'_, Postgres>,
+    set_id: &String,
+) -> Result<u64, DbInterfaceError> {
+    let query = r#"
+DELETE FROM prfs_set_elements
+WHERE set_id=$1
+"#;
+
+    let result = sqlx::query(query)
+        .bind(&set_id)
+        .execute(&mut **tx)
+        .await
+        .unwrap();
+
+    return Ok(result.rows_affected());
+}

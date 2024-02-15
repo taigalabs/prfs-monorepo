@@ -24,6 +24,7 @@ pub async fn import_prfs_set_elements(
 ) -> ApiHandlerResult {
     let req: ImportPrfsSetElementsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
 
     if req.src_type != PRFS_ATTESTATION {
         return Err(ApiHandleError::from(
@@ -39,6 +40,10 @@ pub async fn import_prfs_set_elements(
         ));
     }
 
+    prfs::delete_prfs_set_elements(&mut tx, &req.dest_set_id)
+        .await
+        .unwrap();
+
     let atsts = prfs::get_prfs_crypto_asset_size_atsts(&pool, 0, 50000)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODES.UNKNOWN_ERROR, err))?;
@@ -50,7 +55,6 @@ pub async fn import_prfs_set_elements(
         ));
     }
 
-    let mut tx = pool.begin().await.unwrap();
     let rows_affected =
         prfs::insert_asset_atsts_as_prfs_set_elements(&mut tx, atsts, &req.dest_set_id)
             .await
