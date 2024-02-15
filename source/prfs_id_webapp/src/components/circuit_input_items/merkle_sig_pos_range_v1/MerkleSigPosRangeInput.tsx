@@ -44,7 +44,7 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import { Transmuted } from "@/components/circuit_input_items/formErrorTypes";
+import { FormErrors } from "@/components/circuit_input_items/formErrorTypes";
 import { arrayify, hexlify } from "ethers/lib/utils";
 import { bytesToNumber, numberToBytes } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { envs } from "@/envs";
@@ -162,7 +162,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       }
 
       setWalletAddr(addr);
-      setFormErrors((prevVals: any) => {
+      setFormErrors(prevVals => {
         return {
           ...prevVals,
           merkleProof: undefined,
@@ -177,6 +177,10 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         });
 
         if (!getPrfsSetElementPayload) {
+          setFormErrors(oldVal => ({
+            ...oldVal,
+            merkleProof: `This address doesn't exist in ${prfsSet.label}. Choose a different one or add yours to the set`,
+          }));
           throw new Error("no payload from prfs set element");
         }
 
@@ -384,9 +388,9 @@ export default MerkleSigPosRangeInput;
 export interface MerkleSigPosRangeInputProps {
   circuitTypeData: MerkleSigPosRangeV1Data;
   value: MerkleSigPosRangeV1Inputs | undefined;
-  error: Transmuted<MerkleSigPosRangeV1Inputs> | undefined;
+  error: FormErrors<MerkleSigPosRangeV1Inputs> | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<MerkleSigPosRangeV1Inputs>>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;
 }
