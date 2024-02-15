@@ -342,8 +342,14 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         if (!option) {
           throw new Error(`Option at index does not exist, idx: ${optionIdx}`);
         }
-
         const { lower_bound, upper_bound } = option;
+
+        // Nonce and pubkey setup
+        // nonce: bigint;
+        // ephemeralPubKeyX: bigint;
+        // serialNo: bigint;
+        // pubKeySerialNo: bigint;
+
         const formValues: MerkleSigPosRangeV1Inputs = {
           sigUpper,
           sigLower,
