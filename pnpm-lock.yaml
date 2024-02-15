@@ -442,6 +442,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      eciesjs:
+        specifier: ^0.4.5
+        version: 0.4.5
       ethers:
         specifier: ^5
         version: 5.7.2
@@ -482,9 +485,6 @@ importers:
       '@types/rimraf':
         specifier: ^3.0.2
         version: 3.0.2
-      eciesjs:
-        specifier: ^0.4.5
-        version: 0.4.5
       json-bigint:
         specifier: ^1.0.0
         version: 1.0.0

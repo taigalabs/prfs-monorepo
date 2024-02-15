@@ -1,5 +1,5 @@
-export { PrivateKey, encrypt, decrypt, PublicKey } from "eciesjs";
-export { toUtf8Bytes } from "ethers/lib/utils";
+export { PrivateKey, encrypt, decrypt, PublicKey } from "@taigalabs/prfs-crypto-deps-js/eciesjs";
+export { toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 export * from "@taigalabs/prfs-crypto-deps-js/noble_curves";
 
 export { initWasm } from "./wasm_wrapper/wasm";

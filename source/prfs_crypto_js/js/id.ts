@@ -1,6 +1,6 @@
 import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
-import { hexlify } from "ethers/lib/utils";
-import { PrivateKey, PublicKey } from "eciesjs";
+import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { PrivateKey, PublicKey } from "@taigalabs/prfs-crypto-deps-js/eciesjs";
 
 import { initWasm, wasmSingleton } from "./wasm_wrapper/wasm";
 import { poseidon_2 } from "./poseidon";

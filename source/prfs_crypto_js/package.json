@@ -16,7 +16,6 @@
     "@ethereumjs/util": "^8.0.3",
     "@taigalabs/prfs-crypto-deps-js": "*",
     "@types/rimraf": "^3.0.2",
-    "eciesjs": "^0.4.5",
     "json-bigint": "^1.0.0"
   },
   "devDependencies": {

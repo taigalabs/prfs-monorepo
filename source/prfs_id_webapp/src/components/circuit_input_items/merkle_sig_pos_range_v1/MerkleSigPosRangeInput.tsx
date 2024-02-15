@@ -349,7 +349,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         // ephemeralPubKeyX: bigint;
         // serialNo: bigint;
         // pubKeySerialNo: bigint;
-        const nonces = [BigInt(0)];
+        // const nonces = [BigInt(0)];
 
         const formValues: MerkleSigPosRangeV1Inputs = {
           sigUpper,
@@ -360,6 +360,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           assetSizeLessThan: upper_bound,
           merkleProof,
           nonces: [],
+          serialNo: BigInt(0),
         };
         console.log("formValues: %o", formValues);
 
