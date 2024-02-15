@@ -294,19 +294,18 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           pathIndices,
         };
 
-        const formValues = {
+        const formValues: MerkleSigPosRangeV1Inputs = {
           sigUpper,
           sigLower,
           leaf: leafVal,
           assetSize: args[1],
-          assetSizeMaxLimit: BigInt(5),
+          assetSizeGreaterEqThan: BigInt(0),
+          assetSizeLessThan: BigInt(5),
           merkleProof,
         };
         console.log("formValues: %o", formValues);
 
-        setFormValues(() => {
-          return formValues;
-        });
+        setFormValues(formValues);
       } catch (err) {
         console.error(err);
       }

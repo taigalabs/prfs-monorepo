@@ -22,12 +22,18 @@ template MerkleSigPosRange(nLevels) {
     signal input pathIndices[nLevels];
     signal input siblings[nLevels];
 
+    component greaterEqThan = GreaterEqThan(16);
+    greaterEqThan.in[0] <-- assetSize;
+    greaterEqThan.in[1] <-- assetSizeGreaterEqThan;
+    greaterEqThan.out === 1;
+
     component lessThan = LessThan(16);
     lessThan.in[0] <-- assetSize;
-    lessThan.in[1] <-- assetSizeMaxLimit;
+    lessThan.in[1] <-- assetSizeLessThan;
 
     log("lessThan", lessThan.out);
     lessThan.out === 1;
+
 
     component poseidon1 = Poseidon();
     poseidon1.inputs[0] <== sigUpper;
