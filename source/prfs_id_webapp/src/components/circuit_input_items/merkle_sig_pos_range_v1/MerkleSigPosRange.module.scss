@@ -1,22 +1,14 @@
-.presetValsVoid {
-  line-height: 20px;
-  padding: 10px 0;
-}
+/* .presetValsVoid { */
+/*   line-height: 20px; */
+/*   padding: 10px 0; */
+/* } */
 
-.or {
-  /* padding: 0 3px; */
-}
-
-.interactiveArea {
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 100%;
-
-  .addressInput {
-    /* padding-right: 70px; */
-  }
-}
+/* .interactiveArea { */
+/*   display: flex; */
+/*   align-items: center; */
+/*   position: relative; */
+/*   width: 100%; */
+/* } */
 
 .computedValue {
   padding: 2px 6px;
@@ -36,4 +28,10 @@
   &:hover {
     text-decoration: underline;
   }
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

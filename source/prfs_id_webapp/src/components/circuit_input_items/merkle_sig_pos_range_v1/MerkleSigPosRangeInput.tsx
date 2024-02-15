@@ -364,16 +364,40 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           </ConnectWallet>
         </FormInputBtnRow>
       </FormInputTitleRow>
-      <InputWrapper>
-        <div className={styles.interactiveArea}>
+      <div className={styles.inputGroup}>
+        <InputWrapper>
+          {/* <div className={styles.interactiveArea}> */}
           <input
             className={styles.addressInput}
             placeholder={i18n.element_of_a_group}
             value={walletAddr}
             readOnly
           />
+          {/* </div> */}
+        </InputWrapper>
+        <div>
+          <p>Asset range in USD (automatic)</p>
+          <InputWrapper>
+            <select value={1} onChange={() => {}}>
+              <option value={-1} disabled>
+                Assets in USD
+              </option>
+              <option value={0} disabled>
+                0 - 1
+              </option>
+              <option value={1} disabled>
+                1 - 1k
+              </option>
+              <option value={1000}>1k - 10k</option>
+              <option value={10000}>10k - 100k</option>
+              <option value={100000}>100k - 1m</option>
+              <option value={1000000}>1m - 10m</option>
+              <option value={10000000}>10m - 100m</option>
+              <option value={100000000}>100m - 1b</option>
+            </select>
+          </InputWrapper>
         </div>
-      </InputWrapper>
+      </div>
       {value && <ComputedValue value={value} />}
       {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
     </FormInput>
