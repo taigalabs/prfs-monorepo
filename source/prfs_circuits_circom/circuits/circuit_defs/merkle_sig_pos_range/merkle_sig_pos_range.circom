@@ -9,7 +9,9 @@ include "../../gadgets/secp256k1_func.circom";
 
 template MerkleSigPosRange(nLevels) {
     signal input assetSize;
-    signal input assetSizeMaxLimit;
+    signal input assetSizeGreaterEqThan;
+    signal input assetSizeLessThan;
+
     signal input sigUpper;
     signal input sigLower;
 

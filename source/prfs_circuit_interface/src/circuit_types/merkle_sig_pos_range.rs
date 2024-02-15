@@ -12,7 +12,8 @@ pub struct MerkleSigPosRangeV1Inputs {
     sigUpper: i64,
     leaf: i64,
     assetSize: i64,
-    assetSizeMaxLimit: i64,
+    assetSizeGreaterEqThan: i64,
+    assetSizeLessThan: i64,
     merkleProof: SpartanMerkleProof,
 }
 
