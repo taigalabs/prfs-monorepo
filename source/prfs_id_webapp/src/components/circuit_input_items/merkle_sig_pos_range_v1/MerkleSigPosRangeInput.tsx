@@ -168,7 +168,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
       const { set_id, merkle_root } = prfsSet;
       try {
-        if (!circuitTypeData.range_data) {
+        const { range_data } = circuitTypeData;
+        if (!range_data) {
           throw new Error("range_data is empty");
         }
 
@@ -324,7 +325,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         // Range setup
         let optionIdx = -1;
-        for (const [idx, option] of circuitTypeData.range_data.options.entries()) {
+        for (const [idx, option] of range_data.options.entries()) {
           const { lower_bound, upper_bound } = option;
           if (lower_bound <= args[1] && args[1] < upper_bound) {
             optionIdx = idx;
@@ -336,13 +337,20 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }
         setRangeOptionIdx(optionIdx);
 
+        const option = range_data.options[optionIdx];
+
+        if (!option) {
+          throw new Error(`Option at index does not exist, idx: ${optionIdx}`);
+        }
+
+        const { lower_bound, upper_bound } = option;
         const formValues: MerkleSigPosRangeV1Inputs = {
           sigUpper,
           sigLower,
           leaf: leafVal,
           assetSize: args[1],
-          assetSizeGreaterEqThan: BigInt(0),
-          assetSizeLessThan: BigInt(5),
+          assetSizeGreaterEqThan: lower_bound,
+          assetSizeLessThan: upper_bound,
           merkleProof,
         };
         console.log("formValues: %o", formValues);
