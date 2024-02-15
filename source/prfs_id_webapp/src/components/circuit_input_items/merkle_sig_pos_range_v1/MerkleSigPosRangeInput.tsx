@@ -177,9 +177,16 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         });
 
         if (!getPrfsSetElementPayload) {
+          const elem = (
+            <div>
+              This address doesn't exist in ${prfsSet.label}. Choose a different one or add yours to
+              the set`
+            </div>
+          );
+
           setFormErrors(oldVal => ({
             ...oldVal,
-            merkleProof: `This address doesn't exist in ${prfsSet.label}. Choose a different one or add yours to the set`,
+            merkleProof: elem,
           }));
           throw new Error("no payload from prfs set element");
         }
@@ -191,7 +198,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           throw new Error("Only data of cardinality 2 is currently supported");
         }
 
-        // let sig: bigint = BigInt(0);
         let sigUpper: bigint = BigInt(0);
         let sigLower: bigint = BigInt(0);
         const args: bigint[] = [];
@@ -201,45 +207,25 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             case "WalletCm": {
               const _sig = await prfsSign(credential.secret_key, `${PRFS_ATTESTATION_STEM}${addr}`);
               const sigBytes = _sig.toCompactRawBytes();
-              const cm = await makeCommitmentBySigBytes(sigBytes);
-              const aa = arrayify(cm);
-              console.log(234, aa);
-              // sig = bytesToNumberLE(sigBytes);
-
-              // const cmNum = bytesToNumberLE(sigBytes);
-              sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
-              sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
-              const a = await poseidon_2_bigint_le([sigUpper, sigLower]);
-              const b = await poseidon_2(sigBytes);
-              const sig = bytesToNumberLE(a);
-              // const sig2 = bytesToNumberBE(a);
-              // const b = await poseidon_2(sigBytes);
-              console.log(
-                111,
-                _sig.toCompactHex(),
-                sigUpper,
-                sigLower,
-                a,
-                b,
-                sig,
-                hexlify(a),
-                hexlify(sig),
-                cm,
-                // sig2,
-                // hexlify(sig2),
-              );
-              // console.log(123, sigBytes, hexlify(a), cm);
+              const hashed = await poseidon_2(sigBytes);
+              const cm = hexlify(hashed);
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
               }
 
-              // const val = hexToNumber(cm.substring(2));
-              const val = bytesToNumberLE(a);
-              const val3 = bytesToNumberBE(a);
-              console.log(444, val, val3);
+              sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
+              sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
+              const cmByBigInt = await poseidon_2_bigint_le([sigUpper, sigLower]);
+              const val = bytesToNumberLE(cmByBigInt);
+              const val2 = bytesToNumberLE(hashed);
+
+              if (val !== val2) {
+                throw new Error(
+                  `Commitment does not match, cmByBigInt: ${val}, cmByBytes: ${val2}`,
+                );
+              }
               args[0] = val;
-              // console.log("cm: %s, val: %s", cm, val);
               break;
             }
             default:
