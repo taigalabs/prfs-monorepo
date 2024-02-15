@@ -24,7 +24,7 @@ pub fn route() -> Router {
 
     Router::new()
         .route("/", get(handle_server_status))
-        .nest_service("/build", serve_dir)
+        .nest_service("/assets", serve_dir)
         .with_state(state)
         .fallback_service(handle_404.into_service())
         .layer(TraceLayer::new_for_http())
