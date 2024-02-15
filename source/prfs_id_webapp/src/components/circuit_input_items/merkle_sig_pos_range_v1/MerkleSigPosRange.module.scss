@@ -24,18 +24,16 @@
   font-size: 13px;
 }
 
-.inputLabel {
-  a {
-    display: inline-flex;
-    align-items: center;
-    color: var(--aqua-blue-40);
+.link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--aqua-blue-40);
 
-    > svg {
-      margin-left: 1px;
-    }
+  > svg {
+    margin-left: 1px;
   }
 
-  a:hover {
+  &:hover {
     text-decoration: underline;
   }
 }

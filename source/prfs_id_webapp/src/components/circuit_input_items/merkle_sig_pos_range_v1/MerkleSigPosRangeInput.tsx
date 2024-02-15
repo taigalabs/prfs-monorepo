@@ -117,6 +117,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       <span className={styles.inputLabel}>
         <span>{i18n.member} - </span>
         <a
+          className={styles.link}
           onClick={handleClick}
           href={`${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/sets/${prfsSet.set_id}`}
         >
@@ -177,10 +178,20 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         });
 
         if (!getPrfsSetElementPayload) {
+          function handleClick() {
+            const url = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/sets/${set_id}`;
+            window.parent.window.open(url);
+          }
+
           const elem = (
             <div>
-              This address doesn't exist in ${prfsSet.label}. Choose a different one or add yours to
-              the set`
+              <span>
+                This address doesn't exist in {prfsSet.label}. Choose a different one or{" "}
+                <button type="button" onClick={handleClick} className={styles.link}>
+                  add yours
+                </button>{" "}
+                to the set
+              </span>
             </div>
           );
 
