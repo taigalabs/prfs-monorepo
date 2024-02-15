@@ -3,6 +3,7 @@ import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
+import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import {
   bytesLeToBigInt,
   bytesToNumberBE,
@@ -119,7 +120,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           onClick={handleClick}
           href={`${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/sets/${prfsSet.set_id}`}
         >
-          {prfsSet.label}
+          <span>{prfsSet.label}</span>
+          <BiLinkExternal />
         </a>
       </span>
     ) : (

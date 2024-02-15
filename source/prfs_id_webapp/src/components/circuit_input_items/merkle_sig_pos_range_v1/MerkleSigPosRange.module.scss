@@ -26,7 +26,13 @@
 
 .inputLabel {
   a {
+    display: inline-flex;
+    align-items: center;
     color: var(--aqua-blue-40);
+
+    > svg {
+      margin-left: 1px;
+    }
   }
 
   a:hover {
