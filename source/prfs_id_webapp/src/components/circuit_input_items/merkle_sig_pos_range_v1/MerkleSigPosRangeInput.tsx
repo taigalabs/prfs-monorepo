@@ -369,7 +369,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       </FormInputTitleRow>
       <InputWrapper>
         <div className={styles.interactiveArea}>
-          <input className={styles.addressInput} placeholder={"desc"} value={walletAddr} readOnly />
+          <input
+            className={styles.addressInput}
+            placeholder={i18n.element_of_a_group}
+            value={walletAddr}
+            readOnly
+          />
         </div>
       </InputWrapper>
       {value && <ComputedValue value={value} />}
