@@ -28,7 +28,7 @@ import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bin
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
-import { bytesToNumberLE, hexToNumber } from "@taigalabs/prfs-crypto-js";
+import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 
 import styles from "./MerkleSigPosRange.module.scss";
@@ -48,6 +48,7 @@ import { FormErrors, FormValues } from "@/components/circuit_input_items/formErr
 import { arrayify, hexlify } from "ethers/lib/utils";
 import { bytesToNumber, numberToBytes } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { envs } from "@/envs";
+import RangeSelect from "./RangeSelect";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -78,6 +79,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [walletAddr, setWalletAddr] = React.useState("");
+  const [rangeElem, setRangeElem] = React.useState<React.ReactNode>(null);
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
@@ -294,7 +296,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         const siblingPos = siblingPath.map((pos_w, idx) => {
           return { pos_h: idx, pos_w };
         });
-
         console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
         const siblingNodesData = await getPrfsTreeNodesByPosRequest({
@@ -366,34 +367,14 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       </FormInputTitleRow>
       <div className={styles.inputGroup}>
         <InputWrapper>
-          {/* <div className={styles.interactiveArea}> */}
           <input
             className={styles.addressInput}
             placeholder={i18n.element_of_a_group}
             value={walletAddr}
             readOnly
           />
-          {/* </div> */}
         </InputWrapper>
-        <div>
-          <p>Asset range in USD (automatic)</p>
-          <InputWrapper>
-            <select value={1} onChange={() => {}}>
-              <option value={0} disabled>
-                0 - 1
-              </option>
-              <option value={1} disabled>
-                1 - 1k
-              </option>
-              <option value={1000}>1k - 10k</option>
-              <option value={10000}>10k - 100k</option>
-              <option value={100000}>100k - 1m</option>
-              <option value={1000000}>1m - 10m</option>
-              <option value={10000000}>10m - 100m</option>
-              <option value={100000000}>100m - 1b</option>
-            </select>
-          </InputWrapper>
-        </div>
+        <RangeSelect circuitTypeData={circuitTypeData} />
       </div>
       {value && <ComputedValue value={value} />}
       {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}

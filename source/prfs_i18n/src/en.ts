@@ -238,6 +238,7 @@ export default {
   docs: "Docs",
   apps: "Apps",
   auth: "Auth",
+  automatic: "Automatic",
   authorize_twitter_account: "Authorize X (Twitter) account",
   tutorial: "Tutorial",
   dashboard: "Dashboard",
