@@ -4,10 +4,15 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import {
+  bytesLeToBigInt,
+  bytesToNumberBE,
   makeCommitment,
+  makeCommitmentBySigBytes,
   makePathIndices,
   makeSiblingPath,
-  poseidon_2_bigint,
+  poseidon_2,
+  poseidon_2_bigint_le,
+  prfsSign,
 } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
@@ -38,7 +43,9 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import { Transmuted } from "@/components/circuit_types/formErrorTypes";
+import { Transmuted } from "@/components/circuit_input_items/formErrorTypes";
+import { arrayify, hexlify } from "ethers/lib/utils";
+import { bytesToNumber, numberToBytes } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -69,7 +76,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [walletAddr, setWalletAddr] = React.useState("");
-  console.log("Form value", value);
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
@@ -137,7 +143,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
       const { set_id, merkle_root } = prfsSet;
       try {
-        // let leafVal = addr;
         const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
           label: addr,
@@ -150,40 +155,81 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         const data = getPrfsSetElementPayload.prfs_set_element
           ?.data as unknown as PrfsSetElementData[];
 
-        if (data.length > 2) {
-          throw new Error("Data of cardinality over 2 is currently not supported");
+        if (data.length !== 2) {
+          throw new Error("Only data of cardinality 2 is currently supported");
         }
 
-        let args = [BigInt(0), BigInt(0)];
-        for (let idx = 0; idx < data.length; idx += 1) {
-          const d = data[idx];
+        // let sig: bigint = BigInt(0);
+        let sigUpper: bigint = BigInt(0);
+        let sigLower: bigint = BigInt(0);
+        const args: bigint[] = [];
+        await (async () => {
+          const d = data[0];
           switch (d.type) {
             case "WalletCm": {
-              const cm = await makeCommitment(
-                credential.secret_key,
-                `${PRFS_ATTESTATION_STEM}${addr}`,
+              const _sig = await prfsSign(credential.secret_key, `${PRFS_ATTESTATION_STEM}${addr}`);
+              const sigBytes = _sig.toCompactRawBytes();
+              const cm = await makeCommitmentBySigBytes(sigBytes);
+              const aa = arrayify(cm);
+              console.log(234, aa);
+              // sig = bytesToNumberLE(sigBytes);
+
+              // const cmNum = bytesToNumberLE(sigBytes);
+              sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
+              sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
+              const a = await poseidon_2_bigint_le([sigUpper, sigLower]);
+              const b = await poseidon_2(sigBytes);
+              const sig = bytesToNumberLE(a);
+              // const sig2 = bytesToNumberBE(a);
+              // const b = await poseidon_2(sigBytes);
+              console.log(
+                111,
+                _sig.toCompactHex(),
+                sigUpper,
+                sigLower,
+                a,
+                b,
+                sig,
+                hexlify(a),
+                hexlify(sig),
+                cm,
+                // sig2,
+                // hexlify(sig2),
               );
+              // console.log(123, sigBytes, hexlify(a), cm);
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
               }
 
-              const val = hexToNumber(cm.substring(2));
-              console.log("cm: %s, val: %s", cm, val);
-              args[idx] = val;
+              // const val = hexToNumber(cm.substring(2));
+              const val = bytesToNumberLE(a);
+              const val3 = bytesToNumberBE(a);
+              console.log(444, val, val3);
+              args[0] = val;
+              // console.log("cm: %s, val: %s", cm, val);
               break;
             }
-
-            case "Int": {
-              args[idx] = BigInt(d.val);
-              break;
-            }
+            default:
+              throw new Error("Unsupported data type for the first element");
           }
-        }
+        })();
 
-        const _leaf = await poseidon_2_bigint(args);
-        const leafVal = bytesToNumberLE(_leaf);
-        console.log("args: %s, poseidon: %s, ", args, leafVal);
+        (() => {
+          const d = data[1];
+          switch (d.type) {
+            case "Int": {
+              args[1] = BigInt(d.val);
+              break;
+            }
+            default:
+              throw new Error("Unsupported data type for the second element");
+          }
+        })();
+
+        const leafBytes = await poseidon_2_bigint_le(args);
+        const leafVal = bytesToNumberLE(leafBytes);
+        console.log("leafBytes: %o, args: %s, leafVal: %s, ", leafBytes, args, leafVal);
 
         const { payload, error } = await getPrfsTreeLeafIndices({
           set_id,
@@ -247,15 +293,19 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           siblings: siblings as bigint[],
           pathIndices,
         };
-        console.log("merkleProof: %o", merkleProof);
+
+        const formValues = {
+          sigUpper,
+          sigLower,
+          leaf: leafVal,
+          assetSize: args[1],
+          assetSizeMaxLimit: BigInt(5),
+          merkleProof,
+        };
+        console.log("formValues: %o", formValues);
 
         setFormValues(() => {
-          return {
-            leaf: leafVal,
-            asset_size: BigInt(1),
-            asset_size_max_limit: BigInt(5),
-            merkleProof,
-          };
+          return formValues;
         });
       } catch (err) {
         console.error(err);
@@ -268,6 +318,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       getPrfsTreeLeafIndices,
       setFormErrors,
       getPrfsSetElement,
+      // setDataElem,
     ],
   );
 

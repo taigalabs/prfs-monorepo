@@ -1,12 +1,14 @@
 use crate::{driver_id, paths::PATHS, CircuitBuildListJson, CircuitsJson, FileKind};
+use chrono::{DateTime, Utc};
 use colored::Colorize;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
-use std::{io::Write, path::PathBuf, process::Command};
+use std::{io::Write, process::Command};
 
 pub fn run() {
     println!("{} building {}", "Start".green(), env!("CARGO_PKG_NAME"),);
     clean_build();
 
+    let now = Utc::now();
     let mut circuits = read_circuits_json();
 
     let mut circuit_list = vec![];
@@ -19,7 +21,7 @@ pub fn run() {
         circuit_list.push(circuit.circuit_type_id.to_string());
     }
 
-    create_list_json(&circuit_list);
+    create_list_json(&circuit_list, now);
 }
 
 fn clean_build() {
@@ -171,9 +173,10 @@ fn create_circuit_json(circuit: &mut PrfsCircuit) {
     );
 }
 
-fn create_list_json(circuits_json: &Vec<String>) {
+fn create_list_json(circuits_json: &Vec<String>, now: DateTime<Utc>) {
+    let timestamp = now.to_rfc3339();
     let build_list_json = CircuitBuildListJson {
-        // circuit_version: circuit_version.to_string(),
+        timestamp,
         circuits: circuits_json.clone(),
     };
 

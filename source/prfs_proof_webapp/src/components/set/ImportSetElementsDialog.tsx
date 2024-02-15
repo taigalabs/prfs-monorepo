@@ -20,8 +20,8 @@ import {
   DefaultModalHeader,
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
-import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
+import { isMasterAccountId } from "@/mock/mock_data";
 
 const PRFS_ATTESTATION = "prfs_attestation";
 const CRYPTO_ASSET_SIZE_ATSTS = "crypto_asset_size_atsts";
@@ -94,7 +94,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickImport = React.useCallback(async () => {
-    if (prfsProofCredential && prfsProofCredential.account_id === MASTER_ACCOUNT_ID) {
+    if (prfsProofCredential && isMasterAccountId(prfsProofCredential.account_id)) {
       setComputeStatus(CommonStatus.InProgress);
       try {
         const { payload, error } = await importPrfsSetElementsRequest({
@@ -153,7 +153,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
         variant="transparent_blue_2"
         noTransition
         type="button"
-        disabled={prfsProofCredential?.account_id !== MASTER_ACCOUNT_ID}
+        disabled={!isMasterAccountId(prfsProofCredential?.account_id)}
       >
         <div className={styles.btnContent}>
           <FaFileImport />

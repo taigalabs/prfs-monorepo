@@ -13,7 +13,7 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import { AttestationsTopMenu } from "@/components/sets/SetComponents";
 import { useSignedInUser } from "@/hooks/user";
-import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
+import { isMasterAccountId } from "@/mock/mock_data";
 import ComputeTotalValueDialog from "./ComputeTotalValue";
 
 const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
@@ -29,9 +29,9 @@ const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
             {i18n.crypto_asset_size_attestations}
           </AttestationsTitle>
           <AttestationsTopMenu>
-            {prfsProofCredential?.account_id === MASTER_ACCOUNT_ID && (
+            {isMasterAccountId(prfsProofCredential?.account_id) && (
               <li>
-                <ComputeTotalValueDialog credential={prfsProofCredential} rerender={rerender} />
+                <ComputeTotalValueDialog credential={prfsProofCredential!} rerender={rerender} />
               </li>
             )}
           </AttestationsTopMenu>

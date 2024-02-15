@@ -18,8 +18,8 @@ import {
   DefaultModalHeader,
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
-import { MASTER_ACCOUNT_ID } from "@/mock/mock_data";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
+import { isMasterAccountId } from "@/mock/mock_data";
 
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 
@@ -90,7 +90,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickCreateTree = React.useCallback(async () => {
-    if (prfsProofCredential && prfsProofCredential.account_id === MASTER_ACCOUNT_ID) {
+    if (prfsProofCredential && isMasterAccountId(prfsProofCredential.account_id)) {
       setComputeStatus(CommonStatus.InProgress);
       try {
         const { payload, error } = await createTreeRequest({
@@ -137,7 +137,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
         variant="transparent_blue_2"
         noTransition
         type="button"
-        disabled={prfsProofCredential?.account_id !== MASTER_ACCOUNT_ID}
+        disabled={!isMasterAccountId(prfsProofCredential?.account_id)}
       >
         <div className={styles.btnContent}>
           <FaTree />

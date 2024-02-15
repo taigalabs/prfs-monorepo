@@ -1,5 +1,5 @@
 {
-  "name": "@taigalabs/prfs-circuit-artifacts-uri-resolver",
+  "name": "@taigalabs/prfs-circuit-artifact-uri-resolver",
   "version": "0.0.1",
   "license": "MIT",
   "main": "./src/index.ts",

@@ -1,62 +1,66 @@
-use hyper::{header, Body, Request, Response, StatusCode};
-use routerify::prelude::*;
-use routerify::{Middleware, RequestInfo, Router};
-use routerify_cors::enable_cors_all;
-use std::convert::Infallible;
-use std::sync::Arc;
+use axum::{
+    extract::{MatchedPath, Request, State},
+    handler::HandlerWithoutStateExt,
+    http::{HeaderValue, Method, StatusCode},
+    routing::get,
+    Json, Router,
+};
+use prfs_circuits_circom::CircuitBuildListJson;
+use serde_json::{json, Value};
+use std::fs;
+use tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
+use tracing::{info, info_span, Span};
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use super::ServerState;
-use crate::apis::{asset_meta, assets};
 
-pub fn make_router(server_state: Arc<ServerState>) -> Router<Body, Infallible> {
-    Router::builder()
-        .data(server_state)
-        .middleware(Middleware::pre(logger))
-        .middleware(enable_cors_all())
-        .get("/", status_handler)
-        .get("/assets/*", assets::get_assets)
-        .post("/upload", assets::upload_assets)
-        .post(
-            "/api/v0/get_prfs_asset_meta/",
-            asset_meta::get_prfs_asset_meta,
+pub fn route() -> Router {
+    let state = ServerState::init();
+    let serve_dir = ServeDir::new(&state.circuits_build_path);
+
+    tracing_subscriber::registry()
+        .with(
+            tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
+                // axum logs rejections from built-in extractors with the `axum::rejection`
+                // target, at `TRACE` level. `axum::rejection=trace` enables showing those events
+                "prfs_asset_server=info,tower_http=info,axum::rejection=trace".into()
+            }),
         )
-        .err_handler_with_info(error_handler)
-        .build()
-        .unwrap()
+        .with(tracing_subscriber::fmt::layer())
+        .init();
+
+    Router::new()
+        .route("/", get(handle_server_status))
+        .nest_service("/assets", serve_dir)
+        .with_state(state)
+        .fallback_service(handle_404.into_service())
+        .layer(
+            TraceLayer::new_for_http().on_request(|request: &Request<_>, _span: &Span| {
+                info!("{} - {}", request.method(), request.uri());
+            }),
+        )
+        .layer(
+            CorsLayer::new()
+                .allow_origin("*".parse::<HeaderValue>().unwrap())
+                .allow_methods([Method::GET, Method::POST]),
+        )
 }
 
-async fn status_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("status handler!");
+async fn handle_404() -> (StatusCode, &'static str) {
+    (StatusCode::NOT_FOUND, "Not found")
+}
 
-    // let data = "prfs asset server is working".to_string();
-    let data = serde_json::json!({
-        "status": "Ok",
+pub async fn handle_server_status(State(state): State<ServerState>) -> (StatusCode, Json<Value>) {
+    let list_json_path = state.circuits_build_path.join("list.json");
+    let b = fs::read(&list_json_path)
+        .expect(&format!("list.json not found, path: {:?}", list_json_path));
+
+    let list_json: CircuitBuildListJson = serde_json::from_slice(&b).unwrap();
+
+    let json: serde_json::Value = json!({
+        "circuit_built_at": list_json.timestamp,
+        "state": state,
     });
 
-    let res = Response::builder()
-        .header(header::CONTENT_TYPE, "application/json")
-        .body(Body::from(data.to_string()))
-        .unwrap();
-
-    Ok(res)
-}
-
-async fn logger(req: Request<Body>) -> Result<Request<Body>, Infallible> {
-    println!(
-        "{} {} {}",
-        req.remote_addr(),
-        req.method(),
-        req.uri().path()
-    );
-
-    Ok(req)
-}
-
-async fn error_handler(err: routerify::RouteError, _: RequestInfo) -> Response<Body> {
-    eprintln!("{}", err);
-
-    Response::builder()
-        .status(StatusCode::INTERNAL_SERVER_ERROR)
-        .body(Body::from(format!("Something went wrong: {}", err)))
-        .unwrap()
+    (StatusCode::OK, Json(json))
 }

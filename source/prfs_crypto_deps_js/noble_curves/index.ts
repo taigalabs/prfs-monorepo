@@ -1,1 +1,1 @@
-export { hexToNumber, bytesToNumberLE } from "@noble/curves/abstract/utils";
+export { hexToNumber, bytesToNumberLE, bytesToNumberBE } from "@noble/curves/abstract/utils";

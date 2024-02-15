@@ -41,6 +41,14 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
       </LeftBarTopMenu>
       <LeftBarMenu>
         <LeftBarItem>
+          <Link href={paths.attestations__crypto_asset_size}>
+            <LeftBarItemButton isHighlighted={name === CRYPTO_ASSET_SIZE}>
+              <FaBitcoin />
+              <span>{i18n.crypto_asset_size}</span>
+            </LeftBarItemButton>
+          </Link>
+        </LeftBarItem>
+        <LeftBarItem>
           <Link href={paths.attestations__twitter}>
             <LeftBarItemButton isHighlighted={name === TWITTER}>
               <img
@@ -49,14 +57,6 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
                 crossOrigin=""
               />
               <span>{i18n.x_twitter}</span>
-            </LeftBarItemButton>
-          </Link>
-        </LeftBarItem>
-        <LeftBarItem>
-          <Link href={paths.attestations__crypto_asset_size}>
-            <LeftBarItemButton isHighlighted={name === CRYPTO_ASSET_SIZE}>
-              <FaBitcoin />
-              <span>{i18n.crypto_asset_size}</span>
             </LeftBarItemButton>
           </Link>
         </LeftBarItem>

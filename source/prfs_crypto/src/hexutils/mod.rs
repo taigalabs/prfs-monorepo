@@ -2,11 +2,14 @@ use crate::PrfsCryptoError;
 use primitive_types::U256;
 
 pub fn convert_hex_into_32bytes(val: &str) -> Result<[u8; 32], PrfsCryptoError> {
-    let leaf_decimal = U256::from_str_radix(&val, 16)?;
-    let mut b = [0u8; 32];
-    leaf_decimal.to_little_endian(&mut b);
+    // let leaf_decimal = U256::from_str_radix(&val, 16)?;
+    // let mut b = [0u8; 32];
+    // leaf_decimal.to_little_endian(&mut b);
+    //
+    let b = hex::decode(&val).expect("Valid hex string should be provided");
+    let bytes: [u8; 32] = b.try_into().expect("hex string is of wrong size");
 
-    Ok(b)
+    Ok(bytes)
 }
 
 pub fn convert_dec_into_32bytes(var: &str) -> Result<[u8; 32], PrfsCryptoError> {

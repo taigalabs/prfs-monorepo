@@ -206,7 +206,7 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
-  source/prfs_circuit_artifacts_uri_resolver:
+  source/prfs_circuit_artifact_uri_resolver:
     devDependencies:
       '@types/node':
         specifier: 20.3.1
@@ -801,9 +801,9 @@ importers:
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
-      '@taigalabs/prfs-circuit-artifacts-uri-resolver':
+      '@taigalabs/prfs-circuit-artifact-uri-resolver':
         specifier: '*'
-        version: link:../prfs_circuit_artifacts_uri_resolver
+        version: link:../prfs_circuit_artifact_uri_resolver
       '@taigalabs/prfs-circuit-interface':
         specifier: '*'
         version: link:../prfs_circuit_interface
@@ -1112,9 +1112,9 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
-      '@taigalabs/prfs-circuit-artifacts-uri-resolver':
+      '@taigalabs/prfs-circuit-artifact-uri-resolver':
         specifier: '*'
-        version: link:../prfs_circuit_artifacts_uri_resolver
+        version: link:../prfs_circuit_artifact_uri_resolver
       '@taigalabs/prfs-circuit-interface':
         specifier: '*'
         version: link:../prfs_circuit_interface

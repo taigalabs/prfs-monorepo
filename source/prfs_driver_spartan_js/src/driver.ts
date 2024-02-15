@@ -123,7 +123,7 @@ export default class SpartanDriver implements CircuitDriver {
         }
         case "merkle_sig_pos_range_v1": {
           const { proveMembership } = await import(
-            "./provers/merkle_pos_range/merkle_pos_range_v1"
+            "./provers/merkle_sig_pos_range/merkle_sig_pos_range_v1"
           );
 
           return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
@@ -155,7 +155,7 @@ export default class SpartanDriver implements CircuitDriver {
         }
         case "merkle_sig_pos_range_v1": {
           const { verifyMembership } = await import(
-            "./provers/merkle_pos_range/merkle_pos_range_v1"
+            "./provers/merkle_sig_pos_range/merkle_sig_pos_range_v1"
           );
 
           return verifyMembership(args, this.handlers, this.circuit);

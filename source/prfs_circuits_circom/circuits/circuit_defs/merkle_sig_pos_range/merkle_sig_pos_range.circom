@@ -8,38 +8,38 @@ include "../../gadgets/bigint.circom";
 include "../../gadgets/secp256k1_func.circom";
 
 template MerkleSigPosRange(nLevels) {
-    // eff ecdsa
-    // signal input Tx; 
-    // signal input Ty; 
-    // signal input Ux;
-    // signal input Uy;
+    signal input assetSize;
+    signal input assetSizeMaxLimit;
+    signal input sigUpper;
+    signal input sigLower;
 
-    // signal input m;
-    // signal input r;
-    // signal input s;
-    // signal input serialNo;
+    /// merkle proof
+    // leaf = pos(pos(sig, 0), assetSize)
     signal input leaf;
-    signal input asset_size;
-    signal input asset_size_max_limit;
-
-    // merkle proof
     signal input root;
     signal input pathIndices[nLevels];
     signal input siblings[nLevels];
 
     component lessThan = LessThan(16);
-    lessThan.in[0] <-- asset_size;
-    lessThan.in[1] <-- asset_size_max_limit;
+    lessThan.in[0] <-- assetSize;
+    lessThan.in[1] <-- assetSizeMaxLimit;
 
     log("lessThan", lessThan.out);
     lessThan.out === 1;
 
-    // Serial number
-    // component poseidon = Poseidon();
-    // poseidon.inputs[0] <== s;
-    // poseidon.inputs[1] <== 0;
-    // serialNo === poseidon.out;
-    log("leaf", leaf); 
+    component poseidon1 = Poseidon();
+    poseidon1.inputs[0] <== sigUpper;
+    poseidon1.inputs[1] <== sigLower;
+
+    var _sig = poseidon1.out;
+    log("sigUpper", sigUpper, "sigLower", sigLower, "_sig", _sig);
+
+    component poseidon2 = Poseidon();
+    poseidon2.inputs[0] <== _sig;
+    poseidon2.inputs[1] <== assetSize;
+
+    log("leaf", leaf, "computed", poseidon2.out);
+    leaf === poseidon2.out;
 
     component merkleProof = MerkleTreeInclusionProof(nLevels);
     merkleProof.leaf <== leaf;

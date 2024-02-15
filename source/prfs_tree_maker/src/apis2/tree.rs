@@ -1,7 +1,6 @@
 use prfs_crypto::{
     convert_32bytes_le_into_decimal_string, convert_dec_into_32bytes, convert_hex_into_32bytes,
-    crypto_bigint::{Encoding, U256},
-    hex, poseidon_2, ZERO_NODE,
+    crypto_bigint::Encoding, hex, poseidon_2, primitive_types, ZERO_NODE,
 };
 use prfs_entities::entities::{PrfsSet, PrfsSetElement, PrfsSetElementDataType};
 use std::u128;
@@ -26,6 +25,10 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
                     } else {
                         &d.val
                     };
+
+                    // let leaf_decimal = primitive_types::U256::from_str_radix(&val, 16)?;
+                    // println!("leaf decimal {}", leaf_decimal);
+
                     let bytes = convert_hex_into_32bytes(&val).unwrap();
                     println!("cm: {:?}, bytes: {:?}", val, bytes);
                     args[idx] = bytes;
@@ -44,15 +47,10 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
         let val = poseidon_2(&args[0], &args[1]).unwrap();
         let int = convert_32bytes_le_into_decimal_string(&val).unwrap();
         // let val2 = U256::from_be_bytes(val);
-        println!("idx: {}, poseidon: {:?}, int: {}", idx, val, int);
-
-        // let node = RawPrfsTreeNode {
-        //     pos_w: elem.element_idx,
-        //     pos_h: 0,
-        //     meta: None,
-        //     val,
-        //     set_id: elem.set_id.to_string(),
-        // };
+        println!(
+            "idx: {}, poseidon: {:?}, int: {}, args: {:?}",
+            idx, val, int, args
+        );
 
         nodes.push(val);
     }
