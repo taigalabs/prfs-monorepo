@@ -29,7 +29,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
         return (
           <MerkleSigPosRangeInput
             circuitTypeData={proofType.circuit_type_data as MerkleSigPosRangeV1Data}
-            value={formValues as MerkleSigPosRangeV1Inputs | undefined}
+            value={formValues as FormValues<MerkleSigPosRangeV1Inputs>}
             error={formErrors as FormErrors<MerkleSigPosRangeV1Inputs>}
             setFormValues={setFormValues}
             setFormErrors={setFormErrors as any}

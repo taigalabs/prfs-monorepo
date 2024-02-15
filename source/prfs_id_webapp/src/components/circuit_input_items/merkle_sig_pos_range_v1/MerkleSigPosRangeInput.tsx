@@ -44,7 +44,7 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import { FormErrors } from "@/components/circuit_input_items/formErrorTypes";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
 import { arrayify, hexlify } from "ethers/lib/utils";
 import { bytesToNumber, numberToBytes } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { envs } from "@/envs";
@@ -387,8 +387,8 @@ export default MerkleSigPosRangeInput;
 
 export interface MerkleSigPosRangeInputProps {
   circuitTypeData: MerkleSigPosRangeV1Data;
-  value: MerkleSigPosRangeV1Inputs | undefined;
-  error: FormErrors<MerkleSigPosRangeV1Inputs> | undefined;
+  value: FormValues<MerkleSigPosRangeV1Inputs>;
+  error: FormErrors<MerkleSigPosRangeV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
   presetVals?: QueryPresetVals;
@@ -396,5 +396,5 @@ export interface MerkleSigPosRangeInputProps {
 }
 
 export interface ComputedValueProps {
-  value: MerkleSigPosRangeV1Inputs;
+  value: FormValues<MerkleSigPosRangeV1Inputs>;
 }
