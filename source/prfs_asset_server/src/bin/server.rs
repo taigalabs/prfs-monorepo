@@ -6,8 +6,6 @@ use prfs_asset_server::{local, AssetServerError};
 async fn main() -> Result<(), AssetServerError> {
     println!("{} {}", "Starting".green(), env!("CARGO_PKG_NAME"),);
 
-    // local::setup_local_assets();
-
     server::run_server().await;
 
     Ok(())
