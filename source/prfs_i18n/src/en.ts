@@ -299,6 +299,7 @@ export default {
   configure_circuit_inputs: "Configure circuit inputs",
   prover_generated: "prover_generated",
   selected_sets: "Selected sets",
+  selected: "Selected",
   select_sets: "Select sets",
   proof_algorithm: "Proof algorithm",
   arithmetization: "Arithmetization",

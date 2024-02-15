@@ -79,7 +79,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [walletAddr, setWalletAddr] = React.useState("");
-  const [rangeElem, setRangeElem] = React.useState<React.ReactNode>(null);
+  const [rangeOptionIdx, setRangeOptionIdx] = React.useState(-1);
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
@@ -174,6 +174,11 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
       const { set_id, merkle_root } = prfsSet;
       try {
+        if (!circuitTypeData.range_data) {
+          throw new Error("range_data is empty");
+        }
+
+        // Merkle setup
         const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
           label: addr,
@@ -292,7 +297,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         const leafIdx = Number(pos_w);
         const siblingPath = makeSiblingPath(32, leafIdx);
         const pathIndices = makePathIndices(32, leafIdx);
-
         const siblingPos = siblingPath.map((pos_w, idx) => {
           return { pos_h: idx, pos_w };
         });
@@ -324,6 +328,20 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           pathIndices,
         };
 
+        // Range setup
+        let optionIdx = -1;
+        for (const [idx, option] of circuitTypeData.range_data.options.entries()) {
+          const { lower_bound, upper_bound } = option;
+          if (lower_bound <= args[1] && args[1] < upper_bound) {
+            optionIdx = idx;
+          }
+        }
+
+        if (optionIdx === -1) {
+          throw new Error("Value does not match any options");
+        }
+        setRangeOptionIdx(optionIdx);
+
         const formValues: MerkleSigPosRangeV1Inputs = {
           sigUpper,
           sigLower,
@@ -347,6 +365,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       getPrfsTreeLeafIndices,
       setFormErrors,
       getPrfsSetElement,
+      setRangeOptionIdx,
     ],
   );
 
@@ -374,7 +393,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             readOnly
           />
         </InputWrapper>
-        <RangeSelect circuitTypeData={circuitTypeData} />
+        <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
       </div>
       {value && <ComputedValue value={value} />}
       {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
