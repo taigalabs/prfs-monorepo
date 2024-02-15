@@ -23,3 +23,13 @@
   color: var(--gray-30);
   font-size: 13px;
 }
+
+.inputLabel {
+  a {
+    color: var(--aqua-blue-40);
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}

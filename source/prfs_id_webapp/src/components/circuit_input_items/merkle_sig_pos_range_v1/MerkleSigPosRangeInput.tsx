@@ -46,6 +46,7 @@ import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddres
 import { Transmuted } from "@/components/circuit_input_items/formErrorTypes";
 import { arrayify, hexlify } from "ethers/lib/utils";
 import { bytesToNumber, numberToBytes } from "@taigalabs/prfs-crypto-deps-js/viem";
+import { envs } from "@/envs";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -100,6 +101,31 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       return prfsApi2("get_prfs_tree_nodes_by_pos", req);
     },
   });
+
+  const labelElem = React.useMemo(() => {
+    function handleClick(ev: React.MouseEvent) {
+      ev.preventDefault();
+
+      if (prfsSet) {
+        const url = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/sets/${prfsSet.set_id}`;
+        window.parent.window.open(url);
+      }
+    }
+
+    return prfsSet ? (
+      <span className={styles.inputLabel}>
+        <span>{i18n.member} - </span>
+        <a
+          onClick={handleClick}
+          href={`${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/sets/${prfsSet.set_id}`}
+        >
+          {prfsSet.label}
+        </a>
+      </span>
+    ) : (
+      <span className={styles.inputLabel}>{i18n.loading}</span>
+    );
+  }, [prfsSet]);
 
   React.useEffect(() => {
     async function fn() {
@@ -321,16 +347,13 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     ],
   );
 
-  const label = React.useMemo(() => {
-    return `Member (${prfsSet ? prfsSet.label : i18n.loading})`;
-  }, [circuitTypeData, prfsSet]);
-
   return (
     <FormInput>
       <FormInputTitleRow>
         {/* <FormInputType>{circuitInput.type}</FormInputType> */}
         <FormInputTitle>
-          <span className={styles.inputLabel}>{label}</span>
+          {labelElem}
+          {/* <span className={styles.inputLabel}>{label}</span> */}
         </FormInputTitle>
         <FormInputBtnRow>
           <CachedAddressDialog handleChangeAddress={handleChangeAddress}>

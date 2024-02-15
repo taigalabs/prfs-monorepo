@@ -58,6 +58,7 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
+  member: "Member",
   commit_hash: "Commit hash",
   launch_time: "Launch time",
   build_time: "Build time",
