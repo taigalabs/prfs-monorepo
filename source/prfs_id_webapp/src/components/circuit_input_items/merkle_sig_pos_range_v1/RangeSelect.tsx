@@ -33,7 +33,7 @@ const RangeSelect: React.FC<RangeSelectProps> = ({ circuitTypeData, rangeOptionI
   return (
     circuitTypeData.range_data && (
       <div>
-        <p>
+        <p className={styles.selectLabel}>
           {circuitTypeData.range_data.label} ({i18n.automatic})
         </p>
         <InputWrapper>

@@ -5,16 +5,13 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import {
-  bytesLeToBigInt,
-  bytesToNumberBE,
-  makeCommitment,
-  makeCommitmentBySigBytes,
   makePathIndices,
   makeSiblingPath,
   poseidon_2,
   poseidon_2_bigint_le,
   prfsSign,
 } from "@taigalabs/prfs-crypto-js";
+import { hexlify } from "ethers/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
@@ -39,14 +36,11 @@ import {
   FormInputBtnRow,
   FormInputTitle,
   FormInputTitleRow,
-  FormInputType,
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
 import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
-import { arrayify, hexlify } from "ethers/lib/utils";
-import { bytesToNumber, numberToBytes } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 
