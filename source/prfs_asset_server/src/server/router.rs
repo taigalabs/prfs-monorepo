@@ -1,11 +1,10 @@
 use axum::{
     extract::State,
     handler::HandlerWithoutStateExt,
-    http::{HeaderValue, StatusCode},
+    http::{HeaderValue, Method, StatusCode},
     routing::get,
     Json, Router,
 };
-use hyper::Method;
 use tower_http::{cors::CorsLayer, services::ServeDir};
 
 use super::ServerState;

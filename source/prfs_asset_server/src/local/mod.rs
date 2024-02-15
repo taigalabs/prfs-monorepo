@@ -1,7 +1,8 @@
 mod utils;
 
-use crate::paths::PATHS;
 use colored::Colorize;
+
+use crate::paths::PATHS;
 
 pub fn setup_local_assets() {
     if PATHS.assets.exists() {
