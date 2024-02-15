@@ -345,7 +345,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       getPrfsTreeLeafIndices,
       setFormErrors,
       getPrfsSetElement,
-      // setDataElem,
     ],
   );
 
@@ -353,10 +352,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     <FormInput>
       <FormInputTitleRow>
         {/* <FormInputType>{circuitInput.type}</FormInputType> */}
-        <FormInputTitle>
-          {labelElem}
-          {/* <span className={styles.inputLabel}>{label}</span> */}
-        </FormInputTitle>
+        <FormInputTitle>{labelElem}</FormInputTitle>
         <FormInputBtnRow>
           <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
             <FormInputButton type="button">{i18n.fetch_addresses}</FormInputButton>
