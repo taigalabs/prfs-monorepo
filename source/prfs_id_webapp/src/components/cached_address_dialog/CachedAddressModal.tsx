@@ -10,6 +10,7 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import styles from "./CachedAddressModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
+import { hexlify } from "ethers/lib/utils";
 
 function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<string[] | null>(null);
@@ -55,7 +56,8 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
       if (prfsIdCredential) {
         const walletCacheKeys = [];
         for (let idx = 0; idx < 10; idx += 1) {
-          const key = await makeWalletCacheKeyCm(prfsIdCredential.secret_key, idx);
+          const cm = await makeWalletCacheKeyCm(prfsIdCredential.secret_key, idx);
+          const key = hexlify(cm);
           walletCacheKeys.push(key);
         }
         setWalletCacheKeys(walletCacheKeys);

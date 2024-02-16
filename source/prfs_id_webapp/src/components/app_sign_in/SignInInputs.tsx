@@ -27,10 +27,6 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
       for (const d of signInDataMeta) {
         if (d === AppSignInData.ID_POSEIDON) {
           const sigpos = await makeAppSignCm(credential.secret_key, appId);
-          // const sig = await prfsSign(credential.secret_key, appId);
-          // const sigBytes = sig.toCompactRawBytes();
-          // const sigHash = await poseidon_2(sigBytes);
-
           const { id, public_key } = await makeECCredential(sigpos);
           setSignInData({
             account_id: id,

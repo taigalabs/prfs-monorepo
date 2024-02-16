@@ -6,6 +6,7 @@ import { CommitmentType, PrfsIdCredential, CommitmentQuery } from "@taigalabs/pr
 import styles from "./CommitmentView.module.scss";
 import CommitmentItem from "./CommitmentItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
+import { hexlify } from "ethers/lib/utils";
 
 const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setReceipt }) => {
   const searchParams = useSearchParams();
@@ -16,7 +17,9 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setR
       try {
         const { name, preImage, type } = query;
         if (type === CommitmentType.SIG_POSEIDON_1) {
-          const cm = await sigPoseidon(credential.secret_key, preImage);
+          const hashed = await sigPoseidon(credential.secret_key, preImage);
+          const cm = hexlify(hashed);
+
           setReceipt(oldVal => ({
             ...oldVal,
             [name]: cm,
