@@ -18,6 +18,7 @@ import {
   parseBufferOfArray,
   createSessionKey,
   openPopup,
+  makeWalletAtstCmPreImage,
 } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./ClaimSecretItem.module.scss";
@@ -53,10 +54,9 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const { sk, pkHex } = useRandomKeyPair();
-  // const { openPopup } = usePopup();
   const claimSecret = React.useMemo(() => {
     const walletAddr = formData[WALLET_ADDR];
-    return `${PRFS_ATTESTATION_STEM}${walletAddr}`;
+    return makeWalletAtstCmPreImage(walletAddr);
   }, [formData[WALLET_ADDR]]);
 
   const handleClickGenerate = React.useCallback(async () => {

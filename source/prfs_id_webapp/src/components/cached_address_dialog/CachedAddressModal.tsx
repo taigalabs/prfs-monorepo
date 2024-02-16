@@ -56,8 +56,8 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
       if (prfsIdCredential) {
         const walletCacheKeys = [];
         for (let idx = 0; idx < 10; idx += 1) {
-          const cm = await makeWalletCacheKeyCm(prfsIdCredential.secret_key, idx);
-          const key = hexlify(cm);
+          const { hashed } = await makeWalletCacheKeyCm(prfsIdCredential.secret_key, idx);
+          const key = hexlify(hashed);
           walletCacheKeys.push(key);
         }
         setWalletCacheKeys(walletCacheKeys);
