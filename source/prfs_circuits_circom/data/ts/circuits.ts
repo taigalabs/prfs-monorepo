@@ -153,21 +153,6 @@ const circuits: PrfsCircuit[] = [
       wtns_gen_url: "",
       circuit_url: "",
     },
-
-    // signal input assetSize;
-    // signal input assetSizeGreaterEqThan;
-    // signal input assetSizeLessThan;
-    // signal input sigpos;
-
-    // // leaf := pos(pos(sigpos), assetSize)
-    // signal input leaf;
-    // signal input root;
-    // signal input pathIndices[nLevels];
-    // signal input siblings[nLevels];
-
-    // signal input nonce;
-    // // serialNo := pos(sigpos, nonce)
-    // signal input serialNo;
     raw_circuit_inputs_meta: [
       {
         label: "assetSize",
