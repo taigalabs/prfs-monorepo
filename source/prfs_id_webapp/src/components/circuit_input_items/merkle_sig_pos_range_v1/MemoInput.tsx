@@ -1,5 +1,7 @@
 import React from "react";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
+import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
+import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./MemoInput.module.scss";
 import {
@@ -9,9 +11,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { useI18N } from "@/i18n/context";
-import { FormErrors, FormValues } from "../formErrorTypes";
-import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
 
 const MemoInput: React.FC<RangeSelectProps> = ({
   circuitTypeData,

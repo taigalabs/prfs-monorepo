@@ -4,24 +4,13 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-import {
-  makePathIndices,
-  makeSiblingPath,
-  poseidon_2,
-  poseidon_2_bigint_le,
-  prfsSign,
-} from "@taigalabs/prfs-crypto-js";
+import { makePathIndices, makeSiblingPath, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
 import { hexlify } from "ethers/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import {
-  PRFS_ATTESTATION_STEM,
-  PrfsIdCredential,
-  QueryPresetVals,
-  makeWalletAtstCm,
-} from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, QueryPresetVals, makeWalletAtstCm } from "@taigalabs/prfs-id-sdk-web";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
@@ -215,34 +204,19 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           throw new Error("Only data of cardinality 2 is currently supported");
         }
 
-        // let sigUpper: bigint = BigInt(0);
-        // let sigLower: bigint = BigInt(0);
         const args: bigint[] = [];
-        // let sigBytes_: Uint8Array;
         await (async () => {
           const d = data[0];
           switch (d.type) {
             case "WalletCm": {
-              const { sigBytes, hashed } = await makeWalletAtstCm(credential.secret_key, addr);
+              const { hashed } = await makeWalletAtstCm(credential.secret_key, addr);
               const cm = hexlify(hashed);
               const cmInt = bytesToNumberLE(hashed);
-              // sigBytes_ = sigBytes;
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
               }
 
-              // sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
-              // sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
-              // const cmByBigInt = await poseidon_2_bigint_le([sigUpper, sigLower]);
-              // const val = bytesToNumberLE(cmByBigInt);
-              // const val2 = bytesToNumberLE(hashed);
-
-              // if (val !== val2) {
-              //   throw new Error(
-              //     `Commitment does not match, cmByBigInt: ${val}, cmByBytes: ${val2}`,
-              //   );
-              // }
               args[0] = cmInt;
               break;
             }
@@ -351,8 +325,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         setFormValues(oldVal => ({
           ...oldVal,
-          // sigUpper,
-          // sigLower,
           sigpos: args[0],
           leaf: leafVal,
           assetSize: args[1],
