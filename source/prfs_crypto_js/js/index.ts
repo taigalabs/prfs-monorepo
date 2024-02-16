@@ -9,6 +9,6 @@ export * from "./bigint";
 export * from "./signature";
 export * from "./id";
 export * from "./poseidon";
-export * from "./commitment";
+export * from "./sigpos";
 export * from "./addr";
 export * from "./rand";

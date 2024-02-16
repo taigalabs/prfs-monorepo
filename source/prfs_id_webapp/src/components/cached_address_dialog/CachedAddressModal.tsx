@@ -1,10 +1,10 @@
 import React from "react";
 import cn from "classnames";
 import { useQuery } from "@tanstack/react-query";
-import { decrypt, makeCommitment } from "@taigalabs/prfs-crypto-js";
+import { decrypt } from "@taigalabs/prfs-crypto-js";
 import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { PrfsIdCredential, WALLET_CM_STEM } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, WALLET_CM_STEM, makeWalletCacheKeyCm } from "@taigalabs/prfs-id-sdk-web";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
 import styles from "./CachedAddressModal.module.scss";
@@ -55,7 +55,7 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
       if (prfsIdCredential) {
         const walletCacheKeys = [];
         for (let idx = 0; idx < 10; idx += 1) {
-          const key = await makeCommitment(prfsIdCredential.secret_key, `${WALLET_CM_STEM}_${idx}`);
+          const key = await makeWalletCacheKeyCm(prfsIdCredential.secret_key, idx);
           walletCacheKeys.push(key);
         }
         setWalletCacheKeys(walletCacheKeys);
@@ -124,5 +124,4 @@ export default CachedAddressModal;
 export interface WalletModalProps {
   handleClickClose: () => void;
   handleChangeAddress: (addr: string) => void;
-  // credential: PrfsIdCredential;
 }

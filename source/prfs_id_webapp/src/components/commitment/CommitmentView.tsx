@@ -1,5 +1,5 @@
 import React from "react";
-import { makeCommitment } from "@taigalabs/prfs-crypto-js";
+import { sigPoseidon } from "@taigalabs/prfs-crypto-js";
 import { useSearchParams } from "next/navigation";
 import { CommitmentType, PrfsIdCredential, CommitmentQuery } from "@taigalabs/prfs-id-sdk-web";
 
@@ -16,7 +16,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setR
       try {
         const { name, preImage, type } = query;
         if (type === CommitmentType.SIG_POSEIDON_1) {
-          const cm = await makeCommitment(credential.secret_key, preImage);
+          const cm = await sigPoseidon(credential.secret_key, preImage);
           setReceipt(oldVal => ({
             ...oldVal,
             [name]: cm,
