@@ -2,7 +2,7 @@ packages:
   # Externals
 
   # Prfs
-  - "source/incremental-merkle-tree2"
+  # - "source/incremental-merkle-tree2"
   - "source/prfs_circuit_artifact_uri_resolver"
   - "source/prfs_docs_website"
   - "source/prfs_driver_spartan_js"

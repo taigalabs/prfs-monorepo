@@ -1,14 +1,8 @@
-import { ec as EC } from "elliptic";
-import BN from "bn.js";
 import JSONBig from "json-bigint";
-import { bufferToHex, toBuffer } from "@ethereumjs/util";
-import { bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
+import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 
-import { EffECDSAPubInput } from "@/types";
-import { SECP256K1_N } from "@/math/secp256k1";
 import { serializeBigintArray } from "@/utils/buffer";
 
-const ec = new EC("secp256k1");
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
 export class MerkleSigPosRangePublicInput {
