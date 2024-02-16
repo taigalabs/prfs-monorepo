@@ -38,6 +38,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         },
     });
     const circuitPublicInput = publicInput.circuitPubInput.serialize();
+    console.log("circuit pub input byte length: %s", circuitPublicInput.length);
     const prev = performance.now();
     let proofBytes;
     try {

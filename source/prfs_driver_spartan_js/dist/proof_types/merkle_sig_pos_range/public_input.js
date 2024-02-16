@@ -34,7 +34,13 @@ export class MerkleSigPosRangeCircuitPubInput {
     }
     serialize() {
         try {
-            const elems = [this.merkleRoot, this.nonceInt, this.serialNo];
+            const elems = [
+                this.merkleRoot,
+                this.nonceInt,
+                this.serialNo,
+                this.assetSizeGreaterEqThan,
+                this.assetSizeLessThan,
+            ];
             const serialized = serializeBigintArray(elems);
             return serialized;
         }

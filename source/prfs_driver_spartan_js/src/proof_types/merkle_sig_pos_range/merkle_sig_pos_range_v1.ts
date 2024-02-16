@@ -72,6 +72,7 @@ export async function proveMembership(
   });
 
   const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
+  console.log("circuit pub input byte length: %s", circuitPublicInput.length);
 
   const prev = performance.now();
   let proofBytes;
