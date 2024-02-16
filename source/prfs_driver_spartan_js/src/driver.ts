@@ -7,8 +7,7 @@ import {
 } from "@taigalabs/prfs-driver-interface";
 import { MERKLE_SIG_POS_RANGE_V1, SIMPLE_HASH_V1 } from "@taigalabs/prfs-circuit-interface";
 
-import { Tree } from "./utils/tree";
-import { makePoseidon } from "./utils/poseidon";
+// import { Tree } from "./utils/tree";
 import {
   PrfsHandlers,
   AsyncHashFn,
@@ -93,20 +92,13 @@ export default class SpartanDriver implements CircuitDriver {
     return this.handlers.getBuildStatus();
   }
 
-  async makeMerkleProof(leaves: string[], leafIdx: BigInt, depth: number) {
-    return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
-  }
+  // async makeMerkleProof(leaves: string[], leafIdx: BigInt, depth: number) {
+  //   return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
+  // }
 
-  async hash(args: bigint[]): Promise<bigint> {
-    const poseidon = makePoseidon(this.handlers);
-    const ret = await poseidon(args);
-
-    return ret;
-  }
-
-  async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
-    return await Tree.newInstance(depth, hash);
-  }
+  // async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
+  //   return await Tree.newInstance(depth, hash);
+  // }
 
   async prove(args: ProveArgs<any>): Promise<ProveReceipt> {
     try {

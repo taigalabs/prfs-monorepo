@@ -1,18 +1,19 @@
 import { BN } from "bn.js";
 import { toBuffer } from "@ethereumjs/util";
 import { fromSig, snarkJsWitnessGen } from "../../utils/utils";
-import { makePoseidon } from "../../utils/poseidon";
 import { MembershipProofCircuitPubInput, MembershipProofPublicInput, computeEffEcdsaPubInput, verifyEffEcdsaPubInput, } from "./public_input";
 import { SECP256K1_P } from "../../math/secp256k1";
+import { bytesToNumberLE, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     const { sigData, merkleProof } = inputs;
     const { msgRaw, msgHash, sig } = sigData;
     const { r, s, v } = fromSig(sig);
-    const poseidon = makePoseidon(handlers);
+    // const poseidon = makePoseidon(handlers);
     let serialNo;
     try {
-        serialNo = await poseidon([s, BigInt(0)]);
+        let hashed = await poseidon_2_bigint_le([s, BigInt(0)]);
+        serialNo = bytesToNumberLE(hashed);
     }
     catch (err) {
         throw new Error(`Error Poseidon hashing, err: ${err}`);

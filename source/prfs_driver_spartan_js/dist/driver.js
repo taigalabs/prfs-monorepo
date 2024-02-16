@@ -1,5 +1,3 @@
-import { Tree } from "./utils/tree";
-import { makePoseidon } from "./utils/poseidon";
 import { initWasm } from "./wasm_wrapper/load_worker";
 import { fetchAsset } from "./utils/utils";
 export default class SpartanDriver {
@@ -60,17 +58,12 @@ export default class SpartanDriver {
     async getBuildStatus() {
         return this.handlers.getBuildStatus();
     }
-    async makeMerkleProof(leaves, leafIdx, depth) {
-        return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
-    }
-    async hash(args) {
-        const poseidon = makePoseidon(this.handlers);
-        const ret = await poseidon(args);
-        return ret;
-    }
-    async newTree(depth, hash) {
-        return await Tree.newInstance(depth, hash);
-    }
+    // async makeMerkleProof(leaves: string[], leafIdx: BigInt, depth: number) {
+    //   return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
+    // }
+    // async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
+    //   return await Tree.newInstance(depth, hash);
+    // }
     async prove(args) {
         try {
             switch (args.circuitTypeId) {

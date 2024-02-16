@@ -5,6 +5,5 @@ export * from "./credential";
 export * from "./queries";
 export * from "./tutorial";
 export * from "./session";
-export * from "./buffer";
 export * from "./popup";
 export * from "./commitment";

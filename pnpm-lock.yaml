@@ -619,9 +619,6 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
-      '@taigalabs/incremental-merkle-tree2':
-        specifier: '*'
-        version: link:../incremental-merkle-tree2
       '@taigalabs/prfs-circuit-interface':
         specifier: '*'
         version: link:../prfs_circuit_interface

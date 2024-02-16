@@ -13,9 +13,7 @@ import {
   WALLET_CACHE_KEY,
   WALLET_CM_STEM,
   EncryptType,
-  PRFS_ATTESTATION_STEM,
   createSession,
-  parseBufferOfArray,
   createSessionKey,
   openPopup,
   makeWalletAtstCmPreImage,
@@ -132,8 +130,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         return;
       }
 
-      const buf = parseBufferOfArray(session.payload.value);
-      // const buf = parseBuffer(resp);
+      const buf = Buffer.from(session.payload.value);
       let decrypted: string;
       try {
         decrypted = decrypt(sk.secret, buf).toString();

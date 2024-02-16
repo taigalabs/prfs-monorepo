@@ -2,7 +2,6 @@ import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-inte
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
 
 import { PrfsHandlers } from "@/types";
-import { makePoseidon } from "@/utils/poseidon";
 import { SimpleHashCircuitPubInput, SimpleHashPublicInput } from "./public_input";
 import { snarkJsWitnessGen } from "@/utils/utils";
 

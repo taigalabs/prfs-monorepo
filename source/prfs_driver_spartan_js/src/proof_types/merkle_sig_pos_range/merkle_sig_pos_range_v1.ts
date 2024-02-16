@@ -5,7 +5,6 @@ import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bin
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 
 import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
-import { makePoseidon } from "@/utils/poseidon";
 import { PrfsHandlers } from "@/types";
 import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
 import { SECP256K1_P } from "@/math/secp256k1";

@@ -16,15 +16,6 @@ import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindin
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRaw from "./MerkleProofRaw";
 import { i18nContext } from "@/i18n/context";
-import {
-  FormError,
-  FormInput,
-  FormInputBtnRow,
-  FormInputTitle,
-  FormInputTitleRow,
-  InputWrapper,
-} from "@/components/form_input/FormInput";
-import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import MerkleProofInput from "./MerkleProofInput";
 import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
 import SigDataInput from "./SigDataInput";
