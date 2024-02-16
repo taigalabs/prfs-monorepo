@@ -37,6 +37,8 @@ export async function proveMembership(
     merkleProof.root,
     nonceInt,
     serialNo,
+    assetSizeGreaterEqThan,
+    assetSizeLessThan,
   );
 
   const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput, nonce);
