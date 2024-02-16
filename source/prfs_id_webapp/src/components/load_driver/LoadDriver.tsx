@@ -33,7 +33,7 @@ const LoadDriverResult: React.FC<LoadDriverResultProps> = ({ proofType, driverAr
   return (
     <p className={styles.result}>
       <a
-        href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
+      // href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
       >
         <span>{proofType.circuit_driver_id}</span>
         <BiLinkExternal />

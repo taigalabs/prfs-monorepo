@@ -18,7 +18,7 @@ import {
 import { prfsSign } from "@taigalabs/prfs-crypto-js";
 import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
-import { Transmuted } from "../formErrorTypes";
+import { FormErrors, FormValues } from "../formErrorTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -76,10 +76,10 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
 
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
-      if (value) {
-        value.sigData.sig = "";
-        value.sigData.msgHash = "0x0";
-      }
+      // if (value) {
+      //   value.sigData.sig = "";
+      //   value.sigData.msgHash = "0x0";
+      // }
 
       const newVal = ev.target.value;
       setFormValues(oldVals => {
@@ -105,7 +105,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
   );
 
   const handleClickSign = React.useCallback(async () => {
-    if (value) {
+    if (value.sigData) {
       const msgRaw = value.sigData.msgRaw;
       const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
       const sig = await signMessageAsync({ message: msgRaw });
@@ -143,7 +143,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
         <div className={styles.interactiveArea}>
           <input
             placeholder={"Signature"}
-            value={value?.sigData.msgRaw || ""}
+            value={value.sigData?.msgRaw || ""}
             onChange={handleChangeRaw}
           />
         </div>
@@ -157,17 +157,11 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
 export default SigDataInput;
 
 export interface SigDataInputProps {
-  // circuitInput: any;
-  // value: SigData | undefined;
-  // error: string | undefined;
-  // setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
-  // setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
-  // presetVals?: QueryPresetVals;
   circuitTypeData: AddrMembershipV1Data;
-  value: AddrMembershipV1Inputs | undefined;
-  error: Transmuted<AddrMembershipV1Inputs> | undefined;
+  value: FormValues<AddrMembershipV1Inputs>;
+  error: FormErrors<AddrMembershipV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<AddrMembershipV1Inputs>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<AddrMembershipV1Inputs>>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<AddrMembershipV1Inputs>>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;
 }

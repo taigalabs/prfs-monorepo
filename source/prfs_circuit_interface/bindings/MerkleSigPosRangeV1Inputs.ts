@@ -2,10 +2,11 @@
 import type { SpartanMerkleProof } from "./SpartanMerkleProof";
 
 export interface MerkleSigPosRangeV1Inputs {
-  sigLower: bigint;
-  sigUpper: bigint;
+  sigpos: bigint;
   leaf: bigint;
   assetSize: bigint;
-  assetSizeMaxLimit: bigint;
+  assetSizeGreaterEqThan: bigint;
+  assetSizeLessThan: bigint;
   merkleProof: SpartanMerkleProof;
+  nonce: string;
 }

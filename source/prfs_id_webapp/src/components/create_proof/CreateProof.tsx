@@ -124,7 +124,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
           return proveReceipt;
         } catch (err: any) {
           setCreateProofStatus(Status.Standby);
-          setSystemMsg(err.toString());
+          // setSystemMsg(err.toString());
           throw err;
         }
       },

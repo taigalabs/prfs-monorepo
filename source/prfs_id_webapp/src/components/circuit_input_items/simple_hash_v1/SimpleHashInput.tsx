@@ -17,7 +17,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
-import { Transmuted } from "@/components/circuit_input_items/formErrorTypes";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -44,26 +44,25 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [isPresetAssigned, setIsPresetAssigned] = React.useState(false);
 
-  React.useEffect(() => {
-    if (value === undefined) {
-      const defaultHashData: Transmuted<HashData> = {
-        msgRaw: null,
-        msgRawInt: null,
-        msgHash: null,
-      };
+  // React.useEffect(() => {
+  //   if (value === undefined) {
+  //     const defaultHashData: FormErrors<SimpleHashV1Inputs> = {
+  //       hashData: null,
+  //     };
 
-      setFormValues(oldVals => {
-        return {
-          ...oldVals,
-          hashData: defaultHashData,
-        };
-      });
-    }
-  }, [value, setFormValues, isPresetAssigned, setIsPresetAssigned]);
+  //     setFormValues(oldVals => {
+  //       return {
+  //         ...oldVals,
+  //         hashData: null,
+  //         // hashData: defaultHashData,
+  //       };
+  //     });
+  //   }
+  // }, [value, setFormValues, isPresetAssigned, setIsPresetAssigned]);
 
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
-      if (error?.hashData && error.hashData.length > 0) {
+      if (error?.hashData && error.hashData) {
         setFormErrors(oldVals => {
           const newVals = { ...oldVals };
           delete newVals.hashData;
@@ -89,7 +88,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
   );
 
   const handleClickHash = React.useCallback(async () => {
-    if (value?.hashData.msgRaw) {
+    if (value.hashData?.msgRaw) {
       const msgRaw = value.hashData.msgRaw;
       const msgRawInt = stringToBigInt(msgRaw);
       const bytes = await poseidon_2_bigint_le([msgRawInt, BigInt(0)]);
@@ -104,10 +103,12 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
         },
       }));
     } else {
-      setFormErrors(oldVals => {
-        const newVals = { ...oldVals, hashData: "Type some value to hash" };
-        return newVals;
-      });
+      const hashDataError = <span>Type some input to get hash result</span>;
+
+      setFormErrors(oldVals => ({
+        ...oldVals,
+        hashData: hashDataError,
+      }));
     }
   }, [value, setFormValues]);
 
@@ -142,10 +143,10 @@ export default SimpleHashInput;
 
 export interface SimpleHashInputProps {
   circuitTypeData: SimpleHashV1Data;
-  value: SimpleHashV1Inputs | undefined;
-  error: Transmuted<SimpleHashV1Inputs> | undefined;
+  value: FormValues<SimpleHashV1Inputs>;
+  error: FormErrors<SimpleHashV1Inputs> | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<SimpleHashV1Inputs>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<SimpleHashV1Inputs>>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<SimpleHashV1Inputs>>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;
 }

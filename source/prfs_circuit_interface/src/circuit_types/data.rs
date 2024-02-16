@@ -42,3 +42,20 @@ pub struct SigData {
     msgHash: String,
     sig: String,
 }
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[allow(non_snake_case)]
+#[ts(export)]
+pub struct RangeData {
+    label: String,
+    options: Vec<RangeOption>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[allow(non_snake_case)]
+#[ts(export)]
+pub struct RangeOption {
+    label: String,
+    lower_bound: i64,
+    upper_bound: i64,
+}

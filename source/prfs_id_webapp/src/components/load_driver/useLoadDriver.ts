@@ -3,13 +3,13 @@ import { CircuitDriver, DriverEvent } from "@taigalabs/prfs-driver-interface";
 import dayjs from "dayjs";
 import { initCircuitDriver } from "@taigalabs/prfs-proof-gen-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-
-import { envs } from "@/envs";
 import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
 import {
   resolveCircuitUrl,
   resolveWtnsGenUrl,
 } from "@taigalabs/prfs-circuit-artifact-uri-resolver";
+
+import { envs } from "@/envs";
 
 export enum LoadDriverStatus {
   Standby,

@@ -194,7 +194,9 @@ pub async fn create_tree_of_prfs_set(
         .await
         .unwrap();
 
-    // prfs::get_prfs_tree_nodes_by_pos(pool, set_id, pos)
+    prfs::delete_prfs_tree_nodes(&mut tx, &set.set_id)
+        .await
+        .unwrap();
 
     let mut count = 0;
     let leaves = tree::create_leaves(&set_elements).unwrap();

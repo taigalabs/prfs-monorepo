@@ -13,11 +13,10 @@ import {
   WALLET_CACHE_KEY,
   WALLET_CM_STEM,
   EncryptType,
-  PRFS_ATTESTATION_STEM,
   createSession,
-  parseBufferOfArray,
   createSessionKey,
   openPopup,
+  makeWalletAtstCmPreImage,
 } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./ClaimSecretItem.module.scss";
@@ -53,10 +52,9 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const { sk, pkHex } = useRandomKeyPair();
-  // const { openPopup } = usePopup();
   const claimSecret = React.useMemo(() => {
     const walletAddr = formData[WALLET_ADDR];
-    return `${PRFS_ATTESTATION_STEM}${walletAddr}`;
+    return makeWalletAtstCmPreImage(walletAddr);
   }, [formData[WALLET_ADDR]]);
 
   const handleClickGenerate = React.useCallback(async () => {
@@ -132,8 +130,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         return;
       }
 
-      const buf = parseBufferOfArray(session.payload.value);
-      // const buf = parseBuffer(resp);
+      const buf = Buffer.from(session.payload.value);
       let decrypted: string;
       try {
         decrypted = decrypt(sk.secret, buf).toString();

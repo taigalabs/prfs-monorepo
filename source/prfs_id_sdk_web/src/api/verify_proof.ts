@@ -57,3 +57,8 @@ export interface VerifyProofArgs {
   session_key: string;
   tutorial?: TutorialArgs;
 }
+
+export interface VerifyProofResultPayload {
+  error?: string;
+  result: boolean;
+}

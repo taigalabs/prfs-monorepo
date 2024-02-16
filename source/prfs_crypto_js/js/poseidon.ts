@@ -1,4 +1,4 @@
-import * as ethers from "ethers";
+import * as ethers from "@taigalabs/prfs-crypto-deps-js/ethers";
 
 import { initWasm, wasmSingleton } from "./wasm_wrapper/wasm";
 import { bigIntToLeBytes, bytesToBigInt } from "./bigint";

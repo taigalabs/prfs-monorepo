@@ -60,4 +60,8 @@ export interface ProofGenArgs {
   tutorial?: TutorialArgs;
 }
 
+export interface ProofGenSuccessPayload {
+  receipt: Record<string, any>;
+}
+
 export type ProofGenQuery = CommitmentQuery | CreateProofQuery | EncryptQuery;

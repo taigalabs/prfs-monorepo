@@ -3,17 +3,15 @@ import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
+import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import {
-  bytesLeToBigInt,
-  bytesToNumberBE,
-  makeCommitment,
-  makeCommitmentBySigBytes,
   makePathIndices,
   makeSiblingPath,
   poseidon_2,
   poseidon_2_bigint_le,
   prfsSign,
 } from "@taigalabs/prfs-crypto-js";
+import { hexlify } from "ethers/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
@@ -22,12 +20,13 @@ import {
   PRFS_ATTESTATION_STEM,
   PrfsIdCredential,
   QueryPresetVals,
+  makeWalletAtstCm,
 } from "@taigalabs/prfs-id-sdk-web";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
-import { bytesToNumberLE, hexToNumber } from "@taigalabs/prfs-crypto-js";
+import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 
 import styles from "./MerkleSigPosRange.module.scss";
@@ -38,14 +37,15 @@ import {
   FormInputBtnRow,
   FormInputTitle,
   FormInputTitleRow,
-  FormInputType,
+  InputGroup,
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import { Transmuted } from "@/components/circuit_input_items/formErrorTypes";
-import { arrayify, hexlify } from "ethers/lib/utils";
-import { bytesToNumber, numberToBytes } from "@taigalabs/prfs-crypto-deps-js/viem";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
+import { envs } from "@/envs";
+import RangeSelect from "./RangeSelect";
+import MemoInput from "./MemoInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -72,10 +72,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   error,
   setFormErrors,
   setFormValues,
+  presetVals,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [walletAddr, setWalletAddr] = React.useState("");
+  const [rangeOptionIdx, setRangeOptionIdx] = React.useState(-1);
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
@@ -100,6 +102,33 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       return prfsApi2("get_prfs_tree_nodes_by_pos", req);
     },
   });
+
+  const labelElem = React.useMemo(() => {
+    function handleClick(ev: React.MouseEvent) {
+      ev.preventDefault();
+
+      if (prfsSet) {
+        const url = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/sets/${prfsSet.set_id}`;
+        window.parent.window.open(url);
+      }
+    }
+
+    return prfsSet ? (
+      <span className={styles.inputLabel}>
+        <span>{i18n.member} - </span>
+        <a
+          className={styles.link}
+          onClick={handleClick}
+          href={`${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/sets/${prfsSet.set_id}`}
+        >
+          <span>{prfsSet.label}</span>
+          <BiLinkExternal />
+        </a>
+      </span>
+    ) : (
+      <span className={styles.inputLabel}>{i18n.loading}</span>
+    );
+  }, [prfsSet]);
 
   React.useEffect(() => {
     async function fn() {
@@ -134,7 +163,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       }
 
       setWalletAddr(addr);
-      setFormErrors((prevVals: any) => {
+      setFormErrors(prevVals => {
         return {
           ...prevVals,
           merkleProof: undefined,
@@ -143,12 +172,39 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
       const { set_id, merkle_root } = prfsSet;
       try {
+        const { range_data } = circuitTypeData;
+        if (!range_data) {
+          throw new Error("range_data is empty");
+        }
+
+        // Merkle setup
         const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
           label: addr,
         });
 
         if (!getPrfsSetElementPayload) {
+          function handleClick() {
+            const url = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/sets/${set_id}`;
+            window.parent.window.open(url);
+          }
+
+          const elem = (
+            <div>
+              <span>
+                This address doesn't exist in {prfsSet.label}. Choose a different one or{" "}
+                <button type="button" onClick={handleClick} className={styles.link}>
+                  add yours
+                </button>{" "}
+                to the set
+              </span>
+            </div>
+          );
+
+          setFormErrors(oldVal => ({
+            ...oldVal,
+            merkleProof: elem,
+          }));
           throw new Error("no payload from prfs set element");
         }
 
@@ -159,55 +215,35 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           throw new Error("Only data of cardinality 2 is currently supported");
         }
 
-        // let sig: bigint = BigInt(0);
-        let sigUpper: bigint = BigInt(0);
-        let sigLower: bigint = BigInt(0);
+        // let sigUpper: bigint = BigInt(0);
+        // let sigLower: bigint = BigInt(0);
         const args: bigint[] = [];
+        // let sigBytes_: Uint8Array;
         await (async () => {
           const d = data[0];
           switch (d.type) {
             case "WalletCm": {
-              const _sig = await prfsSign(credential.secret_key, `${PRFS_ATTESTATION_STEM}${addr}`);
-              const sigBytes = _sig.toCompactRawBytes();
-              const cm = await makeCommitmentBySigBytes(sigBytes);
-              const aa = arrayify(cm);
-              console.log(234, aa);
-              // sig = bytesToNumberLE(sigBytes);
-
-              // const cmNum = bytesToNumberLE(sigBytes);
-              sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
-              sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
-              const a = await poseidon_2_bigint_le([sigUpper, sigLower]);
-              const b = await poseidon_2(sigBytes);
-              const sig = bytesToNumberLE(a);
-              // const sig2 = bytesToNumberBE(a);
-              // const b = await poseidon_2(sigBytes);
-              console.log(
-                111,
-                _sig.toCompactHex(),
-                sigUpper,
-                sigLower,
-                a,
-                b,
-                sig,
-                hexlify(a),
-                hexlify(sig),
-                cm,
-                // sig2,
-                // hexlify(sig2),
-              );
-              // console.log(123, sigBytes, hexlify(a), cm);
+              const { sigBytes, hashed } = await makeWalletAtstCm(credential.secret_key, addr);
+              const cm = hexlify(hashed);
+              const cmInt = bytesToNumberLE(hashed);
+              // sigBytes_ = sigBytes;
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
               }
 
-              // const val = hexToNumber(cm.substring(2));
-              const val = bytesToNumberLE(a);
-              const val3 = bytesToNumberBE(a);
-              console.log(444, val, val3);
-              args[0] = val;
-              // console.log("cm: %s, val: %s", cm, val);
+              // sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
+              // sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
+              // const cmByBigInt = await poseidon_2_bigint_le([sigUpper, sigLower]);
+              // const val = bytesToNumberLE(cmByBigInt);
+              // const val2 = bytesToNumberLE(hashed);
+
+              // if (val !== val2) {
+              //   throw new Error(
+              //     `Commitment does not match, cmByBigInt: ${val}, cmByBytes: ${val2}`,
+              //   );
+              // }
+              args[0] = cmInt;
               break;
             }
             default:
@@ -261,11 +297,9 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         const leafIdx = Number(pos_w);
         const siblingPath = makeSiblingPath(32, leafIdx);
         const pathIndices = makePathIndices(32, leafIdx);
-
         const siblingPos = siblingPath.map((pos_w, idx) => {
           return { pos_h: idx, pos_w };
         });
-
         console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
         const siblingNodesData = await getPrfsTreeNodesByPosRequest({
@@ -294,19 +328,38 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           pathIndices,
         };
 
-        const formValues = {
-          sigUpper,
-          sigLower,
+        // Range setup
+        let optionIdx = -1;
+        for (const [idx, option] of range_data.options.entries()) {
+          const { lower_bound, upper_bound } = option;
+          if (lower_bound <= args[1] && args[1] < upper_bound) {
+            optionIdx = idx;
+          }
+        }
+
+        if (optionIdx === -1) {
+          throw new Error("Value does not match any options");
+        }
+        setRangeOptionIdx(optionIdx);
+
+        const option = range_data.options[optionIdx];
+
+        if (!option) {
+          throw new Error(`Option at index does not exist, idx: ${optionIdx}`);
+        }
+        const { lower_bound, upper_bound } = option;
+
+        setFormValues(oldVal => ({
+          ...oldVal,
+          // sigUpper,
+          // sigLower,
+          sigpos: args[0],
           leaf: leafVal,
           assetSize: args[1],
-          assetSizeMaxLimit: BigInt(5),
+          assetSizeGreaterEqThan: lower_bound,
+          assetSizeLessThan: upper_bound,
           merkleProof,
-        };
-        console.log("formValues: %o", formValues);
-
-        setFormValues(() => {
-          return formValues;
-        });
+        }));
       } catch (err) {
         console.error(err);
       }
@@ -318,39 +371,50 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       getPrfsTreeLeafIndices,
       setFormErrors,
       getPrfsSetElement,
-      // setDataElem,
+      setRangeOptionIdx,
     ],
   );
 
-  const label = React.useMemo(() => {
-    return `Member (${prfsSet ? prfsSet.label : i18n.loading})`;
-  }, [circuitTypeData, prfsSet]);
-
   return (
-    <FormInput>
-      <FormInputTitleRow>
-        {/* <FormInputType>{circuitInput.type}</FormInputType> */}
-        <FormInputTitle>
-          <span className={styles.inputLabel}>{label}</span>
-        </FormInputTitle>
-        <FormInputBtnRow>
-          <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
-            <FormInputButton type="button">{i18n.fetch_addresses}</FormInputButton>
-          </CachedAddressDialog>
-          <span className={styles.or}> or </span>
-          <ConnectWallet handleChangeAddress={handleChangeAddress}>
-            <FormInputButton type="button">{i18n.connect}</FormInputButton>
-          </ConnectWallet>
-        </FormInputBtnRow>
-      </FormInputTitleRow>
-      <InputWrapper>
-        <div className={styles.interactiveArea}>
-          <input className={styles.addressInput} placeholder={"desc"} value={walletAddr} readOnly />
-        </div>
-      </InputWrapper>
-      {value && <ComputedValue value={value} />}
-      {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
-    </FormInput>
+    <>
+      <FormInput>
+        <FormInputTitleRow>
+          <FormInputTitle>{labelElem}</FormInputTitle>
+          <FormInputBtnRow>
+            <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
+              <FormInputButton type="button">{i18n.fetch_addresses}</FormInputButton>
+            </CachedAddressDialog>
+            <span className={styles.or}> or </span>
+            <ConnectWallet handleChangeAddress={handleChangeAddress}>
+              <FormInputButton type="button">{i18n.connect}</FormInputButton>
+            </ConnectWallet>
+          </FormInputBtnRow>
+        </FormInputTitleRow>
+        <InputGroup>
+          <InputWrapper>
+            <input
+              className={styles.addressInput}
+              placeholder={i18n.element_of_a_group}
+              value={walletAddr}
+              readOnly
+            />
+          </InputWrapper>
+          <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
+        </InputGroup>
+        {value && <ComputedValue value={value} />}
+        {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
+      </FormInput>
+      <FormInput>
+        <MemoInput
+          value={value}
+          presetVals={presetVals}
+          circuitTypeData={circuitTypeData}
+          setFormValues={setFormValues}
+          setFormErrors={setFormErrors}
+          error={error}
+        />
+      </FormInput>
+    </>
   );
 };
 
@@ -358,14 +422,14 @@ export default MerkleSigPosRangeInput;
 
 export interface MerkleSigPosRangeInputProps {
   circuitTypeData: MerkleSigPosRangeV1Data;
-  value: MerkleSigPosRangeV1Inputs | undefined;
-  error: Transmuted<MerkleSigPosRangeV1Inputs> | undefined;
+  value: FormValues<MerkleSigPosRangeV1Inputs>;
+  error: FormErrors<MerkleSigPosRangeV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<MerkleSigPosRangeV1Inputs>>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;
 }
 
 export interface ComputedValueProps {
-  value: MerkleSigPosRangeV1Inputs;
+  value: FormValues<MerkleSigPosRangeV1Inputs>;
 }

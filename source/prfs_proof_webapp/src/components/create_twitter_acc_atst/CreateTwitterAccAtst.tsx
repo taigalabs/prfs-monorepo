@@ -20,7 +20,6 @@ import {
   QueryType,
   ProofGenSuccessPayload,
   createSession,
-  parseBufferOfArray,
   createSessionKey,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -229,7 +228,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         return;
       }
 
-      const buf = parseBufferOfArray(session.payload.value);
+      const buf = Buffer.from(session.payload.value);
       let decrypted = decrypt(sk.secret, buf).toString();
 
       let payload: ProofGenSuccessPayload;

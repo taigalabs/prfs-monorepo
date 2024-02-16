@@ -19,7 +19,7 @@ export function validateInputs(
 
       if (!val?.merkleProof) {
         hasError = true;
-        formErrors.merkleProof = "Input is invalid";
+        formErrors.merkleProof = "Input is empty";
       } else {
         const { root, siblings, pathIndices } = val.merkleProof;
 
@@ -29,6 +29,11 @@ export function validateInputs(
         }
       }
 
+      if (!val?.nonce || val?.nonce.length === 0) {
+        hasError = true;
+        formErrors.nonce = "Input is empty";
+      }
+
       break;
     }
     case "simple_hash_v1": {
@@ -36,7 +41,7 @@ export function validateInputs(
 
       if (!val?.hashData) {
         hasError = true;
-        formErrors.hashData = "Input is invalid";
+        formErrors.hashData = "Input is empty";
       } else {
         const { msgRaw, msgRawInt, msgHash } = val.hashData;
 

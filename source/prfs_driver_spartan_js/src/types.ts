@@ -2,7 +2,7 @@ declare module "wasm-feature-detect";
 
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 
-import { Tree } from "./utils/tree";
+// import { Tree } from "./utils/tree";
 
 export declare type PrfsWasmType = typeof import("./wasm_wrapper/build");
 
@@ -55,11 +55,11 @@ export interface PrfsHandlers {
   getBuildStatus(): Promise<BuildStatus>;
 }
 
-export interface WrappedPrfs {
-  poseidonHash(inputs: bigint[]): bigint;
-  newTree(depth: number): Tree;
-  membershshipProve: Promise<NIZK>;
-}
+// export interface WrappedPrfs {
+//   poseidonHash(inputs: bigint[]): bigint;
+//   newTree(depth: number): Tree;
+//   membershshipProve: Promise<NIZK>;
+// }
 
 export type HashFn = (inputs: bigint[]) => bigint;
 

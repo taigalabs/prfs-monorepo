@@ -53,3 +53,8 @@ export interface AppSignInArgs {
   public_key: string;
   session_key: string;
 }
+
+export interface SignInSuccessPayload {
+  account_id: string;
+  public_key: string;
+}

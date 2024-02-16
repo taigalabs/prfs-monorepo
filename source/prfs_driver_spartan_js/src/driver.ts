@@ -7,8 +7,7 @@ import {
 } from "@taigalabs/prfs-driver-interface";
 import { MERKLE_SIG_POS_RANGE_V1, SIMPLE_HASH_V1 } from "@taigalabs/prfs-circuit-interface";
 
-import { Tree } from "./utils/tree";
-import { makePoseidon } from "./utils/poseidon";
+// import { Tree } from "./utils/tree";
 import {
   PrfsHandlers,
   AsyncHashFn,
@@ -17,7 +16,7 @@ import {
   SpartanCircomDriverProperties,
 } from "./types";
 import { initWasm } from "./wasm_wrapper/load_worker";
-import { fetchAsset } from "./utils/utils";
+import { fetchAsset } from "./utils/fetch";
 
 export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
@@ -93,37 +92,32 @@ export default class SpartanDriver implements CircuitDriver {
     return this.handlers.getBuildStatus();
   }
 
-  async makeMerkleProof(leaves: string[], leafIdx: BigInt, depth: number) {
-    return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
-  }
+  // async makeMerkleProof(leaves: string[], leafIdx: BigInt, depth: number) {
+  //   return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
+  // }
 
-  async hash(args: bigint[]): Promise<bigint> {
-    const poseidon = makePoseidon(this.handlers);
-    const ret = await poseidon(args);
-
-    return ret;
-  }
-
-  async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
-    return await Tree.newInstance(depth, hash);
-  }
+  // async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
+  //   return await Tree.newInstance(depth, hash);
+  // }
 
   async prove(args: ProveArgs<any>): Promise<ProveReceipt> {
     try {
       switch (args.circuitTypeId) {
         case "simple_hash_v1": {
-          const { proveSimpleHash } = await import("./provers/simple_hash/simple_hash");
+          const { proveSimpleHash } = await import("./proof_types/simple_hash/simple_hash");
 
           return proveSimpleHash(args, this.handlers, this.wtnsGen, this.circuit);
         }
         case "addr_membership_v1": {
-          const { proveMembership } = await import("./provers/membership_proof/membership_proof_1");
+          const { proveMembership } = await import(
+            "./proof_types/membership_proof/membership_proof_1"
+          );
 
           return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
         }
         case "merkle_sig_pos_range_v1": {
           const { proveMembership } = await import(
-            "./provers/merkle_sig_pos_range/merkle_sig_pos_range_v1"
+            "./proof_types/merkle_sig_pos_range/merkle_sig_pos_range_v1"
           );
 
           return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
@@ -142,20 +136,20 @@ export default class SpartanDriver implements CircuitDriver {
     try {
       switch (args.circuitTypeId) {
         case "simple_hash_v1": {
-          const { verifyMembership } = await import("./provers/simple_hash/simple_hash");
+          const { verifyMembership } = await import("./proof_types/simple_hash/simple_hash");
 
           return verifyMembership(args, this.handlers, this.circuit);
         }
         case "addr_membership_v1": {
           const { verifyMembership } = await import(
-            "./provers/membership_proof/membership_proof_1"
+            "./proof_types/membership_proof/membership_proof_1"
           );
 
           return verifyMembership(args, this.handlers, this.circuit);
         }
         case "merkle_sig_pos_range_v1": {
           const { verifyMembership } = await import(
-            "./provers/merkle_sig_pos_range/merkle_sig_pos_range_v1"
+            "./proof_types/merkle_sig_pos_range/merkle_sig_pos_range_v1"
           );
 
           return verifyMembership(args, this.handlers, this.circuit);

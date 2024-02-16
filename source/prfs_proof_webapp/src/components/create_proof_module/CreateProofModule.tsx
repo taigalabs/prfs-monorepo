@@ -11,7 +11,6 @@ import {
   createSession,
   createSessionKey,
   openPopup,
-  parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
@@ -114,7 +113,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         return;
       }
 
-      const buf = parseBufferOfArray(session.payload.value);
+      const buf = Buffer.from(session.payload.value);
       let decrypted: string;
       try {
         decrypted = decrypt(sk.secret, buf).toString();

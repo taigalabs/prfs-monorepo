@@ -25,7 +25,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
-import { Transmuted } from "../formErrorTypes";
+import { FormErrors, FormValues } from "../formErrorTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -251,10 +251,10 @@ export default MerkleProofInput;
 
 export interface MerkleProofInputProps {
   circuitTypeData: AddrMembershipV1Data;
-  value: AddrMembershipV1Inputs | undefined;
-  error: Transmuted<AddrMembershipV1Inputs> | undefined;
+  value: FormValues<AddrMembershipV1Inputs>;
+  error: FormErrors<AddrMembershipV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<AddrMembershipV1Inputs>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<Transmuted<AddrMembershipV1Inputs>>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<AddrMembershipV1Inputs>>>;
   presetVals?: QueryPresetVals;
 }
 

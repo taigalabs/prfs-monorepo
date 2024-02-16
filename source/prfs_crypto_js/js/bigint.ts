@@ -1,4 +1,4 @@
-import { toUtf8Bytes } from "ethers/lib/utils";
+import { toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 export function bnToBuf(bn: bigint) {
   // The handy-dandy `toString(base)` works!!

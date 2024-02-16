@@ -12,7 +12,6 @@ import {
   createSessionKey,
   makeVerifyProofSearchParams,
   openPopup,
-  parseBufferOfArray,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useRandomKeyPair } from "@/hooks/key";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
@@ -99,7 +98,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
             return;
           }
 
-          const buf = parseBufferOfArray(session.payload.value);
+          const buf = Buffer.from(session.payload.value);
           let decrypted: string;
           try {
             decrypted = decrypt(sk.secret, buf).toString();

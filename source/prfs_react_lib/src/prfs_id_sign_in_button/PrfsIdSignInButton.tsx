@@ -5,7 +5,6 @@ import {
   AppSignInArgs,
   makeAppSignInSearchParams,
   createSession,
-  parseBufferOfArray,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
 
@@ -65,7 +64,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
             return;
           }
 
-          const buf = parseBufferOfArray(session.payload.value);
+          const buf = Buffer.from(session.payload.value);
           handleSucceedSignIn(buf);
 
           send({
