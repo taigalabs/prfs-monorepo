@@ -12,17 +12,19 @@ template MerkleSigPosRange(nLevels) {
     signal input assetSizeGreaterEqThan;
     signal input assetSizeLessThan;
 
-    signal input sigUpper;
-    signal input sigLower;
+    // signal input sigUpper;
+    // signal input sigLower;
+    signal input sigpos;
 
     /// merkle proof
-    // leaf = pos(pos(sig, 0), assetSize)
+    // leaf := pos(pos(sigpos), assetSize)
     signal input leaf;
     signal input root;
     signal input pathIndices[nLevels];
     signal input siblings[nLevels];
 
     signal input nonce;
+    // serialNo := pos(sigpos, nonce)
     signal input serialNo;
 
     component greaterEqThan = GreaterEqThan(16);
@@ -37,20 +39,20 @@ template MerkleSigPosRange(nLevels) {
     log("lessThan", lessThan.out);
     lessThan.out === 1;
 
-    component poseidon1 = Poseidon();
-    poseidon1.inputs[0] <== sigUpper;
-    poseidon1.inputs[1] <== sigLower;
-    var _sig = poseidon1.out;
-    log("sigUpper", sigUpper, "sigLower", sigLower, "_sig", _sig);
+    // component poseidon1 = Poseidon();
+    // poseidon1.inputs[0] <== sigUpper;
+    // poseidon1.inputs[1] <== sigLower;
+    // var sigpos = poseidon1.out;
+    // log("sigUpper", sigUpper, "sigLower", sigLower, "sigpos", sigpos);
 
     component poseidon2 = Poseidon();
-    poseidon2.inputs[0] <== _sig;
+    poseidon2.inputs[0] <== sigpos;
     poseidon2.inputs[1] <== assetSize;
     log("leaf", leaf, "computed", poseidon2.out);
     leaf === poseidon2.out;
 
     component poseidon3 = Poseidon();
-    poseidon3.inputs[0] <== _sig;
+    poseidon3.inputs[0] <== sigpos;
     poseidon3.inputs[1] <== nonce;
     // log("serialNo", serialNo, "computed", poseidon3.out);
     serialNo === poseidon3.out;

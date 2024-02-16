@@ -30,7 +30,7 @@ export async function proveMembership(
   const {
     // sigLower,
     // sigUpper,
-    sigBytes,
+    sigpos,
     leaf,
     merkleProof,
     assetSize,
@@ -39,13 +39,14 @@ export async function proveMembership(
     nonce,
   } = inputs;
 
-  const sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
-  const sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
+  // const sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
+  // const sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
 
   // const nonceInt = stringToBigInt(nonce);
   const nonceHash = await poseidon_2(nonce);
   const nonceInt = bytesToBigInt(nonceHash);
-  // const serialNo = await poseidon_2_bigint_le()
+  const serialNo = await poseidon_2_bigint_le([sigpos, nonceInt]);
+  const serialNoInt = bytesToNumberLE(serialNo);
 
   // const poseidon = makePoseidon(handlers);
 
@@ -76,8 +77,9 @@ export async function proveMembership(
   // const m = new BN(toBuffer(msgHash)).mod(SECP256K1_P);
 
   const witnessGenInput = {
-    sigUpper,
-    sigLower,
+    // sigUpper,
+    // sigLower,
+    sigpos,
     leaf,
     assetSize,
     assetSizeGreaterEqThan,
@@ -87,8 +89,8 @@ export async function proveMembership(
     siblings: merkleProof.siblings,
     pathIndices: merkleProof.pathIndices,
 
-    // nonce,
-    // serialNo,
+    nonce: nonceInt,
+    serialNo: serialNoInt,
   };
 
   console.log("witnessGenInput", witnessGenInput);

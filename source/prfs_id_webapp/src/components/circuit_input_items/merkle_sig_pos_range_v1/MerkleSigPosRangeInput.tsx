@@ -218,15 +218,15 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         // let sigUpper: bigint = BigInt(0);
         // let sigLower: bigint = BigInt(0);
         const args: bigint[] = [];
-        let sigBytes_: Uint8Array;
+        // let sigBytes_: Uint8Array;
         await (async () => {
           const d = data[0];
           switch (d.type) {
             case "WalletCm": {
               const { sigBytes, hashed } = await makeWalletAtstCm(credential.secret_key, addr);
               const cm = hexlify(hashed);
-              const val2 = bytesToNumberLE(hashed);
-              sigBytes_ = sigBytes;
+              const cmInt = bytesToNumberLE(hashed);
+              // sigBytes_ = sigBytes;
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
@@ -243,7 +243,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
               //     `Commitment does not match, cmByBigInt: ${val}, cmByBytes: ${val2}`,
               //   );
               // }
-              args[0] = val2;
+              args[0] = cmInt;
               break;
             }
             default:
@@ -353,7 +353,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           ...oldVal,
           // sigUpper,
           // sigLower,
-          sigBytes: sigBytes_,
+          sigpos: args[0],
           leaf: leafVal,
           assetSize: args[1],
           assetSizeGreaterEqThan: lower_bound,

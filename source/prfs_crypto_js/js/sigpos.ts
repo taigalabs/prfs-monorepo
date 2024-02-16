@@ -10,10 +10,3 @@ export async function sigPoseidon(sk: string, preImage: string) {
 
   return { sigBytes, hashed };
 }
-
-// export async function makeCommitmentBySigBytes(sigBytes: Uint8Array) {
-//   const hashed = await poseidon_2(sigBytes);
-//   const hashedHex = hexlify(hashed);
-
-//   return hashedHex;
-// }

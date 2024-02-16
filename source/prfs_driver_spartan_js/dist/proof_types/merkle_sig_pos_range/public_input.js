@@ -1,8 +1,6 @@
 import { ec as EC } from "elliptic";
-import BN from "bn.js";
 import JSONBig from "json-bigint";
 import { bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
-import { SECP256K1_N } from "../../math/secp256k1";
 const ec = new EC("secp256k1");
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 export class MerklePosRangePublicInput {
@@ -74,63 +72,3 @@ export class MerklePosRangeCircuitPubInput {
         }
     }
 }
-/**
- * Compute the group elements T and U for efficient ecdsa
- * https://personaelabs.org/posts/efficient-ecdsa-1/
- */
-export const computeEffEcdsaPubInput = (r, v, msgHash) => {
-    let isYOdd;
-    try {
-        isYOdd = (v - BigInt(27)) % BigInt(2);
-    }
-    catch (err) {
-        throw new Error(`Couldn't decide if Y is odd, err: ${err}`);
-    }
-    let rPoint;
-    try {
-        rPoint = ec.keyFromPublic(ec.curve.pointFromX(new BN(r), isYOdd).encode("hex"), "hex");
-    }
-    catch (err) {
-        throw new Error(`Couldn't derive keypair, err: ${err}`);
-    }
-    // Get the group element: -(m * r^−1 * G)
-    let rInv;
-    try {
-        rInv = new BN(r).invm(SECP256K1_N);
-    }
-    catch (err) {
-        throw new Error(`Couldnt make rInv, err: ${err}`);
-    }
-    // w = -(r^-1 * msg)
-    let w;
-    try {
-        w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
-    }
-    catch (err) {
-        throw new Error(`Couldnt make w, err: ${err}`);
-    }
-    // U = -(w * G) = -(r^-1 * msg * G)
-    const U = ec.curve.g.mul(w);
-    // T = r^-1 * R
-    const T = rPoint.getPublic().mul(rInv);
-    return {
-        Tx: BigInt(T.getX().toString()),
-        Ty: BigInt(T.getY().toString()),
-        Ux: BigInt(U.getX().toString()),
-        Uy: BigInt(U.getY().toString()),
-    };
-};
-export const verifyEffEcdsaPubInput = (pubInput) => {
-    // const expectedCircuitInput = computeEffEcdsaPubInput(
-    //   pubInput.r,
-    //   pubInput.rV,
-    //   toBuffer(pubInput.msgHash),
-    // );
-    // const circuitPubInput = pubInput.circuitPubInput;
-    // const isValid =
-    //   expectedCircuitInput.Tx === circuitPubInput.Tx &&
-    //   expectedCircuitInput.Ty === circuitPubInput.Ty &&
-    //   expectedCircuitInput.Ux === circuitPubInput.Ux &&
-    //   expectedCircuitInput.Uy === circuitPubInput.Uy;
-    return true;
-};
