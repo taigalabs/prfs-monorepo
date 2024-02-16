@@ -6,6 +6,7 @@ import { bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 
 import { EffECDSAPubInput } from "@/types";
 import { SECP256K1_N } from "@/math/secp256k1";
+import { serializeBigintArray } from "@/utils/buffer";
 
 const ec = new EC("secp256k1");
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
@@ -47,18 +48,18 @@ export class MerkleSigPosRangeCircuitPubInput {
 
   serialize(): Uint8Array {
     try {
-      const elems: bigint[] = [this.merkleRoot];
+      const elems: bigint[] = [this.merkleRoot, this.nonceInt, this.serialNo];
 
-      // serializeBigintArray(elems);
+      const serialized = serializeBigintArray(elems);
 
-      let serialized = new Uint8Array(32 * elems.length);
+      // let serialized = new Uint8Array(32 * elems.length);
 
-      serialized.set(bigIntToBytes(elems[0], 32), 0);
-      // serialized.set(bigIntToBytes(elems[1], 32), 32);
-      // serialized.set(bigIntToBytes(elems[2], 32), 64);
-      // serialized.set(bigIntToBytes(elems[3], 32), 96);
-      // serialized.set(bigIntToBytes(elems[4], 32), 128);
-      // serialized.set(bigIntToBytes(elems[5], 32), 160);
+      // serialized.set(bigIntToBytes(elems[0], 32), 0);
+      // // serialized.set(bigIntToBytes(elems[1], 32), 32);
+      // // serialized.set(bigIntToBytes(elems[2], 32), 64);
+      // // serialized.set(bigIntToBytes(elems[3], 32), 96);
+      // // serialized.set(bigIntToBytes(elems[4], 32), 128);
+      // // serialized.set(bigIntToBytes(elems[5], 32), 160);
       return serialized;
     } catch (err) {
       throw new Error(`Cannot serialize circuit pub input, err: ${err}`);
@@ -70,9 +71,6 @@ export class MerkleSigPosRangeCircuitPubInput {
       const merkleRoot = bytesToBigInt(serialized.slice(0, 32));
       const nonceInt = bytesToBigInt(serialized.slice(32, 64));
       const serialNo = bytesToBigInt(serialized.slice(64, 96));
-      // const Ux = bytesToBigInt(serialized.slice(96, 128));
-      // const Uy = bytesToBigInt(serialized.slice(128, 160));
-      // const serialNo = bytesToBigInt(serialized.slice(160, 192));
 
       return new MerkleSigPosRangeCircuitPubInput(merkleRoot, nonceInt, serialNo);
     } catch (err) {
