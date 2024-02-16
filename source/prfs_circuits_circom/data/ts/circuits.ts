@@ -153,14 +153,51 @@ const circuits: PrfsCircuit[] = [
       wtns_gen_url: "",
       circuit_url: "",
     },
+
+    // signal input assetSize;
+    // signal input assetSizeGreaterEqThan;
+    // signal input assetSizeLessThan;
+    // signal input sigpos;
+
+    // // leaf := pos(pos(sigpos), assetSize)
+    // signal input leaf;
+    // signal input root;
+    // signal input pathIndices[nLevels];
+    // signal input siblings[nLevels];
+
+    // signal input nonce;
+    // // serialNo := pos(sigpos, nonce)
+    // signal input serialNo;
     raw_circuit_inputs_meta: [
+      {
+        label: "assetSize",
+        desc: "Size of asset",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "assetSizeGreaterEqThan",
+        desc: "Asset size range lower bound inclusive",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "assetSizeLessThan",
+        desc: "Asset size range upper bound exclusive",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "sigpos",
+        desc: "A siganture poseidon result",
+        type: "FIELD_ELEMENT",
+      },
       {
         label: "leaf",
         desc: "Leaf of a tree",
         type: "FIELD_ELEMENT",
       },
       {
-        label: "Merkle root",
+        label: "root",
         desc: "Vector commitment (Merkle root) of a set",
         type: "FIELD_ELEMENT",
         public: true,
@@ -175,12 +212,18 @@ const circuits: PrfsCircuit[] = [
         desc: "Siblings of a leaf in a Merkle path towards the root",
         type: "FIELD_ELEMENT_VECTOR",
       },
-      // {
-      //   label: "Serial number",
-      //   desc: "A cryptographic commitment made out of 's'",
-      //   type: "FIELD_ELEMENT",
-      //   public: true,
-      // },
+      {
+        label: "nonce",
+        desc: "An additional note to include in this proof",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "serialNo",
+        desc: "A cryptographic commitment",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
     ],
   },
 ];
