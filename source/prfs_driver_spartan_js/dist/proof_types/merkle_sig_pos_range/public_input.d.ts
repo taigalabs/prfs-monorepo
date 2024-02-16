@@ -1,6 +1,7 @@
 export declare class MerkleSigPosRangePublicInput {
     circuitPubInput: MerkleSigPosRangeCircuitPubInput;
-    constructor(circuitPubInput: MerkleSigPosRangeCircuitPubInput);
+    nonce: string;
+    constructor(circuitPubInput: MerkleSigPosRangeCircuitPubInput, nonce: string);
     serialize(): string;
     static deserialize(publicInputSer: string): MerkleSigPosRangePublicInput;
 }

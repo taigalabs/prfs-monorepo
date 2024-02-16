@@ -1,13 +1,10 @@
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import {
   bytesToBigInt,
   bytesToNumberLE,
   poseidon_2,
   poseidon_2_bigint_le,
-  stringToBigInt,
-  uint8ArrayToNum,
 } from "@taigalabs/prfs-crypto-js";
 
 import { snarkJsWitnessGen } from "@/utils/snarkjs";
@@ -42,7 +39,7 @@ export async function proveMembership(
     serialNo,
   );
 
-  const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput);
+  const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput, nonce);
 
   const witnessGenInput = {
     sigpos,

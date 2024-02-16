@@ -7,9 +7,11 @@ const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true })
 
 export class MerkleSigPosRangePublicInput {
   circuitPubInput: MerkleSigPosRangeCircuitPubInput;
+  nonce: string;
 
-  constructor(circuitPubInput: MerkleSigPosRangeCircuitPubInput) {
+  constructor(circuitPubInput: MerkleSigPosRangeCircuitPubInput, nonce: string) {
     this.circuitPubInput = circuitPubInput;
+    this.nonce = nonce;
   }
 
   serialize(): string {
@@ -18,14 +20,14 @@ export class MerkleSigPosRangePublicInput {
 
   static deserialize(publicInputSer: string): MerkleSigPosRangePublicInput {
     const obj = JSONbigNative.parse(publicInputSer) as MerkleSigPosRangePublicInput;
-    const parsed = obj.circuitPubInput;
+    const circuitPub = obj.circuitPubInput;
 
     const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(
-      parsed.merkleRoot,
-      parsed.nonceInt,
-      parsed.serialNo,
+      circuitPub.merkleRoot,
+      circuitPub.nonceInt,
+      circuitPub.serialNo,
     );
-    return new MerkleSigPosRangePublicInput(circuitPubInput);
+    return new MerkleSigPosRangePublicInput(circuitPubInput, obj.nonce);
   }
 }
 

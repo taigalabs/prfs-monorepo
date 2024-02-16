@@ -14,7 +14,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         payload: { type: "info", payload: "Computed ECDSA pub input" },
     });
     const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(merkleProof.root, nonceInt, serialNo);
-    const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput);
+    const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput, nonce);
     const witnessGenInput = {
         sigpos,
         leaf,

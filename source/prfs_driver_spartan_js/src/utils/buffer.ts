@@ -12,11 +12,5 @@ export function serializeBigintArray(elems: bigint[]): Uint8Array {
     serialized.set(bigIntToBytes(el, 32), idx * 32);
   }
 
-  // serialized.set(bigIntToBytes(elems[0], 32), 0);
-  // // serialized.set(bigIntToBytes(elems[1], 32), 32);
-  // // serialized.set(bigIntToBytes(elems[2], 32), 64);
-  // // serialized.set(bigIntToBytes(elems[3], 32), 96);
-  // // serialized.set(bigIntToBytes(elems[4], 32), 128);
-  // // serialized.set(bigIntToBytes(elems[5], 32), 160);
   return serialized;
 }
