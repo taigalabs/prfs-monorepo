@@ -18,6 +18,7 @@ const MemoInput: React.FC<RangeSelectProps> = ({
   value,
   presetVals,
   setFormValues,
+  setFormErrors,
   error,
 }) => {
   const i18n = useI18N();
@@ -30,8 +31,12 @@ const MemoInput: React.FC<RangeSelectProps> = ({
         ...oldVal,
         nonce: value,
       }));
+
+      if (error?.nonce !== undefined) {
+        setFormErrors(oldVal => ({ ...oldVal, nonce: undefined }));
+      }
     },
-    [setFormValues],
+    [setFormValues, setFormErrors, error],
   );
 
   return (
@@ -46,7 +51,6 @@ const MemoInput: React.FC<RangeSelectProps> = ({
           onChange={handleChangeNonce}
         />
       </InputWrapper>
-
       {error?.nonce && <FormError>{error.nonce}</FormError>}
     </>
   );
@@ -59,5 +63,6 @@ export interface RangeSelectProps {
   value: FormValues<MerkleSigPosRangeV1Inputs>;
   presetVals?: QueryPresetVals;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
   error: FormErrors<MerkleSigPosRangeV1Inputs>;
 }

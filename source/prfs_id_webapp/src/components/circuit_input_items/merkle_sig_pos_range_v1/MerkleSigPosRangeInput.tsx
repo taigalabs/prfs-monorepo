@@ -346,21 +346,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }
         const { lower_bound, upper_bound } = option;
 
-        // Nonce setup
-        // const nonce = BigInt(0);
-
-        // const formValues: MerkleSigPosRangeV1Inputs = {
-        //   sigUpper,
-        //   sigLower,
-        //   leaf: leafVal,
-        //   assetSize: args[1],
-        //   assetSizeGreaterEqThan: lower_bound,
-        //   assetSizeLessThan: upper_bound,
-        //   merkleProof,
-        //   // serialNo: BigInt(0),
-        // };
-        // console.log("formValues: %o", formValues);
-
         setFormValues(oldVal => ({
           ...oldVal,
           sigUpper,
@@ -390,7 +375,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     <>
       <FormInput>
         <FormInputTitleRow>
-          {/* <FormInputType>{circuitInput.type}</FormInputType> */}
           <FormInputTitle>{labelElem}</FormInputTitle>
           <FormInputBtnRow>
             <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
@@ -422,6 +406,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           presetVals={presetVals}
           circuitTypeData={circuitTypeData}
           setFormValues={setFormValues}
+          setFormErrors={setFormErrors}
+          error={error}
         />
       </FormInput>
     </>
