@@ -4,7 +4,8 @@ import { toBuffer } from "@ethereumjs/util";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 
-import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
+import { fromSig } from "@/utils/utils";
+import { snarkJsWitnessGen } from "@/utils/snarkjs";
 import { PrfsHandlers } from "@/types";
 import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
 import { SECP256K1_P } from "@/math/secp256k1";
@@ -43,19 +44,11 @@ export async function proveMembership(
     merkleProof.root,
     nonceInt,
     serialNo,
-    // effEcdsaPubInput.Tx,
-    // effEcdsaPubInput.Ty,
-    // effEcdsaPubInput.Ux,
-    // effEcdsaPubInput.Uy,
-    // serialNo,
   );
 
   const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput);
-  // const m = new BN(toBuffer(msgHash)).mod(SECP256K1_P);
 
   const witnessGenInput = {
-    // sigUpper,
-    // sigLower,
     sigpos,
     leaf,
     assetSize,

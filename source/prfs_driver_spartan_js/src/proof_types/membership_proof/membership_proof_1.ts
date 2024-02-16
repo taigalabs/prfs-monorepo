@@ -2,9 +2,10 @@ import { BN } from "bn.js";
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { toBuffer } from "@ethereumjs/util";
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
+import { bytesToNumberLE, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
 
-import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
-// import { makePoseidon } from "@/utils/poseidon";
+import { fromSig } from "@/utils/utils";
+import { snarkJsWitnessGen } from "@/utils/snarkjs";
 import { PrfsHandlers } from "@/types";
 import {
   MembershipProofCircuitPubInput,
@@ -13,7 +14,6 @@ import {
   verifyEffEcdsaPubInput,
 } from "./public_input";
 import { SECP256K1_P } from "@/math/secp256k1";
-import { bytesToNumberLE, poseidon_2, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
 
 export async function proveMembership(
   args: ProveArgs<AddrMembershipV1Inputs>,

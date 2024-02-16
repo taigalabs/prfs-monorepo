@@ -3,7 +3,7 @@ import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/S
 
 import { PrfsHandlers } from "@/types";
 import { SimpleHashCircuitPubInput, SimpleHashPublicInput } from "./public_input";
-import { snarkJsWitnessGen } from "@/utils/utils";
+import { snarkJsWitnessGen } from "@/utils/snarkjs";
 
 export async function proveSimpleHash(
   args: ProveArgs<SimpleHashV1Inputs>,
