@@ -60,6 +60,7 @@ export default {
   id: "Id",
   member: "Member",
   memo: "Memo",
+  leave_anything_that_makes_a_proof_unique: "Leave anything that makes a proof unique",
   commit_hash: "Commit hash",
   launch_time: "Launch time",
   build_time: "Build time",

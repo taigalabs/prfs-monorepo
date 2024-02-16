@@ -45,6 +45,7 @@ import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddres
 import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
+import MemoInput from "./MemoInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -71,6 +72,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   error,
   setFormErrors,
   setFormValues,
+  presetVals,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
@@ -345,9 +347,22 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         const { lower_bound, upper_bound } = option;
 
         // Nonce setup
-        const nonces = [BigInt(0)];
+        // const nonce = BigInt(0);
 
-        const formValues: MerkleSigPosRangeV1Inputs = {
+        // const formValues: MerkleSigPosRangeV1Inputs = {
+        //   sigUpper,
+        //   sigLower,
+        //   leaf: leafVal,
+        //   assetSize: args[1],
+        //   assetSizeGreaterEqThan: lower_bound,
+        //   assetSizeLessThan: upper_bound,
+        //   merkleProof,
+        //   // serialNo: BigInt(0),
+        // };
+        // console.log("formValues: %o", formValues);
+
+        setFormValues(oldVal => ({
+          ...oldVal,
           sigUpper,
           sigLower,
           leaf: leafVal,
@@ -355,12 +370,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           assetSizeGreaterEqThan: lower_bound,
           assetSizeLessThan: upper_bound,
           merkleProof,
-          nonces,
-          serialNo: BigInt(0),
-        };
-        console.log("formValues: %o", formValues);
-
-        setFormValues(formValues);
+        }));
       } catch (err) {
         console.error(err);
       }
@@ -377,37 +387,44 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   );
 
   return (
-    <FormInput>
-      <FormInputTitleRow>
-        {/* <FormInputType>{circuitInput.type}</FormInputType> */}
-        <FormInputTitle>{labelElem}</FormInputTitle>
-        <FormInputBtnRow>
-          <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
-            <FormInputButton type="button">{i18n.fetch_addresses}</FormInputButton>
-          </CachedAddressDialog>
-          <span className={styles.or}> or </span>
-          <ConnectWallet handleChangeAddress={handleChangeAddress}>
-            <FormInputButton type="button">{i18n.connect}</FormInputButton>
-          </ConnectWallet>
-        </FormInputBtnRow>
-      </FormInputTitleRow>
-      <InputGroup>
-        <InputWrapper>
-          <input
-            className={styles.addressInput}
-            placeholder={i18n.element_of_a_group}
-            value={walletAddr}
-            readOnly
-          />
-        </InputWrapper>
-        <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
-        <InputWrapper>
-          <input placeholder={i18n.memo} value={walletAddr} readOnly />
-        </InputWrapper>
-      </InputGroup>
-      {value && <ComputedValue value={value} />}
-      {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
-    </FormInput>
+    <>
+      <FormInput>
+        <FormInputTitleRow>
+          {/* <FormInputType>{circuitInput.type}</FormInputType> */}
+          <FormInputTitle>{labelElem}</FormInputTitle>
+          <FormInputBtnRow>
+            <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
+              <FormInputButton type="button">{i18n.fetch_addresses}</FormInputButton>
+            </CachedAddressDialog>
+            <span className={styles.or}> or </span>
+            <ConnectWallet handleChangeAddress={handleChangeAddress}>
+              <FormInputButton type="button">{i18n.connect}</FormInputButton>
+            </ConnectWallet>
+          </FormInputBtnRow>
+        </FormInputTitleRow>
+        <InputGroup>
+          <InputWrapper>
+            <input
+              className={styles.addressInput}
+              placeholder={i18n.element_of_a_group}
+              value={walletAddr}
+              readOnly
+            />
+          </InputWrapper>
+          <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
+        </InputGroup>
+        {value && <ComputedValue value={value} />}
+        {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
+      </FormInput>
+      <FormInput>
+        <MemoInput
+          value={value}
+          presetVals={presetVals}
+          circuitTypeData={circuitTypeData}
+          setFormValues={setFormValues}
+        />
+      </FormInput>
+    </>
   );
 };
 

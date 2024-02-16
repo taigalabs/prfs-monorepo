@@ -9,6 +9,5 @@ export interface MerkleSigPosRangeV1Inputs {
   assetSizeGreaterEqThan: bigint;
   assetSizeLessThan: bigint;
   merkleProof: SpartanMerkleProof;
-  nonce: bigint;
-  serialNo: bigint;
+  nonce: string;
 }
