@@ -36,7 +36,7 @@ template MerkleSigPosRange(nLevels) {
     lessThan.in[0] <-- assetSize;
     lessThan.in[1] <-- assetSizeLessThan;
 
-    log("lessThan", lessThan.out);
+    // log("lessThan", lessThan.out);
     lessThan.out === 1;
 
     // component poseidon1 = Poseidon();
@@ -54,7 +54,7 @@ template MerkleSigPosRange(nLevels) {
     component poseidon3 = Poseidon();
     poseidon3.inputs[0] <== sigpos;
     poseidon3.inputs[1] <== nonce;
-    // log("serialNo", serialNo, "computed", poseidon3.out);
+    log("serialNo", serialNo, "computed", poseidon3.out);
     serialNo === poseidon3.out;
 
     component merkleProof = MerkleTreeInclusionProof(nLevels);

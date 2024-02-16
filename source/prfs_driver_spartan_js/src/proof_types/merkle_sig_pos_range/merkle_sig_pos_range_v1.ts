@@ -7,7 +7,7 @@ import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/S
 import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
 import { makePoseidon } from "@/utils/poseidon";
 import { PrfsHandlers } from "@/types";
-import { MerklePosRangeCircuitPubInput, MerklePosRangePublicInput } from "./public_input";
+import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
 import { SECP256K1_P } from "@/math/secp256k1";
 import {
   bytesToBigInt,
@@ -27,45 +27,23 @@ export async function proveMembership(
   const { inputs, eventListener } = args;
   console.log("inputs: %o", inputs);
 
-  const {
-    // sigLower,
-    // sigUpper,
-    sigpos,
-    leaf,
-    merkleProof,
-    assetSize,
-    assetSizeLessThan,
-    assetSizeGreaterEqThan,
-    nonce,
-  } = inputs;
+  const { sigpos, leaf, merkleProof, assetSize, assetSizeLessThan, assetSizeGreaterEqThan, nonce } =
+    inputs;
 
-  // const sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
-  // const sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
-
-  // const nonceInt = stringToBigInt(nonce);
   const nonceHash = await poseidon_2(nonce);
   const nonceInt = bytesToBigInt(nonceHash);
-  const serialNo = await poseidon_2_bigint_le([sigpos, nonceInt]);
-  const serialNoInt = bytesToNumberLE(serialNo);
-
-  // const poseidon = makePoseidon(handlers);
-
-  // let serialNo;
-  // try {
-  //   serialNo = await poseidon([s, BigInt(0)]);
-  // } catch (err) {
-  //   throw new Error(`Error Poseidon hashing, err: ${err}`);
-  // }
-
-  // const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, toBuffer(msgHash));
+  const serialNoHash = await poseidon_2_bigint_le([sigpos, nonceInt]);
+  const serialNo = bytesToNumberLE(serialNoHash);
 
   eventListener({
     type: "CREATE_PROOF_EVENT",
     payload: { type: "info", payload: "Computed ECDSA pub input" },
   });
 
-  const circuitPubInput = new MerklePosRangeCircuitPubInput(
+  const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(
     merkleProof.root,
+    nonceInt,
+    serialNo,
     // effEcdsaPubInput.Tx,
     // effEcdsaPubInput.Ty,
     // effEcdsaPubInput.Ux,
@@ -73,7 +51,7 @@ export async function proveMembership(
     // serialNo,
   );
 
-  const publicInput = new MerklePosRangePublicInput(circuitPubInput);
+  const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput);
   // const m = new BN(toBuffer(msgHash)).mod(SECP256K1_P);
 
   const witnessGenInput = {
@@ -90,7 +68,7 @@ export async function proveMembership(
     pathIndices: merkleProof.pathIndices,
 
     nonce: nonceInt,
-    serialNo: serialNoInt,
+    serialNo,
   };
 
   console.log("witnessGenInput", witnessGenInput);
@@ -134,7 +112,7 @@ export async function verifyMembership(
   const { proof } = args;
   const { proofBytes, publicInputSer } = proof;
 
-  const publicInput = MerklePosRangePublicInput.deserialize(publicInputSer);
+  const publicInput = MerkleSigPosRangePublicInput.deserialize(publicInputSer);
   const isPubInputValid = true;
 
   let isProofValid;

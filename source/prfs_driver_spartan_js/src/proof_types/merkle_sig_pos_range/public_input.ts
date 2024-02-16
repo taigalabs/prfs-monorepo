@@ -10,20 +10,10 @@ import { SECP256K1_N } from "@/math/secp256k1";
 const ec = new EC("secp256k1");
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
-export class MerklePosRangePublicInput {
-  // r: bigint;
-  // rV: bigint;
-  // msgRaw: string;
-  // msgHash: BufferHex;
-  circuitPubInput: MerklePosRangeCircuitPubInput;
+export class MerkleSigPosRangePublicInput {
+  circuitPubInput: MerkleSigPosRangeCircuitPubInput;
 
-  constructor(
-    circuitPubInput: MerklePosRangeCircuitPubInput, // msgHash: BufferHex, // msgRaw: string, // rV: bigint, // r: bigint,
-  ) {
-    // this.r = r;
-    // this.rV = rV;
-    // this.msgRaw = msgRaw;
-    // this.msgHash = msgHash;
+  constructor(circuitPubInput: MerkleSigPosRangeCircuitPubInput) {
     this.circuitPubInput = circuitPubInput;
   }
 
@@ -31,46 +21,30 @@ export class MerklePosRangePublicInput {
     return JSONbigNative.stringify(this);
   }
 
-  static deserialize(publicInputSer: string): MerklePosRangePublicInput {
-    const obj = JSONbigNative.parse(publicInputSer) as MerklePosRangePublicInput;
+  static deserialize(publicInputSer: string): MerkleSigPosRangePublicInput {
+    const obj = JSONbigNative.parse(publicInputSer) as MerkleSigPosRangePublicInput;
 
-    const circuitPubInputObj = obj.circuitPubInput;
+    const parsed = obj.circuitPubInput;
 
-    const circuitPubInput = new MerklePosRangeCircuitPubInput(
-      circuitPubInputObj.merkleRoot,
-      // circuitPubInputObj.Tx,
-      // circuitPubInputObj.Ty,
-      // circuitPubInputObj.Ux,
-      // circuitPubInputObj.Uy,
-      // circuitPubInputObj.serialNo,
+    const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(
+      parsed.merkleRoot,
+      parsed.nonceInt,
+      parsed.serialNo,
     );
 
-    return new MerklePosRangePublicInput(circuitPubInput);
+    return new MerkleSigPosRangePublicInput(circuitPubInput);
   }
 }
 
-export class MerklePosRangeCircuitPubInput {
+export class MerkleSigPosRangeCircuitPubInput {
   merkleRoot: bigint;
-  // Tx: bigint;
-  // Ty: bigint;
-  // Ux: bigint;
-  // Uy: bigint;
-  // serialNo: bigint;
+  nonceInt: bigint;
+  serialNo: bigint;
 
-  constructor(
-    merkleRoot: bigint,
-    // Tx: bigint,
-    // Ty: bigint,
-    // Ux: bigint,
-    // Uy: bigint,
-    // serialNo: bigint,
-  ) {
+  constructor(merkleRoot: bigint, nonceInt: bigint, serialNo: bigint) {
     this.merkleRoot = merkleRoot;
-    // this.Tx = Tx;
-    // this.Ty = Ty;
-    // this.Ux = Ux;
-    // this.Uy = Uy;
-    // this.serialNo = serialNo;
+    this.nonceInt = nonceInt;
+    this.serialNo = serialNo;
   }
 
   serialize(): Uint8Array {
@@ -91,7 +65,7 @@ export class MerklePosRangeCircuitPubInput {
     }
   }
 
-  static deserialize(serialized: Uint8Array): MerklePosRangeCircuitPubInput {
+  static deserialize(serialized: Uint8Array): MerkleSigPosRangeCircuitPubInput {
     try {
       const merkleRoot = bytesToBigInt(serialized.slice(0, 32));
       // const Tx = bytesToBigInt(serialized.slice(32, 64));
@@ -100,7 +74,7 @@ export class MerklePosRangeCircuitPubInput {
       // const Uy = bytesToBigInt(serialized.slice(128, 160));
       // const serialNo = bytesToBigInt(serialized.slice(160, 192));
 
-      return new MerklePosRangeCircuitPubInput(merkleRoot);
+      return new MerkleSigPosRangeCircuitPubInput(merkleRoot);
     } catch (err) {
       throw new Error(`Cannot deserialize circuit pub input, err: ${err}`);
     }

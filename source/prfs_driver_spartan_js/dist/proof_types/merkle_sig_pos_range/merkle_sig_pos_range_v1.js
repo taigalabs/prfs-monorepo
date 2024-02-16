@@ -15,6 +15,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const nonceInt = bytesToBigInt(nonceHash);
     const serialNo = await poseidon_2_bigint_le([sigpos, nonceInt]);
     const serialNoInt = bytesToNumberLE(serialNo);
+    console.log("nonce: %s, nonceInt: %s, serialNoInt: %s", nonce, nonceInt, serialNoInt);
     // const poseidon = makePoseidon(handlers);
     // let serialNo;
     // try {
