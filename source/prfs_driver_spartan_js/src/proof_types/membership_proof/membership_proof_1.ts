@@ -4,7 +4,7 @@ import { toBuffer } from "@ethereumjs/util";
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
 import { bytesToNumberLE, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
 
-import { fromSig } from "@/utils/utils";
+import { fromSig } from "@/utils/sig";
 import { snarkJsWitnessGen } from "@/utils/snarkjs";
 import { PrfsHandlers } from "@/types";
 import {

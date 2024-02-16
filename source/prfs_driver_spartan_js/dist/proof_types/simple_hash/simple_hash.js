@@ -1,5 +1,5 @@
 import { SimpleHashCircuitPubInput, SimpleHashPublicInput } from "./public_input";
-import { snarkJsWitnessGen } from "../../utils/utils";
+import { snarkJsWitnessGen } from "../../utils/snarkjs";
 export async function proveSimpleHash(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     const { hashData } = inputs;

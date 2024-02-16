@@ -1,6 +1,6 @@
-import { snarkJsWitnessGen } from "../../utils/utils";
-import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
 import { bytesToBigInt, bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, } from "@taigalabs/prfs-crypto-js";
+import { snarkJsWitnessGen } from "../../utils/snarkjs";
+import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     console.log("inputs: %o", inputs);
@@ -15,10 +15,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
     });
     const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(merkleProof.root, nonceInt, serialNo);
     const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput);
-    // const m = new BN(toBuffer(msgHash)).mod(SECP256K1_P);
     const witnessGenInput = {
-        // sigUpper,
-        // sigLower,
         sigpos,
         leaf,
         assetSize,

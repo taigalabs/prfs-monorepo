@@ -1,14 +1,4 @@
-// @ts-ignore
-const snarkJs = require("snarkjs");
 import throttle from "lodash.throttle";
-import { fromRpcSig } from "@ethereumjs/util";
-export const snarkJsWitnessGen = async (input, wasmFile) => {
-    const witness = {
-        type: "mem",
-    };
-    await snarkJs.wtns.calculate(input, wasmFile, witness);
-    return witness;
-};
 export async function fetchAsset(assetName, url, eventListener) {
     const response = await fetch(url);
     if (!response?.body) {
@@ -54,9 +44,3 @@ export async function fetchAsset(assetName, url, eventListener) {
     }
     return arr;
 }
-export const fromSig = (sig) => {
-    const { r: _r, s: _s, v } = fromRpcSig(sig);
-    const r = BigInt("0x" + _r.toString("hex"));
-    const s = BigInt("0x" + _s.toString("hex"));
-    return { r, s, v };
-};

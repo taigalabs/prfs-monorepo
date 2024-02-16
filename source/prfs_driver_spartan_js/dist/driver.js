@@ -1,5 +1,5 @@
 import { initWasm } from "./wasm_wrapper/load_worker";
-import { fetchAsset } from "./utils/utils";
+import { fetchAsset } from "./utils/fetch";
 export default class SpartanDriver {
     handlers;
     circuit;

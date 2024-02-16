@@ -1,14 +1,6 @@
-import { BN } from "bn.js";
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
-import { toBuffer } from "@ethereumjs/util";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
-
-import { fromSig } from "@/utils/utils";
-import { snarkJsWitnessGen } from "@/utils/snarkjs";
-import { PrfsHandlers } from "@/types";
-import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
-import { SECP256K1_P } from "@/math/secp256k1";
 import {
   bytesToBigInt,
   bytesToNumberLE,
@@ -17,6 +9,10 @@ import {
   stringToBigInt,
   uint8ArrayToNum,
 } from "@taigalabs/prfs-crypto-js";
+
+import { snarkJsWitnessGen } from "@/utils/snarkjs";
+import { PrfsHandlers } from "@/types";
+import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
 
 export async function proveMembership(
   args: ProveArgs<MerkleSigPosRangeV1Inputs>,
