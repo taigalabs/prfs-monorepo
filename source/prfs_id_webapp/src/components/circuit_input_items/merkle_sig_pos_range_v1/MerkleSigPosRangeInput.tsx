@@ -218,7 +218,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         // let sigUpper: bigint = BigInt(0);
         // let sigLower: bigint = BigInt(0);
         const args: bigint[] = [];
-        let sigBytes_: Array<number>;
+        let sigBytes_: Uint8Array;
         await (async () => {
           const d = data[0];
           switch (d.type) {
@@ -226,7 +226,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
               const { sigBytes, hashed } = await makeWalletAtstCm(credential.secret_key, addr);
               const cm = hexlify(hashed);
               const val2 = bytesToNumberLE(hashed);
-              sigBytes_ = Array.from(sigBytes);
+              sigBytes_ = sigBytes;
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);

@@ -11,6 +11,7 @@ import { MerklePosRangeCircuitPubInput, MerklePosRangePublicInput } from "./publ
 import { SECP256K1_P } from "@/math/secp256k1";
 import {
   bytesToBigInt,
+  bytesToNumberLE,
   poseidon_2,
   poseidon_2_bigint_le,
   stringToBigInt,
@@ -27,8 +28,9 @@ export async function proveMembership(
   console.log("inputs: %o", inputs);
 
   const {
-    sigLower,
-    sigUpper,
+    // sigLower,
+    // sigUpper,
+    sigBytes,
     leaf,
     merkleProof,
     assetSize,
@@ -36,6 +38,9 @@ export async function proveMembership(
     assetSizeGreaterEqThan,
     nonce,
   } = inputs;
+
+  const sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
+  const sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
 
   // const nonceInt = stringToBigInt(nonce);
   const nonceHash = await poseidon_2(nonce);

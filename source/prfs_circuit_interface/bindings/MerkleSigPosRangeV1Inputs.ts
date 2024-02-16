@@ -2,7 +2,7 @@
 import type { SpartanMerkleProof } from "./SpartanMerkleProof";
 
 export interface MerkleSigPosRangeV1Inputs {
-  sigBytes: Array<number>;
+  sigBytes: Uint8Array;
   leaf: bigint;
   assetSize: bigint;
   assetSizeGreaterEqThan: bigint;

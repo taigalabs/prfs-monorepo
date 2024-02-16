@@ -9,6 +9,7 @@ use super::{RangeData, SpartanMerkleProof};
 pub struct MerkleSigPosRangeV1Inputs {
     // sigLower: i64,
     // sigUpper: i64,
+    #[ts(type = "Uint8Array")]
     sigBytes: Vec<u8>,
     leaf: i64,
     assetSize: i64,
