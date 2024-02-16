@@ -2,9 +2,14 @@ import React from "react";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 
 import styles from "./MemoInput.module.scss";
-import { FormInputTitle, FormInputTitleRow, InputWrapper } from "@/components/form_input/FormInput";
+import {
+  FormError,
+  FormInputTitle,
+  FormInputTitleRow,
+  InputWrapper,
+} from "@/components/form_input/FormInput";
 import { useI18N } from "@/i18n/context";
-import { FormValues } from "../formErrorTypes";
+import { FormErrors, FormValues } from "../formErrorTypes";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
@@ -13,6 +18,7 @@ const MemoInput: React.FC<RangeSelectProps> = ({
   value,
   presetVals,
   setFormValues,
+  error,
 }) => {
   const i18n = useI18N();
 
@@ -36,10 +42,12 @@ const MemoInput: React.FC<RangeSelectProps> = ({
       <InputWrapper>
         <input
           placeholder={i18n.leave_anything_that_makes_a_proof_unique}
-          value={value.nonce}
+          value={value.nonce || ""}
           onChange={handleChangeNonce}
         />
       </InputWrapper>
+
+      {error?.nonce && <FormError>{error.nonce}</FormError>}
     </>
   );
 };
@@ -51,4 +59,5 @@ export interface RangeSelectProps {
   value: FormValues<MerkleSigPosRangeV1Inputs>;
   presetVals?: QueryPresetVals;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
+  error: FormErrors<MerkleSigPosRangeV1Inputs>;
 }
