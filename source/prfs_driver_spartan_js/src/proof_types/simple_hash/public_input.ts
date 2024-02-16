@@ -18,9 +18,7 @@ export class SimpleHashPublicInput {
     const obj = JSONbigNative.parse(publicInputSer) as SimpleHashPublicInput;
 
     const circuitPubInputObj = obj.circuitPubInput;
-
     const circuitPubInput = new SimpleHashCircuitPubInput(circuitPubInputObj.msgHash);
-
     return new SimpleHashPublicInput(circuitPubInput);
   }
 }

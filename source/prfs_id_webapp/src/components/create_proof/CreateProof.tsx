@@ -114,7 +114,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
           console.log("Form values", formValues);
           setCreateProofStatus(Status.InProgress);
-          return;
           const proveReceipt = await driver.prove({
             inputs: formValues,
             circuitTypeId: proofType.circuit_type_id,

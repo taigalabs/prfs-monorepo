@@ -215,32 +215,35 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           throw new Error("Only data of cardinality 2 is currently supported");
         }
 
-        let sigUpper: bigint = BigInt(0);
-        let sigLower: bigint = BigInt(0);
+        // let sigUpper: bigint = BigInt(0);
+        // let sigLower: bigint = BigInt(0);
         const args: bigint[] = [];
+        let sigBytes_: Array<number>;
         await (async () => {
           const d = data[0];
           switch (d.type) {
             case "WalletCm": {
               const { sigBytes, hashed } = await makeWalletAtstCm(credential.secret_key, addr);
               const cm = hexlify(hashed);
+              const val2 = bytesToNumberLE(hashed);
+              sigBytes_ = Array.from(sigBytes);
 
               if (d.val !== cm) {
                 throw new Error(`Commitment does not match, addr: ${addr}`);
               }
 
-              sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
-              sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
-              const cmByBigInt = await poseidon_2_bigint_le([sigUpper, sigLower]);
-              const val = bytesToNumberLE(cmByBigInt);
-              const val2 = bytesToNumberLE(hashed);
+              // sigUpper = bytesToNumberLE(sigBytes.subarray(0, 32));
+              // sigLower = bytesToNumberLE(sigBytes.subarray(32, 64));
+              // const cmByBigInt = await poseidon_2_bigint_le([sigUpper, sigLower]);
+              // const val = bytesToNumberLE(cmByBigInt);
+              // const val2 = bytesToNumberLE(hashed);
 
-              if (val !== val2) {
-                throw new Error(
-                  `Commitment does not match, cmByBigInt: ${val}, cmByBytes: ${val2}`,
-                );
-              }
-              args[0] = val;
+              // if (val !== val2) {
+              //   throw new Error(
+              //     `Commitment does not match, cmByBigInt: ${val}, cmByBytes: ${val2}`,
+              //   );
+              // }
+              args[0] = val2;
               break;
             }
             default:
@@ -348,8 +351,9 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         setFormValues(oldVal => ({
           ...oldVal,
-          sigUpper,
-          sigLower,
+          // sigUpper,
+          // sigLower,
+          sigBytes: sigBytes_,
           leaf: leafVal,
           assetSize: args[1],
           assetSizeGreaterEqThan: lower_bound,

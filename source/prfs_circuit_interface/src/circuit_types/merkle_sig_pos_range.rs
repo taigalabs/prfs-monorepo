@@ -7,8 +7,9 @@ use super::{RangeData, SpartanMerkleProof};
 #[allow(non_snake_case)]
 #[ts(export)]
 pub struct MerkleSigPosRangeV1Inputs {
-    sigLower: i64,
-    sigUpper: i64,
+    // sigLower: i64,
+    // sigUpper: i64,
+    sigBytes: Vec<u8>,
     leaf: i64,
     assetSize: i64,
     assetSizeGreaterEqThan: i64,

@@ -7,13 +7,15 @@ import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/S
 import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
 import { makePoseidon } from "@/utils/poseidon";
 import { PrfsHandlers } from "@/types";
-import {
-  MerklePosRangeCircuitPubInput,
-  MerklePosRangePublicInput,
-  computeEffEcdsaPubInput,
-  verifyEffEcdsaPubInput,
-} from "./public_input";
+import { MerklePosRangeCircuitPubInput, MerklePosRangePublicInput } from "./public_input";
 import { SECP256K1_P } from "@/math/secp256k1";
+import {
+  bytesToBigInt,
+  poseidon_2,
+  poseidon_2_bigint_le,
+  stringToBigInt,
+  uint8ArrayToNum,
+} from "@taigalabs/prfs-crypto-js";
 
 export async function proveMembership(
   args: ProveArgs<MerkleSigPosRangeV1Inputs>,
@@ -22,7 +24,7 @@ export async function proveMembership(
   circuit: Uint8Array,
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
-  // console.log("inputs: %o", inputs);
+  console.log("inputs: %o", inputs);
 
   const {
     sigLower,
@@ -32,7 +34,13 @@ export async function proveMembership(
     assetSize,
     assetSizeLessThan,
     assetSizeGreaterEqThan,
+    nonce,
   } = inputs;
+
+  // const nonceInt = stringToBigInt(nonce);
+  const nonceHash = await poseidon_2(nonce);
+  const nonceInt = bytesToBigInt(nonceHash);
+  // const serialNo = await poseidon_2_bigint_le()
 
   // const poseidon = makePoseidon(handlers);
 
@@ -63,9 +71,6 @@ export async function proveMembership(
   // const m = new BN(toBuffer(msgHash)).mod(SECP256K1_P);
 
   const witnessGenInput = {
-    // r,
-    // s,
-    // m: BigInt(m.toString()),
     sigUpper,
     sigLower,
     leaf,
@@ -73,17 +78,11 @@ export async function proveMembership(
     assetSizeGreaterEqThan,
     assetSizeLessThan,
 
-    // merkle root
     root: merkleProof.root,
     siblings: merkleProof.siblings,
     pathIndices: merkleProof.pathIndices,
 
-    // Eff ECDSA PubInput
-    // Tx: effEcdsaPubInput.Tx,
-    // Ty: effEcdsaPubInput.Ty,
-    // Ux: effEcdsaPubInput.Ux,
-    // Uy: effEcdsaPubInput.Uy,
-
+    // nonce,
     // serialNo,
   };
 
@@ -129,7 +128,7 @@ export async function verifyMembership(
   const { proofBytes, publicInputSer } = proof;
 
   const publicInput = MerklePosRangePublicInput.deserialize(publicInputSer);
-  const isPubInputValid = verifyEffEcdsaPubInput(publicInput as MerklePosRangePublicInput);
+  const isPubInputValid = true;
 
   let isProofValid;
   try {
@@ -144,8 +143,3 @@ export async function verifyMembership(
 
   return isProofValid && isPubInputValid;
 }
-
-// export interface MerklePosRangeInputs {
-//   leaf: bigint;
-//   merkleProof: SpartanMerkleProof;
-// }
