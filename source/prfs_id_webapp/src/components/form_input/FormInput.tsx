@@ -23,6 +23,10 @@ export const FormInputTitleRow: React.FC<FormInputProps> = ({ children }) => {
   return <div className={styles.inputTitleRow}>{children}</div>;
 };
 
+export const InputGroup: React.FC<FormInputProps> = ({ children, className }) => {
+  return <div className={cn(styles.inputGroup, className)}>{children}</div>;
+};
+
 export const InputWrapper: React.FC<FormInputProps> = ({ children, className }) => {
   return <div className={cn(styles.inputWrapper, className)}>{children}</div>;
 };

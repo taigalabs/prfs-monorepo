@@ -59,6 +59,7 @@ export default {
   feedback: "Feedback",
   id: "Id",
   member: "Member",
+  memo: "Memo",
   commit_hash: "Commit hash",
   launch_time: "Launch time",
   build_time: "Build time",

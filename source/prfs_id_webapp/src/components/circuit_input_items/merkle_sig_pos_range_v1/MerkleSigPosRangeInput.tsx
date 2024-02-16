@@ -20,6 +20,7 @@ import {
   PRFS_ATTESTATION_STEM,
   PrfsIdCredential,
   QueryPresetVals,
+  makeWalletAtstCm,
 } from "@taigalabs/prfs-id-sdk-web";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
@@ -36,6 +37,7 @@ import {
   FormInputBtnRow,
   FormInputTitle,
   FormInputTitleRow,
+  InputGroup,
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
@@ -218,9 +220,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           const d = data[0];
           switch (d.type) {
             case "WalletCm": {
-              const _sig = await prfsSign(credential.secret_key, `${PRFS_ATTESTATION_STEM}${addr}`);
-              const sigBytes = _sig.toCompactRawBytes();
-              const hashed = await poseidon_2(sigBytes);
+              const { sigBytes, hashed } = await makeWalletAtstCm(credential.secret_key, addr);
               const cm = hexlify(hashed);
 
               if (d.val !== cm) {
@@ -344,12 +344,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }
         const { lower_bound, upper_bound } = option;
 
-        // Nonce and pubkey setup
-        // nonce: bigint;
-        // ephemeralPubKeyX: bigint;
-        // serialNo: bigint;
-        // pubKeySerialNo: bigint;
-        // const nonces = [BigInt(0)];
+        // Nonce setup
+        const nonces = [BigInt(0)];
 
         const formValues: MerkleSigPosRangeV1Inputs = {
           sigUpper,
@@ -359,7 +355,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           assetSizeGreaterEqThan: lower_bound,
           assetSizeLessThan: upper_bound,
           merkleProof,
-          nonces: [],
+          nonces,
           serialNo: BigInt(0),
         };
         console.log("formValues: %o", formValues);
@@ -395,7 +391,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           </ConnectWallet>
         </FormInputBtnRow>
       </FormInputTitleRow>
-      <div className={styles.inputGroup}>
+      <InputGroup>
         <InputWrapper>
           <input
             className={styles.addressInput}
@@ -405,7 +401,10 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           />
         </InputWrapper>
         <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
-      </div>
+        <InputWrapper>
+          <input placeholder={i18n.memo} value={walletAddr} readOnly />
+        </InputWrapper>
+      </InputGroup>
       {value && <ComputedValue value={value} />}
       {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
     </FormInput>

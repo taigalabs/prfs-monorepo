@@ -14,7 +14,7 @@ pub struct MerkleSigPosRangeV1Inputs {
     assetSizeGreaterEqThan: i64,
     assetSizeLessThan: i64,
     merkleProof: SpartanMerkleProof,
-    nonces: Vec<i64>,
+    nonce: i64,
     serialNo: i64,
 }
 
