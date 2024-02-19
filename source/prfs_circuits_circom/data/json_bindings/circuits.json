@@ -145,12 +145,34 @@
     },
     "raw_circuit_inputs_meta": [
       {
+        "label": "assetSize",
+        "desc": "Size of asset",
+        "type": "FIELD_ELEMENT"
+      },
+      {
+        "label": "assetSizeGreaterEqThan",
+        "desc": "Asset size range lower bound inclusive",
+        "type": "FIELD_ELEMENT",
+        "public": true
+      },
+      {
+        "label": "assetSizeLessThan",
+        "desc": "Asset size range upper bound exclusive",
+        "type": "FIELD_ELEMENT",
+        "public": true
+      },
+      {
+        "label": "sigpos",
+        "desc": "A siganture poseidon result",
+        "type": "FIELD_ELEMENT"
+      },
+      {
         "label": "leaf",
         "desc": "Leaf of a tree",
         "type": "FIELD_ELEMENT"
       },
       {
-        "label": "Merkle root",
+        "label": "root",
         "desc": "Vector commitment (Merkle root) of a set",
         "type": "FIELD_ELEMENT",
         "public": true
@@ -164,6 +186,18 @@
         "label": "siblings",
         "desc": "Siblings of a leaf in a Merkle path towards the root",
         "type": "FIELD_ELEMENT_VECTOR"
+      },
+      {
+        "label": "nonce",
+        "desc": "An additional note to include in this proof",
+        "type": "FIELD_ELEMENT",
+        "public": true
+      },
+      {
+        "label": "serialNo",
+        "desc": "A cryptographic commitment",
+        "type": "FIELD_ELEMENT",
+        "public": true
       }
     ]
   }

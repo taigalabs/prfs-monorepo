@@ -74,12 +74,12 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
         switch (circuit_driver_id) {
           case "spartan_circom_v1": {
             const wtns_gen_url = resolveWtnsGenUrl(
-              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets`,
+              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits`,
               proofType.circuit_type_id,
             );
 
             const circuit_url = resolveCircuitUrl(
-              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets`,
+              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits`,
               proofType.circuit_type_id,
             );
 

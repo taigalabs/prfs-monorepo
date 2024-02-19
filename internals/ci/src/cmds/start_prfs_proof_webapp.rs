@@ -18,7 +18,7 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_app(extra_args: Vec<&str>) {
-    let extra_args = [vec!["create-envs"], extra_args].concat();
+    let extra_args = [vec!["create-envs", "--production"], extra_args].concat();
 
     let status = Command::new(JS_ENGINE)
         .current_dir(&PATHS.prfs_proof_webapp)

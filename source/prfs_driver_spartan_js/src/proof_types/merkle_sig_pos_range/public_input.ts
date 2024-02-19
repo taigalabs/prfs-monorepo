@@ -26,6 +26,8 @@ export class MerkleSigPosRangePublicInput {
       circuitPub.merkleRoot,
       circuitPub.nonceInt,
       circuitPub.serialNo,
+      circuitPub.assetSizeGreaterEqThan,
+      circuitPub.assetSizeLessThan,
     );
     return new MerkleSigPosRangePublicInput(circuitPubInput, obj.nonce);
   }
@@ -35,16 +37,32 @@ export class MerkleSigPosRangeCircuitPubInput {
   merkleRoot: bigint;
   nonceInt: bigint;
   serialNo: bigint;
+  assetSizeGreaterEqThan: bigint;
+  assetSizeLessThan: bigint;
 
-  constructor(merkleRoot: bigint, nonceInt: bigint, serialNo: bigint) {
+  constructor(
+    merkleRoot: bigint,
+    nonceInt: bigint,
+    serialNo: bigint,
+    assetSizeGreaterEqThan: bigint,
+    assetSizeLessThan: bigint,
+  ) {
     this.merkleRoot = merkleRoot;
     this.nonceInt = nonceInt;
     this.serialNo = serialNo;
+    this.assetSizeGreaterEqThan = assetSizeGreaterEqThan;
+    this.assetSizeLessThan = assetSizeLessThan;
   }
 
   serialize(): Uint8Array {
     try {
-      const elems: bigint[] = [this.merkleRoot, this.nonceInt, this.serialNo];
+      const elems: bigint[] = [
+        this.merkleRoot,
+        this.nonceInt,
+        this.serialNo,
+        this.assetSizeGreaterEqThan,
+        this.assetSizeLessThan,
+      ];
       const serialized = serializeBigintArray(elems);
 
       return serialized;
@@ -58,8 +76,16 @@ export class MerkleSigPosRangeCircuitPubInput {
       const merkleRoot = bytesToBigInt(serialized.slice(0, 32));
       const nonceInt = bytesToBigInt(serialized.slice(32, 64));
       const serialNo = bytesToBigInt(serialized.slice(64, 96));
+      const assetSizeGreaterEqThan = bytesToBigInt(serialized.slice(96, 128));
+      const assetSizeLessThan = bytesToBigInt(serialized.slice(128, 160));
 
-      return new MerkleSigPosRangeCircuitPubInput(merkleRoot, nonceInt, serialNo);
+      return new MerkleSigPosRangeCircuitPubInput(
+        merkleRoot,
+        nonceInt,
+        serialNo,
+        assetSizeGreaterEqThan,
+        assetSizeLessThan,
+      );
     } catch (err) {
       throw new Error(`Cannot deserialize circuit pub input, err: ${err}`);
     }
