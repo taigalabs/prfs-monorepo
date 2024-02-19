@@ -3,7 +3,7 @@ import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
 import Modal from "@taigalabs/prfs-react-lib/src/modal/Modal";
 
