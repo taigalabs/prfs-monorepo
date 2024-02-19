@@ -23,7 +23,7 @@ pub fn get_build_status() -> Result<String, JsValue> {
 
 #[wasm_bindgen]
 pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8>, JsValue> {
-    console::log_1(&format!("prove() public_inputs: {:?}", public_inputs).into());
+    // console::log_1(&format!("prove() public_inputs: {:?}", public_inputs).into());
 
     return match api::prove2(circuit, vars, public_inputs) {
         Ok(p) => Ok(p),
