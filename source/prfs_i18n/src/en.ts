@@ -404,6 +404,7 @@ export default {
   tweet: "Tweet",
   address_input_placeholder: "Type address, e.g., 0xaaa..., or connect your wallet",
   notary: "Notary",
+  no_tree_has_been_made: "No tree has been made",
   private_inputs: "Private inputs",
   prfs_web_sdk: "Prfs Web SDK",
   proof_creation_title: "Proof creation",
