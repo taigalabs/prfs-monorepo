@@ -80,7 +80,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   });
   const { mutateAsync: addPrfsIndexRequest } = useMutation({
     mutationFn: (req: AddPrfsIndexRequest) => {
-      return prfsApi2("add_prfs_index", req);
+      // return prfsApi2("add_prfs_index", req);
+      return prfsApi3({ type: "add_prfs_index", ...req });
     },
   });
   const { mutateAsync: createCryptoSizeAtstRequest } = useMutation({

@@ -2,7 +2,7 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import cn from "classnames";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useRouter, useSearchParams } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
@@ -43,7 +43,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
     isSuccess: isCreatePrfsProofInstanceSuccess,
   } = useMutation({
     mutationFn: (req: CreatePrfsProofInstanceRequest) => {
-      return prfsApi2("create_prfs_proof_instance", req);
+      // return prfsApi2("create_prfs_proof_instance", req);
+      return prfsApi3({ type: "create_prfs_proof_instance", ...req });
     },
   });
 

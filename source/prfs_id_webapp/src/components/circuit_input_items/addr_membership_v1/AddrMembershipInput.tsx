@@ -55,13 +55,15 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
 
   const { mutateAsync: getPrfsSetBySetId } = useMutation({
     mutationFn: (req: GetPrfsSetBySetIdRequest) => {
-      return prfsApi2({ type: "get_prfs_set_by_set_id", ...req });
+      // return prfsApi2({ type: "get_prfs_set_by_set_id", ...req });
+      return prfsApi3({ type: "get_prfs_set_by_set_id", ...req });
     },
   });
 
   const { mutateAsync: getPrfsTreeNodesByPosRequest } = useMutation({
     mutationFn: (req: GetPrfsTreeNodesByPosRequest) => {
-      return prfsApi2({ type: "get_prfs_tree_nodes_by_pos", ...req });
+      // return prfsApi2({ type: "get_prfs_tree_nodes_by_pos", ...req });
+      return prfsApi3({ type: "get_prfs_tree_nodes_by_pos", ...req });
     },
   });
 

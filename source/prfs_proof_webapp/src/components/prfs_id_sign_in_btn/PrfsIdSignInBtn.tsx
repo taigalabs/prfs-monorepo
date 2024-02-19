@@ -14,7 +14,7 @@ import {
   createSessionKey,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "@tanstack/react-query";
-import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfs_api_error_codes, prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
@@ -41,7 +41,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
   const { mutateAsync: prfsSignInRequest } = useMutation({
     mutationFn: (req: PrfsSignInRequest) => {
-      return prfsApi2("sign_in_prfs_account", req);
+      // return prfsApi2("sign_in_prfs_account", req);
+      return prfsApi3({ type: "sign_in_prfs_account", ...req });
     },
   });
   const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);

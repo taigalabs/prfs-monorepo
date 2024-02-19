@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { PrfsSetElement } from "@taigalabs/prfs-entities/bindings/PrfsSetElement";
 import { useRouter } from "next/navigation";
@@ -56,7 +56,8 @@ function fetchPrfsSetElements(set_id: string, nonce: number) {
   return useInfiniteQuery({
     queryKey: ["get_prfs_set_elements", nonce],
     queryFn: async ({ pageParam }) => {
-      return prfsApi2("get_prfs_set_elements", { offset: pageParam as number, set_id });
+      // return prfsApi2("get_prfs_set_elements", { offset: pageParam as number, set_id });
+      return prfsApi3({ type: "get_prfs_set_elements", offset: pageParam as number, set_id });
     },
     initialPageParam: 0,
     getNextPageParam: lastPage => {

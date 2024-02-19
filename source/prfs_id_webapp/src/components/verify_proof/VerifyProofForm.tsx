@@ -6,7 +6,7 @@ import { VerifyProofArgs, VerifyProofResultPayload } from "@taigalabs/prfs-id-sd
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { useQuery } from "@tanstack/react-query";
-import { idSessionApi, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { idSessionApi, prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
@@ -44,7 +44,11 @@ function useProofType(proofTypeId: string | undefined) {
     queryKey: ["get_prfs_proof_type_by_proof_type_id", proofTypeId],
     queryFn: () => {
       if (proofTypeId) {
-        return prfsApi2("get_prfs_proof_type_by_proof_type_id", { proof_type_id: proofTypeId });
+        // return prfsApi2("get_prfs_proof_type_by_proof_type_id", { proof_type_id: proofTypeId });
+        return prfsApi3({
+          type: "get_prfs_proof_type_by_proof_type_id",
+          proof_type_id: proofTypeId,
+        });
       }
     },
   });

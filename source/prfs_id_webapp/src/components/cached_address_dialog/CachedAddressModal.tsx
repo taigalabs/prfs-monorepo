@@ -3,7 +3,7 @@ import cn from "classnames";
 import { useQuery } from "@tanstack/react-query";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsIdCredential, WALLET_CM_STEM, makeWalletCacheKeyCm } from "@taigalabs/prfs-id-sdk-web";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
@@ -18,7 +18,8 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
     queryKey: ["get_prfs_indices", walletCacheKeys],
     queryFn: async () => {
       if (walletCacheKeys) {
-        return prfsApi2("get_prfs_indices", { keys: walletCacheKeys });
+        // return prfsApi2("get_prfs_indices", { keys: walletCacheKeys });
+        return prfsApi3({ type: "get_prfs_indices", keys: walletCacheKeys });
       }
     },
     enabled: !!walletCacheKeys,
