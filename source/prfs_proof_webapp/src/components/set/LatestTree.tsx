@@ -18,8 +18,6 @@ const LatestTree: React.FC<SetProps> = ({ set_id }) => {
     },
   });
 
-  console.log(11, data);
-
   return <div className={styles.wrapper}></div>;
 };
 

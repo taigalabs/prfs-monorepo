@@ -6,32 +6,37 @@ use crate::DbInterfaceError;
 pub async fn get_latest_prfs_tree_by_set_id(
     pool: &Pool<Postgres>,
     set_id: &String,
-) -> Result<PrfsTree, DbInterfaceError> {
+) -> Result<Option<PrfsTree>, DbInterfaceError> {
     let query = r#"
 SELECT * 
 FROM prfs_trees
 WHERE set_id=$1
 ORDER BY updated_at
 DESC
+LIMIT 1
 "#;
 
     let row = sqlx::query(&query)
         .bind(&set_id)
-        .fetch_one(pool)
+        .fetch_optional(pool)
         .await
         .unwrap();
 
-    let label = row.try_get("label").expect("label should exist");
-    let tree_id = row.try_get("tree_id").expect("tree_id should exist");
-    let set_id = row.try_get("set_id").expect("set_id should exist");
+    if let Some(r) = row {
+        let label = r.try_get("label").expect("label should exist");
+        let tree_id = r.try_get("tree_id").expect("tree_id should exist");
+        let set_id = r.try_get("set_id").expect("set_id should exist");
 
-    let n = PrfsTree {
-        label,
-        tree_id,
-        set_id,
-    };
+        let t = PrfsTree {
+            label,
+            tree_id,
+            set_id,
+        };
 
-    Ok(n)
+        Ok(Some(t))
+    } else {
+        Ok(None)
+    }
 }
 
 pub async fn insert_prfs_tree(

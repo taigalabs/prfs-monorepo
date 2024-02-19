@@ -3,10 +3,10 @@ import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaTree } from "@react-icons/all-files/fa/FaTree";
 import { useMutation } from "@tanstack/react-query";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreatePrfsTreeByPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsTreeByPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { PrivateKey, createRandomKeyPair } from "@taigalabs/prfs-crypto-js";
+import { PrivateKey, rand256 } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CreateTreeDialog.module.scss";
 import common from "@/styles/common.module.scss";
@@ -94,12 +94,12 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
     if (prfsProofCredential && isMasterAccountId(prfsProofCredential.account_id)) {
       setComputeStatus(CommonStatus.InProgress);
       try {
-        const { pkHex } = createRandomKeyPair();
+        const hex = rand256();
 
         const { payload, error } = await createTreeRequest({
           set_id: CRYPTO_HOLDERS_SET_ID,
-          tree_id: pkHex,
-          tree_label: `${CRYPTO_HOLDERS_SET_ID}_tree_${pkHex}`,
+          tree_id: hex,
+          tree_label: `${CRYPTO_HOLDERS_SET_ID}_tree_${hex}`,
           account_id: prfsProofCredential.account_id,
         });
 

@@ -28,5 +28,5 @@ pub struct GetLatestPrfsTreeBySetIdRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetLatestPrfsTreeBySetIdResponse {
-    pub prfs_tree: PrfsTree,
+    pub prfs_tree: Option<PrfsTree>,
 }

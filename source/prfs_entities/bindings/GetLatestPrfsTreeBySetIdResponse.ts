@@ -2,5 +2,5 @@
 import type { PrfsTree } from "./PrfsTree";
 
 export interface GetLatestPrfsTreeBySetIdResponse {
-  prfs_tree: PrfsTree;
+  prfs_tree: PrfsTree | null;
 }
