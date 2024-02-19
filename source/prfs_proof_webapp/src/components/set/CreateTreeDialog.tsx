@@ -20,6 +20,7 @@ import {
 } from "@/components/dialog_default/DialogComponents";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
 import { isMasterAccountId } from "@/mock/mock_data";
+import { useRandomKeyPair } from "@/hooks/key";
 
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 
@@ -93,8 +94,11 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
     if (prfsProofCredential && isMasterAccountId(prfsProofCredential.account_id)) {
       setComputeStatus(CommonStatus.InProgress);
       try {
+        const { pkHex } = useRandomKeyPair();
+
         const { payload, error } = await createTreeRequest({
           set_id: CRYPTO_HOLDERS_SET_ID,
+          tree_id: pkHex,
           account_id: prfsProofCredential.account_id,
         });
 
