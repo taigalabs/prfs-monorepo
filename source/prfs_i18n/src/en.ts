@@ -121,6 +121,7 @@ export default {
   search_proof_dialog: "Search proof dialog",
   browse: "Browse",
   set_id: "Set id",
+  tree_id: "Tree id",
   type: "Type",
   public: "Public",
   public_key: "Public key",

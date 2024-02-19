@@ -20,10 +20,14 @@
   }
 }
 
-.msg {
+.computeMsg {
   padding-top: 14px;
 
   > p:not(:first-child) {
     padding-top: 8px;
+  }
+
+  .label {
+    margin-right: 6px;
   }
 }

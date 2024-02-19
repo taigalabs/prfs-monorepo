@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreateTreeOfPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreateTreeOfPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { PrivateKey, createRandomKeyPair } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CreateTreeDialog.module.scss";
 import common from "@/styles/common.module.scss";
@@ -20,8 +21,6 @@ import {
 } from "@/components/dialog_default/DialogComponents";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
 import { isMasterAccountId } from "@/mock/mock_data";
-import { useRandomKeyPair } from "@/hooks/key";
-import { PrivateKey, createRandomKeyPair } from "@taigalabs/prfs-crypto-js";
 
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 
@@ -50,7 +49,7 @@ const Modal: React.FC<ModalProps> = ({
       </DefaultModalHeader>
       <DefaultModalDesc>
         <p>{i18n.this_might_take_minutes_or_longer}</p>
-        <div className={styles.msg}>{computeMsg}</div>
+        <div className={styles.computeMsg}>{computeMsg}</div>
       </DefaultModalDesc>
       <DefaultModalBtnRow>
         <Button
@@ -116,13 +115,19 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
         if (payload) {
           setComputeStatus(CommonStatus.Done);
           setComputeMsg(
-            <>
+            <div>
               <p>
-                <b>
-                  {i18n.tree} is created for {payload.set_id}
-                </b>
+                <b>{i18n.tree} is created.</b>
               </p>
-            </>,
+              <div>
+                <span className={styles.label}>{i18n.set_id}</span>
+                <span>{payload.set_id}</span>
+              </div>
+              <div>
+                <span className={styles.label}>{i18n.tree_id}</span>
+                <span>{payload.tree_id.substring(0, 18)}...</span>
+              </div>
+            </div>,
           );
           rerender();
         }
