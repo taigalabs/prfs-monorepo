@@ -22,48 +22,49 @@ import type { GetPrfsProofInstancesResponse } from "./GetPrfsProofInstancesRespo
 import type { GetPrfsProofTypeByProofTypeIdResponse } from "./GetPrfsProofTypeByProofTypeIdResponse";
 import type { GetPrfsProofTypesResponse } from "./GetPrfsProofTypesResponse";
 import type { GetPrfsSetBySetIdResponse } from "./GetPrfsSetBySetIdResponse";
+import type { GetPrfsSetElementResponse } from "./GetPrfsSetElementResponse";
 import type { GetPrfsSetElementsResponse } from "./GetPrfsSetElementsResponse";
 import type { GetPrfsSetsResponse } from "./GetPrfsSetsResponse";
 import type { GetPrfsTreeNodesResponse } from "./GetPrfsTreeNodesResponse";
 import type { ImportPrfsSetElementsResponse } from "./ImportPrfsSetElementsResponse";
 import type { PrfsIdentitySignUpResponse } from "./PrfsIdentitySignUpResponse";
+import type { PrfsSignInResponse } from "./PrfsSignInResponse";
 import type { SubmitPrfsPollResponseResponse } from "./SubmitPrfsPollResponseResponse";
 import type { UpdatePrfsTreeNodeResponse } from "./UpdatePrfsTreeNodeResponse";
 
 export type PrfsApiResponse =
-  | ({ type: "get_prfs_circuits" } & GetPrfsCircuitsResponse)
-  | ({ type: "get_prfs_circuit_by_circuit_id" } & GetPrfsCircuitByCircuitIdResponse)
-  | ({ type: "prfs_identity_sign_up" } & PrfsIdentitySignUpResponse)
-  | ({ type: "get_prfs_circuit_drivers" } & GetPrfsCircuitDriversResponse)
-  | ({ type: "get_prfs_circuit_driver_by_driver_id" } & GetPrfsCircuitDriverByDriverIdResponse)
-  | ({ type: "get_prfs_circuit_types" } & GetPrfsCircuitTypesResponse)
-  | ({
-      type: "get_prfs_circuit_type_by_circuit_type_id";
-    } & GetPrfsCircuitTypeByCircuitTypeIdResponse)
-  | ({ type: "get_least_recent_prfs_index" } & GetLeastRecentPrfsIndexResponse)
-  | ({ type: "get_prfs_indices" } & GetPrfsIndicesResponse)
-  | ({ type: "add_prfs_index" } & AddPrfsIndexResponse)
-  | ({ type: "get_prfs_polls" } & GetPrfsPollsResponse)
-  | ({ type: "create_prfs_poll" } & CreatePrfsPollResponse)
-  | ({ type: "get_prfs_poll_by_poll_id" } & GetPrfsPollByPollIdResponse)
-  | ({ type: "submit_prfs_poll_response" } & SubmitPrfsPollResponseResponse)
-  | ({ type: "get_prfs_proof_instances" } & GetPrfsProofInstancesResponse)
-  | ({ type: "get_prfs_proof_instance_by_instance_id" } & GetPrfsProofInstanceByInstanceIdResponse)
-  | ({ type: "get_prfs_proof_instance_by_short_id" } & GetPrfsProofInstanceByShortIdResponse)
-  | ({ type: "create_prfs_proof_instance" } & CreatePrfsProofInstanceResponse)
+  | ({ type: "GetPrfsCircuits" } & GetPrfsCircuitsResponse)
+  | ({ type: "GetPrfsCircuitByCircuitId" } & GetPrfsCircuitByCircuitIdResponse)
+  | ({ type: "sign_in_prfs_account" } & PrfsSignInResponse)
+  | ({ type: "sign_up_prfs_account" } & PrfsIdentitySignUpResponse)
+  | ({ type: "GetPrfsCircuitDrivers" } & GetPrfsCircuitDriversResponse)
+  | ({ type: "GetPrfsCircuitDriverByDriverId" } & GetPrfsCircuitDriverByDriverIdResponse)
+  | ({ type: "GetPrfsCircuitTypes" } & GetPrfsCircuitTypesResponse)
+  | ({ type: "GetPrfsCircuitTypeByCircuitTypeId" } & GetPrfsCircuitTypeByCircuitTypeIdResponse)
+  | ({ type: "GetLeastRecentPrfsIndex" } & GetLeastRecentPrfsIndexResponse)
+  | ({ type: "GetPrfsIndices" } & GetPrfsIndicesResponse)
+  | ({ type: "AddPrfsIndex" } & AddPrfsIndexResponse)
+  | ({ type: "GetPrfsPolls" } & GetPrfsPollsResponse)
+  | ({ type: "CreatePrfsPoll" } & CreatePrfsPollResponse)
+  | ({ type: "GetPrfsPollByPollId" } & GetPrfsPollByPollIdResponse)
+  | ({ type: "SubmitPrfsPollResponse" } & SubmitPrfsPollResponseResponse)
+  | ({ type: "GetPrfsProofInstances" } & GetPrfsProofInstancesResponse)
+  | ({ type: "GetPrfsProofInstanceByInstanceId" } & GetPrfsProofInstanceByInstanceIdResponse)
+  | ({ type: "GetPrfsProofInstanceByShortId" } & GetPrfsProofInstanceByShortIdResponse)
+  | ({ type: "CreatePrfsProofInstance" } & CreatePrfsProofInstanceResponse)
   | ({ type: "get_prfs_proof_types" } & GetPrfsProofTypesResponse)
   | ({ type: "get_prfs_proof_type_by_proof_type_id" } & GetPrfsProofTypeByProofTypeIdResponse)
-  | ({ type: "create_prfs_proof_type" } & CreatePrfsProofTypeResponse)
-  | ({ type: "get_prfs_set_by_set_id" } & GetPrfsSetBySetIdResponse)
-  | ({ type: "get_prfs_sets" } & GetPrfsSetsResponse)
-  | ({ type: "get_prfs_sets_by_set_type" } & GetPrfsSetsResponse)
-  | ({ type: "create_prfs_set" } & CreatePrfsSetResponse)
-  | ({ type: "create_prfs_dynamic_set_element" } & CreatePrfsDynamicSetElementResponse)
-  | ({ type: "create_tree_of_prfs_set" } & CreateTreeOfPrfsSetResponse)
-  | ({ type: "import_prfs_set_elements" } & ImportPrfsSetElementsResponse)
-  | ({ type: "get_prfs_set_elements" } & GetPrfsSetElementsResponse)
-  | ({ type: "get_prfs_set_element" } & GetPrfsSetElementsResponse)
-  | ({ type: "get_prfs_tree_nodes_by_pos" } & GetPrfsTreeNodesResponse)
-  | ({ type: "get_prfs_tree_leaf_nodes_by_set_id" } & GetPrfsTreeNodesResponse)
-  | ({ type: "get_prfs_tree_leaf_indices" } & GetPrfsTreeNodesResponse)
-  | ({ type: "update_prfs_tree_node" } & UpdatePrfsTreeNodeResponse);
+  | ({ type: "CreatePrfsProofType" } & CreatePrfsProofTypeResponse)
+  | ({ type: "GetPrfsSetBySetId" } & GetPrfsSetBySetIdResponse)
+  | ({ type: "GetPrfsSets" } & GetPrfsSetsResponse)
+  | ({ type: "GetPrfsSetsBySetType" } & GetPrfsSetsResponse)
+  | ({ type: "CreatePrfsSet" } & CreatePrfsSetResponse)
+  | ({ type: "CreatePrfsDynamicSetElement" } & CreatePrfsDynamicSetElementResponse)
+  | ({ type: "CreateTreeOfPrfsSet" } & CreateTreeOfPrfsSetResponse)
+  | ({ type: "ImportPrfsSetElements" } & ImportPrfsSetElementsResponse)
+  | ({ type: "GetPrfsSetElements" } & GetPrfsSetElementsResponse)
+  | ({ type: "get_prfs_set_element" } & GetPrfsSetElementResponse)
+  | ({ type: "GetPrfsTreeNodesByPos" } & GetPrfsTreeNodesResponse)
+  | ({ type: "GetPrfsTreeLeafNodesBySetId" } & GetPrfsTreeNodesResponse)
+  | ({ type: "GetPrfsTreeLeafIndices" } & GetPrfsTreeNodesResponse)
+  | ({ type: "UpdatePrfsTreeNode" } & UpdatePrfsTreeNodeResponse);

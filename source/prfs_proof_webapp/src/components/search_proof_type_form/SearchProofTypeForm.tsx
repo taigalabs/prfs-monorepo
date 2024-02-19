@@ -2,7 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
@@ -35,7 +35,8 @@ const SearchProofTypeForm: React.FC = () => {
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
-      return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
+      // return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
+      return prfsApi3({ type: "get_prfs_proof_type_by_proof_type_id", ...req });
     },
   });
 

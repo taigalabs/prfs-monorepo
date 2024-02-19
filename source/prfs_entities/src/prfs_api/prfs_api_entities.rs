@@ -2,6 +2,8 @@ use serde::{Deserialize, Serialize};
 use sqlx::prelude::Type;
 use ts_rs::TS;
 
+use crate::id_api::{PrfsSignInRequest, PrfsSignInResponse};
+
 use super::{
     syn::PrfsCircuitSyn1, AddPrfsIndexRequest, AddPrfsIndexResponse,
     CreatePrfsDynamicSetElementRequest, CreatePrfsDynamicSetElementResponse, CreatePrfsPollRequest,
@@ -21,9 +23,10 @@ use super::{
     GetPrfsProofInstanceByShortIdResponse, GetPrfsProofInstancesRequest,
     GetPrfsProofInstancesResponse, GetPrfsProofTypeByProofTypeIdRequest,
     GetPrfsProofTypeByProofTypeIdResponse, GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
-    GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse, GetPrfsSetElementsRequest,
-    GetPrfsSetElementsResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
-    GetPrfsSetsResponse, GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesBySetIdRequest,
+    GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse, GetPrfsSetElementRequest,
+    GetPrfsSetElementResponse, GetPrfsSetElementsRequest, GetPrfsSetElementsResponse,
+    GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest, GetPrfsSetsResponse,
+    GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesBySetIdRequest,
     GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse, ImportPrfsSetElementsRequest,
     ImportPrfsSetElementsResponse, PrfsIdentitySignUpRequest, PrfsIdentitySignUpResponse,
     SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse, UpdatePrfsTreeNodeRequest,
@@ -32,12 +35,13 @@ use super::{
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[allow(non_camel_case_types)]
-#[serde(tag = "type", rename_all = "snake_case")]
+#[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsApiRequest {
     GetPrfsCircuits(GetPrfsCircuitsRequest),
     GetPrfsCircuitByCircuitId(GetPrfsCircuitByCircuitIdRequest),
-    PrfsIdentitySignUp(PrfsIdentitySignUpRequest),
+    sign_in_prfs_account(PrfsSignInRequest),
+    sign_up_prfs_account(PrfsIdentitySignUpRequest),
     GetPrfsCircuitDrivers(GetPrfsCircuitDriversRequest),
     GetPrfsCircuitDriverByDriverId(GetPrfsCircuitDriverByDriverIdRequest),
     GetPrfsCircuitTypes(GetPrfsCircuitTypesRequest),
@@ -53,8 +57,8 @@ pub enum PrfsApiRequest {
     GetPrfsProofInstanceByInstanceId(GetPrfsProofInstanceByInstanceIdRequest),
     GetPrfsProofInstanceByShortId(GetPrfsProofInstanceByShortIdRequest),
     CreatePrfsProofInstance(CreatePrfsProofInstanceRequest),
-    GetPrfsProofTypes(GetPrfsProofTypesRequest),
-    GetPrfsProofTypeByProofTypeId(GetPrfsProofTypeByProofTypeIdRequest),
+    get_prfs_proof_types(GetPrfsProofTypesRequest),
+    get_prfs_proof_type_by_proof_type_id(GetPrfsProofTypeByProofTypeIdRequest),
     CreatePrfsProofType(CreatePrfsProofTypeRequest),
     GetPrfsSetBySetId(GetPrfsSetBySetIdRequest),
     GetPrfsSets(GetPrfsSetsRequest),
@@ -64,7 +68,7 @@ pub enum PrfsApiRequest {
     CreateTreeOfPrfsSet(CreateTreeOfPrfsSetRequest),
     ImportPrfsSetElements(ImportPrfsSetElementsRequest),
     GetPrfsSetElements(GetPrfsSetElementsRequest),
-    GetPrfsSetElement(GetPrfsSetElementsRequest),
+    get_prfs_set_element(GetPrfsSetElementRequest),
     GetPrfsTreeNodesByPos(GetPrfsTreeNodesByPosRequest),
     GetPrfsTreeLeafNodesBySetId(GetPrfsTreeLeafNodesBySetIdRequest),
     GetPrfsTreeLeafIndices(GetPrfsTreeLeafIndicesRequest),
@@ -73,12 +77,13 @@ pub enum PrfsApiRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[allow(non_camel_case_types)]
-#[serde(tag = "type", rename_all = "snake_case")]
+#[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsApiResponse {
     GetPrfsCircuits(GetPrfsCircuitsResponse),
     GetPrfsCircuitByCircuitId(GetPrfsCircuitByCircuitIdResponse),
-    PrfsIdentitySignUp(PrfsIdentitySignUpResponse),
+    sign_in_prfs_account(PrfsSignInResponse),
+    sign_up_prfs_account(PrfsIdentitySignUpResponse),
     GetPrfsCircuitDrivers(GetPrfsCircuitDriversResponse),
     GetPrfsCircuitDriverByDriverId(GetPrfsCircuitDriverByDriverIdResponse),
     GetPrfsCircuitTypes(GetPrfsCircuitTypesResponse),
@@ -94,8 +99,8 @@ pub enum PrfsApiResponse {
     GetPrfsProofInstanceByInstanceId(GetPrfsProofInstanceByInstanceIdResponse),
     GetPrfsProofInstanceByShortId(GetPrfsProofInstanceByShortIdResponse),
     CreatePrfsProofInstance(CreatePrfsProofInstanceResponse),
-    GetPrfsProofTypes(GetPrfsProofTypesResponse),
-    GetPrfsProofTypeByProofTypeId(GetPrfsProofTypeByProofTypeIdResponse),
+    get_prfs_proof_types(GetPrfsProofTypesResponse),
+    get_prfs_proof_type_by_proof_type_id(GetPrfsProofTypeByProofTypeIdResponse),
     CreatePrfsProofType(CreatePrfsProofTypeResponse),
     GetPrfsSetBySetId(GetPrfsSetBySetIdResponse),
     GetPrfsSets(GetPrfsSetsResponse),
@@ -105,7 +110,7 @@ pub enum PrfsApiResponse {
     CreateTreeOfPrfsSet(CreateTreeOfPrfsSetResponse),
     ImportPrfsSetElements(ImportPrfsSetElementsResponse),
     GetPrfsSetElements(GetPrfsSetElementsResponse),
-    GetPrfsSetElement(GetPrfsSetElementsResponse),
+    get_prfs_set_element(GetPrfsSetElementResponse),
     GetPrfsTreeNodesByPos(GetPrfsTreeNodesResponse),
     GetPrfsTreeLeafNodesBySetId(GetPrfsTreeNodesResponse),
     GetPrfsTreeLeafIndices(GetPrfsTreeNodesResponse),
