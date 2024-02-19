@@ -5,6 +5,7 @@ export * from "@taigalabs/prfs-crypto-deps-js/noble_curves";
 export { initWasm } from "./wasm_wrapper/wasm";
 
 export * from "./merkle";
+export * from "./key";
 export * from "./bigint";
 export * from "./signature";
 export * from "./id";

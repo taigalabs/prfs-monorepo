@@ -2,6 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
+import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 import styles from "./Set.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -13,12 +14,10 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import ImportSetElementsDialog from "./ImportSetElementsDialog";
 import CreateTreeDialog from "./CreateTreeDialog";
-import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 const Set: React.FC<SetProps> = ({ set_id }) => {
   const i18n = React.useContext(i18nContext);
   const { nonce, rerender } = useRerender();
-  console.log(11, rerender);
 
   return (
     <>

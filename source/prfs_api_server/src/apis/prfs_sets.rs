@@ -7,7 +7,7 @@ use hyper_utils::{
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    entities::PrfsTreeNode,
+    entities::{PrfsTree, PrfsTreeNode},
     prfs_api::{
         ComputePrfsSetMerkleRootResponse, CreatePrfsDynamicSetElementRequest,
         CreatePrfsDynamicSetElementResponse, CreatePrfsSetRequest, CreatePrfsSetResponse,
@@ -194,9 +194,12 @@ pub async fn create_tree_of_prfs_set(
         .await
         .unwrap();
 
-    prfs::delete_prfs_tree_nodes(&mut tx, &set.set_id)
-        .await
-        .unwrap();
+    let tree = PrfsTree {
+        label: req.tree_label.to_string(),
+        tree_id: req.tree_id.to_string(),
+        set_id: req.set_id.to_string(),
+    };
+    prfs::insert_prfs_tree(&mut tx, &tree).await.unwrap();
 
     let mut count = 0;
     let leaves = tree::create_leaves(&set_elements).unwrap();
@@ -216,7 +219,7 @@ pub async fn create_tree_of_prfs_set(
         leaf_nodes.push(n);
     }
 
-    prfs::insert_prfs_tree_nodes(&mut tx, &leaf_nodes, true)
+    prfs::insert_prfs_tree_nodes(&mut tx, &leaf_nodes, false)
         .await
         .unwrap();
     count += leaves.len();
@@ -244,7 +247,7 @@ pub async fn create_tree_of_prfs_set(
         }
 
         children = parents;
-        prfs::insert_prfs_tree_nodes(&mut tx, &parent_nodes, true)
+        prfs::insert_prfs_tree_nodes(&mut tx, &parent_nodes, false)
             .await
             .unwrap();
         count += parent_nodes.len();
@@ -258,6 +261,7 @@ pub async fn create_tree_of_prfs_set(
     tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(CreateTreeOfPrfsSetResponse {
+        tree_id: req.tree_id.to_string(),
         set_id: req.set_id.to_string(),
     });
 

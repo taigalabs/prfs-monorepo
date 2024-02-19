@@ -42,7 +42,7 @@ INSERT INTO prfs_trees
 (tree_id, set_id, "label")
 VALUES 
 ($1, $2, $3) 
-RETURNING tree_id"
+RETURNING tree_id
 "#;
 
     let row = sqlx::query(&query)

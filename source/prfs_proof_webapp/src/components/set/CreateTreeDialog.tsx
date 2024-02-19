@@ -21,6 +21,7 @@ import {
 import { CommonStatus } from "@/components/common_status/CommonStatus";
 import { isMasterAccountId } from "@/mock/mock_data";
 import { useRandomKeyPair } from "@/hooks/key";
+import { PrivateKey, createRandomKeyPair } from "@taigalabs/prfs-crypto-js";
 
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 
@@ -83,7 +84,6 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: createTreeRequest } = useMutation({
     mutationFn: (req: CreateTreeOfPrfsSetRequest) => {
-      // return prfsApi2("create_tree_of_prfs_set", req);
       return prfsApi3({ type: "create_tree_of_prfs_set", ...req });
     },
   });
@@ -95,11 +95,12 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
     if (prfsProofCredential && isMasterAccountId(prfsProofCredential.account_id)) {
       setComputeStatus(CommonStatus.InProgress);
       try {
-        const { pkHex } = useRandomKeyPair();
+        const { pkHex } = createRandomKeyPair();
 
         const { payload, error } = await createTreeRequest({
           set_id: CRYPTO_HOLDERS_SET_ID,
           tree_id: pkHex,
+          tree_label: `${CRYPTO_HOLDERS_SET_ID}_tree_${pkHex}`,
           account_id: prfsProofCredential.account_id,
         });
 
