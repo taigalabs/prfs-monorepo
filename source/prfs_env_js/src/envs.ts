@@ -29,7 +29,7 @@ export function getPrfsProdEndpoints() {
     prfs_poll_webapp: "https://poll.prfs.xyz",
     prfs_api_server: "https://api.prfs.xyz",
     prfs_id_session_server_socket: "wss://api.prfs.xyz",
-    prfs_asset_server: "https://d16rd1gzhabnej.cloudfront.net/assets/circuits",
+    prfs_asset_server: "https://d16rd1gzhabnej.cloudfront.net",
     prfs_docs_website: "https://docs.prfs.xyz",
     shy_webapp: "https://www.shy.chat",
     shy_docs_website: "https://docs.chat.chat",

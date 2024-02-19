@@ -166,57 +166,57 @@ async fn upload_proof_types(db: &Database2) {
     tx.commit().await.unwrap();
 }
 
-async fn upload_dynamic_sets(db: &Database2) {
-    let pool = &db.pool;
-    let mut tx = pool.begin().await.unwrap();
+// async fn upload_dynamic_sets(db: &Database2) {
+//     let pool = &db.pool;
+//     let mut tx = pool.begin().await.unwrap();
 
-    let mut dynamic_sets = load_dynamic_sets();
-    println!("sets: {:#?}", dynamic_sets);
+//     let mut dynamic_sets = load_dynamic_sets();
+//     println!("sets: {:#?}", dynamic_sets);
 
-    for dynamic_set in dynamic_sets.values_mut() {
-        let set_id = prfs::upsert_prfs_set(&mut tx, &dynamic_set.prfs_set)
-            .await
-            .unwrap();
+//     for dynamic_set in dynamic_sets.values_mut() {
+//         let set_id = prfs::upsert_prfs_set(&mut tx, &dynamic_set.prfs_set)
+//             .await
+//             .unwrap();
 
-        let rows_updated = prfs::delete_prfs_tree_nodes(&mut tx, &set_id)
-            .await
-            .unwrap();
+//         let rows_updated = prfs::delete_prfs_tree_nodes(&mut tx, &set_id)
+//             .await
+//             .unwrap();
 
-        println!("Deleted {} prfs tree nodes", rows_updated);
+//         println!("Deleted {} prfs tree nodes", rows_updated);
 
-        let elements_path = PATHS.data_seed.join(&dynamic_set.elements_path);
+//         let elements_path = PATHS.data_seed.join(&dynamic_set.elements_path);
 
-        let mut rdr = csv::Reader::from_path(elements_path)
-            .expect(&format!("elements_path: {}", dynamic_set.elements_path));
+//         let mut rdr = csv::Reader::from_path(elements_path)
+//             .expect(&format!("elements_path: {}", dynamic_set.elements_path));
 
-        let mut nodes = vec![];
-        for (idx, result) in rdr.deserialize().enumerate() {
-            let record: SetElementRecord = result.unwrap();
+//         let mut nodes = vec![];
+//         for (idx, result) in rdr.deserialize().enumerate() {
+//             let record: SetElementRecord = result.unwrap();
 
-            let prfs_tree_node = PrfsTreeNode {
-                pos_w: Decimal::from(idx),
-                pos_h: 0,
-                val: record.val,
-                meta: Some(record.meta),
-                set_id: set_id.to_string(),
-            };
+//             let prfs_tree_node = PrfsTreeNode {
+//                 pos_w: Decimal::from(idx),
+//                 pos_h: 0,
+//                 val: record.val,
+//                 meta: Some(record.meta),
+//                 set_id: set_id.to_string(),
+//             };
 
-            nodes.push(prfs_tree_node);
-        }
+//             nodes.push(prfs_tree_node);
+//         }
 
-        let mut prfs_set = &mut dynamic_set.prfs_set;
-        prfs_set.cardinality = nodes.len() as i64;
+//         let mut prfs_set = &mut dynamic_set.prfs_set;
+//         prfs_set.cardinality = nodes.len() as i64;
 
-        tree_maker_apis::create_tree_nodes(&mut tx, &mut prfs_set, &nodes)
-            .await
-            .unwrap();
+//         tree_maker_apis::create_tree_nodes(&mut tx, &mut prfs_set, &nodes)
+//             .await
+//             .unwrap();
 
-        let rows_affected = prfs::insert_prfs_tree_nodes(&mut tx, &nodes, true)
-            .await
-            .unwrap();
+//         let rows_affected = prfs::insert_prfs_tree_nodes(&mut tx, &nodes, true)
+//             .await
+//             .unwrap();
 
-        println!("Rows affected: {}", rows_affected);
-    }
+//         println!("Rows affected: {}", rows_affected);
+//     }
 
-    tx.commit().await.unwrap();
-}
+//     tx.commit().await.unwrap();
+// }

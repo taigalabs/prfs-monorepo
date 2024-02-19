@@ -5,7 +5,7 @@ import cn from "classnames";
 import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
-import { atstApi, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { atstApi, prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
@@ -69,7 +69,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const [step, setStep] = React.useState(AttestationStep.INPUT_WALLET_ADDR);
   const { mutateAsync: getLeastRecentPrfsIndex } = useMutation({
     mutationFn: (req: GetLeastRecentPrfsIndexRequest) => {
-      return prfsApi2("get_least_recent_prfs_index", { prfs_indices: req.prfs_indices });
+      // return prfsApi2("get_least_recent_prfs_index", { prfs_indices: req.prfs_indices });
+      return prfsApi3({ type: "get_least_recent_prfs_index", prfs_indices: req.prfs_indices });
     },
   });
   const { mutateAsync: fetchCryptoAssetRequest } = useMutation({
@@ -79,7 +80,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   });
   const { mutateAsync: addPrfsIndexRequest } = useMutation({
     mutationFn: (req: AddPrfsIndexRequest) => {
-      return prfsApi2("add_prfs_index", req);
+      // return prfsApi2("add_prfs_index", req);
+      return prfsApi3({ type: "add_prfs_index", ...req });
     },
   });
   const { mutateAsync: createCryptoSizeAtstRequest } = useMutation({

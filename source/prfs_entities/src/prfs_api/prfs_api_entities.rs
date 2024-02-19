@@ -1,0 +1,118 @@
+use serde::{Deserialize, Serialize};
+use sqlx::prelude::Type;
+use ts_rs::TS;
+
+use crate::id_api::{PrfsSignInRequest, PrfsSignInResponse};
+
+use super::{
+    syn::PrfsCircuitSyn1, AddPrfsIndexRequest, AddPrfsIndexResponse,
+    CreatePrfsDynamicSetElementRequest, CreatePrfsDynamicSetElementResponse, CreatePrfsPollRequest,
+    CreatePrfsPollResponse, CreatePrfsProofInstanceRequest, CreatePrfsProofInstanceResponse,
+    CreatePrfsProofTypeRequest, CreatePrfsProofTypeResponse, CreatePrfsSetRequest,
+    CreatePrfsSetResponse, CreateTreeOfPrfsSetRequest, CreateTreeOfPrfsSetResponse,
+    GetLeastRecentPrfsIndexRequest, GetLeastRecentPrfsIndexResponse,
+    GetPrfsCircuitByCircuitIdRequest, GetPrfsCircuitByCircuitIdResponse,
+    GetPrfsCircuitDriverByDriverIdRequest, GetPrfsCircuitDriverByDriverIdResponse,
+    GetPrfsCircuitDriversRequest, GetPrfsCircuitDriversResponse,
+    GetPrfsCircuitTypeByCircuitTypeIdRequest, GetPrfsCircuitTypeByCircuitTypeIdResponse,
+    GetPrfsCircuitTypesRequest, GetPrfsCircuitTypesResponse, GetPrfsCircuitsRequest,
+    GetPrfsCircuitsResponse, GetPrfsIndicesRequest, GetPrfsIndicesResponse,
+    GetPrfsPollByPollIdRequest, GetPrfsPollByPollIdResponse, GetPrfsPollsRequest,
+    GetPrfsPollsResponse, GetPrfsProofInstanceByInstanceIdRequest,
+    GetPrfsProofInstanceByInstanceIdResponse, GetPrfsProofInstanceByShortIdRequest,
+    GetPrfsProofInstanceByShortIdResponse, GetPrfsProofInstancesRequest,
+    GetPrfsProofInstancesResponse, GetPrfsProofTypeByProofTypeIdRequest,
+    GetPrfsProofTypeByProofTypeIdResponse, GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
+    GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse, GetPrfsSetElementRequest,
+    GetPrfsSetElementResponse, GetPrfsSetElementsRequest, GetPrfsSetElementsResponse,
+    GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest, GetPrfsSetsResponse,
+    GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesBySetIdRequest,
+    GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse, ImportPrfsSetElementsRequest,
+    ImportPrfsSetElementsResponse, PrfsIdentitySignUpRequest, PrfsIdentitySignUpResponse,
+    SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse, UpdatePrfsTreeNodeRequest,
+    UpdatePrfsTreeNodeResponse,
+};
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[allow(non_camel_case_types)]
+#[serde(tag = "type")]
+#[ts(export)]
+pub enum PrfsApiRequest {
+    GetPrfsCircuits(GetPrfsCircuitsRequest),
+    GetPrfsCircuitByCircuitId(GetPrfsCircuitByCircuitIdRequest),
+    sign_in_prfs_account(PrfsSignInRequest),
+    sign_up_prfs_account(PrfsIdentitySignUpRequest),
+    GetPrfsCircuitDrivers(GetPrfsCircuitDriversRequest),
+    GetPrfsCircuitDriverByDriverId(GetPrfsCircuitDriverByDriverIdRequest),
+    GetPrfsCircuitTypes(GetPrfsCircuitTypesRequest),
+    GetPrfsCircuitTypeByCircuitTypeId(GetPrfsCircuitTypeByCircuitTypeIdRequest),
+    get_least_recent_prfs_index(GetLeastRecentPrfsIndexRequest),
+    get_prfs_indices(GetPrfsIndicesRequest),
+    add_prfs_index(AddPrfsIndexRequest),
+    GetPrfsPolls(GetPrfsPollsRequest),
+    CreatePrfsPoll(CreatePrfsPollRequest),
+    GetPrfsPollByPollId(GetPrfsPollByPollIdRequest),
+    SubmitPrfsPollResponse(SubmitPrfsPollResponseRequest),
+    GetPrfsProofInstances(GetPrfsProofInstancesRequest),
+    get_prfs_proof_instance_by_instance_id(GetPrfsProofInstanceByInstanceIdRequest),
+    get_prfs_proof_instance_by_short_id(GetPrfsProofInstanceByShortIdRequest),
+    create_prfs_proof_instance(CreatePrfsProofInstanceRequest),
+    get_prfs_proof_types(GetPrfsProofTypesRequest),
+    get_prfs_proof_type_by_proof_type_id(GetPrfsProofTypeByProofTypeIdRequest),
+    CreatePrfsProofType(CreatePrfsProofTypeRequest),
+    get_prfs_set_by_set_id(GetPrfsSetBySetIdRequest),
+    GetPrfsSets(GetPrfsSetsRequest),
+    GetPrfsSetsBySetType(GetPrfsSetsBySetTypeRequest),
+    create_prfs_set(CreatePrfsSetRequest),
+    CreatePrfsDynamicSetElement(CreatePrfsDynamicSetElementRequest),
+    create_tree_of_prfs_set(CreateTreeOfPrfsSetRequest),
+    import_prfs_set_elements(ImportPrfsSetElementsRequest),
+    get_prfs_set_elements(GetPrfsSetElementsRequest),
+    get_prfs_set_element(GetPrfsSetElementRequest),
+    get_prfs_tree_nodes_by_pos(GetPrfsTreeNodesByPosRequest),
+    GetPrfsTreeLeafNodesBySetId(GetPrfsTreeLeafNodesBySetIdRequest),
+    get_prfs_tree_leaf_indices(GetPrfsTreeLeafIndicesRequest),
+    UpdatePrfsTreeNode(UpdatePrfsTreeNodeRequest),
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[allow(non_camel_case_types)]
+#[serde(tag = "type")]
+#[ts(export)]
+pub enum PrfsApiResponse {
+    GetPrfsCircuits(GetPrfsCircuitsResponse),
+    GetPrfsCircuitByCircuitId(GetPrfsCircuitByCircuitIdResponse),
+    sign_in_prfs_account(PrfsSignInResponse),
+    sign_up_prfs_account(PrfsIdentitySignUpResponse),
+    GetPrfsCircuitDrivers(GetPrfsCircuitDriversResponse),
+    GetPrfsCircuitDriverByDriverId(GetPrfsCircuitDriverByDriverIdResponse),
+    GetPrfsCircuitTypes(GetPrfsCircuitTypesResponse),
+    GetPrfsCircuitTypeByCircuitTypeId(GetPrfsCircuitTypeByCircuitTypeIdResponse),
+    get_least_recent_prfs_index(GetLeastRecentPrfsIndexResponse),
+    get_prfs_indices(GetPrfsIndicesResponse),
+    add_prfs_index(AddPrfsIndexResponse),
+    GetPrfsPolls(GetPrfsPollsResponse),
+    CreatePrfsPoll(CreatePrfsPollResponse),
+    GetPrfsPollByPollId(GetPrfsPollByPollIdResponse),
+    SubmitPrfsPollResponse(SubmitPrfsPollResponseResponse),
+    GetPrfsProofInstances(GetPrfsProofInstancesResponse),
+    get_prfs_proof_instance_by_instance_id(GetPrfsProofInstanceByInstanceIdResponse),
+    get_prfs_proof_instance_by_short_id(GetPrfsProofInstanceByShortIdResponse),
+    create_prfs_proof_instance(CreatePrfsProofInstanceResponse),
+    get_prfs_proof_types(GetPrfsProofTypesResponse),
+    get_prfs_proof_type_by_proof_type_id(GetPrfsProofTypeByProofTypeIdResponse),
+    CreatePrfsProofType(CreatePrfsProofTypeResponse),
+    get_prfs_set_by_set_id(GetPrfsSetBySetIdResponse),
+    GetPrfsSets(GetPrfsSetsResponse),
+    GetPrfsSetsBySetType(GetPrfsSetsResponse),
+    create_prfs_set(CreatePrfsSetResponse),
+    CreatePrfsDynamicSetElement(CreatePrfsDynamicSetElementResponse),
+    create_tree_of_prfs_set(CreateTreeOfPrfsSetResponse),
+    import_prfs_set_elements(ImportPrfsSetElementsResponse),
+    get_prfs_set_elements(GetPrfsSetElementsResponse),
+    get_prfs_set_element(GetPrfsSetElementResponse),
+    get_prfs_tree_nodes_by_pos(GetPrfsTreeNodesResponse),
+    GetPrfsTreeLeafNodesBySetId(GetPrfsTreeNodesResponse),
+    get_prfs_tree_leaf_indices(GetPrfsTreeNodesResponse),
+    UpdatePrfsTreeNode(UpdatePrfsTreeNodeResponse),
+}

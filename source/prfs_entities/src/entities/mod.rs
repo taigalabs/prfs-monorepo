@@ -18,6 +18,7 @@ mod prfs_proof_instance;
 mod prfs_proof_type;
 mod prfs_set;
 mod prfs_set_elements;
+mod prfs_tree;
 mod prfs_tree_node;
 
 pub use eth_account::*;
@@ -40,4 +41,5 @@ pub use prfs_proof_instance::*;
 pub use prfs_proof_type::*;
 pub use prfs_set::*;
 pub use prfs_set_elements::*;
+pub use prfs_tree::*;
 pub use prfs_tree_node::*;

@@ -6,15 +6,15 @@ import { GetPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/
 import { GetPrfsIdSessionValueResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsIdSessionValueResponse";
 
 import { api } from "../utils";
-import { PrfsApiResponse } from "../types";
+import { ApiResponse } from "../types";
 
 type RequestTypes = PrfsIdSessionApiRequest["type"];
 
 type Resp<T extends RequestTypes> = //
   T extends "put_prfs_id_session_value"
-    ? PrfsApiResponse<PutPrfsIdSessionValueResponse>
+    ? ApiResponse<PutPrfsIdSessionValueResponse>
     : T extends "get_prfs_id_session_value"
-    ? PrfsApiResponse<GetPrfsIdSessionValueResponse>
+    ? ApiResponse<GetPrfsIdSessionValueResponse>
     : any;
 
 let endpoint: string;

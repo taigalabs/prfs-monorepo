@@ -1,7 +1,5 @@
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
-use uuid::Uuid;
 
 use crate::entities::PrfsCircuitType;
 

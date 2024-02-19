@@ -22,8 +22,7 @@ pub struct GetPrfsCircuitsResponse {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsCircuitByCircuitIdRequest {
-    #[ts(type = "'<Uuid>' | string")]
-    pub circuit_id: Uuid,
+    pub circuit_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

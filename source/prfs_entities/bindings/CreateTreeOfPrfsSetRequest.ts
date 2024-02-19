@@ -2,5 +2,6 @@
 
 export interface CreateTreeOfPrfsSetRequest {
   set_id: string;
+  tree_id: string;
   account_id: string;
 }

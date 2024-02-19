@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
@@ -61,7 +61,8 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
     useInfiniteQuery({
       queryKey: ["get_prfs_proof_types"],
       queryFn: async ({ pageParam }) => {
-        return prfsApi2("get_prfs_proof_types", { offset: pageParam as number });
+        // return prfsApi2("get_prfs_proof_types", { offset: pageParam as number });
+        return prfsApi3({ type: "get_prfs_proof_types", offset: pageParam as number });
       },
       initialPageParam: 0,
       getNextPageParam: lastPage => {

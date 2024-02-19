@@ -7,7 +7,7 @@ import JSONBig from "json-bigint";
 import ProofBanner from "@taigalabs/prfs-react-lib/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-lib/src/social_share_popover/SocialSharePopover";
 import SaveProofPopover from "@taigalabs/prfs-react-lib/src/save_proof_popover/SaveProofPopover";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 import { Proof } from "@taigalabs/prfs-driver-interface";
@@ -39,7 +39,8 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
   const { mutateAsync: getPrfsProofInstanceByInstanceIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofInstanceByInstanceIdRequest) => {
-      return prfsApi2("get_prfs_proof_instance_by_instance_id", req);
+      // return prfsApi2("get_prfs_proof_instance_by_instance_id", req);
+      return prfsApi3({ type: "get_prfs_proof_instance_by_instance_id", ...req });
     },
   });
   const handleSelectProofType = useSelectProofType();

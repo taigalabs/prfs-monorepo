@@ -3,7 +3,7 @@ import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaTree } from "@react-icons/all-files/fa/FaTree";
 import { useMutation } from "@tanstack/react-query";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreateTreeOfPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreateTreeOfPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
@@ -20,6 +20,7 @@ import {
 } from "@/components/dialog_default/DialogComponents";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
 import { isMasterAccountId } from "@/mock/mock_data";
+import { useRandomKeyPair } from "@/hooks/key";
 
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 
@@ -82,7 +83,8 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: createTreeRequest } = useMutation({
     mutationFn: (req: CreateTreeOfPrfsSetRequest) => {
-      return prfsApi2("create_tree_of_prfs_set", req);
+      // return prfsApi2("create_tree_of_prfs_set", req);
+      return prfsApi3({ type: "create_tree_of_prfs_set", ...req });
     },
   });
   const { prfsProofCredential } = useSignedInUser();
@@ -93,8 +95,11 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
     if (prfsProofCredential && isMasterAccountId(prfsProofCredential.account_id)) {
       setComputeStatus(CommonStatus.InProgress);
       try {
+        const { pkHex } = useRandomKeyPair();
+
         const { payload, error } = await createTreeRequest({
           set_id: CRYPTO_HOLDERS_SET_ID,
+          tree_id: pkHex,
           account_id: prfsProofCredential.account_id,
         });
 

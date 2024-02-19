@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 pub async fn get_prfs_circuit_syn1_by_circuit_id(
     pool: &Pool<Postgres>,
-    circuit_id: &Uuid,
+    circuit_id: &String,
 ) -> PrfsCircuitSyn1 {
     let query = r#"
 SELECT pc.*, pct.circuit_inputs_meta 

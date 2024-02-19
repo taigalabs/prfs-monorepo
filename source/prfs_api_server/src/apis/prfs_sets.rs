@@ -9,11 +9,11 @@ use prfs_db_interface::prfs;
 use prfs_entities::{
     entities::PrfsTreeNode,
     prfs_api::{
-        ComputePrfsSetMerkleRootRequest, ComputePrfsSetMerkleRootResponse,
-        CreatePrfsDynamicSetElementRequest, CreatePrfsDynamicSetElementResponse,
-        CreatePrfsSetRequest, CreatePrfsSetResponse, CreateTreeOfPrfsSetRequest,
-        CreateTreeOfPrfsSetResponse, GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse,
-        GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest, GetPrfsSetsResponse,
+        ComputePrfsSetMerkleRootResponse, CreatePrfsDynamicSetElementRequest,
+        CreatePrfsDynamicSetElementResponse, CreatePrfsSetRequest, CreatePrfsSetResponse,
+        CreateTreeOfPrfsSetRequest, CreateTreeOfPrfsSetResponse, GetPrfsSetBySetIdRequest,
+        GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
+        GetPrfsSetsResponse,
     },
 };
 use prfs_tree_maker::apis2::tree;
@@ -89,94 +89,94 @@ pub async fn create_prfs_set(req: Request<Incoming>, state: Arc<ServerState>) ->
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn create_prfs_dynamic_set_element(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: CreatePrfsDynamicSetElementRequest = parse_req(req).await;
-    let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+// pub async fn create_prfs_dynamic_set_element(
+//     req: Request<Incoming>,
+//     state: Arc<ServerState>,
+// ) -> ApiHandlerResult {
+//     let req: CreatePrfsDynamicSetElementRequest = parse_req(req).await;
+//     let pool = &state.db2.pool;
+//     let mut tx = pool.begin().await.unwrap();
 
-    let largest_pos_w = prfs::get_largest_pos_w_tree_leaf_node(&pool, &req.set_id)
-        .await
-        .unwrap();
+//     let largest_pos_w = prfs::get_largest_pos_w_tree_leaf_node(&pool, &req.set_id)
+//         .await
+//         .unwrap();
 
-    let pos_w = if let Some(pos_w) = largest_pos_w {
-        pos_w + Decimal::from(1)
-    } else {
-        Decimal::from(0)
-    };
+//     let pos_w = if let Some(pos_w) = largest_pos_w {
+//         pos_w + Decimal::from(1)
+//     } else {
+//         Decimal::from(0)
+//     };
 
-    let node = PrfsTreeNode {
-        pos_w,
-        pos_h: 0,
-        val: req.val.to_string(),
-        meta: Some(req.meta),
-        set_id: req.set_id,
-    };
+//     let node = PrfsTreeNode {
+//         pos_w,
+//         pos_h: 0,
+//         val: req.val.to_string(),
+//         meta: Some(req.meta),
+//         set_id: req.set_id,
+//     };
 
-    let pos_w = prfs::insert_prfs_tree_node(&mut tx, &node).await.unwrap();
+//     let pos_w = prfs::insert_prfs_tree_node(&mut tx, &node).await.unwrap();
 
-    tx.commit().await.unwrap();
+//     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreatePrfsDynamicSetElementResponse { pos_w });
+//     let resp = ApiResponse::new_success(CreatePrfsDynamicSetElementResponse { pos_w });
 
-    return Ok(resp.into_hyper_response());
-}
+//     return Ok(resp.into_hyper_response());
+// }
 
-pub async fn compute_prfs_set_merkle_root(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: ComputePrfsSetMerkleRootRequest = parse_req(req).await;
-    let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+// pub async fn compute_prfs_set_merkle_root(
+//     req: Request<Incoming>,
+//     state: Arc<ServerState>,
+// ) -> ApiHandlerResult {
+//     let req: ComputePrfsSetMerkleRootRequest = parse_req(req).await;
+//     let pool = &state.db2.pool;
+//     let mut tx = pool.begin().await.unwrap();
 
-    let required_policy = String::from("COMPUTE_MERKLE_ROOT");
+//     let required_policy = String::from("COMPUTE_MERKLE_ROOT");
 
-    let prfs_account = prfs::get_prfs_account_by_account_id(pool, &req.account_id)
-        .await
-        .unwrap();
+//     let prfs_account = prfs::get_prfs_account_by_account_id(pool, &req.account_id)
+//         .await
+//         .unwrap();
 
-    println!("prfs_account: {:?}", prfs_account);
+//     println!("prfs_account: {:?}", prfs_account);
 
-    if !prfs_account.policy_ids.contains(&required_policy) {
-        return Err(ApiHandleError::from(
-            &API_ERROR_CODES.NO_POLICY_ATTACHED,
-            required_policy.into(),
-        ));
-    }
+//     if !prfs_account.policy_ids.contains(&required_policy) {
+//         return Err(ApiHandleError::from(
+//             &API_ERROR_CODES.NO_POLICY_ATTACHED,
+//             required_policy.into(),
+//         ));
+//     }
 
-    let mut prfs_set = prfs::get_prfs_set_by_set_id(pool, &req.set_id)
-        .await
-        .unwrap();
+//     let mut prfs_set = prfs::get_prfs_set_by_set_id(pool, &req.set_id)
+//         .await
+//         .unwrap();
 
-    let deleted_row_count = prfs::delete_prfs_non_leaf_nodes_by_set_id(&mut tx, &req.set_id)
-        .await
-        .unwrap();
+//     let deleted_row_count = prfs::delete_prfs_non_leaf_nodes_by_set_id(&mut tx, &req.set_id)
+//         .await
+//         .unwrap();
 
-    println!(
-        "Deleted non leaf nodes, count: {}, set_id: {}",
-        deleted_row_count, &req.set_id
-    );
+//     println!(
+//         "Deleted non leaf nodes, count: {}, set_id: {}",
+//         deleted_row_count, &req.set_id
+//     );
 
-    let leaf_nodes = prfs::get_prfs_tree_leaf_nodes_by_set_id(pool, &req.set_id, 0, 60000)
-        .await
-        .unwrap();
+//     let leaf_nodes = prfs::get_prfs_tree_leaf_nodes_by_set_id(pool, &req.set_id, 0, 60000)
+//         .await
+//         .unwrap();
 
-    let merkle_root = tree_maker_apis::create_tree_nodes(&mut tx, &mut prfs_set, &leaf_nodes)
-        .await
-        .unwrap();
+//     let merkle_root = tree_maker_apis::create_tree_nodes(&mut tx, &mut prfs_set, &leaf_nodes)
+//         .await
+//         .unwrap();
 
-    tx.commit().await.unwrap();
+//     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(ComputePrfsSetMerkleRootResponse {
-        set_id: req.set_id,
-        merkle_root,
-    });
+//     let resp = ApiResponse::new_success(ComputePrfsSetMerkleRootResponse {
+//         set_id: req.set_id,
+//         merkle_root,
+//     });
 
-    return Ok(resp.into_hyper_response());
-}
+//     return Ok(resp.into_hyper_response());
+// }
 
 pub async fn create_tree_of_prfs_set(
     req: Request<Incoming>,
@@ -209,6 +209,7 @@ pub async fn create_tree_of_prfs_set(
             pos_h: 0,
             meta: None,
             val,
+            tree_id: req.tree_id.to_string(),
             set_id: set.set_id.to_string(),
         };
 
@@ -235,6 +236,7 @@ pub async fn create_tree_of_prfs_set(
                 pos_h: (d + 1) as i32,
                 meta: None,
                 val,
+                tree_id: req.tree_id.to_string(),
                 set_id: set.set_id.to_string(),
             };
 
@@ -248,27 +250,6 @@ pub async fn create_tree_of_prfs_set(
         count += parent_nodes.len();
     }
 
-    // println!("parents: {:?}", parents);
-
-    // let largest_pos_w = prfs::get_largest_pos_w_tree_leaf_node(&pool, &req.set_id)
-    //     .await
-    //     .unwrap();
-
-    // let pos_w = if let Some(pos_w) = largest_pos_w {
-    //     pos_w + Decimal::from(1)
-    // } else {
-    //     Decimal::from(0)
-    // };
-
-    // let node = PrfsTreeNode {
-    //     pos_w,
-    //     pos_h: 0,
-    //     val: req.val.to_string(),
-    //     meta: Some(req.meta),
-    //     set_id: req.set_id,
-    // };
-
-    // let pos_w = prfs::insert_prfs_tree_node(&mut tx, &node).await.unwrap();
     let merkle_root = parent_nodes[0].val.to_string();
     set.merkle_root = merkle_root.to_string();
     set.cardinality = count as i64;
