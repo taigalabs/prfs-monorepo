@@ -10,6 +10,9 @@ pub struct CreatePrfsTreeByPrfsSetRequest {
     pub tree_label: String,
     pub tree_id: String,
     pub account_id: String,
+    // pub tree_depth: i16,
+    // pub finite_field: String,
+    // pub elliptic_curve: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

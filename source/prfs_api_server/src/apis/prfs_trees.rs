@@ -16,6 +16,10 @@ use prfs_tree_maker::apis2::tree;
 use rust_decimal::Decimal;
 use std::sync::Arc;
 
+const TREE_DEPTH: i16 = 32;
+const FINITE_FIELD: &str = "Z_(2^256-2^32-977)";
+const ELLIPTIC_CURVE: &str = "Secp256k1";
+
 pub async fn create_prfs_tree_by_prfs_set(
     req: Request<Incoming>,
     state: Arc<ServerState>,
@@ -31,13 +35,6 @@ pub async fn create_prfs_tree_by_prfs_set(
     let set_elements = prfs::get_prfs_set_elements(&pool, &set.set_id, 0, 50000)
         .await
         .unwrap();
-
-    let tree = PrfsTree {
-        label: req.tree_label.to_string(),
-        tree_id: req.tree_id.to_string(),
-        set_id: req.set_id.to_string(),
-    };
-    prfs::insert_prfs_tree(&mut tx, &tree).await.unwrap();
 
     let mut count = 0;
     let leaves = tree::create_leaves(&set_elements).unwrap();
@@ -64,7 +61,7 @@ pub async fn create_prfs_tree_by_prfs_set(
 
     let mut children = leaves;
     let mut parent_nodes = vec![];
-    for d in 0..set.tree_depth {
+    for d in 0..req.tree_depth {
         let parents = tree::calc_parent_nodes(&children).unwrap();
         // println!("d: {}, parents: {:?}", d, parents);
 
@@ -92,9 +89,19 @@ pub async fn create_prfs_tree_by_prfs_set(
     }
 
     let merkle_root = parent_nodes[0].val.to_string();
-    set.merkle_root = merkle_root.to_string();
     set.cardinality = count as i64;
     prfs::upsert_prfs_set(&mut tx, &set).await.unwrap();
+
+    let tree = PrfsTree {
+        label: req.tree_label.to_string(),
+        tree_id: req.tree_id.to_string(),
+        set_id: req.set_id.to_string(),
+        merkle_root: merkle_root.to_string(),
+        tree_depth: TREE_DEPTH,
+        finite_field: FINITE_FIELD.to_string(),
+        elliptic_curve: ELLIPTIC_CURVE.to_string(),
+    };
+    prfs::insert_prfs_tree(&mut tx, &tree).await.unwrap();
 
     tx.commit().await.unwrap();
 

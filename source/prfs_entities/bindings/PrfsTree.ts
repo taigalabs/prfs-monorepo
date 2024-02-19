@@ -4,4 +4,8 @@ export interface PrfsTree {
   label: string;
   tree_id: string;
   set_id: string;
+  merkle_root: string;
+  tree_depth: number;
+  finite_field: string;
+  elliptic_curve: string;
 }

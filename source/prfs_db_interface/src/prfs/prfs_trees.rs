@@ -26,11 +26,19 @@ LIMIT 1
         let label = r.try_get("label").expect("label should exist");
         let tree_id = r.try_get("tree_id").expect("tree_id should exist");
         let set_id = r.try_get("set_id").expect("set_id should exist");
+        let merkle_root = r.try_get("merkle_root").expect("invalid merkle_root");
+        let elliptic_curve = r.try_get("elliptic_curve").expect("invalid element_curve");
+        let finite_field = r.try_get("finite_field").expect("invalid finite_field");
+        let tree_depth = r.get("tree_depth");
 
         let t = PrfsTree {
             label,
             tree_id,
             set_id,
+            merkle_root,
+            elliptic_curve,
+            finite_field,
+            tree_depth,
         };
 
         Ok(Some(t))

@@ -8,7 +8,7 @@ import { useI18N } from "@/i18n/use_i18n";
 
 const LatestTree: React.FC<SetProps> = ({ set_id }) => {
   const i18n = useI18N();
-  const { isLoading, data, error } = useQuery({
+  const { isFetching, data, error } = useQuery({
     queryKey: ["get_latest_tree_by_set_id", set_id],
     queryFn: async () => {
       return prfsApi3({
@@ -18,7 +18,19 @@ const LatestTree: React.FC<SetProps> = ({ set_id }) => {
     },
   });
 
-  return <div className={styles.wrapper}></div>;
+  const elem = React.useMemo(() => {
+    if (data?.payload?.prfs_tree) {
+      const { tree_id } = data.payload.prfs_tree;
+      return <p>{tree_id}</p>;
+    } else return null;
+  }, [data]);
+
+  return (
+    <div className={styles.wrapper}>
+      {isFetching && <span>{i18n.loading}...</span>}
+      <div>{elem}</div>
+    </div>
+  );
 };
 
 export default LatestTree;
