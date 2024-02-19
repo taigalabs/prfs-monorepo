@@ -35,6 +35,7 @@ import { FormErrors, FormValues } from "@/components/circuit_input_items/formErr
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
+import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -74,11 +75,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     },
   });
 
-  const { mutateAsync: getLatestPrfsTreeBySetId } = useMutation({
-    mutationFn: (req: GetPrfsSetElementRequest) => {
-      return prfsApi3({ type: "get_latest_prfs_tree_by_set_id", ...req });
-    },
-  });
+  const { isPending: getLatestPrfsTreePending, mutateAsync: getLatestPrfsTreeBySetId } =
+    useMutation({
+      mutationFn: (req: GetLatestPrfsTreeBySetIdRequest) => {
+        return prfsApi3({ type: "get_latest_prfs_tree_by_set_id", ...req });
+      },
+    });
 
   const { mutateAsync: getPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
@@ -94,7 +96,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
   const { mutateAsync: getPrfsTreeNodesByPosRequest } = useMutation({
     mutationFn: (req: GetPrfsTreeNodesByPosRequest) => {
-      // return prfsApi2("get_prfs_tree_nodes_by_pos", req);
       return prfsApi3({ type: "get_prfs_tree_nodes_by_pos", ...req });
     },
   });
@@ -166,14 +167,35 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         };
       });
 
-      const { set_id, merkle_root } = prfsSet;
-      try {
-        const { range_data } = circuitTypeData;
-        if (!range_data) {
-          throw new Error("range_data is empty");
-        }
+      const { set_id } = prfsSet;
+      const { range_data } = circuitTypeData;
+      if (!range_data) {
+        setFormErrors(prevVals => {
+          return {
+            ...prevVals,
+            merkleProof: "range_data is empty",
+          };
+        });
+        return;
+      }
 
+      try {
         // Merkle setup
+        const { payload: getLatestPrfsTreeBySetIdPayload } = await getLatestPrfsTreeBySetId({
+          set_id,
+        });
+
+        if (getLatestPrfsTreeBySetIdPayload?.prfs_tree === null) {
+          setFormErrors(prevVals => {
+            return {
+              ...prevVals,
+              merkleProof: "Tree does not exist",
+            };
+          });
+          return;
+        }
+        const { prfs_tree } = getLatestPrfsTreeBySetIdPayload;
+
         const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
           label: addr,
@@ -363,8 +385,10 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       getPrfsTreeLeafIndices,
       getLatestPrfsTreeBySetId,
       setFormErrors,
+      getLatestPrfsTreePending,
       getPrfsSetElement,
       setRangeOptionIdx,
+      getLatestPrfsTreePending,
     ],
   );
 
