@@ -18,7 +18,7 @@ import { ComputeCryptoAssetSizeTotalValuesRequest } from "@taigalabs/prfs-entiti
 import { ComputeCryptoAssetSizeTotalValuesResponse } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetSizeTotalValuesResponse";
 
 import { api } from "../utils";
-import { PrfsApiResponse } from "../types";
+import { ApiResponse } from "../types";
 
 type RequestName =
   | "attest_twitter_acc"
@@ -54,23 +54,23 @@ type Req<T extends RequestName> = //
 
 type Resp<T extends RequestName> = //
   T extends "attest_twitter_acc"
-    ? PrfsApiResponse<AttestTwitterAccResponse>
+    ? ApiResponse<AttestTwitterAccResponse>
     : T extends "validate_twitter_acc"
-    ? PrfsApiResponse<ValidateTwitterAccResponse>
+    ? ApiResponse<ValidateTwitterAccResponse>
     : T extends "get_twitter_acc_atsts"
-    ? PrfsApiResponse<GetTwitterAccAtstsResponse>
+    ? ApiResponse<GetTwitterAccAtstsResponse>
     : T extends "get_twitter_acc_atst"
-    ? PrfsApiResponse<GetTwitterAccAtstResponse>
+    ? ApiResponse<GetTwitterAccAtstResponse>
     : T extends "fetch_crypto_asset"
-    ? PrfsApiResponse<FetchCryptoAssetResponse>
+    ? ApiResponse<FetchCryptoAssetResponse>
     : T extends "create_crypto_asset_size_atst"
-    ? PrfsApiResponse<CreateCryptoAssetSizeAtstResponse>
+    ? ApiResponse<CreateCryptoAssetSizeAtstResponse>
     : T extends "get_crypto_asset_size_atsts"
-    ? PrfsApiResponse<GetCryptoAssetSizeAtstsResponse>
+    ? ApiResponse<GetCryptoAssetSizeAtstsResponse>
     : T extends "get_crypto_asset_size_atst"
-    ? PrfsApiResponse<GetCryptoAssetSizeAtstResponse>
+    ? ApiResponse<GetCryptoAssetSizeAtstResponse>
     : T extends "compute_crypto_asset_size_total_values"
-    ? PrfsApiResponse<ComputeCryptoAssetSizeTotalValuesResponse>
+    ? ApiResponse<ComputeCryptoAssetSizeTotalValuesResponse>
     : any;
 
 let endpoint: string;

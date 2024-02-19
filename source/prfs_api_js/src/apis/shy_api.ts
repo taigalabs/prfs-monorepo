@@ -6,7 +6,7 @@ import { GetShyChannelsRequest } from "@taigalabs/prfs-entities/bindings/GetShyC
 import { GetShyChannelsResponse } from "@taigalabs/prfs-entities/bindings/GetShyChannelsResponse";
 
 import { api } from "../utils";
-import { PrfsApiResponse } from "../types";
+import { ApiResponse } from "../types";
 
 type RequestName = "create_shy_post" | "get_shy_posts" | "get_shy_channels";
 
@@ -21,11 +21,11 @@ type Req<T extends RequestName> = //
 
 type Resp<T> = //
   T extends "create_shy_post"
-    ? PrfsApiResponse<CreateShyPostResponse>
+    ? ApiResponse<CreateShyPostResponse>
     : T extends "get_shy_posts"
-    ? PrfsApiResponse<GetShyPostsResponse>
+    ? ApiResponse<GetShyPostsResponse>
     : T extends "get_shy_channels"
-    ? PrfsApiResponse<GetShyChannelsResponse>
+    ? ApiResponse<GetShyChannelsResponse>
     : any;
 
 let endpoint: string;

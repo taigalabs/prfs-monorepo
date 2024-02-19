@@ -72,7 +72,7 @@ import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIn
 import { AddPrfsIndexResponse } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexResponse";
 
 import { api } from "../utils";
-import { PrfsApiResponse } from "../types";
+import { ApiResponse } from "../types";
 
 type RequestName =
   | "sign_up_prfs_account"
@@ -194,81 +194,81 @@ type Req<T extends RequestName> = //
 
 type Resp<T> = //
   T extends "sign_up_prfs_account"
-    ? PrfsApiResponse<PrfsSignUpResponse>
+    ? ApiResponse<PrfsSignUpResponse>
     : T extends "sign_in_prfs_account"
-    ? PrfsApiResponse<PrfsSignInResponse>
+    ? ApiResponse<PrfsSignInResponse>
     : T extends "get_prfs_circuit_drivers"
-    ? PrfsApiResponse<GetPrfsCircuitDriversResponse>
+    ? ApiResponse<GetPrfsCircuitDriversResponse>
     : T extends "get_prfs_circuit_driver_by_driver_id"
-    ? PrfsApiResponse<GetPrfsCircuitDriverByDriverIdResponse>
+    ? ApiResponse<GetPrfsCircuitDriverByDriverIdResponse>
     : T extends "get_prfs_circuit_types"
-    ? PrfsApiResponse<GetPrfsCircuitTypesResponse>
+    ? ApiResponse<GetPrfsCircuitTypesResponse>
     : T extends "get_prfs_circuit_type_by_circuit_type_id"
-    ? PrfsApiResponse<GetPrfsCircuitTypeByCircuitTypeIdResponse>
+    ? ApiResponse<GetPrfsCircuitTypeByCircuitTypeIdResponse>
     : T extends "get_prfs_circuits"
-    ? PrfsApiResponse<GetPrfsCircuitsResponse>
+    ? ApiResponse<GetPrfsCircuitsResponse>
     : T extends "get_prfs_circuit_by_circuit_id"
-    ? PrfsApiResponse<GetPrfsCircuitByCircuitIdResponse>
+    ? ApiResponse<GetPrfsCircuitByCircuitIdResponse>
     : T extends "create_prfs_proof_instance"
-    ? PrfsApiResponse<CreatePrfsProofInstanceResponse>
+    ? ApiResponse<CreatePrfsProofInstanceResponse>
     : T extends "get_prfs_proof_instances"
-    ? PrfsApiResponse<GetPrfsProofInstancesResponse>
+    ? ApiResponse<GetPrfsProofInstancesResponse>
     : T extends "get_prfs_proof_instance_by_instance_id"
-    ? PrfsApiResponse<GetPrfsProofInstanceByInstanceIdResponse>
+    ? ApiResponse<GetPrfsProofInstanceByInstanceIdResponse>
     : T extends "get_prfs_proof_instance_by_short_id"
-    ? PrfsApiResponse<GetPrfsProofInstanceByShortIdResponse>
+    ? ApiResponse<GetPrfsProofInstanceByShortIdResponse>
     : T extends "create_prfs_proof_type"
-    ? PrfsApiResponse<CreatePrfsProofTypeResponse>
+    ? ApiResponse<CreatePrfsProofTypeResponse>
     : T extends "get_prfs_proof_types"
-    ? PrfsApiResponse<GetPrfsProofTypesResponse>
+    ? ApiResponse<GetPrfsProofTypesResponse>
     : T extends "get_prfs_proof_type_by_proof_type_id"
-    ? PrfsApiResponse<GetPrfsProofTypeByProofTypeIdResponse>
+    ? ApiResponse<GetPrfsProofTypeByProofTypeIdResponse>
     : T extends "get_prfs_sets"
-    ? PrfsApiResponse<GetPrfsSetsResponse>
+    ? ApiResponse<GetPrfsSetsResponse>
     : T extends "create_prfs_set"
-    ? PrfsApiResponse<CreatePrfsSetResponse>
+    ? ApiResponse<CreatePrfsSetResponse>
     : T extends "get_prfs_sets_by_set_type"
-    ? PrfsApiResponse<GetPrfsSetsResponse>
+    ? ApiResponse<GetPrfsSetsResponse>
     : T extends "get_prfs_set_by_set_id"
-    ? PrfsApiResponse<GetPrfsSetBySetIdResponse>
+    ? ApiResponse<GetPrfsSetBySetIdResponse>
     : T extends "create_prfs_dynamic_set_element"
-    ? PrfsApiResponse<CreatePrfsDynamicSetElementResponse>
+    ? ApiResponse<CreatePrfsDynamicSetElementResponse>
     : T extends "get_prfs_tree_nodes_by_pos"
-    ? PrfsApiResponse<GetPrfsTreeNodesResponse>
+    ? ApiResponse<GetPrfsTreeNodesResponse>
     : T extends "get_prfs_tree_leaf_nodes_by_set_id"
-    ? PrfsApiResponse<GetPrfsTreeNodesResponse>
+    ? ApiResponse<GetPrfsTreeNodesResponse>
     : T extends "get_prfs_tree_leaf_indices"
-    ? PrfsApiResponse<GetPrfsTreeNodesResponse>
+    ? ApiResponse<GetPrfsTreeNodesResponse>
     : T extends "update_prfs_tree_node"
-    ? PrfsApiResponse<UpdatePrfsTreeNodeResponse>
+    ? ApiResponse<UpdatePrfsTreeNodeResponse>
     : // : T extends "compute_prfs_set_merkle_root"
-    // ? PrfsApiResponse<ComputePrfsSetMerkleRootResponse>
+    // ? ApiResponse<ComputePrfsSetMerkleRootResponse>
     T extends "create_prfs_poll"
-    ? PrfsApiResponse<CreatePrfsPollResponse>
+    ? ApiResponse<CreatePrfsPollResponse>
     : T extends "get_prfs_polls"
-    ? PrfsApiResponse<GetPrfsPollsResponse>
+    ? ApiResponse<GetPrfsPollsResponse>
     : T extends "get_prfs_poll_by_poll_id"
-    ? PrfsApiResponse<GetPrfsPollByPollIdResponse>
+    ? ApiResponse<GetPrfsPollByPollIdResponse>
     : T extends "submit_prfs_poll_response"
-    ? PrfsApiResponse<SubmitPrfsPollResponseResponse>
+    ? ApiResponse<SubmitPrfsPollResponseResponse>
     : T extends "get_prfs_poll_result_by_poll_id"
-    ? PrfsApiResponse<GetPrfsPollResultByPollIdResponse>
+    ? ApiResponse<GetPrfsPollResultByPollIdResponse>
     : T extends "import_prfs_atsts_to_prfs_set"
-    ? PrfsApiResponse<GetPrfsPollResultByPollIdResponse>
+    ? ApiResponse<GetPrfsPollResultByPollIdResponse>
     : T extends "import_prfs_set_elements"
-    ? PrfsApiResponse<ImportPrfsSetElementsResponse>
+    ? ApiResponse<ImportPrfsSetElementsResponse>
     : T extends "get_prfs_set_elements"
-    ? PrfsApiResponse<GetPrfsSetElementsResponse>
+    ? ApiResponse<GetPrfsSetElementsResponse>
     : T extends "get_prfs_set_element"
-    ? PrfsApiResponse<GetPrfsSetElementResponse>
+    ? ApiResponse<GetPrfsSetElementResponse>
     : T extends "create_tree_of_prfs_set"
-    ? PrfsApiResponse<CreateTreeOfPrfsSetResponse>
+    ? ApiResponse<CreateTreeOfPrfsSetResponse>
     : T extends "get_least_recent_prfs_index"
-    ? PrfsApiResponse<GetLeastRecentPrfsIndexResponse>
+    ? ApiResponse<GetLeastRecentPrfsIndexResponse>
     : T extends "get_prfs_indices"
-    ? PrfsApiResponse<GetPrfsIndicesResponse>
+    ? ApiResponse<GetPrfsIndicesResponse>
     : T extends "add_prfs_index"
-    ? PrfsApiResponse<AddPrfsIndexResponse>
+    ? ApiResponse<AddPrfsIndexResponse>
     : any;
 
 let endpoint: string;
@@ -291,4 +291,4 @@ export async function prfsApi2<T extends RequestName>(name: T, req: Req<T>): Pro
   )) as Resp<T>;
 }
 
-export { prfs_api_error_codes, type PrfsApiResponse };
+export { prfs_api_error_codes, type ApiResponse };

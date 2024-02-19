@@ -4,7 +4,7 @@ import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/Prf
 import { PrfsIdentitySignInResponse } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInResponse";
 
 import { api } from "../utils";
-import { PrfsApiResponse } from "../types";
+import { ApiResponse } from "../types";
 
 type RequestName = "sign_up_prfs_identity" | "sign_in_prfs_identity";
 
@@ -17,9 +17,9 @@ type Req<T extends RequestName> = //
 
 type Resp<T> = //
   T extends "sign_up_prfs_identity"
-    ? PrfsApiResponse<PrfsIdentitySignUpResponse>
+    ? ApiResponse<PrfsIdentitySignUpResponse>
     : T extends "sign_in_prfs_identity"
-    ? PrfsApiResponse<PrfsIdentitySignInResponse>
+    ? ApiResponse<PrfsIdentitySignInResponse>
     : any;
 
 let endpoint: string;
