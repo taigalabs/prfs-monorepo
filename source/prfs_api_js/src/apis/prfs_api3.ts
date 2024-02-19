@@ -4,6 +4,14 @@ import { PrfsApiResponse } from "@taigalabs/prfs-entities/bindings/PrfsApiRespon
 
 import { api } from "../utils";
 import { ApiResponse } from "@/types";
+import { GetPrfsSetsResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsSetsResponse";
+import { GetPrfsCircuitByCircuitIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitByCircuitIdResponse";
+
+// type Payload<T extends PrfsApiRequest["type"]> = T extends "get_prfs_sets"
+//   ? PrfsApiResponse & { type: "get_prfs_sets" }
+//   : T extends "get_prfs_circuit_by_circuit_id"
+//   ? PrfsApiResponse & { type: "get_prfs_circuit_by_circuit_id" }
+//   : never;
 
 let endpoint: string;
 if (typeof process !== "undefined") {
@@ -15,7 +23,10 @@ if (typeof process !== "undefined") {
   throw new Error("process is undefined");
 }
 
-export async function prfsApi3(req: PrfsApiRequest): Promise<ApiResponse<PrfsApiResponse>> {
+export function prfsApi3<
+  T extends { type: PrfsApiRequest["type"] },
+  R extends { type: T["type"] } & PrfsApiResponse,
+>(req: T): R {
   // return (await api<T>(
   //   {
   //     path: name,
@@ -23,10 +34,19 @@ export async function prfsApi3(req: PrfsApiRequest): Promise<ApiResponse<PrfsApi
   //   },
   //   endpoint,
   // )) as Resp<T>;
+  //
+  return 1 as any;
 }
 
 async function a() {
-  let b = await prfsApi3({ type: "get_prfs_sets", page_size: 0, page_idx: 0 });
+  let b = prfsApi3({ type: "get_prfs_sets", page_size: 0, page_idx: 0 });
+  // b.type = "get_prfs_circuit_by_circuit_id";
 }
 
 export { prfs_api_error_codes, type PrfsApiResponse };
+
+type KeysFrom<T, U> = { [K in keyof U]: K extends keyof T ? U[K] : never };
+
+type D<T extends string> = Extract<PrfsApiResponse["type"], T>;
+
+// let a: D = { type: "get_prfs_sets" };
