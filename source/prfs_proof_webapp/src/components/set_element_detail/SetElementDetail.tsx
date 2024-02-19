@@ -29,12 +29,11 @@ const SetElementDetail: React.FC<SetElementDetailProps> = ({ element_label, set_
       //   label: element_label,
       //   set_id,
       // });
-      const a = await prfsApi3({
+      return prfsApi3({
         type: "get_prfs_set_element",
         label: element_label,
         set_id,
       });
-      return a;
     },
   });
   const setElement = data?.payload?.prfs_set_element;

@@ -39,7 +39,8 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
   const { mutateAsync: getPrfsProofInstanceByInstanceIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofInstanceByInstanceIdRequest) => {
-      return prfsApi2("get_prfs_proof_instance_by_instance_id", req);
+      // return prfsApi2("get_prfs_proof_instance_by_instance_id", req);
+      return prfsApi3({ type: "get_prfs_proof_instance_by_instance_id", ...req });
     },
   });
   const handleSelectProofType = useSelectProofType();
