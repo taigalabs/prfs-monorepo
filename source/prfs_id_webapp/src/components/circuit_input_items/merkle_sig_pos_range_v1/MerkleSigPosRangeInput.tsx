@@ -257,14 +257,27 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
               merkleProof: error,
             };
           });
+          return;
         }
 
         if (!payload) {
-          throw new Error("Get Prfs Tree Leaf Indices failed");
+          setFormErrors((prevVals: any) => {
+            return {
+              ...prevVals,
+              merkleProof: "Get Prfs Tree Leaf Indices failed",
+            };
+          });
+          return;
         }
 
         if (payload.prfs_tree_nodes.length < 1) {
-          throw new Error("Empty tree nodes response");
+          setFormErrors((prevVals: any) => {
+            return {
+              ...prevVals,
+              merkleProof: `${addr} is not part of a ${set_id}`,
+            };
+          });
+          return;
         }
 
         let pos_w = payload.prfs_tree_nodes[0].pos_w;
