@@ -25,7 +25,7 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
         <AttestationsHeaderRow>
           <AttestationsTitle className={styles.title}>{i18n.crypto_holders}</AttestationsTitle>
         </AttestationsHeaderRow>
-        <AttestationsHeaderRow>
+        <AttestationsHeaderRow className={styles.headerRow}>
           <ul className={styles.topMenu}>
             <li>
               <ImportSetElementsDialog rerender={rerender} />
@@ -34,6 +34,7 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
               <CreateTreeDialog rerender={rerender} />
             </li>
           </ul>
+          <div>po123</div>
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>

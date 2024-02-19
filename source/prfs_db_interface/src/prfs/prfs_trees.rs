@@ -3,35 +3,36 @@ use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 
 use crate::DbInterfaceError;
 
-// pub async fn get_prfs_tree_root(
-//     pool: &Pool<Postgres>,
-//     set_id: &String,
-// ) -> Result<PrfsTreeNode, DbInterfaceError> {
-//     let query = format!("SELECT * from prfs_tree_nodes where set_id=$1 and pos_h=31 and pos_w=0",);
-//     // println!("query: {}", query);
+pub async fn get_latest_prfs_tree_by_set_id(
+    pool: &Pool<Postgres>,
+    set_id: &String,
+) -> Result<PrfsTree, DbInterfaceError> {
+    let query = r#"
+SELECT * 
+FROM prfs_trees
+WHERE set_id=$1
+ORDER_BY updated_at
+DESC
+"#;
 
-//     let row = sqlx::query(&query)
-//         .bind(&set_id)
-//         .fetch_one(pool)
-//         .await
-//         .unwrap();
+    let row = sqlx::query(&query)
+        .bind(&set_id)
+        .fetch_one(pool)
+        .await
+        .unwrap();
 
-//     let pos_w = row.try_get("pos_w").expect("pos_w should exist");
-//     let pos_h = row.try_get("pos_h").expect("pos_h should exist");
-//     let val = row.try_get("val").expect("val should exist");
-//     let set_id = row.try_get("set_id").expect("set_id should exist");
-//     let meta = row.get("meta");
+    let label = row.try_get("label").expect("label should exist");
+    let tree_id = row.try_get("tree_id").expect("tree_id should exist");
+    let set_id = row.try_get("set_id").expect("set_id should exist");
 
-//     let n = PrfsTreeNode {
-//         pos_w,
-//         pos_h,
-//         val,
-//         set_id,
-//         meta,
-//     };
+    let n = PrfsTree {
+        label,
+        tree_id,
+        set_id,
+    };
 
-//     Ok(n)
-// }
+    Ok(n)
+}
 
 pub async fn insert_prfs_tree(
     tx: &mut Transaction<'_, Postgres>,

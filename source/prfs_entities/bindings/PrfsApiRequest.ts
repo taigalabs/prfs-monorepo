@@ -6,6 +6,7 @@ import type { CreatePrfsProofInstanceRequest } from "./CreatePrfsProofInstanceRe
 import type { CreatePrfsProofTypeRequest } from "./CreatePrfsProofTypeRequest";
 import type { CreatePrfsSetRequest } from "./CreatePrfsSetRequest";
 import type { CreateTreeOfPrfsSetRequest } from "./CreateTreeOfPrfsSetRequest";
+import type { GetLatestPrfsTreeBySetIdRequest } from "./GetLatestPrfsTreeBySetIdRequest";
 import type { GetLeastRecentPrfsIndexRequest } from "./GetLeastRecentPrfsIndexRequest";
 import type { GetPrfsCircuitByCircuitIdRequest } from "./GetPrfsCircuitByCircuitIdRequest";
 import type { GetPrfsCircuitDriverByDriverIdRequest } from "./GetPrfsCircuitDriverByDriverIdRequest";
@@ -70,4 +71,5 @@ export type PrfsApiRequest =
   | ({ type: "get_prfs_tree_nodes_by_pos" } & GetPrfsTreeNodesByPosRequest)
   | ({ type: "GetPrfsTreeLeafNodesBySetId" } & GetPrfsTreeLeafNodesBySetIdRequest)
   | ({ type: "get_prfs_tree_leaf_indices" } & GetPrfsTreeLeafIndicesRequest)
-  | ({ type: "UpdatePrfsTreeNode" } & UpdatePrfsTreeNodeRequest);
+  | ({ type: "UpdatePrfsTreeNode" } & UpdatePrfsTreeNodeRequest)
+  | ({ type: "get_latest_tree_by_set_id" } & GetLatestPrfsTreeBySetIdRequest);
