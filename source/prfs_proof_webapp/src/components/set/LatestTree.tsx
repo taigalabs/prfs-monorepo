@@ -23,18 +23,19 @@ const LatestTree: React.FC<SetProps> = ({ set_id, nonce }) => {
     if (data?.payload?.prfs_tree) {
       const { tree_id, merkle_root } = data.payload.prfs_tree;
       const treeId = abbrev5and5(tree_id);
+      const merkleRoot = abbrev5and5(merkle_root);
 
       return (
-        <div>
-          <div>
+        <ul className={styles.list}>
+          <li className={styles.item}>
             <p>{i18n.tree_id}</p>
             <p>{treeId}</p>
-          </div>
-          <div>
+          </li>
+          <li className={styles.item}>
             <p>{i18n.merkle_root}</p>
-            <p>{merkle_root}</p>
-          </div>
-        </div>
+            <p>{merkleRoot}</p>
+          </li>
+        </ul>
       );
     }
 
