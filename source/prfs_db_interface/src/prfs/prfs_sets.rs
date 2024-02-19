@@ -238,8 +238,8 @@ pub async fn upsert_prfs_set(
 INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
 element_type) 
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
-ON CONFLICT (set_id) DO UPDATE SET (cardinality, merkle_root,updated_at) = (excluded.cardinality,
-excluded.merkle_root, now())
+ON CONFLICT (set_id) 
+DO UPDATE SET (cardinality,updated_at) = (excluded.cardinality, now())
 RETURNING set_id
 "#;
 

@@ -53,9 +53,9 @@ pub async fn insert_prfs_tree(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_trees 
-(tree_id, set_id, "label")
-VALUES 
-($1, $2, $3) 
+(tree_id, set_id, "label", tree_depth, elliptic_curve, finite_field, merkle_root)
+VALUES
+($1, $2, $3, $4, $5, $6, $7)
 RETURNING tree_id
 "#;
 
@@ -63,6 +63,10 @@ RETURNING tree_id
         .bind(&tree.tree_id)
         .bind(&tree.set_id)
         .bind(&tree.label)
+        .bind(&tree.tree_depth)
+        .bind(&tree.elliptic_curve)
+        .bind(&tree.finite_field)
+        .bind(&tree.merkle_root)
         .fetch_one(&mut **tx)
         .await
         .expect(&format!("insertion failed, set_id: {}", tree.tree_id));

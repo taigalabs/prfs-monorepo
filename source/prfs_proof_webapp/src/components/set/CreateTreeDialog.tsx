@@ -107,7 +107,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
           setComputeStatus(CommonStatus.Standby);
           setComputeMsg(
             <>
-              <p className={common.redText}>{error}</p>
+              <p className={common.redText}>{error.toString()}</p>
             </>,
           );
         }
