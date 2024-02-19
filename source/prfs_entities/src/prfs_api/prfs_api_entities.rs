@@ -73,7 +73,7 @@ pub enum PrfsApiRequest {
     GetPrfsTreeLeafNodesBySetId(GetPrfsTreeLeafNodesBySetIdRequest),
     get_prfs_tree_leaf_indices(GetPrfsTreeLeafIndicesRequest),
     UpdatePrfsTreeNode(UpdatePrfsTreeNodeRequest),
-    get_latest_tree_by_set_id(GetLatestPrfsTreeBySetIdRequest),
+    get_latest_prfs_tree_by_set_id(GetLatestPrfsTreeBySetIdRequest),
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -116,5 +116,5 @@ pub enum PrfsApiResponse {
     GetPrfsTreeLeafNodesBySetId(GetPrfsTreeNodesResponse),
     get_prfs_tree_leaf_indices(GetPrfsTreeNodesResponse),
     UpdatePrfsTreeNode(UpdatePrfsTreeNodeResponse),
-    get_latest_tree_by_set_id(GetLatestPrfsTreeBySetIdResponse),
+    get_latest_prfs_tree_by_set_id(GetLatestPrfsTreeBySetIdResponse),
 }

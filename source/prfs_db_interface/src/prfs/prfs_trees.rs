@@ -11,7 +11,7 @@ pub async fn get_latest_prfs_tree_by_set_id(
 SELECT * 
 FROM prfs_trees
 WHERE set_id=$1
-ORDER_BY updated_at
+ORDER BY updated_at
 DESC
 "#;
 

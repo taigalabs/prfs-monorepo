@@ -14,6 +14,7 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import ImportSetElementsDialog from "./ImportSetElementsDialog";
 import CreateTreeDialog from "./CreateTreeDialog";
+import LatestTree from "./LatestTree";
 
 const Set: React.FC<SetProps> = ({ set_id }) => {
   const i18n = React.useContext(i18nContext);
@@ -34,7 +35,7 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
               <CreateTreeDialog rerender={rerender} />
             </li>
           </ul>
-          <div>po123</div>
+          <LatestTree set_id={set_id} />
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>

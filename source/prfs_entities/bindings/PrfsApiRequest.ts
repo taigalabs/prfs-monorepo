@@ -72,4 +72,4 @@ export type PrfsApiRequest =
   | ({ type: "GetPrfsTreeLeafNodesBySetId" } & GetPrfsTreeLeafNodesBySetIdRequest)
   | ({ type: "get_prfs_tree_leaf_indices" } & GetPrfsTreeLeafIndicesRequest)
   | ({ type: "UpdatePrfsTreeNode" } & UpdatePrfsTreeNodeRequest)
-  | ({ type: "get_latest_tree_by_set_id" } & GetLatestPrfsTreeBySetIdRequest);
+  | ({ type: "get_latest_prfs_tree_by_set_id" } & GetLatestPrfsTreeBySetIdRequest);
