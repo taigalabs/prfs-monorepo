@@ -1,4 +1,5 @@
 mod prfs_account;
+mod prfs_api_entities;
 mod prfs_circuit;
 mod prfs_circuit_driver;
 mod prfs_circuit_type;
@@ -13,6 +14,7 @@ mod prfs_tree_node;
 mod syn;
 
 pub use prfs_account::*;
+pub use prfs_api_entities::*;
 pub use prfs_circuit::*;
 pub use prfs_circuit_driver::*;
 pub use prfs_circuit_type::*;

@@ -44,7 +44,7 @@ import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/
 import { GetPrfsTreeNodesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesResponse";
 import { UpdatePrfsTreeNodeRequest } from "@taigalabs/prfs-entities/bindings/UpdatePrfsTreeNodeRequest";
 import { UpdatePrfsTreeNodeResponse } from "@taigalabs/prfs-entities/bindings/UpdatePrfsTreeNodeResponse";
-import { ComputePrfsSetMerkleRootRequest } from "@taigalabs/prfs-entities/bindings/ComputePrfsSetMerkleRootRequest";
+// import { ComputePrfsSetMerkleRootRequest } from "@taigalabs/prfs-entities/bindings/ComputePrfsSetMerkleRootRequest";
 import { ComputePrfsSetMerkleRootResponse } from "@taigalabs/prfs-entities/bindings/ComputePrfsSetMerkleRootResponse";
 import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollRequest";
 import { CreatePrfsPollResponse } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollResponse";
@@ -99,7 +99,7 @@ type RequestName =
   | "get_prfs_tree_leaf_nodes_by_set_id"
   | "get_prfs_tree_leaf_indices"
   | "update_prfs_tree_node"
-  | "compute_prfs_set_merkle_root"
+  // | "compute_prfs_set_merkle_root"
   | "create_prfs_poll"
   | "get_prfs_polls"
   | "get_prfs_poll_by_poll_id"
@@ -164,9 +164,9 @@ type Req<T extends RequestName> = //
     ? GetPrfsTreeLeafIndicesRequest
     : T extends "update_prfs_tree_node"
     ? UpdatePrfsTreeNodeRequest
-    : T extends "compute_prfs_set_merkle_root"
-    ? ComputePrfsSetMerkleRootRequest
-    : T extends "create_prfs_poll"
+    : // : T extends "compute_prfs_set_merkle_root"
+    // ? ComputePrfsSetMerkleRootRequest
+    T extends "create_prfs_poll"
     ? CreatePrfsPollRequest
     : T extends "get_prfs_polls"
     ? GetPrfsPollsRequest
@@ -241,9 +241,9 @@ type Resp<T> = //
     ? PrfsApiResponse<GetPrfsTreeNodesResponse>
     : T extends "update_prfs_tree_node"
     ? PrfsApiResponse<UpdatePrfsTreeNodeResponse>
-    : T extends "compute_prfs_set_merkle_root"
-    ? PrfsApiResponse<ComputePrfsSetMerkleRootResponse>
-    : T extends "create_prfs_poll"
+    : // : T extends "compute_prfs_set_merkle_root"
+    // ? PrfsApiResponse<ComputePrfsSetMerkleRootResponse>
+    T extends "create_prfs_poll"
     ? PrfsApiResponse<CreatePrfsPollResponse>
     : T extends "get_prfs_polls"
     ? PrfsApiResponse<GetPrfsPollsResponse>
