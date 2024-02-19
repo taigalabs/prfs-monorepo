@@ -7,6 +7,7 @@ use crate::DbInterfaceError;
 
 pub async fn get_prfs_tree_nodes_by_pos(
     pool: &Pool<Postgres>,
+    // tree_id: &String,
     set_id: &String,
     pos: &Vec<NodePos>,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
@@ -31,18 +32,20 @@ pub async fn get_prfs_tree_nodes_by_pos(
     let nodes: Vec<PrfsTreeNode> = rows
         .iter()
         .map(|n| {
+            let tree_id = n.try_get("tree_id").expect("set_id should exist");
+            let set_id = n.try_get("set_id").expect("set_id should exist");
             let pos_w = n.try_get("pos_w").expect("pos_w should exist");
             let pos_h = n.try_get("pos_h").expect("pos_h should exist");
             let val = n.try_get("val").expect("val should exist");
-            let set_id = n.try_get("set_id").expect("set_id should exist");
             let meta = n.get("meta");
 
             PrfsTreeNode {
+                tree_id,
+                set_id,
                 pos_w,
                 pos_h,
                 meta,
                 val,
-                set_id,
             }
         })
         .collect();
@@ -76,18 +79,20 @@ pub async fn get_prfs_tree_leaf_indices(
     let nodes: Vec<PrfsTreeNode> = rows
         .iter()
         .map(|n| {
+            let tree_id = n.try_get("tree_id").expect("tree_id should exist");
+            let set_id = n.try_get("set_id").expect("set_id should exist");
             let pos_w = n.try_get("pos_w").expect("pos_w should exist");
             let pos_h = n.try_get("pos_h").expect("pos_h should exist");
             let val = n.try_get("val").expect("val should exist");
-            let set_id = n.try_get("set_id").expect("set_id should exist");
             let meta = n.get("meta");
 
             PrfsTreeNode {
+                tree_id,
+                set_id,
                 pos_w,
                 pos_h,
                 meta,
                 val,
-                set_id,
             }
         })
         .collect();
@@ -122,18 +127,20 @@ LIMIT $3
     let nodes: Vec<PrfsTreeNode> = rows
         .iter()
         .map(|n| {
+            let tree_id = n.try_get("tree_id").expect("set_id should exist");
+            let set_id = n.try_get("set_id").expect("set_id should exist");
             let pos_w = n.try_get("pos_w").expect("pos_w should exist");
             let pos_h = n.try_get("pos_h").expect("pos_h should exist");
             let val = n.try_get("val").expect("val should exist");
-            let set_id = n.try_get("set_id").expect("set_id should exist");
             let meta = n.get("meta");
 
             PrfsTreeNode {
+                tree_id,
+                set_id,
                 pos_w,
                 pos_h,
                 val,
                 meta,
-                set_id,
             }
         })
         .collect();
@@ -196,10 +203,12 @@ pub async fn get_prfs_tree_root(
     let pos_w = row.try_get("pos_w").expect("pos_w should exist");
     let pos_h = row.try_get("pos_h").expect("pos_h should exist");
     let val = row.try_get("val").expect("val should exist");
+    let tree_id = row.try_get("tree_id").expect("tree_id should exist");
     let set_id = row.try_get("set_id").expect("set_id should exist");
     let meta = row.get("meta");
 
     let n = PrfsTreeNode {
+        tree_id,
         pos_w,
         pos_h,
         val,

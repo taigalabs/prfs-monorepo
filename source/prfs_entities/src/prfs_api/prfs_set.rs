@@ -67,12 +67,12 @@ pub struct CreatePrfsDynamicSetElementResponse {
     pub pos_w: Decimal,
 }
 
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
-pub struct ComputePrfsSetMerkleRootRequest {
-    pub set_id: String,
-    pub account_id: String,
-}
+// #[derive(Serialize, Deserialize, Debug, TS)]
+// #[ts(export)]
+// pub struct ComputePrfsSetMerkleRootRequest {
+//     pub set_id: String,
+//     pub account_id: String,
+// }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]

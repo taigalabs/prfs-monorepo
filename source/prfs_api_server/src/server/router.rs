@@ -84,9 +84,9 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             (&Method::POST, v0_path!("get_prfs_set_element")) => {
                 prfs_set_elements::get_prfs_set_element(req, state).await
             }
-            (&Method::POST, v0_path!("create_prfs_dynamic_set_element")) => {
-                prfs_sets::create_prfs_dynamic_set_element(req, state).await
-            }
+            // (&Method::POST, v0_path!("create_prfs_dynamic_set_element")) => {
+            //     prfs_sets::create_prfs_dynamic_set_element(req, state).await
+            // }
             (&Method::POST, v0_path!("get_prfs_tree_nodes_by_pos")) => {
                 prfs_tree_nodes::get_prfs_tree_nodes_by_pos(req, state).await
             }
@@ -120,9 +120,9 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             (&Method::POST, v0_path!("update_prfs_tree_node")) => {
                 prfs_tree_nodes::update_prfs_tree_node(req, state).await
             }
-            (&Method::POST, v0_path!("compute_prfs_set_merkle_root")) => {
-                prfs_sets::compute_prfs_set_merkle_root(req, state).await
-            }
+            // (&Method::POST, v0_path!("compute_prfs_set_merkle_root")) => {
+            //     prfs_sets::compute_prfs_set_merkle_root(req, state).await
+            // }
             (&Method::POST, v0_path!("get_prfs_polls")) => {
                 prfs_polls::get_prfs_polls(req, state).await
             }

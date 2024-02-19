@@ -21,27 +21,27 @@ pub async fn run(_sub_matches: &ArgMatches) {
 
     let mut prfs_set = apis::create_set(&mut tx, &set_json).await.unwrap();
 
-    let prfs_tree_nodes =
-        apis::create_leaves_without_offset(&pool, &mut tx, &set_json, &mut prfs_set)
-            .await
-            .unwrap();
+    // let prfs_tree_nodes =
+    //     apis::create_leaves_without_offset(&pool, &mut tx, &set_json, &mut prfs_set)
+    //         .await
+    //         .unwrap();
 
-    let merkle_root = apis::create_tree_nodes(
-        // &pool,
-        &mut tx,
-        &mut prfs_set,
-        &prfs_tree_nodes,
-    )
-    .await
-    .unwrap();
+    // let merkle_root = apis::create_tree_nodes(
+    //     // &pool,
+    //     &mut tx,
+    //     &mut prfs_set,
+    //     &prfs_tree_nodes,
+    // )
+    // .await
+    // .unwrap();
 
-    tx.commit().await.unwrap();
+    // tx.commit().await.unwrap();
 
-    println!(
-        "{} a set with tree nodes, set_id: {}, cardinality: {}, merkle_root: {}",
-        "Created".green(),
-        prfs_set.set_id,
-        prfs_tree_nodes.len(),
-        merkle_root,
-    )
+    // println!(
+    //     "{} a set with tree nodes, set_id: {}, cardinality: {}, merkle_root: {}",
+    //     "Created".green(),
+    //     prfs_set.set_id,
+    //     prfs_tree_nodes.len(),
+    //     merkle_root,
+    // )
 }
