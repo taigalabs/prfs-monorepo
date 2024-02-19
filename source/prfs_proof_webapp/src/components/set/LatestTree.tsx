@@ -7,10 +7,10 @@ import styles from "./LatestTree.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 import { abbrev5and5 } from "@taigalabs/prfs-ts-utils";
 
-const LatestTree: React.FC<SetProps> = ({ set_id }) => {
+const LatestTree: React.FC<SetProps> = ({ set_id, nonce }) => {
   const i18n = useI18N();
   const { isFetching, data, error } = useQuery({
-    queryKey: ["get_latest_tree_by_set_id", set_id],
+    queryKey: ["get_latest_tree_by_set_id", set_id, nonce],
     queryFn: async () => {
       return prfsApi3({
         type: "get_latest_prfs_tree_by_set_id",
@@ -53,4 +53,5 @@ export default LatestTree;
 
 export interface SetProps {
   set_id: string;
+  nonce: number;
 }

@@ -35,7 +35,7 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
               <CreateTreeDialog rerender={rerender} />
             </li>
           </ul>
-          <LatestTree set_id={set_id} />
+          <LatestTree set_id={set_id} nonce={nonce} />
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
