@@ -6,7 +6,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import cn from "classnames";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { useQuery } from "@tanstack/react-query";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
@@ -39,7 +39,6 @@ function useProofType(proofTypeId: string | undefined) {
     queryKey: ["get_prfs_proof_type_by_proof_type_id", proofTypeId],
     queryFn: () => {
       if (proofTypeId) {
-        // return prfsApi2("get_prfs_proof_type_by_proof_type_id", { proof_type_id: proofTypeId });
         return prfsApi3({
           type: "get_prfs_proof_type_by_proof_type_id",
           proof_type_id: proofTypeId,

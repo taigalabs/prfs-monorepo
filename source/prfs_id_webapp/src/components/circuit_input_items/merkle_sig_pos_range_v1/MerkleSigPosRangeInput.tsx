@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
@@ -70,21 +70,24 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
-      // return prfsApi2("get_prfs_set_element", req);
       return prfsApi3({ type: "get_prfs_set_element", ...req });
+    },
+  });
+
+  const { mutateAsync: getLatestPrfsTreeBySetId } = useMutation({
+    mutationFn: (req: GetPrfsSetElementRequest) => {
+      return prfsApi3({ type: "get_latest_prfs_tree_by_set_id", ...req });
     },
   });
 
   const { mutateAsync: getPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
-      // return prfsApi2("get_prfs_tree_leaf_indices", req);
       return prfsApi3({ type: "get_prfs_tree_leaf_indices", ...req });
     },
   });
 
   const { mutateAsync: getPrfsSetBySetId } = useMutation({
     mutationFn: (req: GetPrfsSetBySetIdRequest) => {
-      // return prfsApi2("get_prfs_set_by_set_id", req);
       return prfsApi3({ type: "get_prfs_set_by_set_id", ...req });
     },
   });
@@ -358,6 +361,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       setFormValues,
       prfsSet,
       getPrfsTreeLeafIndices,
+      getLatestPrfsTreeBySetId,
       setFormErrors,
       getPrfsSetElement,
       setRangeOptionIdx,
