@@ -75,7 +75,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     },
   });
 
-  const { isPending: getLatestPrfsTreePending, mutateAsync: getLatestPrfsTreeBySetId } =
+  const { isPending: isGetLatestPrfsTreePending, mutateAsync: getLatestPrfsTreeBySetId } =
     useMutation({
       mutationFn: (req: GetLatestPrfsTreeBySetIdRequest) => {
         return prfsApi3({ type: "get_latest_prfs_tree_by_set_id", ...req });
@@ -185,7 +185,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           set_id,
         });
 
-        if (getLatestPrfsTreeBySetIdPayload?.prfs_tree === null) {
+        if (!isGetLatestPrfsTreePending && getLatestPrfsTreeBySetIdPayload?.prfs_tree === null) {
           setFormErrors(prevVals => {
             return {
               ...prevVals,
@@ -194,7 +194,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           });
           return;
         }
-        const { prfs_tree } = getLatestPrfsTreeBySetIdPayload;
+
+        const prfs_tree = getLatestPrfsTreeBySetIdPayload?.prfs_tree;
+
+        if (!prfs_tree) {
+          return;
+        }
 
         const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
@@ -270,6 +275,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         const leafVal = bytesToNumberLE(leafBytes);
         console.log("leafBytes: %o, args: %s, leafVal: %s, ", leafBytes, args, leafVal);
 
+        console.log(44, prfs_tree.tree_id);
+
         const { payload, error } = await getPrfsTreeLeafIndices({
           set_id,
           leaf_vals: [leafVal.toString()],
@@ -339,7 +346,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }
 
         const merkleProof: SpartanMerkleProof = {
-          root: BigInt(merkle_root),
+          root: BigInt(prfs_tree.merkle_root),
           siblings: siblings as bigint[],
           pathIndices,
         };
@@ -385,10 +392,9 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       getPrfsTreeLeafIndices,
       getLatestPrfsTreeBySetId,
       setFormErrors,
-      getLatestPrfsTreePending,
       getPrfsSetElement,
       setRangeOptionIdx,
-      getLatestPrfsTreePending,
+      isGetLatestPrfsTreePending,
     ],
   );
 
