@@ -62,8 +62,6 @@ import { GetPrfsSetElementsRequest } from "@taigalabs/prfs-entities/bindings/Get
 import { GetPrfsSetElementsResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementsResponse";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
 import { GetPrfsSetElementResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementResponse";
-import { CreateTreeOfPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreateTreeOfPrfsSetRequest";
-import { CreateTreeOfPrfsSetResponse } from "@taigalabs/prfs-entities/bindings/CreateTreeOfPrfsSetResponse";
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 import { GetLeastRecentPrfsIndexResponse } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexResponse";
 import { GetPrfsIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsIndicesRequest";
@@ -182,8 +180,6 @@ type Req<T extends RequestName> = //
     ? GetPrfsSetElementsRequest
     : T extends "get_prfs_set_element"
     ? GetPrfsSetElementRequest
-    : T extends "create_tree_of_prfs_set"
-    ? CreateTreeOfPrfsSetRequest
     : T extends "get_least_recent_prfs_index"
     ? GetLeastRecentPrfsIndexRequest
     : T extends "get_prfs_indices"
@@ -261,8 +257,6 @@ type Resp<T> = //
     ? ApiResponse<GetPrfsSetElementsResponse>
     : T extends "get_prfs_set_element"
     ? ApiResponse<GetPrfsSetElementResponse>
-    : T extends "create_tree_of_prfs_set"
-    ? ApiResponse<CreateTreeOfPrfsSetResponse>
     : T extends "get_least_recent_prfs_index"
     ? ApiResponse<GetLeastRecentPrfsIndexResponse>
     : T extends "get_prfs_indices"

@@ -5,7 +5,7 @@ use crate::entities::PrfsTree;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateTreeOfPrfsSetRequest {
+pub struct CreatePrfsTreeByPrfsSetRequest {
     pub set_id: String,
     pub tree_label: String,
     pub tree_id: String,
@@ -14,7 +14,7 @@ pub struct CreateTreeOfPrfsSetRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreatePrfsTreeOfPrfsSetResponse {
+pub struct CreatePrfsTreeByPrfsSetResponse {
     pub tree_id: String,
     pub set_id: String,
 }

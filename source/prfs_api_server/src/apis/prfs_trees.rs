@@ -1,31 +1,26 @@
-use hyper::{body::Incoming, Request, Response};
+use hyper::{body::Incoming, Request};
 use hyper_utils::{
-    io::{parse_req, ApiHandlerResult, BytesBoxBody},
+    io::{parse_req, ApiHandlerResult},
     resp::ApiResponse,
-    ApiHandleError,
 };
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
     entities::{PrfsTree, PrfsTreeNode},
     prfs_api::{
-        ComputePrfsSetMerkleRootResponse, CreatePrfsDynamicSetElementRequest,
-        CreatePrfsDynamicSetElementResponse, CreatePrfsSetRequest, CreatePrfsSetResponse,
-        CreateTreeOfPrfsSetRequest, CreateTreeOfPrfsSetResponse, GetLatestPrfsTreeBySetIdRequest,
-        GetLatestPrfsTreeBySetIdResponse, GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse,
-        GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest, GetPrfsSetsResponse,
+        CreatePrfsTreeByPrfsSetRequest, CreatePrfsTreeByPrfsSetResponse,
+        GetLatestPrfsTreeBySetIdRequest, GetLatestPrfsTreeBySetIdResponse,
     },
 };
 use prfs_tree_maker::apis2::tree;
-use prfs_tree_maker::tree_maker_apis;
 use rust_decimal::Decimal;
 use std::sync::Arc;
 
-pub async fn create_tree_of_prfs_set(
+pub async fn create_prfs_tree_by_prfs_set(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
-    let req: CreateTreeOfPrfsSetRequest = parse_req(req).await;
+    let req: CreatePrfsTreeByPrfsSetRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
@@ -103,7 +98,7 @@ pub async fn create_tree_of_prfs_set(
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreateTreeOfPrfsSetResponse {
+    let resp = ApiResponse::new_success(CreatePrfsTreeByPrfsSetResponse {
         tree_id: req.tree_id.to_string(),
         set_id: req.set_id.to_string(),
     });

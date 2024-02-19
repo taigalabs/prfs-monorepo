@@ -141,11 +141,14 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             (&Method::POST, v0_path!("import_prfs_set_elements")) => {
                 prfs_set_elements::import_prfs_set_elements(req, state).await
             }
-            (&Method::POST, v0_path!("create_tree_of_prfs_set")) => {
-                prfs_trees::create_tree_of_prfs_set(req, state).await
+            (&Method::POST, v0_path!("create_prfs_tree_by_prfs_set")) => {
+                prfs_trees::create_prfs_tree_by_prfs_set(req, state).await
             }
             (&Method::POST, v0_path!("get_least_recent_prfs_index")) => {
                 prfs_indices::get_least_recent_index(req, state).await
+            }
+            (&Method::POST, v0_path!("get_latest_prfs_tree_by_set_id")) => {
+                prfs_trees::get_latest_prfs_tree_by_set_id(req, state).await
             }
             (&Method::POST, v0_path!("get_prfs_indices")) => {
                 prfs_indices::get_prfs_indices(req, state).await

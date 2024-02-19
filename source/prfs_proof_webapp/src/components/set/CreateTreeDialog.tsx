@@ -4,7 +4,7 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaTree } from "@react-icons/all-files/fa/FaTree";
 import { useMutation } from "@tanstack/react-query";
 import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
-import { CreateTreeOfPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreateTreeOfPrfsSetRequest";
+import { CreatePrfsTreeByPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsTreeByPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { PrivateKey, createRandomKeyPair } from "@taigalabs/prfs-crypto-js";
 
@@ -82,8 +82,8 @@ const Modal: React.FC<ModalProps> = ({
 const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender }) => {
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: createTreeRequest } = useMutation({
-    mutationFn: (req: CreateTreeOfPrfsSetRequest) => {
-      return prfsApi3({ type: "create_tree_of_prfs_set", ...req });
+    mutationFn: (req: CreatePrfsTreeByPrfsSetRequest) => {
+      return prfsApi3({ type: "create_prfs_tree_by_prfs_set", ...req });
     },
   });
   const { prfsProofCredential } = useSignedInUser();

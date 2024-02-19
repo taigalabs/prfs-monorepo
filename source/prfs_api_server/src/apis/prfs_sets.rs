@@ -11,9 +11,8 @@ use prfs_entities::{
     prfs_api::{
         ComputePrfsSetMerkleRootResponse, CreatePrfsDynamicSetElementRequest,
         CreatePrfsDynamicSetElementResponse, CreatePrfsSetRequest, CreatePrfsSetResponse,
-        CreateTreeOfPrfsSetRequest, CreateTreeOfPrfsSetResponse, GetPrfsSetBySetIdRequest,
-        GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
-        GetPrfsSetsResponse,
+        GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest,
+        GetPrfsSetsRequest, GetPrfsSetsResponse,
     },
 };
 use prfs_tree_maker::apis2::tree;

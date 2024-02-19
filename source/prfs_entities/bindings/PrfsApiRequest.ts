@@ -5,7 +5,7 @@ import type { CreatePrfsPollRequest } from "./CreatePrfsPollRequest";
 import type { CreatePrfsProofInstanceRequest } from "./CreatePrfsProofInstanceRequest";
 import type { CreatePrfsProofTypeRequest } from "./CreatePrfsProofTypeRequest";
 import type { CreatePrfsSetRequest } from "./CreatePrfsSetRequest";
-import type { CreateTreeOfPrfsSetRequest } from "./CreateTreeOfPrfsSetRequest";
+import type { CreatePrfsTreeByPrfsSetRequest } from "./CreatePrfsTreeByPrfsSetRequest";
 import type { GetLatestPrfsTreeBySetIdRequest } from "./GetLatestPrfsTreeBySetIdRequest";
 import type { GetLeastRecentPrfsIndexRequest } from "./GetLeastRecentPrfsIndexRequest";
 import type { GetPrfsCircuitByCircuitIdRequest } from "./GetPrfsCircuitByCircuitIdRequest";
@@ -64,7 +64,7 @@ export type PrfsApiRequest =
   | ({ type: "GetPrfsSetsBySetType" } & GetPrfsSetsBySetTypeRequest)
   | ({ type: "create_prfs_set" } & CreatePrfsSetRequest)
   | ({ type: "CreatePrfsDynamicSetElement" } & CreatePrfsDynamicSetElementRequest)
-  | ({ type: "create_tree_of_prfs_set" } & CreateTreeOfPrfsSetRequest)
+  | ({ type: "create_prfs_tree_by_prfs_set" } & CreatePrfsTreeByPrfsSetRequest)
   | ({ type: "import_prfs_set_elements" } & ImportPrfsSetElementsRequest)
   | ({ type: "get_prfs_set_elements" } & GetPrfsSetElementsRequest)
   | ({ type: "get_prfs_set_element" } & GetPrfsSetElementRequest)
