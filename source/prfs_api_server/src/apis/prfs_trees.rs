@@ -61,7 +61,7 @@ pub async fn create_prfs_tree_by_prfs_set(
 
     let mut children = leaves;
     let mut parent_nodes = vec![];
-    for d in 0..req.tree_depth {
+    for d in 0..TREE_DEPTH {
         let parents = tree::calc_parent_nodes(&children).unwrap();
         // println!("d: {}, parents: {:?}", d, parents);
 
