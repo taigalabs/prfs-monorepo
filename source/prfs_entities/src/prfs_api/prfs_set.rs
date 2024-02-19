@@ -85,6 +85,7 @@ pub struct ComputePrfsSetMerkleRootResponse {
 #[ts(export)]
 pub struct CreateTreeOfPrfsSetRequest {
     pub set_id: String,
+    pub tree_id: String,
     pub account_id: String,
 }
 
