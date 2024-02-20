@@ -16,7 +16,7 @@ const CircuitTypeData: React.FC<CircuitTypeDataProps> = ({ circuitTypeData }) =>
 
     for (const [idx, jsonElem] of jsonElems.entries()) {
       elems.push(
-        <li key={idx} className={styles.row}>
+        <li key={idx} className={styles.row} style={{ paddingLeft: 8 * jsonElem.depth }}>
           <p className={styles.label}>{jsonElem.label}</p>
           <p className={styles.value}>{jsonElem.value}</p>
         </li>,
@@ -26,7 +26,12 @@ const CircuitTypeData: React.FC<CircuitTypeDataProps> = ({ circuitTypeData }) =>
     return elems;
   }, [circuitTypeData]);
 
-  return <ul className={styles.wrapper}>{elems}</ul>;
+  return (
+    <div>
+      <p className={styles.title}>{i18n.circuit_type_data}</p>
+      <ul className={styles.wrapper}>{elems}</ul>
+    </div>
+  );
 };
 
 export default CircuitTypeData;

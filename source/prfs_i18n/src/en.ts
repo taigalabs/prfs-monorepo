@@ -102,6 +102,7 @@ export default {
   label: "Label",
   circuit_type: "Circuit type",
   circuit_type_id: "Circuit type id",
+  circuit_type_data: "Circuit type data",
   ref: "Ref",
   redirecting: "Redirecting...",
   desc_1: "a",
