@@ -112,6 +112,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       }
     }
 
+    const prfsTree = ;
+
     return prfsSet ? (
       <span className={styles.inputLabel}>
         <span>{i18n.member} - </span>
@@ -121,14 +123,14 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           href={`${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/sets/${prfsSet.set_id}`}
         >
           <span>{prfsSet.label}</span>
-          <span></span>
+          <span>{treeId}</span>
           <BiLinkExternal />
         </a>
       </span>
     ) : (
       <span className={styles.inputLabel}>{i18n.loading}</span>
     );
-  }, [prfsSet]);
+  }, [prfsSet, prfsTree]);
 
   React.useEffect(() => {
     async function fn() {
