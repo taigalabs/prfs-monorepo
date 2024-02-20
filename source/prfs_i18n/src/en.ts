@@ -122,6 +122,7 @@ export default {
   browse: "Browse",
   set_id: "Set id",
   tree_id: "Tree id",
+  latest_tree_id: "Latest tree id",
   type: "Type",
   public: "Public",
   public_key: "Public key",

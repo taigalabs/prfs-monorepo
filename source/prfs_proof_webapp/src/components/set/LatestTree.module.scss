@@ -1,7 +1,13 @@
 .list {
   display: flex;
+  padding-top: 14px;
+  gap: 14px;
 }
 
 .item {
   display: flex;
+}
+
+.title {
+  padding-right: 4px;
 }

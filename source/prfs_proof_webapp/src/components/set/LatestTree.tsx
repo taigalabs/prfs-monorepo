@@ -28,11 +28,11 @@ const LatestTree: React.FC<SetProps> = ({ set_id, nonce }) => {
       return (
         <ul className={styles.list}>
           <li className={styles.item}>
-            <p>{i18n.tree_id}</p>
+            <p className={styles.title}>{i18n.latest_tree_id}</p>
             <p>{treeId}</p>
           </li>
           <li className={styles.item}>
-            <p>{i18n.merkle_root}</p>
+            <p className={styles.title}>{i18n.merkle_root}</p>
             <p>{merkleRoot}</p>
           </li>
         </ul>
@@ -45,7 +45,7 @@ const LatestTree: React.FC<SetProps> = ({ set_id, nonce }) => {
   return (
     <div className={styles.wrapper}>
       {isFetching && <span>{i18n.loading}...</span>}
-      <div>{elem}</div>
+      {elem}
     </div>
   );
 };
