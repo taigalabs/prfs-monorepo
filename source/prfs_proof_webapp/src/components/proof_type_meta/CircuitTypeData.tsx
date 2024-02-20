@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { JSONElem, iterateJSON } from "@taigalabs/prfs-ts-utils";
+import { iterateJSON } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./CircuitTypeData.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
