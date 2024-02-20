@@ -3,7 +3,7 @@
 import React from "react";
 import cn from "classnames";
 import { useRouter } from "next/navigation";
-import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { KeyPair, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
 import {
@@ -14,7 +14,7 @@ import {
   createSessionKey,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "@tanstack/react-query";
-import { prfs_api_error_codes, prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfs_api_error_codes, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
@@ -28,7 +28,6 @@ import {
 } from "@/storage/local_storage";
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
-import { useRandomKeyPair } from "@/hooks/key";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   className,
@@ -41,27 +40,27 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
   const { mutateAsync: prfsSignInRequest } = useMutation({
     mutationFn: (req: PrfsSignInRequest) => {
-      // return prfsApi2("sign_in_prfs_account", req);
       return prfsApi3({ type: "sign_in_prfs_account", ...req });
     },
   });
   const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
-  const { sk, pkHex } = useRandomKeyPair();
-
-  const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
+  const [appSignInArgs, keyPair] = React.useMemo<[AppSignInArgs, KeyPair]>(() => {
+    const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
-    return {
+    const appSignInArgs = {
       nonce: makeRandInt(1000000),
       app_id: appId,
       sign_in_data: [AppSignInData.ID_POSEIDON],
       public_key: pkHex,
       session_key,
     };
-  }, [pkHex, appId]);
+
+    return [appSignInArgs, { sk, pkHex }];
+  }, [appId]);
 
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
-      if (sk) {
+      if (appSignInArgs) {
         if (encrypted.length === 0) {
           console.error("encrypted buffer is empty, session_key: %s", appSignInArgs.session_key);
           return;
@@ -69,7 +68,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
 
         let decrypted: string;
         try {
-          decrypted = decrypt(sk.secret, encrypted).toString();
+          decrypted = decrypt(keyPair.sk.secret, encrypted).toString();
         } catch (err) {
           console.error(err);
           return;
@@ -106,7 +105,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         dispatch(signInPrfs(credential));
       }
     },
-    [router, dispatch, prfsSignInRequest, setSignUpData, appSignInArgs],
+    [router, dispatch, prfsSignInRequest, setSignUpData, appSignInArgs, keyPair],
   );
 
   const handleClickSignOut = React.useCallback(() => {

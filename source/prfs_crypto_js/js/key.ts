@@ -9,3 +9,8 @@ export function createRandomKeyPair() {
     pkHex: `0x${pkHex}`,
   };
 }
+
+export interface KeyPair {
+  sk: PrivateKey;
+  pkHex: string;
+}

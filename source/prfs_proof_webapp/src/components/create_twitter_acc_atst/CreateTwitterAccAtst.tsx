@@ -7,7 +7,7 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
-import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -33,7 +33,6 @@ import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterA
 import styles from "./CreateTwitterAccAtst.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
 import {
@@ -87,7 +86,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_TWITTER_HANDLE);
-  const { sk, pkHex } = useRandomKeyPair();
   const { mutateAsync: validateTwitterAccRequest } = useMutation({
     mutationFn: (req: ValidateTwitterAccRequest) => {
       return atstApi("validate_twitter_acc", req);
@@ -98,7 +96,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return atstApi("attest_twitter_acc", req);
     },
   });
-  // const { openPopup } = usePopup();
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
@@ -165,6 +162,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(async () => {
+    const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
@@ -251,7 +249,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       console.error(err);
       return;
     }
-  }, [formData, step, claimSecret, sk, pkHex, setClaimCm, setStep]);
+  }, [formData, step, claimSecret, setClaimCm, setStep]);
 
   const handleClickValidate = React.useCallback(async () => {
     setValidation(null);

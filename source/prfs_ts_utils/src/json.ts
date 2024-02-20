@@ -6,7 +6,7 @@ export interface JSONElem {
 }
 
 export function iterateJSON(obj: Record<string, any>): JSONElem[] {
-  const acc = [];
+  const acc: JSONElem[] = [];
   _iterateJSON(acc, obj, 0, false);
   return acc;
 }
