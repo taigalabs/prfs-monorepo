@@ -3,11 +3,18 @@
 
 .row {
   display: flex;
+  line-height: 1.52em;
 }
 
-.title {
+.emptyRow {
+  padding-top: 8px;
+}
+
+.noPaddingTop {
+  padding-top: 0;
 }
 
 .label {
-  padding-right: 4px;
+  font-weight: 500;
+  padding-right: 10px;
 }

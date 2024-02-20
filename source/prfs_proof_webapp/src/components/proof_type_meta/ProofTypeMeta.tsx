@@ -97,8 +97,11 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
           <p className={styles.label}>{i18n.circuit_type_id}</p>
           <p className={styles.value}>{proofType.circuit_type_id}</p>
         </div>
+        <div className={styles.entry}>
+          <p className={styles.label}>{i18n.circuit_type_data}</p>
+          <CircuitTypeData circuitTypeData={proofType.circuit_type_data} />
+        </div>
       </div>
-      <CircuitTypeData circuitTypeData={proofType.circuit_type_data} />
     </div>
   );
 };

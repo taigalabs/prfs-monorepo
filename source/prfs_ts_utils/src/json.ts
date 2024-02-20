@@ -2,6 +2,7 @@ export interface JSONElem {
   depth: number;
   label: string;
   value: any;
+  type: "array" | "value";
 }
 
 export function iterateJSON(obj: Record<string, any>): JSONElem[] {
@@ -14,22 +15,22 @@ function _iterateJSON(acc: JSONElem[], obj: Record<string, any>, depth: number, 
   for (var k in obj) {
     if (typeof obj[k] == "object" && obj[k] !== null) {
       // console.log(11, depth, k, obj[k], isArr);
-      if (!isArr) {
-        acc.push({
-          depth,
-          label: k,
-          value: undefined,
-        });
-      }
+      const type = isArr ? "array" : "value";
+      acc.push({
+        depth,
+        label: k,
+        value: undefined,
+        type,
+      });
 
       const nextIsArr = Array.isArray(obj[k]);
-      const nextDepth = nextIsArr ? depth : depth + 1;
-      _iterateJSON(acc, obj[k], nextDepth, nextIsArr);
+      _iterateJSON(acc, obj[k], depth + 1, nextIsArr);
     } else {
       acc.push({
         depth,
         label: k,
         value: obj[k],
+        type: "value",
       });
     }
   }

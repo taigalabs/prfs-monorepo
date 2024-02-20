@@ -10,14 +10,18 @@ const CircuitTypeData: React.FC<CircuitTypeDataProps> = ({ circuitTypeData }) =>
 
   const elems = React.useMemo(() => {
     const jsonElems = iterateJSON(circuitTypeData);
-    console.log(33, jsonElems);
 
     const elems = [];
-
     for (const [idx, jsonElem] of jsonElems.entries()) {
       elems.push(
-        <li key={idx} className={styles.row} style={{ paddingLeft: 8 * jsonElem.depth }}>
-          <p className={styles.label}>{jsonElem.label}</p>
+        <li key={idx} className={styles.row} style={{ paddingLeft: 12 * jsonElem.depth }}>
+          {jsonElem.type === "array" ? (
+            <div
+              className={cn(styles.emptyRow, { [styles.noPaddingTop]: jsonElem.label === "0" })}
+            />
+          ) : (
+            <p className={styles.label}>{jsonElem.label}</p>
+          )}
           <p className={styles.value}>{jsonElem.value}</p>
         </li>,
       );
@@ -26,12 +30,7 @@ const CircuitTypeData: React.FC<CircuitTypeDataProps> = ({ circuitTypeData }) =>
     return elems;
   }, [circuitTypeData]);
 
-  return (
-    <div>
-      <p className={styles.title}>{i18n.circuit_type_data}</p>
-      <ul className={styles.wrapper}>{elems}</ul>
-    </div>
-  );
+  return <ul className={styles.wrapper}>{elems}</ul>;
 };
 
 export default CircuitTypeData;
