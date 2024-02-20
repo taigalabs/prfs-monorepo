@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreatePrfsTreeByPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsTreeByPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { PrivateKey, rand256 } from "@taigalabs/prfs-crypto-js";
+import { PrivateKey, rand256, rand256Hex } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CreateTreeDialog.module.scss";
 import common from "@/styles/common.module.scss";
@@ -21,6 +21,7 @@ import {
 } from "@/components/dialog_default/DialogComponents";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
 import { isMasterAccountId } from "@/mock/mock_data";
+import { abbrev5and5 } from "@taigalabs/prfs-ts-utils";
 
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 
@@ -94,12 +95,12 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
     if (prfsProofCredential && isMasterAccountId(prfsProofCredential.account_id)) {
       setComputeStatus(CommonStatus.InProgress);
       try {
-        const hex = rand256();
+        const hex = rand256Hex();
 
         const { payload, error } = await createTreeRequest({
           set_id: CRYPTO_HOLDERS_SET_ID,
           tree_id: hex,
-          tree_label: `${CRYPTO_HOLDERS_SET_ID}_tree_${hex}`,
+          tree_label: `${CRYPTO_HOLDERS_SET_ID}__tree_${hex}`,
           account_id: prfsProofCredential.account_id,
         });
 
@@ -115,19 +116,21 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
         if (payload) {
           setComputeStatus(CommonStatus.Done);
           setComputeMsg(
-            <div>
+            <>
               <p>
                 <b>{i18n.tree} is created.</b>
               </p>
-              <div>
-                <span className={styles.label}>{i18n.set_id}</span>
-                <span>{payload.set_id}</span>
+              <div className={styles.info}>
+                <div>
+                  <span className={styles.title}>{i18n.set_id}</span>
+                  <span>{payload.set_id}</span>
+                </div>
+                <div>
+                  <span className={styles.title}>{i18n.tree_id}</span>
+                  <span>{abbrev5and5(payload.tree_id)}</span>
+                </div>
               </div>
-              <div>
-                <span className={styles.label}>{i18n.tree_id}</span>
-                <span>{payload.tree_id.substring(0, 18)}...</span>
-              </div>
-            </div>,
+            </>,
           );
           rerender();
         }

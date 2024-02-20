@@ -18,6 +18,7 @@ import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetEle
 import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
+import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -66,6 +67,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
+  const [prfsTree, setPrfsTree] = React.useState<PrfsTree>();
   const [walletAddr, setWalletAddr] = React.useState("");
   const [rangeOptionIdx, setRangeOptionIdx] = React.useState(-1);
 
@@ -119,6 +121,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           href={`${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/sets/${prfsSet.set_id}`}
         >
           <span>{prfsSet.label}</span>
+          <span></span>
           <BiLinkExternal />
         </a>
       </span>
@@ -139,22 +142,42 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           set_id: circuitTypeData.prfs_set_id,
         });
 
+        const { payload: getLatestPrfsTreeBySetIdPayload } = await getLatestPrfsTreeBySetId({
+          set_id: circuitTypeData.prfs_set_id,
+        });
+
+        if (!isGetLatestPrfsTreePending && getLatestPrfsTreeBySetIdPayload?.prfs_tree === null) {
+          setFormErrors(prevVals => {
+            return {
+              ...prevVals,
+              merkleProof: "Tree does not exist",
+            };
+          });
+          return;
+        }
+
         if (payload) {
           setPrfsSet(payload.prfs_set);
+        }
+
+        if (getLatestPrfsTreeBySetIdPayload?.prfs_tree) {
+          setPrfsTree(getLatestPrfsTreeBySetIdPayload.prfs_tree);
         }
       } else {
         console.error("Prfs set not found");
       }
     }
     fn().then();
-  }, [circuitTypeData, setPrfsSet, getPrfsSetBySetId]);
+  }, [circuitTypeData, setPrfsSet, getPrfsSetBySetId, setPrfsTree]);
 
   const handleChangeAddress = React.useCallback(
     async (addr: string) => {
       if (!prfsSet) {
         return;
       }
-
+      if (!prfsTree) {
+        return;
+      }
       if (!addr) {
         return;
       }
@@ -181,26 +204,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
       try {
         // Merkle setup
-        const { payload: getLatestPrfsTreeBySetIdPayload } = await getLatestPrfsTreeBySetId({
-          set_id,
-        });
-
-        if (!isGetLatestPrfsTreePending && getLatestPrfsTreeBySetIdPayload?.prfs_tree === null) {
-          setFormErrors(prevVals => {
-            return {
-              ...prevVals,
-              merkleProof: "Tree does not exist",
-            };
-          });
-          return;
-        }
-
-        const prfs_tree = getLatestPrfsTreeBySetIdPayload?.prfs_tree;
-
-        if (!prfs_tree) {
-          return;
-        }
-
         const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
           label: addr,
@@ -275,8 +278,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         const leafVal = bytesToNumberLE(leafBytes);
         console.log("leafBytes: %o, args: %s, leafVal: %s, ", leafBytes, args, leafVal);
 
-        console.log(44, prfs_tree.tree_id);
-
         const { payload, error } = await getPrfsTreeLeafIndices({
           set_id,
           leaf_vals: [leafVal.toString()],
@@ -346,7 +347,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }
 
         const merkleProof: SpartanMerkleProof = {
-          root: BigInt(prfs_tree.merkle_root),
+          root: BigInt(prfsTree.merkle_root),
           siblings: siblings as bigint[],
           pathIndices,
         };
@@ -394,7 +395,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       setFormErrors,
       getPrfsSetElement,
       setRangeOptionIdx,
-      isGetLatestPrfsTreePending,
+      prfsTree,
     ],
   );
 

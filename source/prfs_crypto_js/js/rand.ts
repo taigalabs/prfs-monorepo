@@ -3,6 +3,13 @@ export function makeRandInt(digit: number) {
 }
 
 export function rand256() {
+  const hex = rand256Hex();
+
+  // convert hexademical value to a decimal string
+  return BigInt(hex).toString(10);
+}
+
+export function rand256Hex() {
   const bytes = new Uint8Array(32);
 
   // load cryptographically random bytes into array
@@ -11,6 +18,5 @@ export function rand256() {
   // convert byte array to hexademical representation
   const bytesHex = bytes.reduce((o, v) => o + ("00" + v.toString(16)).slice(-2), "");
 
-  // convert hexademical value to a decimal string
-  return BigInt("0x" + bytesHex).toString(10);
+  return "0x" + bytesHex;
 }

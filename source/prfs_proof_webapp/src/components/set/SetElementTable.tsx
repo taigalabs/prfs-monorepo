@@ -110,7 +110,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
   return (
     <div className={styles.wrapper}>
       {status === "pending" ? (
-        <p>Loading...</p>
+        <p className={styles.loading}>Loading...</p>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
