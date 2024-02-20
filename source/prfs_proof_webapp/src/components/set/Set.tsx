@@ -22,7 +22,7 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
 
   return (
     <>
-      <AttestationsHeader>
+      <AttestationsHeader className={styles.header}>
         <AttestationsHeaderRow>
           <AttestationsTitle className={styles.title}>{i18n.crypto_holders}</AttestationsTitle>
         </AttestationsHeaderRow>

@@ -3,7 +3,9 @@
   gap: 20px;
 }
 
-.headerRow {
-  flex-direction: column;
-  align-items: flex-start;
+.header {
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
