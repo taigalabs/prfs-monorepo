@@ -2,10 +2,10 @@ import React from "react";
 import cn from "classnames";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useQuery } from "@tanstack/react-query";
+import { abbrev5and5 } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./LatestTree.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
-import { abbrev5and5 } from "@taigalabs/prfs-ts-utils";
 
 const LatestTree: React.FC<SetProps> = ({ set_id, nonce }) => {
   const i18n = useI18N();
