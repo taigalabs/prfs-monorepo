@@ -7,7 +7,6 @@ import { useI18N } from "@/i18n/use_i18n";
 
 const CircuitTypeData: React.FC<CircuitTypeDataProps> = ({ circuitTypeData }) => {
   const i18n = useI18N();
-
   const elems = React.useMemo(() => {
     const jsonElems = iterateJSON(circuitTypeData);
 
