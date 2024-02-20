@@ -8,12 +8,21 @@ import { envs } from "@/envs";
 const GlobalFooter: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
+  const handleClickLink = React.useCallback((ev: React.MouseEvent<HTMLAnchorElement>) => {
+    ev.preventDefault();
+
+    const { href } = ev.currentTarget;
+    if (href) {
+      window.parent.window.open(href);
+    }
+  }, []);
+
   return (
     <div className={styles.wrapper}>
-      <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
+      <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL} onClick={handleClickLink}>
         <span>{i18n.code}</span>
       </Link>
-      <Link href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
+      <Link href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT} onClick={handleClickLink}>
         <span>{i18n.prfs}</span>
       </Link>
     </div>
