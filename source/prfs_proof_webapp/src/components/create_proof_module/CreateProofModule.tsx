@@ -170,14 +170,15 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         </div>
         <div className={styles.metaArea}>
           <ProofTypeMeta
-            proofTypeDesc={proofType.desc}
-            proofTypeId={proofType.proof_type_id}
-            imgUrl={proofType.img_url}
-            proofTypeLabel={proofType.label}
-            proofTypeAuthor={proofType.author}
-            circuitTypeId={proofType.circuit_type_id}
-            circuitDriverId={proofType.circuit_driver_id}
-            proofTypeCreatedAt={proofType.created_at}
+            proofType={proofType}
+            // proofTypeDesc={proofType.desc}
+            // proofTypeId={proofType.proof_type_id}
+            // imgUrl={proofType.img_url}
+            // proofTypeLabel={proofType.label}
+            // proofTypeAuthor={proofType.author}
+            // circuitTypeId={proofType.circuit_type_id}
+            // circuitDriverId={proofType.circuit_driver_id}
+            // proofTypeCreatedAt={proofType.created_at}
           />
         </div>
       </div>

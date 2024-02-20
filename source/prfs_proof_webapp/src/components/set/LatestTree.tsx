@@ -39,7 +39,7 @@ const LatestTree: React.FC<SetProps> = ({ set_id, nonce }) => {
       );
     }
 
-    return <div>{i18n.no_tree_has_been_made}</div>;
+    return <div className={styles.list}>{i18n.no_tree_has_been_made}</div>;
   }, [data]);
 
   return (
