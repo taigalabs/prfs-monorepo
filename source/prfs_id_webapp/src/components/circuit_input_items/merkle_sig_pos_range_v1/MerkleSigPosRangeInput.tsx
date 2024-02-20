@@ -112,7 +112,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       }
     }
 
-    const prfsTree = ;
+    let treeId = prfsTree ? prfsTree.tree_id.substring(0, 7) : "Loading...";
 
     return prfsSet ? (
       <span className={styles.inputLabel}>
@@ -123,7 +123,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           href={`${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/sets/${prfsSet.set_id}`}
         >
           <span>{prfsSet.label}</span>
-          <span>{treeId}</span>
+          <span> ({treeId})</span>
           <BiLinkExternal />
         </a>
       </span>
