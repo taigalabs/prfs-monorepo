@@ -1,3 +1,8 @@
+use axum::extract::State;
+use axum::{
+    http::{HeaderValue, Method, StatusCode},
+    Json,
+};
 use hyper::body::Incoming;
 use hyper::Request;
 use hyper_utils::io::{parse_req, ApiHandlerResult};
@@ -8,24 +13,25 @@ use prfs_db_interface::prfs;
 use prfs_entities::{
     entities::PrfsAccount,
     id_api::{PrfsSignInRequest, PrfsSignInResponse, PrfsSignUpRequest, PrfsSignUpResponse},
-    sqlx::types::Json,
+    sqlx::types::Json as JsonType,
 };
 use std::sync::Arc;
 
 use crate::error_codes::API_ERROR_CODES;
 
 pub async fn sign_up_prfs_account(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: PrfsSignUpRequest = parse_req(req).await;
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<PrfsSignUpRequest>,
+    // req: Request<Incoming>,
+) -> (StatusCode, Json<PrfsSignUpResponse>) {
+    // let req: PrfsSignUpRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
     let prfs_account = PrfsAccount {
-        account_id: req.account_id.to_string(),
-        public_key: req.public_key.to_string(),
-        avatar_color: req.avatar_color.to_string(),
-        policy_ids: Json::from(vec![]),
+        account_id: input.account_id.to_string(),
+        public_key: input.public_key.to_string(),
+        avatar_color: input.avatar_color.to_string(),
+        policy_ids: JsonType::from(vec![]),
     };
 
     let account_id = prfs::insert_prfs_account(&mut tx, &prfs_account)
@@ -33,17 +39,25 @@ pub async fn sign_up_prfs_account(
         .map_err(|err| {
             ApiHandleError::from(
                 &API_ERROR_CODES.USER_ALREADY_EXISTS,
-                format!("account_id: {}, err: {}", req.account_id, err).into(),
+                format!("account_id: {}, err: {}", input.account_id, err).into(),
             )
-        })?;
+        })
+        .unwrap();
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(PrfsSignUpResponse {
-        account_id: account_id.to_string(),
-    });
+    // let resp = ApiResponse::new_success(
+    // PrfsSignUpResponse {
+    //     account_id: account_id.to_string(),
+    // });
+    // return Ok(resp.into_hyper_response());
 
-    return Ok(resp.into_hyper_response());
+    return (
+        StatusCode::OK,
+        Json(PrfsSignUpResponse {
+            account_id: account_id.to_string(),
+        }),
+    );
 }
 
 pub async fn sign_in_prfs_account(

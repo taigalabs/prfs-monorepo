@@ -42,9 +42,9 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
         match (req.method(), req.uri().path()) {
             (&Method::OPTIONS, _) => handle_cors(),
             (&Method::GET, "/") => handle_server_status(req, state).await,
-            (&Method::POST, v0_path!("sign_up_prfs_account")) => {
-                prfs_accounts::sign_up_prfs_account(req, state).await
-            }
+            // (&Method::POST, v0_path!("sign_up_prfs_account")) => {
+            //     prfs_accounts::sign_up_prfs_account(req, state).await
+            // }
             (&Method::POST, v0_path!("sign_in_prfs_account")) => {
                 prfs_accounts::sign_in_prfs_account(req, state).await
             }
