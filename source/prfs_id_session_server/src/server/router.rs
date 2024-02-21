@@ -1,7 +1,7 @@
 use hyper::{Method, Request, Response, StatusCode};
-use hyper_utils::cors::handle_cors;
-use hyper_utils::error::ApiHandleError;
-use hyper_utils::io::{full, BytesBoxBody};
+use prfs_axum_lib::cors::handle_cors;
+use prfs_axum_lib::error::ApiHandleError;
+use prfs_axum_lib::io::{full, BytesBoxBody};
 use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 

@@ -1,5 +1,5 @@
 use hyper::{body::Incoming, Request, Response, StatusCode};
-use hyper_utils::io::{full, ApiHandlerResult};
+use prfs_axum_lib::io::{full, ApiHandlerResult};
 use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 

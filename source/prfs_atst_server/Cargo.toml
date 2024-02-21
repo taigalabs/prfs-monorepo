@@ -45,7 +45,7 @@ axum-extra = "0.9.2"
 tower = { version = "0.4", features = ["util"] }
 tower-http = { version = "0.5", features = ["fs", "trace", "cors"] }
 
-hyper_utils = { path = "../hyper_utils" }
+prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }

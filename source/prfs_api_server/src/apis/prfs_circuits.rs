@@ -4,7 +4,7 @@ use axum::{
     Json,
 };
 use hyper::{body::Incoming, Request, Response};
-use hyper_utils::{
+use prfs_axum_lib::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
     resp::ApiResponse,
 };

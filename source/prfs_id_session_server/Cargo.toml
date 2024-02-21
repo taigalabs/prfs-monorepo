@@ -41,7 +41,7 @@ tower = { version = "0.4", features = ["util"] }
 tower-http = { version = "0.5", features = ["fs", "trace", "cors"] }
 tokio-tungstenite = "0.21"
 
-hyper_utils = { path = "../hyper_utils" }
+prfs_axum_lib = { path = "../prfs_axum_lib" }
 hyper_tungstenite2 = { path = "../hyper_tungstenite2/" }
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }

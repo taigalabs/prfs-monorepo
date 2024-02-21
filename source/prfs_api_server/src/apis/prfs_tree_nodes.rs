@@ -6,7 +6,7 @@ use axum::{
     Json, Router,
 };
 use hyper::{body::Incoming, header, Response};
-use hyper_utils::{
+use prfs_axum_lib::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
     resp::ApiResponse,
 };

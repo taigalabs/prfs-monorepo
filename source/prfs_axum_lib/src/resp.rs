@@ -46,13 +46,7 @@ impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
         }
     }
 
-    pub fn new_error(
-        error_code: &ApiHandleErrorCode,
-        err: String,
-        // err: ApiHandleError,
-    ) -> ApiResponse<P> {
-        // let error = format!("{}, err: {}", err.error_code.phrase, err.err);
-
+    pub fn new_error(error_code: &ApiHandleErrorCode, err: String) -> ApiResponse<P> {
         ApiResponse {
             code: error_code.code,
             error: Some(err),
@@ -60,19 +54,3 @@ impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
         }
     }
 }
-
-// impl ApiResponse<usize> {
-//     pub fn new_error(
-//         error_code: ApiHandleErrorCode,
-//         err: String,
-//         // err: ApiHandleError,
-//     ) -> ApiResponse<usize> {
-//         // let error = format!("{}, err: {}", err.error_code.phrase, err.err);
-
-//         ApiResponse {
-//             code: error_code.code,
-//             error: Some(err),
-//             payload: None,
-//         }
-//     }
-// }

@@ -7,9 +7,9 @@ use axum::{
 };
 use hyper::body::Incoming;
 use hyper::Response;
-use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
-use hyper_utils::resp::ApiResponse;
-use hyper_utils::ApiHandleError;
+use prfs_axum_lib::io::{parse_req, ApiHandlerResult, BytesBoxBody};
+use prfs_axum_lib::resp::ApiResponse;
+use prfs_axum_lib::ApiHandleError;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::entities::PrfsIdentity;

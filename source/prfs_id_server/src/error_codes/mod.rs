@@ -1,5 +1,5 @@
-use hyper_utils::generate_api_error_codes;
-use hyper_utils::ApiHandleErrorCode;
+use prfs_axum_lib::generate_api_error_codes;
+use prfs_axum_lib::ApiHandleErrorCode;
 use serde::{Deserialize, Serialize};
 
 // generate_api_error_codes! {

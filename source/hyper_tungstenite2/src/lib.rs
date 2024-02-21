@@ -2,7 +2,7 @@ pub mod peer_map;
 
 use hyper::{Request, Response};
 use hyper_util::rt::TokioIo;
-use hyper_utils::io::{full, BytesBoxBody};
+use prfs_axum_lib::io::{full, BytesBoxBody};
 use pin_project_lite::pin_project;
 use std::pin::Pin;
 use std::task::{Context, Poll};

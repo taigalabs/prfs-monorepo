@@ -37,4 +37,4 @@ bytes = "1"
 pin-project-lite = "0.2"
 
 prfs_entities = { path = "../prfs_entities" }
-hyper_utils= { path = "../hyper_utils" }
+prfs_axum_lib = { path = "../prfs_axum_lib" }
