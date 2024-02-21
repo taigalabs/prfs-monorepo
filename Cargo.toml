@@ -7,7 +7,6 @@ members = [
   "externals/circuit_reader",
 
   # utils
-  "source/hyper_utils",
   "source/hyper_tungstenite2",
 
   # prfs lib
@@ -27,6 +26,7 @@ members = [
   "source/prfs_asset_server",
   "source/prfs_circuits_circom",
   "source/prfs_driver_spartan_wasm",
+  "source/prfs_axum_lib",
 
   # internals
   "internals/ci",

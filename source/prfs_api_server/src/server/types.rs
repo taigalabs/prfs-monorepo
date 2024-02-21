@@ -1,5 +1,5 @@
 use hyper::Response;
-use hyper_utils::io::BytesBoxBody;
+use prfs_axum_lib::io::BytesBoxBody;
 
 use crate::ApiServerError;
 

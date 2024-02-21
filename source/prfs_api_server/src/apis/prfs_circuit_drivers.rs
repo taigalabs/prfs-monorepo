@@ -1,5 +1,12 @@
-use hyper::{body::Incoming, Request};
-use hyper_utils::{
+use axum::{
+    extract::{MatchedPath, Request, State},
+    handler::HandlerWithoutStateExt,
+    http::{HeaderValue, Method, StatusCode},
+    routing::{get, post},
+    Json, Router,
+};
+use hyper::body::Incoming;
+use prfs_axum_lib::{
     io::{parse_req, ApiHandlerResult},
     resp::ApiResponse,
 };
@@ -12,34 +19,34 @@ use prfs_entities::prfs_api::{
 use std::sync::Arc;
 
 pub async fn get_prfs_circuit_drivers(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsCircuitDriversRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsCircuitDriversResponse>>) {
+    // let req: GetPrfsCircuitDriversRequest = parse_req(req).await;
     let pool = &state.clone().db2.pool;
-    let req: GetPrfsCircuitDriversRequest = parse_req(req).await;
     let prfs_circuit_drivers = prfs::get_prfs_circuit_drivers(&pool).await;
 
     let resp = ApiResponse::new_success(GetPrfsCircuitDriversResponse {
-        page_idx: req.page_size,
+        page_idx: input.page_size,
         prfs_circuit_drivers,
     });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn get_prfs_circuit_driver_by_driver_id(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsCircuitDriverByDriverIdRequest>,
+) -> (
+    StatusCode,
+    Json<ApiResponse<GetPrfsCircuitDriverByDriverIdResponse>>,
+) {
+    // let req: GetPrfsCircuitDriverByDriverIdRequest = parse_req(req).await;
     let pool = &state.clone().db2.pool;
-    let req: GetPrfsCircuitDriverByDriverIdRequest = parse_req(req).await;
-
     let prfs_circuit_driver =
-        prfs::get_prfs_circuit_driver_by_circuit_driver_id(&pool, &req.circuit_driver_id).await;
+        prfs::get_prfs_circuit_driver_by_circuit_driver_id(&pool, &input.circuit_driver_id).await;
 
     let resp = ApiResponse::new_success(GetPrfsCircuitDriverByDriverIdResponse {
         prfs_circuit_driver,
     });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }

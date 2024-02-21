@@ -1,6 +1,6 @@
 use http_body_util::Full;
 use hyper::{body::Incoming, header, Request, Response, StatusCode};
-use hyper_utils::io::{full, ApiHandlerResult, BytesBoxBody};
+use prfs_axum_lib::io::{full, ApiHandlerResult, BytesBoxBody};
 use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 

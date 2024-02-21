@@ -1,3 +1,4 @@
+use axum::extract::ws::Message;
 use futures::SinkExt;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
@@ -9,7 +10,6 @@ use prfs_entities::{
     sqlx::{pool, postgres::PgListener},
 };
 use std::sync::Arc;
-use tungstenite::Message;
 
 use crate::IdSessionServerError;
 
@@ -46,7 +46,7 @@ pub async fn start_listening_to_prfs_id_session_events(
                     };
                     let resp = serde_json::to_string(&resp).unwrap();
                     let mut tx_lock = tx.lock().await;
-                    tx_lock.send(Message::text(resp)).await.unwrap();
+                    tx_lock.send(Message::Text(resp)).await.unwrap();
                 }
             } else {
                 println!("Strange, session isn't found, key: {}", session_key);

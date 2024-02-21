@@ -1,5 +1,12 @@
-use hyper::{body::Incoming, Request};
-use hyper_utils::{
+use axum::{
+    extract::{MatchedPath, Request, State},
+    handler::HandlerWithoutStateExt,
+    http::{HeaderValue, Method, StatusCode},
+    routing::{get, post},
+    Json, Router,
+};
+use hyper::body::Incoming;
+use prfs_axum_lib::{
     io::{parse_req, ApiHandlerResult},
     resp::ApiResponse,
 };
@@ -21,14 +28,17 @@ const FINITE_FIELD: &str = "Z_(2^256-2^32-977)";
 const ELLIPTIC_CURVE: &str = "Secp256k1";
 
 pub async fn create_prfs_tree_by_prfs_set(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: CreatePrfsTreeByPrfsSetRequest = parse_req(req).await;
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<CreatePrfsTreeByPrfsSetRequest>,
+) -> (
+    StatusCode,
+    Json<ApiResponse<CreatePrfsTreeByPrfsSetResponse>>,
+) {
+    // let req: CreatePrfsTreeByPrfsSetRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let mut set = prfs::get_prfs_set_by_set_id(&pool, &req.set_id)
+    let mut set = prfs::get_prfs_set_by_set_id(&pool, &input.set_id)
         .await
         .unwrap();
 
@@ -47,7 +57,7 @@ pub async fn create_prfs_tree_by_prfs_set(
             pos_h: 0,
             meta: None,
             val,
-            tree_id: req.tree_id.to_string(),
+            tree_id: input.tree_id.to_string(),
             set_id: set.set_id.to_string(),
         };
 
@@ -74,7 +84,7 @@ pub async fn create_prfs_tree_by_prfs_set(
                 pos_h: (d + 1) as i32,
                 meta: None,
                 val,
-                tree_id: req.tree_id.to_string(),
+                tree_id: input.tree_id.to_string(),
                 set_id: set.set_id.to_string(),
             };
 
@@ -93,9 +103,9 @@ pub async fn create_prfs_tree_by_prfs_set(
     prfs::upsert_prfs_set(&mut tx, &set).await.unwrap();
 
     let tree = PrfsTree {
-        label: req.tree_label.to_string(),
-        tree_id: req.tree_id.to_string(),
-        set_id: req.set_id.to_string(),
+        label: input.tree_label.to_string(),
+        tree_id: input.tree_id.to_string(),
+        set_id: input.set_id.to_string(),
         merkle_root: merkle_root.to_string(),
         tree_depth: TREE_DEPTH,
         finite_field: FINITE_FIELD.to_string(),
@@ -106,24 +116,24 @@ pub async fn create_prfs_tree_by_prfs_set(
     tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(CreatePrfsTreeByPrfsSetResponse {
-        tree_id: req.tree_id.to_string(),
-        set_id: req.set_id.to_string(),
+        tree_id: input.tree_id.to_string(),
+        set_id: input.set_id.to_string(),
     });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn get_latest_prfs_tree_by_set_id(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: GetLatestPrfsTreeBySetIdRequest = parse_req(req).await;
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetLatestPrfsTreeBySetIdRequest>,
+) -> (
+    StatusCode,
+    Json<ApiResponse<GetLatestPrfsTreeBySetIdResponse>>,
+) {
     let pool = &state.db2.pool;
-    let prfs_tree = prfs::get_latest_prfs_tree_by_set_id(pool, &req.set_id)
+    let prfs_tree = prfs::get_latest_prfs_tree_by_set_id(pool, &input.set_id)
         .await
         .unwrap();
 
     let resp = ApiResponse::new_success(GetLatestPrfsTreeBySetIdResponse { prfs_tree });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }

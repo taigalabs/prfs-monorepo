@@ -1,9 +1,9 @@
 use hyper::body::Incoming;
 use hyper::{Method, Request, Response};
-use hyper_utils::cors::handle_cors;
-use hyper_utils::io::BytesBoxBody;
-use hyper_utils::resp::ApiResponse;
 use prfs_atst_server::server::router::{atst_server_routes, ATST_API};
+use prfs_axum_lib::cors::handle_cors;
+use prfs_axum_lib::io::BytesBoxBody;
+use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_id_server::server::router::id_server_routes;
 use prfs_id_server::server::ID_API;
@@ -42,128 +42,130 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
         match (req.method(), req.uri().path()) {
             (&Method::OPTIONS, _) => handle_cors(),
             (&Method::GET, "/") => handle_server_status(req, state).await,
-            (&Method::POST, v0_path!("sign_up_prfs_account")) => {
-                prfs_accounts::sign_up_prfs_account(req, state).await
-            }
-            (&Method::POST, v0_path!("sign_in_prfs_account")) => {
-                prfs_accounts::sign_in_prfs_account(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_circuits")) => {
-                prfs_circuits::get_prfs_circuits(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_circuit_by_circuit_id")) => {
-                prfs_circuits::get_prfs_circuit_by_circuit_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_circuit_types")) => {
-                prfs_circuit_types::get_prfs_circuit_types(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_circuit_type_by_circuit_type_id")) => {
-                prfs_circuit_types::get_prfs_circuit_type_by_circuit_type_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_circuit_drivers")) => {
-                prfs_circuit_drivers::get_prfs_circuit_drivers(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_circuit_driver_by_driver_id")) => {
-                prfs_circuit_drivers::get_prfs_circuit_driver_by_driver_id(req, state).await
-            }
-            (&Method::POST, v0_path!("create_prfs_proof_instance")) => {
-                prfs_proof_instances::create_prfs_proof_instance(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_proof_instances")) => {
-                prfs_proof_instances::get_prfs_proof_instances(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_proof_instance_by_instance_id")) => {
-                prfs_proof_instances::get_prfs_proof_instance_by_instance_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_proof_instance_by_short_id")) => {
-                prfs_proof_instances::get_prfs_proof_instance_by_short_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_set_elements")) => {
-                prfs_set_elements::get_prfs_set_elements(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_set_element")) => {
-                prfs_set_elements::get_prfs_set_element(req, state).await
-            }
+            // (&Method::POST, v0_path!("sign_up_prfs_account")) => {
+            //     prfs_accounts::sign_up_prfs_account(req, state).await
+            // }
+            // (&Method::POST, v0_path!("sign_in_prfs_account")) => {
+            //     prfs_accounts::sign_in_prfs_account(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_circuits")) => {
+            //     prfs_circuits::get_prfs_circuits(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_circuit_by_circuit_id")) => {
+            //     prfs_circuits::get_prfs_circuit_by_circuit_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_circuit_types")) => {
+            //     prfs_circuit_types::get_prfs_circuit_types(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_circuit_type_by_circuit_type_id")) => {
+            //     prfs_circuit_types::get_prfs_circuit_type_by_circuit_type_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_circuit_drivers")) => {
+            //     prfs_circuit_drivers::get_prfs_circuit_drivers(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_circuit_driver_by_driver_id")) => {
+            //     prfs_circuit_drivers::get_prfs_circuit_driver_by_driver_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("create_prfs_proof_instance")) => {
+            //     prfs_proof_instances::create_prfs_proof_instance(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_proof_instances")) => {
+            //     prfs_proof_instances::get_prfs_proof_instances(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_proof_instance_by_instance_id")) => {
+            //     prfs_proof_instances::get_prfs_proof_instance_by_instance_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_proof_instance_by_short_id")) => {
+            //     prfs_proof_instances::get_prfs_proof_instance_by_short_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_set_elements")) => {
+            //     prfs_set_elements::get_prfs_set_elements(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_set_element")) => {
+            //     prfs_set_elements::get_prfs_set_element(req, state).await
+            // }
             // (&Method::POST, v0_path!("create_prfs_dynamic_set_element")) => {
             //     prfs_sets::create_prfs_dynamic_set_element(req, state).await
             // }
-            (&Method::POST, v0_path!("get_prfs_tree_nodes_by_pos")) => {
-                prfs_tree_nodes::get_prfs_tree_nodes_by_pos(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_tree_leaf_nodes_by_set_id")) => {
-                prfs_tree_nodes::get_prfs_tree_leaf_nodes_by_set_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_tree_leaf_indices")) => {
-                prfs_tree_nodes::get_prfs_tree_leaf_indices(req, state).await
-            }
-            (&Method::POST, v0_path!("create_prfs_set")) => {
-                prfs_sets::create_prfs_set(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_sets")) => {
-                prfs_sets::get_prfs_sets(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_sets_by_set_type")) => {
-                prfs_sets::get_prfs_sets_by_set_type(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_set_by_set_id")) => {
-                prfs_sets::get_prfs_set_by_set_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_proof_types")) => {
-                prfs_proof_types::get_prfs_proof_types(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_proof_type_by_proof_type_id")) => {
-                prfs_proof_types::get_prfs_proof_type_by_proof_type_id(req, state).await
-            }
-            (&Method::POST, v0_path!("create_prfs_proof_type")) => {
-                prfs_proof_types::create_prfs_proof_type(req, state).await
-            }
-            (&Method::POST, v0_path!("update_prfs_tree_node")) => {
-                prfs_tree_nodes::update_prfs_tree_node(req, state).await
-            }
+            // (&Method::POST, v0_path!("get_prfs_tree_nodes_by_pos")) => {
+            //     prfs_tree_nodes::get_prfs_tree_nodes_by_pos(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_tree_leaf_nodes_by_set_id")) => {
+            //     prfs_tree_nodes::get_prfs_tree_leaf_nodes_by_set_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_tree_leaf_indices")) => {
+            //     prfs_tree_nodes::get_prfs_tree_leaf_indices(req, state).await
+            // }
+            // (&Method::POST, v0_path!("create_prfs_set")) => {
+            //     prfs_sets::create_prfs_set(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_sets")) => {
+            //     prfs_sets::get_prfs_sets(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_sets_by_set_type")) => {
+            //     prfs_sets::get_prfs_sets_by_set_type(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_set_by_set_id")) => {
+            //     prfs_sets::get_prfs_set_by_set_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_proof_types")) => {
+            //     prfs_proof_types::get_prfs_proof_types(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_proof_type_by_proof_type_id")) => {
+            //     prfs_proof_types::get_prfs_proof_type_by_proof_type_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("create_prfs_proof_type")) => {
+            //     prfs_proof_types::create_prfs_proof_type(req, state).await
+            // }
+            // (&Method::POST, v0_path!("update_prfs_tree_node")) => {
+            //     prfs_tree_nodes::update_prfs_tree_node(req, state).await
+            // }
             // (&Method::POST, v0_path!("compute_prfs_set_merkle_root")) => {
             //     prfs_sets::compute_prfs_set_merkle_root(req, state).await
             // }
-            (&Method::POST, v0_path!("get_prfs_polls")) => {
-                prfs_polls::get_prfs_polls(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_poll_by_poll_id")) => {
-                prfs_polls::get_prfs_poll_by_poll_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_poll_result_by_poll_id")) => {
-                prfs_polls::get_prfs_poll_result_by_poll_id(req, state).await
-            }
-            (&Method::POST, v0_path!("submit_prfs_poll_response")) => {
-                prfs_polls::submit_prfs_poll_response(req, state).await
-            }
-            (&Method::POST, v0_path!("create_prfs_poll")) => {
-                prfs_polls::create_prfs_poll(req, state).await
-            }
-            (&Method::POST, v0_path!("import_prfs_set_elements")) => {
-                prfs_set_elements::import_prfs_set_elements(req, state).await
-            }
-            (&Method::POST, v0_path!("create_prfs_tree_by_prfs_set")) => {
-                prfs_trees::create_prfs_tree_by_prfs_set(req, state).await
-            }
-            (&Method::POST, v0_path!("get_least_recent_prfs_index")) => {
-                prfs_indices::get_least_recent_index(req, state).await
-            }
-            (&Method::POST, v0_path!("get_latest_prfs_tree_by_set_id")) => {
-                prfs_trees::get_latest_prfs_tree_by_set_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_indices")) => {
-                prfs_indices::get_prfs_indices(req, state).await
-            }
-            (&Method::POST, v0_path!("add_prfs_index")) => {
-                prfs_indices::add_prfs_index(req, state).await
-            }
+            // (&Method::POST, v0_path!("get_prfs_polls")) => {
+            //     prfs_polls::get_prfs_polls(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_poll_by_poll_id")) => {
+            //     prfs_polls::get_prfs_poll_by_poll_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_poll_result_by_poll_id")) => {
+            //     prfs_polls::get_prfs_poll_result_by_poll_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("submit_prfs_poll_response")) => {
+            //     prfs_polls::submit_prfs_poll_response(req, state).await
+            // }
+            // (&Method::POST, v0_path!("create_prfs_poll")) => {
+            //     prfs_polls::create_prfs_poll(req, state).await
+            // }
+            // (&Method::POST, v0_path!("import_prfs_set_elements")) => {
+            //     prfs_set_elements::import_prfs_set_elements(req, state).await
+            // }
+            // (&Method::POST, v0_path!("create_prfs_tree_by_prfs_set")) => {
+            //     prfs_trees::create_prfs_tree_by_prfs_set(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_latest_prfs_tree_by_set_id")) => {
+            //     prfs_trees::get_latest_prfs_tree_by_set_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_least_recent_prfs_index")) => {
+            //     prfs_indices::get_least_recent_index(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_indices")) => {
+            //     prfs_indices::get_prfs_indices(req, state).await
+            // }
+            // (&Method::POST, v0_path!("add_prfs_index")) => {
+            //     prfs_indices::add_prfs_index(req, state).await
+            // }
             _ => handle_not_found(req, state).await,
         }
     };
 
+    panic!();
+
     // Inline const is not availble at the moment
     // https://github.com/rodrimati1992/const_format_crates/issues/17
-    match resp {
-        Ok(r) => return r,
-        Err(err) => return ApiResponse::new_error(err).into_hyper_response(),
-    }
+    // match resp {
+    //     Ok(r) => return r,
+    //     Err(err) => return ApiResponse::new_error(err).into_hyper_response(),
+    // }
 }

@@ -1,5 +1,12 @@
-use hyper::{body::Incoming, Request, Response};
-use hyper_utils::{
+use axum::{
+    extract::{MatchedPath, Request, State},
+    handler::HandlerWithoutStateExt,
+    http::{HeaderValue, Method, StatusCode},
+    routing::{get, post},
+    Json, Router,
+};
+use hyper::{body::Incoming, Response};
+use prfs_axum_lib::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
     resp::ApiResponse,
 };
@@ -14,13 +21,15 @@ use std::{collections::HashMap, sync::Arc};
 const LIMIT: i32 = 10;
 
 pub async fn get_least_recent_index(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: GetLeastRecentPrfsIndexRequest = parse_req(req).await;
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetLeastRecentPrfsIndexRequest>,
+) -> (
+    StatusCode,
+    Json<ApiResponse<GetLeastRecentPrfsIndexResponse>>,
+) {
     let pool = &state.db2.pool;
 
-    let prfs_indices = prfs::get_least_recent_prfs_index(pool, &req.prfs_indices)
+    let prfs_indices = prfs::get_least_recent_prfs_index(pool, &input.prfs_indices)
         .await
         .unwrap();
 
@@ -41,15 +50,16 @@ pub async fn get_least_recent_index(
     let resp = ApiResponse::new_success(GetLeastRecentPrfsIndexResponse {
         prfs_index: free_idx,
     });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
-pub async fn get_prfs_indices(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
-    let req: GetPrfsIndicesRequest = parse_req(req).await;
+pub async fn get_prfs_indices(
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsIndicesRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsIndicesResponse>>) {
     let pool = &state.db2.pool;
 
-    let prfs_indices = prfs::get_prfs_indices(pool, &req.keys).await.unwrap();
+    let prfs_indices = prfs::get_prfs_indices(pool, &input.keys).await.unwrap();
 
     let mut map = HashMap::new();
     for idx in prfs_indices {
@@ -57,23 +67,26 @@ pub async fn get_prfs_indices(req: Request<Incoming>, state: Arc<ServerState>) -
     }
 
     let resp = ApiResponse::new_success(GetPrfsIndicesResponse { prfs_indices: map });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
-pub async fn add_prfs_index(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
-    let req: AddPrfsIndexRequest = parse_req(req).await;
+pub async fn add_prfs_index(
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<AddPrfsIndexRequest>,
+) -> (StatusCode, Json<ApiResponse<AddPrfsIndexResponse>>) {
+    // let req: AddPrfsIndexRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let _wallet_prfs_idx = prfs::upsert_prfs_index(&mut tx, &req.key, &req.value, &req.serial_no)
-        .await
-        .unwrap();
+    let _wallet_prfs_idx =
+        prfs::upsert_prfs_index(&mut tx, &input.key, &input.value, &input.serial_no)
+            .await
+            .unwrap();
 
     tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(AddPrfsIndexResponse {
-        key: req.key.to_string(),
+        key: input.key.to_string(),
     });
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
