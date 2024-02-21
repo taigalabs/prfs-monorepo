@@ -31,7 +31,7 @@ export default async function middleware(req: NextRequest) {
   const url = req.nextUrl;
 
   // Get hostname of request (e.g. demo.vercel.pub, demo.localhost:3000)
-  let hostname = req.headers.get("host")!;
+  // let hostname = req.headers.get("host")!;
   // .replace(
   //   `.${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}`,
   //   `.${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}`,

@@ -5,6 +5,15 @@
   width: 150px;
   /* border: 1px solid blue; */
 
+  > span {
+    font-size: 72px;
+    background: #121fcf;
+    background: linear-gradient(to right, #121fcf 0%, #cf1512 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   img {
     width: 100%;
     height: 100%;
