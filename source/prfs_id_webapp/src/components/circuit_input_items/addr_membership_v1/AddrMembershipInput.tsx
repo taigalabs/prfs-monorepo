@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
@@ -12,6 +12,8 @@ import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
+import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
+import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRaw from "./MerkleProofRaw";
@@ -44,31 +46,52 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
+  const [prfsTree, setPrfsTree] = React.useState<PrfsTree>();
   const [walletAddr, setWalletAddr] = React.useState("");
 
   const { mutateAsync: GetPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
-      // return prfsApi2("get_prfs_tree_leaf_indices", req);
       return prfsApi3({ type: "get_prfs_tree_leaf_indices", ...req });
     },
   });
 
   const { mutateAsync: getPrfsSetBySetId } = useMutation({
     mutationFn: (req: GetPrfsSetBySetIdRequest) => {
-      // return prfsApi2({ type: "get_prfs_set_by_set_id", ...req });
       return prfsApi3({ type: "get_prfs_set_by_set_id", ...req });
     },
   });
 
   const { mutateAsync: getPrfsTreeNodesByPosRequest } = useMutation({
     mutationFn: (req: GetPrfsTreeNodesByPosRequest) => {
-      // return prfsApi2({ type: "get_prfs_tree_nodes_by_pos", ...req });
       return prfsApi3({ type: "get_prfs_tree_nodes_by_pos", ...req });
     },
   });
 
+  const { isPending: isGetLatestPrfsTreePending, mutateAsync: getLatestPrfsTreeBySetId } =
+    useMutation({
+      mutationFn: (req: GetLatestPrfsTreeBySetIdRequest) => {
+        return prfsApi3({ type: "get_latest_prfs_tree_by_set_id", ...req });
+      },
+    });
+
   React.useEffect(() => {
     async function fn() {
+      const { payload: getLatestPrfsTreeBySetIdPayload } = await getLatestPrfsTreeBySetId({
+        set_id: circuitTypeData.prfs_set_id,
+      });
+
+      if (!isGetLatestPrfsTreePending && getLatestPrfsTreeBySetIdPayload?.prfs_tree === null) {
+        setFormErrors(prevVals => {
+          return {
+            ...prevVals,
+            merkleProof: "Tree does not exist",
+          };
+        });
+        return;
+      }
+      if (getLatestPrfsTreeBySetIdPayload?.prfs_tree) {
+        setPrfsTree(getLatestPrfsTreeBySetIdPayload.prfs_tree);
+      }
       // if (circuitInput.ref_type === "PRFS_SET") {
       //   if (!circuitInput.ref_value) {
       //     console.error("Prfs set ref value is not provided");
@@ -85,7 +108,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
       // }
     }
     fn().then();
-  }, [circuitTypeData, setPrfsSet, getPrfsSetBySetId]);
+  }, [circuitTypeData, setPrfsSet, getPrfsSetBySetId, setPrfsTree]);
 
   const handleClickRawSubmit = React.useCallback(
     (merkleProof: SpartanMerkleProof) => {
@@ -111,6 +134,10 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
         return;
       }
 
+      if (!prfsTree) {
+        return;
+      }
+
       setWalletAddr(addr);
       setFormErrors((prevVals: any) => {
         return {
@@ -119,7 +146,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
         };
       });
 
-      const { set_id, merkle_root } = prfsSet;
+      const { set_id } = prfsSet;
 
       try {
         const { payload, error } = await GetPrfsTreeLeafIndices({
@@ -184,7 +211,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
         }
 
         const merkleProof: SpartanMerkleProof = {
-          root: BigInt(merkle_root),
+          root: BigInt(prfsTree.merkle_root),
           siblings: siblings as bigint[],
           pathIndices,
         };
@@ -199,7 +226,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
         console.error(err);
       }
     },
-    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors],
+    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors, prfsTree],
   );
 
   const label = React.useMemo(() => {

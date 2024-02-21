@@ -1,0 +1,16 @@
+.list {
+  display: flex;
+  padding-top: 14px;
+  gap: 14px;
+}
+
+.item {
+  display: flex;
+  color: var(--gray-23);
+}
+
+.title {
+  padding-right: 4px;
+  color: var(--black-26);
+  font-weight: 500;
+}

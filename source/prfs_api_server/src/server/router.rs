@@ -16,7 +16,7 @@ use crate::apis::status::handle_server_status;
 use crate::apis::{
     prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_indices,
     prfs_polls, prfs_proof_instances, prfs_proof_types, prfs_set_elements, prfs_sets,
-    prfs_tree_nodes,
+    prfs_tree_nodes, prfs_trees,
 };
 
 macro_rules! v0_path {
@@ -141,11 +141,14 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             (&Method::POST, v0_path!("import_prfs_set_elements")) => {
                 prfs_set_elements::import_prfs_set_elements(req, state).await
             }
-            (&Method::POST, v0_path!("create_tree_of_prfs_set")) => {
-                prfs_sets::create_tree_of_prfs_set(req, state).await
+            (&Method::POST, v0_path!("create_prfs_tree_by_prfs_set")) => {
+                prfs_trees::create_prfs_tree_by_prfs_set(req, state).await
             }
             (&Method::POST, v0_path!("get_least_recent_prfs_index")) => {
                 prfs_indices::get_least_recent_index(req, state).await
+            }
+            (&Method::POST, v0_path!("get_latest_prfs_tree_by_set_id")) => {
+                prfs_trees::get_latest_prfs_tree_by_set_id(req, state).await
             }
             (&Method::POST, v0_path!("get_prfs_indices")) => {
                 prfs_indices::get_prfs_indices(req, state).await

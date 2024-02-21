@@ -3,35 +3,49 @@ use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 
 use crate::DbInterfaceError;
 
-// pub async fn get_prfs_tree_root(
-//     pool: &Pool<Postgres>,
-//     set_id: &String,
-// ) -> Result<PrfsTreeNode, DbInterfaceError> {
-//     let query = format!("SELECT * from prfs_tree_nodes where set_id=$1 and pos_h=31 and pos_w=0",);
-//     // println!("query: {}", query);
+pub async fn get_latest_prfs_tree_by_set_id(
+    pool: &Pool<Postgres>,
+    set_id: &String,
+) -> Result<Option<PrfsTree>, DbInterfaceError> {
+    let query = r#"
+SELECT * 
+FROM prfs_trees
+WHERE set_id=$1
+ORDER BY updated_at
+DESC
+LIMIT 1
+"#;
 
-//     let row = sqlx::query(&query)
-//         .bind(&set_id)
-//         .fetch_one(pool)
-//         .await
-//         .unwrap();
+    let row = sqlx::query(&query)
+        .bind(&set_id)
+        .fetch_optional(pool)
+        .await
+        .unwrap();
 
-//     let pos_w = row.try_get("pos_w").expect("pos_w should exist");
-//     let pos_h = row.try_get("pos_h").expect("pos_h should exist");
-//     let val = row.try_get("val").expect("val should exist");
-//     let set_id = row.try_get("set_id").expect("set_id should exist");
-//     let meta = row.get("meta");
+    if let Some(r) = row {
+        let label = r.try_get("label").expect("label should exist");
+        let tree_id = r.try_get("tree_id").expect("tree_id should exist");
+        let set_id = r.try_get("set_id").expect("set_id should exist");
+        let merkle_root = r.try_get("merkle_root").expect("invalid merkle_root");
+        let elliptic_curve = r.try_get("elliptic_curve").expect("invalid element_curve");
+        let finite_field = r.try_get("finite_field").expect("invalid finite_field");
+        let tree_depth = r.get("tree_depth");
 
-//     let n = PrfsTreeNode {
-//         pos_w,
-//         pos_h,
-//         val,
-//         set_id,
-//         meta,
-//     };
+        let t = PrfsTree {
+            label,
+            tree_id,
+            set_id,
+            merkle_root,
+            elliptic_curve,
+            finite_field,
+            tree_depth,
+        };
 
-//     Ok(n)
-// }
+        Ok(Some(t))
+    } else {
+        Ok(None)
+    }
+}
 
 pub async fn insert_prfs_tree(
     tx: &mut Transaction<'_, Postgres>,
@@ -39,16 +53,20 @@ pub async fn insert_prfs_tree(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_trees 
-(tree_id, set_id, "label")
-VALUES 
-($1, $2, $3) 
-RETURNING tree_id"
+(tree_id, set_id, "label", tree_depth, elliptic_curve, finite_field, merkle_root)
+VALUES
+($1, $2, $3, $4, $5, $6, $7)
+RETURNING tree_id
 "#;
 
     let row = sqlx::query(&query)
         .bind(&tree.tree_id)
         .bind(&tree.set_id)
         .bind(&tree.label)
+        .bind(&tree.tree_depth)
+        .bind(&tree.elliptic_curve)
+        .bind(&tree.finite_field)
+        .bind(&tree.merkle_root)
         .fetch_one(&mut **tx)
         .await
         .expect(&format!("insertion failed, set_id: {}", tree.tree_id));

@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
@@ -17,6 +17,8 @@ import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetP
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
 import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
+import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
+import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -65,33 +67,37 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
+  const [prfsTree, setPrfsTree] = React.useState<PrfsTree>();
   const [walletAddr, setWalletAddr] = React.useState("");
   const [rangeOptionIdx, setRangeOptionIdx] = React.useState(-1);
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
-      // return prfsApi2("get_prfs_set_element", req);
       return prfsApi3({ type: "get_prfs_set_element", ...req });
     },
   });
 
+  const { isPending: isGetLatestPrfsTreePending, mutateAsync: getLatestPrfsTreeBySetId } =
+    useMutation({
+      mutationFn: (req: GetLatestPrfsTreeBySetIdRequest) => {
+        return prfsApi3({ type: "get_latest_prfs_tree_by_set_id", ...req });
+      },
+    });
+
   const { mutateAsync: getPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
-      // return prfsApi2("get_prfs_tree_leaf_indices", req);
       return prfsApi3({ type: "get_prfs_tree_leaf_indices", ...req });
     },
   });
 
   const { mutateAsync: getPrfsSetBySetId } = useMutation({
     mutationFn: (req: GetPrfsSetBySetIdRequest) => {
-      // return prfsApi2("get_prfs_set_by_set_id", req);
       return prfsApi3({ type: "get_prfs_set_by_set_id", ...req });
     },
   });
 
   const { mutateAsync: getPrfsTreeNodesByPosRequest } = useMutation({
     mutationFn: (req: GetPrfsTreeNodesByPosRequest) => {
-      // return prfsApi2("get_prfs_tree_nodes_by_pos", req);
       return prfsApi3({ type: "get_prfs_tree_nodes_by_pos", ...req });
     },
   });
@@ -106,6 +112,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       }
     }
 
+    let treeId = prfsTree ? prfsTree.tree_id.substring(0, 7) : "Loading...";
+
     return prfsSet ? (
       <span className={styles.inputLabel}>
         <span>{i18n.member} - </span>
@@ -115,13 +123,14 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           href={`${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/sets/${prfsSet.set_id}`}
         >
           <span>{prfsSet.label}</span>
+          <span> ({treeId})</span>
           <BiLinkExternal />
         </a>
       </span>
     ) : (
       <span className={styles.inputLabel}>{i18n.loading}</span>
     );
-  }, [prfsSet]);
+  }, [prfsSet, prfsTree]);
 
   React.useEffect(() => {
     async function fn() {
@@ -135,22 +144,42 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           set_id: circuitTypeData.prfs_set_id,
         });
 
+        const { payload: getLatestPrfsTreeBySetIdPayload } = await getLatestPrfsTreeBySetId({
+          set_id: circuitTypeData.prfs_set_id,
+        });
+
+        if (!isGetLatestPrfsTreePending && getLatestPrfsTreeBySetIdPayload?.prfs_tree === null) {
+          setFormErrors(prevVals => {
+            return {
+              ...prevVals,
+              merkleProof: "Tree does not exist",
+            };
+          });
+          return;
+        }
+
         if (payload) {
           setPrfsSet(payload.prfs_set);
+        }
+
+        if (getLatestPrfsTreeBySetIdPayload?.prfs_tree) {
+          setPrfsTree(getLatestPrfsTreeBySetIdPayload.prfs_tree);
         }
       } else {
         console.error("Prfs set not found");
       }
     }
     fn().then();
-  }, [circuitTypeData, setPrfsSet, getPrfsSetBySetId]);
+  }, [circuitTypeData, setPrfsSet, getPrfsSetBySetId, setPrfsTree]);
 
   const handleChangeAddress = React.useCallback(
     async (addr: string) => {
       if (!prfsSet) {
         return;
       }
-
+      if (!prfsTree) {
+        return;
+      }
       if (!addr) {
         return;
       }
@@ -163,13 +192,19 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         };
       });
 
-      const { set_id, merkle_root } = prfsSet;
-      try {
-        const { range_data } = circuitTypeData;
-        if (!range_data) {
-          throw new Error("range_data is empty");
-        }
+      const { set_id } = prfsSet;
+      const { range_data } = circuitTypeData;
+      if (!range_data) {
+        setFormErrors(prevVals => {
+          return {
+            ...prevVals,
+            merkleProof: "range_data is empty",
+          };
+        });
+        return;
+      }
 
+      try {
         // Merkle setup
         const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
@@ -314,7 +349,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }
 
         const merkleProof: SpartanMerkleProof = {
-          root: BigInt(merkle_root),
+          root: BigInt(prfsTree.merkle_root),
           siblings: siblings as bigint[],
           pathIndices,
         };
@@ -358,9 +393,11 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       setFormValues,
       prfsSet,
       getPrfsTreeLeafIndices,
+      getLatestPrfsTreeBySetId,
       setFormErrors,
       getPrfsSetElement,
       setRangeOptionIdx,
+      prfsTree,
     ],
   );
 

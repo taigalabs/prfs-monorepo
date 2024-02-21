@@ -125,85 +125,85 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         };
       });
 
-      const { set_id, merkle_root } = prfsSet;
+      //   const { set_id, merkle_root } = prfsSet;
 
-      try {
-        const { payload, error } = await GetPrfsTreeLeafIndices({
-          set_id,
-          leaf_vals: [addr],
-        });
+      //   try {
+      //     const { payload, error } = await GetPrfsTreeLeafIndices({
+      //       set_id,
+      //       leaf_vals: [addr],
+      //     });
 
-        if (error) {
-          setFormErrors((prevVals: any) => {
-            return {
-              ...prevVals,
-              merkleProof: error,
-            };
-          });
-        }
+      //     if (error) {
+      //       setFormErrors((prevVals: any) => {
+      //         return {
+      //           ...prevVals,
+      //           merkleProof: error,
+      //         };
+      //       });
+      //     }
 
-        if (!payload) {
-          return;
-        }
+      //     if (!payload) {
+      //       return;
+      //     }
 
-        let pos_w = null;
-        // console.log("nodes", payload.prfs_tree_nodes);
+      //     let pos_w = null;
+      //     // console.log("nodes", payload.prfs_tree_nodes);
 
-        for (const node of payload.prfs_tree_nodes) {
-          if (node.val === addr.toLowerCase()) {
-            pos_w = node.pos_w;
-          }
-        }
+      //     for (const node of payload.prfs_tree_nodes) {
+      //       if (node.val === addr.toLowerCase()) {
+      //         pos_w = node.pos_w;
+      //       }
+      //     }
 
-        if (pos_w === null) {
-          throw new Error("Address is not part of a set");
-        }
+      //     if (pos_w === null) {
+      //       throw new Error("Address is not part of a set");
+      //     }
 
-        const leafIdx = Number(pos_w);
-        const siblingPath = makeSiblingPath(32, leafIdx);
-        const pathIndices = makePathIndices(32, leafIdx);
+      //     const leafIdx = Number(pos_w);
+      //     const siblingPath = makeSiblingPath(32, leafIdx);
+      //     const pathIndices = makePathIndices(32, leafIdx);
 
-        const siblingPos = siblingPath.map((pos_w, idx) => {
-          return { pos_h: idx, pos_w };
-        });
+      //     const siblingPos = siblingPath.map((pos_w, idx) => {
+      //       return { pos_h: idx, pos_w };
+      //     });
 
-        // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
+      //     // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
-        const siblingNodesData = await getPrfsTreeNodesByPosRequest({
-          set_id,
-          pos: siblingPos,
-        });
+      //     const siblingNodesData = await getPrfsTreeNodesByPosRequest({
+      //       set_id,
+      //       pos: siblingPos,
+      //     });
 
-        if (siblingNodesData.payload === null) {
-          throw new Error(siblingNodesData.error);
-        }
+      //     if (siblingNodesData.payload === null) {
+      //       throw new Error(siblingNodesData.error);
+      //     }
 
-        let siblings: BigInt[] = [];
-        for (const node of siblingNodesData.payload.prfs_tree_nodes) {
-          siblings[node.pos_h] = BigInt(node.val);
-        }
+      //     let siblings: BigInt[] = [];
+      //     for (const node of siblingNodesData.payload.prfs_tree_nodes) {
+      //       siblings[node.pos_h] = BigInt(node.val);
+      //     }
 
-        for (let idx = 0; idx < 32; idx += 1) {
-          if (siblings[idx] === undefined) {
-            siblings[idx] = BigInt(0);
-          }
-        }
+      //     for (let idx = 0; idx < 32; idx += 1) {
+      //       if (siblings[idx] === undefined) {
+      //         siblings[idx] = BigInt(0);
+      //       }
+      //     }
 
-        const merkleProof: SpartanMerkleProof = {
-          root: BigInt(merkle_root),
-          siblings: siblings as bigint[],
-          pathIndices,
-        };
+      //     const merkleProof: SpartanMerkleProof = {
+      //       root: BigInt(merkle_root),
+      //       siblings: siblings as bigint[],
+      //       pathIndices,
+      //     };
 
-        setFormValues((prevVals: any) => {
-          return {
-            ...prevVals,
-            merkleProof: merkleProof,
-          };
-        });
-      } catch (err) {
-        console.error(err);
-      }
+      //     setFormValues((prevVals: any) => {
+      //       return {
+      //         ...prevVals,
+      //         merkleProof: merkleProof,
+      //       };
+      //     });
+      //   } catch (err) {
+      //     console.error(err);
+      //   }
     },
     [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors],
   );

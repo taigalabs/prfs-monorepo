@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
-import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import {
   CommitmentType,
   API_PATH,
@@ -22,7 +22,6 @@ import {
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import {
   AttestationListItem,
@@ -51,7 +50,6 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   setStep,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const { sk, pkHex } = useRandomKeyPair();
   const claimSecret = React.useMemo(() => {
     const walletAddr = formData[WALLET_ADDR];
     return makeWalletAtstCmPreImage(walletAddr);
@@ -60,6 +58,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   const handleClickGenerate = React.useCallback(async () => {
     const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10, WALLET_CM_STEM);
     const session_key = createSessionKey();
+    const { sk, pkHex } = createRandomKeyPair();
 
     const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
@@ -160,18 +159,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
     } catch (err) {
       console.error(err);
     }
-  }, [
-    formData,
-    step,
-    claimSecret,
-    sk,
-    pkHex,
-    // openPopup,
-    setClaimCm,
-    setStep,
-    setWalletCacheKeys,
-    setWalletAddrEnc,
-  ]);
+  }, [formData, step, claimSecret, setClaimCm, setStep, setWalletCacheKeys, setWalletAddrEnc]);
 
   return (
     <AttestationListItem isDisabled={step < AttestationStep.GENERATE_CLAIM}>

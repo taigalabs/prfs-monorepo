@@ -3,9 +3,11 @@ import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaTree } from "@react-icons/all-files/fa/FaTree";
 import { useMutation } from "@tanstack/react-query";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
-import { CreateTreeOfPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreateTreeOfPrfsSetRequest";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import { CreatePrfsTreeByPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsTreeByPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { rand256Hex } from "@taigalabs/prfs-crypto-js";
+import { abbrev5and5 } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./CreateTreeDialog.module.scss";
 import common from "@/styles/common.module.scss";
@@ -20,7 +22,6 @@ import {
 } from "@/components/dialog_default/DialogComponents";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
 import { isMasterAccountId } from "@/mock/mock_data";
-import { useRandomKeyPair } from "@/hooks/key";
 
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 
@@ -49,7 +50,7 @@ const Modal: React.FC<ModalProps> = ({
       </DefaultModalHeader>
       <DefaultModalDesc>
         <p>{i18n.this_might_take_minutes_or_longer}</p>
-        <div className={styles.msg}>{computeMsg}</div>
+        <div className={styles.computeMsg}>{computeMsg}</div>
       </DefaultModalDesc>
       <DefaultModalBtnRow>
         <Button
@@ -82,9 +83,8 @@ const Modal: React.FC<ModalProps> = ({
 const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender }) => {
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: createTreeRequest } = useMutation({
-    mutationFn: (req: CreateTreeOfPrfsSetRequest) => {
-      // return prfsApi2("create_tree_of_prfs_set", req);
-      return prfsApi3({ type: "create_tree_of_prfs_set", ...req });
+    mutationFn: (req: CreatePrfsTreeByPrfsSetRequest) => {
+      return prfsApi3({ type: "create_prfs_tree_by_prfs_set", ...req });
     },
   });
   const { prfsProofCredential } = useSignedInUser();
@@ -95,11 +95,12 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
     if (prfsProofCredential && isMasterAccountId(prfsProofCredential.account_id)) {
       setComputeStatus(CommonStatus.InProgress);
       try {
-        const { pkHex } = useRandomKeyPair();
+        const hex = rand256Hex();
 
         const { payload, error } = await createTreeRequest({
           set_id: CRYPTO_HOLDERS_SET_ID,
-          tree_id: pkHex,
+          tree_id: hex,
+          tree_label: `${CRYPTO_HOLDERS_SET_ID}__tree_${hex}`,
           account_id: prfsProofCredential.account_id,
         });
 
@@ -107,7 +108,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
           setComputeStatus(CommonStatus.Standby);
           setComputeMsg(
             <>
-              <p className={common.redText}>{error}</p>
+              <p className={common.redText}>{error.toString()}</p>
             </>,
           );
         }
@@ -117,10 +118,18 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
           setComputeMsg(
             <>
               <p>
-                <b>
-                  {i18n.tree} is created for {payload.set_id}
-                </b>
+                <b>{i18n.tree} is created.</b>
               </p>
+              <div className={styles.info}>
+                <div>
+                  <span className={styles.title}>{i18n.set_id}</span>
+                  <span>{payload.set_id}</span>
+                </div>
+                <div>
+                  <span className={styles.title}>{i18n.tree_id}</span>
+                  <span>{abbrev5and5(payload.tree_id)}</span>
+                </div>
+              </div>
             </>,
           );
           rerender();

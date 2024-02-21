@@ -8,11 +8,7 @@ export interface PrfsSet {
   author: string;
   desc: string;
   hash_algorithm: string;
-  tree_depth: number;
   cardinality: bigint;
-  merkle_root: string;
   element_type: string;
-  finite_field: string;
-  elliptic_curve: string;
   created_at: string;
 }

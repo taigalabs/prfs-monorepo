@@ -142,16 +142,16 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               </TutorialStepper>
             </div>
             <div className={styles.proofDetailContainer}>
-              <ProofTypeMeta
-                proofTypeDesc={proofInstance.proof_type_desc}
-                proofTypeId={proofInstance.proof_type_id}
-                imgUrl={proofInstance.img_url}
-                proofTypeLabel={proofInstance.proof_type_label}
-                proofTypeAuthor={proofInstance.proof_type_author}
-                circuitTypeId={proofInstance.circuit_type_id}
-                circuitDriverId={proofInstance.circuit_driver_id}
-                proofTypeCreatedAt={proofInstance.proof_type_created_at}
-              />
+              {/* <ProofTypeMeta */}
+              {/*   proofTypeDesc={proofInstance.proof_type_desc} */}
+              {/*   proofTypeId={proofInstance.proof_type_id} */}
+              {/*   imgUrl={proofInstance.img_url} */}
+              {/*   proofTypeLabel={proofInstance.proof_type_label} */}
+              {/*   proofTypeAuthor={proofInstance.proof_type_author} */}
+              {/*   circuitTypeId={proofInstance.circuit_type_id} */}
+              {/*   circuitDriverId={proofInstance.circuit_driver_id} */}
+              {/*   proofTypeCreatedAt={proofInstance.proof_type_created_at} */}
+              {/* /> */}
             </div>
           </div>
           <div className={styles.proofDataContainer}>

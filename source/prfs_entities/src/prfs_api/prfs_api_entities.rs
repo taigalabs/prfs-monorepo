@@ -1,15 +1,15 @@
 use serde::{Deserialize, Serialize};
-use sqlx::prelude::Type;
 use ts_rs::TS;
 
 use crate::id_api::{PrfsSignInRequest, PrfsSignInResponse};
 
 use super::{
-    syn::PrfsCircuitSyn1, AddPrfsIndexRequest, AddPrfsIndexResponse,
-    CreatePrfsDynamicSetElementRequest, CreatePrfsDynamicSetElementResponse, CreatePrfsPollRequest,
-    CreatePrfsPollResponse, CreatePrfsProofInstanceRequest, CreatePrfsProofInstanceResponse,
-    CreatePrfsProofTypeRequest, CreatePrfsProofTypeResponse, CreatePrfsSetRequest,
-    CreatePrfsSetResponse, CreateTreeOfPrfsSetRequest, CreateTreeOfPrfsSetResponse,
+    AddPrfsIndexRequest, AddPrfsIndexResponse, CreatePrfsDynamicSetElementRequest,
+    CreatePrfsDynamicSetElementResponse, CreatePrfsPollRequest, CreatePrfsPollResponse,
+    CreatePrfsProofInstanceRequest, CreatePrfsProofInstanceResponse, CreatePrfsProofTypeRequest,
+    CreatePrfsProofTypeResponse, CreatePrfsSetRequest, CreatePrfsSetResponse,
+    CreatePrfsTreeByPrfsSetRequest, CreatePrfsTreeByPrfsSetResponse,
+    GetLatestPrfsTreeBySetIdRequest, GetLatestPrfsTreeBySetIdResponse,
     GetLeastRecentPrfsIndexRequest, GetLeastRecentPrfsIndexResponse,
     GetPrfsCircuitByCircuitIdRequest, GetPrfsCircuitByCircuitIdResponse,
     GetPrfsCircuitDriverByDriverIdRequest, GetPrfsCircuitDriverByDriverIdResponse,
@@ -65,7 +65,7 @@ pub enum PrfsApiRequest {
     GetPrfsSetsBySetType(GetPrfsSetsBySetTypeRequest),
     create_prfs_set(CreatePrfsSetRequest),
     CreatePrfsDynamicSetElement(CreatePrfsDynamicSetElementRequest),
-    create_tree_of_prfs_set(CreateTreeOfPrfsSetRequest),
+    create_prfs_tree_by_prfs_set(CreatePrfsTreeByPrfsSetRequest),
     import_prfs_set_elements(ImportPrfsSetElementsRequest),
     get_prfs_set_elements(GetPrfsSetElementsRequest),
     get_prfs_set_element(GetPrfsSetElementRequest),
@@ -73,6 +73,7 @@ pub enum PrfsApiRequest {
     GetPrfsTreeLeafNodesBySetId(GetPrfsTreeLeafNodesBySetIdRequest),
     get_prfs_tree_leaf_indices(GetPrfsTreeLeafIndicesRequest),
     UpdatePrfsTreeNode(UpdatePrfsTreeNodeRequest),
+    get_latest_prfs_tree_by_set_id(GetLatestPrfsTreeBySetIdRequest),
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -107,7 +108,7 @@ pub enum PrfsApiResponse {
     GetPrfsSetsBySetType(GetPrfsSetsResponse),
     create_prfs_set(CreatePrfsSetResponse),
     CreatePrfsDynamicSetElement(CreatePrfsDynamicSetElementResponse),
-    create_tree_of_prfs_set(CreateTreeOfPrfsSetResponse),
+    create_prfs_tree_by_prfs_set(CreatePrfsTreeByPrfsSetResponse),
     import_prfs_set_elements(ImportPrfsSetElementsResponse),
     get_prfs_set_elements(GetPrfsSetElementsResponse),
     get_prfs_set_element(GetPrfsSetElementResponse),
@@ -115,4 +116,5 @@ pub enum PrfsApiResponse {
     GetPrfsTreeLeafNodesBySetId(GetPrfsTreeNodesResponse),
     get_prfs_tree_leaf_indices(GetPrfsTreeNodesResponse),
     UpdatePrfsTreeNode(UpdatePrfsTreeNodeResponse),
+    get_latest_prfs_tree_by_set_id(GetLatestPrfsTreeBySetIdResponse),
 }

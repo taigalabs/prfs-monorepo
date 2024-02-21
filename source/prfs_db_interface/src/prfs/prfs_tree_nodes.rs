@@ -1,6 +1,6 @@
 use prfs_entities::entities::{PrfsSetType, PrfsTreeNode};
 use prfs_entities::prfs_api::NodePos;
-use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
+use prfs_entities::sqlx::{self, Execute, Pool, Postgres, QueryBuilder, Row, Transaction};
 use rust_decimal::Decimal;
 
 use crate::DbInterfaceError;
@@ -224,24 +224,27 @@ pub async fn insert_prfs_tree_nodes(
     nodes: &[PrfsTreeNode],
     update_on_conflict: bool,
 ) -> Result<u64, DbInterfaceError> {
-    let mut query_builder: QueryBuilder<Postgres> =
-        QueryBuilder::new("INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, meta, set_id)");
+    let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
+        r#"
+INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, meta, set_id, tree_id)
+"#,
+    );
 
     query_builder.push_values(nodes, |mut b, node| {
         b.push_bind(node.pos_w)
             .push_bind(node.pos_h)
             .push_bind(node.val.clone())
             .push_bind(node.meta.clone())
-            .push_bind(node.set_id.clone());
+            .push_bind(node.set_id.clone())
+            .push_bind(node.tree_id.clone());
     });
 
     if update_on_conflict {
-        query_builder.push("ON CONFLICT (pos_w, pos_h, set_id)");
+        query_builder.push("ON CONFLICT (pos_w, pos_h, tree_id)");
         query_builder.push("DO UPDATE SET val = excluded.val, updated_at = now()");
     }
 
     let query = query_builder.build();
-
     let result = query.execute(&mut **tx).await.unwrap();
 
     Ok(result.rows_affected())

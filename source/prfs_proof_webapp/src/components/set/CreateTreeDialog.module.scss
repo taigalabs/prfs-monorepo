@@ -20,10 +20,25 @@
   }
 }
 
-.msg {
+.computeMsg {
   padding-top: 14px;
 
   > p:not(:first-child) {
     padding-top: 8px;
+  }
+
+  .label {
+    margin-right: 6px;
+  }
+}
+
+.info {
+  padding-top: 10px;
+  color: var(--gray-23);
+
+  .title {
+    color: var(--black-26);
+    font-weight: 500;
+    padding-right: 4px;
   }
 }

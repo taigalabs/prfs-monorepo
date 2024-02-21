@@ -12,7 +12,7 @@ import {
   createSessionKey,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
@@ -21,7 +21,6 @@ import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
-import { useRandomKeyPair } from "@/hooks/key";
 import { useAppSelector } from "@/state/hooks";
 
 const PROOF = "Proof";
@@ -39,11 +38,11 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const step = useAppSelector(state => state.tutorial.tutorialStep);
   const [status, setStatus] = React.useState(Status.Standby);
-  const { sk, pkHex } = useRandomKeyPair();
   const { tutorialId } = useTutorial();
 
   const handleClickCreateProof = React.useCallback(async () => {
     const session_key = createSessionKey();
+    const { sk, pkHex } = createRandomKeyPair();
     const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
       app_id: "prfs_proof",
@@ -170,14 +169,15 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         </div>
         <div className={styles.metaArea}>
           <ProofTypeMeta
-            proofTypeDesc={proofType.desc}
-            proofTypeId={proofType.proof_type_id}
-            imgUrl={proofType.img_url}
-            proofTypeLabel={proofType.label}
-            proofTypeAuthor={proofType.author}
-            circuitTypeId={proofType.circuit_type_id}
-            circuitDriverId={proofType.circuit_driver_id}
-            proofTypeCreatedAt={proofType.created_at}
+            proofType={proofType}
+            // proofTypeDesc={proofType.desc}
+            // proofTypeId={proofType.proof_type_id}
+            // imgUrl={proofType.img_url}
+            // proofTypeLabel={proofType.label}
+            // proofTypeAuthor={proofType.author}
+            // circuitTypeId={proofType.circuit_type_id}
+            // circuitDriverId={proofType.circuit_driver_id}
+            // proofTypeCreatedAt={proofType.created_at}
           />
         </div>
       </div>

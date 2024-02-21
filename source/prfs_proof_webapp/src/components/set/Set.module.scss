@@ -2,3 +2,10 @@
   display: flex;
   gap: 20px;
 }
+
+.header {
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

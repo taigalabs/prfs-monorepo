@@ -29,13 +29,7 @@ WHERE set_id=$1
         .expect("invalid hash_algorithm");
     let cardinality: i64 = row.try_get("cardinality").expect("invalid cardinality");
     let created_at: DateTime<Utc> = row.try_get("created_at").expect("invalid created_at");
-    let merkle_root: String = row.try_get("merkle_root").expect("invalid merkle_root");
     let element_type: String = row.try_get("element_type").expect("invalid element_type");
-    let tree_depth: i16 = row.get("tree_depth");
-    let elliptic_curve: String = row
-        .try_get("elliptic_curve")
-        .expect("invalid element_curve");
-    let finite_field: String = row.try_get("finite_field").expect("invalid finite_field");
     let set_type: PrfsSetType = row.try_get("set_type").expect("invalid set_type");
 
     let s = PrfsSet {
@@ -46,11 +40,7 @@ WHERE set_id=$1
         hash_algorithm,
         cardinality,
         created_at,
-        tree_depth,
-        merkle_root,
         element_type,
-        elliptic_curve,
-        finite_field,
         set_type,
     };
 
@@ -89,14 +79,14 @@ OFFSET $2
             let hash_algorithm: String =
                 r.try_get("hash_algorithm").expect("invalid hash_algorithm");
             let cardinality: i64 = r.try_get("cardinality").expect("invalid cardinality");
-            let created_at: DateTime<Utc> = r.try_get("created_at").expect("invalid created_at");
-            let merkle_root: String = r.try_get("merkle_root").expect("invalid merkle_root");
-            let element_type: String = r.try_get("element_type").expect("invalid element_type");
-            let elliptic_curve: String =
-                r.try_get("elliptic_curve").expect("invalid element_curve");
-            let finite_field: String = r.try_get("finite_field").expect("invalid finite_field");
             let set_type: PrfsSetType = r.try_get("set_type").expect("invalid set_type");
-            let tree_depth: i16 = r.get("tree_depth");
+            let created_at: DateTime<Utc> = r.try_get("created_at").expect("invalid created_at");
+            let element_type: String = r.try_get("element_type").expect("invalid element_type");
+            // let merkle_root: String = r.try_get("merkle_root").expect("invalid merkle_root");
+            // let elliptic_curve: String =
+            //     r.try_get("elliptic_curve").expect("invalid element_curve");
+            // let finite_field: String = r.try_get("finite_field").expect("invalid finite_field");
+            // let tree_depth: i16 = r.get("tree_depth");
 
             PrfsSet {
                 set_id,
@@ -106,11 +96,7 @@ OFFSET $2
                 hash_algorithm,
                 cardinality,
                 created_at,
-                merkle_root,
-                tree_depth,
                 element_type,
-                elliptic_curve,
-                finite_field,
                 set_type,
             }
         })
@@ -155,13 +141,8 @@ OFFSET $3
                 r.try_get("hash_algorithm").expect("invalid hash_algorithm");
             let cardinality: i64 = r.try_get("cardinality").expect("invalid cardinality");
             let created_at: DateTime<Utc> = r.try_get("created_at").expect("invalid created_at");
-            let merkle_root: String = r.try_get("merkle_root").expect("invalid merkle_root");
             let element_type: String = r.try_get("element_type").expect("invalid element_type");
-            let elliptic_curve: String =
-                r.try_get("elliptic_curve").expect("invalid element_curve");
-            let finite_field: String = r.try_get("finite_field").expect("invalid finite_field");
             let set_type: PrfsSetType = r.try_get("set_type").expect("invalid set_type");
-            let tree_depth: i16 = r.get("tree_depth");
 
             PrfsSet {
                 set_id,
@@ -171,11 +152,11 @@ OFFSET $3
                 hash_algorithm,
                 cardinality,
                 created_at,
-                tree_depth,
-                merkle_root,
                 element_type,
-                elliptic_curve,
-                finite_field,
+                // tree_depth,
+                // merkle_root,
+                // elliptic_curve,
+                // finite_field,
                 set_type,
             }
         })
@@ -223,7 +204,7 @@ pub async fn insert_prfs_set(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
-merkle_root, element_type, elliptic_curve, finite_field, tree_depth)
+element_type)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
 "#;
 
@@ -235,11 +216,11 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         .bind(&prfs_set.desc)
         .bind(&prfs_set.hash_algorithm)
         .bind(&prfs_set.cardinality)
-        .bind(&prfs_set.merkle_root)
         .bind(&prfs_set.element_type)
-        .bind(&prfs_set.elliptic_curve)
-        .bind(&prfs_set.finite_field)
-        .bind(&prfs_set.tree_depth)
+        // .bind(&prfs_set.merkle_root)
+        // .bind(&prfs_set.elliptic_curve)
+        // .bind(&prfs_set.finite_field)
+        // .bind(&prfs_set.tree_depth)
         .fetch_one(&mut **tx)
         .await
         .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
@@ -255,10 +236,10 @@ pub async fn upsert_prfs_set(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
-merkle_root, element_type, elliptic_curve, finite_field, tree_depth) 
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
-ON CONFLICT (set_id) DO UPDATE SET (cardinality, merkle_root,updated_at) = (excluded.cardinality,
-excluded.merkle_root, now())
+element_type) 
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
+ON CONFLICT (set_id) 
+DO UPDATE SET (cardinality,updated_at) = (excluded.cardinality, now())
 RETURNING set_id
 "#;
 
@@ -270,11 +251,11 @@ RETURNING set_id
         .bind(&prfs_set.desc)
         .bind(&prfs_set.hash_algorithm)
         .bind(&prfs_set.cardinality)
-        .bind(&prfs_set.merkle_root)
         .bind(&prfs_set.element_type)
-        .bind(&prfs_set.elliptic_curve)
-        .bind(&prfs_set.finite_field)
-        .bind(&prfs_set.tree_depth)
+        // .bind(&prfs_set.merkle_root)
+        // .bind(&prfs_set.elliptic_curve)
+        // .bind(&prfs_set.finite_field)
+        // .bind(&prfs_set.tree_depth)
         .fetch_one(&mut **tx)
         .await
         .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));

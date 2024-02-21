@@ -13,9 +13,8 @@ import {
   makeVerifyProofSearchParams,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { useRandomKeyPair } from "@/hooks/key";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
-import { decrypt, makeRandInt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
+import { createRandomKeyPair, decrypt, makeRandInt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -30,14 +29,13 @@ export enum VerifyProofStatus {
 
 const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeId }) => {
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(VerifyProofStatus.Standby);
-  // const { openPopup } = usePopup();
   const { tutorialId } = useTutorial();
-  const { sk, pkHex } = useRandomKeyPair();
   const i18n = React.useContext(i18nContext);
   const step = useAppSelector(state => state.tutorial.tutorialStep);
 
   const handleClickVerify = React.useCallback(async () => {
     try {
+      const { sk, pkHex } = createRandomKeyPair();
       const session_key = createSessionKey();
       const verifyProofArgs: VerifyProofArgs = {
         nonce: makeRandInt(1000000),

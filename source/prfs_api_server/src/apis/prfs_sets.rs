@@ -7,13 +7,12 @@ use hyper_utils::{
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    entities::PrfsTreeNode,
+    entities::{PrfsTree, PrfsTreeNode},
     prfs_api::{
         ComputePrfsSetMerkleRootResponse, CreatePrfsDynamicSetElementRequest,
         CreatePrfsDynamicSetElementResponse, CreatePrfsSetRequest, CreatePrfsSetResponse,
-        CreateTreeOfPrfsSetRequest, CreateTreeOfPrfsSetResponse, GetPrfsSetBySetIdRequest,
-        GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
-        GetPrfsSetsResponse,
+        GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest,
+        GetPrfsSetsRequest, GetPrfsSetsResponse,
     },
 };
 use prfs_tree_maker::apis2::tree;
@@ -177,89 +176,3 @@ pub async fn create_prfs_set(req: Request<Incoming>, state: Arc<ServerState>) ->
 
 //     return Ok(resp.into_hyper_response());
 // }
-
-pub async fn create_tree_of_prfs_set(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: CreateTreeOfPrfsSetRequest = parse_req(req).await;
-    let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
-
-    let mut set = prfs::get_prfs_set_by_set_id(&pool, &req.set_id)
-        .await
-        .unwrap();
-
-    let set_elements = prfs::get_prfs_set_elements(&pool, &set.set_id, 0, 50000)
-        .await
-        .unwrap();
-
-    prfs::delete_prfs_tree_nodes(&mut tx, &set.set_id)
-        .await
-        .unwrap();
-
-    let mut count = 0;
-    let leaves = tree::create_leaves(&set_elements).unwrap();
-    let mut leaf_nodes = vec![];
-    for (idx, leaf) in leaves.iter().enumerate() {
-        let val = prfs_crypto::convert_32bytes_le_into_decimal_string(&leaf).unwrap();
-
-        let n = PrfsTreeNode {
-            pos_w: set_elements[idx].element_idx,
-            pos_h: 0,
-            meta: None,
-            val,
-            tree_id: req.tree_id.to_string(),
-            set_id: set.set_id.to_string(),
-        };
-
-        leaf_nodes.push(n);
-    }
-
-    prfs::insert_prfs_tree_nodes(&mut tx, &leaf_nodes, true)
-        .await
-        .unwrap();
-    count += leaves.len();
-
-    let mut children = leaves;
-    let mut parent_nodes = vec![];
-    for d in 0..set.tree_depth {
-        let parents = tree::calc_parent_nodes(&children).unwrap();
-        // println!("d: {}, parents: {:?}", d, parents);
-
-        parent_nodes = vec![];
-        for (idx, p) in parents.iter().enumerate() {
-            let val = prfs_crypto::convert_32bytes_le_into_decimal_string(&p).unwrap();
-
-            let n = PrfsTreeNode {
-                pos_w: Decimal::from(idx),
-                pos_h: (d + 1) as i32,
-                meta: None,
-                val,
-                tree_id: req.tree_id.to_string(),
-                set_id: set.set_id.to_string(),
-            };
-
-            parent_nodes.push(n);
-        }
-
-        children = parents;
-        prfs::insert_prfs_tree_nodes(&mut tx, &parent_nodes, true)
-            .await
-            .unwrap();
-        count += parent_nodes.len();
-    }
-
-    let merkle_root = parent_nodes[0].val.to_string();
-    set.merkle_root = merkle_root.to_string();
-    set.cardinality = count as i64;
-    prfs::upsert_prfs_set(&mut tx, &set).await.unwrap();
-
-    tx.commit().await.unwrap();
-
-    let resp = ApiResponse::new_success(CreateTreeOfPrfsSetResponse {
-        set_id: req.set_id.to_string(),
-    });
-
-    return Ok(resp.into_hyper_response());
-}

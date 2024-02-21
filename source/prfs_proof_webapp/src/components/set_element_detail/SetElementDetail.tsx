@@ -25,10 +25,6 @@ const SetElementDetail: React.FC<SetElementDetailProps> = ({ element_label, set_
   const { isLoading, data, error } = useQuery({
     queryKey: ["get_prfs_set_element", element_label],
     queryFn: async () => {
-      // return prfsApi2("get_prfs_set_element", {
-      //   label: element_label,
-      //   set_id,
-      // });
       return prfsApi3({
         type: "get_prfs_set_element",
         label: element_label,

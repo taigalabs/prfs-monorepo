@@ -5,7 +5,8 @@ import type { CreatePrfsPollRequest } from "./CreatePrfsPollRequest";
 import type { CreatePrfsProofInstanceRequest } from "./CreatePrfsProofInstanceRequest";
 import type { CreatePrfsProofTypeRequest } from "./CreatePrfsProofTypeRequest";
 import type { CreatePrfsSetRequest } from "./CreatePrfsSetRequest";
-import type { CreateTreeOfPrfsSetRequest } from "./CreateTreeOfPrfsSetRequest";
+import type { CreatePrfsTreeByPrfsSetRequest } from "./CreatePrfsTreeByPrfsSetRequest";
+import type { GetLatestPrfsTreeBySetIdRequest } from "./GetLatestPrfsTreeBySetIdRequest";
 import type { GetLeastRecentPrfsIndexRequest } from "./GetLeastRecentPrfsIndexRequest";
 import type { GetPrfsCircuitByCircuitIdRequest } from "./GetPrfsCircuitByCircuitIdRequest";
 import type { GetPrfsCircuitDriverByDriverIdRequest } from "./GetPrfsCircuitDriverByDriverIdRequest";
@@ -63,11 +64,12 @@ export type PrfsApiRequest =
   | ({ type: "GetPrfsSetsBySetType" } & GetPrfsSetsBySetTypeRequest)
   | ({ type: "create_prfs_set" } & CreatePrfsSetRequest)
   | ({ type: "CreatePrfsDynamicSetElement" } & CreatePrfsDynamicSetElementRequest)
-  | ({ type: "create_tree_of_prfs_set" } & CreateTreeOfPrfsSetRequest)
+  | ({ type: "create_prfs_tree_by_prfs_set" } & CreatePrfsTreeByPrfsSetRequest)
   | ({ type: "import_prfs_set_elements" } & ImportPrfsSetElementsRequest)
   | ({ type: "get_prfs_set_elements" } & GetPrfsSetElementsRequest)
   | ({ type: "get_prfs_set_element" } & GetPrfsSetElementRequest)
   | ({ type: "get_prfs_tree_nodes_by_pos" } & GetPrfsTreeNodesByPosRequest)
   | ({ type: "GetPrfsTreeLeafNodesBySetId" } & GetPrfsTreeLeafNodesBySetIdRequest)
   | ({ type: "get_prfs_tree_leaf_indices" } & GetPrfsTreeLeafIndicesRequest)
-  | ({ type: "UpdatePrfsTreeNode" } & UpdatePrfsTreeNodeRequest);
+  | ({ type: "UpdatePrfsTreeNode" } & UpdatePrfsTreeNodeRequest)
+  | ({ type: "get_latest_prfs_tree_by_set_id" } & GetLatestPrfsTreeBySetIdRequest);

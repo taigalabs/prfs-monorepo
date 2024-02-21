@@ -16,13 +16,9 @@ pub struct PrfsSet {
     pub desc: String,
     pub hash_algorithm: String,
 
-    pub tree_depth: i16,
     pub cardinality: i64,
-    pub merkle_root: String,
     pub element_type: String,
-    pub finite_field: String,
-    pub elliptic_curve: String,
-
+    // pub merkle_root: String,
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }

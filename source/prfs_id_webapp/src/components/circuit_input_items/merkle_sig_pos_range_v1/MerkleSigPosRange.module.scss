@@ -5,21 +5,15 @@
 }
 
 .link {
-  display: inline-flex;
-  align-items: center;
   color: var(--aqua-blue-40);
+  word-break: break-all;
 
   > svg {
     margin-left: 1px;
+    vertical-align: middle;
   }
 
   &:hover {
     text-decoration: underline;
   }
 }
-
-/* .inputGroup { */
-/*   display: flex; */
-/*   flex-direction: column; */
-/*   gap: 10px; */
-/* } */

@@ -2,6 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
+import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 import styles from "./Set.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -13,20 +14,19 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import ImportSetElementsDialog from "./ImportSetElementsDialog";
 import CreateTreeDialog from "./CreateTreeDialog";
-import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
+import LatestTree from "./LatestTree";
 
 const Set: React.FC<SetProps> = ({ set_id }) => {
   const i18n = React.useContext(i18nContext);
   const { nonce, rerender } = useRerender();
-  console.log(11, rerender);
 
   return (
     <>
-      <AttestationsHeader>
+      <AttestationsHeader className={styles.header}>
         <AttestationsHeaderRow>
           <AttestationsTitle className={styles.title}>{i18n.crypto_holders}</AttestationsTitle>
         </AttestationsHeaderRow>
-        <AttestationsHeaderRow>
+        <AttestationsHeaderRow className={styles.headerRow}>
           <ul className={styles.topMenu}>
             <li>
               <ImportSetElementsDialog rerender={rerender} />
@@ -35,6 +35,7 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
               <CreateTreeDialog rerender={rerender} />
             </li>
           </ul>
+          <LatestTree set_id={set_id} nonce={nonce} />
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
