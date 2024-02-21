@@ -1,3 +1,4 @@
+use axum::{extract::State, http::StatusCode, Json};
 use hyper::{body::Incoming, Request, Response};
 use hyper_utils::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
@@ -18,22 +19,30 @@ use std::sync::Arc;
 const LIMIT: i32 = 10;
 
 pub async fn get_prfs_proof_types(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: GetPrfsProofTypesRequest = parse_req(req).await;
+    // req: Request<Incoming>,
+    // state: Arc<ServerState>,
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsProofTypesRequest>,
+) -> (StatusCode, Json<GetPrfsProofTypesResponse>) {
+    println!("123123");
+    // let req: GetPrfsProofTypesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let rows = prfs::get_prfs_proof_types(pool, req.offset, LIMIT).await;
+    let rows = prfs::get_prfs_proof_types(pool, input.offset, LIMIT).await;
 
     let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
         None
     } else {
-        Some(req.offset + LIMIT)
+        Some(input.offset + LIMIT)
     };
 
-    let resp = ApiResponse::new_success(GetPrfsProofTypesResponse { next_offset, rows });
+    println!("22");
 
-    return Ok(resp.into_hyper_response());
+    // let resp = ApiResponse::new_success(GetPrfsProofTypesResponse { next_offset, rows });
+    // return Ok(resp.into_hyper_response());
+    return (
+        StatusCode::OK,
+        Json(GetPrfsProofTypesResponse { next_offset, rows }),
+    );
 }
 
 pub async fn get_prfs_proof_type_by_proof_type_id(

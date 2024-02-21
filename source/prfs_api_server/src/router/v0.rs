@@ -13,12 +13,17 @@ use tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
 use tracing::{info, info_span, Span};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-use crate::apis::prfs_accounts;
+use crate::apis::{prfs_accounts, prfs_proof_types};
 
 pub fn make_v0_router() -> Router<Arc<ServerState>> {
-    let router = Router::new().route(
-        "/sign_up_prfs_account",
-        post(prfs_accounts::sign_up_prfs_account),
-    );
+    let router = Router::new() //
+        .route(
+            "/sign_up_prfs_account",
+            post(prfs_accounts::sign_up_prfs_account),
+        )
+        .route(
+            "/get_prfs_proof_types",
+            post(prfs_proof_types::get_prfs_proof_types),
+        );
     router
 }

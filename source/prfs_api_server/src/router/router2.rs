@@ -9,7 +9,11 @@ use prfs_circuits_circom::CircuitBuildListJson;
 use prfs_common_server_state::ServerState;
 use serde_json::{json, Value};
 use std::sync::Arc;
-use tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
+use tower_http::{
+    cors::{Any, CorsLayer},
+    services::ServeDir,
+    trace::TraceLayer,
+};
 use tracing::{info, info_span, Span};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -18,16 +22,16 @@ use super::v0::make_v0_router;
 const API_V0: &str = "/api/v0/";
 
 pub fn route(state: Arc<ServerState>) -> Router {
-    tracing_subscriber::registry()
-        .with(
-            tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
-                // axum logs rejections from built-in extractors with the `axum::rejection`
-                // target, at `TRACE` level. `axum::rejection=trace` enables showing those events
-                "prfs_asset_server=info,tower_http=info,axum::rejection=trace".into()
-            }),
-        )
-        .with(tracing_subscriber::fmt::layer())
-        .init();
+    // tracing_subscriber::registry()
+    //     .with(
+    //         tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
+    //             // axum logs rejections from built-in extractors with the `axum::rejection`
+    //             // target, at `TRACE` level. `axum::rejection=trace` enables showing those events
+    //             "prfs_asset_server=info,tower_http=info,axum::rejection=trace".into()
+    //         }),
+    //     )
+    //     .with(tracing_subscriber::fmt::layer())
+    //     .init();
 
     Router::new()
         .route("/", get(handle_server_status))
@@ -43,6 +47,7 @@ pub fn route(state: Arc<ServerState>) -> Router {
         .layer(
             CorsLayer::new()
                 .allow_origin("*".parse::<HeaderValue>().unwrap())
+                .allow_headers(Any)
                 .allow_methods([Method::GET, Method::POST]),
         )
 }

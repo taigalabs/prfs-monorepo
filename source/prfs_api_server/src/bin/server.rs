@@ -11,6 +11,8 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::database2::Database2;
 use std::net::SocketAddr;
 use std::sync::Arc;
+use tracing_subscriber::layer::SubscriberExt;
+use tracing_subscriber::util::SubscriberInitExt;
 
 const PORT: u16 = 4000;
 
@@ -33,6 +35,17 @@ async fn main() -> Result<(), ApiServerError> {
     //     Arc::new(s)
     // };
     // let server = make_server(server_state);
+
+    tracing_subscriber::registry()
+        .with(
+            tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
+                // axum logs rejections from built-in extractors with the `axum::rejection`
+                // target, at `TRACE` level. `axum::rejection=trace` enables showing those events
+                "prfs_api_server=info,tower_http=info,axum::rejection=trace".into()
+            }),
+        )
+        .with(tracing_subscriber::fmt::layer())
+        .init();
 
     let server = run_server();
 

@@ -108,9 +108,9 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             (&Method::POST, v0_path!("get_prfs_set_by_set_id")) => {
                 prfs_sets::get_prfs_set_by_set_id(req, state).await
             }
-            (&Method::POST, v0_path!("get_prfs_proof_types")) => {
-                prfs_proof_types::get_prfs_proof_types(req, state).await
-            }
+            // (&Method::POST, v0_path!("get_prfs_proof_types")) => {
+            //     prfs_proof_types::get_prfs_proof_types(req, state).await
+            // }
             (&Method::POST, v0_path!("get_prfs_proof_type_by_proof_type_id")) => {
                 prfs_proof_types::get_prfs_proof_type_by_proof_type_id(req, state).await
             }
