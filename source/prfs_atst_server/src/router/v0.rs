@@ -15,12 +15,12 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use crate::apis::{crypto_asset, twitter};
 
-pub const ATST_API_V0: &'static str = "/atst_api";
+pub const ATST_API_V0: &'static str = "/atst_api/v0";
 
 pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
     let router = Router::new() //
         .route(
-            "/sign_up_prfs_account",
+            "/fetch_crypto_asset",
             post(crypto_asset::fetch_crypto_asset),
         )
         .route(
