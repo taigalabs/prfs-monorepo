@@ -23,7 +23,6 @@ pub async fn sign_up_prfs_account(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<PrfsSignUpRequest>,
 ) -> (StatusCode, Json<ApiResponse<PrfsSignUpResponse>>) {
-    // let req: PrfsSignUpRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
     let prfs_account = PrfsAccount {
@@ -54,21 +53,24 @@ pub async fn sign_up_prfs_account(
 }
 
 pub async fn sign_in_prfs_account(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: PrfsSignInRequest = parse_req(req).await;
+    // req: Request<Incoming>,
+    // state: Arc<ServerState>,
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<PrfsSignInRequest>,
+) -> (StatusCode, Json<ApiResponse<PrfsSignInResponse>>) {
+    // let req: PrfsSignInRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_account = prfs::get_prfs_account_by_account_id(pool, &req.account_id)
+    let prfs_account = prfs::get_prfs_account_by_account_id(pool, &input.account_id)
         .await
         .map_err(|_err| {
             hyper_utils::ApiHandleError::from(
                 &API_ERROR_CODES.CANNOT_FIND_USER,
-                req.account_id.into(),
+                input.account_id.into(),
             )
-        })?;
+        })
+        .unwrap();
 
     let resp = ApiResponse::new_success(PrfsSignInResponse { prfs_account });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
+    // return Ok(resp.into_hyper_response());
 }

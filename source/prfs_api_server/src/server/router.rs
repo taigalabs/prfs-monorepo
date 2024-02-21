@@ -45,12 +45,12 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             // (&Method::POST, v0_path!("sign_up_prfs_account")) => {
             //     prfs_accounts::sign_up_prfs_account(req, state).await
             // }
-            (&Method::POST, v0_path!("sign_in_prfs_account")) => {
-                prfs_accounts::sign_in_prfs_account(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_circuits")) => {
-                prfs_circuits::get_prfs_circuits(req, state).await
-            }
+            // (&Method::POST, v0_path!("sign_in_prfs_account")) => {
+            //     prfs_accounts::sign_in_prfs_account(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_circuits")) => {
+            //     prfs_circuits::get_prfs_circuits(req, state).await
+            // }
             (&Method::POST, v0_path!("get_prfs_circuit_by_circuit_id")) => {
                 prfs_circuits::get_prfs_circuit_by_circuit_id(req, state).await
             }

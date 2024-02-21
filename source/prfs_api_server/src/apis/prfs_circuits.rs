@@ -1,4 +1,8 @@
-use crate::ApiServerError;
+use axum::extract::State;
+use axum::{
+    http::{HeaderValue, Method, StatusCode},
+    Json,
+};
 use hyper::{body::Incoming, Request, Response};
 use hyper_utils::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
@@ -12,20 +16,23 @@ use prfs_entities::prfs_api::{
 };
 use std::sync::Arc;
 
+use crate::ApiServerError;
+
 pub async fn get_prfs_circuits(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: GetPrfsCircuitsRequest = parse_req(req).await;
+    // req: Request<Incoming>,
+    // state: Arc<ServerState>,
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsCircuitsRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsCircuitsResponse>>) {
     let pool = &state.db2.pool;
-    let prfs_circuits_syn1 = prfs::get_prfs_circuits_syn1(&pool, req.page_idx, req.page_size).await;
+    let prfs_circuits_syn1 =
+        prfs::get_prfs_circuits_syn1(&pool, input.page_idx, input.page_size).await;
 
     let resp = ApiResponse::new_success(GetPrfsCircuitsResponse {
-        page_idx: req.page_idx,
+        page_idx: input.page_idx,
         prfs_circuits_syn1,
     });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn get_prfs_circuit_by_circuit_id(
