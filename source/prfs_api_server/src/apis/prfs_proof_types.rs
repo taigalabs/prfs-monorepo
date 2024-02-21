@@ -22,7 +22,6 @@ pub async fn get_prfs_proof_types(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<GetPrfsProofTypesRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsProofTypesResponse>>) {
-    // let req: GetPrfsProofTypesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let rows = prfs::get_prfs_proof_types(pool, input.offset, LIMIT).await;
 
@@ -33,22 +32,25 @@ pub async fn get_prfs_proof_types(
     };
 
     let resp = ApiResponse::new_success(GetPrfsProofTypesResponse { next_offset, rows });
-    // return Ok(resp.into_hyper_response());
     return (StatusCode::OK, Json(resp));
 }
 
 pub async fn get_prfs_proof_type_by_proof_type_id(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: GetPrfsProofTypeByProofTypeIdRequest = parse_req(req).await;
+    // req: Request<Incoming>,
+    // state: Arc<ServerState>,
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsProofTypeByProofTypeIdRequest>,
+) -> (
+    StatusCode,
+    Json<ApiResponse<GetPrfsProofTypeByProofTypeIdResponse>>,
+) {
+    // let req: GetPrfsProofTypeByProofTypeIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_proof_type =
-        prfs::get_prfs_proof_type_by_proof_type_id(pool, &req.proof_type_id).await;
+        prfs::get_prfs_proof_type_by_proof_type_id(pool, &input.proof_type_id).await;
 
     let resp = ApiResponse::new_success(GetPrfsProofTypeByProofTypeIdResponse { prfs_proof_type });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn create_prfs_proof_type(

@@ -24,6 +24,11 @@ pub fn make_v0_router() -> Router<Arc<ServerState>> {
         .route(
             "/get_prfs_proof_types",
             post(prfs_proof_types::get_prfs_proof_types),
+        )
+        .route(
+            "/get_prfs_proof_type_by_proof_type_id",
+            post(prfs_proof_types::get_prfs_proof_type_by_proof_type_id),
         );
+
     router
 }
