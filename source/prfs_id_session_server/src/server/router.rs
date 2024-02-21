@@ -25,12 +25,12 @@ pub async fn id_session_server_routes(
         // (&Method::GET, v0_path!("open_prfs_id_session")) => {
         //     session::open_prfs_id_session(req, state).await
         // }
-        (&Method::POST, v0_path!("put_prfs_id_session_value")) => {
-            session_val::put_prfs_id_session_value(req, state).await
-        }
-        (&Method::POST, v0_path!("get_prfs_id_session_value")) => {
-            session_val::get_prfs_id_session_value(req, state).await
-        }
+        // (&Method::POST, v0_path!("put_prfs_id_session_value")) => {
+        //     session_val::put_prfs_id_session_value(req, state).await
+        // }
+        // (&Method::POST, v0_path!("get_prfs_id_session_value")) => {
+        //     session_val::get_prfs_id_session_value(req, state).await
+        // }
         _ => {
             println!("{} Route not found!, {}", ID_SESSION_API, req.uri());
             Ok(Response::builder()
