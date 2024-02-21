@@ -28,12 +28,12 @@ pub async fn id_server_routes(
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
-        (&Method::POST, v0_path!("sign_up_prfs_identity")) => {
-            prfs_identities::sign_up_prfs_identity(req, state).await
-        }
-        (&Method::POST, v0_path!("sign_in_prfs_identity")) => {
-            prfs_identities::sign_in_prfs_identity(req, state).await
-        }
+        // (&Method::POST, v0_path!("sign_up_prfs_identity")) => {
+        //     prfs_identities::sign_up_prfs_identity(req, state).await
+        // }
+        // (&Method::POST, v0_path!("sign_in_prfs_identity")) => {
+        //     prfs_identities::sign_in_prfs_identity(req, state).await
+        // }
         _ => {
             println!("{} Route not found!, {}", ID_API, req.uri());
             Ok(Response::builder()
