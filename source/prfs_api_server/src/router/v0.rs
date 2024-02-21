@@ -13,6 +13,7 @@ use tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
 use tracing::{info, info_span, Span};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-fn make_v0_routes() {
-    // let user_routes = Router::new().route("/:id", get(|| async {}));
+pub fn make_v0_router() -> Router<Arc<ServerState>> {
+    let router = Router::new().route("/sign_up_prfs_account", get(|| async { return "1" }));
+    router
 }

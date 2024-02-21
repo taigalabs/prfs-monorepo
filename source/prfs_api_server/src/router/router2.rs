@@ -13,6 +13,10 @@ use tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
 use tracing::{info, info_span, Span};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
+use super::v0::make_v0_router;
+
+const API_V0: &str = "/api/v0/";
+
 pub fn route(state: Arc<ServerState>) -> Router {
     tracing_subscriber::registry()
         .with(
@@ -27,6 +31,7 @@ pub fn route(state: Arc<ServerState>) -> Router {
 
     Router::new()
         .route("/", get(handle_server_status))
+        .nest(API_V0, make_v0_router())
         // .nest_service("/circuits", serve_dir)
         .with_state(state)
         .fallback_service(handle_404.into_service())
