@@ -19,12 +19,9 @@ use std::sync::Arc;
 const LIMIT: i32 = 10;
 
 pub async fn get_prfs_proof_types(
-    // req: Request<Incoming>,
-    // state: Arc<ServerState>,
     State(state): State<Arc<ServerState>>,
     Json(input): Json<GetPrfsProofTypesRequest>,
-) -> (StatusCode, Json<GetPrfsProofTypesResponse>) {
-    println!("123123");
+) -> (StatusCode, Json<ApiResponse<GetPrfsProofTypesResponse>>) {
     // let req: GetPrfsProofTypesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let rows = prfs::get_prfs_proof_types(pool, input.offset, LIMIT).await;
@@ -35,14 +32,9 @@ pub async fn get_prfs_proof_types(
         Some(input.offset + LIMIT)
     };
 
-    println!("22");
-
-    // let resp = ApiResponse::new_success(GetPrfsProofTypesResponse { next_offset, rows });
+    let resp = ApiResponse::new_success(GetPrfsProofTypesResponse { next_offset, rows });
     // return Ok(resp.into_hyper_response());
-    return (
-        StatusCode::OK,
-        Json(GetPrfsProofTypesResponse { next_offset, rows }),
-    );
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn get_prfs_proof_type_by_proof_type_id(

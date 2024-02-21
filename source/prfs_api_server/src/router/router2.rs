@@ -22,17 +22,6 @@ use super::v0::make_v0_router;
 const API_V0: &str = "/api/v0/";
 
 pub fn route(state: Arc<ServerState>) -> Router {
-    // tracing_subscriber::registry()
-    //     .with(
-    //         tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
-    //             // axum logs rejections from built-in extractors with the `axum::rejection`
-    //             // target, at `TRACE` level. `axum::rejection=trace` enables showing those events
-    //             "prfs_asset_server=info,tower_http=info,axum::rejection=trace".into()
-    //         }),
-    //     )
-    //     .with(tracing_subscriber::fmt::layer())
-    //     .init();
-
     Router::new()
         .route("/", get(handle_server_status))
         .nest(API_V0, make_v0_router())

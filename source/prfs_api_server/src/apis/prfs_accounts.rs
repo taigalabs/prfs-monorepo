@@ -22,8 +22,7 @@ use crate::error_codes::API_ERROR_CODES;
 pub async fn sign_up_prfs_account(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<PrfsSignUpRequest>,
-    // req: Request<Incoming>,
-) -> (StatusCode, Json<PrfsSignUpResponse>) {
+) -> (StatusCode, Json<ApiResponse<PrfsSignUpResponse>>) {
     // let req: PrfsSignUpRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
@@ -46,18 +45,12 @@ pub async fn sign_up_prfs_account(
 
     tx.commit().await.unwrap();
 
-    // let resp = ApiResponse::new_success(
-    // PrfsSignUpResponse {
-    //     account_id: account_id.to_string(),
-    // });
+    let resp = ApiResponse::new_success(PrfsSignUpResponse {
+        account_id: account_id.to_string(),
+    });
     // return Ok(resp.into_hyper_response());
 
-    return (
-        StatusCode::OK,
-        Json(PrfsSignUpResponse {
-            account_id: account_id.to_string(),
-        }),
-    );
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn sign_in_prfs_account(
