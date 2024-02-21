@@ -19,7 +19,7 @@ pub const ATST_API_V0: &'static str = "/atst_api/v0";
 
 pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
     let router = Router::new() //
-        .route("/open_prfs_id_session", get(session::open_prfs_id_session2));
+        .route("/open_prfs_id_session", get(session::open_prfs_id_session));
 
     router
 }
