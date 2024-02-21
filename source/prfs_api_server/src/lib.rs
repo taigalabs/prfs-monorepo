@@ -3,6 +3,7 @@ pub mod bindgen;
 pub mod envs;
 pub mod error_codes;
 pub mod paths;
+pub mod router;
 pub mod seed;
 pub mod server;
 

@@ -4,7 +4,7 @@ use std::net::SocketAddr;
 use std::sync::Arc;
 use tower_http::trace::TraceLayer;
 
-use super::router2;
+use crate::router::router2;
 use crate::server::state::init_server_state;
 
 const PORT: u16 = 4000;
