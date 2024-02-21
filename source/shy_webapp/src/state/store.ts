@@ -4,10 +4,10 @@ import { createLogger } from "redux-logger";
 import userReducer from "./userReducer";
 
 const logger = createLogger({
-  // level: {
-  // prevState: false,
-  // nextState: false,
-  // },
+  level: {
+    prevState: false,
+    nextState: false,
+  },
 });
 
 export const store = configureStore({
