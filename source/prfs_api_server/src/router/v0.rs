@@ -97,7 +97,7 @@ pub fn make_v0_router() -> Router<Arc<ServerState>> {
         .route("/create_prfs_set", post(prfs_sets::create_prfs_set))
         .route("/get_prfs_sets", post(prfs_sets::get_prfs_sets))
         .route(
-            "/create_prfs_set",
+            "/get_prfs_sets_by_set_type",
             post(prfs_sets::get_prfs_sets_by_set_type),
         )
         .route(
@@ -127,7 +127,7 @@ pub fn make_v0_router() -> Router<Arc<ServerState>> {
         )
         .route("/create_prfs_poll", post(prfs_polls::create_prfs_poll))
         .route(
-            "/create_prfs_poll",
+            "/import_prfs_set_elements",
             post(prfs_set_elements::import_prfs_set_elements),
         )
         .route(
@@ -142,14 +142,8 @@ pub fn make_v0_router() -> Router<Arc<ServerState>> {
             "/get_least_recent_index",
             post(prfs_indices::get_least_recent_index),
         )
-        .route(
-            "/get_least_recent_index",
-            post(prfs_indices::get_prfs_indices),
-        )
-        .route(
-            "/get_least_recent_index",
-            post(prfs_indices::add_prfs_index),
-        );
+        .route("/get_prfs_indices", post(prfs_indices::get_prfs_indices))
+        .route("/add_prfs_index", post(prfs_indices::add_prfs_index));
 
     router
 }
