@@ -14,8 +14,9 @@ use tracing::{info, info_span, Span};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use crate::apis::{
-    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_polls,
-    prfs_proof_instances, prfs_proof_types, prfs_set_elements, prfs_sets, prfs_tree_nodes,
+    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_indices,
+    prfs_polls, prfs_proof_instances, prfs_proof_types, prfs_set_elements, prfs_sets,
+    prfs_tree_nodes, prfs_trees,
 };
 
 pub fn make_v0_router() -> Router<Arc<ServerState>> {
@@ -128,6 +129,26 @@ pub fn make_v0_router() -> Router<Arc<ServerState>> {
         .route(
             "/create_prfs_poll",
             post(prfs_set_elements::import_prfs_set_elements),
+        )
+        .route(
+            "/create_prfs_tree_by_prfs_set",
+            post(prfs_trees::create_prfs_tree_by_prfs_set),
+        )
+        .route(
+            "/get_latest_prfs_tree_by_set_id",
+            post(prfs_trees::get_latest_prfs_tree_by_set_id),
+        )
+        .route(
+            "/get_least_recent_index",
+            post(prfs_indices::get_least_recent_index),
+        )
+        .route(
+            "/get_least_recent_index",
+            post(prfs_indices::get_prfs_indices),
+        )
+        .route(
+            "/get_least_recent_index",
+            post(prfs_indices::add_prfs_index),
         );
 
     router
