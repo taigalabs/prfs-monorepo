@@ -4,6 +4,7 @@ use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use crate::{
     error::ApiHandleError,
     io::{full, BytesBoxBody},
+    ApiHandleErrorCode,
 };
 
 pub const API_HANDLE_SUCCESS_CODE: u32 = 2_000_000;
@@ -44,16 +45,34 @@ impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
             return resp.status(StatusCode::OK).body(full(data)).unwrap();
         }
     }
-}
 
-impl ApiResponse<usize> {
-    pub fn new_error(err: ApiHandleError) -> ApiResponse<usize> {
-        let error = format!("{}, err: {}", err.error_code.phrase, err.err);
+    pub fn new_error(
+        error_code: &ApiHandleErrorCode,
+        err: String,
+        // err: ApiHandleError,
+    ) -> ApiResponse<P> {
+        // let error = format!("{}, err: {}", err.error_code.phrase, err.err);
 
         ApiResponse {
-            code: err.error_code.code,
-            error: Some(error),
+            code: error_code.code,
+            error: Some(err),
             payload: None,
         }
     }
 }
+
+// impl ApiResponse<usize> {
+//     pub fn new_error(
+//         error_code: ApiHandleErrorCode,
+//         err: String,
+//         // err: ApiHandleError,
+//     ) -> ApiResponse<usize> {
+//         // let error = format!("{}, err: {}", err.error_code.phrase, err.err);
+
+//         ApiResponse {
+//             code: error_code.code,
+//             error: Some(err),
+//             payload: None,
+//         }
+//     }
+// }

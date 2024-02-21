@@ -1,4 +1,11 @@
-use hyper::{body::Incoming, Request, Response};
+use axum::{
+    extract::{MatchedPath, Request, State},
+    handler::HandlerWithoutStateExt,
+    http::{HeaderValue, Method, StatusCode},
+    routing::{get, post},
+    Json, Router,
+};
+use hyper::{body::Incoming, Response};
 use hyper_utils::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
     resp::ApiResponse,
@@ -22,62 +29,65 @@ use std::sync::Arc;
 
 use crate::error_codes::API_ERROR_CODES;
 
-pub async fn get_prfs_sets(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
-    let req: GetPrfsSetsRequest = parse_req(req).await;
+pub async fn get_prfs_sets(
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsSetsRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsSetsResponse>>) {
     let pool = &state.db2.pool;
-    let prfs_sets = prfs::get_prfs_sets(pool, req.page_idx, req.page_size)
+    let prfs_sets = prfs::get_prfs_sets(pool, input.page_idx, input.page_size)
         .await
         .unwrap();
 
     let resp = ApiResponse::new_success(GetPrfsSetsResponse {
-        page_idx: req.page_idx,
-        page_size: req.page_size,
+        page_idx: input.page_idx,
+        page_size: input.page_size,
         prfs_sets,
     });
 
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn get_prfs_sets_by_set_type(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: GetPrfsSetsBySetTypeRequest = parse_req(req).await;
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsSetsBySetTypeRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsSetsResponse>>) {
+    // let req: GetPrfsSetsBySetTypeRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_sets =
-        prfs::get_prfs_sets_by_set_type(pool, req.set_type, req.page_idx, req.page_size)
+        prfs::get_prfs_sets_by_set_type(pool, input.set_type, input.page_idx, input.page_size)
             .await
             .unwrap();
 
     let resp = ApiResponse::new_success(GetPrfsSetsResponse {
-        page_idx: req.page_idx,
-        page_size: req.page_size,
+        page_idx: input.page_idx,
+        page_size: input.page_size,
         prfs_sets,
     });
 
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn get_prfs_set_by_set_id(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: GetPrfsSetBySetIdRequest = parse_req(req).await;
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsSetBySetIdRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsSetBySetIdResponse>>) {
+    // let req: GetPrfsSetBySetIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_set = prfs::get_prfs_set_by_set_id(pool, &req.set_id)
+    let prfs_set = prfs::get_prfs_set_by_set_id(pool, &input.set_id)
         .await
         .unwrap();
 
     let resp = ApiResponse::new_success(GetPrfsSetBySetIdResponse { prfs_set });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
-pub async fn create_prfs_set(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
-    let req: CreatePrfsSetRequest = parse_req(req).await;
+pub async fn create_prfs_set(
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<CreatePrfsSetRequest>,
+) -> (StatusCode, Json<ApiResponse<CreatePrfsSetResponse>>) {
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-    let set_id = prfs::insert_prfs_set_ins1(&mut tx, &req.prfs_set_ins1)
+    let set_id = prfs::insert_prfs_set_ins1(&mut tx, &input.prfs_set_ins1)
         .await
         .unwrap();
 
@@ -85,7 +95,7 @@ pub async fn create_prfs_set(req: Request<Incoming>, state: Arc<ServerState>) ->
 
     tx.commit().await.unwrap();
 
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
 // pub async fn create_prfs_dynamic_set_element(

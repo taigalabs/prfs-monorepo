@@ -1,5 +1,11 @@
-use axum::{extract::State, http::StatusCode, Json};
-use hyper::{body::Incoming, Request, Response};
+use axum::{
+    extract::{MatchedPath, Request, State},
+    handler::HandlerWithoutStateExt,
+    http::{HeaderValue, Method, StatusCode},
+    routing::{get, post},
+    Json, Router,
+};
+use hyper::{body::Incoming, Response};
 use hyper_utils::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
     resp::ApiResponse,
@@ -36,15 +42,12 @@ pub async fn get_prfs_proof_types(
 }
 
 pub async fn get_prfs_proof_type_by_proof_type_id(
-    // req: Request<Incoming>,
-    // state: Arc<ServerState>,
     State(state): State<Arc<ServerState>>,
     Json(input): Json<GetPrfsProofTypeByProofTypeIdRequest>,
 ) -> (
     StatusCode,
     Json<ApiResponse<GetPrfsProofTypeByProofTypeIdResponse>>,
 ) {
-    // let req: GetPrfsProofTypeByProofTypeIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_proof_type =
         prfs::get_prfs_proof_type_by_proof_type_id(pool, &input.proof_type_id).await;
@@ -54,25 +57,25 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
 }
 
 pub async fn create_prfs_proof_type(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: CreatePrfsProofTypeRequest = parse_req(req).await;
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<CreatePrfsProofTypeRequest>,
+) -> (StatusCode, Json<ApiResponse<CreatePrfsProofTypeResponse>>) {
+    // let req: CreatePrfsProofTypeRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
     let prfs_proof_type = PrfsProofType {
-        proof_type_id: req.proof_type_id,
-        label: req.label.to_string(),
-        author: req.author.to_string(),
-        desc: req.desc.to_string(),
-        expression: req.expression.to_string(),
-        img_url: req.img_url,
-        img_caption: req.img_caption,
-        circuit_id: req.circuit_id,
-        circuit_type_id: req.circuit_type_id,
-        circuit_type_data: req.circuit_type_data,
-        circuit_driver_id: req.circuit_driver_id,
+        proof_type_id: input.proof_type_id,
+        label: input.label.to_string(),
+        author: input.author.to_string(),
+        desc: input.desc.to_string(),
+        expression: input.expression.to_string(),
+        img_url: input.img_url,
+        img_caption: input.img_caption,
+        circuit_id: input.circuit_id,
+        circuit_type_id: input.circuit_type_id,
+        circuit_type_data: input.circuit_type_data,
+        circuit_driver_id: input.circuit_driver_id,
         created_at: chrono::offset::Utc::now(),
     };
 
@@ -81,6 +84,5 @@ pub async fn create_prfs_proof_type(
     tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(CreatePrfsProofTypeResponse { id });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }

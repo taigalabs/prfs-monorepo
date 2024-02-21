@@ -14,8 +14,8 @@ use tracing::{info, info_span, Span};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use crate::apis::{
-    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_proof_instances,
-    prfs_proof_types, prfs_set_elements,
+    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_polls,
+    prfs_proof_instances, prfs_proof_types, prfs_set_elements, prfs_sets, prfs_tree_nodes,
 };
 
 pub fn make_v0_router() -> Router<Arc<ServerState>> {
@@ -76,6 +76,58 @@ pub fn make_v0_router() -> Router<Arc<ServerState>> {
         .route(
             "/get_prfs_set_elements",
             post(prfs_set_elements::get_prfs_set_elements),
+        )
+        .route(
+            "/get_prfs_set_element",
+            post(prfs_set_elements::get_prfs_set_element),
+        )
+        .route(
+            "/get_prfs_tree_nodes_by_pos",
+            post(prfs_tree_nodes::get_prfs_tree_nodes_by_pos),
+        )
+        .route(
+            "/get_prfs_tree_leaf_nodes_by_set_id",
+            post(prfs_tree_nodes::get_prfs_tree_leaf_nodes_by_set_id),
+        )
+        .route(
+            "/get_prfs_tree_leaf_indices",
+            post(prfs_tree_nodes::get_prfs_tree_leaf_indices),
+        )
+        .route("/create_prfs_set", post(prfs_sets::create_prfs_set))
+        .route("/get_prfs_sets", post(prfs_sets::get_prfs_sets))
+        .route(
+            "/create_prfs_set",
+            post(prfs_sets::get_prfs_sets_by_set_type),
+        )
+        .route(
+            "/get_prfs_set_by_set_id",
+            post(prfs_sets::get_prfs_set_by_set_id),
+        )
+        .route(
+            "/create_prfs_proof_type",
+            post(prfs_proof_types::create_prfs_proof_type),
+        )
+        .route(
+            "/update_prfs_tree_node",
+            post(prfs_tree_nodes::update_prfs_tree_node),
+        )
+        .route("/get_prfs_polls", post(prfs_polls::get_prfs_polls))
+        .route(
+            "/get_prfs_poll_by_poll_id",
+            post(prfs_polls::get_prfs_poll_by_poll_id),
+        )
+        .route(
+            "/get_prfs_poll_result_by_poll_id",
+            post(prfs_polls::get_prfs_poll_result_by_poll_id),
+        )
+        .route(
+            "/submit_prfs_poll_response",
+            post(prfs_polls::submit_prfs_poll_response),
+        )
+        .route("/create_prfs_poll", post(prfs_polls::create_prfs_poll))
+        .route(
+            "/create_prfs_poll",
+            post(prfs_set_elements::import_prfs_set_elements),
         );
 
     router

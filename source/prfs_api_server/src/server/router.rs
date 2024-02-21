@@ -81,66 +81,66 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             // (&Method::POST, v0_path!("get_prfs_set_elements")) => {
             //     prfs_set_elements::get_prfs_set_elements(req, state).await
             // }
-            (&Method::POST, v0_path!("get_prfs_set_element")) => {
-                prfs_set_elements::get_prfs_set_element(req, state).await
-            }
+            // (&Method::POST, v0_path!("get_prfs_set_element")) => {
+            //     prfs_set_elements::get_prfs_set_element(req, state).await
+            // }
             // (&Method::POST, v0_path!("create_prfs_dynamic_set_element")) => {
             //     prfs_sets::create_prfs_dynamic_set_element(req, state).await
             // }
-            (&Method::POST, v0_path!("get_prfs_tree_nodes_by_pos")) => {
-                prfs_tree_nodes::get_prfs_tree_nodes_by_pos(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_tree_leaf_nodes_by_set_id")) => {
-                prfs_tree_nodes::get_prfs_tree_leaf_nodes_by_set_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_tree_leaf_indices")) => {
-                prfs_tree_nodes::get_prfs_tree_leaf_indices(req, state).await
-            }
-            (&Method::POST, v0_path!("create_prfs_set")) => {
-                prfs_sets::create_prfs_set(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_sets")) => {
-                prfs_sets::get_prfs_sets(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_sets_by_set_type")) => {
-                prfs_sets::get_prfs_sets_by_set_type(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_set_by_set_id")) => {
-                prfs_sets::get_prfs_set_by_set_id(req, state).await
-            }
+            // (&Method::POST, v0_path!("get_prfs_tree_nodes_by_pos")) => {
+            //     prfs_tree_nodes::get_prfs_tree_nodes_by_pos(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_tree_leaf_nodes_by_set_id")) => {
+            //     prfs_tree_nodes::get_prfs_tree_leaf_nodes_by_set_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_tree_leaf_indices")) => {
+            //     prfs_tree_nodes::get_prfs_tree_leaf_indices(req, state).await
+            // }
+            // (&Method::POST, v0_path!("create_prfs_set")) => {
+            //     prfs_sets::create_prfs_set(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_sets")) => {
+            //     prfs_sets::get_prfs_sets(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_sets_by_set_type")) => {
+            //     prfs_sets::get_prfs_sets_by_set_type(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_set_by_set_id")) => {
+            //     prfs_sets::get_prfs_set_by_set_id(req, state).await
+            // }
             // (&Method::POST, v0_path!("get_prfs_proof_types")) => {
             //     prfs_proof_types::get_prfs_proof_types(req, state).await
             // }
             // (&Method::POST, v0_path!("get_prfs_proof_type_by_proof_type_id")) => {
             //     prfs_proof_types::get_prfs_proof_type_by_proof_type_id(req, state).await
             // }
-            (&Method::POST, v0_path!("create_prfs_proof_type")) => {
-                prfs_proof_types::create_prfs_proof_type(req, state).await
-            }
-            (&Method::POST, v0_path!("update_prfs_tree_node")) => {
-                prfs_tree_nodes::update_prfs_tree_node(req, state).await
-            }
+            // (&Method::POST, v0_path!("create_prfs_proof_type")) => {
+            //     prfs_proof_types::create_prfs_proof_type(req, state).await
+            // }
+            // (&Method::POST, v0_path!("update_prfs_tree_node")) => {
+            //     prfs_tree_nodes::update_prfs_tree_node(req, state).await
+            // }
             // (&Method::POST, v0_path!("compute_prfs_set_merkle_root")) => {
             //     prfs_sets::compute_prfs_set_merkle_root(req, state).await
             // }
-            (&Method::POST, v0_path!("get_prfs_polls")) => {
-                prfs_polls::get_prfs_polls(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_poll_by_poll_id")) => {
-                prfs_polls::get_prfs_poll_by_poll_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_poll_result_by_poll_id")) => {
-                prfs_polls::get_prfs_poll_result_by_poll_id(req, state).await
-            }
-            (&Method::POST, v0_path!("submit_prfs_poll_response")) => {
-                prfs_polls::submit_prfs_poll_response(req, state).await
-            }
-            (&Method::POST, v0_path!("create_prfs_poll")) => {
-                prfs_polls::create_prfs_poll(req, state).await
-            }
-            (&Method::POST, v0_path!("import_prfs_set_elements")) => {
-                prfs_set_elements::import_prfs_set_elements(req, state).await
-            }
+            // (&Method::POST, v0_path!("get_prfs_polls")) => {
+            //     prfs_polls::get_prfs_polls(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_poll_by_poll_id")) => {
+            //     prfs_polls::get_prfs_poll_by_poll_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_poll_result_by_poll_id")) => {
+            //     prfs_polls::get_prfs_poll_result_by_poll_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("submit_prfs_poll_response")) => {
+            //     prfs_polls::submit_prfs_poll_response(req, state).await
+            // }
+            // (&Method::POST, v0_path!("create_prfs_poll")) => {
+            //     prfs_polls::create_prfs_poll(req, state).await
+            // }
+            // (&Method::POST, v0_path!("import_prfs_set_elements")) => {
+            //     prfs_set_elements::import_prfs_set_elements(req, state).await
+            // }
             (&Method::POST, v0_path!("create_prfs_tree_by_prfs_set")) => {
                 prfs_trees::create_prfs_tree_by_prfs_set(req, state).await
             }
@@ -160,10 +160,12 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
         }
     };
 
+    panic!();
+
     // Inline const is not availble at the moment
     // https://github.com/rodrimati1992/const_format_crates/issues/17
-    match resp {
-        Ok(r) => return r,
-        Err(err) => return ApiResponse::new_error(err).into_hyper_response(),
-    }
+    // match resp {
+    //     Ok(r) => return r,
+    //     Err(err) => return ApiResponse::new_error(err).into_hyper_response(),
+    // }
 }
