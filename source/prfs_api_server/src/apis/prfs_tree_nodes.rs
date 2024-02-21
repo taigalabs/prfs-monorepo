@@ -23,7 +23,6 @@ pub async fn get_prfs_tree_nodes_by_pos(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<GetPrfsTreeNodesByPosRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsTreeNodesResponse>>) {
-    // let req: GetPrfsTreeNodesByPosRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_tree_nodes = prfs::get_prfs_tree_nodes_by_pos(pool, &input.set_id, &input.pos)
         .await
@@ -68,7 +67,6 @@ pub async fn update_prfs_tree_node(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<UpdatePrfsTreeNodeRequest>,
 ) -> (StatusCode, Json<ApiResponse<UpdatePrfsTreeNodeResponse>>) {
-    // let req: UpdatePrfsTreeNodeRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
     let pos_w = prfs::update_prfs_tree_node(&mut tx, &input.prfs_tree_node)
