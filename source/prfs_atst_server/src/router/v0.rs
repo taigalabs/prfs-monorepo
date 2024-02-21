@@ -39,7 +39,13 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
             "/compute_crypto_asset_size_total_values",
             post(crypto_asset::compute_crypto_asset_size_total_values),
         )
-        .route("/validate_twitter_acc", post(twitter::validate_twitter_acc));
+        .route("/validate_twitter_acc", post(twitter::validate_twitter_acc))
+        .route("/attest_twitter_acc", post(twitter::attest_twitter_acc))
+        .route(
+            "/get_twitter_acc_atsts",
+            post(twitter::get_twitter_acc_atsts),
+        )
+        .route("/get_twitter_acc_atst", post(twitter::get_twitter_acc_atst));
 
     router
 }
