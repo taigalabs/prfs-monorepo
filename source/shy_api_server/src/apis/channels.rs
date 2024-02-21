@@ -1,6 +1,11 @@
-use ethers_signers::Signer;
+use axum::{
+    extract::{MatchedPath, Request, State},
+    handler::HandlerWithoutStateExt,
+    http::{HeaderValue, Method, StatusCode},
+    routing::{get, post},
+    Json, Router,
+};
 use hyper::body::Incoming;
-use hyper::{Request, Response};
 use prfs_axum_lib::io::{parse_req, ApiHandlerResult, BytesBoxBody};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
@@ -28,23 +33,24 @@ pub async fn create_shy_post(req: Request<Incoming>, state: Arc<ServerState>) ->
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_shy_channels(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
-    let req: GetShyPostsRequest = parse_req(req).await;
+pub async fn get_shy_channels(
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetShyPostsRequest>,
+) -> (StatusCode, Json<ApiResponse<GetShyChannelsResponse>>) {
     let pool = &state.db2.pool;
-    let shy_channels = shy::get_shy_channels(pool, req.offset, LIMIT)
+    let shy_channels = shy::get_shy_channels(pool, input.offset, LIMIT)
         .await
         .unwrap();
 
     let next_offset = if shy_channels.len() < LIMIT.try_into().unwrap() {
         None
     } else {
-        Some(req.offset + LIMIT)
+        Some(input.offset + LIMIT)
     };
 
     let resp = ApiResponse::new_success(GetShyChannelsResponse {
         shy_channels,
         next_offset,
     });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }

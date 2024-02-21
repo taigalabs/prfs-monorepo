@@ -10,6 +10,7 @@ use prfs_common_server_state::ServerState;
 use prfs_id_server::router::v0::{make_id_v0_router, ID_API_V0};
 use prfs_id_session_server::router::v0::{make_id_session_v0_router, ID_SESSION_API_V0};
 use serde_json::Value;
+use shy_api_server::router::v0::{make_shy_v0_router, SHY_API_V0};
 use std::sync::Arc;
 use tower_http::{
     cors::{Any, CorsLayer},
@@ -28,6 +29,7 @@ pub fn route(state: Arc<ServerState>) -> Router {
         .nest(ATST_API_V0, make_atst_v0_router())
         .nest(ID_API_V0, make_id_v0_router())
         .nest(ID_SESSION_API_V0, make_id_session_v0_router())
+        .nest(SHY_API_V0, make_shy_v0_router())
         .with_state(state)
         .fallback_service(handle_404.into_service())
         .layer(
