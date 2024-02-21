@@ -5,6 +5,7 @@ use axum::{
     routing::get,
     Json, Router,
 };
+use prfs_atst_server::router::v0::{make_atst_v0_router, ATST_API_V0};
 use prfs_circuits_circom::CircuitBuildListJson;
 use prfs_common_server_state::ServerState;
 use serde_json::{json, Value};
@@ -17,14 +18,15 @@ use tower_http::{
 use tracing::{info, info_span, Span};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-use super::v0::make_v0_router;
+use super::v0::make_api_v0_router;
 
 const API_V0: &str = "/api/v0/";
 
 pub fn route(state: Arc<ServerState>) -> Router {
     Router::new()
         .route("/", get(handle_server_status))
-        .nest(API_V0, make_v0_router())
+        .nest(API_V0, make_api_v0_router())
+        .nest(ATST_API_V0, make_atst_v0_router())
         // .nest_service("/circuits", serve_dir)
         .with_state(state)
         .fallback_service(handle_404.into_service())

@@ -19,7 +19,7 @@ use crate::apis::{
     prfs_tree_nodes, prfs_trees,
 };
 
-pub fn make_v0_router() -> Router<Arc<ServerState>> {
+pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
     let router = Router::new() //
         .route(
             "/sign_up_prfs_account",
