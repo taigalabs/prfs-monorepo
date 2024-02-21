@@ -1,24 +1,21 @@
 use axum::{
-    extract::{MatchedPath, Request, State},
+    extract::{Request, State},
     handler::HandlerWithoutStateExt,
     http::{HeaderValue, Method, StatusCode},
     routing::get,
     Json, Router,
 };
 use prfs_atst_server::router::v0::{make_atst_v0_router, ATST_API_V0};
-use prfs_circuits_circom::CircuitBuildListJson;
 use prfs_common_server_state::ServerState;
 use prfs_id_server::router::v0::{make_id_v0_router, ID_API_V0};
 use prfs_id_session_server::router::v0::{make_id_session_v0_router, ID_SESSION_API_V0};
-use serde_json::{json, Value};
+use serde_json::Value;
 use std::sync::Arc;
 use tower_http::{
     cors::{Any, CorsLayer},
-    services::ServeDir,
     trace::TraceLayer,
 };
-use tracing::{info, info_span, Span};
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use tracing::{info, Span};
 
 use super::v0::make_api_v0_router;
 
