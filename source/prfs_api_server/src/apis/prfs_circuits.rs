@@ -19,8 +19,6 @@ use std::sync::Arc;
 use crate::ApiServerError;
 
 pub async fn get_prfs_circuits(
-    // req: Request<Incoming>,
-    // state: Arc<ServerState>,
     State(state): State<Arc<ServerState>>,
     Json(input): Json<GetPrfsCircuitsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsCircuitsResponse>>) {
@@ -36,14 +34,17 @@ pub async fn get_prfs_circuits(
 }
 
 pub async fn get_prfs_circuit_by_circuit_id(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: GetPrfsCircuitByCircuitIdRequest = parse_req(req).await;
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsCircuitByCircuitIdRequest>,
+) -> (
+    StatusCode,
+    Json<ApiResponse<GetPrfsCircuitByCircuitIdResponse>>,
+) {
+    // let req: GetPrfsCircuitByCircuitIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_circuit_syn1 = prfs::get_prfs_circuit_syn1_by_circuit_id(&pool, &req.circuit_id).await;
+    let prfs_circuit_syn1 =
+        prfs::get_prfs_circuit_syn1_by_circuit_id(&pool, &input.circuit_id).await;
 
     let resp = ApiResponse::new_success(GetPrfsCircuitByCircuitIdResponse { prfs_circuit_syn1 });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }

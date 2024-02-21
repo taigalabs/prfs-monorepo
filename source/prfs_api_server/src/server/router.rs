@@ -51,36 +51,36 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             // (&Method::POST, v0_path!("get_prfs_circuits")) => {
             //     prfs_circuits::get_prfs_circuits(req, state).await
             // }
-            (&Method::POST, v0_path!("get_prfs_circuit_by_circuit_id")) => {
-                prfs_circuits::get_prfs_circuit_by_circuit_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_circuit_types")) => {
-                prfs_circuit_types::get_prfs_circuit_types(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_circuit_type_by_circuit_type_id")) => {
-                prfs_circuit_types::get_prfs_circuit_type_by_circuit_type_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_circuit_drivers")) => {
-                prfs_circuit_drivers::get_prfs_circuit_drivers(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_circuit_driver_by_driver_id")) => {
-                prfs_circuit_drivers::get_prfs_circuit_driver_by_driver_id(req, state).await
-            }
-            (&Method::POST, v0_path!("create_prfs_proof_instance")) => {
-                prfs_proof_instances::create_prfs_proof_instance(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_proof_instances")) => {
-                prfs_proof_instances::get_prfs_proof_instances(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_proof_instance_by_instance_id")) => {
-                prfs_proof_instances::get_prfs_proof_instance_by_instance_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_proof_instance_by_short_id")) => {
-                prfs_proof_instances::get_prfs_proof_instance_by_short_id(req, state).await
-            }
-            (&Method::POST, v0_path!("get_prfs_set_elements")) => {
-                prfs_set_elements::get_prfs_set_elements(req, state).await
-            }
+            // (&Method::POST, v0_path!("get_prfs_circuit_by_circuit_id")) => {
+            //     prfs_circuits::get_prfs_circuit_by_circuit_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_circuit_types")) => {
+            //     prfs_circuit_types::get_prfs_circuit_types(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_circuit_type_by_circuit_type_id")) => {
+            //     prfs_circuit_types::get_prfs_circuit_type_by_circuit_type_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_circuit_drivers")) => {
+            //     prfs_circuit_drivers::get_prfs_circuit_drivers(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_circuit_driver_by_driver_id")) => {
+            //     prfs_circuit_drivers::get_prfs_circuit_driver_by_driver_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("create_prfs_proof_instance")) => {
+            //     prfs_proof_instances::create_prfs_proof_instance(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_proof_instances")) => {
+            //     prfs_proof_instances::get_prfs_proof_instances(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_proof_instance_by_instance_id")) => {
+            //     prfs_proof_instances::get_prfs_proof_instance_by_instance_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_proof_instance_by_short_id")) => {
+            //     prfs_proof_instances::get_prfs_proof_instance_by_short_id(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_prfs_set_elements")) => {
+            //     prfs_set_elements::get_prfs_set_elements(req, state).await
+            // }
             (&Method::POST, v0_path!("get_prfs_set_element")) => {
                 prfs_set_elements::get_prfs_set_element(req, state).await
             }

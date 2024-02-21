@@ -1,4 +1,11 @@
-use hyper::{body::Incoming, Request};
+use axum::{
+    extract::{MatchedPath, Request, State},
+    handler::HandlerWithoutStateExt,
+    http::{HeaderValue, Method, StatusCode},
+    routing::{get, post},
+    Json, Router,
+};
+use hyper::body::Incoming;
 use hyper_utils::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
     resp::ApiResponse,
@@ -70,24 +77,24 @@ pub async fn import_prfs_set_elements(
 }
 
 pub async fn get_prfs_set_elements(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: GetPrfsSetElementsRequest = parse_req(req).await;
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsSetElementsRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsSetElementsResponse>>) {
     let pool = &state.db2.pool;
 
-    let rows = prfs::get_prfs_set_elements(&pool, &req.set_id, req.offset, LIMIT)
+    let rows = prfs::get_prfs_set_elements(&pool, &input.set_id, input.offset, LIMIT)
         .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODES.UNKNOWN_ERROR, err))?;
+        .map_err(|err| ApiHandleError::from(&API_ERROR_CODES.UNKNOWN_ERROR, err))
+        .unwrap();
 
     let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
         None
     } else {
-        Some(req.offset + LIMIT)
+        Some(input.offset + LIMIT)
     };
 
     let resp = ApiResponse::new_success(GetPrfsSetElementsResponse { rows, next_offset });
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn get_prfs_set_element(
