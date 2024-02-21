@@ -44,25 +44,12 @@
   /* border: 1px solid red; */
 
   .intro {
+    color: var(--shy-black-30);
     padding: 0 16px;
     max-width: none;
     font-size: 40px;
     font-weight: 600;
     letter-spacing: 0.018em;
-
-    > p {
-      margin-bottom: 8px;
-    }
-
-    h1 {
-      font-size: 64px;
-      font-weight: 700;
-    }
-
-    h2 {
-      margin-top: 0.78em;
-      font-size: 31px;
-    }
   }
 
   .signInBtnRow {
@@ -90,11 +77,6 @@
   display: flex;
   justify-content: flex-end;
 }
-
-/* .footer { */
-/*   padding-top: 32px; */
-/*   justify-content: center; */
-/* } */
 
 @media screen and (min-width: $big_display_min_width) {
   .upper {
@@ -127,20 +109,6 @@
       letter-spacing: 0.018em;
       padding: 0 36px;
       max-width: $big_display_min_width;
-
-      > p {
-        margin-bottom: 8px;
-      }
-
-      h1 {
-        font-size: 64px;
-        font-weight: 700;
-      }
-
-      h2 {
-        margin-top: 0.78em;
-        font-size: 31px;
-      }
     }
 
     .signInBtnRow {
