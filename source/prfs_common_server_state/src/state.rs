@@ -1,11 +1,15 @@
+use axum::extract::ws::{Message, WebSocket};
 use chrono::{DateTime, Utc};
 use ethers_core::k256::{ecdsa::SigningKey, Secp256k1};
 use ethers_signers::{LocalWallet, Signer, Wallet};
 use git2::{Oid, Repository};
-use hyper_tungstenite2::peer_map::PeerMap;
+// use hyper_tungstenite2::peer_map::PeerMap;
+use futures::stream::SplitSink;
 use prfs_db_interface::database2::Database2;
 use prfs_web_fetcher::destinations::infura::InfuraFetcher;
 use std::collections::HashMap;
+use std::sync::Arc;
+use tokio::sync::Mutex;
 
 pub struct ServerState {
     pub db2: Database2,
@@ -17,3 +21,5 @@ pub struct ServerState {
     // prfs_id_session_server
     pub peer_map: PeerMap,
 }
+
+pub type PeerMap = Arc<Mutex<HashMap<String, Arc<Mutex<SplitSink<WebSocket, Message>>>>>>;
