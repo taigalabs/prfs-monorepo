@@ -2,16 +2,15 @@
   display: grid;
   place-items: center;
   position: relative;
-  width: 150px;
+
   /* border: 1px solid blue; */
 
   > span {
     font-size: 108px;
     font-weight: 700;
-    /* background: #353593; */
-    /* background: linear-gradient(to right, #353593 0%, #2e8b99 50%, #354c51 100%); */
-    background: #1c9368;
-    background: linear-gradient(to right, #1c9368 0%, #7dbdbb 100%);
+
+    background: #2d021f;
+    background: linear-gradient(to right, #2d021f 0%, #ce4620 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

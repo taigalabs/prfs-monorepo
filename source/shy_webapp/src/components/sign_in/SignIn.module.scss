@@ -1,55 +1,71 @@
-$min_big_display_width: 1000px;
+@import "@/styles/layouts.module.scss";
 
 .wrapper {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+
+  border: 1px solid blue;
 }
 
 .upper {
   display: flex;
-  width: 100%;
+  flex-direction: column;
+  justify-content: center;
   flex-grow: 1;
 
-  /* border: 1px solid black; */
+  border: 1px solid black;
+}
+
+.main {
+  .intro {
+    h1 {
+      font-size: 40px;
+    }
+
+    h2 {
+      font-size: 23px;
+    }
+  }
+}
+
+.bottom {
+  padding-top: 32px;
+  justify-content: center;
 }
 
 .logoPane {
-  flex-grow: 1;
+  padding: 0 16px;
+  flex-grow: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 51vw;
 
-  /* border: 1px solid blue; */
+  border: 1px solid blue;
 
   .logoWrapper {
     display: flex;
     justify-content: center;
-    flex-grow: 1;
-    max-width: 540px;
+    max-width: none;
+    flex-grow: 0;
 
-    /* border: 1px solid red; */
+    border: 1px solid red;
   }
 }
 
-.logo {
-  width: 55%;
-}
-
 .main {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   justify-content: center;
+  flex-grow: 0;
 
   /* border: 1px solid red; */
 
   .intro {
+    padding: 0 16px;
+    max-width: none;
     font-size: 18px;
     letter-spacing: 0.018em;
-    padding: 0 36px;
-    max-width: $min_big_display_width;
 
     > p {
       margin-bottom: 8px;
@@ -67,7 +83,7 @@ $min_big_display_width: 1000px;
   }
 
   .signInBtnRow {
-    padding: 32px 36px 0px;
+    padding: 32px 16px 0px;
 
     .btn {
       height: 38px;
@@ -78,7 +94,7 @@ $min_big_display_width: 1000px;
   }
 
   .guideline {
-    padding: 6px 36px 0;
+    padding: 6px 16px 0;
     font-size: 11px;
     color: var(--gray-40);
   }
@@ -86,71 +102,114 @@ $min_big_display_width: 1000px;
 
 .bottom {
   padding: 12px 16px;
+  margin-top: auto;
   margin-bottom: 0;
   display: flex;
   justify-content: flex-end;
 }
 
-@media screen and (max-width: $min_big_display_width) {
+@media screen and (min-width: $big_display_min_width) {
   .upper {
-    flex-direction: column;
-    gap: 41px;
-    padding: 36px 0;
+    flex-direction: row;
+    width: 100%;
+    flex-grow: 1;
   }
 
   .logoPane {
-    justify-content: flex-start;
-    width: auto;
-    padding: 0 16px;
-    flex-grow: 0;
+    flex-grow: 1;
+    flex-shrink: 0;
+    width: 45vw;
 
     .logoWrapper {
-      max-width: none;
-      flex-grow: 0;
-    }
-
-    .logo {
-      width: 94px;
+      display: flex;
+      justify-content: center;
+      flex-grow: 1;
+      max-width: 540px;
     }
   }
 
+  /* .main { */
+  /*   flex-grow: 0; */
+
+  /*   .intro { */
+  /*     padding: 0 16px; */
+  /*     max-width: none; */
+  /*   } */
+
+  /*   .signInBtnRow { */
+  /*     padding: 32px 16px 0px; */
+  /*   } */
+
+  /*   .guideline { */
+  /*     padding: 6px 16px 0; */
+  /*   } */
+  /* } */
+
   .main {
-    flex-grow: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     .intro {
-      padding: 0 16px;
-      max-width: none;
+      font-size: 18px;
+      letter-spacing: 0.018em;
+      padding: 0 36px;
+      max-width: $big_display_min_width;
+
+      > p {
+        margin-bottom: 8px;
+      }
+
+      h1 {
+        font-size: 64px;
+        font-weight: 700;
+      }
+
+      h2 {
+        margin-top: 0.78em;
+        font-size: 31px;
+      }
     }
 
     .signInBtnRow {
-      padding: 32px 16px 0px;
+      padding: 32px 36px 0px;
+
+      .btn {
+        height: 38px;
+        border-radius: 19px;
+        width: 300px;
+        border: 1px solid var(--bright-gray-32);
+      }
     }
 
     .guideline {
-      padding: 6px 16px 0;
+      padding: 6px 36px 0;
+      font-size: 11px;
+      color: var(--gray-40);
     }
   }
 }
 
 @media screen and (max-width: 480px) {
-  .upper {
-    flex-grow: 0;
-  }
+  /* .upper { */
+  /*   flex-grow: 0; */
+  /* } */
 
-  .main {
-    .intro {
-      h1 {
-        font-size: 40px;
-      }
+  /* .main { */
+  /*   .intro { */
+  /*     h1 { */
+  /*       font-size: 40px; */
+  /*     } */
 
-      h2 {
-        font-size: 23px;
-      }
-    }
-  }
+  /*     h2 { */
+  /*       font-size: 23px; */
+  /*     } */
+  /*   } */
+  /* } */
 
-  .bottom {
-    padding-top: 32px;
-    justify-content: center;
-  }
+  /* .bottom { */
+  /*   padding-top: 32px; */
+  /*   justify-content: center; */
+  /* } */
 }
