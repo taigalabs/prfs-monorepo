@@ -27,12 +27,24 @@ pub async fn atst_server_routes(
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
-        (&Method::POST, v0_path!("fetch_crypto_asset")) => {
-            crypto_asset::fetch_crypto_asset(req, state).await
-        }
-        (&Method::POST, v0_path!("validate_twitter_acc")) => {
-            twitter::validate_twitter_acc(req, state).await
-        }
+        // (&Method::POST, v0_path!("fetch_crypto_asset")) => {
+        //     crypto_asset::fetch_crypto_asset(req, state).await
+        // }
+        // (&Method::POST, v0_path!("create_crypto_asset_size_atst")) => {
+        //     crypto_asset::create_crypto_asset_size_atst(req, state).await
+        // }
+        // (&Method::POST, v0_path!("get_crypto_asset_size_atsts")) => {
+        //     crypto_asset::get_crypto_asset_size_atsts(req, state).await
+        // }
+        // (&Method::POST, v0_path!("get_crypto_asset_size_atst")) => {
+        //     crypto_asset::get_crypto_asset_size_atst(req, state).await
+        // }
+        // (&Method::POST, v0_path!("compute_crypto_asset_size_total_values")) => {
+        //     crypto_asset::compute_crypto_asset_size_total_values(req, state).await
+        // }
+        // (&Method::POST, v0_path!("validate_twitter_acc")) => {
+        //     twitter::validate_twitter_acc(req, state).await
+        // }
         (&Method::POST, v0_path!("attest_twitter_acc")) => {
             twitter::attest_twitter_acc(req, state).await
         }
@@ -41,18 +53,6 @@ pub async fn atst_server_routes(
         }
         (&Method::POST, v0_path!("get_twitter_acc_atst")) => {
             twitter::get_twitter_acc_atst(req, state).await
-        }
-        (&Method::POST, v0_path!("create_crypto_asset_size_atst")) => {
-            crypto_asset::create_crypto_asset_size_atst(req, state).await
-        }
-        (&Method::POST, v0_path!("get_crypto_asset_size_atsts")) => {
-            crypto_asset::get_crypto_asset_size_atsts(req, state).await
-        }
-        (&Method::POST, v0_path!("get_crypto_asset_size_atst")) => {
-            crypto_asset::get_crypto_asset_size_atst(req, state).await
-        }
-        (&Method::POST, v0_path!("compute_crypto_asset_size_total_values")) => {
-            crypto_asset::compute_crypto_asset_size_total_values(req, state).await
         }
         _ => {
             println!("{} route not found!, {}", ATST_API, req.uri());

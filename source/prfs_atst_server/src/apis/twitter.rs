@@ -1,5 +1,12 @@
+use axum::{
+    extract::{MatchedPath, Request, State},
+    handler::HandlerWithoutStateExt,
+    http::{HeaderValue, Method, StatusCode},
+    routing::{get, post},
+    Json, Router,
+};
 use hyper::body::Incoming;
-use hyper::{Request, Response};
+use hyper::Response;
 use hyper_utils::io::{empty, parse_req, ApiHandlerResult};
 use hyper_utils::resp::ApiResponse;
 use hyper_utils::ApiHandleError;
@@ -19,21 +26,19 @@ use crate::error_codes::API_ERROR_CODE;
 const LIMIT: i32 = 20;
 
 pub async fn validate_twitter_acc(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: ValidateTwitterAccRequest = parse_req(req).await;
-
-    let validation = twitter::scrape_tweet(&req.tweet_url, &req.twitter_handle)
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<ValidateTwitterAccRequest>,
+) -> (StatusCode, Json<ApiResponse<ValidateTwitterAccResponse>>) {
+    let validation = twitter::scrape_tweet(&input.tweet_url, &input.twitter_handle)
         .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_VALIDATE_FAIL, err))?;
+        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_VALIDATE_FAIL, err))
+        .unwrap();
 
     let resp = ApiResponse::new_success(ValidateTwitterAccResponse {
         is_valid: true,
         validation,
     });
-
-    return Ok(resp.into_hyper_response());
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn attest_twitter_acc(
