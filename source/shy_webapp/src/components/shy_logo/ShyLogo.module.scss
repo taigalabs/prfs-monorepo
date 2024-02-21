@@ -6,9 +6,12 @@
   /* border: 1px solid blue; */
 
   > span {
-    font-size: 72px;
-    background: #121fcf;
-    background: linear-gradient(to right, #121fcf 0%, #cf1512 100%);
+    font-size: 108px;
+    font-weight: 700;
+    /* background: #353593; */
+    /* background: linear-gradient(to right, #353593 0%, #2e8b99 50%, #354c51 100%); */
+    background: #1c9368;
+    background: linear-gradient(to right, #1c9368 0%, #7dbdbb 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
