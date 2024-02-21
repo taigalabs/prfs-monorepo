@@ -9,7 +9,7 @@ import SigningInGuideline from "./SigningInGuideline.mdx";
 import PrfsIdSignInBtn from "@/components/prfs_sign_in_btn/PrfsSignInBtn";
 import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
-import SignInFooter from "../sign_in_footer/SignInFooter";
+import SignInFooter from "@/components/sign_in_footer/SignInFooter";
 import { useI18N } from "@/i18n/hook";
 
 const SignIn: React.FC<SignInProps> = () => {
