@@ -38,8 +38,11 @@
   flex-direction: column;
   justify-content: center;
   flex-grow: 0;
-  /* border: 1px solid red; */
 
+  /* border: 1px solid red; */
+}
+
+.mainInner {
   .intro {
     color: var(--shy-black-30);
     padding: 0 28px;
@@ -89,9 +92,8 @@
 
     .logoWrapper {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       flex-grow: 1;
-      max-width: 540px;
     }
   }
 
@@ -100,23 +102,16 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 55vw;
+  }
+
+  .mainInner {
+    max-width: 400px;
+    /* border: 1px solid black; */
 
     .intro {
-      font-size: 18px;
       letter-spacing: 0.018em;
       padding: 0 36px;
-      max-width: $big_display_min_width;
-    }
-
-    .signInBtnRow {
-      padding: 32px 36px 0px;
-
-      .btn {
-        height: 38px;
-        border-radius: 19px;
-        width: 300px;
-        border: 1px solid var(--bright-gray-32);
-      }
     }
 
     .guideline {

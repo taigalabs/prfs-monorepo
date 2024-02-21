@@ -34,16 +34,18 @@ const SignIn: React.FC<SignInProps> = () => {
           </div>
         </div>
         <div className={styles.main}>
-          <div className={styles.intro}>
-            <p>{i18n.more_honest_discussions}</p>
-          </div>
-          <ul className={styles.signInBtnRow}>
-            <li>
-              <PrfsIdSignInBtn />
-            </li>
-          </ul>
-          <div className={styles.guideline}>
-            <SigningInGuideline />
+          <div className={styles.mainInner}>
+            <div className={styles.intro}>
+              <p>{i18n.more_honest_discussions}</p>
+            </div>
+            <ul className={styles.signInBtnRow}>
+              <li>
+                <PrfsIdSignInBtn />
+              </li>
+            </ul>
+            <div className={styles.guideline}>
+              <SigningInGuideline />
+            </div>
           </div>
         </div>
       </div>
