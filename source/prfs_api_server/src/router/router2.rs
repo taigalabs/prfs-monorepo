@@ -9,6 +9,7 @@ use prfs_atst_server::router::v0::{make_atst_v0_router, ATST_API_V0};
 use prfs_circuits_circom::CircuitBuildListJson;
 use prfs_common_server_state::ServerState;
 use prfs_id_server::router::v0::{make_id_v0_router, ID_API_V0};
+use prfs_id_session_server::router::v0::{make_id_session_v0_router, ID_SESSION_API_V0};
 use serde_json::{json, Value};
 use std::sync::Arc;
 use tower_http::{
@@ -29,7 +30,7 @@ pub fn route(state: Arc<ServerState>) -> Router {
         .nest(API_V0, make_api_v0_router())
         .nest(ATST_API_V0, make_atst_v0_router())
         .nest(ID_API_V0, make_id_v0_router())
-        // .nest_service("/circuits", serve_dir)
+        .nest(ID_SESSION_API_V0, make_id_session_v0_router())
         .with_state(state)
         .fallback_service(handle_404.into_service())
         .layer(
