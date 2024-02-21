@@ -5,7 +5,7 @@
   flex-direction: column;
   flex-grow: 1;
 
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 }
 
 .upper {
@@ -14,42 +14,25 @@
   justify-content: center;
   flex-grow: 1;
 
-  border: 1px solid black;
-}
-
-.main {
-  .intro {
-    h1 {
-      font-size: 40px;
-    }
-
-    h2 {
-      font-size: 23px;
-    }
-  }
-}
-
-.bottom {
-  padding-top: 32px;
-  justify-content: center;
+  /* border: 1px solid black; */
 }
 
 .logoPane {
   padding: 0 16px;
   flex-grow: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
 
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 
   .logoWrapper {
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     max-width: none;
     flex-grow: 0;
 
-    border: 1px solid red;
+    /* border: 1px solid red; */
   }
 }
 
@@ -58,13 +41,13 @@
   flex-direction: column;
   justify-content: center;
   flex-grow: 0;
-
   /* border: 1px solid red; */
 
   .intro {
     padding: 0 16px;
     max-width: none;
-    font-size: 18px;
+    font-size: 40px;
+    font-weight: 600;
     letter-spacing: 0.018em;
 
     > p {
@@ -100,13 +83,18 @@
   }
 }
 
-.bottom {
+.footer {
   padding: 12px 16px;
   margin-top: auto;
   margin-bottom: 0;
   display: flex;
   justify-content: flex-end;
 }
+
+/* .footer { */
+/*   padding-top: 32px; */
+/*   justify-content: center; */
+/* } */
 
 @media screen and (min-width: $big_display_min_width) {
   .upper {
@@ -127,23 +115,6 @@
       max-width: 540px;
     }
   }
-
-  /* .main { */
-  /*   flex-grow: 0; */
-
-  /*   .intro { */
-  /*     padding: 0 16px; */
-  /*     max-width: none; */
-  /*   } */
-
-  /*   .signInBtnRow { */
-  /*     padding: 32px 16px 0px; */
-  /*   } */
-
-  /*   .guideline { */
-  /*     padding: 6px 16px 0; */
-  /*   } */
-  /* } */
 
   .main {
     flex-grow: 1;
@@ -189,27 +160,4 @@
       color: var(--gray-40);
     }
   }
-}
-
-@media screen and (max-width: 480px) {
-  /* .upper { */
-  /*   flex-grow: 0; */
-  /* } */
-
-  /* .main { */
-  /*   .intro { */
-  /*     h1 { */
-  /*       font-size: 40px; */
-  /*     } */
-
-  /*     h2 { */
-  /*       font-size: 23px; */
-  /*     } */
-  /*   } */
-  /* } */
-
-  /* .bottom { */
-  /*   padding-top: 32px; */
-  /*   justify-content: center; */
-  /* } */
 }

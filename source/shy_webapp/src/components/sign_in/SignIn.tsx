@@ -48,7 +48,7 @@ const SignIn: React.FC<SignInProps> = () => {
           </div>
         </div>
       </div>
-      <div className={styles.bottom}>
+      <div className={styles.footer}>
         <SignInFooter />
       </div>
     </div>

@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   display: grid;
   place-items: center;
@@ -6,7 +8,7 @@
   /* border: 1px solid blue; */
 
   > span {
-    font-size: 108px;
+    font-size: 92px;
     font-weight: 700;
 
     background: #2d021f;
@@ -21,4 +23,7 @@
     height: 100%;
     object-fit: contain;
   }
+}
+
+@media screen and (min-width: $big_display_min_width) {
 }
