@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 import styles from "./SignIn.module.scss";
 import ShyLogo from "@/components/shy_logo/ShyLogo";
-import ShyLandingIntro from "./ShyLandingIntro.mdx";
 import SigningInGuideline from "./SigningInGuideline.mdx";
 import PrfsIdSignInBtn from "@/components/prfs_sign_in_btn/PrfsSignInBtn";
 import { useSignedInUser } from "@/hooks/user";
