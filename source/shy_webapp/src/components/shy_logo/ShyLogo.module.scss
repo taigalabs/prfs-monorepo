@@ -2,20 +2,31 @@
 
 .wrapper {
   display: grid;
-  place-items: center;
   position: relative;
+  height: 100%;
+  padding-bottom: 14px;
+  place-items: center;
 
   /* border: 1px solid blue; */
+}
+
+.box {
+  background-color: #e75420;
+  padding: 0 3px;
+  padding-top: 7px;
 
   > span {
+    font-family: "Ubuntu", sans-serif;
     font-size: 84px;
-    font-weight: 700;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: #fff;
 
-    background: #2d021f;
-    background: linear-gradient(to right, #2d021f 0%, #ce4620 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* background: #2d021f; */
+    /* background: linear-gradient(to right, #2d021f 0%, #ce4620 100%); */
+    /* background-clip: text; */
+    /* -webkit-background-clip: text; */
+    /* -webkit-text-fill-color: transparent; */
   }
 
   img {

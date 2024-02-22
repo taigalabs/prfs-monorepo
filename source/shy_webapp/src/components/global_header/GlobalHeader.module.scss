@@ -1,7 +1,10 @@
 @import "@/styles/layouts.module.scss";
 
+$header_height_small: 48px;
+$header_height_big: 61px;
+
 .placeholder {
-  height: 61px;
+  height: $header_height_small;
   width: 100%;
 
   border: 1px solid red;
@@ -12,19 +15,28 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 61px;
+  height: $header_height_small;
   display: flex;
   align-items: center;
   padding: 0 16px;
+  z-index: 1;
+  background-color: var(--shy-black-25);
 
   border: 1px solid blue;
 }
 
 .logo {
-  > span {
-    font-size: 40px;
+  span {
+    font-size: 24px;
   }
 }
 
 @media screen and (min-width: $big_display_min_width) {
+  .placeholder {
+    height: $header_height_big;
+  }
+
+  .wrapper {
+    height: $header_height_big;
+  }
 }
