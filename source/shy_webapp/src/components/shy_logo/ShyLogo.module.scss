@@ -4,8 +4,7 @@
   display: grid;
   position: relative;
   height: 100%;
-  padding-bottom: 14px;
-  place-items: center;
+  padding-bottom: 6px;
 
   /* border: 1px solid blue; */
 }
@@ -13,7 +12,10 @@
 .box {
   background-color: #e75420;
   padding: 0 3px;
-  padding-top: 7px;
+  padding-top: 4px;
+  padding-bottom: 3px;
+  display: flex;
+  align-items: flex-end;
 
   > span {
     font-family: "Ubuntu", sans-serif;
@@ -37,4 +39,7 @@
 }
 
 @media screen and (min-width: $big_display_min_width) {
+  .wrapper {
+    padding-bottom: 10px;
+  }
 }
