@@ -24,7 +24,7 @@ const SignIn: React.FC<SignInProps> = () => {
   }, [shyCredential]);
 
   return shyCredential ? (
-    <div>Redirecting...</div>
+    <div className={styles.loading}>{i18n.loading}...</div>
   ) : (
     <div className={styles.wrapper}>
       <div className={styles.upper}>
