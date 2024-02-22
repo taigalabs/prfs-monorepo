@@ -4,7 +4,11 @@ import cn from "classnames";
 import styles from "./CircuitInputComponents.module.scss";
 
 export const FormInputButton: React.FC<AttestationsProps> = ({ children, className }) => {
-  return <div className={cn(styles.formInputBtn, className)}>{children}</div>;
+  return (
+    <button type="button" className={cn(styles.formInputBtn, className)}>
+      {children}
+    </button>
+  );
 };
 
 export interface AttestationsProps {

@@ -77,7 +77,6 @@ const Board: React.FC<BoardProps> = ({}) => {
   ]);
 
   const handleScroll = React.useCallback(() => {
-    // console.log(55, containerRefElement, rightBarContainerRef.current);
     if (parentRef.current && rightBarContainerRef.current) {
       const { scrollHeight, scrollTop, clientHeight } = parentRef.current;
       const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current!;
