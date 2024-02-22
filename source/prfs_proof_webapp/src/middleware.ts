@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { envs } from "./envs";
 
 const hosts = (() => {
-  const consoleHost = envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT.replace(
+  const consoleHost = envs.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT.replace(
     new RegExp("^https?://"),
     "",
   );

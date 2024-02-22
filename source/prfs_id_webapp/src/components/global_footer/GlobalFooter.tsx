@@ -22,7 +22,7 @@ const GlobalFooter: React.FC = () => {
       <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL} onClick={handleClickLink}>
         <span>{i18n.code}</span>
       </Link>
-      <Link href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT} onClick={handleClickLink}>
+      <Link href={envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT} onClick={handleClickLink}>
         <span>{i18n.prfs}</span>
       </Link>
     </div>

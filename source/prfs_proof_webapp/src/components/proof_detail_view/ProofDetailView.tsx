@@ -67,7 +67,8 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 
   const proofData = React.useMemo(() => {
     if (proofInstance) {
-      const consoleUrl = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proofInstance.proof_instance_id}`;
+      const consoleUrl = `${envs.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}\
+/proof_instances/${proofInstance.proof_instance_id}`;
 
       const ret = {
         consoleUrl,
@@ -137,7 +138,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               <TutorialStepper tutorialId={tutorialId} step={step} steps={[5]}>
                 <ProofBanner
                   proofInstance={proofInstance}
-                  webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+                  webappProofEndpoint={envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}
                 />
               </TutorialStepper>
             </div>

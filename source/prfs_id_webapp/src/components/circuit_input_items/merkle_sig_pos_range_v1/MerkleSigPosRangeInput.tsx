@@ -107,7 +107,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       ev.preventDefault();
 
       if (prfsSet) {
-        const url = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/sets/${prfsSet.set_id}`;
+        const url = `${envs.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}/sets/${prfsSet.set_id}`;
         window.parent.window.open(url);
       }
     }
@@ -120,7 +120,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         <a
           className={styles.link}
           onClick={handleClick}
-          href={`${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/sets/${prfsSet.set_id}`}
+          href={`${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/sets/${prfsSet.set_id}`}
         >
           <span>{prfsSet.label}</span>
           <span> ({treeId})</span>
@@ -213,7 +213,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         if (!getPrfsSetElementPayload) {
           function handleClick() {
-            const url = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/sets/${set_id}`;
+            const url = `${envs.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}/sets/${set_id}`;
             window.parent.window.open(url);
           }
 
