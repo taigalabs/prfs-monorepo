@@ -1,6 +1,6 @@
 import React from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
@@ -108,17 +108,6 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
         ) : (
           <>
             <InfiniteScrollPlaceholder />
-            {/* <TimelineFeedsHeader> */}
-            {/*   <ul className={styles.header}> */}
-            {/*     <li className={styles.drawerBtn}> */}
-            {/*       <MyAvatar credential={credential} handleClick={handleClickShowLeftBarDrawer} /> */}
-            {/*     </li> */}
-            {/*     <li className={styles.logo}> */}
-            {/*       <ShyLogo width={46} /> */}
-            {/*     </li> */}
-            {/*     <li></li> */}
-            {/*   </ul> */}
-            {/* </TimelineFeedsHeader> */}
             <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
             <div
               className={styles.infiniteScroll}

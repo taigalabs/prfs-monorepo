@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useRouter } from "next/navigation";
 import { shyApi } from "@taigalabs/prfs-api-js";
 

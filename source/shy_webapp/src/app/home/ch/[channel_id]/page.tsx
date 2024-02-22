@@ -10,7 +10,7 @@ import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import { ContentMain, ContentLeft } from "@/components/content_area/ContentArea";
 import LeftBar from "@/components/left_bar/LeftBar";
 import { paths } from "@/paths";
-import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
+// import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import CreatePostForm from "@/components/create_post_form/CreatePostForm";
 import { useAppSelector } from "@/state/hooks";
 // import useLocalWallet from "@/hooks/useLocalWallet";

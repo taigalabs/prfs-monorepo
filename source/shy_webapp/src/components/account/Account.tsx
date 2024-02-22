@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import styles from "./Account.module.scss";
 import { i18nContext } from "@/i18n/context";
 import LeftBar from "@/components/left_bar/LeftBar";
-import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
+// import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { DefaultHeader, DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
 // import LeftBarDrawer from "./LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
