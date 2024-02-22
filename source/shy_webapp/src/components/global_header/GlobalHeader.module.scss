@@ -7,11 +7,11 @@ $header_height_big: 61px;
   height: $header_height_small;
   width: 100%;
 
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .wrapper {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -21,9 +21,10 @@ $header_height_big: 61px;
   align-items: center;
   padding: 0 16px;
   z-index: 1;
-  background-color: var(--shy-black-25);
+  /* background-color: var(--shy-black-25); */
+  background-color: white;
 
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 }
 
 .logo {

@@ -16,7 +16,7 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import { useSignedInShyUser } from "@/hooks/user";
 import { useDispatch } from "react-redux";
-import { GlobalHeaderPlaceholder } from "../global_header/GlobalHeader";
+import GlobalHeader, { GlobalHeaderPlaceholder } from "../global_header/GlobalHeader";
 
 const Board: React.FC<BoardProps> = ({}) => {
   const dispatch = useDispatch();
@@ -100,6 +100,7 @@ const Board: React.FC<BoardProps> = ({}) => {
 
   return (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
+      <GlobalHeader />
       <InfiniteScrollMain>
         {status === "pending" ? (
           <div className={styles.loading}>

@@ -26,7 +26,7 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <Suspense>
-        <GlobalHeader />
+        {/* <GlobalHeader /> */}
         <DefaultMain>
           <Board />
         </DefaultMain>
