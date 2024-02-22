@@ -7,11 +7,12 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import styles from "./ChannelList.module.scss";
 import Row from "./Row";
 import {
-  TimelineFeedsHeader,
-  TimelineFeedsMain,
-  TimelineFeedsSide,
-  TimelineFeedsWrapper,
-} from "../timeline_feeds/TimelineFeeds";
+  // TimelineFeedsHeader,
+  InfiniteScrollMain,
+  InfiniteScrollSide,
+  InfiniteScrollWrapper,
+  InfiniteScrollPlaceholder,
+} from "@/components/infinite_scroll/InfiniteScrollComponents";
 import RightBar from "../right_bar/RightBar";
 import ShyLogo from "../shy_logo/ShyLogo";
 import MyAvatar from "../my_avatar/MyAvatar";
@@ -97,25 +98,27 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
   }
 
   return (
-    <TimelineFeedsWrapper innerRef={parentRef} handleScroll={handleScroll}>
-      <TimelineFeedsMain>
+    <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
+      <div />
+      <InfiniteScrollMain>
         {status === "pending" ? (
           <div className={styles.loading}>
             <Spinner />
           </div>
         ) : (
           <>
-            <TimelineFeedsHeader>
-              <ul className={styles.header}>
-                <li className={styles.drawerBtn}>
-                  <MyAvatar credential={credential} handleClick={handleClickShowLeftBarDrawer} />
-                </li>
-                <li className={styles.logo}>
-                  <ShyLogo width={46} />
-                </li>
-                <li></li>
-              </ul>
-            </TimelineFeedsHeader>
+            <InfiniteScrollPlaceholder />
+            {/* <TimelineFeedsHeader> */}
+            {/*   <ul className={styles.header}> */}
+            {/*     <li className={styles.drawerBtn}> */}
+            {/*       <MyAvatar credential={credential} handleClick={handleClickShowLeftBarDrawer} /> */}
+            {/*     </li> */}
+            {/*     <li className={styles.logo}> */}
+            {/*       <ShyLogo width={46} /> */}
+            {/*     </li> */}
+            {/*     <li></li> */}
+            {/*   </ul> */}
+            {/* </TimelineFeedsHeader> */}
             <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
             <div
               className={styles.infiniteScroll}
@@ -154,11 +157,9 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
             </div>
           </>
         )}
-      </TimelineFeedsMain>
-      <TimelineFeedsSide>
-        <RightBar />
-      </TimelineFeedsSide>
-    </TimelineFeedsWrapper>
+      </InfiniteScrollMain>
+      <InfiniteScrollSide>{/* <RightBar /> */}</InfiniteScrollSide>
+    </InfiniteScrollWrapper>
   );
 };
 

@@ -53,14 +53,14 @@ const Home: React.FC<HomeProps> = () => {
   return isInitialized && shyCredential ? (
     <div className={styles.wrapper}>
       <GlobalHeader />
-      <DefaultHeader>
-        <div className={styles.leftBarContainer}>
-          <LeftBar credential={shyCredential} channels={data ?? null} />
-        </div>
-        <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
-          <LeftBar credential={shyCredential} channels={data ?? null} />
-        </LeftBarDrawer>
-      </DefaultHeader>
+      {/* <DefaultHeader> */}
+      {/*   <div className={styles.leftBarContainer}> */}
+      {/*     <LeftBar credential={shyCredential} channels={data ?? null} /> */}
+      {/*   </div> */}
+      {/*   <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}> */}
+      {/*     <LeftBar credential={shyCredential} channels={data ?? null} /> */}
+      {/*   </LeftBarDrawer> */}
+      {/* </DefaultHeader> */}
       <DefaultMain>
         <ChannelList
           credential={shyCredential}
