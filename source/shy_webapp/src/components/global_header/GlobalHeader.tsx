@@ -3,7 +3,11 @@
 import React from "react";
 
 import styles from "./GlobalHeader.module.scss";
-import ShyLogo from "../shy_logo/ShyLogo";
+import ShyLogo from "@/components/shy_logo/ShyLogo";
+
+export const GlobalHeaderPlaceholder = () => {
+  return <div className={styles.placeholder} />;
+};
 
 const GlobalHeader: React.FC<GlobalHeaderProps> = () => {
   return (
