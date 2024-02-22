@@ -1,8 +1,10 @@
+@import "@/styles/layouts.module.scss";
+
 .placeholder {
   height: 61px;
   width: 100%;
 
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .wrapper {
@@ -13,6 +15,7 @@
   height: 61px;
   display: flex;
   align-items: center;
+  padding: 0 16px;
 
   border: 1px solid blue;
 }
@@ -21,4 +24,7 @@
   > span {
     font-size: 40px;
   }
+}
+
+@media screen and (min-width: $big_display_min_width) {
 }

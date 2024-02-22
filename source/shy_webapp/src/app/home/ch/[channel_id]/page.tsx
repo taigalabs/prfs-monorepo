@@ -1,19 +1,10 @@
 import React, { Suspense } from "react";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
 
 import styles from "./ChannelPage.module.scss";
-import { i18nContext } from "@/i18n/context";
 import DefaultLayout, { DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
-import { ContentMain, ContentLeft } from "@/components/content_area/ContentArea";
-import LeftBar from "@/components/left_bar/LeftBar";
-import { paths } from "@/paths";
-// import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import CreatePostForm from "@/components/create_post_form/CreatePostForm";
-import { useAppSelector } from "@/state/hooks";
-// import useLocalWallet from "@/hooks/useLocalWallet";
-import { useDispatch } from "react-redux";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
+import Board from "@/components/board/Board";
 
 const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
   // const i18n = React.useContext(i18nContext);
@@ -37,11 +28,7 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
       <Suspense>
         <GlobalHeader />
         <DefaultMain>
-          44
-          {/* <ChannelList */}
-          {/*   credential={shyCredential} */}
-          {/*   handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer as any} */}
-          {/* /> */}
+          <Board />
         </DefaultMain>
       </Suspense>
     </DefaultLayout>

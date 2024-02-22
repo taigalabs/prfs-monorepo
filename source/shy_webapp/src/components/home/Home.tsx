@@ -9,10 +9,10 @@ import styles from "./Home.module.scss";
 import LeftBar from "@/components/left_bar/LeftBar";
 import { DefaultHeader, DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import Loading from "@/components/loading/Loading";
-import ChannelList from "@/components/channel_list/ChannelList";
+// import ChannelList from "@/components/channel_list/ChannelList";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 
 function useShyChannels(offset: number) {
@@ -41,7 +41,7 @@ const Home: React.FC<HomeProps> = () => {
     [setIsLeftBarDrawerVisible],
   );
 
-  const { isInitialized, shyCredential } = useSignedInUser();
+  const { isInitialized, shyCredential } = useSignedInShyUser();
   React.useEffect(() => {
     if (isInitialized) {
       if (shyCredential === null) {

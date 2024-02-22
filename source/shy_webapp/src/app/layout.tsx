@@ -2,9 +2,9 @@ import "@taigalabs/prfs-react-lib/src/global.scss";
 import "./globals.scss";
 
 import React from "react";
+import { Metadata } from "next/types";
 
 import TopProvider from "@/components/top_provider/TopProvider";
-import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
   robots: {

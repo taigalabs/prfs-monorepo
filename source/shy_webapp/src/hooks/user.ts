@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { loadLocalShyCredential } from "@/storage/local_storage";
 import { signInShy } from "@/state/userReducer";
 
-export function useSignedInUser() {
+export function useSignedInShyUser() {
   const dispatch = useAppDispatch();
   const isInitialized = useAppSelector(state => state.user.isInitialized);
   const shyCredential = useAppSelector(state => state.user.shyCredential);

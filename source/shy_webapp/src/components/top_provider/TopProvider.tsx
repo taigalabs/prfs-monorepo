@@ -8,7 +8,6 @@ import { mainnet, sepolia } from "@taigalabs/prfs-crypto-deps-js/wagmi/chains";
 
 import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";
-import { envs } from "@/envs";
 
 const queryClient = new QueryClient();
 

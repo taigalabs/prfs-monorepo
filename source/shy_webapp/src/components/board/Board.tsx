@@ -1,24 +1,25 @@
+"use client";
+
 import React from "react";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
-import styles from "./ChannelList.module.scss";
+import styles from "./Board.module.scss";
 import Row from "./Row";
 import {
-  // TimelineFeedsHeader,
   InfiniteScrollMain,
   InfiniteScrollRight,
   InfiniteScrollWrapper,
   InfiniteScrollPlaceholder,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
-import RightBar from "../right_bar/RightBar";
-import ShyLogo from "../shy_logo/ShyLogo";
-import MyAvatar from "../my_avatar/MyAvatar";
-import { LocalShyCredential } from "@/storage/local_storage";
+import { useSignedInShyUser } from "@/hooks/user";
+import { useDispatch } from "react-redux";
 
-const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLeftBarDrawer }) => {
+const Board: React.FC<BoardProps> = ({}) => {
+  const dispatch = useDispatch();
+  // const { isInitialized, shyCredential } = useSignedInShyUser();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["get_shy_posts"],
@@ -99,7 +100,6 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
 
   return (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
-      <div>left</div>
       <InfiniteScrollMain>
         {status === "pending" ? (
           <div className={styles.loading}>
@@ -152,9 +152,6 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
   );
 };
 
-export default ChannelList;
+export default Board;
 
-export interface ChannelListProps {
-  credential: LocalShyCredential;
-  handleClickShowLeftBarDrawer: () => void;
-}
+export interface BoardProps {}
