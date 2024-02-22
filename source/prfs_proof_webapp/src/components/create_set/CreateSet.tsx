@@ -5,7 +5,7 @@ import cn from "classnames";
 import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { useRouter } from "next/navigation";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";

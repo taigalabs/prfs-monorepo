@@ -2,9 +2,9 @@ import React from "react";
 import cn from "classnames";
 
 import styles from "./Modal.module.scss";
-import { useI18N } from "@/i18n/context";
-import MyAvatar from "../my_avatar/MyAvatar";
+import MyAvatar from "@/components/my_avatar/MyAvatar";
 import { LocalShyCredential } from "@/storage/local_storage";
+import { useI18N } from "@/i18n/hook";
 
 const Modal: React.FC<ModalProps> = ({ handleClickSignOut, credential }) => {
   const i18n = useI18N();

@@ -6,7 +6,7 @@ import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useRouter, useSearchParams } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";

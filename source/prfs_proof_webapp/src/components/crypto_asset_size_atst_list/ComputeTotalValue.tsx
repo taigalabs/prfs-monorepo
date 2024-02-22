@@ -1,6 +1,6 @@
 import React from "react";
 import { FaCalculator } from "@react-icons/all-files/fa/FaCalculator";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { ComputeCryptoAssetSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetSizeTotalValuesRequest";

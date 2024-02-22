@@ -16,7 +16,7 @@ import SocialSharePopover from "@/components/social_share_popover/SocialSharePop
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { useAppDispatch } from "@/state/hooks";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import PollDetailTable from "@/components/poll_detail_table/PollDetailTable";
 import CreatePollForm from "@/components/create_poll_form/CreatePollForm";
 

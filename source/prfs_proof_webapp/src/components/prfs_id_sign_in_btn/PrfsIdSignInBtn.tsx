@@ -13,7 +13,7 @@ import {
   AppSignInArgs,
   createSessionKey,
 } from "@taigalabs/prfs-id-sdk-web";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfs_api_error_codes, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 

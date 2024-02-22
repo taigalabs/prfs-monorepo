@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
 import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";

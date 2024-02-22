@@ -19,7 +19,7 @@ import Table2, {
   TableSearch,
 } from "@taigalabs/prfs-react-lib/src/table2/Table2";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 
 import styles from "./ProofInstanceTable.module.scss";
 import { i18nContext } from "@/i18n/context";

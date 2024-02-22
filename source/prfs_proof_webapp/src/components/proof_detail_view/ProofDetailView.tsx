@@ -8,7 +8,7 @@ import ProofBanner from "@taigalabs/prfs-react-lib/src/proof_banner/ProofBanner"
 import SocialSharePopover from "@taigalabs/prfs-react-lib/src/social_share_popover/SocialSharePopover";
 import SaveProofPopover from "@taigalabs/prfs-react-lib/src/save_proof_popover/SaveProofPopover";
 import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
@@ -67,7 +67,8 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 
   const proofData = React.useMemo(() => {
     if (proofInstance) {
-      const consoleUrl = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proofInstance.proof_instance_id}`;
+      const consoleUrl = `${envs.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}\
+/proof_instances/${proofInstance.proof_instance_id}`;
 
       const ret = {
         consoleUrl,
@@ -137,7 +138,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               <TutorialStepper tutorialId={tutorialId} step={step} steps={[5]}>
                 <ProofBanner
                   proofInstance={proofInstance}
-                  webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+                  webappProofEndpoint={envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}
                 />
               </TutorialStepper>
             </div>

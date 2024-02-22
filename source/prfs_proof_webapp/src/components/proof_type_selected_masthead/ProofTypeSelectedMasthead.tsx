@@ -46,7 +46,7 @@ const ProofTypeSelectedMasthead: React.FC<ProofTypeMastheadProps> = ({
             proofInstanceId={proofInstanceId}
             proofType={proofType}
             handleSelectProofType={handleSelectProofType}
-            webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+            webappConsoleEndpoint={process.env.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}
           />
         </div>
         <MastheadRightGroup className={styles.rightGroup}>

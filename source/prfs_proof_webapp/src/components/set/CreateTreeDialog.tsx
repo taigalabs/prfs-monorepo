@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaTree } from "@react-icons/all-files/fa/FaTree";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreatePrfsTreeByPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsTreeByPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";

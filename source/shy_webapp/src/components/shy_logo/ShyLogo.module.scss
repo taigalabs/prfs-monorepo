@@ -1,13 +1,29 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   display: grid;
   place-items: center;
   position: relative;
-  width: 150px;
+
   /* border: 1px solid blue; */
+
+  > span {
+    font-size: 84px;
+    font-weight: 700;
+
+    background: #2d021f;
+    background: linear-gradient(to right, #2d021f 0%, #ce4620 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
   img {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
+}
+
+@media screen and (min-width: $big_display_min_width) {
 }

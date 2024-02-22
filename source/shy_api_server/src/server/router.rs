@@ -26,11 +26,11 @@ pub async fn shy_server_routes(
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
-        (&Method::POST, v0_path!("create_shy_post")) => posts::create_shy_post(req, state).await,
-        (&Method::POST, v0_path!("get_shy_posts")) => posts::get_shy_posts(req, state).await,
-        (&Method::POST, v0_path!("get_shy_channels")) => {
-            channels::get_shy_channels(req, state).await
-        }
+        // (&Method::POST, v0_path!("create_shy_post")) => posts::create_shy_post(req, state).await,
+        // (&Method::POST, v0_path!("get_shy_posts")) => posts::get_shy_posts(req, state).await,
+        // (&Method::POST, v0_path!("get_shy_channels")) => {
+        //     channels::get_shy_channels(req, state).await
+        // }
         _ => {
             println!("{} route not found!, {}", SHY_API, req.uri());
             Ok(Response::builder()

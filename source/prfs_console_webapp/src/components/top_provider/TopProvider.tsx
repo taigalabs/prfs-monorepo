@@ -4,7 +4,7 @@ import React from "react";
 // import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { Provider as StateProvider } from "react-redux";
 import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-lib/src/i18n/i18nContext";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@taigalabs/prfs-react-lib/react_query";
 
 import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";

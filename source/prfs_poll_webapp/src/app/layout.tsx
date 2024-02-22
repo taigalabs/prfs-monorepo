@@ -6,7 +6,7 @@ import "./globals.scss";
 import React from "react";
 // import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { Provider as StateProvider } from "react-redux";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@taigalabs/prfs-react-lib/react_query";
 
 import { I18nProvider } from "@/contexts/i18n";
 import { store } from "@/state/store";

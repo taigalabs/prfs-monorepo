@@ -67,6 +67,7 @@ export default {
   import_from: "Import from",
   import: "Import",
   channels: "Channels",
+  more_honest_discussions: "More honest discussions",
   copied: "Copied",
   what_is_the_tweet_url: "What is the URL of a tweet you made in the previous step?",
   tweet_url_example_given: "e.g. https://twitter.com/elonmusk/status/1737488430202851389",

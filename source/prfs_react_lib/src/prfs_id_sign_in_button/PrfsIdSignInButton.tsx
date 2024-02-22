@@ -64,6 +64,10 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
             return;
           }
 
+          if (session.payload.value.length === 0) {
+            return;
+          }
+
           const buf = Buffer.from(session.payload.value);
           handleSucceedSignIn(buf);
 

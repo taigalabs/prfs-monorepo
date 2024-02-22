@@ -1,17 +1,18 @@
 import React from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./ChannelList.module.scss";
 import Row from "./Row";
 import {
-  TimelineFeedsHeader,
-  TimelineFeedsMain,
-  TimelineFeedsSide,
-  TimelineFeedsWrapper,
-} from "../timeline_feeds/TimelineFeeds";
+  // TimelineFeedsHeader,
+  InfiniteScrollMain,
+  InfiniteScrollRight,
+  InfiniteScrollWrapper,
+  InfiniteScrollPlaceholder,
+} from "@/components/infinite_scroll/InfiniteScrollComponents";
 import RightBar from "../right_bar/RightBar";
 import ShyLogo from "../shy_logo/ShyLogo";
 import MyAvatar from "../my_avatar/MyAvatar";
@@ -97,25 +98,16 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
   }
 
   return (
-    <TimelineFeedsWrapper innerRef={parentRef} handleScroll={handleScroll}>
-      <TimelineFeedsMain>
+    <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
+      <div>left</div>
+      <InfiniteScrollMain>
         {status === "pending" ? (
           <div className={styles.loading}>
             <Spinner />
           </div>
         ) : (
           <>
-            <TimelineFeedsHeader>
-              <ul className={styles.header}>
-                <li className={styles.drawerBtn}>
-                  <MyAvatar credential={credential} handleClick={handleClickShowLeftBarDrawer} />
-                </li>
-                <li className={styles.logo}>
-                  <ShyLogo width={46} />
-                </li>
-                <li></li>
-              </ul>
-            </TimelineFeedsHeader>
+            <InfiniteScrollPlaceholder />
             <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
             <div
               className={styles.infiniteScroll}
@@ -154,11 +146,9 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
             </div>
           </>
         )}
-      </TimelineFeedsMain>
-      <TimelineFeedsSide>
-        <RightBar />
-      </TimelineFeedsSide>
-    </TimelineFeedsWrapper>
+      </InfiniteScrollMain>
+      <InfiniteScrollRight>right</InfiniteScrollRight>
+    </InfiniteScrollWrapper>
   );
 };
 

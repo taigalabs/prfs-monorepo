@@ -3,9 +3,8 @@
 import React from "react";
 
 import styles from "./SignInFooter.module.scss";
-import { paths } from "@/paths";
-import { useI18N } from "@/i18n/context";
 import { envs } from "@/envs";
+import { useI18N } from "@/i18n/hook";
 
 const SignInFooter: React.FC<SignInFooterProps> = () => {
   const i18n = useI18N();

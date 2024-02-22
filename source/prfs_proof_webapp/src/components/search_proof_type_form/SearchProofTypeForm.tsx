@@ -2,10 +2,10 @@
 
 import React from "react";
 import cn from "classnames";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 import Link from "next/link";
 import SearchProofDialog from "@taigalabs/prfs-react-lib/src/search_proof_dialog/SearchProofDialog";
@@ -35,7 +35,6 @@ const SearchProofTypeForm: React.FC = () => {
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
-      // return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
       return prfsApi3({ type: "get_prfs_proof_type_by_proof_type_id", ...req });
     },
   });
@@ -72,7 +71,7 @@ const SearchProofTypeForm: React.FC = () => {
                 <SearchProofDialog
                   proofType={undefined}
                   handleSelectProofType={handleSelectProofType}
-                  webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+                  webappConsoleEndpoint={process.env.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}
                 />
               </TutorialStepper>
             </div>

@@ -15,7 +15,7 @@ import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import ContentArea, { TopPlaceholder } from "@/components/content_area/ContentArea";
 import Link from "next/link";
 import Masthead from "@/components/masthead/Masthead";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import PollResultView from "@/components/poll_result_view/PollResultView";
 
 const PollResultPage: React.FC<PollResultPageProps> = ({ pollId }) => {

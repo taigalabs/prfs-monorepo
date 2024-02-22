@@ -14,12 +14,11 @@ import {
   createSessionKey,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfs_api_error_codes, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
 import styles from "./PrfsSignInBtn.module.scss";
-import { paths } from "@/paths";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { signInShy, signOutShy } from "@/state/userReducer";
@@ -58,7 +57,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
 
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
-      if (sk) {
+      if (sk && encrypted.length > 0) {
         let decrypted: string;
         try {
           decrypted = decrypt(sk.secret, encrypted).toString();
@@ -110,7 +109,11 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   }, []);
 
   if (!isInitialized) {
-    return <Spinner size={24} color="#5c5c5c" />;
+    return (
+      <div className={styles.wrapper}>
+        <Spinner size={18} color="#5c5c5c" borderWidth={1} />
+      </div>
+    );
   }
 
   return shyCredential ? (

@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { PrfsSetElement } from "@taigalabs/prfs-entities/bindings/PrfsSetElement";

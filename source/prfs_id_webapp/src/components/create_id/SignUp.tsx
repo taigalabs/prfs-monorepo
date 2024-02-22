@@ -11,7 +11,7 @@ import copy from "copy-to-clipboard";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
 import { PrfsIdCredential, makeColor } from "@taigalabs/prfs-id-sdk-web";
 

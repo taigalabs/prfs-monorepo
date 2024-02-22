@@ -6,12 +6,13 @@
   height: 100vh;
   overflow-y: auto;
   display: flex;
+  justify-content: center;
 
   border: 1px solid red;
 }
 
 .header {
-  height: $timeline_header_height;
+  height: 61px;
   border-left: 1px solid var(--bright-gray-32);
   border-right: 1px solid var(--bright-gray-32);
 
@@ -19,13 +20,12 @@
 }
 
 .main {
-  position: relative;
-  width: 598px;
-
-  /* border: 1px solid blue; */
+  flex-grow: 1;
+  border: 1px solid green;
 }
 
-.side {
+.right {
+  display: none;
 }
 
 .infiniteScroll {
@@ -35,7 +35,7 @@
 }
 
 .placeholder {
-  height: $timeline_header_height;
+  height: 61px;
   border-left: 1px solid var(--bright-gray-32);
   border-right: 1px solid var(--bright-gray-32);
 
@@ -52,22 +52,15 @@
   place-items: center;
 }
 
-@media screen and (max-width: 1000px) {
-  .side {
-    display: none;
+@media screen and (min-width: $big_display_min_width) {
+  .right {
+    display: flex;
   }
 
   .main {
-    width: 100%;
-  }
-}
+    position: relative;
+    width: 980px;
 
-@media screen and (max-width: 480px) {
-  .main {
-    width: 100%;
-  }
-
-  .side {
-    display: none;
+    border: 1px solid green;
   }
 }
