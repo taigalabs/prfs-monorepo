@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { timeout } from "@taigalabs/prfs-ts-utils";
 
 export function useIsFontReady() {
   const [isFontReady, setIsFontReady] = useState(false);
@@ -16,8 +17,4 @@ export function useIsFontReady() {
   }, [setIsFontReady]);
 
   return isFontReady;
-}
-
-function timeout(prom: Promise<any>, time: number) {
-  return Promise.race([prom, new Promise((_r, rej) => setTimeout(rej, time))]);
 }
