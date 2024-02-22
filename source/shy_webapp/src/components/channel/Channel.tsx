@@ -11,14 +11,7 @@ import { useSignedInShyUser } from "@/hooks/user";
 import { useIsFontReady } from "@/hooks/font";
 
 const Channel: React.FC<ChannelProps> = ({ channelId }) => {
-  // const { isInitialized } = useSignedInShyUser();
   const isFontReady = useIsFontReady();
-
-  React.useEffect(() => {
-    // document.fonts.ready.then(() => {
-    //   console.log(123);
-    // });
-  }, []);
 
   return isFontReady ? (
     <Board />

@@ -11,6 +11,11 @@
   border: 1px solid red;
 }
 
+.inner {
+  display: flex;
+  justify-content: center;
+}
+
 .header {
   height: 61px;
   border-left: 1px solid var(--bright-gray-32);
@@ -22,6 +27,9 @@
 .main {
   flex-grow: 1;
   border: 1px solid green;
+}
+
+.left {
 }
 
 .right {
@@ -58,6 +66,7 @@
   }
 
   .main {
+    flex-grow: 0;
     position: relative;
     width: 980px;
 

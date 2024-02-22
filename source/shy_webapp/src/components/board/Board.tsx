@@ -13,6 +13,8 @@ import {
   InfiniteScrollRight,
   InfiniteScrollWrapper,
   InfiniteScrollPlaceholder,
+  InfiniteScrollInner,
+  InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import { useSignedInShyUser } from "@/hooks/user";
 import { useDispatch } from "react-redux";
@@ -101,54 +103,56 @@ const Board: React.FC<BoardProps> = ({}) => {
   return (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
       <GlobalHeader />
-      <InfiniteScrollMain>
-        {status === "pending" ? (
-          <div className={styles.loading}>
-            <Spinner />
-          </div>
-        ) : (
-          <>
-            <GlobalHeaderPlaceholder />
-            <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
-            <div
-              className={styles.infiniteScroll}
-              style={{
-                height: `${rowVirtualizer.getTotalSize()}px`,
-                position: "relative",
-              }}
-            >
-              {rowVirtualizer.getVirtualItems().map(virtualRow => {
-                const isLoaderRow = virtualRow.index > allRows.length - 1;
-                const post = allRows[virtualRow.index];
-
-                return (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: `${virtualRow.size}px`,
-                      transform: `translateY(${virtualRow.start}px)`,
-                    }}
-                    className={styles.row}
-                    key={virtualRow.index}
-                    data-index={virtualRow.index}
-                    ref={rowVirtualizer.measureElement}
-                  >
-                    {isLoaderRow
-                      ? hasNextPage
-                        ? "Loading more..."
-                        : "Nothing more to load"
-                      : post && <Row post={post} />}
-                  </div>
-                );
-              })}
+      <InfiniteScrollInner>
+        <InfiniteScrollLeft> </InfiniteScrollLeft>
+        <InfiniteScrollMain>
+          {status === "pending" ? (
+            <div className={styles.loading}>
+              <Spinner />
             </div>
-          </>
-        )}
-      </InfiniteScrollMain>
-      <InfiniteScrollRight>right</InfiniteScrollRight>
+          ) : (
+            <>
+              <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
+              <div
+                className={styles.infiniteScroll}
+                style={{
+                  height: `${rowVirtualizer.getTotalSize()}px`,
+                  position: "relative",
+                }}
+              >
+                {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                  const isLoaderRow = virtualRow.index > allRows.length - 1;
+                  const post = allRows[virtualRow.index];
+
+                  return (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: `${virtualRow.size}px`,
+                        transform: `translateY(${virtualRow.start}px)`,
+                      }}
+                      className={styles.row}
+                      key={virtualRow.index}
+                      data-index={virtualRow.index}
+                      ref={rowVirtualizer.measureElement}
+                    >
+                      {isLoaderRow
+                        ? hasNextPage
+                          ? "Loading more..."
+                          : "Nothing more to load"
+                        : post && <Row post={post} />}
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+        </InfiniteScrollMain>
+        <InfiniteScrollRight> </InfiniteScrollRight>
+      </InfiniteScrollInner>
     </InfiniteScrollWrapper>
   );
 };

@@ -28,12 +28,16 @@ export const InfiniteScrollWrapper: React.FC<TimelineFeedsWrapperProps> = ({
   );
 };
 
-// export const TimelineFeedsHeader: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
-//   return <div className={cn(styles.header, className)}>{children}</div>;
-// };
+export const InfiniteScrollInner: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
+  return <div className={cn(styles.inner, className)}>{children}</div>;
+};
 
 export const InfiniteScrollMain: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
   return <div className={cn(styles.main, className)}>{children}</div>;
+};
+
+export const InfiniteScrollLeft: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
+  return <div className={cn(styles.left, className)}>{children}</div>;
 };
 
 export const InfiniteScrollRight: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
