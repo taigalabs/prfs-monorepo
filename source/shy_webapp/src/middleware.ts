@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { envs } from "./envs";
 
-const hosts = (() => {
-  const consoleHost = envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT.replace(
-    new RegExp("^https?://"),
-    "",
-  );
+// const hosts = (() => {
+//   const consoleHost = envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT.replace(
+//     new RegExp("^https?://"),
+//     "",
+//   );
 
-  const ret = {
-    console: consoleHost,
-  };
-  console.log("[middleware] hosts: %o", ret);
-  return ret;
-})();
+//   const ret = {
+//     console: consoleHost,
+//   };
+//   console.log("[middleware] hosts: %o", ret);
+//   return ret;
+// })();
 
 export const config = {
   matcher: [
@@ -31,11 +31,8 @@ export default async function middleware(req: NextRequest) {
   const url = req.nextUrl;
 
   // Get hostname of request (e.g. demo.vercel.pub, demo.localhost:3000)
-  // let hostname = req.headers.get("host")!;
-  // .replace(
-  //   `.${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}`,
-  //   `.${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}`,
-  // );
+  let hostname = req.headers.get("host")!;
+  // console.log(123, hostname, path, new URL(`/${hostname}${path}`));
 
   // // special case for Vercel preview deployment URLs
   // if (
@@ -57,12 +54,9 @@ export default async function middleware(req: NextRequest) {
   // }
 
   // // rewrite root application to `/home` folder
-  // if (hostname === "localhost:3000" || hostname === process.env.NEXT_PUBLIC_ROOT_DOMAIN) {
-  //   return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
-  // }
-  //
-  // console.log(123, hostname, path, new URL(`/${hostname}${path}`));
-
+  if (hostname === "localhost:3022" || hostname === envs.NEXT_PUBLIC_SHY_WEBAPP_ENDPOINT) {
+    return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
+  }
   // rewrite everything else to `/[domain]/[slug] dynamic route
-  return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
+  // return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
 }
