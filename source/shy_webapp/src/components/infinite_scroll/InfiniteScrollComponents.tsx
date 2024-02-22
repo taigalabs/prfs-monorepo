@@ -32,8 +32,8 @@ export const InfiniteScrollMain: React.FC<TimelineFeedsMainProps> = ({ children,
   return <div className={cn(styles.main, className)}>{children}</div>;
 };
 
-export const InfiniteScrollSide: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
-  return <div className={cn(styles.side, className)}>{children}</div>;
+export const InfiniteScrollRight: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
+  return <div className={cn(styles.right, className)}>{children}</div>;
 };
 
 export const InfiniteScrollPlaceholder: React.FC<InfiniteScrollPlaceholderProps> = ({

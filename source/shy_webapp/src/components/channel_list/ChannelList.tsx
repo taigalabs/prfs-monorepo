@@ -9,7 +9,7 @@ import Row from "./Row";
 import {
   // TimelineFeedsHeader,
   InfiniteScrollMain,
-  InfiniteScrollSide,
+  InfiniteScrollRight,
   InfiniteScrollWrapper,
   InfiniteScrollPlaceholder,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
@@ -99,7 +99,7 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
 
   return (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
-      <div />
+      <div>left</div>
       <InfiniteScrollMain>
         {status === "pending" ? (
           <div className={styles.loading}>
@@ -158,7 +158,7 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
           </>
         )}
       </InfiniteScrollMain>
-      <InfiniteScrollSide>{/* <RightBar /> */}</InfiniteScrollSide>
+      <InfiniteScrollRight>right</InfiniteScrollRight>
     </InfiniteScrollWrapper>
   );
 };

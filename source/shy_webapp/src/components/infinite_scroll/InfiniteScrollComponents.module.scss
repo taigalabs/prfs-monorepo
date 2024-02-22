@@ -24,7 +24,7 @@
   border: 1px solid green;
 }
 
-.side {
+.right {
   display: none;
 }
 
@@ -53,7 +53,7 @@
 }
 
 @media screen and (min-width: $big_display_min_width) {
-  .side {
+  .right {
     display: flex;
   }
 
@@ -64,13 +64,3 @@
     border: 1px solid green;
   }
 }
-
-/* @media screen and (max-width: 480px) { */
-/*   .main { */
-/*     width: 100%; */
-/*   } */
-
-/*   .side { */
-/*     display: none; */
-/*   } */
-/* } */
