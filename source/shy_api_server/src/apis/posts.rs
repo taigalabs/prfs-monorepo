@@ -5,9 +5,6 @@ use axum::{
     routing::{get, post},
     Json, Router,
 };
-use hyper::body::Incoming;
-use hyper::Response;
-use prfs_axum_lib::io::{parse_req, ApiHandlerResult, BytesBoxBody};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
@@ -38,7 +35,6 @@ pub async fn get_shy_posts(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<GetShyPostsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyPostsResponse>>) {
-    // let req: GetShyPostsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let shy_posts = shy::get_shy_posts(pool, input.offset, LIMIT).await.unwrap();
 
