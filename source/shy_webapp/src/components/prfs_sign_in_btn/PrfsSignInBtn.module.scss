@@ -1,3 +1,9 @@
+.wrapper {
+  display: grid;
+  place-items: center;
+  width: 300px;
+}
+
 .signInBtn {
   background-color: var(--shy-green-50);
   color: var(--white-100);
