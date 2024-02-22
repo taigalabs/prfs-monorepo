@@ -1,7 +1,7 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  display: flex;
+  /* display: flex; */
   flex-grow: 1;
 
   /* border: 1px solid white; */
@@ -12,20 +12,4 @@
   justify-content: flex-end;
 
   /* border: 1px solid black; */
-}
-
-@media screen and (max-width: $big_display_min_width) {
-  .leftBarContainer {
-    display: none;
-  }
-
-  .leftBarDrawerContainer {
-    display: block;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .leftBarContainer {
-    display: none;
-  }
 }

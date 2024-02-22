@@ -53,6 +53,7 @@ const Home: React.FC<HomeProps> = () => {
   return isInitialized && shyCredential ? (
     <div className={styles.wrapper}>
       <GlobalHeader />
+      33
       {/* <DefaultHeader> */}
       {/*   <div className={styles.leftBarContainer}> */}
       {/*     <LeftBar credential={shyCredential} channels={data ?? null} /> */}
@@ -62,10 +63,11 @@ const Home: React.FC<HomeProps> = () => {
       {/*   </LeftBarDrawer> */}
       {/* </DefaultHeader> */}
       <DefaultMain>
-        <ChannelList
-          credential={shyCredential}
-          handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer as any}
-        />
+        44
+        {/* <ChannelList */}
+        {/*   credential={shyCredential} */}
+        {/*   handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer as any} */}
+        {/* /> */}
       </DefaultMain>
     </div>
   ) : (
