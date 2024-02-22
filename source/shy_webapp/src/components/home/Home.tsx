@@ -3,6 +3,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { shyApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./Home.module.scss";
 import LeftBar from "@/components/left_bar/LeftBar";
@@ -12,7 +13,7 @@ import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import Loading from "@/components/loading/Loading";
 import ChannelList from "@/components/channel_list/ChannelList";
-import { shyApi } from "@taigalabs/prfs-api-js";
+import GlobalHeader from "@/components/global_header/GlobalHeader";
 
 function useShyChannels(offset: number) {
   return useQuery({
@@ -51,7 +52,7 @@ const Home: React.FC<HomeProps> = () => {
 
   return isInitialized && shyCredential ? (
     <div className={styles.wrapper}>
-      {/* <GlobalHeader /> */}
+      <GlobalHeader />
       <DefaultHeader>
         <div className={styles.leftBarContainer}>
           <LeftBar credential={shyCredential} channels={data ?? null} />
