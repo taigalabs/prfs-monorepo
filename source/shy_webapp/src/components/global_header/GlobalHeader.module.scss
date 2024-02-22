@@ -1,16 +1,24 @@
+.placeholder {
+  height: 61px;
+  width: 100%;
+
+  border: 1px solid red;
+}
+
 .wrapper {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 61px;
+  display: flex;
+  align-items: center;
 
   border: 1px solid blue;
 }
 
-.placeholder {
-  height: 61px;
-  width: 100%;
-
-  border: 1px solid red;
+.logo {
+  > span {
+    font-size: 40px;
+  }
 }

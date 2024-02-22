@@ -1,12 +1,10 @@
-"use client";
-
-import React from "react";
+import React, { Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
 import styles from "./ChannelPage.module.scss";
 import { i18nContext } from "@/i18n/context";
-import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
+import DefaultLayout, { DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
 import { ContentMain, ContentLeft } from "@/components/content_area/ContentArea";
 import LeftBar from "@/components/left_bar/LeftBar";
 import { paths } from "@/paths";
@@ -15,14 +13,15 @@ import CreatePostForm from "@/components/create_post_form/CreatePostForm";
 import { useAppSelector } from "@/state/hooks";
 // import useLocalWallet from "@/hooks/useLocalWallet";
 import { useDispatch } from "react-redux";
+import GlobalHeader from "@/components/global_header/GlobalHeader";
 
 const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
-  const i18n = React.useContext(i18nContext);
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const dispatch = useDispatch();
+  // const i18n = React.useContext(i18nContext);
+  // const router = useRouter();
+  // const searchParams = useSearchParams();
+  // const dispatch = useDispatch();
 
-  const localPrfsAccount = useAppSelector(state => state.user.shyCredential);
+  // const localPrfsAccount = useAppSelector(state => state.user.shyCredential);
   // useLocalWallet(dispatch);
 
   // React.useEffect(() => {
@@ -31,20 +30,20 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
   //   }
   // }, [router]);
 
-  const isPostPage = searchParams.get("post") !== null;
+  // const isPostPage = searchParams.get("post") !== null;
 
   return (
     <DefaultLayout>
-      <ContentLeft>{/* <LeftBar /> */}</ContentLeft>
-      <ContentMain>
-        <div className={styles.container}>
-          {/* {isPostPage ? ( */}
-          {/*   <CreatePostForm channelId={params.channel_id} /> */}
-          {/* ) : ( */}
-          {/*   <TimelineFeeds channelId={params.channel_id} /> */}
-          {/* )} */}
-        </div>
-      </ContentMain>
+      <Suspense>
+        <GlobalHeader />
+        <DefaultMain>
+          44
+          {/* <ChannelList */}
+          {/*   credential={shyCredential} */}
+          {/*   handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer as any} */}
+          {/* /> */}
+        </DefaultMain>
+      </Suspense>
     </DefaultLayout>
   );
 };

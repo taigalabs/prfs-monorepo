@@ -1,16 +1,10 @@
-import React, { Suspense } from "react";
+import React from "react";
+import { redirect } from "next/navigation";
 
-import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
-import Home from "@/components/home/Home";
+import { paths } from "@/paths";
 
 const HomePage: React.FC = () => {
-  return (
-    <DefaultLayout>
-      <Suspense>
-        <Home />
-      </Suspense>
-    </DefaultLayout>
-  );
+  redirect(paths.ch__crypto_holders);
 };
 
 export default HomePage;
