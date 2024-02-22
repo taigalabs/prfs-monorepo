@@ -18,7 +18,7 @@ import Link from "next/link";
 import Masthead from "@/components/masthead/Masthead";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 import PollView from "@/components/poll_view/PollView";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import PollResultPage from "./PollResultPage";
 
 const PollPage: React.FC<PollPageProps> = ({ params }) => {

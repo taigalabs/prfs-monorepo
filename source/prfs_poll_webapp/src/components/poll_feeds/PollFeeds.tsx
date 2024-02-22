@@ -10,7 +10,7 @@ import {
   Row,
   useReactTable,
 } from "@tanstack/react-table";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 // import { useVirtual } from "react-virtual";
 import { GetPrfsPollsResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsPollsResponse";
 import dayjs from "dayjs";

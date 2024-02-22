@@ -5,7 +5,7 @@ import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { VerifyProofArgs, VerifyProofResultPayload } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { idSessionApi, prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import { Proof } from "@taigalabs/prfs-driver-interface";

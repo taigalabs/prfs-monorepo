@@ -9,7 +9,7 @@ import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import { atstApi } from "@taigalabs/prfs-api-js";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { useRouter } from "next/navigation";
 import {
   CommitmentType,

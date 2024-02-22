@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { abbrev5and5 } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./LatestTree.module.scss";

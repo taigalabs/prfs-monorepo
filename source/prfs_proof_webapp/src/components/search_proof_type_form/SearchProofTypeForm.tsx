@@ -5,7 +5,7 @@ import cn from "classnames";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 import Link from "next/link";
 import SearchProofDialog from "@taigalabs/prfs-react-lib/src/search_proof_dialog/SearchProofDialog";
