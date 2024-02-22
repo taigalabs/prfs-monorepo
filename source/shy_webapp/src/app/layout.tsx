@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   robots: {
     index: true,
   },
-  title: "Shy",
-  description: "Next generation social",
+  title: "Shy | More honest discussions",
+  description: "Civilized discussions backed by zero-knowledge proof",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
