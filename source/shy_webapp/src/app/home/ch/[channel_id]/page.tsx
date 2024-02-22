@@ -10,7 +10,6 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
       <Suspense>
         <DefaultMain>
           <Channel channelId={params.channel_id} />
-          {/* <Board /> */}
         </DefaultMain>
       </Suspense>
     </DefaultLayout>
