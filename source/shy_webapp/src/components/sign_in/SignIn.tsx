@@ -7,14 +7,14 @@ import styles from "./SignIn.module.scss";
 import ShyLogo from "@/components/shy_logo/ShyLogo";
 import SigningInGuideline from "./SigningInGuideline.mdx";
 import PrfsIdSignInBtn from "@/components/prfs_sign_in_btn/PrfsSignInBtn";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import SignInFooter from "@/components/sign_in_footer/SignInFooter";
 import { useI18N } from "@/i18n/hook";
 
 const SignIn: React.FC<SignInProps> = () => {
   const i18n = useI18N();
-  const { shyCredential } = useSignedInUser();
+  const { shyCredential } = useSignedInShyUser();
   const router = useRouter();
 
   React.useEffect(() => {

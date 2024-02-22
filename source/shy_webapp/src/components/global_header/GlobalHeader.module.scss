@@ -17,6 +17,7 @@ $header_height_big: 61px;
   right: 0;
   height: $header_height_small;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0 16px;
   z-index: 1;

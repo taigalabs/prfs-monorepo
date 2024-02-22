@@ -28,7 +28,7 @@ import {
   removeLocalShyCredential,
 } from "@/storage/local_storage";
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInShyUser } from "@/hooks/user";
 import { useRandomKeyPair } from "@/hooks/key";
 import { i18nContext } from "@/i18n/context";
 
@@ -36,7 +36,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { isInitialized, shyCredential } = useSignedInUser();
+  const { isInitialized, shyCredential } = useSignedInShyUser();
   const { mutateAsync: prfsSignInRequest } = useMutation({
     mutationFn: (req: PrfsSignInRequest) => {
       return prfsApi3({ type: "sign_in_prfs_account", ...req });
