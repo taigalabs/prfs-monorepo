@@ -18,7 +18,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId }) => {
     if (isInitialized && !shyCredential) {
       router.push(`${paths.account__sign_in}?continue=power`);
     }
-  }, [isInitialized, router]);
+  }, [isInitialized, router, shyCredential]);
 
   return isFontReady ? (
     <Board />

@@ -3,7 +3,6 @@
 .wrapper {
   display: grid;
   position: relative;
-  height: 100%;
   padding-bottom: 6px;
 
   /* border: 1px solid blue; */
@@ -19,7 +18,7 @@
 
   > span {
     font-family: "Ubuntu", sans-serif;
-    font-size: 84px;
+    /* font-size: 84px; */
     font-weight: 400;
     letter-spacing: 0.04em;
     color: #fff;
