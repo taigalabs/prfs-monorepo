@@ -17,7 +17,7 @@ const GlobalHeader: React.FC<GlobalHeaderProps> = () => {
         <ShyLogo className={styles.logo} />
       </div>
       <div className={styles.rightGroup}>
-        <PrfsIdSignInBtn />
+        <PrfsIdSignInBtn noSignInBtn />
       </div>
     </div>
   );

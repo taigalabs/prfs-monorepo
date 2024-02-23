@@ -8,7 +8,7 @@
   overflow-y: auto;
   overflow-y: auto;
 
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .inner {
@@ -26,7 +26,8 @@
 
 .main {
   flex-grow: 1;
-  border: 1px solid green;
+
+  /* border: 1px solid green; */
 }
 
 .left {

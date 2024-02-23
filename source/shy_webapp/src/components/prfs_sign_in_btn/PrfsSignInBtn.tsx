@@ -32,7 +32,12 @@ import { useSignedInShyUser } from "@/hooks/user";
 import { useRandomKeyPair } from "@/hooks/key";
 import { i18nContext } from "@/i18n/context";
 
-const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noCredential }) => {
+const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
+  className,
+  label,
+  noCredentialPopover,
+  noSignInBtn,
+}) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -117,9 +122,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   }
 
   return shyCredential ? (
-    noCredential ? (
-      <div>Loading...</div>
-    ) : (
+    !noCredentialPopover && (
       <PrfsCredentialPopover
         credential={shyCredential}
         handleInitFail={handleInitFail}
@@ -129,13 +132,15 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   ) : (
     <>
       {signUpData && <SignUpModal credential={signUpData} />}
-      <PrfsIdSignInButton
-        className={styles.signInBtn}
-        label={i18n.sign_in_up_with_prfs_id}
-        appSignInArgs={appSignInArgs}
-        handleSucceedSignIn={handleSucceedSignIn}
-        prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
-      />
+      {!noSignInBtn && (
+        <PrfsIdSignInButton
+          className={styles.signInBtn}
+          label={i18n.sign_in_up_with_prfs_id}
+          appSignInArgs={appSignInArgs}
+          handleSucceedSignIn={handleSucceedSignIn}
+          prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
+        />
+      )}
     </>
   );
 };
@@ -145,5 +150,6 @@ export default PrfsIdSignInBtn;
 export interface PrfsIdSignInBtnProps {
   className?: string;
   label?: string;
-  noCredential?: boolean;
+  noCredentialPopover?: boolean;
+  noSignInBtn?: boolean;
 }
