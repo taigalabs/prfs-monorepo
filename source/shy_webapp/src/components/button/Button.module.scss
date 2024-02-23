@@ -1,8 +1,39 @@
 .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 38px;
+  transition: all 0.1s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  cursor: pointer;
+  padding: 0 18px;
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 0px;
 }
 
 .green_1 {
+  background-color: var(--shy-green-50);
+  color: var(--white-100);
+
+  &:hover {
+    background-color: var(--shy-green-40);
+  }
+
+  &:active {
+    background-color: var(--shy-green-30);
+  }
 }
 
 .white_1 {
+  border: 1px solid rgba(0, 0, 0, 0.56);
+  background-color: var(--white-100);
+  color: var(--black-00);
+
+  &:hover {
+    background-color: var(--bright-gray-51);
+  }
+
+  &:active {
+    background-color: var(--bright-gray-36);
+  }
 }
