@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation";
 import styles from "./SignIn.module.scss";
 import ShyLogo from "@/components/shy_logo/ShyLogo";
 import SigningInGuideline from "./SigningInGuideline.mdx";
-import PrfsIdSignInBtn from "@/components/prfs_sign_in_btn/PrfsSignInBtn";
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import SignInFooter from "@/components/sign_in_footer/SignInFooter";
 import { useI18N } from "@/i18n/hook";
+import ShySignInBtn from "@/components/shy_sign_in_btn/ShySignInBtn";
 
 const SignIn: React.FC<SignInProps> = () => {
   const i18n = useI18N();
@@ -40,7 +40,7 @@ const SignIn: React.FC<SignInProps> = () => {
             </div>
             <ul className={styles.signInBtnRow}>
               <li>
-                <PrfsIdSignInBtn />
+                <ShySignInBtn />
               </li>
             </ul>
             <div className={styles.guideline}>

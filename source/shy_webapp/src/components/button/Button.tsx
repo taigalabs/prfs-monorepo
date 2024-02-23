@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./BoardMenu.module.scss";
+import styles from "./Button.module.scss";
 
 const Button: React.FC<ButtonProps> = ({ children, variant }) => {
   return (

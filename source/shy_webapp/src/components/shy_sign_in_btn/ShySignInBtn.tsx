@@ -18,7 +18,7 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfs_api_error_codes, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
-import styles from "./PrfsSignInBtn.module.scss";
+import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { signInShy, signOutShy } from "@/state/userReducer";
@@ -32,7 +32,7 @@ import { useSignedInShyUser } from "@/hooks/user";
 import { useRandomKeyPair } from "@/hooks/key";
 import { i18nContext } from "@/i18n/context";
 
-const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
+const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
   className,
   label,
   noCredentialPopover,
@@ -145,9 +145,9 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   );
 };
 
-export default PrfsIdSignInBtn;
+export default ShySignInBtn;
 
-export interface PrfsIdSignInBtnProps {
+export interface ShySignInBtnProps {
   className?: string;
   label?: string;
   noCredentialPopover?: boolean;
