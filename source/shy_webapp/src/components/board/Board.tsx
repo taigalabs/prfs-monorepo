@@ -101,7 +101,7 @@ const Board: React.FC<BoardProps> = ({}) => {
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
       <GlobalHeader />
       <InfiniteScrollInner>
-        <InfiniteScrollLeft> </InfiniteScrollLeft>
+        <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
           <BoardMenu />
           {status === "pending" ? (
@@ -149,7 +149,7 @@ const Board: React.FC<BoardProps> = ({}) => {
             </>
           )}
         </InfiniteScrollMain>
-        <InfiniteScrollRight> </InfiniteScrollRight>
+        <InfiniteScrollRight>{null}</InfiniteScrollRight>
       </InfiniteScrollInner>
     </InfiniteScrollWrapper>
   );
