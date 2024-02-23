@@ -3,6 +3,6 @@ export const paths = {
   generate: "/",
   account: "/account",
   account__sign_in: "/account/sign_in",
-  ch: "/ch",
-  ch__crypto_holders: "/ch/crypto_holders",
+  c: "/c",
+  c__crypto_holders: "/c/crypto_holders",
 };
