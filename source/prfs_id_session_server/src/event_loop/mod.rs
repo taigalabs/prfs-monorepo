@@ -46,7 +46,10 @@ pub async fn start_listening_to_prfs_id_session_events(
                     };
                     let resp = serde_json::to_string(&resp).unwrap();
                     let mut tx_lock = tx.lock().await;
-                    tx_lock.send(Message::Text(resp)).await.unwrap();
+
+                    if let Err(err) = tx_lock.send(Message::Text(resp)).await {
+                        println!("Failed to send a response, err: {:?}", err);
+                    }
                 }
             } else {
                 println!("Strange, session isn't found, key: {}", session_key);

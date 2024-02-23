@@ -2,7 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
@@ -59,6 +59,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
       session_key,
     };
   }, [pkHex]);
+  const searchParams = useSearchParams();
 
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
@@ -101,7 +102,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
         dispatch(signInShy(credential));
       }
     },
-    [router, dispatch, prfsSignInRequest, setSignUpData],
+    [router, dispatch, prfsSignInRequest, setSignUpData, searchParams],
   );
 
   const handleClickSignOut = React.useCallback(() => {

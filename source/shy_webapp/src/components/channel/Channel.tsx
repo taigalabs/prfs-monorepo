@@ -16,7 +16,8 @@ const Channel: React.FC<ChannelProps> = ({ channelId }) => {
 
   React.useEffect(() => {
     if (isInitialized && !shyCredential) {
-      router.push(`${paths.account__sign_in}?continue=power`);
+      const href = encodeURI(window.location.href);
+      router.push(`${paths.account__sign_in}?continue=${href}`);
     }
   }, [isInitialized, router, shyCredential]);
 
