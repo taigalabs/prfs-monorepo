@@ -16,13 +16,10 @@ import {
   InfiniteScrollInner,
   InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
-import { useSignedInShyUser } from "@/hooks/user";
-import { useDispatch } from "react-redux";
-import GlobalHeader, { GlobalHeaderPlaceholder } from "../global_header/GlobalHeader";
+import GlobalHeader from "@/components/global_header/GlobalHeader";
+import BoardMenu from "./BoardMenu";
 
 const Board: React.FC<BoardProps> = ({}) => {
-  const dispatch = useDispatch();
-  // const { isInitialized, shyCredential } = useSignedInShyUser();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["get_shy_posts"],
@@ -106,6 +103,7 @@ const Board: React.FC<BoardProps> = ({}) => {
       <InfiniteScrollInner>
         <InfiniteScrollLeft> </InfiniteScrollLeft>
         <InfiniteScrollMain>
+          <BoardMenu />
           {status === "pending" ? (
             <div className={styles.loading}>
               <Spinner />
