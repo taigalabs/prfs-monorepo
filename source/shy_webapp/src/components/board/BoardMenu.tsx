@@ -13,7 +13,9 @@ const BoardMenu: React.FC<BoardMenuProps> = ({}) => {
         <li>{i18n.general}</li>
       </ul>
       <div className={styles.secondRow}>
-        <Button variant="white_1">{i18n.newest}</Button>
+        <Button variant="white_1" className={styles.sortBtn}>
+          {i18n.new}
+        </Button>
         <Button variant="green_1" className={styles.newPostBtn}>
           {i18n.new_post}
         </Button>
