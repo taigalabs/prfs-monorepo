@@ -13,11 +13,13 @@ export const GlobalHeaderPlaceholder = () => {
 const GlobalHeader: React.FC<GlobalHeaderProps> = () => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.leftGroup}>
-        <ShyLogo className={styles.logo} />
-      </div>
-      <div className={styles.rightGroup}>
-        <PrfsIdSignInBtn noSignInBtn />
+      <div className={styles.inner}>
+        <div className={styles.leftGroup}>
+          <ShyLogo className={styles.logo} />
+        </div>
+        <div className={styles.rightGroup}>
+          <PrfsIdSignInBtn noSignInBtn />
+        </div>
       </div>
     </div>
   );

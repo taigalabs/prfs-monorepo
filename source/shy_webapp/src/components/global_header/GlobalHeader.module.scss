@@ -16,15 +16,23 @@ $header_height_big: 61px;
   left: 0;
   right: 0;
   height: $header_height_small;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 0 16px;
   z-index: 1;
+  display: flex;
+  justify-content: center;
   background-color: var(--shy-black-25);
   /* background-color: white; */
 
   /* border: 1px solid blue; */
+}
+
+.inner {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+
+  /* border: 1px solid red; */
 }
 
 .leftGroup {
@@ -32,8 +40,9 @@ $header_height_big: 61px;
 }
 
 .logo {
-  span {
-    font-size: 24px;
+  font-size: 24px;
+  > div {
+    padding-top: 8px;
   }
 }
 
@@ -44,5 +53,17 @@ $header_height_big: 61px;
 
   .wrapper {
     height: $header_height_big;
+  }
+
+  .inner {
+    width: 980px;
+    flex-grow: 0;
+  }
+
+  .logo {
+    font-size: 32px;
+    > div {
+      padding-top: 8px;
+    }
   }
 }
