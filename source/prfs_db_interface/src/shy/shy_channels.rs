@@ -51,7 +51,7 @@ WHERE channel_id=$1
         .bind(channel_id)
         .fetch_one(pool)
         .await
-        .unwrap();
+        .expect("Row does not exist");
 
     let shy_channel = ShyChannel {
         channel_id: row.get("channel_id"),
