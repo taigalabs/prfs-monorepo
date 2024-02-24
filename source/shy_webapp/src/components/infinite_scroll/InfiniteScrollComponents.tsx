@@ -1,19 +1,7 @@
-"use client";
-
 import React from "react";
 import cn from "classnames";
-import {
-  InfiniteData,
-  UseInfiniteQueryResult,
-  useInfiniteQuery,
-} from "@taigalabs/prfs-react-lib/react_query";
-import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
-import { shyApi } from "@taigalabs/prfs-api-js";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./InfiniteScrollComponents.module.scss";
-import Row from "./Row";
-import RightBar from "@/components/right_bar/RightBar";
 
 export const InfiniteScrollWrapper: React.FC<TimelineFeedsWrapperProps> = ({
   children,
@@ -44,11 +32,11 @@ export const InfiniteScrollRight: React.FC<TimelineFeedsMainProps> = ({ children
   return <div className={cn(styles.right, className)}>{children}</div>;
 };
 
-export const InfiniteScrollPlaceholder: React.FC<InfiniteScrollPlaceholderProps> = ({
-  className,
-}) => {
-  return <div className={cn(styles.placeholder, className)} />;
-};
+// export const InfiniteScrollPlaceholder: React.FC<InfiniteScrollPlaceholderProps> = ({
+//   className,
+// }) => {
+//   return <div className={cn(styles.placeholder, className)} />;
+// };
 
 // const TimelineFeeds: React.FC<TimelineFeedsProps> = () => {
 //   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =

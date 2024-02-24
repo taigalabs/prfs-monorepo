@@ -12,7 +12,6 @@ import {
   InfiniteScrollMain,
   InfiniteScrollRight,
   InfiniteScrollWrapper,
-  InfiniteScrollPlaceholder,
   InfiniteScrollInner,
   InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
