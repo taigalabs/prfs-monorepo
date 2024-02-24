@@ -10,15 +10,24 @@ import Button from "@/components/button/Button";
 
 const BoardMeta: React.FC<BoardMetaProps> = ({ channelId }) => {
   const i18n = useI18N();
-  const { isLoading, data, error } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ["get_shy_channel"],
     queryFn: async () => {
-      const { payload } = await shyApi2({ type: "get_shy_channel", channel_id: channelId });
-      return payload;
+      return shyApi2({ type: "get_shy_channel", channel_id: channelId });
     },
   });
 
-  return <div className={styles.wrapper}></div>;
+  const channel = data?.payload?.shy_channel;
+
+  return error ? (
+    <div>Error has occurred</div>
+  ) : channel ? (
+    <div className={styles.wrapper}>
+      <div>{channel.label}</div>
+    </div>
+  ) : (
+    <div>Loading...</div>
+  );
 };
 
 export default BoardMeta;

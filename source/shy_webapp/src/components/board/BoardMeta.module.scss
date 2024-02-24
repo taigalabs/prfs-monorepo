@@ -1,2 +1,10 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
+  padding: 12px 16px;
+}
+
+@media screen and (max-width: $big_display_min_width) {
+  .wrapper {
+  }
 }

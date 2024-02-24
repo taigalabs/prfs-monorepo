@@ -8,6 +8,7 @@ import Board from "@/components/board/Board";
 import { useSignedInShyUser } from "@/hooks/user";
 import { useIsFontReady } from "@/hooks/font";
 import { paths, searchParamKeys } from "@/paths";
+import Loading from "@/components/loading/Loading";
 
 const Channel: React.FC<ChannelProps> = ({ channelId }) => {
   const isFontReady = useIsFontReady();
@@ -25,7 +26,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId }) => {
     <Board channelId={channelId} />
   ) : (
     <>
-      <div className={styles.loading}>Loading</div>
+      <Loading>Loading</Loading>
       <span className={styles.fontLoadText} />
     </>
   );
