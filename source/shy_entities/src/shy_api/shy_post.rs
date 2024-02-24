@@ -20,6 +20,7 @@ pub struct CreateShyPostResponse {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyPostsRequest {
+    pub channel_id: String,
     pub offset: i32,
 }
 

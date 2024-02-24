@@ -18,12 +18,13 @@ import {
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import BoardMenu from "./BoardMenu";
 
-const Board: React.FC<BoardProps> = ({}) => {
+const Board: React.FC<BoardProps> = ({ channelId }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_shy_posts"],
+      queryKey: ["get_shy_posts", channelId],
       queryFn: async ({ pageParam = 0 }) => {
         return await shyApi("get_shy_posts", {
+          channel_id: channelId,
           offset: pageParam,
         });
       },
@@ -155,4 +156,6 @@ const Board: React.FC<BoardProps> = ({}) => {
 
 export default Board;
 
-export interface BoardProps {}
+export interface BoardProps {
+  channelId: string;
+}

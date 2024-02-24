@@ -36,7 +36,9 @@ pub async fn get_shy_posts(
     Json(input): Json<GetShyPostsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyPostsResponse>>) {
     let pool = &state.db2.pool;
-    let shy_posts = shy::get_shy_posts(pool, input.offset, LIMIT).await.unwrap();
+    let shy_posts = shy::get_shy_posts(pool, &input.channel_id, input.offset, LIMIT)
+        .await
+        .unwrap();
 
     let next_offset = if shy_posts.len() < LIMIT.try_into().unwrap() {
         None

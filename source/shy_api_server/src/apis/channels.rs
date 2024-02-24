@@ -11,8 +11,8 @@ use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
 use shy_entities::shy_api::{
-    CreateShyPostRequest, CreateShyPostResponse, GetShyChannelsResponse, GetShyPostsRequest,
-    GetShyPostsResponse,
+    CreateShyPostRequest, CreateShyPostResponse, GetShyChannelsRequest, GetShyChannelsResponse,
+    GetShyPostsRequest, GetShyPostsResponse,
 };
 use std::sync::Arc;
 
@@ -35,7 +35,7 @@ pub async fn create_shy_post(req: Request<Incoming>, state: Arc<ServerState>) ->
 
 pub async fn get_shy_channels(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<GetShyPostsRequest>,
+    Json(input): Json<GetShyChannelsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyChannelsResponse>>) {
     let pool = &state.db2.pool;
     let rows = shy::get_shy_channels(pool, input.offset, LIMIT)

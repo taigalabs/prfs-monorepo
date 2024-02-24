@@ -5,6 +5,7 @@ use crate::DbInterfaceError;
 
 pub async fn get_shy_posts(
     pool: &Pool<Postgres>,
+    channel_id: &String,
     offset: i32,
     limit: i32,
 ) -> Result<Vec<ShyPost>, DbInterfaceError> {
@@ -12,11 +13,13 @@ pub async fn get_shy_posts(
 SELECT * 
 FROM shy_posts 
 ORDER BY updated_at DESC
-OFFSET $1
-LIMIT $2
+WHERE channel_id=$1
+OFFSET $2
+LIMIT $3
 "#;
 
     let rows = sqlx::query(&query)
+        .bind(channel_id)
         .bind(offset)
         .bind(limit)
         .fetch_all(pool)
