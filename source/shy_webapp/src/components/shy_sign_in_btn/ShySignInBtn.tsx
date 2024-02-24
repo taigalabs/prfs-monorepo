@@ -31,6 +31,7 @@ import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInShyUser } from "@/hooks/user";
 import { useRandomKeyPair } from "@/hooks/key";
 import { i18nContext } from "@/i18n/context";
+import { paths } from "@/paths";
 
 const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
   className,
@@ -108,7 +109,8 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
   const handleClickSignOut = React.useCallback(() => {
     removeLocalShyCredential();
     dispatch(signOutShy());
-  }, [dispatch]);
+    router.push(paths.__);
+  }, [dispatch, router]);
 
   const handleInitFail = React.useCallback(() => {
     console.log("Failed init Prfs Proof credential!");
