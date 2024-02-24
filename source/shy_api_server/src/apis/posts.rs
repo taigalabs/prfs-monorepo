@@ -1,17 +1,11 @@
-use axum::{
-    extract::{MatchedPath, Request, State},
-    handler::HandlerWithoutStateExt,
-    http::{HeaderValue, Method, StatusCode},
-    routing::{get, post},
-    Json, Router,
-};
+use axum::{extract::State, http::StatusCode, Json, Router};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
 use shy_entities::shy_api::{
     CreateShyPostRequest, CreateShyPostResponse, GetShyPostsRequest, GetShyPostsResponse,
 };
-use std::{convert::Infallible, sync::Arc};
+use std::sync::Arc;
 
 const LIMIT: i32 = 15;
 
