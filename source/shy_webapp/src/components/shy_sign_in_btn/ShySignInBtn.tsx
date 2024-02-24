@@ -3,7 +3,7 @@
 import React from "react";
 import cn from "classnames";
 import { useRouter, useSearchParams } from "next/navigation";
-import { decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
 import {
@@ -29,7 +29,6 @@ import {
 } from "@/storage/local_storage";
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInShyUser } from "@/hooks/user";
-import { useRandomKeyPair } from "@/hooks/key";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
@@ -49,17 +48,22 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
     },
   });
   const [signUpData, setSignUpData] = React.useState<LocalShyCredential | null>(null);
-  const { sk, pkHex } = useRandomKeyPair();
-  const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
+  const { sk, appSignInArgs } = React.useMemo<{
+    sk: PrivateKey;
+    appSignInArgs: AppSignInArgs;
+  }>(() => {
+    const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
-    return {
+    const appSignInArgs = {
       nonce: makeRandInt(1000000),
       app_id: "shy_webapp",
       sign_in_data: [AppSignInData.ID_POSEIDON],
       public_key: pkHex,
       session_key,
     };
-  }, [pkHex]);
+
+    return { sk, appSignInArgs };
+  }, []);
   const searchParams = useSearchParams();
 
   const handleSucceedSignIn = React.useCallback(
