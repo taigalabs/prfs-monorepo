@@ -6,3 +6,7 @@ export const paths = {
   c: "/c",
   c__crypto_holders: "/c/crypto_holders",
 };
+
+export const searchParamKeys = {
+  continue: "continue",
+};

@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import styles from "./SignIn.module.scss";
 import ShyLogo from "@/components/shy_logo/ShyLogo";
 import SigningInGuideline from "./SigningInGuideline.mdx";
 import { useSignedInShyUser } from "@/hooks/user";
-import { paths } from "@/paths";
+import { paths, searchParamKeys } from "@/paths";
 import SignInFooter from "@/components/sign_in_footer/SignInFooter";
 import { useI18N } from "@/i18n/hook";
 import ShySignInBtn from "@/components/shy_sign_in_btn/ShySignInBtn";
@@ -16,12 +16,17 @@ const SignIn: React.FC<SignInProps> = () => {
   const i18n = useI18N();
   const { shyCredential } = useSignedInShyUser();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   React.useEffect(() => {
     if (shyCredential) {
+      const _continue = searchParams.get(searchParamKeys.continue);
+      if (_continue) {
+        router.push(_continue);
+      }
       router.push(paths.__);
     }
-  }, [shyCredential]);
+  }, [shyCredential, searchParams]);
 
   return shyCredential ? (
     <div className={styles.loading}>{i18n.loading}...</div>
