@@ -43,7 +43,7 @@ pub async fn insert_shy_channel(
     let query = r#"
 INSERT INTO shy_channels
 (channel_id, label, proof_type_ids, locale)
-VALUES ($1, $2, $3)
+VALUES ($1, $2, $3, $4)
 RETURNING channel_id
 "#;
 
