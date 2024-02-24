@@ -108,7 +108,6 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
             </div>
           ) : (
             <>
-              <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
               <div
                 className={styles.infiniteScroll}
                 style={{
@@ -135,11 +134,7 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
                       data-index={virtualRow.index}
                       ref={rowVirtualizer.measureElement}
                     >
-                      {isLoaderRow
-                        ? hasNextPage
-                          ? "Loading more..."
-                          : "Nothing more to load"
-                        : post && <Row post={post} />}
+                      {isLoaderRow ? <span>Loading...</span> : post && <Row post={post} />}
                     </div>
                   );
                 })}
