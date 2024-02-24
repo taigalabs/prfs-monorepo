@@ -22,7 +22,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId }) => {
   }, [isInitialized, router, shyCredential]);
 
   return isFontReady && shyCredential ? (
-    <Board />
+    <Board channelId={channelId} />
   ) : (
     <>
       <div className={styles.loading}>Loading</div>

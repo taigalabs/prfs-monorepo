@@ -12,8 +12,8 @@ pub async fn get_shy_posts(
     let query = r#"
 SELECT * 
 FROM shy_posts 
-ORDER BY updated_at DESC
 WHERE channel_id=$1
+ORDER BY updated_at DESC
 OFFSET $2
 LIMIT $3
 "#;

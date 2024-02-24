@@ -1,18 +1,15 @@
 use axum::{
-    extract::{MatchedPath, Request, State},
-    handler::HandlerWithoutStateExt,
-    http::{HeaderValue, Method, StatusCode},
-    routing::{get, post},
+    extract::{Request, State},
+    http::StatusCode,
     Json, Router,
 };
 use hyper::body::Incoming;
-use prfs_axum_lib::io::{parse_req, ApiHandlerResult, BytesBoxBody};
+use prfs_axum_lib::io::{parse_req, ApiHandlerResult};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
 use shy_entities::shy_api::{
     CreateShyPostRequest, CreateShyPostResponse, GetShyChannelsRequest, GetShyChannelsResponse,
-    GetShyPostsRequest, GetShyPostsResponse,
 };
 use std::sync::Arc;
 
