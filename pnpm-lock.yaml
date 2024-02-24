@@ -53,6 +53,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      '@taigalabs/shy-entities':
+        specifier: '*'
+        version: link:../shy_entities
       classnames:
         specifier: ^2.3.2
         version: 2.3.2

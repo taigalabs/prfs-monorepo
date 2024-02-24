@@ -3,6 +3,8 @@
 import React from "react";
 import cn from "classnames";
 import Link from "next/link";
+import { GetShyChannelsResponse } from "@taigalabs/shy-entities/bindings/GetShyChannelsResponse";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { MdDashboard } from "@react-icons/all-files/md/MdDashboard";
 
 import styles from "./LeftBar.module.scss";
@@ -14,8 +16,6 @@ import { LocalShyCredential, removeLocalShyCredential } from "@/storage/local_st
 import { useAppDispatch } from "@/state/hooks";
 import { signOutShy } from "@/state/userReducer";
 import CredentialPopover from "@/components/credential_popover/CredentialPopover";
-import { GetShyChannelsResponse } from "@taigalabs/prfs-entities/bindings/GetShyChannelsResponse";
-import { ShyChannel } from "@taigalabs/prfs-entities/bindings/ShyChannel";
 
 const LeftBar: React.FC<LeftBarProps> = ({ credential, channels }) => {
   const i18n = React.useContext(i18nContext);

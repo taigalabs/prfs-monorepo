@@ -1,5 +1,5 @@
 import React from "react";
-import { ShyPost } from "@taigalabs/prfs-entities/bindings/ShyPost";
+import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 
 import styles from "./Row.module.scss";
 

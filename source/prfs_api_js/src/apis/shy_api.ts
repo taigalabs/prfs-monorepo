@@ -1,9 +1,9 @@
-import { CreateShyPostRequest } from "@taigalabs/prfs-entities/bindings/CreateShyPostRequest";
-import { CreateShyPostResponse } from "@taigalabs/prfs-entities/bindings/CreateShyPostResponse";
-import { GetShyPostsRequest } from "@taigalabs/prfs-entities/bindings/GetShyPostsRequest";
-import { GetShyPostsResponse } from "@taigalabs/prfs-entities/bindings/GetShyPostsResponse";
-import { GetShyChannelsRequest } from "@taigalabs/prfs-entities/bindings/GetShyChannelsRequest";
-import { GetShyChannelsResponse } from "@taigalabs/prfs-entities/bindings/GetShyChannelsResponse";
+import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
+import { CreateShyPostResponse } from "@taigalabs/shy-entities/bindings/CreateShyPostResponse";
+import { GetShyPostsRequest } from "@taigalabs/shy-entities/bindings/GetShyPostsRequest";
+import { GetShyPostsResponse } from "@taigalabs/shy-entities/bindings/GetShyPostsResponse";
+import { GetShyChannelsRequest } from "@taigalabs/shy-entities/bindings/GetShyChannelsRequest";
+import { GetShyChannelsResponse } from "@taigalabs/shy-entities/bindings/GetShyChannelsResponse";
 
 import { api } from "../utils";
 import { ApiResponse } from "../types";

@@ -17,8 +17,8 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi } from "@taigalabs/prfs-api-js";
-import { CreateShyPostRequest } from "@taigalabs/prfs-entities/bindings/CreateShyPostRequest";
-import { ShyPost } from "@taigalabs/prfs-entities/bindings/ShyPost";
+import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
+import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 
 import styles from "./TextEditor.module.scss";
 import { i18nContext } from "@/i18n/context";
