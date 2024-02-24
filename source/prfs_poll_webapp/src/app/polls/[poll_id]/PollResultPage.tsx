@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import SocialSharePopover from "@taigalabs/prfs-react-lib/src/social_share_popover/SocialSharePopover";
 
 import styles from "./PollPage.module.scss";
@@ -25,8 +25,8 @@ const PollResultPage: React.FC<PollResultPageProps> = ({ pollId }) => {
   const { isLoading, data } = useQuery({
     queryKey: ["get_prfs_poll_by_poll_id"],
     queryFn: async () => {
-      const { payload } = await prfsApi2("get_prfs_poll_result_by_poll_id", { poll_id: pollId });
-      return payload;
+      // const { payload } = await prfsApi2("get_prfs_poll_result_by_poll_id", { poll_id: pollId });
+      // return payload;
     },
   });
 
@@ -66,9 +66,9 @@ const PollResultPage: React.FC<PollResultPageProps> = ({ pollId }) => {
               </div>
               <div className={styles.content}>
                 <div className={styles.proofDetailContainer}>
-                  {data?.prfs_poll_responses && (
-                    <PollResultView poll_responses={data.prfs_poll_responses} />
-                  )}
+                  {/* {data?.prfs_poll_responses && ( */}
+                  {/*   <PollResultView poll_responses={data.prfs_poll_responses} /> */}
+                  {/* )} */}
                 </div>
               </div>
             </div>

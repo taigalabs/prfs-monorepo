@@ -1,14 +1,11 @@
 import React from "react";
 import { redirect } from "next/navigation";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 
 import { paths } from "@/paths";
 import { getI18N } from "@/i18n/get_i18n";
 
 async function getData(shortId: string) {
-  // const { payload } = await prfsApi2("get_prfs_proof_instance_by_short_id", {
-  //   short_id: shortId,
-  // });
   const { payload } = await prfsApi3({
     type: "get_prfs_proof_instance_by_short_id",
     short_id: shortId,

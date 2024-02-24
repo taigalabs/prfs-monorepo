@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 import styles from "./Board.module.scss";
 import Row from "./Row";
@@ -18,6 +19,7 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import BoardMenu from "./BoardMenu";
+import BoardMeta from "./BoardMeta";
 
 const Board: React.FC<BoardProps> = ({ channelId }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
@@ -104,6 +106,7 @@ const Board: React.FC<BoardProps> = ({ channelId }) => {
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
           <BoardMenu />
+          <BoardMeta channelId={channelId} />
           {status === "pending" ? (
             <div className={styles.loading}>
               <Spinner />
