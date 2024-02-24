@@ -14,6 +14,8 @@ use shy_entities::shy_api::{
 };
 use std::sync::Arc;
 
+use crate::error_codes::API_ERROR_CODE;
+
 const LIMIT: i32 = 15;
 
 pub async fn create_shy_post(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
@@ -55,7 +57,16 @@ pub async fn get_shy_channel(
     Json(input): Json<GetShyChannelRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyChannelResponse>>) {
     let pool = &state.db2.pool;
-    let shy_channel = shy::get_shy_channel(pool, &input.channel_id).await.unwrap();
+    let shy_channel = match shy::get_shy_channel(pool, &input.channel_id).await {
+        Ok(c) => c,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &API_ERROR_CODE.UNKNOWN_ERROR,
+                format!("Error getting shy channel, err: {:?}", err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let resp = ApiResponse::new_success(GetShyChannelResponse { shy_channel });
     return (StatusCode::OK, Json(resp));
