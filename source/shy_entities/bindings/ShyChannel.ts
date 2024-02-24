@@ -3,5 +3,7 @@
 export interface ShyChannel {
   channel_id: string;
   label: string;
+  locale: string;
+  desc: string;
   proof_type_ids: string[];
 }

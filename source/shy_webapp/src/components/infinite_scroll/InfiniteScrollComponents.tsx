@@ -32,6 +32,18 @@ export const InfiniteScrollRight: React.FC<TimelineFeedsMainProps> = ({ children
   return <div className={cn(styles.right, className)}>{children}</div>;
 };
 
+export const InfiniteScrollRowContainer: React.FC<TimelineFeedsMainProps> = ({
+  children,
+  className,
+  style,
+}) => {
+  return (
+    <div className={cn(styles.rowContainer, className)} style={style}>
+      {children}
+    </div>
+  );
+};
+
 // export const InfiniteScrollPlaceholder: React.FC<InfiniteScrollPlaceholderProps> = ({
 //   className,
 // }) => {
@@ -184,6 +196,7 @@ export interface TimelineFeedsWrapperProps {
 export interface TimelineFeedsMainProps {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export interface InfiniteScrollPlaceholderProps {

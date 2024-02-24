@@ -14,6 +14,7 @@ import {
   InfiniteScrollWrapper,
   InfiniteScrollInner,
   InfiniteScrollLeft,
+  InfiniteScrollRowContainer,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import ChannelMenu from "./ChannelMenu";
@@ -47,7 +48,6 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
       })
     : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
-  const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
@@ -73,30 +73,12 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
     rowVirtualizer.getVirtualItems(),
   ]);
 
-  const handleScroll = React.useCallback(() => {
-    if (parentRef.current && rightBarContainerRef.current) {
-      const { scrollHeight, scrollTop, clientHeight } = parentRef.current;
-      const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current!;
-
-      if (ch < clientHeight) {
-        rightBarContainerRef.current!.style.top = `0px`;
-      } else {
-        const delta = clientHeight + scrollTop - ch;
-        if (delta >= 0) {
-          rightBarContainerRef.current.style.transform = `translateY(${delta}px)`;
-        } else {
-          rightBarContainerRef.current!.style.transform = "translateY(0px)";
-        }
-      }
-    }
-  }, [isFetching, parentRef.current, rightBarContainerRef.current]);
-
   if (status === "error") {
     return <span>Error: {(error as Error).message}</span>;
   }
 
   return (
-    <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
+    <InfiniteScrollWrapper innerRef={parentRef}>
       <GlobalHeader />
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
@@ -108,7 +90,7 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
             </div>
           ) : (
             <>
-              <div
+              <InfiniteScrollRowContainer
                 className={styles.infiniteScroll}
                 style={{
                   height: `${rowVirtualizer.getTotalSize()}px`,
@@ -117,7 +99,7 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
               >
                 {rowVirtualizer.getVirtualItems().map(virtualRow => {
                   const isLoaderRow = virtualRow.index > allRows.length - 1;
-                  const post = allRows[virtualRow.index];
+                  const row = allRows[virtualRow.index];
 
                   return (
                     <div
@@ -134,11 +116,11 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
                       data-index={virtualRow.index}
                       ref={rowVirtualizer.measureElement}
                     >
-                      {isLoaderRow ? <span>Loading...</span> : post && <Row post={post} />}
+                      {isLoaderRow ? <span>Loading...</span> : row && <Row channel={row} />}
                     </div>
                   );
                 })}
-              </div>
+              </InfiniteScrollRowContainer>
             </>
           )}
         </InfiniteScrollMain>

@@ -1,18 +1,16 @@
 import React from "react";
-import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 import styles from "./Row.module.scss";
 
-const Row: React.FC<RowProps> = ({ post }) => {
+const Row: React.FC<RowProps> = ({ channel }) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.author}>Anon says</div>
-      <div
-        className={styles.body}
-        dangerouslySetInnerHTML={{
-          __html: post.content,
-        }}
-      />
+      <div className={styles.labelRow}>
+        <span className={styles.label}>{channel.label}</span>
+        <span className={styles.locale}>{channel.locale}</span>
+      </div>
+      <div>{channel.desc}</div>
     </div>
   );
 };
@@ -20,5 +18,5 @@ const Row: React.FC<RowProps> = ({ post }) => {
 export default Row;
 
 export interface RowProps {
-  post: ShyPost;
+  channel: ShyChannel;
 }

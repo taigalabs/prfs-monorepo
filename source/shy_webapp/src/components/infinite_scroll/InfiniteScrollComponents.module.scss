@@ -51,14 +51,8 @@
   /* border: 1px solid green; */
 }
 
-.row {
-  height: 100px;
-}
-
-.loading {
-  height: 100%;
-  display: grid;
-  place-items: center;
+.rowContainer {
+  border-top: 1px solid var(--bright-gray-32);
 }
 
 @media screen and (min-width: $big_display_min_width) {
