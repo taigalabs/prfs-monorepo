@@ -9,7 +9,7 @@ import LeftBar from "@/components/left_bar/LeftBar";
 // import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { DefaultHeader, DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
 // import LeftBarDrawer from "./LeftBarDrawer";
-import { useSignedInUser } from "@/hooks/user";
+// import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
 
 const Account: React.FC<AccountProps> = () => {

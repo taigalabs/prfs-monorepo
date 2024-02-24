@@ -1,8 +1,7 @@
+use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+use shy_entities::entities::ShyPost;
+
 use crate::DbInterfaceError;
-use prfs_entities::{
-    shy_api::ShyPost,
-    sqlx::{self, Pool, Postgres, Row, Transaction},
-};
 
 pub async fn get_shy_posts(
     pool: &Pool<Postgres>,

@@ -10,7 +10,7 @@ use prfs_axum_lib::io::{parse_req, ApiHandlerResult, BytesBoxBody};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
-use prfs_entities::shy_api::{
+use shy_entities::shy_api::{
     CreateShyPostRequest, CreateShyPostResponse, GetShyChannelsResponse, GetShyPostsRequest,
     GetShyPostsResponse,
 };
@@ -38,19 +38,16 @@ pub async fn get_shy_channels(
     Json(input): Json<GetShyPostsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyChannelsResponse>>) {
     let pool = &state.db2.pool;
-    let shy_channels = shy::get_shy_channels(pool, input.offset, LIMIT)
+    let rows = shy::get_shy_channels(pool, input.offset, LIMIT)
         .await
         .unwrap();
 
-    let next_offset = if shy_channels.len() < LIMIT.try_into().unwrap() {
+    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
         None
     } else {
         Some(input.offset + LIMIT)
     };
 
-    let resp = ApiResponse::new_success(GetShyChannelsResponse {
-        shy_channels,
-        next_offset,
-    });
+    let resp = ApiResponse::new_success(GetShyChannelsResponse { rows, next_offset });
     return (StatusCode::OK, Json(resp));
 }

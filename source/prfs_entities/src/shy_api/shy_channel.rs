@@ -24,7 +24,7 @@ pub struct GetShyChannelsRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyChannelsResponse {
-    pub shy_channels: Vec<ShyChannel>,
+    pub rows: Vec<ShyChannel>,
     pub next_offset: Option<i32>,
 }
 
@@ -35,5 +35,5 @@ pub struct ShyChannel {
     pub label: String,
 
     #[ts(type = "string[]")]
-    pub public_keys: sqlx::types::Json<Vec<String>>,
+    pub proof_type_ids: sqlx::types::Json<Vec<String>>,
 }

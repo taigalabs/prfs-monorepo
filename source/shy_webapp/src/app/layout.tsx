@@ -2,16 +2,16 @@ import "@taigalabs/prfs-react-lib/src/global.scss";
 import "./globals.scss";
 
 import React from "react";
+import { Metadata } from "next/types";
 
 import TopProvider from "@/components/top_provider/TopProvider";
-import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
   robots: {
     index: true,
   },
-  title: "Shy",
-  description: "Next generation social",
+  title: "Shy | More honest discussions",
+  description: "Civilized discussions backed by zero-knowledge proof",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -23,6 +23,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap"
           rel="stylesheet"
         />
       </head>

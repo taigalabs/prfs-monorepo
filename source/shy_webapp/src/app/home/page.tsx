@@ -1,16 +1,10 @@
-import React, { Suspense } from "react";
+import React from "react";
 
-import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
+import { paths } from "@/paths";
 import Home from "@/components/home/Home";
 
 const HomePage: React.FC = () => {
-  return (
-    <DefaultLayout>
-      <Suspense>
-        <Home />
-      </Suspense>
-    </DefaultLayout>
-  );
+  return <Home />;
 };
 
 export default HomePage;

@@ -32,5 +32,6 @@ members = [
   "internals/ci",
 
   # Shy
-  "source/shy_api_server"
+  "source/shy_api_server",
+  "source/shy_entities",
 ]

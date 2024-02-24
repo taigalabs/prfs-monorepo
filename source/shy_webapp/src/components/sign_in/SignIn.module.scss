@@ -25,15 +25,19 @@
   display: flex;
   padding: 0 28px;
   flex-grow: 0;
+}
 
-  /* border: 1px solid blue; */
+.logoWrapper {
+  display: flex;
+  max-width: none;
+  flex-grow: 0;
+}
 
-  .logoWrapper {
-    display: flex;
-    max-width: none;
-    flex-grow: 0;
+.logo {
+  font-size: 44px;
 
-    /* border: 1px solid red; */
+  > div {
+    padding: 14px 5px 8px;
   }
 }
 
@@ -93,12 +97,13 @@
     flex-grow: 1;
     flex-shrink: 0;
     width: 45vw;
+  }
 
-    .logoWrapper {
-      display: flex;
-      justify-content: flex-end;
-      flex-grow: 1;
-    }
+  .logoWrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-grow: 1;
   }
 
   .main {

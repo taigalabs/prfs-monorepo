@@ -1555,6 +1555,8 @@ importers:
         specifier: ^4.9.3
         version: 4.9.5
 
+  source/shy_entities: {}
+
   source/shy_webapp:
     dependencies:
       '@ethereumjs/util':
@@ -1611,6 +1613,12 @@ importers:
       '@taigalabs/prfs-react-lib':
         specifier: '*'
         version: link:../prfs_react_lib
+      '@taigalabs/prfs-ts-utils':
+        specifier: '*'
+        version: link:../prfs_ts_utils
+      '@taigalabs/shy-entities':
+        specifier: '*'
+        version: link:../shy_entities
       '@tiptap/extension-color':
         specifier: ^2.1.10
         version: 2.1.13(@tiptap/core@2.1.13)(@tiptap/extension-text-style@2.1.13)

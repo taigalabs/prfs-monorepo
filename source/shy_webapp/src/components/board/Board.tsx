@@ -1,24 +1,24 @@
+"use client";
+
 import React from "react";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
-import styles from "./ChannelList.module.scss";
+import styles from "./Board.module.scss";
 import Row from "./Row";
 import {
-  // TimelineFeedsHeader,
   InfiniteScrollMain,
   InfiniteScrollRight,
   InfiniteScrollWrapper,
-  InfiniteScrollPlaceholder,
+  InfiniteScrollInner,
+  InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
-import RightBar from "../right_bar/RightBar";
-import ShyLogo from "../shy_logo/ShyLogo";
-import MyAvatar from "../my_avatar/MyAvatar";
-import { LocalShyCredential } from "@/storage/local_storage";
+import GlobalHeader from "@/components/global_header/GlobalHeader";
+import BoardMenu from "./BoardMenu";
 
-const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLeftBarDrawer }) => {
+const Board: React.FC<BoardProps> = ({}) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["get_shy_posts"],
@@ -48,7 +48,6 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
     : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
-
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
@@ -75,7 +74,6 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
   ]);
 
   const handleScroll = React.useCallback(() => {
-    // console.log(55, containerRefElement, rightBarContainerRef.current);
     if (parentRef.current && rightBarContainerRef.current) {
       const { scrollHeight, scrollTop, clientHeight } = parentRef.current;
       const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current!;
@@ -99,62 +97,62 @@ const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLe
 
   return (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
-      <div>left</div>
-      <InfiniteScrollMain>
-        {status === "pending" ? (
-          <div className={styles.loading}>
-            <Spinner />
-          </div>
-        ) : (
-          <>
-            <InfiniteScrollPlaceholder />
-            <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
-            <div
-              className={styles.infiniteScroll}
-              style={{
-                height: `${rowVirtualizer.getTotalSize()}px`,
-                position: "relative",
-              }}
-            >
-              {rowVirtualizer.getVirtualItems().map(virtualRow => {
-                const isLoaderRow = virtualRow.index > allRows.length - 1;
-                const post = allRows[virtualRow.index];
-
-                return (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: `${virtualRow.size}px`,
-                      transform: `translateY(${virtualRow.start}px)`,
-                    }}
-                    className={styles.row}
-                    key={virtualRow.index}
-                    data-index={virtualRow.index}
-                    ref={rowVirtualizer.measureElement}
-                  >
-                    {isLoaderRow
-                      ? hasNextPage
-                        ? "Loading more..."
-                        : "Nothing more to load"
-                      : post && <Row post={post} />}
-                  </div>
-                );
-              })}
+      <GlobalHeader />
+      <InfiniteScrollInner>
+        <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
+        <InfiniteScrollMain>
+          <BoardMenu />
+          {status === "pending" ? (
+            <div className={styles.loading}>
+              <Spinner />
             </div>
-          </>
-        )}
-      </InfiniteScrollMain>
-      <InfiniteScrollRight>right</InfiniteScrollRight>
+          ) : (
+            <>
+              <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
+              <div
+                className={styles.infiniteScroll}
+                style={{
+                  height: `${rowVirtualizer.getTotalSize()}px`,
+                  position: "relative",
+                }}
+              >
+                {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                  const isLoaderRow = virtualRow.index > allRows.length - 1;
+                  const post = allRows[virtualRow.index];
+
+                  return (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: `${virtualRow.size}px`,
+                        transform: `translateY(${virtualRow.start}px)`,
+                      }}
+                      className={styles.row}
+                      key={virtualRow.index}
+                      data-index={virtualRow.index}
+                      ref={rowVirtualizer.measureElement}
+                    >
+                      {isLoaderRow
+                        ? hasNextPage
+                          ? "Loading more..."
+                          : "Nothing more to load"
+                        : post && <Row post={post} />}
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+        </InfiniteScrollMain>
+        <InfiniteScrollRight>{null}</InfiniteScrollRight>
+      </InfiniteScrollInner>
     </InfiniteScrollWrapper>
   );
 };
 
-export default ChannelList;
+export default Board;
 
-export interface ChannelListProps {
-  credential: LocalShyCredential;
-  handleClickShowLeftBarDrawer: () => void;
-}
+export interface BoardProps {}

@@ -1,19 +1,7 @@
-"use client";
-
 import React from "react";
 import cn from "classnames";
-import {
-  InfiniteData,
-  UseInfiniteQueryResult,
-  useInfiniteQuery,
-} from "@taigalabs/prfs-react-lib/react_query";
-import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
-import { shyApi } from "@taigalabs/prfs-api-js";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./InfiniteScrollComponents.module.scss";
-import Row from "./Row";
-import RightBar from "@/components/right_bar/RightBar";
 
 export const InfiniteScrollWrapper: React.FC<TimelineFeedsWrapperProps> = ({
   children,
@@ -28,23 +16,27 @@ export const InfiniteScrollWrapper: React.FC<TimelineFeedsWrapperProps> = ({
   );
 };
 
-// export const TimelineFeedsHeader: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
-//   return <div className={cn(styles.header, className)}>{children}</div>;
-// };
+export const InfiniteScrollInner: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
+  return <div className={cn(styles.inner, className)}>{children}</div>;
+};
 
 export const InfiniteScrollMain: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
   return <div className={cn(styles.main, className)}>{children}</div>;
+};
+
+export const InfiniteScrollLeft: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
+  return <div className={cn(styles.left, className)}>{children}</div>;
 };
 
 export const InfiniteScrollRight: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
   return <div className={cn(styles.right, className)}>{children}</div>;
 };
 
-export const InfiniteScrollPlaceholder: React.FC<InfiniteScrollPlaceholderProps> = ({
-  className,
-}) => {
-  return <div className={cn(styles.placeholder, className)} />;
-};
+// export const InfiniteScrollPlaceholder: React.FC<InfiniteScrollPlaceholderProps> = ({
+//   className,
+// }) => {
+//   return <div className={cn(styles.placeholder, className)} />;
+// };
 
 // const TimelineFeeds: React.FC<TimelineFeedsProps> = () => {
 //   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =

@@ -47,6 +47,7 @@ prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
 prfs_entities = { path = "../prfs_entities" }
+shy_entities = { path = "../shy_entities" }
 prfs_common_server_state = { path = "../prfs_common_server_state" }
 prfs_web_scraper = { path = "../prfs_web_scraper" }
 
