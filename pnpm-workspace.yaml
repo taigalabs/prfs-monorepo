@@ -27,5 +27,6 @@ packages:
 
   # Shy
   - "source/shy_webapp"
+  - "source/shy_entities"
   - "source/shy_api_server"
   - "source/shy_docs_website"

@@ -20,6 +20,7 @@ impl BuildTask for BuildPrfsEntitiesTSBindingTask {
         create_bindings_prfs_entities();
         create_bindings_prfs_circuit_interface();
         create_bindings_prfs_driver_interface();
+        create_bindings_shy_entities();
 
         Ok(())
     }
@@ -81,5 +82,24 @@ fn create_bindings_prfs_driver_interface() {
         println!("{} not found, not formatting", PRETTIERD.red());
     } else {
         format_ts_files(&bindings_path);
+    }
+}
+
+fn create_bindings_shy_entities() {
+    if PATHS.shy_entities__bindings.exists() {
+        std::fs::remove_dir_all(&PATHS.shy_entities__bindings).unwrap();
+    }
+
+    let status = Command::new("cargo")
+        .args(["test", "-p", "shy_entities"])
+        .status()
+        .expect(&format!("{} command failed to start", JS_ENGINE));
+
+    assert!(status.success());
+
+    if let None = which(PRETTIERD).ok() {
+        println!("{} not found, not formatting", PRETTIERD.red());
+    } else {
+        format_ts_files(&PATHS.shy_entities__bindings);
     }
 }

@@ -32,13 +32,11 @@ pub struct Paths {
     pub prfs_proof_webapp: PathBuf,
     pub prfs_poll_webapp: PathBuf,
     pub prfs_id_webapp: PathBuf,
-    // asset server
+    pub prfs_crypto_js: PathBuf,
+    pub prfs_crypto_js__build: PathBuf,
     pub prfs_asset_server: PathBuf,
     pub prfs_asset_server_assets: PathBuf,
     pub prfs_asset_server_assets_local: PathBuf,
-    // crypto
-    pub prfs_crypto_js: PathBuf,
-    pub prfs_crypto_js__build: PathBuf,
     // drivers
     pub prfs_driver_spartan_js: PathBuf,
     pub prfs_driver_spartan_wasm: PathBuf,
@@ -47,6 +45,7 @@ pub struct Paths {
     // Shy
     pub shy_webapp: PathBuf,
     pub shy_api_server: PathBuf,
+    pub shy_entities__bindings: PathBuf,
 }
 
 #[allow(non_snake_case)]
@@ -97,6 +96,7 @@ impl Paths {
 
         let shy_webapp = curr_dir.join("source/shy_webapp");
         let shy_api_server = curr_dir.join("source/shy_api_server");
+        let shy_entities__bindings = curr_dir.join("source/shy_entities/bindings");
 
         let p = Paths {
             curr_dir,
@@ -108,7 +108,7 @@ impl Paths {
             internals_docker,
             internals_docker_postgres,
 
-            // prfs
+            // Prfs
             prfs_api_server,
             prfs_auth_op_server,
             prfs_docs_website,
@@ -121,21 +121,19 @@ impl Paths {
             prfs_circuit_interface,
             prfs_driver_interface,
             prfs_entities__bindings,
-            // asset server
             prfs_asset_server,
             prfs_asset_server_assets,
             prfs_asset_server_assets_local,
-            // crypto
             prfs_crypto_js,
             prfs_crypto_js__build,
-            // drivers
             prfs_driver_spartan_js,
             prfs_driver_spartan_wasm,
             prfs_driver_spartan_wasm_build,
 
-            // shy
+            // Shy
             shy_webapp,
             shy_api_server,
+            shy_entities__bindings,
         };
 
         println!(

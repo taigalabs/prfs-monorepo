@@ -1555,6 +1555,8 @@ importers:
         specifier: ^4.9.3
         version: 4.9.5
 
+  source/shy_entities: {}
+
   source/shy_webapp:
     dependencies:
       '@ethereumjs/util':
