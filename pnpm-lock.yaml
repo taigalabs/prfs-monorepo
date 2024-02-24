@@ -1523,6 +1523,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      '@taigalabs/shy-entities':
+        specifier: '*'
+        version: link:../shy_entities
       googleapis:
         specifier: ^128.0.0
         version: 128.0.0
