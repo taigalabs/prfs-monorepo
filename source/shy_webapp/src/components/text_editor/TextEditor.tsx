@@ -16,7 +16,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { shyApi } from "@taigalabs/prfs-api-js";
+import { shyApi } from "@taigalabs/shy-api-js";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 

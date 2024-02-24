@@ -3,7 +3,7 @@
 import React from "react";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
-import { shyApi } from "@taigalabs/prfs-api-js";
+import { shyApi } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./Board.module.scss";

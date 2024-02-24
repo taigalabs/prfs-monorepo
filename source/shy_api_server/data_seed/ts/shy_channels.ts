@@ -1,4 +1,4 @@
-import { ShyChannel } from "@taigalabs/prfs-entities/bindings/ShyChannel";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 const data: ShyChannel[] = [
   {
