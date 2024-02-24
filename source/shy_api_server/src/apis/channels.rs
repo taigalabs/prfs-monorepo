@@ -10,7 +10,7 @@ use prfs_axum_lib::io::{parse_req, ApiHandlerResult, BytesBoxBody};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
-use prfs_entities::shy_api::{
+use shy_entities::shy_api::{
     CreateShyPostRequest, CreateShyPostResponse, GetShyChannelsResponse, GetShyPostsRequest,
     GetShyPostsResponse,
 };

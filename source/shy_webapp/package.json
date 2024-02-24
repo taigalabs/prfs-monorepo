@@ -25,6 +25,7 @@
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@taigalabs/prfs-entities": "*",
+    "@taigalabs/shy-entities": "*",
     "@taigalabs/prfs-react-lib": "*",
     "@taigalabs/prfs-i18n": "*",
     "@taigalabs/prfs-ts-utils": "*",

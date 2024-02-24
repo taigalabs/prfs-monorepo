@@ -1,8 +1,7 @@
+use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+use shy_entities::entities::ShyChannel;
+
 use crate::DbInterfaceError;
-use prfs_entities::{
-    shy_api::ShyChannel,
-    sqlx::{self, Pool, Postgres, Row, Transaction},
-};
 
 pub async fn get_shy_channels(
     pool: &Pool<Postgres>,
