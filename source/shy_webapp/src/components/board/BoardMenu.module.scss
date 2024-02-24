@@ -2,12 +2,21 @@
   padding: 12px 16px;
 }
 
-.secondRow {
+.row {
   display: flex;
+
+  &:not(:first-child) {
+    padding-top: 12px;
+  }
 }
 
 .sortBtn {
   cursor: not-allowed;
+
+  svg {
+    padding-left: 5px;
+    font-size: 20px;
+  }
 }
 
 .newPostBtn {

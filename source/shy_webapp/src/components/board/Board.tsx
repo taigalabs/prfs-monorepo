@@ -14,6 +14,7 @@ import {
   InfiniteScrollWrapper,
   InfiniteScrollInner,
   InfiniteScrollLeft,
+  InfiniteScrollRowContainer,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import BoardMenu from "./BoardMenu";
@@ -109,8 +110,7 @@ const Board: React.FC<BoardProps> = ({ channelId }) => {
             </div>
           ) : (
             <>
-              <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
-              <div
+              <InfiniteScrollRowContainer
                 className={styles.infiniteScroll}
                 style={{
                   height: `${rowVirtualizer.getTotalSize()}px`,
@@ -144,7 +144,7 @@ const Board: React.FC<BoardProps> = ({ channelId }) => {
                     </div>
                   );
                 })}
-              </div>
+              </InfiniteScrollRowContainer>
             </>
           )}
         </InfiniteScrollMain>

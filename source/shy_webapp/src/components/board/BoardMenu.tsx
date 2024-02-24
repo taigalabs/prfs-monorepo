@@ -1,4 +1,5 @@
 import React from "react";
+import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 
 import styles from "./BoardMenu.module.scss";
 import { useI18N } from "@/i18n/hook";
@@ -9,12 +10,15 @@ const BoardMenu: React.FC<BoardMenuProps> = ({}) => {
 
   return (
     <div className={styles.wrapper}>
-      <ul>
-        <li>{i18n.general}</li>
-      </ul>
-      <div className={styles.secondRow}>
-        <Button variant="white_1" className={styles.sortBtn}>
-          {i18n.new}
+      <div className={styles.row}>
+        <Button variant="white_1" className={styles.sortBtn} isActive>
+          {i18n.general}
+        </Button>
+      </div>
+      <div className={styles.row}>
+        <Button variant="transparent_1" className={styles.sortBtn} isActive>
+          <span>{i18n.latest}</span>
+          <IoMdArrowDropdown />
         </Button>
         <Button variant="green_1" className={styles.newPostBtn}>
           {i18n.new_post}
