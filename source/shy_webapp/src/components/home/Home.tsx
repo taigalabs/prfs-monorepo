@@ -7,7 +7,7 @@ import styles from "./Home.module.scss";
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import { useIsFontReady } from "@/hooks/font";
-import Loading from "../loading/Loading";
+import Loading from "@/components/loading/Loading";
 
 const Home: React.FC<HomeProps> = () => {
   const isFontReady = useIsFontReady();
