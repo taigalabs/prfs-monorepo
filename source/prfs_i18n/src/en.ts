@@ -252,6 +252,7 @@ export default {
   dashboard: "Dashboard",
   sdk_api: "SDK/API",
   new: "New",
+  all_channels: "All channels",
   new_post: "New post",
   proof_instances: "Proof instances",
   create_proof: "Create proof",
