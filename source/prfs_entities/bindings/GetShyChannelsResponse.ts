@@ -2,6 +2,6 @@
 import type { ShyChannel } from "./ShyChannel";
 
 export interface GetShyChannelsResponse {
-  shy_channels: Array<ShyChannel>;
+  rows: Array<ShyChannel>;
   next_offset: number | null;
 }

@@ -35,5 +35,5 @@ pub struct ShyChannel {
     pub label: String,
 
     #[ts(type = "string[]")]
-    pub public_keys: sqlx::types::Json<Vec<String>>,
+    pub proof_type_ids: sqlx::types::Json<Vec<String>>,
 }

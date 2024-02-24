@@ -29,7 +29,7 @@ LIMIT $2
         .map(|row| ShyChannel {
             channel_id: row.get("channel_id"),
             label: row.get("label"),
-            public_keys: row.get("public_keys"),
+            proof_type_ids: row.get("proof_type_ids"),
         })
         .collect();
 
@@ -42,7 +42,7 @@ pub async fn insert_shy_channel(
 ) -> String {
     let query = r#"
 INSERT INTO shy_channels
-(channel_id, label, public_keys)
+(channel_id, label, proof_type_ids)
 VALUES ($1, $2, $3)
 RETURNING channel_id
 "#;
@@ -50,7 +50,7 @@ RETURNING channel_id
     let row = sqlx::query(query)
         .bind(&shy_channel.channel_id)
         .bind(&shy_channel.label)
-        .bind(&shy_channel.public_keys)
+        .bind(&shy_channel.proof_type_ids)
         .fetch_one(&mut **tx)
         .await
         .unwrap();

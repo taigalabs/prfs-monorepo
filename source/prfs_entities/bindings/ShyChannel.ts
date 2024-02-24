@@ -3,5 +3,5 @@
 export interface ShyChannel {
   channel_id: string;
   label: string;
-  public_keys: string[];
+  proof_type_ids: string[];
 }

@@ -42,7 +42,7 @@ pub async fn get_shy_channels(
         .await
         .unwrap();
 
-    let next_offset = if shy_channels.len() < LIMIT.try_into().unwrap() {
+    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
         None
     } else {
         Some(input.offset + LIMIT)
