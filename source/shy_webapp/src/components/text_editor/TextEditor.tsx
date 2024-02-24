@@ -16,7 +16,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { shyApi } from "@taigalabs/shy-api-js";
+import { shyApi2 } from "@taigalabs/shy-api-js";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 
@@ -86,7 +86,7 @@ const EditorFooter = () => {
 
   const { mutateAsync: createSocialPost, isPending } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
-      return shyApi("create_shy_post", req);
+      return shyApi2({ type: "create_shy_post", ...req });
     },
   });
 

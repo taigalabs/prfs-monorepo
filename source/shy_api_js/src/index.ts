@@ -1,1 +1,1 @@
-export * from "./apis/shy_api";
+export * from "./apis/shy_api2";

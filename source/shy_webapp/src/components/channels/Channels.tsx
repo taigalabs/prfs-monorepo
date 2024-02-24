@@ -3,7 +3,7 @@
 import React from "react";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
-import { shyApi } from "@taigalabs/shy-api-js";
+import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./Channels.module.scss";
@@ -24,7 +24,8 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
     useInfiniteQuery({
       queryKey: ["get_shy_channels"],
       queryFn: async ({ pageParam = 0 }) => {
-        return await shyApi("get_shy_channels", {
+        return await shyApi2({
+          type: "get_shy_channels",
           offset: pageParam,
         });
       },

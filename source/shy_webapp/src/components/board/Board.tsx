@@ -3,9 +3,8 @@
 import React from "react";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
-import { shyApi } from "@taigalabs/shy-api-js";
+import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 import styles from "./Board.module.scss";
 import Row from "./Row";
@@ -26,7 +25,8 @@ const Board: React.FC<BoardProps> = ({ channelId }) => {
     useInfiniteQuery({
       queryKey: ["get_shy_posts", channelId],
       queryFn: async ({ pageParam = 0 }) => {
-        return await shyApi("get_shy_posts", {
+        return await shyApi2({
+          type: "get_shy_posts",
           channel_id: channelId,
           offset: pageParam,
         });
