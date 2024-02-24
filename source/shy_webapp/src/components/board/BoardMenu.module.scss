@@ -1,5 +1,8 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
-  padding: 12px 16px;
+  padding: 0 $side_padding 12px;
+  /* margin-bottom: 12px; */
 }
 
 .row {
