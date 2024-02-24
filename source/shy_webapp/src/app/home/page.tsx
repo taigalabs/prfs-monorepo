@@ -1,10 +1,10 @@
 import React from "react";
-import { redirect } from "next/navigation";
 
 import { paths } from "@/paths";
+import Home from "@/components/home/Home";
 
 const HomePage: React.FC = () => {
-  redirect(paths.c__crypto_holders);
+  return <Home />;
 };
 
 export default HomePage;
