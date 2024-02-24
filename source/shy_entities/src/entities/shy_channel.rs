@@ -7,6 +7,7 @@ use ts_rs::TS;
 pub struct ShyChannel {
     pub channel_id: String,
     pub label: String,
+    pub locale: String,
 
     #[ts(type = "string[]")]
     pub proof_type_ids: sqlx::types::Json<Vec<String>>,

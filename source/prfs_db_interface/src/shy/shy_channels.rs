@@ -28,6 +28,7 @@ LIMIT $2
         .map(|row| ShyChannel {
             channel_id: row.get("channel_id"),
             label: row.get("label"),
+            locale: row.get("locale"),
             proof_type_ids: row.get("proof_type_ids"),
         })
         .collect();
@@ -41,7 +42,7 @@ pub async fn insert_shy_channel(
 ) -> String {
     let query = r#"
 INSERT INTO shy_channels
-(channel_id, label, proof_type_ids)
+(channel_id, label, proof_type_ids, locale)
 VALUES ($1, $2, $3)
 RETURNING channel_id
 "#;
@@ -50,6 +51,7 @@ RETURNING channel_id
         .bind(&shy_channel.channel_id)
         .bind(&shy_channel.label)
         .bind(&shy_channel.proof_type_ids)
+        .bind(&shy_channel.locale)
         .fetch_one(&mut **tx)
         .await
         .unwrap();
