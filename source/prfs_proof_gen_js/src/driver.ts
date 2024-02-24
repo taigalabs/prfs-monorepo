@@ -24,17 +24,3 @@ export async function initCircuitDriver(
       throw new Error(`This driver is not supported, ${driverId}`);
   }
 }
-
-// export function interpolateSystemAssetEndpoint(
-//   driverProperties: Record<string, any>,
-//   prfsAssetEndpoint: string,
-// ): Record<string, any> {
-//   const ret: Record<string, any> = {};
-
-//   for (const key in driverProperties) {
-//     const val = driverProperties[key];
-//     ret[key] = val.replace("prfs://", `${prfsAssetEndpoint}/`);
-//   }
-
-//   return ret;
-// }
