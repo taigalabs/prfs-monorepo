@@ -2,8 +2,8 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use super::{
-    CreateShyPostRequest, CreateShyPostResponse, GetShyChannelsRequest, GetShyChannelsResponse,
-    GetShyPostsRequest, GetShyPostsResponse,
+    CreateShyPostRequest, CreateShyPostResponse, GetShyChannelResponse, GetShyChannelsRequest,
+    GetShyChannelsResponse, GetShyPostsRequest, GetShyPostsResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -14,6 +14,7 @@ pub enum ShyApiRequest {
     create_shy_post(CreateShyPostRequest),
     get_shy_channels(GetShyChannelsRequest),
     get_shy_posts(GetShyPostsRequest),
+    get_shy_channel(GetShyChannelsRequest),
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -24,4 +25,5 @@ pub enum ShyApiResponse {
     create_shy_post(CreateShyPostResponse),
     get_shy_channels(GetShyChannelsResponse),
     get_shy_posts(GetShyPostsResponse),
+    get_shy_channel(GetShyChannelResponse),
 }

@@ -6,4 +6,5 @@ import type { GetShyPostsRequest } from "./GetShyPostsRequest";
 export type ShyApiRequest =
   | ({ type: "create_shy_post" } & CreateShyPostRequest)
   | ({ type: "get_shy_channels" } & GetShyChannelsRequest)
-  | ({ type: "get_shy_posts" } & GetShyPostsRequest);
+  | ({ type: "get_shy_posts" } & GetShyPostsRequest)
+  | ({ type: "get_shy_channel" } & GetShyChannelsRequest);

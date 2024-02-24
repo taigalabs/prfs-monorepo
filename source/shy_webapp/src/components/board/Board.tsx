@@ -105,8 +105,8 @@ const Board: React.FC<BoardProps> = ({ channelId }) => {
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
-          <BoardMenu />
           <BoardMeta channelId={channelId} />
+          <BoardMenu />
           {status === "pending" ? (
             <div className={styles.loading}>
               <Spinner />
