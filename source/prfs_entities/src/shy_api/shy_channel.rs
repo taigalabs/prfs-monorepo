@@ -24,7 +24,7 @@ pub struct GetShyChannelsRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyChannelsResponse {
-    pub shy_channels: Vec<ShyChannel>,
+    pub rows: Vec<ShyChannel>,
     pub next_offset: Option<i32>,
 }
 

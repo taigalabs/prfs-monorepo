@@ -38,7 +38,7 @@ pub async fn get_shy_channels(
     Json(input): Json<GetShyPostsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyChannelsResponse>>) {
     let pool = &state.db2.pool;
-    let shy_channels = shy::get_shy_channels(pool, input.offset, LIMIT)
+    let rows = shy::get_shy_channels(pool, input.offset, LIMIT)
         .await
         .unwrap();
 
@@ -48,9 +48,6 @@ pub async fn get_shy_channels(
         Some(input.offset + LIMIT)
     };
 
-    let resp = ApiResponse::new_success(GetShyChannelsResponse {
-        shy_channels,
-        next_offset,
-    });
+    let resp = ApiResponse::new_success(GetShyChannelsResponse { rows, next_offset });
     return (StatusCode::OK, Json(resp));
 }

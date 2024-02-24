@@ -6,7 +6,7 @@ import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
-import styles from "./Board.module.scss";
+import styles from "./Channels.module.scss";
 import Row from "./Row";
 import {
   InfiniteScrollMain,
@@ -16,14 +16,14 @@ import {
   InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
-import BoardMenu from "./BoardMenu";
+// import BoardMenu from "./BoardMenu";
 
-const Board: React.FC<BoardProps> = ({}) => {
+const Channels: React.FC<ChannelsProps> = ({}) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_shy_posts"],
+      queryKey: ["get_shy_channels"],
       queryFn: async ({ pageParam = 0 }) => {
-        return await shyApi("get_shy_posts", {
+        return await shyApi("get_shy_channels", {
           offset: pageParam,
         });
       },
@@ -40,7 +40,7 @@ const Board: React.FC<BoardProps> = ({}) => {
   const allRows = data
     ? data.pages.flatMap(d => {
         if (d.payload) {
-          return d.payload.shy_posts;
+          return d.payload.rows;
         } else {
           [];
         }
@@ -101,7 +101,7 @@ const Board: React.FC<BoardProps> = ({}) => {
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
-          <BoardMenu />
+          {/* <BoardMenu /> */}
           {status === "pending" ? (
             <div className={styles.loading}>
               <Spinner />
@@ -153,6 +153,6 @@ const Board: React.FC<BoardProps> = ({}) => {
   );
 };
 
-export default Board;
+export default Channels;
 
-export interface BoardProps {}
+export interface ChannelsProps {}
