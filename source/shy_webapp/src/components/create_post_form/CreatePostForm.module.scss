@@ -1,6 +1,9 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   width: 100%;
-  position: absolute;
+  height: 300px;
+  position: sticky;
 }
 
 .editorContainer {
@@ -9,4 +12,7 @@
 
 .btnRow {
   border-top: 1px solid var(--gray-30);
+}
+
+@media screen and (max-width: $big_display_min_width) {
 }

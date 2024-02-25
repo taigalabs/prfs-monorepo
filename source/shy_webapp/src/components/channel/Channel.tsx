@@ -17,7 +17,7 @@ import {
   InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
-import CreatePostForm from "../create_post_form/CreatePostForm";
+import CreatePostForm from "@/components/create_post_form/CreatePostForm";
 import { paths, searchParamKeys } from "@/paths";
 import Board from "@/components/board/Board";
 import BoardMeta from "@/components/board/BoardMeta";
@@ -66,7 +66,6 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isPost }) => {
   return isFontReady && shyCredential ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
       <GlobalHeader />
-      {/* {isPost && <CreatePostForm channel={channel} />} */}
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
@@ -84,6 +83,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isPost }) => {
         </InfiniteScrollMain>
         <InfiniteScrollRight>{null}</InfiniteScrollRight>
       </InfiniteScrollInner>
+      {isPost && channel && <CreatePostForm channel={channel} />}
     </InfiniteScrollWrapper>
   ) : (
     <>
