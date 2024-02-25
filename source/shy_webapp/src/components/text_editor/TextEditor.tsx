@@ -134,14 +134,16 @@ const TextEditor: React.FC = () => {
   }
 
   return (
-    <EditorProvider
-      slotBefore={<EditorMenuBar />}
-      slotAfter={<EditorFooter />}
-      extensions={extensions}
-      content={""}
-    >
-      <div className={styles.wrapper}></div>
-    </EditorProvider>
+    <div>
+      <EditorProvider
+        // slotBefore={<EditorMenuBar />}
+        // slotAfter={<EditorFooter />}
+        extensions={extensions}
+        content={""}
+      >
+        <div className={styles.wrapper}></div>
+      </EditorProvider>
+    </div>
   );
 };
 

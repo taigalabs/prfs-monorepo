@@ -3,20 +3,21 @@ import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 import styles from "./CreatePostForm.module.scss";
-import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
+import { useI18N } from "@/i18n/hook";
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = useI18N();
   const router = useRouter();
 
   return (
     <div className={styles.wrapper}>
-      <div>
-        {i18n.code} for {channel.channel_id}
+      <div className={styles.title}>{i18n.create_a_post}</div>
+      <div className={styles.titleInput}>
+        <input type="text" placeholder={i18n.what_is_this_discussion_about_in_one_sentence} />
       </div>
-      <div className={styles.editorContainer}>
+      <div className={styles.editorWrapper}>
         <TextEditor />
       </div>
       <div className={styles.btnRow}>btn</div>

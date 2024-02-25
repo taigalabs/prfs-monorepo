@@ -139,6 +139,8 @@ export default {
   next: "Next",
   finish_by_signing_in: "Finish by signing in",
   create_and_share_proofs: "Create and share proofs",
+  create_a_post: "Create a post",
+  what_is_this_discussion_about_in_one_sentence: "What is this discussion about in one sentence?",
   proof_label: "Proof label",
   short_id: "Short id",
   share_url: "Share URL",
