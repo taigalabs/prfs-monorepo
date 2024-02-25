@@ -1,7 +1,7 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  padding: 18px $side_padding 12px;
+  padding: 18px $side_padding 10px;
 }
 
 .inner {
@@ -10,6 +10,7 @@
 .titleRow {
   display: flex;
   line-height: 1.92em;
+
   .label {
     font-size: 20px;
   }
@@ -25,7 +26,6 @@
 .descRow {
   line-height: 1.62em;
   color: var(--gray-20);
-  padding-top: 6px;
   max-height: 0;
   overflow: hidden;
   opacity: 0;
@@ -36,22 +36,26 @@
     max-height: 800px;
     opacity: 1;
   }
-}
 
-.proofTypeIds {
-  .title {
-    display: inline-block;
-    padding-right: 5px;
+  .desc {
+    padding-top: 4px;
   }
 
-  .entry {
-    line-height: 1em;
-    font-size: 11px;
-    padding: 3px 4px;
-    background-color: var(--bright-gray-40);
-    color: var(--gray-30);
-    border-radius: 2px;
-    display: inline-block;
+  .proofTypeIds {
+    .title {
+      display: inline-block;
+      padding-right: 5px;
+    }
+
+    .entry {
+      line-height: 1em;
+      font-size: 11px;
+      padding: 3px 4px;
+      background-color: var(--bright-gray-40);
+      color: var(--gray-30);
+      border-radius: 2px;
+      display: inline-block;
+    }
   }
 }
 
