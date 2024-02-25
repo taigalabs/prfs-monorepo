@@ -44,7 +44,7 @@ const SignIn: React.FC<SignInProps> = () => {
               <p>{i18n.more_honest_discussions}</p>
             </div>
             <ul className={styles.signInBtnRow}>
-              <li>
+              <li className={styles.signInBtnWrapper}>
                 <ShySignInBtn />
               </li>
             </ul>

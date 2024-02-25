@@ -121,11 +121,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
   }, []);
 
   if (!isInitialized) {
-    return (
-      <div className={styles.wrapper}>
-        <Spinner size={18} color="#5c5c5c" borderWidth={1} />
-      </div>
-    );
+    return <Spinner size={18} color="#5c5c5c" borderWidth={1} />;
   }
 
   return shyCredential ? (
