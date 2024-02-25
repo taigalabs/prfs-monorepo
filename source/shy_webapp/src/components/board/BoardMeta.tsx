@@ -3,6 +3,7 @@ import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { shyApi2 } from "@taigalabs/shy-api-js";
+import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 
 import styles from "./BoardMeta.module.scss";
 import { useI18N } from "@/i18n/hook";
@@ -18,6 +19,10 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channelId }) => {
       return shyApi2({ type: "get_shy_channel", channel_id: channelId });
     },
   });
+  const [isDescOpen, setIsDescOpen] = React.useState(false);
+  const handleClickToggleDesc = React.useCallback(() => {
+    setIsDescOpen(b => !b);
+  }, [setIsDescOpen]);
 
   const channel = data?.payload?.shy_channel;
   const proofTypesElem = React.useMemo(() => {
@@ -37,12 +42,21 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channelId }) => {
   return channel ? (
     <div className={styles.wrapper}>
       <div className={styles.inner}>
-        <div className={styles.label}>{channel.label}</div>
-        <div className={styles.desc}>{channel.desc}</div>
-        <div className={styles.proofTypeIds}>
-          <p className={styles.title}>Requiring proofs of types</p>
-          {proofTypesElem}
+        <div className={styles.titleRow}>
+          <div className={styles.label}>{channel.label}</div>
+          <div className={styles.arrow} onClick={handleClickToggleDesc}>
+            <IoIosArrowDown />
+          </div>
         </div>
+        {isDescOpen && (
+          <>
+            <div className={styles.desc}>{channel.desc}</div>
+            <div className={styles.proofTypeIds}>
+              <p className={styles.title}>Requiring proofs of types</p>
+              {proofTypesElem}
+            </div>
+          </>
+        )}
       </div>
     </div>
   ) : (

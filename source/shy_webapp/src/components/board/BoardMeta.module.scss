@@ -10,8 +10,18 @@
   line-height: 1.92em;
 }
 
-.label {
-  font-size: 20px;
+.titleRow {
+  display: flex;
+  .label {
+    font-size: 20px;
+  }
+
+  .arrow {
+    display: grid;
+    place-items: center;
+    margin-left: auto;
+    cursor: pointer;
+  }
 }
 
 .proofTypeIds {
