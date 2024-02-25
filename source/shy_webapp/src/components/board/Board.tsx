@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 import styles from "./Board.module.scss";
 import Row from "./Row";
@@ -21,14 +22,14 @@ import GlobalHeader from "@/components/global_header/GlobalHeader";
 import BoardMenu from "./BoardMenu";
 import BoardMeta from "./BoardMeta";
 
-const Board: React.FC<BoardProps> = ({ channelId }) => {
+const Board: React.FC<BoardProps> = ({ channel }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_shy_posts", channelId],
+      queryKey: ["get_shy_posts", channel.channel_id],
       queryFn: async ({ pageParam = 0 }) => {
         return await shyApi2({
           type: "get_shy_posts",
-          channel_id: channelId,
+          channel_id: channel.channel_id,
           offset: pageParam,
         });
       },
@@ -106,8 +107,8 @@ const Board: React.FC<BoardProps> = ({ channelId }) => {
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
-          <BoardMeta channelId={channelId} />
-          <BoardMenu channelId={channelId} />
+          <BoardMeta channel={channel} />
+          <BoardMenu channelId={channel.channel_id} />
           {status === "pending" ? (
             <div className={styles.loading}>
               <Spinner />
@@ -155,5 +156,5 @@ const Board: React.FC<BoardProps> = ({ channelId }) => {
 export default Board;
 
 export interface BoardProps {
-  channelId: string;
+  channel: ShyChannel;
 }
