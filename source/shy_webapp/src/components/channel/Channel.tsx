@@ -11,6 +11,8 @@ import { useSignedInShyUser } from "@/hooks/user";
 import { useIsFontReady } from "@/hooks/font";
 import { paths, searchParamKeys } from "@/paths";
 import Loading from "@/components/loading/Loading";
+import CreatePostForm from "@/components/create_post_form/CreatePostForm";
+import GlobalHeader from "@/components/global_header/GlobalHeader";
 
 const Channel: React.FC<ChannelProps> = ({ channelId, isPost }) => {
   const isFontReady = useIsFontReady();
@@ -33,7 +35,10 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isPost }) => {
   const channel = data?.payload?.shy_channel;
 
   return isFontReady && shyCredential && channel ? (
-    <Board channelId={channelId} channel={channel} />
+    <>
+      <Board channel={channel} />
+      {isPost && <CreatePostForm channel={channel} />}
+    </>
   ) : (
     <>
       <Loading>Loading</Loading>

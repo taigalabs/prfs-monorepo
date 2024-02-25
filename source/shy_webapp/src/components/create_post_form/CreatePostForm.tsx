@@ -1,26 +1,20 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-// import {
-//   ContentMainBody,
-//   ContentMainCenter,
-//   ContentMainHeader,
-//   ContentMainInfiniteScroll,
-//   ContentMainRight,
-//   ContentMainTitle,
-// } from "@/components/content_area/ContentArea";
 
 import styles from "./CreatePostForm.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import RightBar from "@/components/right_bar/RightBar";
 import TextEditor from "@/components/text_editor/TextEditor";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
-const CreatePostForm: React.FC<CreatePostFormProps> = ({ channelId }) => {
+const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
   return (
     <div className={styles.wrapper}>
+      33
       {/* <ContentMainInfiniteScroll> */}
       {/*   <ContentMainCenter> */}
       {/*     <ContentMainHeader style={{ height: 65 }}> */}
@@ -46,5 +40,5 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channelId }) => {
 export default CreatePostForm;
 
 export interface CreatePostFormProps {
-  channelId: string;
+  channel: ShyChannel;
 }

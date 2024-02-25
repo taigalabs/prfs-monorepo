@@ -124,7 +124,6 @@ const Board: React.FC<BoardProps> = ({ channel }) => {
               {rowVirtualizer.getVirtualItems().map(virtualRow => {
                 const isLoaderRow = virtualRow.index > allRows.length - 1;
                 const post = allRows[virtualRow.index];
-
                 return (
                   <InfiniteScrollRowWrapper
                     style={{
