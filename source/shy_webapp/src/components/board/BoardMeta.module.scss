@@ -14,6 +14,25 @@
   font-size: 20px;
 }
 
+.proofTypeIds {
+  color: var(--gray-30);
+
+  .title {
+    display: inline-block;
+    padding-right: 5px;
+  }
+
+  .entry {
+    line-height: 1em;
+    font-size: 11px;
+    padding: 3px 4px;
+    background-color: var(--bright-gray-40);
+    color: var(--gray-30);
+    border-radius: 2px;
+    display: inline-block;
+  }
+}
+
 @media screen and (max-width: $big_display_min_width) {
   .wrapper {
   }

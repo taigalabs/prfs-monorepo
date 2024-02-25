@@ -20,6 +20,15 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channelId }) => {
   });
 
   const channel = data?.payload?.shy_channel;
+  const proofTypesElem = React.useMemo(() => {
+    if (channel) {
+      return channel.proof_type_ids.map(id => (
+        <p className={styles.entry} key={id}>
+          {id}
+        </p>
+      ));
+    } else return null;
+  }, [channel]);
 
   if (error) {
     return <div>Error has occurred</div>;
@@ -30,6 +39,10 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channelId }) => {
       <div className={styles.inner}>
         <div className={styles.label}>{channel.label}</div>
         <div className={styles.desc}>{channel.desc}</div>
+        <div className={styles.proofTypeIds}>
+          <p className={styles.title}>Requiring proofs of types</p>
+          {proofTypesElem}
+        </div>
       </div>
     </div>
   ) : (
