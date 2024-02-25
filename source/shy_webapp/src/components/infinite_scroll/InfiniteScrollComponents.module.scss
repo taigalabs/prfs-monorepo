@@ -38,7 +38,7 @@
 }
 
 .infiniteScroll {
-  min-height: calc(100vh - 52px);
+  min-height: 300px;
   border-left: 1px solid var(--bright-gray-32);
   border-right: 1px solid var(--bright-gray-32);
 }
@@ -53,6 +53,14 @@
 
 .rowContainer {
   border-top: 1px solid var(--bright-gray-32);
+}
+
+.rowWrapper {
+  height: 100px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 @media screen and (min-width: $big_display_min_width) {

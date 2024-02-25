@@ -15,6 +15,7 @@ import {
   InfiniteScrollInner,
   InfiniteScrollLeft,
   InfiniteScrollRowContainer,
+  InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import BoardMenu from "./BoardMenu";
@@ -112,43 +113,37 @@ const Board: React.FC<BoardProps> = ({ channelId }) => {
               <Spinner />
             </div>
           ) : (
-            <>
-              <InfiniteScrollRowContainer
-                className={styles.infiniteScroll}
-                style={{
-                  height: `${rowVirtualizer.getTotalSize()}px`,
-                  position: "relative",
-                }}
-              >
-                {rowVirtualizer.getVirtualItems().map(virtualRow => {
-                  const isLoaderRow = virtualRow.index > allRows.length - 1;
-                  const post = allRows[virtualRow.index];
+            <InfiniteScrollRowContainer
+              className={styles.infiniteScroll}
+              style={{
+                height: `${rowVirtualizer.getTotalSize()}px`,
+                position: "relative",
+              }}
+            >
+              {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                const isLoaderRow = virtualRow.index > allRows.length - 1;
+                const post = allRows[virtualRow.index];
 
-                  return (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: `${virtualRow.size}px`,
-                        transform: `translateY(${virtualRow.start}px)`,
-                      }}
-                      className={styles.row}
-                      key={virtualRow.index}
-                      data-index={virtualRow.index}
-                      ref={rowVirtualizer.measureElement}
-                    >
-                      {isLoaderRow
-                        ? hasNextPage
-                          ? "Loading more..."
-                          : "Nothing more to load"
-                        : post && <Row post={post} />}
-                    </div>
-                  );
-                })}
-              </InfiniteScrollRowContainer>
-            </>
+                return (
+                  <InfiniteScrollRowWrapper
+                    style={{
+                      height: `${virtualRow.size}px`,
+                      transform: `translateY(${virtualRow.start}px)`,
+                    }}
+                    className={styles.row}
+                    key={virtualRow.index}
+                    data-index={virtualRow.index}
+                    ref={rowVirtualizer.measureElement}
+                  >
+                    {isLoaderRow
+                      ? hasNextPage
+                        ? "Loading more..."
+                        : "Nothing more to load"
+                      : post && <Row post={post} />}
+                  </InfiniteScrollRowWrapper>
+                );
+              })}
+            </InfiniteScrollRowContainer>
           )}
         </InfiniteScrollMain>
         <InfiniteScrollRight>{null}</InfiniteScrollRight>

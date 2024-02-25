@@ -46,21 +46,16 @@
 }
 
 .infiniteScroll {
-  min-height: calc(100vh - 52px);
-  border-left: 1px solid var(--bright-gray-32);
-  border-right: 1px solid var(--bright-gray-32);
-}
-
-.placeholder {
-  height: $timeline_header_height;
-  border-left: 1px solid var(--bright-gray-32);
-  border-right: 1px solid var(--bright-gray-32);
-
-  /* border: 1px solid green; */
+  // border-left: 1px solid var(--bright-gray-32);
+  // border-right: 1px solid var(--bright-gray-32);
 }
 
 .row {
   height: 100px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .loading {
