@@ -21,15 +21,16 @@ import {
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import BoardMenu from "./BoardMenu";
 import BoardMeta from "./BoardMeta";
+import CreatePostForm from "@/components/create_post_form/CreatePostForm";
 
-const Board: React.FC<BoardProps> = ({ channel }) => {
+const Board: React.FC<BoardProps> = ({ parentRef, channelId }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_shy_posts", channel.channel_id],
+      queryKey: ["get_shy_posts", channelId],
       queryFn: async ({ pageParam = 0 }) => {
         return await shyApi2({
           type: "get_shy_posts",
-          channel_id: channel.channel_id,
+          channel_id: channelId,
           offset: pageParam,
         });
       },
@@ -52,8 +53,6 @@ const Board: React.FC<BoardProps> = ({ channel }) => {
         }
       })
     : [];
-  const parentRef = React.useRef<HTMLDivElement | null>(null);
-  const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
@@ -79,81 +78,51 @@ const Board: React.FC<BoardProps> = ({ channel }) => {
     rowVirtualizer.getVirtualItems(),
   ]);
 
-  const handleScroll = React.useCallback(() => {
-    if (parentRef.current && rightBarContainerRef.current) {
-      const { scrollHeight, scrollTop, clientHeight } = parentRef.current;
-      const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current!;
-
-      if (ch < clientHeight) {
-        rightBarContainerRef.current!.style.top = `0px`;
-      } else {
-        const delta = clientHeight + scrollTop - ch;
-        if (delta >= 0) {
-          rightBarContainerRef.current.style.transform = `translateY(${delta}px)`;
-        } else {
-          rightBarContainerRef.current!.style.transform = "translateY(0px)";
-        }
-      }
-    }
-  }, [isFetching, parentRef.current, rightBarContainerRef.current]);
-
-  if (status === "error") {
-    return <span>Error: {(error as Error).message}</span>;
-  }
-
   return (
-    <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
-      <GlobalHeader />
-      <InfiniteScrollInner>
-        <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
-        <InfiniteScrollMain>
-          <BoardMeta channel={channel} />
-          <BoardMenu channelId={channel.channel_id} />
-          {status === "pending" ? (
-            <div className={styles.loading}>
-              <Spinner />
-            </div>
-          ) : (
-            <InfiniteScrollRowContainer
-              className={styles.infiniteScroll}
-              style={{
-                height: `${rowVirtualizer.getTotalSize()}px`,
-                position: "relative",
-              }}
-            >
-              {rowVirtualizer.getVirtualItems().map(virtualRow => {
-                const isLoaderRow = virtualRow.index > allRows.length - 1;
-                const post = allRows[virtualRow.index];
-                return (
-                  <InfiniteScrollRowWrapper
-                    style={{
-                      height: `${virtualRow.size}px`,
-                      transform: `translateY(${virtualRow.start}px)`,
-                    }}
-                    className={styles.row}
-                    key={virtualRow.index}
-                    data-index={virtualRow.index}
-                    ref={rowVirtualizer.measureElement}
-                  >
-                    {isLoaderRow
-                      ? hasNextPage
-                        ? "Loading more..."
-                        : "Nothing more to load"
-                      : post && <Row post={post} />}
-                  </InfiniteScrollRowWrapper>
-                );
-              })}
-            </InfiniteScrollRowContainer>
-          )}
-        </InfiniteScrollMain>
-        <InfiniteScrollRight>{null}</InfiniteScrollRight>
-      </InfiniteScrollInner>
-    </InfiniteScrollWrapper>
+    <>
+      {status === "pending" ? (
+        <div className={styles.loading}>
+          <Spinner />
+        </div>
+      ) : (
+        <InfiniteScrollRowContainer
+          className={styles.infiniteScroll}
+          style={{
+            height: `${rowVirtualizer.getTotalSize()}px`,
+            position: "relative",
+          }}
+        >
+          {rowVirtualizer.getVirtualItems().map(virtualRow => {
+            const isLoaderRow = virtualRow.index > allRows.length - 1;
+            const post = allRows[virtualRow.index];
+            return (
+              <InfiniteScrollRowWrapper
+                style={{
+                  height: `${virtualRow.size}px`,
+                  transform: `translateY(${virtualRow.start}px)`,
+                }}
+                className={styles.row}
+                key={virtualRow.index}
+                data-index={virtualRow.index}
+                ref={rowVirtualizer.measureElement}
+              >
+                {isLoaderRow
+                  ? hasNextPage
+                    ? "Loading more..."
+                    : "Nothing more to load"
+                  : post && <Row post={post} />}
+              </InfiniteScrollRowWrapper>
+            );
+          })}
+        </InfiniteScrollRowContainer>
+      )}
+    </>
   );
 };
 
 export default Board;
 
 export interface BoardProps {
-  channel: ShyChannel;
+  parentRef: React.MutableRefObject<HTMLDivElement | null>;
+  channelId: string;
 }
