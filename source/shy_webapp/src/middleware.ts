@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { envs } from "./envs";
 
 // const hosts = (() => {
@@ -54,9 +55,11 @@ export default async function middleware(req: NextRequest) {
   // }
 
   // // rewrite root application to `/home` folder
-  if (hostname === "localhost:3022" || hostname === envs.NEXT_PUBLIC_SHY_WEBAPP_ENDPOINT) {
-    return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
-  }
+  // if (hostname === "localhost:3022" || hostname === envs.NEXT_PUBLIC_SHY_WEBAPP_ENDPOINT) {
+  //   return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
+  // }
+
+  return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
   // rewrite everything else to `/[domain]/[slug] dynamic route
   // return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
 }
