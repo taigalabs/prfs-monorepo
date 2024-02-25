@@ -72,8 +72,14 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isPost }) => {
           {channel ? (
             <>
               <BoardMeta channel={channel} />
-              <BoardMenu channelId={channel.channel_id} />
-              <Board parentRef={parentRef} channelId={channel.channel_id} />
+              {isPost ? (
+                <CreatePostForm channel={channel} />
+              ) : (
+                <>
+                  <BoardMenu channelId={channel.channel_id} />
+                  <Board parentRef={parentRef} channelId={channel.channel_id} />
+                </>
+              )}
             </>
           ) : (
             <div>
@@ -83,7 +89,6 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isPost }) => {
         </InfiniteScrollMain>
         <InfiniteScrollRight>{null}</InfiniteScrollRight>
       </InfiniteScrollInner>
-      {isPost && channel && <CreatePostForm channel={channel} />}
     </InfiniteScrollWrapper>
   ) : (
     <>
