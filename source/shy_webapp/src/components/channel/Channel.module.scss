@@ -8,5 +8,5 @@
   opacity: 0;
 }
 
-@media screen and (max-width: $big_display_min_width) {
+@media screen and (min-width: $big_display_min_width) {
 }

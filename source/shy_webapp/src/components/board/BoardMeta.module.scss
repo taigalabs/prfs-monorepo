@@ -1,7 +1,7 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  padding: 18px $side_padding 10px;
+  padding: 10px $side_padding 10px;
 }
 
 .inner {
@@ -59,7 +59,8 @@
   }
 }
 
-@media screen and (max-width: $big_display_min_width) {
+@media screen and (min-width: $big_display_min_width) {
   .wrapper {
+    padding: 18px $side_padding 10px;
   }
 }

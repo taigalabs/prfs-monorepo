@@ -64,7 +64,7 @@
   place-items: center;
 }
 
-@media screen and (max-width: $big_display_min_width) {
+@media screen and (min-width: $big_display_min_width) {
   .side {
     display: none;
   }
