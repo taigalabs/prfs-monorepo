@@ -1,16 +1,13 @@
 import React from "react";
 import cn from "classnames";
-import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
-import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 
 import styles from "./BoardMeta.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Button from "@/components/button/Button";
-import Loading from "../loading/Loading";
-import { Spinner } from "@phosphor-icons/react";
+import Loading from "@/components/loading/Loading";
 
 const BoardMeta: React.FC<BoardMetaProps> = ({ channelId }) => {
   const i18n = useI18N();
