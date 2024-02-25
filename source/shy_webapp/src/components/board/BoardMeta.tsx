@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
@@ -48,15 +49,13 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channelId }) => {
             <IoIosArrowDown />
           </div>
         </div>
-        {isDescOpen && (
-          <>
-            <div className={styles.desc}>{channel.desc}</div>
-            <div className={styles.proofTypeIds}>
-              <p className={styles.title}>Requiring proofs of types</p>
-              {proofTypesElem}
-            </div>
-          </>
-        )}
+        <div className={cn(styles.descRow, { [styles.isVisible]: isDescOpen })}>
+          <div className={styles.desc}>{channel.desc}</div>
+          <div className={styles.proofTypeIds}>
+            <p className={styles.title}>Requiring proofs of types</p>
+            {proofTypesElem}
+          </div>
+        </div>
       </div>
     </div>
   ) : (
