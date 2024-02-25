@@ -32,16 +32,6 @@ export const InfiniteScrollRight: React.FC<TimelineFeedsMainProps> = ({ children
   return <div className={cn(styles.right, className)}>{children}</div>;
 };
 
-const FancyButton = React.forwardRef<any>((props, ref) => (
-  <button ref={ref} className="FancyButton">
-    {" "}
-    {/* {props.children} */}
-  </button>
-));
-
-// children,
-// className,
-// style,
 export const InfiniteScrollRowWrapper = React.forwardRef<any, TimelineFeedsMainProps>(
   ({ children, className, style }, ref) => {
     return (
@@ -79,8 +69,4 @@ export interface TimelineFeedsMainProps {
 
 export interface InfiniteScrollPlaceholderProps {
   className?: string;
-}
-
-export interface TimelineFeedsProps {
-  // infQueryResult: UseInfiniteQueryResult<InfiniteData<any>>;
 }
