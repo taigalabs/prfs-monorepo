@@ -96,16 +96,16 @@ const AppSignIn: React.FC<AppSignInProps> = ({}) => {
         return <SignIn appId={appSignInArgs.app_id} handleSucceedSignIn={handleSucceedSignIn} />;
       }
       case SignInStep.AppCredential: {
-        return (
-          credential &&
-          appSignInArgs && (
-            <AppCredential
-              credential={credential}
-              appSignInArgs={appSignInArgs}
-              handleClickPrev={handleClickPrev}
-            />
-          )
-        );
+        // return (
+        //   credential &&
+        //   appSignInArgs && (
+        //     <AppCredential
+        //       credential={credential}
+        //       appSignInArgs={appSignInArgs}
+        //       handleClickPrev={handleClickPrev}
+        //     />
+        //   )
+        // );
       }
       default:
         <div>Invalid step</div>;

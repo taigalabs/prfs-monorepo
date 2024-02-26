@@ -30,7 +30,8 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const handleClickSignIn = React.useCallback(async () => {
     // const searchParams = makeAppSignInSearchParams(appSignInArgs);
     const searchParams = makeProofGenSearchParams(proofGenArgs);
-    const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
+    // const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
+    const endpoint = `${prfsIdEndpoint}${API_PATH.proof_gen}${searchParams}`;
 
     const popup = openPopup(endpoint);
     if (!popup) {
