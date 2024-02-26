@@ -6,6 +6,12 @@ import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 
 import styles from "./SignInInputs.module.scss";
 import { i18nContext } from "@/i18n/context";
+import {
+  QueryItem,
+  QueryItemLeftCol,
+  QueryItemMeta,
+  QueryItemRightCol,
+} from "@/components/default_module/QueryItem";
 
 export interface PrfsSignInData {
   account_id: string;
@@ -25,7 +31,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
   React.useEffect(() => {
     async function fn() {
       let el = [];
-      for (const d of appSignInData) {
+      for (const [idx, d] of appSignInData.entries()) {
         if (d === AppSignInData.ID_POSEIDON) {
           const { hashed } = await makeAppSignInCm(credential.secret_key, appId);
           const { id, public_key } = await makeECCredential(hashed);
@@ -35,27 +41,52 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
             public_key,
           });
 
+          // el.push(
+          //   <li className={styles.item} key={d}>
+          //     <div className={styles.img}>
+          //       <FaRegAddressCard />
+          //     </div>
+          //     <div>
+          //       <div className={styles.label}>{d}</div>
+          //       <div className={cn(styles.value, styles.msg)}>
+          //         <span>Generated using </span>
+          //         <span>{appId}</span>
+          //       </div>
+          //       <div className={styles.value}>
+          //         <span className={styles.label}>{i18n.id}: </span>
+          //         <span>{id}</span>
+          //       </div>
+          //       <div className={styles.value}>
+          //         <span className={styles.label}>{i18n.public_key}: </span>
+          //         <span>{public_key}</span>
+          //       </div>
+          //     </div>
+          //   </li>,
+          // );
+
           el.push(
-            <li className={styles.item} key={d}>
-              <div className={styles.img}>
-                <FaRegAddressCard />
-              </div>
-              <div>
-                <div className={styles.label}>{d}</div>
-                <div className={cn(styles.value, styles.msg)}>
-                  <span>Generated using </span>
-                  <span>{appId}</span>
-                </div>
-                <div className={styles.value}>
-                  <span className={styles.label}>{i18n.id}: </span>
-                  <span>{id}</span>
-                </div>
-                <div className={styles.value}>
-                  <span className={styles.label}>{i18n.public_key}: </span>
-                  <span>{public_key}</span>
-                </div>
-              </div>
-            </li>,
+            <QueryItem sidePadding key={idx}>
+              <QueryItemMeta>
+                <QueryItemLeftCol>
+                  <FaRegAddressCard />
+                </QueryItemLeftCol>
+                <QueryItemRightCol>
+                  <div className={styles.label}>{d}</div>
+                  <div className={cn(styles.value, styles.msg)}>
+                    <span>Generated using </span>
+                    <span>{appId}</span>
+                  </div>
+                  <div className={styles.value}>
+                    <span className={styles.label}>{i18n.id}: </span>
+                    <span>{id}</span>
+                  </div>
+                  <div className={styles.value}>
+                    <span className={styles.label}>{i18n.public_key}: </span>
+                    <span>{public_key}</span>
+                  </div>
+                </QueryItemRightCol>
+              </QueryItemMeta>
+            </QueryItem>,
           );
         }
       }
