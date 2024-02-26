@@ -72,6 +72,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
           name: SIGN_IN,
           type: AppSignInType.EC_SECP256K1,
           queryType: QueryType.APP_SIGN_IN,
+          appSignInData: [AppSignInData.ID_POSEIDON],
         },
       ],
       public_key: pkHex,

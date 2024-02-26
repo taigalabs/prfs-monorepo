@@ -40,6 +40,7 @@ enum AppCredentialStatus {
 const AppCredential: React.FC<AppCredentialProps> = ({
   // handleClickPrev,
   // appSignInArgs,
+  appId,
   appSignInQuery,
   credential,
 }) => {
@@ -64,43 +65,63 @@ const AppCredential: React.FC<AppCredentialProps> = ({
     },
   });
 
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     try {
-  //       console.log("credential", credential);
-  //       const title = (
-  //         <>
-  //           <span className={styles.blueText}>{appSignInArgs.app_id}</span> wants you to submit a
-  //           few additional data to sign in
-  //         </>
-  //       );
-  //       setTitle(title);
+  React.useEffect(() => {
+    async function fn() {
+      try {
+        console.log("credential", credential);
+        // const title = (
+        //   <>
+        //     <span className={styles.blueText}>{appSignInArgs.app_id}</span> wants you to submit a
+        //     few additional data to sign in
+        //   </>
+        // );
+        const title = (
+          <>
+            <span className={styles.blueText}>{appId}</span> wants you to submit a few additional
+            data to sign in
+          </>
+        );
+        setTitle(title);
 
-  //       if (appSignInArgs.sign_in_data.length > 0) {
-  //         const content = (
-  //           <SignInInputs
-  //             signInDataMeta={appSignInArgs.sign_in_data}
-  //             credential={credential}
-  //             appId={appSignInArgs.app_id}
-  //             setSignInData={setSignInData}
-  //           />
-  //         );
-  //         setSignInDataElem(content);
-  //       }
-  //       setAppCredentialStatus(AppCredentialStatus.Standby);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   }
-  //   fn().then();
-  // }, [
-  //   setAppCredentialStatus,
-  //   searchParams,
-  //   setTitle,
-  //   setSignInData,
-  //   setSignInDataElem,
-  //   credential,
-  // ]);
+        // if (appSignInArgs.sign_in_data.length > 0) {
+        //   const content = (
+        //     <SignInInputs
+        //       signInDataMeta={appSignInArgs.sign_in_data}
+        //       credential={credential}
+        //       appId={appSignInArgs.app_id}
+        //       setSignInData={setSignInData}
+        //     />
+        //   );
+        //   setSignInDataElem(content);
+        // }
+
+        if (appSignInQuery.appSignInData.length > 0) {
+          const content = (
+            <SignInInputs
+              appSignInData={appSignInQuery.appSignInData}
+              credential={credential}
+              appId={appId}
+              // appId={appSignInArgs.app_id}
+              setSignInData={setSignInData}
+            />
+          );
+          setSignInDataElem(content);
+        }
+
+        setAppCredentialStatus(AppCredentialStatus.Standby);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fn().then();
+  }, [
+    setAppCredentialStatus,
+    searchParams,
+    setTitle,
+    setSignInData,
+    setSignInDataElem,
+    credential,
+  ]);
 
   // const handleClickSignIn = React.useCallback(async () => {
   //   if (appSignInArgs.public_key && credential) {
@@ -185,22 +206,23 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   //   </>
   // );
   return (
-    <QueryItem sidePadding>
-      <QueryItemMeta>
-        <QueryItemLeftCol>
-          <MdEnhancedEncryption />
-        </QueryItemLeftCol>
-        <QueryItemRightCol>
-          {/* <div className={styles.name}>{name}</div> */}
-          {/* <div className={styles.val}>Value: {val}</div> */}
-          {/* <div className={styles.type}>({type})</div> */}
-          <div className={styles.hashed}>
-            <span className={styles.label}>{i18n.encryption}: </span>
-            {/* <span>{encrypted}</span> */}
-          </div>
-        </QueryItemRightCol>
-      </QueryItemMeta>
-    </QueryItem>
+    <>{signInDataElem}</>
+    // <QueryItem sidePadding>
+    //   <QueryItemMeta>
+    //     <QueryItemLeftCol>
+    //       <MdEnhancedEncryption />
+    //     </QueryItemLeftCol>
+    //     <QueryItemRightCol>
+    //       {/* <div className={styles.name}>{name}</div> */}
+    //       {/* <div className={styles.val}>Value: {val}</div> */}
+    //       {/* <div className={styles.type}>({type})</div> */}
+    //       <div className={styles.hashed}>
+    //         <span className={styles.label}>{i18n.encryption}: </span>
+    //         {/* <span>{encrypted}</span> */}
+    //       </div>
+    //     </QueryItemRightCol>
+    //   </QueryItemMeta>
+    // </QueryItem>
   );
 };
 
@@ -208,6 +230,7 @@ export default AppCredential;
 
 export interface AppCredentialProps {
   // handleClickPrev: () => void;
+  appId: string;
   credential: PrfsIdCredential;
   // appSignInArgs: AppSignInArgs;
   appSignInQuery: AppSignInQuery;

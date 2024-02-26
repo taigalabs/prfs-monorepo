@@ -13,7 +13,8 @@ export interface PrfsSignInData {
 }
 
 const SignInInputs: React.FC<SignInInputsProps> = ({
-  signInDataMeta,
+  // signInDataMeta,
+  appSignInData,
   credential,
   appId,
   setSignInData,
@@ -24,7 +25,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
   React.useEffect(() => {
     async function fn() {
       let el = [];
-      for (const d of signInDataMeta) {
+      for (const d of appSignInData) {
         if (d === AppSignInData.ID_POSEIDON) {
           const { hashed } = await makeAppSignInCm(credential.secret_key, appId);
           const { id, public_key } = await makeECCredential(hashed);
@@ -43,7 +44,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
                 <div className={styles.label}>{d}</div>
                 <div className={cn(styles.value, styles.msg)}>
                   <span>Generated using </span>
-                  <span>"{appId}"</span>
+                  <span>{appId}</span>
                 </div>
                 <div className={styles.value}>
                   <span className={styles.label}>{i18n.id}: </span>
@@ -62,7 +63,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
     }
 
     fn().then();
-  }, [signInDataMeta, setElems]);
+  }, [appSignInData, setElems]);
 
   return (
     <>
@@ -74,7 +75,8 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
 export default SignInInputs;
 
 export interface SignInInputsProps {
-  signInDataMeta: string[];
+  // signInDataMeta: AppSignInData[];
+  appSignInData: AppSignInData[];
   credential: PrfsIdCredential;
   appId: string;
   setSignInData: React.Dispatch<React.SetStateAction<PrfsSignInData | null>>;

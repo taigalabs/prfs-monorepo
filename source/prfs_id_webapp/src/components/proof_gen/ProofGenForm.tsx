@@ -31,8 +31,8 @@ import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import EncryptView from "@/components/encrypt/EncryptView";
 import { usePutSessionValue } from "@/hooks/session";
-import AppSignIn from "../app_sign_in/AppSignIn";
-import AppCredential from "../app_sign_in/AppCredential";
+// import AppSignIn from "@/components/app_sign_in/AppSignIn";
+import AppCredential from "@/components/app_sign_in/AppCredential";
 
 enum Status {
   InProgress,
@@ -119,6 +119,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   <AppCredential
                     key={query.name}
                     credential={credential}
+                    appId={proofGenArgs.app_id}
                     // appSignInArgs={appSignInArgs}
                     // appSignInArgs={appSignInArgs}
                     appSignInQuery={query}
