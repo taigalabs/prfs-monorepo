@@ -1,10 +1,4 @@
-use axum::{
-    extract::{MatchedPath, Request, State},
-    handler::HandlerWithoutStateExt,
-    http::{HeaderValue, Method, StatusCode},
-    routing::{get, post},
-    Json, Router,
-};
+use axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::error::ApiHandleError;
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
