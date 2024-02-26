@@ -45,7 +45,7 @@ const extensions = [
   Placeholder.configure({
     emptyEditorClass: styles.isEditorEmpty,
     placeholder:
-      "Type here. You can use Markdown to format. Copy pasting images will later be supported",
+      "Type here. You can use Markdown to format. Copy pasting images will later be supported.",
   }),
 ];
 
@@ -81,46 +81,51 @@ const EditorMenuBar = () => {
   );
 };
 
-const EditorFooter: React.FC<EditorFooterProps> = ({}) => {
+const EditorFooter: React.FC<EditorFooterProps> = ({ handleClickPost }) => {
   const i18n = React.useContext(i18nContext);
   const { editor } = useCurrentEditor();
   const router = useRouter();
 
-  const { mutateAsync: createSocialPost } = useMutation({
-    mutationFn: (req: CreateShyPostRequest) => {
-      return shyApi2({ type: "create_shy_post", ...req });
-    },
-  });
+  const extendedHandleClickPost = React.useCallback(() => {
+    if (!editor) {
+      return null;
+    }
 
-  if (!editor) {
-    return null;
-  }
+    const html = editor.getHTML();
+    handleClickPost(html);
+  }, [handleClickPost, editor]);
 
-  const handleClickPost = React.useCallback(async () => {
-    try {
-      const html = editor.getHTML();
-      console.log("html", html);
+  // const { mutateAsync: createSocialPost } = useMutation({
+  //   mutationFn: (req: CreateShyPostRequest) => {
+  //     return shyApi2({ type: "create_shy_post", ...req });
+  //   },
+  // });
 
-      // const text = editor.getText();
-      // console.log("text", text);
+  // const handleClickPost = React.useCallback(async () => {
+  //   try {
+  //     const html = editor.getHTML();
+  //     console.log("html", html);
 
-      const post_id = uuidv4();
-      const post: ShyPost = {
-        post_id,
-        content: html,
-        channel_id: "default",
-      };
+  //     // const text = editor.getText();
+  //     // console.log("text", text);
 
-      const { payload } = await createSocialPost({ post });
-      console.log("create social post resp", payload);
+  //     const post_id = uuidv4();
+  //     const post: ShyPost = {
+  //       post_id,
+  //       content: html,
+  //       channel_id: "default",
+  //     };
 
-      window.location.reload();
-    } catch (err) {}
-  }, [editor, createSocialPost, router]);
+  //     const { payload } = await createSocialPost({ post });
+  //     console.log("create social post resp", payload);
+
+  //     window.location.reload();
+  //   } catch (err) {}
+  // }, [editor, createSocialPost, router]);
 
   return (
     <div className={styles.footer}>
-      <button onClick={handleClickPost}>{i18n.post}</button>
+      <button onClick={extendedHandleClickPost}>{i18n.post}</button>
     </div>
   );
 };
@@ -159,9 +164,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ handleClickPost }) => {
 export default TextEditor;
 
 export interface TextEditorProps {
-  handleClickPost: () => void;
+  handleClickPost: (html: string) => void;
 }
 
 export interface EditorFooterProps {
-  handleClickPost: () => void;
+  handleClickPost: (html: string) => void;
 }

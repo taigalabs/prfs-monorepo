@@ -10,7 +10,7 @@ import { useI18N } from "@/i18n/hook";
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = useI18N();
   const router = useRouter();
-  const handleClickPost = React.useCallback(() => {}, []);
+  const handleClickPost = React.useCallback((html: string) => {}, []);
 
   return (
     <div className={styles.wrapper}>
@@ -21,7 +21,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       <div className={styles.editorWrapper}>
         <TextEditor handleClickPost={handleClickPost} />
       </div>
-      <div className={styles.btnRow}>btn</div>
     </div>
   );
 };
