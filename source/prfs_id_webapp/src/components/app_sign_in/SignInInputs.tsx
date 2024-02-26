@@ -20,13 +20,7 @@ import {
 } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 
-// export interface PrfsSignInData {
-//   account_id: string;
-//   public_key: string;
-// }
-
 const SignInInputs: React.FC<SignInInputsProps> = ({
-  // signInDataMeta,
   appSignInQuery,
   credential,
   appId,
@@ -50,29 +44,6 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
             account_id: id,
             public_key,
           });
-
-          // el.push(
-          //   <li className={styles.item} key={d}>
-          //     <div className={styles.img}>
-          //       <FaRegAddressCard />
-          //     </div>
-          //     <div>
-          //       <div className={styles.label}>{d}</div>
-          //       <div className={cn(styles.value, styles.msg)}>
-          //         <span>Generated using </span>
-          //         <span>{appId}</span>
-          //       </div>
-          //       <div className={styles.value}>
-          //         <span className={styles.label}>{i18n.id}: </span>
-          //         <span>{id}</span>
-          //       </div>
-          //       <div className={styles.value}>
-          //         <span className={styles.label}>{i18n.public_key}: </span>
-          //         <span>{public_key}</span>
-          //       </div>
-          //     </div>
-          //   </li>,
-          // );
 
           const data: AppSignInResult = {
             account_id: id,
@@ -126,7 +97,6 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
 export default SignInInputs;
 
 export interface SignInInputsProps {
-  // signInDataMeta: AppSignInData[];
   appSignInQuery: AppSignInQuery;
   credential: PrfsIdCredential;
   appId: string;
