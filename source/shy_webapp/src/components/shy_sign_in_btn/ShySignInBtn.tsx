@@ -56,26 +56,12 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
     },
   });
   const [signUpData, setSignUpData] = React.useState<LocalShyCredential | null>(null);
-  const [sk, proofGenArgs] = React.useMemo<
-    [
-      PrivateKey,
-      // appSignInArgs: AppSignInArgs;
-      ProofGenArgs,
-    ]
-  >(() => {
+  const [sk, proofGenArgs] = React.useMemo<[PrivateKey, ProofGenArgs]>(() => {
     const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
-    // const appSignInArgs = {
-    //   nonce: makeRandInt(1000000),
-    //   app_id: "shy_webapp",
-    //   sign_in_data: [AppSignInData.ID_POSEIDON],
-    //   public_key: pkHex,
-    //   session_key,
-    // };
     const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
       app_id: "shy_webapp",
-      // sign_in_data: [AppSignInData.ID_POSEIDON],
       queries: [
         {
           name: SIGN_IN,
@@ -103,10 +89,8 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           return;
         }
 
-        // let prfsIdSignInSuccessPayload: SignInSuccessPayload;
         let proofGenSuccessPayload: ProofGenSuccessPayload;
         try {
-          // prfsIdSignInSuccessPayload = JSON.parse(decrypted) as SignInSuccessPayload;
           proofGenSuccessPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
         } catch (err) {
           console.error(err);
@@ -185,7 +169,6 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
         <PrfsIdSignInButton
           className={styles.signInBtn}
           label={i18n.sign_in_up_with_prfs_id}
-          // appSignInArgs={appSignInArgs}
           proofGenArgs={proofGenArgs}
           handleSucceedSignIn={handleSucceedSignIn}
           prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
