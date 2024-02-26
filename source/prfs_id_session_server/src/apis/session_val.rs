@@ -46,7 +46,8 @@ pub async fn put_prfs_id_session_value(
     let _old_session = prfs::get_prfs_id_session(&pool, &input.key)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))
-        .unwrap();
+        //
+        .unwrap2();
 
     let session = PrfsIdSession {
         key: input.key.to_string(),
