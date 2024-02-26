@@ -27,5 +27,5 @@ export interface ButtonProps {
   className?: string;
   variant: "green_1" | "white_1" | "transparent_1";
   isActive?: boolean;
-  handleClick: () => void;
+  handleClick?: () => void;
 }

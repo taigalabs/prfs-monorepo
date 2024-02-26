@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createLogger } from "redux-logger";
 
-import userReducer from "./userReducer";
+import { userReducer } from "./userReducer";
+import { errorReducer } from "./errorReducer";
 
 const logger = createLogger({
   level: {
@@ -13,6 +14,7 @@ const logger = createLogger({
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    error: errorReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger),
 });

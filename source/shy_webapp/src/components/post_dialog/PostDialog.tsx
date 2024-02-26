@@ -80,7 +80,7 @@ const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
                     </div>
                   </div>
                   <div className={styles.body}>
-                    <TextEditor />
+                    <TextEditor handleClickPost={() => {}} />
                   </div>
                 </div>
               </>

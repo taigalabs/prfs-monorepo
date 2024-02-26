@@ -7,10 +7,8 @@ import { KeyPair, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/p
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
 import {
-  SignInSuccessPayload,
   AppSignInData,
   makeColor,
-  AppSignInArgs,
   createSessionKey,
   ProofGenArgs,
   AppSignInType,
@@ -52,20 +50,9 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
     },
   });
   const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
-  const [
-    // appSignInArgs,
-    proofGenArgs,
-    keyPair,
-  ] = React.useMemo<[ProofGenArgs, KeyPair]>(() => {
+  const [proofGenArgs, keyPair] = React.useMemo<[ProofGenArgs, KeyPair]>(() => {
     const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
-    // const appSignInArgs = {
-    //   nonce: makeRandInt(1000000),
-    //   app_id: appId,
-    //   sign_in_data: [AppSignInData.ID_POSEIDON],
-    //   public_key: pkHex,
-    //   session_key,
-    // };
     const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
       app_id: "prfs_proof",
@@ -86,10 +73,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
 
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
-      // if (appSignInArgs) {
       if (proofGenArgs) {
         if (encrypted.length === 0) {
-          // console.error("encrypted buffer is empty, session_key: %s", appSignInArgs.session_key);
           console.error("encrypted buffer is empty, session_key: %s", proofGenArgs.session_key);
           return;
         }
@@ -107,12 +92,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
           return;
         }
 
-        console.log(33, decrypted);
-
-        // let prfsIdSignInSuccessPayload: SignInSuccessPayload;
         let proofGenPayload: ProofGenSuccessPayload;
         try {
-          // prfsIdSignInSuccessPayload = JSON.parse(decrypted) as SignInSuccessPayload;
           proofGenPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
         } catch (err: any) {
           dispatch(
@@ -149,7 +130,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         }
 
         if (!signInResult.account_id || !signInResult.public_key) {
-          // as AppSignInResult;
           dispatch(
             reportError({
               errorObj: "",
@@ -187,15 +167,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         dispatch(signInPrfs(credential));
       }
     },
-    [
-      router,
-      dispatch,
-      prfsSignInRequest,
-      setSignUpData,
-      // appSignInArgs,
-      proofGenArgs,
-      keyPair,
-    ],
+    [router, dispatch, prfsSignInRequest, setSignUpData, proofGenArgs, keyPair],
   );
 
   const handleClickSignOut = React.useCallback(() => {
@@ -223,7 +195,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
       <PrfsIdSignInButton
         className={cn(styles.signInBtn, className)}
         label={label}
-        // appSignInArgs={appSignInArgs}
         proofGenArgs={proofGenArgs}
         isLoading={!isCredentialInitialized}
         handleSucceedSignIn={handleSucceedSignIn}

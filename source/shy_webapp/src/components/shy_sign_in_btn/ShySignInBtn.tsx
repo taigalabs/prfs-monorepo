@@ -12,6 +12,11 @@ import {
   makeColor,
   AppSignInArgs,
   createSessionKey,
+  ProofGenArgs,
+  AppSignInType,
+  QueryType,
+  ProofGenSuccessPayload,
+  AppSignInResult,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
@@ -31,6 +36,9 @@ import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInShyUser } from "@/hooks/user";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
+import { reportError } from "@/state/errorReducer";
+
+const SIGN_IN = "SIGN_IN";
 
 const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
   className,
@@ -48,21 +56,39 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
     },
   });
   const [signUpData, setSignUpData] = React.useState<LocalShyCredential | null>(null);
-  const { sk, appSignInArgs } = React.useMemo<{
-    sk: PrivateKey;
-    appSignInArgs: AppSignInArgs;
-  }>(() => {
+  const [sk, proofGenArgs] = React.useMemo<
+    [
+      PrivateKey,
+      // appSignInArgs: AppSignInArgs;
+      ProofGenArgs,
+    ]
+  >(() => {
     const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
-    const appSignInArgs = {
+    // const appSignInArgs = {
+    //   nonce: makeRandInt(1000000),
+    //   app_id: "shy_webapp",
+    //   sign_in_data: [AppSignInData.ID_POSEIDON],
+    //   public_key: pkHex,
+    //   session_key,
+    // };
+    const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
       app_id: "shy_webapp",
-      sign_in_data: [AppSignInData.ID_POSEIDON],
+      // sign_in_data: [AppSignInData.ID_POSEIDON],
+      queries: [
+        {
+          name: SIGN_IN,
+          type: AppSignInType.EC_SECP256K1,
+          queryType: QueryType.APP_SIGN_IN,
+          appSignInData: [AppSignInData.ID_POSEIDON],
+        },
+      ],
       public_key: pkHex,
       session_key,
     };
 
-    return { sk, appSignInArgs };
+    return [sk, proofGenArgs];
   }, []);
   const searchParams = useSearchParams();
 
@@ -77,21 +103,41 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           return;
         }
 
-        let prfsIdSignInSuccessPayload: SignInSuccessPayload;
+        // let prfsIdSignInSuccessPayload: SignInSuccessPayload;
+        let proofGenSuccessPayload: ProofGenSuccessPayload;
         try {
-          prfsIdSignInSuccessPayload = JSON.parse(decrypted) as SignInSuccessPayload;
+          // prfsIdSignInSuccessPayload = JSON.parse(decrypted) as SignInSuccessPayload;
+          proofGenSuccessPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
         } catch (err) {
           console.error(err);
           return;
         }
 
+        const signInResult_ = proofGenSuccessPayload.receipt[SIGN_IN];
+        let signInResult: AppSignInResult;
+        try {
+          if (!signInResult_) {
+            dispatch(reportError({ errorObj: "", message: `Sign in result does not exist` }));
+            return;
+          }
+          signInResult = JSON.parse(signInResult_);
+        } catch (err) {
+          dispatch(
+            reportError({
+              errorObj: err,
+              message: `Cannot parse sign in result, json: ${signInResult_}`,
+            }),
+          );
+          return;
+        }
+
         const { error, code } = await prfsSignInRequest({
-          account_id: prfsIdSignInSuccessPayload.account_id,
+          account_id: signInResult.account_id,
         });
-        const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
+        const avatar_color = makeColor(signInResult.account_id);
         const credential: LocalShyCredential = {
-          account_id: prfsIdSignInSuccessPayload.account_id,
-          public_key: prfsIdSignInSuccessPayload.public_key,
+          account_id: signInResult.account_id,
+          public_key: signInResult.public_key,
           avatar_color,
         };
 
@@ -139,7 +185,8 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
         <PrfsIdSignInButton
           className={styles.signInBtn}
           label={i18n.sign_in_up_with_prfs_id}
-          appSignInArgs={appSignInArgs}
+          // appSignInArgs={appSignInArgs}
+          proofGenArgs={proofGenArgs}
           handleSucceedSignIn={handleSucceedSignIn}
           prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
         />
