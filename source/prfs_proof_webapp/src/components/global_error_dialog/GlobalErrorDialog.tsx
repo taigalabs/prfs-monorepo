@@ -23,7 +23,7 @@ const GlobalErrorDialog: React.FC<GlobalErrorDialogProps> = ({}) => {
         <div className={styles.dialog}>
           <div className={styles.content}>
             <IoMdWarning />
-            <p>{error}</p>
+            <p>{error.message}</p>
           </div>
           <div className={styles.btnGroup}>
             <button type="button" onClick={handleClickClose}>

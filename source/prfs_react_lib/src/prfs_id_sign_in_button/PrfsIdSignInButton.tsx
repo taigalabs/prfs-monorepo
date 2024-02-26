@@ -6,6 +6,8 @@ import {
   makeAppSignInSearchParams,
   createSession,
   openPopup,
+  ProofGenArgs,
+  makeProofGenSearchParams,
 } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
@@ -17,7 +19,8 @@ import Spinner from "../spinner/Spinner";
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
   label,
-  appSignInArgs,
+  // appSignInArgs,
+  proofGenArgs,
   handleSucceedSignIn,
   prfsIdEndpoint,
   isLoading,
@@ -25,7 +28,8 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const i18n = React.useContext(i18nContext);
 
   const handleClickSignIn = React.useCallback(async () => {
-    const searchParams = makeAppSignInSearchParams(appSignInArgs);
+    // const searchParams = makeAppSignInSearchParams(appSignInArgs);
+    const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
     const popup = openPopup(endpoint);
@@ -36,7 +40,8 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     let sessionStream;
     try {
       sessionStream = await createSession({
-        key: appSignInArgs.session_key,
+        // key: appSignInArgs.session_key,
+        key: proofGenArgs.session_key,
         value: null,
         ticket: "TICKET",
       });
@@ -73,7 +78,8 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
           send({
             type: "close_prfs_id_session",
-            key: appSignInArgs.session_key,
+            // key: appSignInArgs.session_key,
+            key: proofGenArgs.session_key,
             ticket: "TICKET",
           });
 
@@ -88,12 +94,18 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     } else {
       console.error(
         "Session didn't get the response, something's wrong, session key: %s",
-        appSignInArgs.session_key,
+        // appSignInArgs.session_key,
+        proofGenArgs.session_key,
       );
     }
 
     ws.close();
-  }, [appSignInArgs, prfsIdEndpoint, handleSucceedSignIn]);
+  }, [
+    // appSignInArgs,
+    proofGenArgs,
+    prfsIdEndpoint,
+    handleSucceedSignIn,
+  ]);
 
   return (
     <Button
@@ -121,7 +133,8 @@ export default PrfsIdSignInButton;
 export interface PrfsIdSignInButtonProps {
   className?: string;
   label?: string;
-  appSignInArgs: AppSignInArgs;
+  // appSignInArgs: AppSignInArgs;
+  proofGenArgs: ProofGenArgs;
   isLoading?: boolean;
   handleSucceedSignIn: (encrypted: Buffer) => void;
   prfsIdEndpoint: string;

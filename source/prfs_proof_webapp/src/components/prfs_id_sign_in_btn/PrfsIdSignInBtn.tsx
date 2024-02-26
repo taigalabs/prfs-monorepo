@@ -12,6 +12,9 @@ import {
   makeColor,
   AppSignInArgs,
   createSessionKey,
+  ProofGenArgs,
+  AppSignInType,
+  QueryType,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3, prfs_api_error_codes } from "@taigalabs/prfs-api-js";
@@ -30,6 +33,8 @@ import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
 import { reportError } from "@/state/errorReducer";
 
+const SIGN_IN = "SIGN_IN";
+
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   className,
   label,
@@ -45,25 +50,44 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
     },
   });
   const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
-  const [appSignInArgs, keyPair] = React.useMemo<[AppSignInArgs, KeyPair]>(() => {
+  const [
+    // appSignInArgs,
+    proofGenArgs,
+    keyPair,
+  ] = React.useMemo<[ProofGenArgs, KeyPair]>(() => {
     const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
-    const appSignInArgs = {
+    // const appSignInArgs = {
+    //   nonce: makeRandInt(1000000),
+    //   app_id: appId,
+    //   sign_in_data: [AppSignInData.ID_POSEIDON],
+    //   public_key: pkHex,
+    //   session_key,
+    // };
+    const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
-      app_id: appId,
-      sign_in_data: [AppSignInData.ID_POSEIDON],
+      app_id: "prfs_proof",
+      queries: [
+        {
+          name: SIGN_IN,
+          type: AppSignInType.EC_SECP256K1,
+          queryType: QueryType.APP_SIGN_IN,
+        },
+      ],
       public_key: pkHex,
       session_key,
     };
 
-    return [appSignInArgs, { sk, pkHex }];
+    return [proofGenArgs, { sk, pkHex }];
   }, [appId]);
 
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
-      if (appSignInArgs) {
+      // if (appSignInArgs) {
+      if (proofGenArgs) {
         if (encrypted.length === 0) {
-          console.error("encrypted buffer is empty, session_key: %s", appSignInArgs.session_key);
+          // console.error("encrypted buffer is empty, session_key: %s", appSignInArgs.session_key);
+          console.error("encrypted buffer is empty, session_key: %s", proofGenArgs.session_key);
           return;
         }
 
@@ -121,7 +145,15 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         dispatch(signInPrfs(credential));
       }
     },
-    [router, dispatch, prfsSignInRequest, setSignUpData, appSignInArgs, keyPair],
+    [
+      router,
+      dispatch,
+      prfsSignInRequest,
+      setSignUpData,
+      // appSignInArgs,
+      proofGenArgs,
+      keyPair,
+    ],
   );
 
   const handleClickSignOut = React.useCallback(() => {
@@ -149,7 +181,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
       <PrfsIdSignInButton
         className={cn(styles.signInBtn, className)}
         label={label}
-        appSignInArgs={appSignInArgs}
+        // appSignInArgs={appSignInArgs}
+        proofGenArgs={proofGenArgs}
         isLoading={!isCredentialInitialized}
         handleSucceedSignIn={handleSucceedSignIn}
         prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}

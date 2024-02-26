@@ -1,7 +1,11 @@
 "use client";
 
 import React from "react";
-import { PrfsIdCredential, parseAppSignInSearchParams } from "@taigalabs/prfs-id-sdk-web";
+import {
+  AppSignInQuery,
+  PrfsIdCredential,
+  parseAppSignInSearchParams,
+} from "@taigalabs/prfs-id-sdk-web";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
@@ -18,6 +22,7 @@ import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
 import AppCredential from "./AppCredential";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
+import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 
 enum SignInStep {
   PrfsIdCredential,
@@ -30,7 +35,7 @@ export enum SignInStatus {
   Standby,
 }
 
-const AppSignIn: React.FC = () => {
+const AppSignIn: React.FC<AppSignInProps> = ({}) => {
   const i18n = React.useContext(i18nContext);
   const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
   const [errorDialogMsg, setErrorDialogMsg] = React.useState<React.ReactNode | null>(null);
@@ -129,3 +134,9 @@ const AppSignIn: React.FC = () => {
 };
 
 export default AppSignIn;
+
+export interface AppSignInProps {
+  credential: PrfsIdCredential;
+  query: AppSignInQuery;
+  setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
+}

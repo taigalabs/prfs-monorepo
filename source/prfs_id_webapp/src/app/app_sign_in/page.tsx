@@ -9,9 +9,7 @@ const AppSignInPage = () => {
   return (
     <DefaultLayout>
       <DefaultBody>
-        <Suspense>
-          <AppSignIn />
-        </Suspense>
+        <Suspense>{/* <AppSignIn /> */}</Suspense>
       </DefaultBody>
       <CommitHash />
     </DefaultLayout>

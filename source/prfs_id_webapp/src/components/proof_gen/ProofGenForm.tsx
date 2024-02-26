@@ -105,6 +105,18 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                 elems.push(elem);
                 break;
               }
+              case QueryType.APP_SIGN_IN: {
+                // const elem = (
+                //   <EncryptView
+                //     key={query.name}
+                //     credential={credential}
+                //     query={query}
+                //     setReceipt={setReceipt}
+                //   />
+                // );
+                // elems.push(elem);
+                break;
+              }
               default:
                 console.error("unsupported query type", query);
                 setErrorDialogMsg(<span>Unsupported query type, something is wrong</span>);
