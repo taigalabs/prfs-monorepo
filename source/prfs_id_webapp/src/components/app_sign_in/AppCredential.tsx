@@ -1,15 +1,6 @@
 import React from "react";
-import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useSearchParams } from "next/navigation";
-import {
-  SignInSuccessPayload,
-  PrfsIdCredential,
-  AppSignInArgs,
-  AppSignInQuery,
-  AppSignInResult,
-} from "@taigalabs/prfs-id-sdk-web";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { encrypt } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdCredential, AppSignInQuery, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
@@ -17,13 +8,6 @@ import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./AppCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
-import {
-  DefaultErrorMsg,
-  DefaultInnerPadding,
-  DefaultModuleBtnRow,
-  DefaultModuleHeader,
-  DefaultModuleTitle,
-} from "@/components/default_module/DefaultModule";
 import SignInInputs from "./SignInInputs";
 import {
   QueryItem,

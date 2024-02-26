@@ -7,10 +7,8 @@ import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalab
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
 import {
-  SignInSuccessPayload,
   AppSignInData,
   makeColor,
-  AppSignInArgs,
   createSessionKey,
   ProofGenArgs,
   AppSignInType,

@@ -1,4 +1,3 @@
-import { AppSignInData } from "..";
 import { QueryType } from "./query";
 
 export interface AppSignInQuery {
@@ -15,4 +14,8 @@ export enum AppSignInType {
 export interface AppSignInResult {
   account_id: string;
   public_key: string;
+}
+
+export enum AppSignInData {
+  ID_POSEIDON = "ID_POSEIDON",
 }
