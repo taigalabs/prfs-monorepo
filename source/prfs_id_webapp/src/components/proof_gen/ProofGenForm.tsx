@@ -122,8 +122,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                     appId={proofGenArgs.app_id}
                     // appSignInArgs={appSignInArgs}
                     // appSignInArgs={appSignInArgs}
-                    appSignInQuery={query}
                     // handleClickPrev={handleClickPrev}
+                    appSignInQuery={query}
+                    setReceipt={setReceipt}
                   />
                 );
                 elems.push(elem);

@@ -1,7 +1,12 @@
 import React from "react";
 import cn from "classnames";
 import { makeECCredential } from "@taigalabs/prfs-crypto-js";
-import { AppSignInData, PrfsIdCredential, makeAppSignInCm } from "@taigalabs/prfs-id-sdk-web";
+import {
+  AppSignInData,
+  AppSignInQuery,
+  PrfsIdCredential,
+  makeAppSignInCm,
+} from "@taigalabs/prfs-id-sdk-web";
 import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 
 import styles from "./SignInInputs.module.scss";
@@ -12,6 +17,7 @@ import {
   QueryItemMeta,
   QueryItemRightCol,
 } from "@/components/default_module/QueryItem";
+import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 
 export interface PrfsSignInData {
   account_id: string;
@@ -20,17 +26,20 @@ export interface PrfsSignInData {
 
 const SignInInputs: React.FC<SignInInputsProps> = ({
   // signInDataMeta,
-  appSignInData,
+  appSignInQuery,
   credential,
   appId,
   setSignInData,
+  setReceipt,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [elems, setElems] = React.useState<React.ReactNode>(null);
 
   React.useEffect(() => {
     async function fn() {
-      let el = [];
+      const { appSignInData, name } = appSignInQuery;
+
+      const el = [];
       for (const [idx, d] of appSignInData.entries()) {
         if (d === AppSignInData.ID_POSEIDON) {
           const { hashed } = await makeAppSignInCm(credential.secret_key, appId);
@@ -64,6 +73,16 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
           //   </li>,
           // );
 
+          const data: PrfsSignInData = {
+            account_id: id,
+            public_key,
+          };
+
+          setReceipt(oldVal => ({
+            ...oldVal,
+            [name]: JSON.stringify(data),
+          }));
+
           el.push(
             <QueryItem sidePadding key={idx}>
               <QueryItemMeta>
@@ -94,7 +113,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
     }
 
     fn().then();
-  }, [appSignInData, setElems]);
+  }, [appSignInQuery, setElems]);
 
   return (
     <>
@@ -107,8 +126,9 @@ export default SignInInputs;
 
 export interface SignInInputsProps {
   // signInDataMeta: AppSignInData[];
-  appSignInData: AppSignInData[];
+  appSignInQuery: AppSignInQuery;
   credential: PrfsIdCredential;
   appId: string;
   setSignInData: React.Dispatch<React.SetStateAction<PrfsSignInData | null>>;
+  setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
 }

@@ -31,6 +31,7 @@ import {
   QueryItemRightCol,
 } from "@/components/default_module/QueryItem";
 import { MdEnhancedEncryption } from "@react-icons/all-files/md/MdEnhancedEncryption";
+import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 
 enum AppCredentialStatus {
   Loading,
@@ -43,6 +44,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   appId,
   appSignInQuery,
   credential,
+  setReceipt,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -98,11 +100,13 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         if (appSignInQuery.appSignInData.length > 0) {
           const content = (
             <SignInInputs
-              appSignInData={appSignInQuery.appSignInData}
+              // appSignInData={appSignInQuery.appSignInData}
+              appSignInQuery={appSignInQuery}
               credential={credential}
               appId={appId}
               // appId={appSignInArgs.app_id}
               setSignInData={setSignInData}
+              setReceipt={setReceipt}
             />
           );
           setSignInDataElem(content);
@@ -234,4 +238,5 @@ export interface AppCredentialProps {
   credential: PrfsIdCredential;
   // appSignInArgs: AppSignInArgs;
   appSignInQuery: AppSignInQuery;
+  setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
 }
