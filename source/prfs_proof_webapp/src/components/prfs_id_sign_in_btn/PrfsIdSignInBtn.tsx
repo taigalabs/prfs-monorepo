@@ -28,6 +28,7 @@ import {
 } from "@/storage/local_storage";
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
+import { reportError } from "@/state/errorReducer";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   className,
@@ -69,8 +70,10 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         let decrypted: string;
         try {
           decrypted = decrypt(keyPair.sk.secret, encrypted).toString();
-        } catch (err) {
+          throw new Error("power");
+        } catch (err: any) {
           console.error(err);
+          dispatch(reportError(err.toString()));
           return;
         }
 
