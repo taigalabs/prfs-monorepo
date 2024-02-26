@@ -11,7 +11,13 @@ const GlobalErrorDialog: React.FC<GlobalErrorDialogProps> = ({}) => {
   const error = useAppSelector(state => state.error.error);
   console.log(11, error);
 
-  return error && <Overlay className={styles.wrapper}>power</Overlay>;
+  return (
+    error && (
+      <Overlay className={styles.wrapper}>
+        <div className={styles.dialog}>333</div>
+      </Overlay>
+    )
+  );
 };
 
 export default GlobalErrorDialog;
