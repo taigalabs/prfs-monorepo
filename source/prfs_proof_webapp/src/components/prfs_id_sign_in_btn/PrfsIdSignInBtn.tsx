@@ -71,15 +71,25 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         try {
           decrypted = decrypt(keyPair.sk.secret, encrypted).toString();
         } catch (err: any) {
-          dispatch(reportError(err.toString()));
+          dispatch(
+            reportError({
+              errorObj: err,
+              message: `Error decrypting sign in data, err: ${err.toString()}`,
+            }),
+          );
           return;
         }
 
         let prfsIdSignInSuccessPayload: SignInSuccessPayload;
         try {
           prfsIdSignInSuccessPayload = JSON.parse(decrypted) as SignInSuccessPayload;
-        } catch (err) {
-          console.error(err);
+        } catch (err: any) {
+          dispatch(
+            reportError({
+              errorObj: err,
+              message: `Error parsing signInSuccess payload, err: ${err.toString()}`,
+            }),
+          );
           return;
         }
 
@@ -94,7 +104,12 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         };
 
         if (error) {
-          console.error(error);
+          dispatch(
+            reportError({
+              errorObj: error,
+              message: `Error signing in, err: ${error.toString()}`,
+            }),
+          );
           if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
             setSignUpData(credential);
           }

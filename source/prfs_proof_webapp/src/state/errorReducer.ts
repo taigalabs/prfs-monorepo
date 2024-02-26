@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface ErrorState {
-  error: string | null;
+  error: ReportableError | null;
 }
 
 const initialState: ErrorState = {
@@ -12,7 +12,9 @@ export const errorSlice = createSlice({
   name: "error",
   initialState,
   reducers: {
-    reportError: (state, action: PayloadAction<string>) => {
+    reportError: (state, action: PayloadAction<ReportableError>) => {
+      console.error("Reporting error, err: %o", action.payload.errorObj);
+
       return {
         ...state,
         error: action.payload,
@@ -30,3 +32,8 @@ export const errorSlice = createSlice({
 export const { reportError, removeError } = errorSlice.actions;
 
 export const errorReducer = errorSlice.reducer;
+
+interface ReportableError {
+  errorObj: any;
+  message: string;
+}
