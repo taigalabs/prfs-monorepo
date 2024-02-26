@@ -70,9 +70,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         let decrypted: string;
         try {
           decrypted = decrypt(keyPair.sk.secret, encrypted).toString();
-          throw new Error("power");
         } catch (err: any) {
-          console.error(err);
           dispatch(reportError(err.toString()));
           return;
         }
