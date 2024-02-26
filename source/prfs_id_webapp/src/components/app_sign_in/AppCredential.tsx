@@ -29,7 +29,7 @@ import {
   QueryItemLeftCol,
   QueryItemMeta,
   QueryItemRightCol,
-} from "../default_module/QueryItem";
+} from "@/components/default_module/QueryItem";
 import { MdEnhancedEncryption } from "@react-icons/all-files/md/MdEnhancedEncryption";
 
 enum AppCredentialStatus {
