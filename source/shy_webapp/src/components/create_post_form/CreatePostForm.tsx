@@ -10,6 +10,7 @@ import { useI18N } from "@/i18n/hook";
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = useI18N();
   const router = useRouter();
+  const handleClickPost = React.useCallback(() => {}, []);
 
   return (
     <div className={styles.wrapper}>
@@ -18,7 +19,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         <input type="text" placeholder={i18n.what_is_this_discussion_about_in_one_sentence} />
       </div>
       <div className={styles.editorWrapper}>
-        <TextEditor />
+        <TextEditor handleClickPost={handleClickPost} />
       </div>
       <div className={styles.btnRow}>btn</div>
     </div>

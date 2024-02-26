@@ -44,6 +44,8 @@ const extensions = [
   }),
   Placeholder.configure({
     emptyEditorClass: styles.isEditorEmpty,
+    placeholder:
+      "Type here. You can use Markdown to format. Copy pasting images will later be supported",
   }),
 ];
 
@@ -79,12 +81,12 @@ const EditorMenuBar = () => {
   );
 };
 
-const EditorFooter = () => {
+const EditorFooter: React.FC<EditorFooterProps> = ({}) => {
   const i18n = React.useContext(i18nContext);
   const { editor } = useCurrentEditor();
   const router = useRouter();
 
-  const { mutateAsync: createSocialPost, isPending } = useMutation({
+  const { mutateAsync: createSocialPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
       return shyApi2({ type: "create_shy_post", ...req });
     },
@@ -123,7 +125,7 @@ const EditorFooter = () => {
   );
 };
 
-const TextEditor: React.FC = () => {
+const TextEditor: React.FC<TextEditorProps> = ({ handleClickPost }) => {
   const editor = useEditor({
     extensions,
     content,
@@ -133,11 +135,18 @@ const TextEditor: React.FC = () => {
     return null;
   }
 
+  const footer = <EditorFooter handleClickPost={handleClickPost} />;
+
   return (
-    <div>
+    <div className={styles.wrapper}>
       <EditorProvider
+        editorProps={{
+          attributes: {
+            class: `${styles.editor}`,
+          },
+        }}
         // slotBefore={<EditorMenuBar />}
-        // slotAfter={<EditorFooter />}
+        slotAfter={footer}
         extensions={extensions}
         content={""}
       >
@@ -149,4 +158,10 @@ const TextEditor: React.FC = () => {
 
 export default TextEditor;
 
-export interface TextEditorProps {}
+export interface TextEditorProps {
+  handleClickPost: () => void;
+}
+
+export interface EditorFooterProps {
+  handleClickPost: () => void;
+}
