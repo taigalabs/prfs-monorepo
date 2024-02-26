@@ -13,6 +13,7 @@ import { Pi } from "@phosphor-icons/react";
 import styles from "./PrfsAppsPopoverDefault.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { urls } from "@/urls";
+import { envs } from "@/envs";
 
 const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disableMarkIsOpen }) => {
   const i18n = React.useContext(i18nContext);
@@ -24,7 +25,7 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
     >
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi noPadding>
-          <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT} className={styles.item}>
+          <a href={envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT} className={styles.item}>
             <span>{i18n.documentation}</span>
           </a>
         </PrfsAppsPopoverLi>
@@ -36,7 +37,7 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
       </PrfsAppsPopoverUl>
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi noPadding>
-          <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT} className={styles.item}>
+          <a href={envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT} className={styles.item}>
             <TbMathPi />
             <span>{i18n.proof}</span>
           </a>
