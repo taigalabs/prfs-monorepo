@@ -1,0 +1,66 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  padding: 10px $side_padding 10px;
+}
+
+.inner {
+}
+
+.titleRow {
+  display: flex;
+  line-height: 1.92em;
+
+  .label {
+    font-size: 20px;
+  }
+
+  .arrow {
+    display: grid;
+    place-items: center;
+    margin-left: auto;
+    cursor: pointer;
+  }
+}
+
+.descRow {
+  line-height: 1.62em;
+  color: var(--gray-20);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 225ms;
+
+  &.isVisible {
+    max-height: 800px;
+    opacity: 1;
+  }
+
+  .desc {
+    padding-top: 4px;
+  }
+
+  .proofTypeIds {
+    .title {
+      display: inline-block;
+      padding-right: 5px;
+    }
+
+    .entry {
+      line-height: 1em;
+      font-size: 11px;
+      padding: 3px 4px;
+      background-color: var(--bright-gray-40);
+      color: var(--gray-30);
+      border-radius: 2px;
+      display: inline-block;
+    }
+  }
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .wrapper {
+    padding: 18px $side_padding 10px;
+  }
+}

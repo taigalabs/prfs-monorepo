@@ -5,7 +5,6 @@ pub mod id_api;
 pub mod id_session_api;
 pub mod prfs_api;
 pub mod seed;
-// pub mod shy_api;
 pub mod snap;
 
 // mod example;

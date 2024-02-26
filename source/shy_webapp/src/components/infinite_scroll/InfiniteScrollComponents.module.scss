@@ -1,8 +1,6 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  /* display: flex; */
-  /* justify-content: center; */
   width: 100%;
   height: 100vh;
   overflow-y: auto;
@@ -38,7 +36,7 @@
 }
 
 .infiniteScroll {
-  min-height: calc(100vh - 52px);
+  min-height: 300px;
   border-left: 1px solid var(--bright-gray-32);
   border-right: 1px solid var(--bright-gray-32);
 }
@@ -51,14 +49,16 @@
   /* border: 1px solid green; */
 }
 
-.row {
-  height: 100px;
+.rowContainer {
+  border-top: 1px solid var(--bright-gray-32);
 }
 
-.loading {
-  height: 100%;
-  display: grid;
-  place-items: center;
+.rowWrapper {
+  height: 100px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 @media screen and (min-width: $big_display_min_width) {
@@ -70,7 +70,5 @@
     flex-grow: 0;
     position: relative;
     width: 980px;
-
-    border: 1px solid green;
   }
 }

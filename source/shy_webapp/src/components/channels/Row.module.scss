@@ -1,21 +1,32 @@
 .wrapper {
-  min-height: 60px;
+  /* min-height: 60px; */
   padding: 14px 16px;
-
-  border-top: 1px solid var(--bright-gray-32);
+  /* border-top: 1px solid var(--bright-gray-32); */
   border-bottom: 1px solid var(--bright-gray-32);
+  cursor: pointer;
 
-  /* border: 1px solid blue; */
-}
-
-.author {
-  font-weight: 500;
-  font-size: 1.2em;
-  margin-bottom: 10px;
-}
-
-.body {
-  a {
-    color: var(--aqua-blue-50);
+  &:hover {
+    background-color: var(--bright-gray-45);
   }
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  padding-right: 6px;
+  font-size: 1.41em;
+}
+
+.locale {
+  color: #49574c;
+  background-color: #d1f4e6;
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+.desc {
+  padding-top: 10px;
 }

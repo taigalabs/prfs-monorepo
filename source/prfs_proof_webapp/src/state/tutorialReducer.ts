@@ -1,4 +1,3 @@
-import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface TutorialState {
@@ -36,4 +35,4 @@ export const tutorialSlice = createSlice({
 
 export const { goNextStep, goPrevStep, resetStep } = tutorialSlice.actions;
 
-export default tutorialSlice.reducer;
+export const tutorialReducer = tutorialSlice.reducer;

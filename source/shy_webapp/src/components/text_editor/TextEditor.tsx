@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { v4 as uuidv4 } from "uuid";
 import {
   EditorProvider,
   FloatingMenu,
@@ -15,14 +14,14 @@ import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
-import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { shyApi } from "@taigalabs/prfs-api-js";
-import { CreateShyPostRequest } from "@taigalabs/prfs-entities/bindings/CreateShyPostRequest";
-import { ShyPost } from "@taigalabs/prfs-entities/bindings/ShyPost";
+// import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+// import { shyApi2 } from "@taigalabs/shy-api-js";
+// import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
+// import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 
 import styles from "./TextEditor.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
+import Button from "@/components/button/Button";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -30,11 +29,11 @@ const extensions = [
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      keepAttributes: false,
     },
     orderedList: {
       keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      keepAttributes: false,
     },
   }),
   Link.extend({
@@ -44,6 +43,8 @@ const extensions = [
   }),
   Placeholder.configure({
     emptyEditorClass: styles.isEditorEmpty,
+    placeholder:
+      "Type here. You can use Markdown to format. Copy pasting images will later be supported.",
   }),
 ];
 
@@ -79,51 +80,30 @@ const EditorMenuBar = () => {
   );
 };
 
-const EditorFooter = () => {
+const EditorFooter: React.FC<EditorFooterProps> = ({ handleClickPost }) => {
   const i18n = React.useContext(i18nContext);
   const { editor } = useCurrentEditor();
   const router = useRouter();
 
-  const { mutateAsync: createSocialPost, isPending } = useMutation({
-    mutationFn: (req: CreateShyPostRequest) => {
-      return shyApi("create_shy_post", req);
-    },
-  });
+  const extendedHandleClickPost = React.useCallback(() => {
+    if (!editor) {
+      return null;
+    }
 
-  if (!editor) {
-    return null;
-  }
-
-  const handleClickPost = React.useCallback(async () => {
-    try {
-      const html = editor.getHTML();
-      console.log("html", html);
-
-      // const text = editor.getText();
-      // console.log("text", text);
-
-      const post_id = uuidv4();
-      const post: ShyPost = {
-        post_id,
-        content: html,
-        channel_id: "default",
-      };
-
-      const { payload } = await createSocialPost({ post });
-      console.log("create social post resp", payload);
-
-      window.location.reload();
-    } catch (err) {}
-  }, [editor, createSocialPost, router]);
+    const html = editor.getHTML();
+    handleClickPost(html);
+  }, [handleClickPost, editor]);
 
   return (
     <div className={styles.footer}>
-      <button onClick={handleClickPost}>{i18n.post}</button>
+      <Button variant="green_1" handleClick={extendedHandleClickPost}>
+        {i18n.post}
+      </Button>
     </div>
   );
 };
 
-const TextEditor: React.FC = () => {
+const TextEditor: React.FC<TextEditorProps> = ({ handleClickPost }) => {
   const editor = useEditor({
     extensions,
     content,
@@ -133,18 +113,33 @@ const TextEditor: React.FC = () => {
     return null;
   }
 
+  const footer = <EditorFooter handleClickPost={handleClickPost} />;
+
   return (
-    <EditorProvider
-      slotBefore={<EditorMenuBar />}
-      slotAfter={<EditorFooter />}
-      extensions={extensions}
-      content={""}
-    >
-      <div className={styles.wrapper}></div>
-    </EditorProvider>
+    <div className={styles.wrapper}>
+      <EditorProvider
+        editorProps={{
+          attributes: {
+            class: `${styles.editor}`,
+          },
+        }}
+        // slotBefore={<EditorMenuBar />}
+        slotAfter={footer}
+        extensions={extensions}
+        content={""}
+      >
+        <div className={styles.wrapper}></div>
+      </EditorProvider>
+    </div>
   );
 };
 
 export default TextEditor;
 
-export interface TextEditorProps {}
+export interface TextEditorProps {
+  handleClickPost: (html: string) => void;
+}
+
+export interface EditorFooterProps {
+  handleClickPost: (html: string) => void;
+}

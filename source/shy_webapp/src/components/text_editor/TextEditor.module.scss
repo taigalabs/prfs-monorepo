@@ -1,9 +1,14 @@
 .wrapper {
-  :global(.tiptap) {
-    p {
-      font-size: 20px;
-    }
-  }
+}
+
+.editor {
+  width: 100%;
+  min-height: 140px;
+  border: 1px solid var(--gray-74);
+  padding: 0.5em 0.65em;
+  color: var(--shy-gray-20);
+
+  /* border: 1px solid red; */
 }
 
 .menuBar {
@@ -26,7 +31,8 @@
 }
 
 .isEditorEmpty:first-child::before {
-  color: #adb5bd;
+  color: var(--shy-gray-20);
+  opacity: 0.5;
   content: attr(data-placeholder);
   float: left;
   height: 0;
@@ -34,20 +40,19 @@
 }
 
 .footer {
-  margin-top: 24px;
-  height: 52px;
+  padding-top: 8px;
+  /* height: 52px; */
   margin-bottom: 0;
   display: flex;
   align-items: center;
 
   button {
-    border: 1px solid var(--bright-gray-30);
-    border-radius: 12px;
-    padding: 12px 14px;
-    cursor: pointer;
+    /* border: 1px solid var(--gray-74); */
+    padding: 0.5em 0.65em;
+    /* cursor: pointer; */
 
-    &:hover {
-      border: 1px solid var(--gray-60);
-    }
+    /* &:hover { */
+    /*   border: 1px solid var(--gray-60); */
+    /* } */
   }
 }

@@ -8,10 +8,12 @@ import DefaultLayout, {
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
+import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
 
 const CreatePage = () => {
   return (
     <DefaultLayout>
+      <GlobalErrorDialog />
       <DefaultBody>
         <Suspense>
           <CreateProofForm />

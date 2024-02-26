@@ -9,10 +9,12 @@ import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import SearchProofTypeForm from "@/components/search_proof_type_form/SearchProofTypeForm";
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 import HomeMasthead from "@/components/home_masthead/HomeMasthead";
+import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
 
 const HomePage = () => {
   return (
     <DefaultLayout>
+      <GlobalErrorDialog />
       <DefaultBody noMinWidth>
         <Suspense>
           <HomeMasthead />

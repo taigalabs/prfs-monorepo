@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 import { FaArrowLeft } from "@react-icons/all-files/fa/FaArrowLeft";
 import ButtonCircleContainer from "@taigalabs/prfs-react-lib/src/button_circle_container/ButtonCircleContainer";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import Link from "next/link";

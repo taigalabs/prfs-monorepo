@@ -15,3 +15,15 @@ pub struct GetShyChannelsResponse {
     pub rows: Vec<ShyChannel>,
     pub next_offset: Option<i32>,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetShyChannelRequest {
+    pub channel_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetShyChannelResponse {
+    pub shy_channel: ShyChannel,
+}

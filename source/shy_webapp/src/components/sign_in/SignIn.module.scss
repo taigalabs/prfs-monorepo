@@ -86,6 +86,14 @@
   justify-content: flex-end;
 }
 
+.signInBtnWrapper {
+  min-width: 250px;
+  display: inline-flex;
+  justify-content: center;
+
+  /* border: 1px solid red; */
+}
+
 @media screen and (min-width: $big_display_min_width) {
   .upper {
     flex-direction: row;

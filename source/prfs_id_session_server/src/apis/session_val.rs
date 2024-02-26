@@ -1,14 +1,5 @@
-use axum::{
-    extract::{MatchedPath, Request, State},
-    handler::HandlerWithoutStateExt,
-    http::{HeaderValue, Method, StatusCode},
-    routing::{get, post},
-    Json, Router,
-};
-use hyper::body::Incoming;
-use hyper::Response;
+use axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::error::ApiHandleError;
-use prfs_axum_lib::io::{parse_req, BytesBoxBody};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
@@ -43,10 +34,13 @@ pub async fn put_prfs_id_session_value(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let _old_session = prfs::get_prfs_id_session(&pool, &input.key)
+    if let Err(err) = prfs::get_prfs_id_session(&pool, &input.key)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))
-        .unwrap();
+    {
+        let resp = ApiResponse::new_error(&API_ERROR_CODE.SESSION_NOT_EXISTS, err.to_string());
+        return (StatusCode::BAD_REQUEST, Json(resp));
+    };
 
     let session = PrfsIdSession {
         key: input.key.to_string(),

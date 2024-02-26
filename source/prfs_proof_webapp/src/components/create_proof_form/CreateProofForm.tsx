@@ -3,7 +3,7 @@
 import React from "react";
 import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 import cn from "classnames";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useSearchParams } from "next/navigation";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
@@ -26,7 +26,6 @@ const CreateProofForm: React.FC = () => {
   const searchParams = useSearchParams();
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
-      // return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
       return prfsApi3({ type: "get_prfs_proof_type_by_proof_type_id", ...req });
     },
   });

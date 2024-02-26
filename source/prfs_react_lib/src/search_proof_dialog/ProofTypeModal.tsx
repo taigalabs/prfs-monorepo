@@ -3,7 +3,7 @@ import cn from "classnames";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofTypeModal.module.scss";
@@ -52,9 +52,6 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
     useInfiniteQuery({
       queryKey: ["get_prfs_proof_types"],
       queryFn: async ({ pageParam = 0 }) => {
-        // return await prfsApi2("get_prfs_proof_types", {
-        //   offset: pageParam as number,
-        // });
         return await prfsApi3({
           type: "get_prfs_proof_types",
           offset: pageParam as number,

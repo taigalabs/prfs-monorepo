@@ -1,24 +1,33 @@
 import React from "react";
+import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 
 import styles from "./BoardMenu.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Button from "@/components/button/Button";
+import Link from "next/link";
+import { paths } from "@/paths";
 
-const BoardMenu: React.FC<BoardMenuProps> = ({}) => {
+const BoardMenu: React.FC<BoardMenuProps> = ({ channelId }) => {
   const i18n = useI18N();
+  const postURL = React.useMemo(() => {
+    return `${paths.c}/${channelId}/post`;
+  }, [channelId]);
 
   return (
     <div className={styles.wrapper}>
-      <ul>
-        <li>{i18n.general}</li>
-      </ul>
-      <div className={styles.secondRow}>
-        <Button variant="white_1" className={styles.sortBtn}>
-          {i18n.new}
+      <div className={styles.row}>
+        <Button variant="white_1" className={styles.sortBtn} isActive>
+          {i18n.general}
         </Button>
-        <Button variant="green_1" className={styles.newPostBtn}>
-          {i18n.new_post}
+      </div>
+      <div className={styles.row}>
+        <Button variant="transparent_1" className={styles.sortBtn}>
+          <span>{i18n.latest}</span>
+          <IoMdArrowDropdown />
         </Button>
+        <Link href={postURL} className={styles.newPostBtn}>
+          <Button variant="green_1">{i18n.new_post}</Button>
+        </Link>
       </div>
     </div>
   );
@@ -26,4 +35,6 @@ const BoardMenu: React.FC<BoardMenuProps> = ({}) => {
 
 export default BoardMenu;
 
-export interface BoardMenuProps {}
+export interface BoardMenuProps {
+  channelId: string;
+}

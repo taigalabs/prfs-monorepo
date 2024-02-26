@@ -16,7 +16,7 @@ $header_height_big: 61px;
   left: 0;
   right: 0;
   height: $header_height_small;
-  padding: 0 16px;
+  padding: 0 $side_padding;
   z-index: 1;
   display: flex;
   justify-content: center;

@@ -1,7 +1,12 @@
-.loading {
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
 }
 
 .fontLoadText {
   font-family: "Ubuntu";
   opacity: 0;
+}
+
+@media screen and (min-width: $big_display_min_width) {
 }

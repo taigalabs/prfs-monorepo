@@ -25,29 +25,6 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
     }
   }, [proofType.desc]);
 
-  const circuitTypeData = React.useMemo(() => {
-    const jsonElems = iterateJSON(proofType.circuit_type_data);
-    console.log(33, jsonElems);
-
-    const elems = [];
-
-    for (const [idx, jsonElem] of jsonElems.entries()) {
-      elems.push(
-        <div key={idx} className={styles.row}>
-          <p>{jsonElem.label}</p>
-          <p>{jsonElem.value}</p>
-        </div>,
-      );
-    }
-
-    return elems;
-  }, [proofType.circuit_type_data]);
-
-  // const proofTypeUrl = React.useMemo(() => {
-  //   const url = process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT + "/proof_types/" + proofTypeId;
-  //   return url;
-  // }, [proofTypeId]);
-
   const proofTypeCreatedAt = React.useMemo(() => {
     const createdAt = dayjs(proofType.created_at).format("YYYY-MM-DD");
     return createdAt;

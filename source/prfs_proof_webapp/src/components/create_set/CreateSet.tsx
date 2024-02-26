@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { prfsApi2, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { useRouter } from "next/navigation";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
@@ -46,7 +46,6 @@ const CreateSet: React.FC<CreateSetProps> = () => {
   const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
   const { mutateAsync: createPrfsSetRequest } = useMutation({
     mutationFn: (req: CreatePrfsSetRequest) => {
-      // return prfsApi2("create_prfs_set", req);
       return prfsApi3({ type: "create_prfs_set", ...req });
     },
   });

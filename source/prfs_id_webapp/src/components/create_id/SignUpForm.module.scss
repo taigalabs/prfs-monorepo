@@ -1,3 +1,9 @@
+@import "@/styles/layouts.module.scss";
+
+.main {
+  padding: 0 20px;
+}
+
 .inputGroup {
   &:not(:first-child) {
     padding-top: 32px;
@@ -17,5 +23,11 @@
 
   svg {
     margin-left: 3px;
+  }
+}
+
+@media screen and (min-width: $mid_display_min_width) {
+  .main {
+    padding: 0;
   }
 }
