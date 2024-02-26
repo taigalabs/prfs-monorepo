@@ -101,28 +101,6 @@ const EditorFooter: React.FC<EditorFooterProps> = ({ handleClickPost }) => {
   //   },
   // });
 
-  // const handleClickPost = React.useCallback(async () => {
-  //   try {
-  //     const html = editor.getHTML();
-  //     console.log("html", html);
-
-  //     // const text = editor.getText();
-  //     // console.log("text", text);
-
-  //     const post_id = uuidv4();
-  //     const post: ShyPost = {
-  //       post_id,
-  //       content: html,
-  //       channel_id: "default",
-  //     };
-
-  //     const { payload } = await createSocialPost({ post });
-  //     console.log("create social post resp", payload);
-
-  //     window.location.reload();
-  //   } catch (err) {}
-  // }, [editor, createSocialPost, router]);
-
   return (
     <div className={styles.footer}>
       <button onClick={extendedHandleClickPost}>{i18n.post}</button>

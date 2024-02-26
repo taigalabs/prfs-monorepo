@@ -40,20 +40,19 @@
 }
 
 .footer {
-  margin-top: 24px;
-  height: 52px;
+  padding-top: 8px;
+  /* height: 52px; */
   margin-bottom: 0;
   display: flex;
   align-items: center;
 
   button {
-    border: 1px solid var(--bright-gray-30);
-    border-radius: 12px;
-    padding: 12px 14px;
-    cursor: pointer;
+    /* border: 1px solid var(--gray-74); */
+    padding: 0.5em 0.65em;
+    /* cursor: pointer; */
 
-    &:hover {
-      border: 1px solid var(--gray-60);
-    }
+    /* &:hover { */
+    /*   border: 1px solid var(--gray-60); */
+    /* } */
   }
 }

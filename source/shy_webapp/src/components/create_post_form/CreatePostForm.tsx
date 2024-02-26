@@ -114,6 +114,16 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           return;
         }
 
+        //     const post_id = uuidv4();
+        //     const post: ShyPost = {
+        //       post_id,
+        //       content: html,
+        //       channel_id: "default",
+        //     };
+
+        //     const { payload } = await createSocialPost({ post });
+        //     console.log("create social post resp", payload);
+
         const proof = payload.receipt[PROOF] as ProveReceipt;
         // if (proof) {
         //   handleCreateProofResult(proof);
