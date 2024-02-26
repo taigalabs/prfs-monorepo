@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { v4 as uuidv4 } from "uuid";
 import {
   EditorProvider,
   FloatingMenu,
@@ -15,14 +14,14 @@ import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
-import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { shyApi2 } from "@taigalabs/shy-api-js";
-import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
-import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
+// import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+// import { shyApi2 } from "@taigalabs/shy-api-js";
+// import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
+// import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 
 import styles from "./TextEditor.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
+import Button from "@/components/button/Button";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -30,11 +29,11 @@ const extensions = [
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      keepAttributes: false,
     },
     orderedList: {
       keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      keepAttributes: false,
     },
   }),
   Link.extend({
@@ -97,7 +96,9 @@ const EditorFooter: React.FC<EditorFooterProps> = ({ handleClickPost }) => {
 
   return (
     <div className={styles.footer}>
-      <button onClick={extendedHandleClickPost}>{i18n.post}</button>
+      <Button variant="green_1" handleClick={extendedHandleClickPost}>
+        {i18n.post}
+      </Button>
     </div>
   );
 };

@@ -3,9 +3,10 @@ import cn from "classnames";
 
 import styles from "./Button.module.scss";
 
-const Button: React.FC<ButtonProps> = ({ children, variant, className, isActive }) => {
+const Button: React.FC<ButtonProps> = ({ children, variant, className, isActive, handleClick }) => {
   return (
     <button
+      onClick={handleClick}
       className={cn(styles.wrapper, className, {
         [styles.isActive]: isActive,
         [styles.green_1]: variant === "green_1",
@@ -26,4 +27,5 @@ export interface ButtonProps {
   className?: string;
   variant: "green_1" | "white_1" | "transparent_1";
   isActive?: boolean;
+  handleClick: () => void;
 }
