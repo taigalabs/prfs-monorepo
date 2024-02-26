@@ -25,6 +25,12 @@ const PROOF = "Proof";
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = useI18N();
   const router = useRouter();
+  // const { mutateAsync: createSocialPost } = useMutation({
+  //   mutationFn: (req: CreateShyPostRequest) => {
+  //     return shyApi2({ type: "create_shy_post", ...req });
+  //   },
+  // });
+  //
   const handleClickPost = React.useCallback(
     async (html: string) => {
       if (channel.proof_type_ids.length < 1) {

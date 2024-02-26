@@ -95,12 +95,6 @@ const EditorFooter: React.FC<EditorFooterProps> = ({ handleClickPost }) => {
     handleClickPost(html);
   }, [handleClickPost, editor]);
 
-  // const { mutateAsync: createSocialPost } = useMutation({
-  //   mutationFn: (req: CreateShyPostRequest) => {
-  //     return shyApi2({ type: "create_shy_post", ...req });
-  //   },
-  // });
-
   return (
     <div className={styles.footer}>
       <button onClick={extendedHandleClickPost}>{i18n.post}</button>
