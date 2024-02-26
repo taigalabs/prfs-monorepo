@@ -4,6 +4,7 @@ import { makeECCredential } from "@taigalabs/prfs-crypto-js";
 import {
   AppSignInData,
   AppSignInQuery,
+  AppSignInResult,
   PrfsIdCredential,
   makeAppSignInCm,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -19,10 +20,10 @@ import {
 } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 
-export interface PrfsSignInData {
-  account_id: string;
-  public_key: string;
-}
+// export interface PrfsSignInData {
+//   account_id: string;
+//   public_key: string;
+// }
 
 const SignInInputs: React.FC<SignInInputsProps> = ({
   // signInDataMeta,
@@ -73,7 +74,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
           //   </li>,
           // );
 
-          const data: PrfsSignInData = {
+          const data: AppSignInResult = {
             account_id: id,
             public_key,
           };
@@ -129,6 +130,6 @@ export interface SignInInputsProps {
   appSignInQuery: AppSignInQuery;
   credential: PrfsIdCredential;
   appId: string;
-  setSignInData: React.Dispatch<React.SetStateAction<PrfsSignInData | null>>;
+  setSignInData: React.Dispatch<React.SetStateAction<AppSignInResult | null>>;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
 }

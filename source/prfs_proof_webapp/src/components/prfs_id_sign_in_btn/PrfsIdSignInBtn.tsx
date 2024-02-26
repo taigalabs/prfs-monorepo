@@ -15,6 +15,8 @@ import {
   ProofGenArgs,
   AppSignInType,
   QueryType,
+  ProofGenSuccessPayload,
+  AppSignInResult,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3, prfs_api_error_codes } from "@taigalabs/prfs-api-js";
@@ -105,9 +107,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
           return;
         }
 
-        let prfsIdSignInSuccessPayload: SignInSuccessPayload;
+        console.log(33, decrypted);
+
+        // let prfsIdSignInSuccessPayload: SignInSuccessPayload;
+        let proofGenPayload: ProofGenSuccessPayload;
         try {
-          prfsIdSignInSuccessPayload = JSON.parse(decrypted) as SignInSuccessPayload;
+          // prfsIdSignInSuccessPayload = JSON.parse(decrypted) as SignInSuccessPayload;
+          proofGenPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
         } catch (err: any) {
           dispatch(
             reportError({
@@ -118,13 +124,48 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
           return;
         }
 
+        const signInResult_ = proofGenPayload.receipt[SIGN_IN];
+        let signInResult: AppSignInResult;
+        try {
+          if (!signInResult_) {
+            dispatch(
+              reportError({
+                errorObj: "",
+                message: `Sign in result does not exist`,
+              }),
+            );
+            return;
+          }
+
+          signInResult = JSON.parse(signInResult_);
+        } catch (err) {
+          dispatch(
+            reportError({
+              errorObj: err,
+              message: `Err parsing sign in result, json: ${signInResult_}`,
+            }),
+          );
+          return;
+        }
+
+        if (!signInResult.account_id || !signInResult.public_key) {
+          // as AppSignInResult;
+          dispatch(
+            reportError({
+              errorObj: "",
+              message: `Invalid sign in result, result: ${signInResult}`,
+            }),
+          );
+          return;
+        }
+
         const { error, code } = await prfsSignInRequest({
-          account_id: prfsIdSignInSuccessPayload.account_id,
+          account_id: signInResult.account_id,
         });
-        const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
+        const avatar_color = makeColor(signInResult.account_id);
         const credential: LocalPrfsProofCredential = {
-          account_id: prfsIdSignInSuccessPayload.account_id,
-          public_key: prfsIdSignInSuccessPayload.public_key,
+          account_id: signInResult.account_id,
+          public_key: signInResult.public_key,
           avatar_color,
         };
 

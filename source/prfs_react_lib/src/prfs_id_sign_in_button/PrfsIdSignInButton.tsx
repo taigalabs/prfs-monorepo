@@ -50,7 +50,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       console.error(err);
       return;
     }
-
     if (!sessionStream) {
       console.error("Couldn't open a session");
       return;

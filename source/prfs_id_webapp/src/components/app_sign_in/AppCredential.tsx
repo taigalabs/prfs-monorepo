@@ -6,6 +6,7 @@ import {
   PrfsIdCredential,
   AppSignInArgs,
   AppSignInQuery,
+  AppSignInResult,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
@@ -23,7 +24,7 @@ import {
   DefaultModuleHeader,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
-import SignInInputs, { PrfsSignInData } from "./SignInInputs";
+import SignInInputs from "./SignInInputs";
 import {
   QueryItem,
   QueryItemLeftCol,
@@ -52,7 +53,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [signInDataElem, setSignInDataElem] = React.useState<React.ReactNode>(null);
-  const [signInData, setSignInData] = React.useState<PrfsSignInData | null>(null);
+  const [signInData, setSignInData] = React.useState<AppSignInResult | null>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);

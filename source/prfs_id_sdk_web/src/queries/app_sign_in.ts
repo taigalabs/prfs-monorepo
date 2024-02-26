@@ -11,3 +11,8 @@ export interface AppSignInQuery {
 export enum AppSignInType {
   EC_SECP256K1 = "EC_SECP256K1",
 }
+
+export interface AppSignInResult {
+  account_id: string;
+  public_key: string;
+}

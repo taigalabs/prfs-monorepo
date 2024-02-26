@@ -13,7 +13,7 @@ export const errorSlice = createSlice({
   initialState,
   reducers: {
     reportError: (state, action: PayloadAction<ReportableError>) => {
-      console.error("Reporting error, err: %o", action.payload.errorObj);
+      console.error("Reporting error: %o", action.payload.errorObj);
 
       return {
         ...state,
