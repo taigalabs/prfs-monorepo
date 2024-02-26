@@ -2,19 +2,14 @@ use prfs_axum_lib::generate_api_error_codes;
 use prfs_axum_lib::ApiHandleErrorCode;
 use serde::{Deserialize, Serialize};
 
-// generate_api_error_codes! {
-//     PrfsApiHandleErrorCode,
-//     (2000000, SUCCESS, "Success");
-//     (4000000, UNKNOWN_ERROR, "Unknown error");
-//     (4000001, CANNOT_FIND_USER, "Can't find a user");
-//     (4000002, USER_EXISTS, "User already exists");
-//     (4000003, NO_POLICY_ATTACHED, "User has no policy attached");
-// }
-
-#[allow(non_snake_case)]
-#[derive(Serialize, Deserialize)]
-pub struct PrfsIdSessionApiErrorCodes {
-    pub UNKNOWN_ERROR: ApiHandleErrorCode,
+generate_api_error_codes! {
+    PrfsIdSessionApiErrorCodes,
+    API_ERROR_CODES,
+    (2000000, SUCCESS, "Success");
+    (4000000, UNKNOWN_ERROR, "Unknown error");
+    (4000001, SESSION_NOT_EXISTS, "Can't find a session");
+    (4000002, USER_ALREADY_EXISTS, "User already exists");
+    (4000003, NO_POLICY_ATTACHED, "User has no policy attached");
 }
 
 lazy_static::lazy_static! {
