@@ -94,7 +94,8 @@ const CreateProof: React.FC<CreateProofProps> = ({
   React.useEffect(() => {
     const { name } = query;
 
-    setReceipt(() => ({
+    setReceipt(oldVals => ({
+      ...oldVals,
       [name]: async () => {
         const proofType = data?.payload?.prfs_proof_type;
         if (!proofType) {
