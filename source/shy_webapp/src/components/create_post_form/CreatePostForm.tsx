@@ -10,7 +10,7 @@ import {
   makeProofGenSearchParams,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
@@ -25,6 +25,11 @@ const PROOF = "Proof";
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = useI18N();
   const router = useRouter();
+
+  const [postId, shortId] = React.useMemo(() => {
+    const hex = rand256Hex();
+    return [hex, hex.substring(0, 10)];
+  }, []);
   // const { mutateAsync: createSocialPost } = useMutation({
   //   mutationFn: (req: CreateShyPostRequest) => {
   //     return shyApi2({ type: "create_shy_post", ...req });
@@ -149,7 +154,10 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.title}>{i18n.create_a_post}</div>
+      <div className={styles.title}>
+        <span>{i18n.create_a_post}</span>
+        <span> ({shortId}...)</span>
+      </div>
       <div className={styles.titleInput}>
         <input type="text" placeholder={i18n.what_is_this_discussion_about_in_one_sentence} />
       </div>
