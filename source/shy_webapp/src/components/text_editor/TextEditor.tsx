@@ -80,30 +80,30 @@ const EditorMenuBar = () => {
   );
 };
 
-const EditorFooter: React.FC<EditorFooterProps> = ({ handleClickPost }) => {
-  const i18n = React.useContext(i18nContext);
-  const { editor } = useCurrentEditor();
-  const router = useRouter();
+// const EditorFooter: React.FC<EditorFooterProps> = ({ handleClickPost }) => {
+//   const i18n = React.useContext(i18nContext);
+//   const { editor } = useCurrentEditor();
+//   const router = useRouter();
 
-  const extendedHandleClickPost = React.useCallback(() => {
-    if (!editor) {
-      return null;
-    }
+//   const extendedHandleClickPost = React.useCallback(() => {
+//     if (!editor) {
+//       return null;
+//     }
 
-    const html = editor.getHTML();
-    handleClickPost(html);
-  }, [handleClickPost, editor]);
+//     const html = editor.getHTML();
+//     handleClickPost(html);
+//   }, [handleClickPost, editor]);
 
-  return (
-    <div className={styles.footer}>
-      <Button variant="green_1" handleClick={extendedHandleClickPost}>
-        {i18n.post}
-      </Button>
-    </div>
-  );
-};
+//   return (
+//     <div className={styles.footer}>
+//       <Button variant="green_1" handleClick={extendedHandleClickPost}>
+//         {i18n.post}
+//       </Button>
+//     </div>
+//   );
+// };
 
-const TextEditor: React.FC<TextEditorProps> = ({ handleClickPost }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ footer }) => {
   const editor = useEditor({
     extensions,
     content,
@@ -113,7 +113,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ handleClickPost }) => {
     return null;
   }
 
-  const footer = <EditorFooter handleClickPost={handleClickPost} />;
+  // const footer = <EditorFooter handleClickPost={handleClickPost} />;
 
   return (
     <div className={styles.wrapper}>
@@ -137,9 +137,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ handleClickPost }) => {
 export default TextEditor;
 
 export interface TextEditorProps {
-  handleClickPost: (html: string) => void;
-}
-
-export interface EditorFooterProps {
-  handleClickPost: (html: string) => void;
+  footer: React.JSX.Element;
+  // handleClickPost: (html: string) => void;
 }

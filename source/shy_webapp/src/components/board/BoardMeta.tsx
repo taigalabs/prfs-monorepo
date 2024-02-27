@@ -11,7 +11,7 @@ import Loading from "@/components/loading/Loading";
 
 const BoardMeta: React.FC<BoardMetaProps> = ({ channel }) => {
   const i18n = useI18N();
-  const [isDescOpen, setIsDescOpen] = React.useState(false);
+  const [isDescOpen, setIsDescOpen] = React.useState(true);
   const handleClickToggleDesc = React.useCallback(() => {
     setIsDescOpen(b => !b);
   }, [setIsDescOpen]);

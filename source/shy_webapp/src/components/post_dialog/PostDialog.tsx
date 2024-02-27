@@ -27,13 +27,10 @@ const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
     open: isOpen,
     onOpenChange: setIsOpen,
   });
-
   const click = useClick(context);
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
-
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
-
   const headingId = useId();
   const descriptionId = useId();
 
@@ -58,36 +55,33 @@ const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
         {children}
       </div>
-      <FloatingPortal>
-        {isOpen && (
-          <FloatingOverlay className={styles.dialogOverlay}>
-            <FloatingFocusManager context={context}>
-              <>
-                <div
-                  className={styles.dialog}
-                  ref={refs.setFloating}
-                  aria-labelledby={headingId}
-                  aria-describedby={descriptionId}
-                  {...getFloatingProps()}
-                >
-                  <OpenSnapDialog />
-                  <div className={styles.header}>
-                    <div className={styles.title}>{i18n.write_to_shy}</div>
-                    <div className={styles.topBtnRow}>
-                      <button onClick={() => setIsOpen(false)}>
-                        <AiOutlineClose />
-                      </button>
-                    </div>
-                  </div>
-                  <div className={styles.body}>
-                    <TextEditor handleClickPost={() => {}} />
-                  </div>
-                </div>
-              </>
-            </FloatingFocusManager>
-          </FloatingOverlay>
-        )}
-      </FloatingPortal>
+      {/* <FloatingPortal> */}
+      {/*   {isOpen && ( */}
+      {/*     <FloatingOverlay className={styles.dialogOverlay}> */}
+      {/*       <FloatingFocusManager context={context}> */}
+      {/*         <> */}
+      {/*           <div */}
+      {/*             className={styles.dialog} */}
+      {/*             ref={refs.setFloating} */}
+      {/*             aria-labelledby={headingId} */}
+      {/*             aria-describedby={descriptionId} */}
+      {/*             {...getFloatingProps()} */}
+      {/*           > */}
+      {/*             <OpenSnapDialog /> */}
+      {/*             <div className={styles.header}> */}
+      {/*               <div className={styles.title}>{i18n.write_to_shy}</div> */}
+      {/*               <div className={styles.topBtnRow}> */}
+      {/*                 <button onClick={() => setIsOpen(false)}> */}
+      {/*                   <AiOutlineClose /> */}
+      {/*                 </button> */}
+      {/*               </div> */}
+      {/*             </div> */}
+      {/*           </div> */}
+      {/*         </> */}
+      {/*       </FloatingFocusManager> */}
+      {/*     </FloatingOverlay> */}
+      {/*   )} */}
+      {/* </FloatingPortal> */}
     </>
   );
 };

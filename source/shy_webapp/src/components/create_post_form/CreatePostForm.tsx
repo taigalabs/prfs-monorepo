@@ -19,6 +19,9 @@ import { paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
+import { useCurrentEditor } from "@tiptap/react";
+import Button from "@/components/button/Button";
+import EditorFooter from "./EditorFooter";
 
 const PROOF = "Proof";
 
@@ -152,6 +155,10 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
     [channel],
   );
 
+  const footer = React.useMemo(() => {
+    return <EditorFooter handleClickPost={() => {}} />;
+  }, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
@@ -162,7 +169,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         <input type="text" placeholder={i18n.what_is_this_discussion_about_in_one_sentence} />
       </div>
       <div className={styles.editorWrapper}>
-        <TextEditor handleClickPost={handleClickPost} />
+        <TextEditor footer={footer} />
       </div>
     </div>
   );
