@@ -39,7 +39,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   //   },
   // });
   //
-  const handleClickPost = React.useCallback(
+  const handleCreatePost = React.useCallback(
     async (html: string) => {
       if (channel.proof_type_ids.length < 1) {
         return;
@@ -57,6 +57,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
             name: PROOF,
             proofTypeId,
             queryType: QueryType.CREATE_PROOF,
+            presetVals: {},
           },
         ],
         public_key: pkHex,
@@ -152,11 +153,11 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       // ws.close();
       // popup.close();
     },
-    [channel],
+    [channel, postId],
   );
 
   const footer = React.useMemo(() => {
-    return <EditorFooter handleClickPost={() => {}} />;
+    return <EditorFooter handleClickPost={handleCreatePost} />;
   }, []);
 
   return (

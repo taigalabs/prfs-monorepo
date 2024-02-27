@@ -24,7 +24,7 @@
 }
 
 .descRow {
-  line-height: 1.62em;
+  line-height: 1.32em;
   color: var(--gray-20);
   max-height: 0;
   overflow: hidden;
@@ -42,6 +42,9 @@
   }
 
   .proofTypeIds {
+    padding-top: 8px;
+    color: var(--gray-30);
+
     .title {
       display: inline-block;
       padding-right: 5px;
