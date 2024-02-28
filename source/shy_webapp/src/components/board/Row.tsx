@@ -7,7 +7,11 @@ import { DateTimed } from "@taigalabs/shy-entities/bindings/DateTimed";
 const Row: React.FC<RowProps> = ({ post }) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.author}>{post.inner.title}</div>
+      <div>
+        <div className={styles.author}>{post.inner.title}</div>
+        <div></div>
+      </div>
+      <div></div>
       {/* <div */}
       {/*   className={styles.body} */}
       {/*   dangerouslySetInnerHTML={{ */}

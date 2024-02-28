@@ -12,8 +12,12 @@
   }
 }
 
-.sortBtn {
+.channelBtn {
   cursor: not-allowed;
+  height: 32px;
+  padding: 0 10px;
+  font-size: 14px;
+  border-radius: 4px;
 
   svg {
     padding-left: 5px;
@@ -21,6 +25,10 @@
   }
 }
 
-.newPostBtn {
+.button {
+  font-size: 15px;
+}
+
+.rightAlign {
   margin-left: auto;
 }
