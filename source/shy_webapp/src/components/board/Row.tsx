@@ -6,7 +6,7 @@ import styles from "./Row.module.scss";
 const Row: React.FC<RowProps> = ({ post }) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.author}>Anon says</div>
+      <div className={styles.author}></div>
       <div
         className={styles.body}
         dangerouslySetInnerHTML={{

@@ -56,7 +56,7 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId }) => {
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 100,
+    estimateSize: () => 70,
     overscan: 5,
   });
 

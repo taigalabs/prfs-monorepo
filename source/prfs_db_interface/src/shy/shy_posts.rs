@@ -25,38 +25,47 @@ LIMIT $3
         .fetch_all(pool)
         .await?;
 
-    let shy_posts: Vec<ShyPost> = rows
+    let shy_posts = rows
         .iter()
-        .map(|row| ShyPost {
-            post_id: row.get("post_id"),
-            content: row.get("content"),
-            channel_id: row.get("channel_id"),
+        .map(|row| {
+            let post = ShyPost {
+                title: row.try_get("title")?,
+                post_id: row.try_get("post_id")?,
+                content: row.try_get("content")?,
+                channel_id: row.try_get("channel_id")?,
+            };
+
+            return Ok(post);
         })
-        .collect();
+        .collect::<Result<Vec<ShyPost>, DbInterfaceError>>()?;
 
     Ok(shy_posts)
 }
 
 pub async fn insert_shy_post(
     tx: &mut Transaction<'_, Postgres>,
-    shy_post: &ShyPost,
+    title: &String,
+    post_id: &String,
+    content: &String,
+    channel_id: &String,
     proof_id: &String,
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO shy_posts
-(post_id, content, channel_id, shy_post_proof_id)
+(post_id, content, channel_id, shy_post_proof_id, title)
 VALUES ($1, $2, $3, $4)
 RETURNING post_id
 "#;
 
     let row = sqlx::query(query)
-        .bind(&shy_post.post_id)
-        .bind(&shy_post.content)
-        .bind(&shy_post.channel_id)
+        .bind(&post_id)
+        .bind(&content)
+        .bind(&channel_id)
+        .bind(&proof_id)
+        .bind(&title)
         .bind(&proof_id)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
     let post_id: String = row.try_get("post_id")?;
     Ok(post_id)

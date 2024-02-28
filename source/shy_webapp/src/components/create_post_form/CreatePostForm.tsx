@@ -157,6 +157,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
 
         const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
         const post: ShyPost = {
+          title,
           post_id: postId,
           content: html,
           channel_id: channel.channel_id,

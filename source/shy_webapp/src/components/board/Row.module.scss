@@ -1,6 +1,9 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
+  height: 100%;
   min-height: 60px;
-  padding: 14px 16px;
+  padding: 12px $side_padding;
 
   border-top: 1px solid var(--bright-gray-32);
   border-bottom: 1px solid var(--bright-gray-32);
@@ -18,4 +21,7 @@
   a {
     color: var(--aqua-blue-50);
   }
+}
+
+@media screen and (min-width: $big_display_min_width) {
 }

@@ -36,7 +36,17 @@ pub async fn create_shy_post(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
-    let post_id = match shy::insert_shy_post(&mut tx, &input.post, &proof_id).await {
+
+    let post_id = match shy::insert_shy_post(
+        &mut tx,
+        &input.title,
+        &input.post_id,
+        &input.content,
+        &input.channel_id,
+        &input.proof_id,
+    )
+    .await
+    {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
