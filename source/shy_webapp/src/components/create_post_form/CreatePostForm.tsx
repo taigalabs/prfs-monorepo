@@ -42,6 +42,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   //
   const handleCreatePost = React.useCallback(
     async (html: string) => {
+      console.log(11, html);
       if (channel.proof_type_ids.length < 1) {
         return;
       }
@@ -69,6 +70,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         session_key,
       };
 
+      return;
       const searchParams = makeProofGenSearchParams(proofGenArgs);
       const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
