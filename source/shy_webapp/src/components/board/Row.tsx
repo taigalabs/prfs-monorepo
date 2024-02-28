@@ -2,17 +2,18 @@ import React from "react";
 import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 
 import styles from "./Row.module.scss";
+import { DateTimed } from "@taigalabs/shy-entities/bindings/DateTimed";
 
 const Row: React.FC<RowProps> = ({ post }) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.author}></div>
-      <div
-        className={styles.body}
-        dangerouslySetInnerHTML={{
-          __html: post.content,
-        }}
-      />
+      <div className={styles.author}>{post.inner.title}</div>
+      {/* <div */}
+      {/*   className={styles.body} */}
+      {/*   dangerouslySetInnerHTML={{ */}
+      {/*     __html: post.content, */}
+      {/*   }} */}
+      {/* /> */}
     </div>
   );
 };
@@ -20,5 +21,5 @@ const Row: React.FC<RowProps> = ({ post }) => {
 export default Row;
 
 export interface RowProps {
-  post: ShyPost;
+  post: DateTimed<ShyPost>;
 }

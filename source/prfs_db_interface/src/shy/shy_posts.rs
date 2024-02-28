@@ -1,5 +1,5 @@
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
-use shy_entities::entities::ShyPost;
+use shy_entities::entities::{DateTimed, ShyPost};
 
 use crate::DbInterfaceError;
 
@@ -8,7 +8,7 @@ pub async fn get_shy_posts(
     channel_id: &String,
     offset: i32,
     limit: i32,
-) -> Result<Vec<ShyPost>, DbInterfaceError> {
+) -> Result<Vec<DateTimed<ShyPost>>, DbInterfaceError> {
     let query = r#"
 SELECT * 
 FROM shy_posts 
@@ -28,16 +28,22 @@ LIMIT $3
     let shy_posts = rows
         .iter()
         .map(|row| {
-            let post = ShyPost {
+            let post_ = ShyPost {
                 title: row.try_get("title")?,
                 post_id: row.try_get("post_id")?,
                 content: row.try_get("content")?,
                 channel_id: row.try_get("channel_id")?,
             };
 
+            let post = DateTimed {
+                inner: post_,
+                created_at: row.try_get("created_at")?,
+                updated_at: row.try_get("updated_at")?,
+            };
+
             return Ok(post);
         })
-        .collect::<Result<Vec<ShyPost>, DbInterfaceError>>()?;
+        .collect::<Result<Vec<DateTimed<ShyPost>>, DbInterfaceError>>()?;
 
     Ok(shy_posts)
 }
