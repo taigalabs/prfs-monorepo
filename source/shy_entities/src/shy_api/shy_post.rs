@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::entities::{DateTimed, ShyPost, ShyPostProof};
+use crate::entities::{DateTimed, ShyPost};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -11,6 +11,7 @@ pub struct CreateShyPostRequest {
     pub content: String,
     pub channel_id: String,
     pub shy_post_proof_id: String,
+    pub proof_identity_input: String,
     pub proof: Vec<u8>,
     pub public_inputs: String,
     pub public_key: String,

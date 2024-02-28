@@ -6,6 +6,7 @@ export interface CreateShyPostRequest {
   content: string;
   channel_id: string;
   shy_post_proof_id: string;
+  proof_identity_input: string;
   proof: Array<number>;
   public_inputs: string;
   public_key: string;

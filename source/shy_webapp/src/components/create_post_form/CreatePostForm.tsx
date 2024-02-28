@@ -16,9 +16,9 @@ import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
-// import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
+import { PublicInputsInterface } from "@taigalabs/prfs-circuit-interface/bindings/PublicInputsInterface";
 
 import styles from "./CreatePostForm.module.scss";
 import { paths } from "@/paths";
@@ -70,7 +70,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const { sk, pkHex } = createRandomKeyPair();
       const { sk: sk2, pkHex: pkHex2 } = createRandomKeyPair();
       const json = JSON.stringify({ title, html, postId, publicKey: pkHex2 });
-      // const json = keccak256(toUtf8Bytes(json_)).substring(2);
 
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
@@ -158,12 +157,15 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
         const shy_post_proof_id = rand256Hex();
 
+        const publicInputs: PublicInputsInterface = JSON.parse(proveReceipt.proof.publicInputSer);
+
         const { payload } = await createShyPost({
           title,
           post_id: postId,
           content: html,
           channel_id: channel.channel_id,
           shy_post_proof_id,
+          proof_identity_input: publicInputs.proofIdentityInput,
           proof: Array.from(proveReceipt.proof.proofBytes),
           public_inputs: proveReceipt.proof.publicInputSer,
           public_key: pkHex2,

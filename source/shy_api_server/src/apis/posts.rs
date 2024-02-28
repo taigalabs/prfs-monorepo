@@ -29,7 +29,7 @@ pub async fn create_shy_post(
         public_key: input.public_key,
     };
 
-    let proof_id = match shy::insert_shy_post_proof(&mut tx, &shy_post_proof).await {
+    let _proof_id = match shy::insert_shy_post_proof(&mut tx, &shy_post_proof).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
@@ -44,6 +44,7 @@ pub async fn create_shy_post(
         &input.content,
         &input.channel_id,
         &input.shy_post_proof_id,
+        &input.proof_identity_input,
     )
     .await
     {

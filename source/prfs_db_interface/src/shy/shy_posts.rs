@@ -55,11 +55,12 @@ pub async fn insert_shy_post(
     content: &String,
     channel_id: &String,
     proof_id: &String,
+    proof_identity_input: &String,
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO shy_posts
-(post_id, content, channel_id, shy_post_proof_id, title)
-VALUES ($1, $2, $3, $4, $5)
+(post_id, content, channel_id, shy_post_proof_id, title, proof_identity_input)
+VALUES ($1, $2, $3, $4, $5, $6)
 RETURNING post_id
 "#;
 
@@ -69,6 +70,7 @@ RETURNING post_id
         .bind(&channel_id)
         .bind(&proof_id)
         .bind(&title)
+        .bind(&proof_identity_input)
         .fetch_one(&mut **tx)
         .await?;
 
