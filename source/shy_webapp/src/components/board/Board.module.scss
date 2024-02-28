@@ -42,12 +42,6 @@
   }
 }
 
-.side {
-}
-
-.infiniteScroll {
-}
-
 .row {
   height: 100px;
   width: 100%;
@@ -62,6 +56,13 @@
   place-items: center;
 }
 
+.emptyBoard {
+  height: 70px;
+  display: grid;
+  place-items: center;
+  color: var(--gray-50);
+}
+
 @media screen and (min-width: $big_display_min_width) {
   .side {
     display: none;
@@ -69,17 +70,5 @@
 
   .header {
     display: flex;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .wrapper {
-    .main {
-      width: 100%;
-    }
-
-    .side {
-      display: none;
-    }
   }
 }

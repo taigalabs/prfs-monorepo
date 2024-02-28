@@ -10,8 +10,10 @@ import {
   InfiniteScrollRowContainer,
   InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
+import { useI18N } from "@/i18n/hook";
 
 const Board: React.FC<BoardProps> = ({ parentRef, channelId }) => {
+  const i18n = useI18N();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["get_shy_posts", channelId],
@@ -66,45 +68,49 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId }) => {
     rowVirtualizer.getVirtualItems(),
   ]);
 
+  if (status === "pending") {
+    return (
+      <div className={styles.loading}>
+        <Spinner />
+      </div>
+    );
+  }
+
+  const virtualItems = rowVirtualizer.getVirtualItems();
   return (
-    <>
-      {status === "pending" ? (
-        <div className={styles.loading}>
-          <Spinner />
-        </div>
-      ) : (
-        <InfiniteScrollRowContainer
-          className={styles.infiniteScroll}
-          style={{
-            height: `${rowVirtualizer.getTotalSize()}px`,
-            position: "relative",
-          }}
-        >
-          {rowVirtualizer.getVirtualItems().map(virtualRow => {
-            const isLoaderRow = virtualRow.index > allRows.length - 1;
-            const post = allRows[virtualRow.index];
-            return (
-              <InfiniteScrollRowWrapper
-                style={{
-                  height: `${virtualRow.size}px`,
-                  transform: `translateY(${virtualRow.start}px)`,
-                }}
-                className={styles.row}
-                key={virtualRow.index}
-                data-index={virtualRow.index}
-                ref={rowVirtualizer.measureElement}
-              >
-                {isLoaderRow
-                  ? hasNextPage
-                    ? "Loading more..."
-                    : "Nothing more to load"
-                  : post && <Row post={post} />}
-              </InfiniteScrollRowWrapper>
-            );
-          })}
-        </InfiniteScrollRowContainer>
+    <InfiniteScrollRowContainer
+      className={styles.infiniteScroll}
+      style={{
+        height: `${rowVirtualizer.getTotalSize()}px`,
+        position: "relative",
+      }}
+    >
+      {status === "success" && virtualItems.length === 0 && (
+        <div className={styles.emptyBoard}>{i18n.no_records_to_show}</div>
       )}
-    </>
+      {virtualItems.map(virtualRow => {
+        const isLoaderRow = virtualRow.index > allRows.length - 1;
+        const post = allRows[virtualRow.index];
+        return (
+          <InfiniteScrollRowWrapper
+            style={{
+              height: `${virtualRow.size}px`,
+              transform: `translateY(${virtualRow.start}px)`,
+            }}
+            className={styles.row}
+            key={virtualRow.index}
+            data-index={virtualRow.index}
+            ref={rowVirtualizer.measureElement}
+          >
+            {isLoaderRow
+              ? hasNextPage
+                ? "Loading more..."
+                : "Nothing more to load"
+              : post && <Row post={post} />}
+          </InfiniteScrollRowWrapper>
+        );
+      })}
+    </InfiniteScrollRowContainer>
   );
 };
 
