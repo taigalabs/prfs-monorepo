@@ -40,7 +40,7 @@ const MemoInput: React.FC<RangeSelectProps> = ({
 
       setFormValues(oldVal => ({
         ...oldVal,
-        nonce: value,
+        nonceRaw: value,
       }));
 
       if (error?.nonceRaw !== undefined) {
