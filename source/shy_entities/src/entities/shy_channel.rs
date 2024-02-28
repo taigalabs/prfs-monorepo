@@ -13,3 +13,10 @@ pub struct ShyChannel {
     #[ts(type = "string[]")]
     pub proof_type_ids: sqlx::types::Json<Vec<String>>,
 }
+
+// #[derive(TS, Debug, Serialize, Deserialize, Clone)]
+// #[ts(export)]
+// pub struct ProofType {
+//     pub proof_type_id: String,
+//     pub symbol: String,
+// }
