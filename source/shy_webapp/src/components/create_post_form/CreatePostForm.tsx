@@ -29,15 +29,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
   const [error, setError] = React.useState<string | null>(null);
-
-  const handleChangeTitle = React.useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      console.log(222);
-      setTitle(ev.target.value);
-    },
-    [setTitle],
-  );
-
   const [postId, shortId] = React.useMemo(() => {
     const hex = rand256Hex();
     return [hex, hex.substring(0, 10)];
@@ -48,8 +39,18 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   //   },
   // });
   //
+
+  const handleChangeTitle = React.useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      console.log(11, ev.target.value);
+      setTitle(ev.target.value);
+    },
+    [setTitle],
+  );
+
   const handleCreatePost = React.useCallback(
     async (html: string) => {
+      console.log(title, title.length);
       if (title.length < 1) {
         setError("Title needs to be present");
         return;
@@ -68,7 +69,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonce: json,
       };
-
       const proofGenArgs: ProofGenArgs = {
         nonce: makeRandInt(1000000),
         app_id: "prfs_proof",
@@ -84,7 +84,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         session_key,
       };
 
-      return;
       const searchParams = makeProofGenSearchParams(proofGenArgs);
       const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
@@ -184,7 +183,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         <EditorFooter handleClickPost={handleCreatePost} />
       </>
     );
-  }, [error]);
+  }, [error, title]);
 
   return (
     <div className={styles.wrapper}>

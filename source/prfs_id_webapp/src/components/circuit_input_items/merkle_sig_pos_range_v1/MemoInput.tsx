@@ -57,6 +57,7 @@ const MemoInput: React.FC<RangeSelectProps> = ({
       </FormInputTitleRow>
       <InputWrapper>
         <input
+          className={styles.input}
           placeholder={i18n.leave_anything_that_makes_a_proof_unique}
           value={value.nonce || ""}
           onChange={handleChangeNonce}

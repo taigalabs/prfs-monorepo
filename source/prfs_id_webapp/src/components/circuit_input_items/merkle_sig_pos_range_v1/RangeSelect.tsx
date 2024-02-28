@@ -37,7 +37,7 @@ const RangeSelect: React.FC<RangeSelectProps> = ({ circuitTypeData, rangeOptionI
           {circuitTypeData.range_data.label} ({i18n.automatic})
         </p>
         <InputWrapper>
-          <select value={Math.max(rangeOptionIdx, 0)} onChange={noop}>
+          <select className={styles.select} value={Math.max(rangeOptionIdx, 0)} onChange={noop}>
             {optionElems}
           </select>
         </InputWrapper>
