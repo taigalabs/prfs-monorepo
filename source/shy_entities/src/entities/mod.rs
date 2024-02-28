@@ -4,3 +4,4 @@ pub mod shy_post_proofs;
 
 pub use shy_channel::*;
 pub use shy_post::*;
+pub use shy_post_proofs::*;
