@@ -20,8 +20,6 @@ import { paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
-import { useCurrentEditor } from "@tiptap/react";
-import Button from "@/components/button/Button";
 import EditorFooter from "./EditorFooter";
 
 const PROOF = "Proof";
@@ -29,6 +27,16 @@ const PROOF = "Proof";
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = useI18N();
   const router = useRouter();
+  const [title, setTitle] = React.useState<string>("");
+  const [error, setError] = React.useState<string | null>(null);
+
+  const handleChangeTitle = React.useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      console.log(222);
+      setTitle(ev.target.value);
+    },
+    [setTitle],
+  );
 
   const [postId, shortId] = React.useMemo(() => {
     const hex = rand256Hex();
@@ -42,17 +50,23 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   //
   const handleCreatePost = React.useCallback(
     async (html: string) => {
-      console.log(11, html);
-      if (channel.proof_type_ids.length < 1) {
+      if (title.length < 1) {
+        setError("Title needs to be present");
         return;
       }
-      const proofTypeId = channel.proof_type_ids[0];
 
+      if (channel.proof_type_ids.length < 1) {
+        setError("Proof type does not exist");
+        return;
+      }
+
+      const proofTypeId = channel.proof_type_ids[0];
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
+      const json = JSON.stringify({ title, html, postId });
 
       const presetVals: MerkleSigPosRangeV1PresetVals = {
-        nonce: "",
+        nonce: json,
       };
 
       const proofGenArgs: ProofGenArgs = {
@@ -160,12 +174,17 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       // ws.close();
       // popup.close();
     },
-    [channel, postId],
+    [channel, postId, title, setError],
   );
 
   const footer = React.useMemo(() => {
-    return <EditorFooter handleClickPost={handleCreatePost} />;
-  }, []);
+    return (
+      <>
+        {error && <div className={styles.error}>{error}</div>}
+        <EditorFooter handleClickPost={handleCreatePost} />
+      </>
+    );
+  }, [error]);
 
   return (
     <div className={styles.wrapper}>
@@ -174,7 +193,12 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         <span> ({shortId}...)</span>
       </div>
       <div className={styles.titleInput}>
-        <input type="text" placeholder={i18n.what_is_this_discussion_about_in_one_sentence} />
+        <input
+          type="text"
+          placeholder={i18n.what_is_this_discussion_about_in_one_sentence}
+          value={title}
+          onChange={handleChangeTitle}
+        />
       </div>
       <div className={styles.editorWrapper}>
         <TextEditor footer={footer} />
