@@ -6,10 +6,12 @@ export class MerkleSigPosRangePublicInput {
     circuitPubInput;
     nonceRaw;
     assetSizeLabel;
+    proofIdentityInput;
     constructor(circuitPubInput, nonceRaw, assetSizeLabel) {
         this.circuitPubInput = circuitPubInput;
         this.nonceRaw = nonceRaw;
         this.assetSizeLabel = assetSizeLabel;
+        this.proofIdentityInput = assetSizeLabel;
     }
     serialize() {
         return JSONbigNative.stringify(this);

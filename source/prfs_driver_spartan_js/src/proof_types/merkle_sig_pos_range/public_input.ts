@@ -9,6 +9,7 @@ export class MerkleSigPosRangePublicInput {
   circuitPubInput: MerkleSigPosRangeCircuitPubInput;
   nonceRaw: string;
   assetSizeLabel: string;
+  proofIdentityInput: string;
 
   constructor(
     circuitPubInput: MerkleSigPosRangeCircuitPubInput,
@@ -18,6 +19,7 @@ export class MerkleSigPosRangePublicInput {
     this.circuitPubInput = circuitPubInput;
     this.nonceRaw = nonceRaw;
     this.assetSizeLabel = assetSizeLabel;
+    this.proofIdentityInput = assetSizeLabel;
   }
 
   serialize(): string {
