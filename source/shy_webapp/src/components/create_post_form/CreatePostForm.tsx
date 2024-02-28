@@ -53,6 +53,8 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
 
   const handleCreatePost = React.useCallback(
     async (html: string) => {
+      setError(null);
+
       if (title.length < 1) {
         setError("Title needs to be present");
         return;
@@ -157,7 +159,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         const post: ShyPost = {
           post_id: postId,
           content: html,
-          channel_id: "default",
+          channel_id: channel.channel_id,
         };
 
         const shy_post_proof_id = rand256Hex();
@@ -169,20 +171,14 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           public_key: pkHex2,
         });
         console.log("create shy post resp", payload);
-
-        // if (proof) {
-        //   handleCreateProofResult(proof);
-        // } else {
-        //   console.error("no proof delivered");
-        //   return;
-        // }
+        router.push(`${paths.c}/${channel.channel_id}`);
       } catch (err) {
         console.error(err);
       }
       ws.close();
       popup.close();
     },
-    [channel, postId, title, setError, createShyPost],
+    [channel, postId, title, setError, createShyPost, router],
   );
 
   const footer = React.useMemo(() => {

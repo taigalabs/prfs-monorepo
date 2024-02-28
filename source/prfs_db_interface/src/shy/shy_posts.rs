@@ -23,8 +23,7 @@ LIMIT $3
         .bind(offset)
         .bind(limit)
         .fetch_all(pool)
-        .await
-        .unwrap();
+        .await?;
 
     let shy_posts: Vec<ShyPost> = rows
         .iter()
