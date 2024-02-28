@@ -23,7 +23,7 @@ pub async fn create_shy_post(
     let mut tx = pool.begin().await.unwrap();
 
     let shy_post_proof = ShyPostProof {
-        shy_post_proof_id: input.shy_post_proof_id,
+        shy_post_proof_id: input.shy_post_proof_id.to_string(),
         proof: input.proof,
         public_inputs: input.public_inputs,
         public_key: input.public_key,
@@ -43,7 +43,7 @@ pub async fn create_shy_post(
         &input.post_id,
         &input.content,
         &input.channel_id,
-        &input.proof_id,
+        &input.shy_post_proof_id,
     )
     .await
     {

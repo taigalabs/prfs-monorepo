@@ -1,27 +1,15 @@
-"use client";
-
 import React from "react";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 import styles from "./Board.module.scss";
 import Row from "./Row";
 import {
-  InfiniteScrollMain,
-  InfiniteScrollRight,
-  InfiniteScrollWrapper,
-  InfiniteScrollInner,
-  InfiniteScrollLeft,
   InfiniteScrollRowContainer,
   InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
-import GlobalHeader from "@/components/global_header/GlobalHeader";
-import BoardMenu from "./BoardMenu";
-import BoardMeta from "./BoardMeta";
-import CreatePostForm from "@/components/create_post_form/CreatePostForm";
 
 const Board: React.FC<BoardProps> = ({ parentRef, channelId }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
