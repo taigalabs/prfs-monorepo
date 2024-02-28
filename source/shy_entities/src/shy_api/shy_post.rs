@@ -1,20 +1,22 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
-use uuid::Uuid;
 
-use crate::entities::ShyPost;
+use crate::entities::{ShyPost, ShyPostProof};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreateShyPostRequest {
     pub post: ShyPost,
+    pub shy_post_proof_id: String,
+    pub proof: Vec<u8>,
+    pub public_inputs: String,
+    pub public_key: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreateShyPostResponse {
-    #[ts(type = "string")]
-    pub post_id: Uuid,
+    pub post_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

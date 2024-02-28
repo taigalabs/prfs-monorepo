@@ -46,7 +46,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
 
   const handleChangeTitle = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
-      console.log(11, ev.target.value);
       setTitle(ev.target.value);
     },
     [setTitle],
@@ -162,8 +161,15 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           channel_id: "default",
         };
 
-        const { payload } = await createShyPost({ post });
-        //     console.log("create social post resp", payload);
+        const shy_post_proof_id = rand256Hex();
+        const { payload } = await createShyPost({
+          post,
+          shy_post_proof_id,
+          proof: Array.from(proveReceipt.proof.proofBytes),
+          public_inputs: proveReceipt.proof.publicInputSer,
+          public_key: pkHex2,
+        });
+        console.log("create shy post resp", payload);
 
         // if (proof) {
         //   handleCreateProofResult(proof);

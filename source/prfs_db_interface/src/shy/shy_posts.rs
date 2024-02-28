@@ -38,11 +38,15 @@ LIMIT $3
     Ok(shy_posts)
 }
 
-pub async fn insert_shy_post(tx: &mut Transaction<'_, Postgres>, shy_post: &ShyPost) -> uuid::Uuid {
+pub async fn insert_shy_post(
+    tx: &mut Transaction<'_, Postgres>,
+    shy_post: &ShyPost,
+    proof_id: &String,
+) -> String {
     let query = r#"
 INSERT INTO shy_posts
-(post_id, content, channel_id)
-VALUES ($1, $2, $3)
+(post_id, content, channel_id, shy_post_proof_id)
+VALUES ($1, $2, $3, $4)
 RETURNING post_id
 "#;
 
@@ -50,11 +54,11 @@ RETURNING post_id
         .bind(&shy_post.post_id)
         .bind(&shy_post.content)
         .bind(&shy_post.channel_id)
+        .bind(&proof_id)
         .fetch_one(&mut **tx)
         .await
         .unwrap();
 
-    let post_id: uuid::Uuid = row.get("post_id");
-
+    let post_id: String = row.get("post_id");
     post_id
 }
