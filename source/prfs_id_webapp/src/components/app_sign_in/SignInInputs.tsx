@@ -24,7 +24,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
   appSignInQuery,
   credential,
   appId,
-  setSignInData,
+  // setSignInData,
   setReceipt,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -40,10 +40,10 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
           const { hashed } = await makeAppSignInCm(credential.secret_key, appId);
           const { id, public_key } = await makeECCredential(hashed);
 
-          setSignInData({
-            account_id: id,
-            public_key,
-          });
+          // setSignInData({
+          //   account_id: id,
+          //   public_key,
+          // });
 
           const data: AppSignInResult = {
             account_id: id,
@@ -100,6 +100,6 @@ export interface SignInInputsProps {
   appSignInQuery: AppSignInQuery;
   credential: PrfsIdCredential;
   appId: string;
-  setSignInData: React.Dispatch<React.SetStateAction<AppSignInResult | null>>;
+  // setSignInData: React.Dispatch<React.SetStateAction<AppSignInResult | null>>;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
 }

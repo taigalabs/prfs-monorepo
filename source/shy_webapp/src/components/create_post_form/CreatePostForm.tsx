@@ -13,6 +13,7 @@ import {
 import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+// import { NONCE } from "@taigalabs/prfs-circuit-interface";
 
 import styles from "./CreatePostForm.module.scss";
 import { paths } from "@/paths";
@@ -57,7 +58,9 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
             name: PROOF,
             proofTypeId,
             queryType: QueryType.CREATE_PROOF,
-            presetVals: {},
+            presetVals: {
+              // nonce:
+            },
           },
         ],
         public_key: pkHex,

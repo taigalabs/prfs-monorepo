@@ -22,6 +22,17 @@ const MemoInput: React.FC<RangeSelectProps> = ({
   error,
 }) => {
   const i18n = useI18N();
+  const [isPresetVals, setIsPresetVals] = React.useState(false);
+
+  React.useEffect(() => {
+    if (presetVals && presetVals.nonce) {
+      setFormValues(oldVals => ({
+        ...oldVals,
+        nonce: presetVals.nonce,
+      }));
+      setIsPresetVals(true);
+    }
+  }, [setFormValues, presetVals, setIsPresetVals]);
 
   const handleChangeNonce = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +60,7 @@ const MemoInput: React.FC<RangeSelectProps> = ({
           placeholder={i18n.leave_anything_that_makes_a_proof_unique}
           value={value.nonce || ""}
           onChange={handleChangeNonce}
+          disabled={isPresetVals}
         />
       </InputWrapper>
       {error?.nonce && <FormError>{error.nonce}</FormError>}

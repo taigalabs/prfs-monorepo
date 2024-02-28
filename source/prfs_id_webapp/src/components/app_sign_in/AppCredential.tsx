@@ -1,19 +1,19 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { PrfsIdCredential, AppSignInQuery, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
-import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
-import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
+// import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+// import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
+// import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
+// import { idApi, idSessionApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./AppCredential.module.scss";
 import SignInInputs from "./SignInInputs";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 
-enum AppCredentialStatus {
-  Loading,
-  Standby,
-}
+// enum AppCredentialStatus {
+//   Loading,
+//   Standby,
+// }
 
 const AppCredential: React.FC<AppCredentialProps> = ({
   appId,
@@ -27,13 +27,13 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   React.useEffect(() => {
     async function fn() {
       try {
-        const title = (
-          <>
-            <span className={styles.blueText}>{appId}</span> wants you to submit a few additional
-            data to sign in
-          </>
-        );
-        setTitle(title);
+        // const title = (
+        //   <>
+        //     <span className={styles.blueText}>{appId}</span> wants you to submit a few additional
+        //     data to sign in
+        //   </>
+        // );
+        // setTitle(title);
 
         if (appSignInQuery.appSignInData.length > 0) {
           const content = (
@@ -41,24 +41,24 @@ const AppCredential: React.FC<AppCredentialProps> = ({
               appSignInQuery={appSignInQuery}
               credential={credential}
               appId={appId}
-              setSignInData={setSignInData}
+              // setSignInData={setSignInData}
               setReceipt={setReceipt}
             />
           );
           setSignInDataElem(content);
         }
 
-        setAppCredentialStatus(AppCredentialStatus.Standby);
+        // setAppCredentialStatus(AppCredentialStatus.Standby);
       } catch (err) {
         console.error(err);
       }
     }
     fn().then();
   }, [
-    setAppCredentialStatus,
+    // setAppCredentialStatus,
     searchParams,
-    setTitle,
-    setSignInData,
+    // setTitle,
+    // setSignInData,
     setSignInDataElem,
     credential,
   ]);
