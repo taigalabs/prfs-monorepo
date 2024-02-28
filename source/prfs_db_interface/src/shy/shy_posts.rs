@@ -59,7 +59,7 @@ pub async fn insert_shy_post(
     let query = r#"
 INSERT INTO shy_posts
 (post_id, content, channel_id, shy_post_proof_id, title)
-VALUES ($1, $2, $3, $4)
+VALUES ($1, $2, $3, $4, $5)
 RETURNING post_id
 "#;
 
@@ -69,7 +69,6 @@ RETURNING post_id
         .bind(&channel_id)
         .bind(&proof_id)
         .bind(&title)
-        .bind(&proof_id)
         .fetch_one(&mut **tx)
         .await?;
 

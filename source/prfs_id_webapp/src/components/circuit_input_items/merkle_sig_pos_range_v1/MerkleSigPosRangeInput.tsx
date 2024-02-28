@@ -18,6 +18,7 @@ import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetEle
 import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
+import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 
 import styles from "./MerkleSigPosRange.module.scss";
@@ -453,7 +454,7 @@ export interface MerkleSigPosRangeInputProps {
   error: FormErrors<MerkleSigPosRangeV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
-  presetVals?: QueryPresetVals;
+  presetVals?: MerkleSigPosRangeV1PresetVals;
   credential: PrfsIdCredential;
 }
 
