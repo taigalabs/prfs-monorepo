@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi2 } from "@taigalabs/shy-api-js";
@@ -12,7 +13,7 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import { useI18N } from "@/i18n/hook";
 
-const Board: React.FC<BoardProps> = ({ parentRef, channelId }) => {
+const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
   const i18n = useI18N();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -79,7 +80,7 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId }) => {
   const virtualItems = rowVirtualizer.getVirtualItems();
   return (
     <InfiniteScrollRowContainer
-      className={styles.infiniteScroll}
+      className={cn(styles.infiniteScroll, className)}
       style={{
         height: `${rowVirtualizer.getTotalSize()}px`,
         position: "relative",
@@ -119,4 +120,5 @@ export default Board;
 export interface BoardProps {
   parentRef: React.MutableRefObject<HTMLDivElement | null>;
   channelId: string;
+  className?: string;
 }
