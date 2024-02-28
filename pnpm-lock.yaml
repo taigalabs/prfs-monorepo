@@ -535,6 +535,9 @@ importers:
       '@taigalabs/prfs-circuits-circom':
         specifier: '*'
         version: link:../prfs_circuits_circom
+      '@taigalabs/prfs-crypto-deps-js':
+        specifier: '*'
+        version: link:../prfs_crypto_deps_js
       '@taigalabs/prfs-crypto-js':
         specifier: '*'
         version: link:../prfs_crypto_js

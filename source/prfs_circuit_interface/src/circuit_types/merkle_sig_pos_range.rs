@@ -14,7 +14,7 @@ pub struct MerkleSigPosRangeV1Inputs {
     assetSizeLessThan: i64,
     assetSizeLabel: String,
     merkleProof: SpartanMerkleProof,
-    nonce: String,
+    nonceRaw: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
@@ -29,5 +29,5 @@ pub struct MerkleSigPosRangeV1Data {
 #[allow(non_snake_case)]
 #[ts(export)]
 pub struct MerkleSigPosRangeV1PresetVals {
-    nonce: String,
+    nonceRaw: String,
 }

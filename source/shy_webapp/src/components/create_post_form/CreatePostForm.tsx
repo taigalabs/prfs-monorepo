@@ -16,7 +16,7 @@ import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
-import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
+// import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 
@@ -69,11 +69,11 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
       const { sk: sk2, pkHex: pkHex2 } = createRandomKeyPair();
-      const json_ = JSON.stringify({ title, html, postId, publicKey: pkHex2 });
-      const json = keccak256(toUtf8Bytes(json_)).substring(2);
+      const json = JSON.stringify({ title, html, postId, publicKey: pkHex2 });
+      // const json = keccak256(toUtf8Bytes(json_)).substring(2);
 
       const presetVals: MerkleSigPosRangeV1PresetVals = {
-        nonce: json,
+        nonceRaw: json,
       };
       const proofGenArgs: ProofGenArgs = {
         nonce: makeRandInt(1000000),

@@ -1,7 +1,7 @@
 import React from "react";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 
 import styles from "./MemoInput.module.scss";
 import {
@@ -25,10 +25,10 @@ const MemoInput: React.FC<RangeSelectProps> = ({
   const [isPresetVals, setIsPresetVals] = React.useState(false);
 
   React.useEffect(() => {
-    if (presetVals && presetVals.nonce) {
+    if (presetVals && presetVals.nonceRaw) {
       setFormValues(oldVals => ({
         ...oldVals,
-        nonce: presetVals.nonce,
+        nonceRaw: presetVals.nonceRaw,
       }));
       setIsPresetVals(true);
     }
@@ -43,8 +43,8 @@ const MemoInput: React.FC<RangeSelectProps> = ({
         nonce: value,
       }));
 
-      if (error?.nonce !== undefined) {
-        setFormErrors(oldVal => ({ ...oldVal, nonce: undefined }));
+      if (error?.nonceRaw !== undefined) {
+        setFormErrors(oldVal => ({ ...oldVal, nonceRaw: undefined }));
       }
     },
     [setFormValues, setFormErrors, error],
@@ -59,12 +59,12 @@ const MemoInput: React.FC<RangeSelectProps> = ({
         <input
           className={styles.input}
           placeholder={i18n.leave_anything_that_makes_a_proof_unique}
-          value={value.nonce || ""}
+          value={value.nonceRaw || ""}
           onChange={handleChangeNonce}
           disabled={isPresetVals}
         />
       </InputWrapper>
-      {error?.nonce && <FormError>{error.nonce}</FormError>}
+      {error?.nonceRaw && <FormError>{error.nonceRaw}</FormError>}
     </>
   );
 };
@@ -74,7 +74,7 @@ export default MemoInput;
 export interface RangeSelectProps {
   circuitTypeData: MerkleSigPosRangeV1Data;
   value: FormValues<MerkleSigPosRangeV1Inputs>;
-  presetVals?: QueryPresetVals;
+  presetVals?: MerkleSigPosRangeV1PresetVals;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
   error: FormErrors<MerkleSigPosRangeV1Inputs>;

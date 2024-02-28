@@ -373,7 +373,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         if (!option) {
           throw new Error(`Option at index does not exist, idx: ${optionIdx}`);
         }
-        const { lower_bound, upper_bound } = option;
+        const { lower_bound, upper_bound, label } = option;
 
         setFormValues(oldVal => ({
           ...oldVal,
@@ -382,6 +382,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           assetSize: args[1],
           assetSizeGreaterEqThan: lower_bound,
           assetSizeLessThan: upper_bound,
+          assetSizeLabel: label,
           merkleProof,
         }));
       } catch (err) {
