@@ -17,7 +17,7 @@ export function validateInputs(
 
       if (!val?.merkleProof) {
         hasError = true;
-        formErrors.merkleProof = "Input is empty";
+        formErrors.merkleProof = "Merkle proof is empty";
       } else {
         const { root, siblings, pathIndices } = val.merkleProof;
 
@@ -29,7 +29,7 @@ export function validateInputs(
 
       if (!val?.nonceRaw || val?.nonceRaw.length === 0) {
         hasError = true;
-        formErrors.nonce = "Input is empty";
+        formErrors.nonceRaw = "Nonce raw is empty";
       }
 
       break;
@@ -55,7 +55,7 @@ export function validateInputs(
 
       if (!val?.merkleProof) {
         hasError = true;
-        formErrors.merkleProof = "Input is empty";
+        formErrors.merkleProof = "Merkle proof is empty";
       } else {
         const { root, siblings, pathIndices } = val.merkleProof;
 

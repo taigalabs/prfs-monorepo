@@ -427,10 +427,10 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
               readOnly
             />
           </InputWrapper>
+          {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
           <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
         </InputGroup>
         {value && <ComputedValue value={value} />}
-        {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
       </FormInput>
       <FormInput>
         <MemoInput
