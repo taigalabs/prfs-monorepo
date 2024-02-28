@@ -11,7 +11,6 @@ import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prf
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
-import { CircuitTypeData } from "@taigalabs/prfs-circuit-interface/bindings/CircuitTypeData";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";

@@ -13,6 +13,11 @@ import {
 import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
+import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
+import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 
 import styles from "./CreatePostForm.module.scss";
@@ -33,12 +38,11 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
     const hex = rand256Hex();
     return [hex, hex.substring(0, 10)];
   }, []);
-  // const { mutateAsync: createSocialPost } = useMutation({
-  //   mutationFn: (req: CreateShyPostRequest) => {
-  //     return shyApi2({ type: "create_shy_post", ...req });
-  //   },
-  // });
-  //
+  const { mutateAsync: createShyPost } = useMutation({
+    mutationFn: (req: CreateShyPostRequest) => {
+      return shyApi2({ type: "create_shy_post", ...req });
+    },
+  });
 
   const handleChangeTitle = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +68,9 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const proofTypeId = channel.proof_type_ids[0];
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
-      const json = JSON.stringify({ title, html, postId });
+      const { sk: sk2, pkHex: pkHex2 } = createRandomKeyPair();
+      const json_ = JSON.stringify({ title, html, postId, publicKey: pkHex2 });
+      const json = keccak256(toUtf8Bytes(json_)).substring(2);
 
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonce: json,
@@ -141,25 +147,24 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           return;
         }
 
-        let payload: ProofGenSuccessPayload;
+        let proofGenPayload: ProofGenSuccessPayload;
         try {
-          payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+          proofGenPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
         } catch (err) {
           console.error("cannot parse payload", err);
           return;
         }
 
-        //     const post_id = uuidv4();
-        //     const post: ShyPost = {
-        //       post_id,
-        //       content: html,
-        //       channel_id: "default",
-        //     };
+        const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
+        const post: ShyPost = {
+          post_id: postId,
+          content: html,
+          channel_id: "default",
+        };
 
-        //     const { payload } = await createSocialPost({ post });
+        const { payload } = await createShyPost({ post });
         //     console.log("create social post resp", payload);
 
-        const proof = payload.receipt[PROOF] as ProveReceipt;
         // if (proof) {
         //   handleCreateProofResult(proof);
         // } else {
@@ -169,11 +174,10 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       } catch (err) {
         console.error(err);
       }
-
-      // ws.close();
-      // popup.close();
+      ws.close();
+      popup.close();
     },
-    [channel, postId, title, setError],
+    [channel, postId, title, setError, createShyPost],
   );
 
   const footer = React.useMemo(() => {
