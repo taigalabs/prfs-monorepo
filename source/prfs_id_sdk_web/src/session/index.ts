@@ -44,7 +44,7 @@ export async function createSession({
     }
 
     ws.onopen = () => {
-      console.log("Prfs id session established!");
+      console.log("Prfs id session established!, key: %s", key);
       resolve({
         ws,
         receive,
