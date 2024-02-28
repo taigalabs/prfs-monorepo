@@ -156,16 +156,13 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         }
 
         const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
-        const post: ShyPost = {
+        const shy_post_proof_id = rand256Hex();
+
+        const { payload } = await createShyPost({
           title,
           post_id: postId,
           content: html,
           channel_id: channel.channel_id,
-        };
-
-        const shy_post_proof_id = rand256Hex();
-        const { payload } = await createShyPost({
-          post,
           shy_post_proof_id,
           proof: Array.from(proveReceipt.proof.proofBytes),
           public_inputs: proveReceipt.proof.publicInputSer,
