@@ -13,7 +13,7 @@ import {
 import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-// import { NONCE } from "@taigalabs/prfs-circuit-interface";
+import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 
 import styles from "./CreatePostForm.module.scss";
 import { paths } from "@/paths";
@@ -50,6 +50,10 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
 
+      const presetVals: MerkleSigPosRangeV1PresetVals = {
+        nonce: "",
+      };
+
       const proofGenArgs: ProofGenArgs = {
         nonce: makeRandInt(1000000),
         app_id: "prfs_proof",
@@ -58,9 +62,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
             name: PROOF,
             proofTypeId,
             queryType: QueryType.CREATE_PROOF,
-            presetVals: {
-              // nonce:
-            },
+            presetVals,
           },
         ],
         public_key: pkHex,

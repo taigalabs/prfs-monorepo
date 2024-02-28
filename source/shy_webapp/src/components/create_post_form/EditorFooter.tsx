@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
-import styles from "./CreatePostForm.module.scss";
+import styles from "./EditorFooter.module.scss";
 import { paths } from "@/paths";
 import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
