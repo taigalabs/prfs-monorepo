@@ -2,6 +2,11 @@
 
 import React from "react";
 import cn from "classnames";
+import {
+  GlobalErrorDialogContent,
+  GlobalErrorDialogWrapper,
+  GlobalErrorDialogBtnGroup,
+} from "@taigalabs/prfs-react-lib/src/global_error_dialog/GlobalErrorDialog";
 import { IoMdWarning } from "@react-icons/all-files/io/IoMdWarning";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 
@@ -20,17 +25,17 @@ const GlobalErrorDialog: React.FC<GlobalErrorDialogProps> = ({}) => {
   return (
     error && (
       <Overlay className={styles.wrapper}>
-        <div className={styles.dialog}>
-          <div className={styles.content}>
+        <GlobalErrorDialogWrapper>
+          <GlobalErrorDialogContent>
             <IoMdWarning />
             <p>{error.message}</p>
-          </div>
-          <div className={styles.btnGroup}>
+          </GlobalErrorDialogContent>
+          <GlobalErrorDialogBtnGroup>
             <button type="button" onClick={handleClickClose}>
               <IoClose />
             </button>
-          </div>
-        </div>
+          </GlobalErrorDialogBtnGroup>
+        </GlobalErrorDialogWrapper>
       </Overlay>
     )
   );
