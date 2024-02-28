@@ -33,6 +33,7 @@ LIMIT $3
                 post_id: row.try_get("post_id")?,
                 content: row.try_get("content")?,
                 channel_id: row.try_get("channel_id")?,
+                proof_identity_input: row.try_get("proof_identity_input")?,
             };
 
             let post = DateTimed {
