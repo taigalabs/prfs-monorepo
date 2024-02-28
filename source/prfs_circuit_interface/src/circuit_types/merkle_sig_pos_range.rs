@@ -12,6 +12,7 @@ pub struct MerkleSigPosRangeV1Inputs {
     assetSize: i64,
     assetSizeGreaterEqThan: i64,
     assetSizeLessThan: i64,
+    assetSizeLabel: String,
     merkleProof: SpartanMerkleProof,
     nonce: String,
 }

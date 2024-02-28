@@ -38,7 +38,7 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel }) => {
         <div className={cn(styles.descRow, { [styles.isVisible]: isDescOpen })}>
           <div className={styles.desc}>{channel.desc}</div>
           <div className={styles.proofTypeIds}>
-            <p className={styles.title}>Requiring proofs of types</p>
+            <p className={styles.title}>{i18n.requiring_proofs_of_type}</p>
             {proofTypesElem}
           </div>
         </div>

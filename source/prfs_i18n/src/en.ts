@@ -107,6 +107,7 @@ export default {
   circuit_type_id: "Circuit type id",
   circuit_type_data: "Circuit type data",
   ref: "Ref",
+  requiring_proofs_of_type: "Requiring proofs of type",
   redirecting: "Redirecting...",
   desc_1: "a",
   desc_2: "b",

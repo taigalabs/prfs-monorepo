@@ -20,8 +20,16 @@ export async function proveMembership(
   const { inputs, eventListener } = args;
   console.log("inputs: %o", inputs);
 
-  const { sigpos, leaf, merkleProof, assetSize, assetSizeLessThan, assetSizeGreaterEqThan, nonce } =
-    inputs;
+  const {
+    sigpos,
+    leaf,
+    merkleProof,
+    assetSize,
+    assetSizeLessThan,
+    assetSizeGreaterEqThan,
+    assetSizeLabel,
+    nonce,
+  } = inputs;
 
   const nonceHash = await poseidon_2(nonce);
   const nonceInt = bytesToBigInt(nonceHash);
