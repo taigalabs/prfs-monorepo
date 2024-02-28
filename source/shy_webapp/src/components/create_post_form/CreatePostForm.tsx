@@ -53,7 +53,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
 
   const handleCreatePost = React.useCallback(
     async (html: string) => {
-      console.log(title, title.length);
       if (title.length < 1) {
         setError("Title needs to be present");
         return;

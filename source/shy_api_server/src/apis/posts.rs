@@ -23,7 +23,7 @@ pub async fn create_shy_post(
     let mut tx = pool.begin().await.unwrap();
 
     let shy_post_proof = ShyPostProof {
-        shy_post_proof_id: input.proof_id,
+        shy_post_proof_id: input.shy_post_proof_id,
         proof: input.proof,
         public_inputs: input.public_inputs,
         public_key: input.public_key,
@@ -36,7 +36,13 @@ pub async fn create_shy_post(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
-    let post_id = shy::insert_shy_post(&mut tx, &input.post, &proof_id).await;
+    let post_id = match shy::insert_shy_post(&mut tx, &input.post, &proof_id).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     tx.commit().await.unwrap();
 

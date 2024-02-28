@@ -46,7 +46,7 @@ pub async fn insert_shy_post_proof(
 INSERT INTO shy_post_proofs
 (shy_post_proof_id, proof, public_inputs, public_key)
 VALUES ($1, $2, $3, $4)
-RETURNING proof_id
+RETURNING shy_post_proof_id
 "#;
 
     let row = sqlx::query(query)
@@ -57,6 +57,6 @@ RETURNING proof_id
         .fetch_one(&mut **tx)
         .await?;
 
-    let proof_id = row.try_get("shy_post_proof_id").map_err(|err| err.into());
-    proof_id
+    let proof_id: String = row.try_get("shy_post_proof_id")?;
+    Ok(proof_id)
 }

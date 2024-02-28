@@ -42,7 +42,7 @@ pub async fn insert_shy_post(
     tx: &mut Transaction<'_, Postgres>,
     shy_post: &ShyPost,
     proof_id: &String,
-) -> String {
+) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO shy_posts
 (post_id, content, channel_id, shy_post_proof_id)
@@ -59,6 +59,6 @@ RETURNING post_id
         .await
         .unwrap();
 
-    let post_id: String = row.get("post_id");
-    post_id
+    let post_id: String = row.try_get("post_id")?;
+    Ok(post_id)
 }
