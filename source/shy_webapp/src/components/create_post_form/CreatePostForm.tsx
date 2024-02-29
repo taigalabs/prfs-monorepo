@@ -27,6 +27,7 @@ import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
 import EditorFooter from "./EditorFooter";
+import { SHY_APP_ID } from "@/app_id";
 
 const RAND_KEY_PAIR = "RandKeyPair";
 const PROOF = "Proof";
@@ -78,7 +79,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       };
       const proofGenArgs: ProofGenArgs = {
         nonce: makeRandInt(1000000),
-        app_id: "prfs_proof",
+        app_id: SHY_APP_ID,
         queries: [
           {
             name: RAND_KEY_PAIR,
