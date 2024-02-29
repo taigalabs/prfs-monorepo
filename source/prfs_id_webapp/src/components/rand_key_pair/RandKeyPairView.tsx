@@ -1,5 +1,5 @@
 import React from "react";
-import { sigPoseidon } from "@taigalabs/prfs-crypto-js";
+import { PrivateKey, sigPoseidon } from "@taigalabs/prfs-crypto-js";
 import { useSearchParams } from "next/navigation";
 import { PrfsIdCredential, RandKeyPairQuery, RandKeyPairType } from "@taigalabs/prfs-id-sdk-web";
 import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
@@ -18,15 +18,25 @@ const RandKeyPairView: React.FC<RandKeyPairViewProps> = ({ query, credential, se
         const { name, preImage, type } = query;
         if (type === RandKeyPairType.EC_SECP256K1) {
           const { hashed } = await sigPoseidon(credential.secret_key, preImage);
-          const cm = hexlify(hashed);
+          const hashedHex = hexlify(hashed);
+          const sk = PrivateKey.fromHex(hashedHex);
+          const skHex = sk.toHex();
+          const pkHex = sk.publicKey.toHex();
 
           setReceipt(oldVal => ({
             ...oldVal,
-            [name]: cm,
+            [name]: skHex,
           }));
 
           setElem(
-            <RandKeyPairItem key={name} name={name} val={preImage} type={type} hashedHex={cm} />,
+            <RandKeyPairItem
+              key={name}
+              name={name}
+              val={preImage}
+              type={type}
+              skHex={skHex}
+              pkHex={pkHex}
+            />,
           );
         }
       } catch (err) {

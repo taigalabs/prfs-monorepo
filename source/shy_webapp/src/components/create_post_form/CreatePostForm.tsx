@@ -86,6 +86,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
             preImage: postId.substring(2),
             type: RandKeyPairType.EC_SECP256K1,
             queryType: QueryType.RAND_KEY_PAIR,
+            skipAfterIfExists: true,
           },
           {
             name: PROOF,

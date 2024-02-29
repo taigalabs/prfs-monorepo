@@ -5,6 +5,7 @@ export interface RandKeyPairQuery {
   preImage: string;
   type: RandKeyPairType;
   queryType: QueryType.RAND_KEY_PAIR;
+  skipAfterIfExists?: boolean;
 }
 
 export enum RandKeyPairType {
