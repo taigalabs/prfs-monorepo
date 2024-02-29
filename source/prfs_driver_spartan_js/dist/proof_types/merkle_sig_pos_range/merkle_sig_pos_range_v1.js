@@ -11,15 +11,15 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const nonceInt = bytesToNumberLE(nonceHash);
     const sigposAndNonceInt_ = await poseidon_2_bigint_le([sigpos, nonceInt]);
     const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
-    console.log("sigposAndNonce", sigposAndNonceInt_);
+    // console.log("sigposAndNonce", sigposAndNonceInt_);
     const pk = PublicKey.fromHex(proofPubKey);
     const proofPubKey_ = bytesToNumberLE(pk.compressed);
     const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
     const proofPubKeyInt = bytesToNumberLE(proofPubKeyHash);
-    console.log("proofPubKeyInt", proofPubKeyInt);
+    // console.log("proofPubKeyInt", proofPubKeyInt);
     const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
     const serialNo = bytesToNumberLE(serialNoHash);
-    console.log("serialNo", serialNo);
+    // console.log("serialNo", serialNo);
     eventListener({
         type: "CREATE_PROOF_EVENT",
         payload: { type: "info", payload: "Computed ECDSA pub input" },
