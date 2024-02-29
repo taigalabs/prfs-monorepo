@@ -35,13 +35,10 @@ pub async fn get_prfs_circuit_types(
 pub async fn get_prfs_circuit_type_by_circuit_type_id(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<GetPrfsCircuitTypeByCircuitTypeIdRequest>,
-    // req: Request<Incoming>,
-    // state: Arc<ServerState>,
 ) -> (
     StatusCode,
     Json<ApiResponse<GetPrfsCircuitTypeByCircuitTypeIdResponse>>,
 ) {
-    // let req: GetPrfsCircuitTypeByCircuitTypeIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_circuit_type =
         prfs::get_prfs_circuit_type_by_circuit_type_id(&pool, &input.circuit_type_id).await;

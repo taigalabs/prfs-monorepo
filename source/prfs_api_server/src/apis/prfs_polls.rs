@@ -1,13 +1,10 @@
 use axum::{
     extract::{MatchedPath, Request, State},
-    handler::HandlerWithoutStateExt,
     http::{HeaderValue, Method, StatusCode},
     routing::{get, post},
     Json, Router,
 };
 use ethers_signers::Signer;
-use hyper::body::Incoming;
-use prfs_axum_lib::io::{parse_req, ApiHandlerResult};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
@@ -58,7 +55,6 @@ pub async fn get_prfs_poll_result_by_poll_id(
     StatusCode,
     Json<ApiResponse<GetPrfsPollResultByPollIdResponse>>,
 ) {
-    // let req: GetPrfsPollResultByPollIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_poll_responses = prfs::get_prfs_poll_responses_by_poll_id(&pool, &input.poll_id)
         .await
@@ -94,7 +90,6 @@ pub async fn submit_prfs_poll_response(
 ) {
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-    // let req: SubmitPrfsPollResponseRequest = parse_req(req).await;
     let proof_instance_id_bytes = input.proof_instance_id.as_bytes();
     let short_id = &base_62::encode(proof_instance_id_bytes)[..8];
 

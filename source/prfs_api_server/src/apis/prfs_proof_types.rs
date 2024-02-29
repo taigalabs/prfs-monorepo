@@ -60,7 +60,6 @@ pub async fn create_prfs_proof_type(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<CreatePrfsProofTypeRequest>,
 ) -> (StatusCode, Json<ApiResponse<CreatePrfsProofTypeResponse>>) {
-    // let req: CreatePrfsProofTypeRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 

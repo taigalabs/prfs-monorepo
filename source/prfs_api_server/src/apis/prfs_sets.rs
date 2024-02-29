@@ -1,30 +1,17 @@
 use axum::{
-    extract::{MatchedPath, Request, State},
-    handler::HandlerWithoutStateExt,
-    http::{HeaderValue, Method, StatusCode},
+    extract::State,
+    http::StatusCode,
     routing::{get, post},
     Json, Router,
 };
-use hyper::{body::Incoming, Response};
-use prfs_axum_lib::{
-    io::{parse_req, ApiHandlerResult, BytesBoxBody},
-    resp::ApiResponse,
-    ApiHandleError,
-};
+use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::{
-    entities::{PrfsTree, PrfsTreeNode},
-    prfs_api::{
-        ComputePrfsSetMerkleRootResponse, CreatePrfsDynamicSetElementRequest,
-        CreatePrfsDynamicSetElementResponse, CreatePrfsSetRequest, CreatePrfsSetResponse,
-        GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest,
-        GetPrfsSetsRequest, GetPrfsSetsResponse,
-    },
+use prfs_entities::prfs_api::{
+    CreatePrfsSetRequest, CreatePrfsSetResponse, GetPrfsSetBySetIdRequest,
+    GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
+    GetPrfsSetsResponse,
 };
-use prfs_tree_maker::apis2::tree;
-use prfs_tree_maker::tree_maker_apis;
-use rust_decimal::Decimal;
 use std::sync::Arc;
 
 use crate::error_codes::API_ERROR_CODES;
@@ -51,7 +38,6 @@ pub async fn get_prfs_sets_by_set_type(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<GetPrfsSetsBySetTypeRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsSetsResponse>>) {
-    // let req: GetPrfsSetsBySetTypeRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_sets =
         prfs::get_prfs_sets_by_set_type(pool, input.set_type, input.page_idx, input.page_size)
@@ -71,7 +57,6 @@ pub async fn get_prfs_set_by_set_id(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<GetPrfsSetBySetIdRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsSetBySetIdResponse>>) {
-    // let req: GetPrfsSetBySetIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_set = prfs::get_prfs_set_by_set_id(pool, &input.set_id)
         .await

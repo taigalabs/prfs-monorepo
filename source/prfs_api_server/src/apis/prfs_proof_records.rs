@@ -5,7 +5,6 @@ use axum::{
     routing::{get, post},
     Json, Router,
 };
-use hyper::{body::Incoming, Response};
 use prfs_axum_lib::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
     resp::ApiResponse,
@@ -45,7 +44,6 @@ pub async fn create_prfs_proof_record(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<CreatePrfsProofTypeRequest>,
 ) -> (StatusCode, Json<ApiResponse<CreatePrfsProofTypeResponse>>) {
-    // let req: CreatePrfsProofTypeRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 

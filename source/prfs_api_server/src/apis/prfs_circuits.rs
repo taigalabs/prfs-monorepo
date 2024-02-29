@@ -16,8 +16,6 @@ use prfs_entities::prfs_api::{
 };
 use std::sync::Arc;
 
-use crate::ApiServerError;
-
 pub async fn get_prfs_circuits(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<GetPrfsCircuitsRequest>,
