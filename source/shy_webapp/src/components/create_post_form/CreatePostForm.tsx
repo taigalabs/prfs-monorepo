@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PublicInputsInterface } from "@taigalabs/prfs-circuit-interface/bindings/PublicInputsInterface";
