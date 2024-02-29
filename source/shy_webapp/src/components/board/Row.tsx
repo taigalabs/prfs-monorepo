@@ -1,5 +1,6 @@
 import React from "react";
 import dayjs, { Dayjs } from "dayjs";
+import cn from "classnames";
 import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 import { DateTimed } from "@taigalabs/shy-entities/bindings/DateTimed";
 
@@ -20,12 +21,14 @@ const Row: React.FC<RowProps> = ({ post, now }) => {
   return (
     <div className={styles.wrapper}>
       <div>
-        <div className={styles.title}>{post.inner.title}</div>
+        <div className={cn(styles.title, styles.col)}>{post.inner.title}</div>
         <div></div>
       </div>
       <div className={styles.meta}>
-        <div className={styles.proofIdentity}>{post.inner.proof_identity_input}</div>
-        <div>{date}</div>
+        <div className={cn(styles.proofIdentity, styles.col)}>
+          {post.inner.proof_identity_input}
+        </div>
+        <div className={cn(styles.col)}>{date}</div>
       </div>
       {/* <div */}
       {/*   className={styles.body} */}

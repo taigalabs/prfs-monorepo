@@ -9,4 +9,5 @@ pub struct ShyPost {
     pub content: String,
     pub channel_id: String,
     pub proof_identity_input: String,
+    pub num_replies: i32,
 }
