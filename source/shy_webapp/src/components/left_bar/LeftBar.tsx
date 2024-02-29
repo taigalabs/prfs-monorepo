@@ -3,14 +3,12 @@
 import React from "react";
 import cn from "classnames";
 import Link from "next/link";
-import { GetShyChannelsResponse } from "@taigalabs/shy-entities/bindings/GetShyChannelsResponse";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { MdDashboard } from "@react-icons/all-files/md/MdDashboard";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import PostDialog from "@/components/post_dialog/PostDialog";
 import ShyLogo from "@/components/shy_logo/ShyLogo";
 import { LocalShyCredential, removeLocalShyCredential } from "@/storage/local_storage";
 import { useAppDispatch } from "@/state/hooks";
