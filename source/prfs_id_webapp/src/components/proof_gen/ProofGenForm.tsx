@@ -65,7 +65,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     async function fn() {
       try {
         if (proofGenArgs) {
-          console.log(22, proofGenArgs.queries);
           let elems = [];
           const receipt: Record<string, string> = {};
           for (const query of proofGenArgs.queries) {

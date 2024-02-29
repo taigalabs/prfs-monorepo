@@ -72,7 +72,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
       const { sk: sk2, pkHex: pkHex2 } = createRandomKeyPair();
-      const json = JSON.stringify({ title, html, postId });
+      const json = JSON.stringify({ postId });
 
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
@@ -81,13 +81,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         nonce: makeRandInt(1000000),
         app_id: SHY_APP_ID,
         queries: [
-          {
-            name: RAND_KEY_PAIR,
-            preImage: postId.substring(2),
-            type: RandKeyPairType.EC_SECP256K1,
-            queryType: QueryType.RAND_KEY_PAIR,
-            skipAfterIfExists: true,
-          },
           {
             name: PROOF,
             proofTypeId,
