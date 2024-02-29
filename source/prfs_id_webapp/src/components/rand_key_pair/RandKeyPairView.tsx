@@ -1,17 +1,12 @@
 import React from "react";
 import { sigPoseidon } from "@taigalabs/prfs-crypto-js";
 import { useSearchParams } from "next/navigation";
-import {
-  CommitmentType,
-  PrfsIdCredential,
-  CommitmentQuery,
-  RandKeyPairQuery,
-  RandKeyPairType,
-} from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, RandKeyPairQuery, RandKeyPairType } from "@taigalabs/prfs-id-sdk-web";
 import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 import styles from "./RandKeyPairView.module.scss";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
+import RandKeyPairItem from "./RandKeyPairItem";
 
 const RandKeyPairView: React.FC<RandKeyPairViewProps> = ({ query, credential, setReceipt }) => {
   const searchParams = useSearchParams();
@@ -30,9 +25,9 @@ const RandKeyPairView: React.FC<RandKeyPairViewProps> = ({ query, credential, se
             [name]: cm,
           }));
 
-          // setElem(
-          //   <CommitmentItem key={name} name={name} val={preImage} type={type} hashedHex={cm} />,
-          // );
+          setElem(
+            <RandKeyPairItem key={name} name={name} val={preImage} type={type} hashedHex={cm} />,
+          );
         }
       } catch (err) {
         console.error(err);

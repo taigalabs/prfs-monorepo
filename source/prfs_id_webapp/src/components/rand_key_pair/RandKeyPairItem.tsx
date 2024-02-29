@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { MdNoteAdd } from "@react-icons/all-files/md/MdNoteAdd";
-import { CommitmentType } from "@taigalabs/prfs-id-sdk-web";
+import { RandKeyPairType } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./RandKeyPairItem.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -41,5 +41,5 @@ export interface RandKeyPairItemProps {
   name: string;
   hashedHex: string;
   val: string;
-  type: CommitmentType;
+  type: RandKeyPairType;
 }
