@@ -12,6 +12,7 @@ import {
   InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import { useI18N } from "@/i18n/hook";
+import dayjs from "dayjs";
 
 const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
   const i18n = useI18N();
@@ -44,12 +45,15 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
         }
       })
     : [];
+
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 70,
     overscan: 5,
   });
+
+  const now = dayjs();
 
   React.useEffect(() => {
     const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
@@ -107,7 +111,7 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
               ? hasNextPage
                 ? "Loading more..."
                 : "Nothing more to load"
-              : post && <Row post={post} />}
+              : post && <Row post={post} now={now} />}
           </InfiniteScrollRowWrapper>
         );
       })}
