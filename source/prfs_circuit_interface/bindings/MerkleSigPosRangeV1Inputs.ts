@@ -7,6 +7,7 @@ export interface MerkleSigPosRangeV1Inputs {
   assetSize: bigint;
   assetSizeGreaterEqThan: bigint;
   assetSizeLessThan: bigint;
+  assetSizeLabel: string;
   merkleProof: SpartanMerkleProof;
-  nonce: string;
+  nonceRaw: string;
 }

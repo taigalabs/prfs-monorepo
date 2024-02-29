@@ -1,0 +1,36 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(253, 237, 237);
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: rgb(95, 33, 32);
+
+  > svg {
+    font-size: 22px;
+    color: rgb(211, 47, 47);
+    margin-right: 14px;
+  }
+}
+
+.btnGroup {
+  display: grid;
+  place-items: center;
+  color: rgb(211, 47, 47);
+  font-size: 22px;
+
+  button {
+    cursor: pointer;
+  }
+}

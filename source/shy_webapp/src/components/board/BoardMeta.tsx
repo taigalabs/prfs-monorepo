@@ -26,19 +26,27 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel }) => {
     } else return null;
   }, [channel]);
 
+  const desc = React.useMemo(() => {
+    if (isDescOpen) {
+      return channel.desc;
+    } else {
+      return channel.desc.substring(0, 45) + "...";
+    }
+  }, [channel.desc, isDescOpen]);
+
   return channel ? (
     <div className={styles.wrapper}>
-      <div className={styles.inner}>
+      <div className={cn(styles.inner, { [styles.isVisible]: isDescOpen })}>
         <div className={styles.titleRow}>
           <div className={styles.label}>{channel.label}</div>
           <div className={styles.arrow} onClick={handleClickToggleDesc}>
             <IoIosArrowDown />
           </div>
         </div>
-        <div className={cn(styles.descRow, { [styles.isVisible]: isDescOpen })}>
-          <div className={styles.desc}>{channel.desc}</div>
+        <div className={cn(styles.descRow)}>
+          <div className={styles.desc}>{desc}</div>
           <div className={styles.proofTypeIds}>
-            <p className={styles.title}>Requiring proofs of types</p>
+            <p className={styles.title}>{i18n.requiring_proofs_of_type}</p>
             {proofTypesElem}
           </div>
         </div>

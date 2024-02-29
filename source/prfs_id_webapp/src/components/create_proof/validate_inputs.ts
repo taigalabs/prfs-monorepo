@@ -1,7 +1,5 @@
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
-import { HashData } from "@taigalabs/prfs-circuit-interface/bindings/HashData";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
@@ -19,7 +17,7 @@ export function validateInputs(
 
       if (!val?.merkleProof) {
         hasError = true;
-        formErrors.merkleProof = "Input is empty";
+        formErrors.merkleProof = "Merkle proof is empty";
       } else {
         const { root, siblings, pathIndices } = val.merkleProof;
 
@@ -29,9 +27,9 @@ export function validateInputs(
         }
       }
 
-      if (!val?.nonce || val?.nonce.length === 0) {
+      if (!val?.nonceRaw || val?.nonceRaw.length === 0) {
         hasError = true;
-        formErrors.nonce = "Input is empty";
+        formErrors.nonceRaw = "Nonce raw is empty";
       }
 
       break;
@@ -57,7 +55,7 @@ export function validateInputs(
 
       if (!val?.merkleProof) {
         hasError = true;
-        formErrors.merkleProof = "Input is empty";
+        formErrors.merkleProof = "Merkle proof is empty";
       } else {
         const { root, siblings, pathIndices } = val.merkleProof;
 

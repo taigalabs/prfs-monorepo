@@ -1,7 +1,7 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  padding: 10px $side_padding 10px;
+  padding: 10px $side_padding 14px;
 }
 
 .inner {
@@ -20,43 +20,69 @@
     place-items: center;
     margin-left: auto;
     cursor: pointer;
+    transition: all 0.25s ease-out;
+  }
+}
+
+.isVisible {
+  .arrow {
+    transform: rotate(180deg);
+  }
+
+  .descRow {
+    opacity: 1;
+  }
+
+  .proofTypeIds {
+    display: block;
   }
 }
 
 .descRow {
-  line-height: 1.62em;
+  line-height: 1.32em;
   color: var(--gray-20);
-  max-height: 0;
   overflow: hidden;
-  opacity: 0;
+  opacity: 1;
   transition: all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
     opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 225ms;
+  position: relative;
+}
 
-  &.isVisible {
-    max-height: 800px;
-    opacity: 1;
+.desc {
+  padding-top: 4px;
+}
+
+.proofTypeIds {
+  display: none;
+  padding-top: 8px;
+  font-size: 13px;
+  color: var(--gray-30);
+
+  .title {
+    display: inline-block;
+    padding-right: 5px;
   }
 
-  .desc {
-    padding-top: 4px;
+  .entry {
+    line-height: 1em;
+    font-size: 11px;
+    padding: 3px 4px;
+    background-color: var(--bright-gray-40);
+    color: var(--gray-30);
+    border-radius: 2px;
+    display: inline-block;
   }
+}
 
-  .proofTypeIds {
-    .title {
-      display: inline-block;
-      padding-right: 5px;
-    }
-
-    .entry {
-      line-height: 1em;
-      font-size: 11px;
-      padding: 3px 4px;
-      background-color: var(--bright-gray-40);
-      color: var(--gray-30);
-      border-radius: 2px;
-      display: inline-block;
-    }
-  }
+.blind {
+  position: absolute;
+  transition: all 0.25s ease-out;
+  top: 6px;
+  opacity: 1;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(0deg, rgb(255, 255, 255) 1%, rgba(255, 255, 255, 0) 100%);
 }
 
 @media screen and (min-width: $big_display_min_width) {

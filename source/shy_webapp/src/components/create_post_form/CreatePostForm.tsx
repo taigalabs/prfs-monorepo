@@ -10,37 +10,69 @@ import {
   makeProofGenSearchParams,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+import { shyApi2 } from "@taigalabs/shy-api-js";
+import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
+import { PublicInputsInterface } from "@taigalabs/prfs-circuit-interface/bindings/PublicInputsInterface";
 
 import styles from "./CreatePostForm.module.scss";
 import { paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
+import EditorFooter from "./EditorFooter";
 
 const PROOF = "Proof";
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = useI18N();
   const router = useRouter();
-  // const { mutateAsync: createSocialPost } = useMutation({
-  //   mutationFn: (req: CreateShyPostRequest) => {
-  //     return shyApi2({ type: "create_shy_post", ...req });
-  //   },
-  // });
-  //
-  const handleClickPost = React.useCallback(
+  const [title, setTitle] = React.useState<string>("");
+  const [error, setError] = React.useState<string | null>(null);
+  const [postId, shortId] = React.useMemo(() => {
+    const hex = rand256Hex();
+    return [hex, hex.substring(0, 10)];
+  }, []);
+  const { mutateAsync: createShyPost } = useMutation({
+    mutationFn: (req: CreateShyPostRequest) => {
+      return shyApi2({ type: "create_shy_post", ...req });
+    },
+  });
+
+  const handleChangeTitle = React.useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(ev.target.value);
+    },
+    [setTitle],
+  );
+
+  const handleCreatePost = React.useCallback(
     async (html: string) => {
-      if (channel.proof_type_ids.length < 1) {
+      setError(null);
+
+      if (title.length < 1) {
+        setError("Title needs to be present");
         return;
       }
-      const proofTypeId = channel.proof_type_ids[0];
 
+      if (channel.proof_type_ids.length < 1) {
+        setError("Proof type does not exist");
+        return;
+      }
+
+      const proofTypeId = channel.proof_type_ids[0];
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
+      const { sk: sk2, pkHex: pkHex2 } = createRandomKeyPair();
+      const json = JSON.stringify({ title, html, postId, publicKey: pkHex2 });
 
+      const presetVals: MerkleSigPosRangeV1PresetVals = {
+        nonceRaw: json,
+      };
       const proofGenArgs: ProofGenArgs = {
         nonce: makeRandInt(1000000),
         app_id: "prfs_proof",
@@ -49,6 +81,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
             name: PROOF,
             proofTypeId,
             queryType: QueryType.CREATE_PROOF,
+            presetVals,
           },
         ],
         public_key: pkHex,
@@ -112,49 +145,66 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           return;
         }
 
-        let payload: ProofGenSuccessPayload;
+        let proofGenPayload: ProofGenSuccessPayload;
         try {
-          payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+          proofGenPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
         } catch (err) {
           console.error("cannot parse payload", err);
           return;
         }
 
-        //     const post_id = uuidv4();
-        //     const post: ShyPost = {
-        //       post_id,
-        //       content: html,
-        //       channel_id: "default",
-        //     };
+        const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
+        const shy_post_proof_id = rand256Hex();
 
-        //     const { payload } = await createSocialPost({ post });
-        //     console.log("create social post resp", payload);
+        const publicInputs: PublicInputsInterface = JSON.parse(proveReceipt.proof.publicInputSer);
 
-        const proof = payload.receipt[PROOF] as ProveReceipt;
-        // if (proof) {
-        //   handleCreateProofResult(proof);
-        // } else {
-        //   console.error("no proof delivered");
-        //   return;
-        // }
+        const { payload } = await createShyPost({
+          title,
+          post_id: postId,
+          content: html,
+          channel_id: channel.channel_id,
+          shy_post_proof_id,
+          proof_identity_input: publicInputs.proofIdentityInput,
+          proof: Array.from(proveReceipt.proof.proofBytes),
+          public_inputs: proveReceipt.proof.publicInputSer,
+          public_key: pkHex2,
+        });
+        console.log("create shy post resp", payload);
+        router.push(`${paths.c}/${channel.channel_id}`);
       } catch (err) {
         console.error(err);
       }
-
-      // ws.close();
-      // popup.close();
+      ws.close();
+      popup.close();
     },
-    [channel],
+    [channel, postId, title, setError, createShyPost, router],
   );
+
+  const footer = React.useMemo(() => {
+    return (
+      <>
+        {error && <div className={styles.error}>{error}</div>}
+        <EditorFooter handleClickPost={handleCreatePost} />
+      </>
+    );
+  }, [error, title]);
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.title}>{i18n.create_a_post}</div>
+      <div className={styles.title}>
+        <span>{i18n.create_a_post}</span>
+        <span> ({shortId}...)</span>
+      </div>
       <div className={styles.titleInput}>
-        <input type="text" placeholder={i18n.what_is_this_discussion_about_in_one_sentence} />
+        <input
+          type="text"
+          placeholder={i18n.what_is_this_discussion_about_in_one_sentence}
+          value={title}
+          onChange={handleChangeTitle}
+        />
       </div>
       <div className={styles.editorWrapper}>
-        <TextEditor handleClickPost={handleClickPost} />
+        <TextEditor footer={footer} />
       </div>
     </div>
   );

@@ -38,6 +38,11 @@ import { reportError } from "@/state/errorReducer";
 
 const SIGN_IN = "SIGN_IN";
 
+enum Status {
+  InProgress,
+  Standby,
+}
+
 const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
   className,
   label,
@@ -46,6 +51,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
+  const [status, setStatus] = React.useState(Status.Standby);
   const dispatch = useAppDispatch();
   const { isInitialized, shyCredential } = useSignedInShyUser();
   const { mutateAsync: prfsSignInRequest } = useMutation({
@@ -78,64 +84,69 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
 
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
-      if (sk && encrypted.length > 0) {
-        let decrypted: string;
-        try {
-          decrypted = decrypt(sk.secret, encrypted).toString();
-        } catch (err) {
-          console.error(err);
-          return;
-        }
-
-        let proofGenSuccessPayload: ProofGenSuccessPayload;
-        try {
-          proofGenSuccessPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-        } catch (err) {
-          console.error(err);
-          return;
-        }
-
-        const signInResult_ = proofGenSuccessPayload.receipt[SIGN_IN];
-        let signInResult: AppSignInResult;
-        try {
-          if (!signInResult_) {
-            dispatch(reportError({ errorObj: "", message: `Sign in result does not exist` }));
+      async function fn() {
+        if (sk && encrypted.length > 0) {
+          let decrypted: string;
+          try {
+            decrypted = decrypt(sk.secret, encrypted).toString();
+          } catch (err) {
+            console.error(err);
             return;
           }
-          signInResult = JSON.parse(signInResult_);
-        } catch (err) {
-          dispatch(
-            reportError({
-              errorObj: err,
-              message: `Cannot parse sign in result, json: ${signInResult_}`,
-            }),
-          );
-          return;
-        }
 
-        const { error, code } = await prfsSignInRequest({
-          account_id: signInResult.account_id,
-        });
-        const avatar_color = makeColor(signInResult.account_id);
-        const credential: LocalShyCredential = {
-          account_id: signInResult.account_id,
-          public_key: signInResult.public_key,
-          avatar_color,
-        };
-
-        if (error) {
-          console.error(error);
-          if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
-            setSignUpData(credential);
+          let proofGenSuccessPayload: ProofGenSuccessPayload;
+          try {
+            proofGenSuccessPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+          } catch (err) {
+            console.error(err);
+            return;
           }
-          return;
-        }
 
-        persistShyCredential(credential);
-        dispatch(signInShy(credential));
+          const signInResult_ = proofGenSuccessPayload.receipt[SIGN_IN];
+          let signInResult: AppSignInResult;
+          try {
+            if (!signInResult_) {
+              dispatch(reportError({ errorObj: "", message: `Sign in result does not exist` }));
+              return;
+            }
+            signInResult = JSON.parse(signInResult_);
+          } catch (err) {
+            dispatch(
+              reportError({
+                errorObj: err,
+                message: `Cannot parse sign in result, json: ${signInResult_}`,
+              }),
+            );
+            return;
+          }
+
+          const { error, code } = await prfsSignInRequest({
+            account_id: signInResult.account_id,
+          });
+          const avatar_color = makeColor(signInResult.account_id);
+          const credential: LocalShyCredential = {
+            account_id: signInResult.account_id,
+            public_key: signInResult.public_key,
+            avatar_color,
+          };
+
+          if (error) {
+            console.error(error);
+            if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
+              setSignUpData(credential);
+            }
+            return;
+          }
+
+          persistShyCredential(credential);
+          dispatch(signInShy(credential));
+        }
       }
+      setStatus(Status.InProgress);
+      fn().then();
+      setStatus(Status.Standby);
     },
-    [router, dispatch, prfsSignInRequest, setSignUpData, searchParams],
+    [router, dispatch, prfsSignInRequest, setSignUpData, searchParams, setStatus],
   );
 
   const handleClickSignOut = React.useCallback(() => {
@@ -170,6 +181,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           proofGenArgs={proofGenArgs}
           handleSucceedSignIn={handleSucceedSignIn}
           prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
+          isLoading={status === Status.InProgress}
         />
       )}
     </>

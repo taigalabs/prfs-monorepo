@@ -1,7 +1,7 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  padding: 0 $side_padding 12px;
+  padding: 0 $side_padding 24px;
 }
 
 .row {
@@ -12,8 +12,13 @@
   }
 }
 
-.sortBtn {
+.channelBtn {
   cursor: not-allowed;
+  height: 32px;
+  padding: 0 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  font-weight: 500;
 
   svg {
     padding-left: 5px;
@@ -21,6 +26,12 @@
   }
 }
 
-.newPostBtn {
+.button {
+  font-size: 14px;
+  padding: 0 10px;
+  height: 32px;
+}
+
+.rightAlign {
   margin-left: auto;
 }

@@ -1,20 +1,26 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
-use uuid::Uuid;
 
-use crate::entities::ShyPost;
+use crate::entities::{DateTimed, ShyPost};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreateShyPostRequest {
-    pub post: ShyPost,
+    pub title: String,
+    pub post_id: String,
+    pub content: String,
+    pub channel_id: String,
+    pub shy_post_proof_id: String,
+    pub proof_identity_input: String,
+    pub proof: Vec<u8>,
+    pub public_inputs: String,
+    pub public_key: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreateShyPostResponse {
-    #[ts(type = "string")]
-    pub post_id: Uuid,
+    pub post_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -27,6 +33,6 @@ pub struct GetShyPostsRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyPostsResponse {
-    pub shy_posts: Vec<ShyPost>,
+    pub shy_posts: Vec<DateTimed<ShyPost>>,
     pub next_offset: Option<i32>,
 }

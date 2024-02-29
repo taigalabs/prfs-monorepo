@@ -18,6 +18,7 @@ import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetEle
 import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
+import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 
 import styles from "./MerkleSigPosRange.module.scss";
@@ -373,7 +374,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         if (!option) {
           throw new Error(`Option at index does not exist, idx: ${optionIdx}`);
         }
-        const { lower_bound, upper_bound } = option;
+        const { lower_bound, upper_bound, label } = option;
 
         setFormValues(oldVal => ({
           ...oldVal,
@@ -382,6 +383,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           assetSize: args[1],
           assetSizeGreaterEqThan: lower_bound,
           assetSizeLessThan: upper_bound,
+          assetSizeLabel: label,
           merkleProof,
         }));
       } catch (err) {
@@ -425,10 +427,10 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
               readOnly
             />
           </InputWrapper>
+          {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
           <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
         </InputGroup>
         {value && <ComputedValue value={value} />}
-        {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
       </FormInput>
       <FormInput>
         <MemoInput
@@ -452,7 +454,7 @@ export interface MerkleSigPosRangeInputProps {
   error: FormErrors<MerkleSigPosRangeV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
-  presetVals?: QueryPresetVals;
+  presetVals?: MerkleSigPosRangeV1PresetVals;
   credential: PrfsIdCredential;
 }
 

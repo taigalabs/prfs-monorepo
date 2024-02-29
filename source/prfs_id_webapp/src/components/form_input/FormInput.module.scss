@@ -1,7 +1,7 @@
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  /* gap: 6px; */
 }
 
 .formInput {
@@ -71,8 +71,8 @@
 }
 
 .formError {
-  margin-top: 5px;
+  /* padding-top: 5px; */
   font-size: 13px;
-  padding: 0 3px;
+  padding: 5px 3px 0;
   color: var(--red-50);
 }

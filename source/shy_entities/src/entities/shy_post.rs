@@ -1,14 +1,13 @@
-use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
-use uuid::Uuid;
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
 pub struct ShyPost {
-    #[ts(type = "string")]
-    pub post_id: Uuid,
-
+    pub title: String,
+    pub post_id: String,
     pub content: String,
     pub channel_id: String,
+    pub proof_identity_input: String,
+    pub num_replies: i32,
 }

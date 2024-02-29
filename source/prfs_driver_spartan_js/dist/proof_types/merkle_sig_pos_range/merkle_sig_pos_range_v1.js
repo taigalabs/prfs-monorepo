@@ -1,11 +1,13 @@
-import { bytesToBigInt, bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, } from "@taigalabs/prfs-crypto-js";
+import { bytesToBigInt, bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, toUtf8Bytes, } from "@taigalabs/prfs-crypto-js";
+import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { snarkJsWitnessGen } from "../../utils/snarkjs";
 import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     console.log("inputs: %o", inputs);
-    const { sigpos, leaf, merkleProof, assetSize, assetSizeLessThan, assetSizeGreaterEqThan, nonce } = inputs;
-    const nonceHash = await poseidon_2(nonce);
+    const { sigpos, leaf, merkleProof, assetSize, assetSizeLessThan, assetSizeGreaterEqThan, assetSizeLabel, nonceRaw, } = inputs;
+    const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
+    const nonceHash = await poseidon_2(nonceRaw_);
     const nonceInt = bytesToBigInt(nonceHash);
     const serialNoHash = await poseidon_2_bigint_le([sigpos, nonceInt]);
     const serialNo = bytesToNumberLE(serialNoHash);
@@ -14,7 +16,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         payload: { type: "info", payload: "Computed ECDSA pub input" },
     });
     const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(merkleProof.root, nonceInt, serialNo, assetSizeGreaterEqThan, assetSizeLessThan);
-    const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput, nonce);
+    const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput, nonceRaw, assetSizeLabel);
     const witnessGenInput = {
         sigpos,
         leaf,

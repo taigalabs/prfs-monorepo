@@ -7,17 +7,14 @@ use super::{RangeData, SpartanMerkleProof};
 #[allow(non_snake_case)]
 #[ts(export)]
 pub struct MerkleSigPosRangeV1Inputs {
-    // sigLower: i64,
-    // sigUpper: i64,
-    // #[ts(type = "Uint8Array")]
-    // sigBytes: Vec<u8>,
     sigpos: i64,
     leaf: i64,
     assetSize: i64,
     assetSizeGreaterEqThan: i64,
     assetSizeLessThan: i64,
+    assetSizeLabel: String,
     merkleProof: SpartanMerkleProof,
-    nonce: String,
+    nonceRaw: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
@@ -26,4 +23,11 @@ pub struct MerkleSigPosRangeV1Inputs {
 pub struct MerkleSigPosRangeV1Data {
     prfs_set_id: String,
     range_data: RangeData,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[allow(non_snake_case)]
+#[ts(export)]
+pub struct MerkleSigPosRangeV1PresetVals {
+    nonceRaw: String,
 }

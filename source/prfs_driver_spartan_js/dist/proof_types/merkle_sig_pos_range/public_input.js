@@ -4,10 +4,14 @@ import { serializeBigintArray } from "../../utils/buffer";
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 export class MerkleSigPosRangePublicInput {
     circuitPubInput;
-    nonce;
-    constructor(circuitPubInput, nonce) {
+    nonceRaw;
+    assetSizeLabel;
+    proofIdentityInput;
+    constructor(circuitPubInput, nonceRaw, assetSizeLabel) {
         this.circuitPubInput = circuitPubInput;
-        this.nonce = nonce;
+        this.nonceRaw = nonceRaw;
+        this.assetSizeLabel = assetSizeLabel;
+        this.proofIdentityInput = assetSizeLabel;
     }
     serialize() {
         return JSONbigNative.stringify(this);
@@ -16,7 +20,7 @@ export class MerkleSigPosRangePublicInput {
         const obj = JSONbigNative.parse(publicInputSer);
         const circuitPub = obj.circuitPubInput;
         const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(circuitPub.merkleRoot, circuitPub.nonceInt, circuitPub.serialNo, circuitPub.assetSizeGreaterEqThan, circuitPub.assetSizeLessThan);
-        return new MerkleSigPosRangePublicInput(circuitPubInput, obj.nonce);
+        return new MerkleSigPosRangePublicInput(circuitPubInput, obj.nonceRaw, obj.assetSizeLabel);
     }
 }
 export class MerkleSigPosRangeCircuitPubInput {
