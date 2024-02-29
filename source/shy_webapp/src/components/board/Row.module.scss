@@ -14,9 +14,13 @@
   /* border: 1px solid blue; */
 }
 
-.author {
+.title {
   font-weight: 500;
   font-size: 1.2em;
+}
+
+.meta {
+  display: flex;
 }
 
 .body {

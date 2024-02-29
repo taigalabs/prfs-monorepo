@@ -20,10 +20,10 @@ const Row: React.FC<RowProps> = ({ post, now }) => {
   return (
     <div className={styles.wrapper}>
       <div>
-        <div className={styles.author}>{post.inner.title}</div>
+        <div className={styles.title}>{post.inner.title}</div>
         <div></div>
       </div>
-      <div>
+      <div className={styles.meta}>
         <div className={styles.proofIdentity}>{post.inner.proof_identity_input}</div>
         <div>{date}</div>
       </div>
