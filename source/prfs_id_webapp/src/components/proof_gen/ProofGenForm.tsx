@@ -119,6 +119,19 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                 elems.push(elem);
                 break;
               }
+              case QueryType.RAND_KEY_PAIR: {
+                // const elem = (
+                //   <AppCredential
+                //     key={query.name}
+                //     credential={credential}
+                //     appId={proofGenArgs.app_id}
+                //     appSignInQuery={query}
+                //     setReceipt={setReceipt}
+                //   />
+                // );
+                // elems.push(elem);
+                break;
+              }
               default:
                 console.error("unsupported query type", query);
                 setErrorDialogMsg(<span>Unsupported query type, something is wrong</span>);

@@ -2,7 +2,7 @@ import React from "react";
 import { decrypt, encrypt } from "@taigalabs/prfs-crypto-js";
 import { useSearchParams } from "next/navigation";
 import { PrfsIdCredential, EncryptQuery, EncryptType } from "@taigalabs/prfs-id-sdk-web";
-import { hexlify } from "ethers/lib/utils";
+import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 import styles from "./EncryptView.module.scss";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";

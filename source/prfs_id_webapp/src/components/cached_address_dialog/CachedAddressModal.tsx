@@ -5,12 +5,12 @@ import { decrypt } from "@taigalabs/prfs-crypto-js";
 import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsIdCredential, WALLET_CM_STEM, makeWalletCacheKeyCm } from "@taigalabs/prfs-id-sdk-web";
+import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
 import styles from "./CachedAddressModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
-import { hexlify } from "ethers/lib/utils";
 
 function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<string[] | null>(null);

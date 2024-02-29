@@ -2,9 +2,11 @@ import React from "react";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import {
   API_PATH,
+  CommitmentType,
   ProofGenArgs,
   ProofGenSuccessPayload,
   QueryType,
+  RandKeyPairType,
   createSession,
   createSessionKey,
   makeProofGenSearchParams,
@@ -26,6 +28,7 @@ import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
 import EditorFooter from "./EditorFooter";
 
+const COMMITMENT = "Commitment";
 const PROOF = "Proof";
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
@@ -68,7 +71,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
       const { sk: sk2, pkHex: pkHex2 } = createRandomKeyPair();
-      const json = JSON.stringify({ title, html, postId, publicKey: pkHex2 });
+      const json = JSON.stringify({ title, html, postId });
 
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
@@ -77,6 +80,12 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         nonce: makeRandInt(1000000),
         app_id: "prfs_proof",
         queries: [
+          {
+            name: COMMITMENT,
+            preImage: postId.substring(2),
+            type: RandKeyPairType.EC_SECP256K1,
+            queryType: QueryType.RAND_KEY_PAIR,
+          },
           {
             name: PROOF,
             proofTypeId,

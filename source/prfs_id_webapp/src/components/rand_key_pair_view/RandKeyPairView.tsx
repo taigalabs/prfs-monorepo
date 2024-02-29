@@ -1,14 +1,19 @@
 import React from "react";
 import { sigPoseidon } from "@taigalabs/prfs-crypto-js";
 import { useSearchParams } from "next/navigation";
-import { CommitmentType, PrfsIdCredential, CommitmentQuery } from "@taigalabs/prfs-id-sdk-web";
+import {
+  CommitmentType,
+  PrfsIdCredential,
+  CommitmentQuery,
+  RandKeyPairQuery,
+  RandKeyPairType,
+} from "@taigalabs/prfs-id-sdk-web";
 import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
-import styles from "./CommitmentView.module.scss";
-import CommitmentItem from "./CommitmentItem";
+import styles from "./RandKeyPairView.module.scss";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 
-const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setReceipt }) => {
+const RandKeyPairView: React.FC<RandKeyPairViewProps> = ({ query, credential, setReceipt }) => {
   const searchParams = useSearchParams();
   const [elem, setElem] = React.useState<React.ReactNode>(null);
 
@@ -16,7 +21,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setR
     async function fn() {
       try {
         const { name, preImage, type } = query;
-        if (type === CommitmentType.SIG_POSEIDON_1) {
+        if (type === RandKeyPairType.EC_SECP256K1) {
           const { hashed } = await sigPoseidon(credential.secret_key, preImage);
           const cm = hexlify(hashed);
 
@@ -25,9 +30,9 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setR
             [name]: cm,
           }));
 
-          setElem(
-            <CommitmentItem key={name} name={name} val={preImage} type={type} hashedHex={cm} />,
-          );
+          // setElem(
+          //   <CommitmentItem key={name} name={name} val={preImage} type={type} hashedHex={cm} />,
+          // );
         }
       } catch (err) {
         console.error(err);
@@ -39,10 +44,10 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setR
   return <>{elem}</>;
 };
 
-export default CommitmentView;
+export default RandKeyPairView;
 
-export interface CommitmentViewProps {
+export interface RandKeyPairViewProps {
   credential: PrfsIdCredential;
-  query: CommitmentQuery;
+  query: RandKeyPairQuery;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
 }

@@ -4,6 +4,7 @@ import { CommitmentQuery } from "../queries/commitment";
 import { CreateProofQuery } from "../queries/create_proof";
 import { EncryptQuery } from "../queries/encrypt";
 import { AppSignInQuery } from "../queries/app_sign_in";
+import { RandKeyPairQuery } from "../queries/rand_key_pair";
 
 export function makeProofGenSearchParams(args: ProofGenArgs): string {
   const s = "?" + createQueryString(args);
@@ -65,4 +66,9 @@ export interface ProofGenSuccessPayload {
   receipt: Record<string, any>;
 }
 
-export type ProofGenQuery = CommitmentQuery | CreateProofQuery | EncryptQuery | AppSignInQuery;
+export type ProofGenQuery =
+  | CommitmentQuery
+  | CreateProofQuery
+  | EncryptQuery
+  | AppSignInQuery
+  | RandKeyPairQuery;
