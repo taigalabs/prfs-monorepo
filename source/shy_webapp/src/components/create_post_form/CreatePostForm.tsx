@@ -28,7 +28,7 @@ import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
 import EditorFooter from "./EditorFooter";
 
-const COMMITMENT = "Commitment";
+const RAND_KEY_PAIR = "RandKeyPair";
 const PROOF = "Proof";
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
@@ -81,7 +81,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         app_id: "prfs_proof",
         queries: [
           {
-            name: COMMITMENT,
+            name: RAND_KEY_PAIR,
             preImage: postId.substring(2),
             type: RandKeyPairType.EC_SECP256K1,
             queryType: QueryType.RAND_KEY_PAIR,

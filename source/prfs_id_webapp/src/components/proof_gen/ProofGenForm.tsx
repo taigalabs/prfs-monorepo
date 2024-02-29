@@ -32,6 +32,7 @@ import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import EncryptView from "@/components/encrypt/EncryptView";
 import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
+import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 
 enum Status {
   InProgress,
@@ -64,6 +65,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     async function fn() {
       try {
         if (proofGenArgs) {
+          console.log(22, proofGenArgs.queries);
           let elems = [];
           const receipt: Record<string, string> = {};
           for (const query of proofGenArgs.queries) {
@@ -80,7 +82,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
-                break;
+                continue;
               }
               case QueryType.COMMITMENT: {
                 const elem = (
@@ -92,7 +94,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
-                break;
+                continue;
               }
               case QueryType.ENCRYPT: {
                 const elem = (
@@ -104,7 +106,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
-                break;
+                continue;
               }
               case QueryType.APP_SIGN_IN: {
                 const elem = (
@@ -117,20 +119,19 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
-                break;
+                continue;
               }
               case QueryType.RAND_KEY_PAIR: {
-                // const elem = (
-                //   <AppCredential
-                //     key={query.name}
-                //     credential={credential}
-                //     appId={proofGenArgs.app_id}
-                //     appSignInQuery={query}
-                //     setReceipt={setReceipt}
-                //   />
-                // );
-                // elems.push(elem);
-                break;
+                const elem = (
+                  <RandKeyPairView
+                    key={query.name}
+                    credential={credential}
+                    query={query}
+                    setReceipt={setReceipt}
+                  />
+                );
+                elems.push(elem);
+                continue;
               }
               default:
                 console.error("unsupported query type", query);
