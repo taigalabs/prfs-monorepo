@@ -189,7 +189,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         }
 
         setCreateProofStatus(Status.Standby);
-        window.close();
+        // window.close();
       } catch (err: any) {
         console.error(err);
         setCreateProofStatus(Status.Standby);

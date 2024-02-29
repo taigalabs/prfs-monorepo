@@ -5,11 +5,13 @@ import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     console.log("inputs: %o", inputs);
-    const { sigpos, leaf, merkleProof, assetSize, assetSizeLessThan, assetSizeGreaterEqThan, assetSizeLabel, nonceRaw, } = inputs;
+    const { sigpos, leaf, merkleProof, assetSize, assetSizeLessThan, assetSizeGreaterEqThan, assetSizeLabel, nonceRaw, proofPubKey, } = inputs;
     const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
     const nonceHash = await poseidon_2(nonceRaw_);
     const nonceInt = bytesToBigInt(nonceHash);
-    const serialNoHash = await poseidon_2_bigint_le([sigpos, nonceInt]);
+    const sigposAndNonceInt = await poseidon_2_bigint_le([sigpos, nonceInt]);
+    const sigposAndNonceInt_ = bytesToBigInt(sigposAndNonceInt);
+    const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt_, proofPubKey]);
     const serialNo = bytesToNumberLE(serialNoHash);
     eventListener({
         type: "CREATE_PROOF_EVENT",

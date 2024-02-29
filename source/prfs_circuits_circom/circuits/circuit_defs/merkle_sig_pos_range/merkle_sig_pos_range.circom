@@ -19,6 +19,7 @@ template MerkleSigPosRange(nLevels) {
     signal input pathIndices[nLevels];
     signal input siblings[nLevels];
 
+    signal input proofPubKey;
     signal input nonce;
     // serialNo := pos(sigpos, nonce)
     signal input serialNo;
@@ -43,8 +44,12 @@ template MerkleSigPosRange(nLevels) {
     component poseidon3 = Poseidon();
     poseidon3.inputs[0] <== sigpos;
     poseidon3.inputs[1] <== nonce;
-    //log("serialNo", serialNo, "computed", poseidon3.out);
-    serialNo === poseidon3.out;
+    //log("sigposAndNonce", poseidon3.out);
+
+    component poseidon4 = Poseidon();
+    poseidon4.inputs[0] <== poseidon3.out;
+    poseidon4.inputs[1] <== proofPubKey;
+    serialNo === poseidon4.out;
 
     component merkleProof = MerkleTreeInclusionProof(nLevels);
     merkleProof.leaf <== leaf;

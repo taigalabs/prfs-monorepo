@@ -1,4 +1,5 @@
-export declare class MerkleSigPosRangePublicInput {
+import { PublicInputsInterface } from "@taigalabs/prfs-circuit-interface/bindings/PublicInputsInterface";
+export declare class MerkleSigPosRangePublicInput implements PublicInputsInterface {
     circuitPubInput: MerkleSigPosRangeCircuitPubInput;
     nonceRaw: string;
     assetSizeLabel: string;

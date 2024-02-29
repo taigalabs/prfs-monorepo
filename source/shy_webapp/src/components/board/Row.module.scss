@@ -22,11 +22,17 @@
 .meta {
   padding-top: 4px;
   display: flex;
-  gap: 8px;
+  gap: 14px;
 }
 
 .numReplies {
   font-weight: 600;
+}
+
+.col {
+  &:not(:first-child) {
+    /* border-left: 1p */
+  }
 }
 
 @media screen and (min-width: $big_display_min_width) {

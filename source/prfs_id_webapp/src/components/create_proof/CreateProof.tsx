@@ -110,10 +110,13 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
 
         try {
-          const isValid = validateInputs(formValues, proofType, setFormErrors);
+          const isValid = await validateInputs(formValues, proofType, setFormErrors);
           if (!isValid) {
             throw new Error("Input validation fail to create a proof");
           }
+
+          const formValues_ = { ...formValues };
+          formValues_.proofPubKey = "a";
 
           console.log("Form values", formValues);
           setCreateProofStatus(Status.InProgress);
@@ -132,7 +135,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
       },
     }));
-  }, [formValues, setReceipt, query, driver]);
+  }, [formValues, setReceipt, query, driver, credential]);
 
   const proofType = data?.payload?.prfs_proof_type;
   return proofType ? (
