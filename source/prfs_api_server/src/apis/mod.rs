@@ -5,6 +5,7 @@ pub mod prfs_circuits;
 pub mod prfs_indices;
 pub mod prfs_polls;
 pub mod prfs_proof_instances;
+pub mod prfs_proof_records;
 pub mod prfs_proof_types;
 pub mod prfs_set_elements;
 pub mod prfs_sets;

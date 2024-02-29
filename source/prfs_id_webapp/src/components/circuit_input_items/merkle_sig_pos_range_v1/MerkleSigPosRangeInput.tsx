@@ -141,7 +141,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           return;
         }
 
-        const { payload } = await getPrfsSetBySetId({
+        const { payload: getPrfsSetPayload } = await getPrfsSetBySetId({
           set_id: circuitTypeData.prfs_set_id,
         });
 
@@ -159,8 +159,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           return;
         }
 
-        if (payload) {
-          setPrfsSet(payload.prfs_set);
+        if (getPrfsSetPayload) {
+          setPrfsSet(getPrfsSetPayload.prfs_set);
         }
 
         if (getLatestPrfsTreeBySetIdPayload?.prfs_tree) {

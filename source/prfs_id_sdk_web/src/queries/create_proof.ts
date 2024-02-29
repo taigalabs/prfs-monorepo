@@ -5,7 +5,8 @@ export interface CreateProofQuery {
   proofTypeId: string;
   queryType: QueryType.CREATE_PROOF;
   presetVals?: QueryPresetVals;
-  keyPairPreimage?: string;
+  registry?: boolean;
+  proofAction?: string;
 }
 
 export type QueryPresetVals = Record<string, any>;

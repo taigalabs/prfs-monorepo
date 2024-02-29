@@ -69,6 +69,17 @@ const CreateProof: React.FC<CreateProofProps> = ({
   const { loadDriverProgress, loadDriverStatus, driver, driverArtifacts } = useLoadDriver(
     data?.payload?.prfs_proof_type,
   );
+  // const a = useQuery({
+  //   queryKey: ["get_prfs_proof_type_by_proof_type_id", proofTypeId],
+  //   queryFn: () => {
+  //     if (proofTypeId) {
+  //       return prfsApi3({
+  //         type: "get_prfs_proof_type_by_proof_type_id",
+  //         proof_type_id: proofTypeId,
+  //       });
+  //     }
+  //   },
+  // });
 
   React.useEffect(() => {
     if (error) {
@@ -133,6 +144,14 @@ const CreateProof: React.FC<CreateProofProps> = ({
       },
     }));
   }, [formValues, setReceipt, query, driver, credential]);
+
+  React.useEffect(() => {
+    async function fn() {
+      if (query.registry) {
+      }
+    }
+    fn().then();
+  }, [query.registry]);
 
   const proofType = data?.payload?.prfs_proof_type;
   return proofType ? (

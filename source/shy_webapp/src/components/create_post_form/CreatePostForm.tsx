@@ -2,11 +2,9 @@ import React from "react";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import {
   API_PATH,
-  CommitmentType,
   ProofGenArgs,
   ProofGenSuccessPayload,
   QueryType,
-  RandKeyPairType,
   createSession,
   createSessionKey,
   makeProofGenSearchParams,
@@ -29,8 +27,8 @@ import { envs } from "@/envs";
 import EditorFooter from "./EditorFooter";
 import { SHY_APP_ID } from "@/app_id";
 
-const RAND_KEY_PAIR = "RandKeyPair";
 const PROOF = "Proof";
+const CREATE_POST = "CREATE_POST";
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = useI18N();
@@ -72,7 +70,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
       const { sk: sk2, pkHex: pkHex2 } = createRandomKeyPair();
-      const json = JSON.stringify({ postId });
+      const json = JSON.stringify({ appId: SHY_APP_ID, postId });
 
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
@@ -86,6 +84,8 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
             proofTypeId,
             queryType: QueryType.CREATE_PROOF,
             presetVals,
+            registry: true,
+            proofAction: CREATE_POST,
           },
         ],
         public_key: pkHex,
