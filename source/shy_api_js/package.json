@@ -22,7 +22,6 @@
     "@taigalabs/prfs-api-server": "*",
     "@taigalabs/shy-entities": "*",
     "classnames": "^2.3.2",
-    "ethers": "^5",
     "json-bigint": "^1.0.0"
   }
 }

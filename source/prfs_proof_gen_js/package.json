@@ -17,8 +17,7 @@
     "@taigalabs/prfs-circuit-artifact-uri-resolver": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@ethereumjs/util": "^8.0.3",
-    "@taigalabs/prfs-entities": "*",
-    "ethers": "^5"
+    "@taigalabs/prfs-entities": "*"
   },
   "devDependencies": {
     "rollup": "^3.27.2",
