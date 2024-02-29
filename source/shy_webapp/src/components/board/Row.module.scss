@@ -23,10 +23,8 @@
   display: flex;
 }
 
-.body {
-  a {
-    color: var(--aqua-blue-50);
-  }
+.numReplies {
+  font-weight: 600;
 }
 
 @media screen and (min-width: $big_display_min_width) {

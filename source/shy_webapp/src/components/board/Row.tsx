@@ -29,6 +29,7 @@ const Row: React.FC<RowProps> = ({ post, now }) => {
           {post.inner.proof_identity_input}
         </div>
         <div className={cn(styles.col)}>{date}</div>
+        <div className={cn(styles.numReplies, styles.col)}>{post.inner.num_replies}</div>
       </div>
       {/* <div */}
       {/*   className={styles.body} */}

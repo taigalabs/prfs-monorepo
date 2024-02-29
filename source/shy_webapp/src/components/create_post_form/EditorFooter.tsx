@@ -21,7 +21,7 @@ const EditorFooter: React.FC<EditorFooterProps> = ({ handleClickPost }) => {
   return (
     <div className={styles.wrapper}>
       <Button variant="green_1" handleClick={extendedHandleClickPost}>
-        {i18n.post}
+        {i18n.prove_and_post}
       </Button>
     </div>
   );

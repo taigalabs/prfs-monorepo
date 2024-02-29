@@ -390,6 +390,7 @@ export default {
   manually_tweet_at_twitter: "manually tweet at X (Twitter)",
   manually_create_a_signature_and_paste_it: "manually create a signature and paste it",
   post: "Post",
+  prove_and_post: "Prove and post",
   add_question: "Add question",
   votes: "Votes",
   poll: "Poll",
