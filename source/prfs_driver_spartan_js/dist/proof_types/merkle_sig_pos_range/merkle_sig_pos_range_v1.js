@@ -1,4 +1,4 @@
-import { bytesToBigInt, bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, toUtf8Bytes, } from "@taigalabs/prfs-crypto-js";
+import { bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, toUtf8Bytes, } from "@taigalabs/prfs-crypto-js";
 import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { snarkJsWitnessGen } from "../../utils/snarkjs";
 import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
@@ -8,11 +8,16 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { sigpos, leaf, merkleProof, assetSize, assetSizeLessThan, assetSizeGreaterEqThan, assetSizeLabel, nonceRaw, proofPubKey, } = inputs;
     const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
     const nonceHash = await poseidon_2(nonceRaw_);
-    const nonceInt = bytesToBigInt(nonceHash);
-    const sigposAndNonceInt = await poseidon_2_bigint_le([sigpos, nonceInt]);
-    const sigposAndNonceInt_ = bytesToBigInt(sigposAndNonceInt);
-    const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt_, proofPubKey]);
+    const nonceInt = bytesToNumberLE(nonceHash);
+    const sigposAndNonceInt_ = await poseidon_2_bigint_le([sigpos, nonceInt]);
+    const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
+    console.log("sigposAndNonce", sigposAndNonceInt_);
+    const proofPubKey_ = await poseidon_2_bigint_le([proofPubKey, BigInt(0)]);
+    const proofPubKeyInt = bytesToNumberLE(proofPubKey_);
+    console.log("proofPubKeyInt", proofPubKeyInt);
+    const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
     const serialNo = bytesToNumberLE(serialNoHash);
+    console.log("serialNo", serialNo);
     eventListener({
         type: "CREATE_PROOF_EVENT",
         payload: { type: "info", payload: "Computed ECDSA pub input" },
@@ -29,6 +34,8 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         siblings: merkleProof.siblings,
         pathIndices: merkleProof.pathIndices,
         nonce: nonceInt,
+        sigposAndNonce: sigposAndNonceInt_,
+        proofPubKey: proofPubKeyInt,
         serialNo,
     };
     console.log("witnessGenInput", witnessGenInput);

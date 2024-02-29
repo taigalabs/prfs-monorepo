@@ -38,13 +38,19 @@ export async function proveMembership(
 
   const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
   const nonceHash = await poseidon_2(nonceRaw_);
-  const nonceInt = bytesToBigInt(nonceHash);
+  const nonceInt = bytesToNumberLE(nonceHash);
 
-  const sigposAndNonceInt = await poseidon_2_bigint_le([sigpos, nonceInt]);
-  const sigposAndNonceInt_ = bytesToBigInt(sigposAndNonceInt);
+  const sigposAndNonceInt_ = await poseidon_2_bigint_le([sigpos, nonceInt]);
+  const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
+  console.log("sigposAndNonce", sigposAndNonceInt_);
 
-  const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt_, proofPubKey]);
+  const proofPubKey_ = await poseidon_2_bigint_le([proofPubKey, BigInt(0)]);
+  const proofPubKeyInt = bytesToNumberLE(proofPubKey_);
+  console.log("proofPubKeyInt", proofPubKeyInt);
+
+  const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
   const serialNo = bytesToNumberLE(serialNoHash);
+  console.log("serialNo", serialNo);
 
   eventListener({
     type: "CREATE_PROOF_EVENT",
@@ -73,6 +79,8 @@ export async function proveMembership(
     pathIndices: merkleProof.pathIndices,
 
     nonce: nonceInt,
+    sigposAndNonce: sigposAndNonceInt_,
+    proofPubKey: proofPubKeyInt,
     serialNo,
   };
 

@@ -1,7 +1,7 @@
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
-import { bytesToBigInt, deriveProofKey } from "@taigalabs/prfs-crypto-js";
+import { bytesToBigInt, bytesToNumberLE, deriveProofKey } from "@taigalabs/prfs-crypto-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 export async function validateInputs(
@@ -33,7 +33,7 @@ export async function validateInputs(
         formErrors.nonceRaw = "Nonce raw is empty";
       } else {
         const sk = await deriveProofKey(formValues.nonceRaw);
-        const proofPubKey = bytesToBigInt(sk.publicKey.compressed);
+        const proofPubKey = bytesToNumberLE(sk.publicKey.compressed);
         val.proofPubKey = proofPubKey;
       }
 

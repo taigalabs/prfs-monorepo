@@ -115,9 +115,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
             throw new Error("Input validation fail to create a proof");
           }
 
-          const formValues_ = { ...formValues };
-          formValues_.proofPubKey = "a";
-
           console.log("Form values", formValues);
           setCreateProofStatus(Status.InProgress);
           const proveReceipt = await driver.prove({
