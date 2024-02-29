@@ -2,6 +2,7 @@ import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-inte
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import {
   PrivateKey,
+  PublicKey,
   bytesToBigInt,
   bytesToNumberLE,
   deriveProofKey,
@@ -44,8 +45,10 @@ export async function proveMembership(
   const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
   console.log("sigposAndNonce", sigposAndNonceInt_);
 
-  const proofPubKey_ = await poseidon_2_bigint_le([proofPubKey, BigInt(0)]);
-  const proofPubKeyInt = bytesToNumberLE(proofPubKey_);
+  const pk = PublicKey.fromHex(proofPubKey);
+  const proofPubKey_ = bytesToNumberLE(pk.compressed);
+  const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
+  const proofPubKeyInt = bytesToNumberLE(proofPubKeyHash);
   console.log("proofPubKeyInt", proofPubKeyInt);
 
   const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
@@ -66,7 +69,12 @@ export async function proveMembership(
     assetSizeLessThan,
   );
 
-  const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput, nonceRaw, assetSizeLabel);
+  const publicInput = new MerkleSigPosRangePublicInput(
+    circuitPubInput,
+    nonceRaw,
+    proofPubKey,
+    assetSizeLabel,
+  );
 
   const witnessGenInput = {
     sigpos,

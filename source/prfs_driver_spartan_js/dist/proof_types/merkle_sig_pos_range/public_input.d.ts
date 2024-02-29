@@ -2,9 +2,10 @@ import { PublicInputsInterface } from "@taigalabs/prfs-circuit-interface/binding
 export declare class MerkleSigPosRangePublicInput implements PublicInputsInterface {
     circuitPubInput: MerkleSigPosRangeCircuitPubInput;
     nonceRaw: string;
+    proofPubKey: string;
     assetSizeLabel: string;
     proofIdentityInput: string;
-    constructor(circuitPubInput: MerkleSigPosRangeCircuitPubInput, nonceRaw: string, assetSizeLabel: string);
+    constructor(circuitPubInput: MerkleSigPosRangeCircuitPubInput, nonceRaw: string, proofPubKey: string, assetSizeLabel: string);
     serialize(): string;
     static deserialize(publicInputSer: string): MerkleSigPosRangePublicInput;
 }

@@ -9,16 +9,19 @@ const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true })
 export class MerkleSigPosRangePublicInput implements PublicInputsInterface {
   circuitPubInput: MerkleSigPosRangeCircuitPubInput;
   nonceRaw: string;
+  proofPubKey: string;
   assetSizeLabel: string;
   proofIdentityInput: string;
 
   constructor(
     circuitPubInput: MerkleSigPosRangeCircuitPubInput,
     nonceRaw: string,
+    proofPubKey: string,
     assetSizeLabel: string,
   ) {
     this.circuitPubInput = circuitPubInput;
     this.nonceRaw = nonceRaw;
+    this.proofPubKey = proofPubKey;
     this.assetSizeLabel = assetSizeLabel;
     this.proofIdentityInput = assetSizeLabel;
   }
@@ -39,7 +42,13 @@ export class MerkleSigPosRangePublicInput implements PublicInputsInterface {
       circuitPub.assetSizeGreaterEqThan,
       circuitPub.assetSizeLessThan,
     );
-    return new MerkleSigPosRangePublicInput(circuitPubInput, obj.nonceRaw, obj.assetSizeLabel);
+
+    return new MerkleSigPosRangePublicInput(
+      circuitPubInput,
+      obj.nonceRaw,
+      obj.proofPubKey,
+      obj.assetSizeLabel,
+    );
   }
 }
 
