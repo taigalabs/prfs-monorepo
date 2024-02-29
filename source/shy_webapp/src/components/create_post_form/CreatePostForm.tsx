@@ -95,11 +95,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const searchParams = makeProofGenSearchParams(proofGenArgs);
       const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
-      const popup = openPopup(endpoint);
-      if (!popup) {
-        console.error("Popup couldn't be open");
-        return;
-      }
       let sessionStream;
       try {
         sessionStream = await createSession({
@@ -117,7 +112,14 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         return;
       }
 
+      const popup = openPopup(endpoint);
+      if (!popup) {
+        console.error("Popup couldn't be open");
+        return;
+      }
+
       const { ws, send, receive } = sessionStream;
+
       const session = await receive();
       if (!session) {
         console.error("Coultn' retreieve session");

@@ -189,7 +189,10 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         }
 
         setCreateProofStatus(Status.Standby);
-        // window.close();
+
+        // For some reason, parent window sees the child as 'child', so child manually
+        // closes itself
+        window.close();
       } catch (err: any) {
         console.error(err);
         setCreateProofStatus(Status.Standby);

@@ -22,7 +22,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         type: "CREATE_PROOF_EVENT",
         payload: { type: "info", payload: "Computed ECDSA pub input" },
     });
-    const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(merkleProof.root, nonceInt, serialNo, assetSizeGreaterEqThan, assetSizeLessThan);
+    const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(merkleProof.root, nonceInt, proofPubKeyInt, serialNo, assetSizeGreaterEqThan, assetSizeLessThan);
     const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput, nonceRaw, assetSizeLabel);
     const witnessGenInput = {
         sigpos,
@@ -34,7 +34,6 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         siblings: merkleProof.siblings,
         pathIndices: merkleProof.pathIndices,
         nonce: nonceInt,
-        sigposAndNonce: sigposAndNonceInt_,
         proofPubKey: proofPubKeyInt,
         serialNo,
     };

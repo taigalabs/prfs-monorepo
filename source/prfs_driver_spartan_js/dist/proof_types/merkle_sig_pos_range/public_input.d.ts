@@ -11,10 +11,11 @@ export declare class MerkleSigPosRangePublicInput implements PublicInputsInterfa
 export declare class MerkleSigPosRangeCircuitPubInput {
     merkleRoot: bigint;
     nonceInt: bigint;
+    proofPubKeyInt: bigint;
     serialNo: bigint;
     assetSizeGreaterEqThan: bigint;
     assetSizeLessThan: bigint;
-    constructor(merkleRoot: bigint, nonceInt: bigint, serialNo: bigint, assetSizeGreaterEqThan: bigint, assetSizeLessThan: bigint);
+    constructor(merkleRoot: bigint, nonceInt: bigint, proofPubKeyInt: bigint, serialNo: bigint, assetSizeGreaterEqThan: bigint, assetSizeLessThan: bigint);
     serialize(): Uint8Array;
     static deserialize(serialized: Uint8Array): MerkleSigPosRangeCircuitPubInput;
 }

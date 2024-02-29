@@ -60,6 +60,7 @@ export async function proveMembership(
   const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(
     merkleProof.root,
     nonceInt,
+    proofPubKeyInt,
     serialNo,
     assetSizeGreaterEqThan,
     assetSizeLessThan,
@@ -79,7 +80,6 @@ export async function proveMembership(
     pathIndices: merkleProof.pathIndices,
 
     nonce: nonceInt,
-    sigposAndNonce: sigposAndNonceInt_,
     proofPubKey: proofPubKeyInt,
     serialNo,
   };

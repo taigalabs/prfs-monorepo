@@ -15,7 +15,8 @@ generate_api_error_codes! {
 lazy_static::lazy_static! {
     pub static ref API_ERROR_CODE: PrfsIdSessionApiErrorCodes = {
         let error_codes_str = include_str!("../../data_api/error_codes.json");
-        let ret: PrfsIdSessionApiErrorCodes = serde_json::from_str(error_codes_str).unwrap();
+        let ret: PrfsIdSessionApiErrorCodes = serde_json::from_str(error_codes_str)
+            .expect("Error code json needs to be loaded");
 
         ret
     };
