@@ -22,6 +22,7 @@ export function bustEphemeralPrfsIdCredential() {
       const cred: EphemeralPrfsIdCredential = JSON.parse(json);
       const lasted = Date.now() - cred.createdAt;
       if (lasted > FIVE_MIN_MS) {
+        console.log("Busting ephemeral prfs id credential");
         window.localStorage.removeItem(PRFS_ID_EPHEMERAL);
       }
     }
@@ -38,6 +39,7 @@ export function loadEphemeralPrfsIdCredential(): EphemeralPrfsIdCredential | nul
       const cred: EphemeralPrfsIdCredential = JSON.parse(val);
 
       if (Date.now() - cred.createdAt > FIVE_MIN_MS) {
+        console.log("Busting ephemeral prfs id credential");
         window.localStorage.removeItem(PRFS_ID_EPHEMERAL);
         return null;
       } else {
