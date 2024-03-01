@@ -33,6 +33,11 @@
     opacity: 1;
   }
 
+  .desc {
+    height: auto;
+    white-space: normal;
+  }
+
   .proofTypeIds {
     display: block;
   }
@@ -49,7 +54,11 @@
 }
 
 .desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   padding-top: 4px;
+  height: 24px;
 }
 
 .proofTypeIds {
