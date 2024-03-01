@@ -1,12 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  loadLocalPrfsIdCredentials,
-  PrfsIdCredential,
-  removeAllPrfsIdCredentials,
-  StoredCredentialRecord,
-} from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -18,6 +13,11 @@ import {
 import CreateID from "@/components/create_id/CreateID";
 import StoredCredentials from "./StoredCredentials";
 import SignInForm from "./SignInForm";
+import {
+  StoredCredentialRecord,
+  loadLocalPrfsIdCredentials,
+  removeAllPrfsIdCredentials,
+} from "@/storage/local_storage";
 
 enum SignInStep {
   Loading,

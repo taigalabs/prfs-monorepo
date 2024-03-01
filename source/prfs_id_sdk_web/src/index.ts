@@ -1,4 +1,3 @@
-export * from "./local_storage";
 export * from "./api";
 export * from "./attestation";
 export * from "./credential";
