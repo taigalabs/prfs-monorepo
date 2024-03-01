@@ -17,7 +17,7 @@ import {
   StoredCredentialRecord,
   loadLocalPrfsIdCredentials,
   removeAllPrfsIdCredentials,
-} from "@/storage/local_storage";
+} from "@/storage/prfs_id_credential";
 
 enum SignInStep {
   Loading,

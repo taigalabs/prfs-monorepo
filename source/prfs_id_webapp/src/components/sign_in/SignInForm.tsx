@@ -16,7 +16,7 @@ import {
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
 import { IdCreateForm } from "@/functions/validate_id";
-import { persistPrfsIdCredentialEncrypted } from "@/storage/local_storage";
+import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
 
 enum InputCredentialStatus {
   Loading,

@@ -23,6 +23,7 @@ import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
 import TutorialPlaceholder from "@/components/tutorial_default/TutorialPlaceholder";
 import { signInPrfs } from "@/state/userReducer";
+import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -82,7 +83,7 @@ const ProofGen: React.FC = () => {
       if (credential) {
         setCredential(credential);
         dispatch(signInPrfs(credential));
-        // persistPrfsIdCredential(credential);
+        persistEphemeralPrfsIdCredential(credential);
         setStep(ProofGenStep.Form);
       }
     },

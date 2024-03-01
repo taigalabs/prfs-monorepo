@@ -20,7 +20,7 @@ import {
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
 import { makeDecryptKey } from "@taigalabs/prfs-crypto-js";
-import { StoredCredentialRecord } from "@/storage/local_storage";
+import { StoredCredentialRecord } from "@/storage/prfs_id_credential";
 
 export enum SignInStatus {
   Loading,
