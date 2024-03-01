@@ -1,7 +1,6 @@
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import {
-  JSONbigNative,
   PrivateKey,
   PublicKey,
   bytesToBigInt,
@@ -133,7 +132,7 @@ export async function proveMembership(
     duration: now - prev,
     proof: {
       proofBytes,
-      publicInputSer: JSONbigNative.stringify(publicInput),
+      publicInputSer: publicInput.stringify(),
       proofKey,
       proofActionResult: proofActionResultHex,
     },

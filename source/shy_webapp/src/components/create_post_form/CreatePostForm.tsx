@@ -25,7 +25,7 @@ import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShy
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
-import { PublicInputsInterface } from "@taigalabs/prfs-circuit-interface/bindings/PublicInputsInterface";
+import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 
 import styles from "./CreatePostForm.module.scss";
 import { paths } from "@/paths";
@@ -173,23 +173,21 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         }
 
         const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
-        const shy_post_proof_id = rand256Hex();
-
-        // await createPrfsProofRecord({
-        //   proof_record: {
-        //     public_key: "",
-        //     serial_no: proveReceipt.proof.publicInputSer,
-        //     proof_starts_with: Array.from(proveReceipt.proof.proofBytes.slice(0, 4)),
-        //   },
-        // });
-
-        const publicInputs: PublicInputsInterface = JSONbigNative.parse(
+        const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
           proveReceipt.proof.publicInputSer,
         );
-        console.log(111, proveReceipt, publicInputs);
-        // publicInputs.
-        return;
+        // console.log(111, proveReceipt, publicInputs);
+        const { payload: createPrfsProofRecordPayload } = await createPrfsProofRecord({
+          proof_record: {
+            public_key: publicInputs.proofPubKey,
+            serial_no: publicInputs.circuitPubInput.serialNo.toString(),
+            proof_starts_with: Array.from(proveReceipt.proof.proofBytes.slice(0, 4)),
+          },
+        });
 
+        console.log(22, createPrfsProofRecordPayload);
+
+        const shy_post_proof_id = rand256Hex();
         // const { payload } = await createShyPost({
         //   title,
         //   post_id: postId,

@@ -1,9 +1,10 @@
 import { JSONbigNative, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
-import { PublicInputsInterface } from "@taigalabs/prfs-circuit-interface/bindings/PublicInputsInterface";
+import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
+import { MerkleSigPosRangeV1CircuitPubInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1CircuitPubInputs";
 
 import { serializeBigintArray } from "@/utils/buffer";
 
-export class MerkleSigPosRangePublicInput implements PublicInputsInterface {
+export class MerkleSigPosRangePublicInput implements MerkleSigPosRangeV1PublicInputs {
   circuitPubInput: MerkleSigPosRangeCircuitPubInput;
   nonceRaw: string;
   proofPubKey: string;
@@ -56,7 +57,7 @@ export class MerkleSigPosRangePublicInput implements PublicInputsInterface {
   }
 }
 
-export class MerkleSigPosRangeCircuitPubInput {
+export class MerkleSigPosRangeCircuitPubInput implements MerkleSigPosRangeV1CircuitPubInputs {
   merkleRoot: bigint;
   nonceInt: bigint;
   proofPubKeyInt: bigint;

@@ -33,3 +33,26 @@ pub struct MerkleSigPosRangeV1Data {
 pub struct MerkleSigPosRangeV1PresetVals {
     nonceRaw: String,
 }
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[allow(non_snake_case)]
+#[ts(export)]
+pub struct MerkleSigPosRangeV1PublicInputs {
+    circuitPubInput: MerkleSigPosRangeV1CircuitPubInputs,
+    nonceRaw: String,
+    proofPubKey: String,
+    assetSizeLabel: String,
+    proofIdentityInput: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[allow(non_snake_case)]
+#[ts(export)]
+pub struct MerkleSigPosRangeV1CircuitPubInputs {
+    merkleRoot: i64,
+    nonceInt: i64,
+    proofPubKeyInt: i64,
+    serialNo: i64,
+    assetSizeGreaterEqThan: i64,
+    assetSizeLessThan: i64,
+}
