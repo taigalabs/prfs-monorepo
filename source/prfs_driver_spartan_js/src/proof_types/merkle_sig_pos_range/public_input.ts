@@ -1,10 +1,7 @@
-import JSONBig from "json-bigint";
-import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
+import { JSONbigNative, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 import { PublicInputsInterface } from "@taigalabs/prfs-circuit-interface/bindings/PublicInputsInterface";
 
 import { serializeBigintArray } from "@/utils/buffer";
-
-const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
 export class MerkleSigPosRangePublicInput implements PublicInputsInterface {
   circuitPubInput: MerkleSigPosRangeCircuitPubInput;

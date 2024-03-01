@@ -12,7 +12,13 @@ import {
   makeProofGenSearchParams,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
+import {
+  JSONbigNative,
+  createRandomKeyPair,
+  decrypt,
+  makeRandInt,
+  rand256Hex,
+} from "@taigalabs/prfs-crypto-js";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
@@ -158,19 +164,18 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           return;
         }
 
+        console.log(111, decrypted);
+
         let proofGenPayload: ProofGenSuccessPayload;
         try {
-          proofGenPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+          proofGenPayload = JSONbigNative.parse(decrypted) as ProofGenSuccessPayload;
         } catch (err) {
-          console.error("cannot parse payload", err);
+          console.error("cannot parse payload, obj: %s", decrypted);
           return;
         }
 
         const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
         const shy_post_proof_id = rand256Hex();
-
-        console.log(111, proveReceipt);
-        return;
 
         // await createPrfsProofRecord({
         //   proof_record: {
@@ -180,7 +185,12 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         //   },
         // });
 
-        const publicInputs: PublicInputsInterface = JSON.parse(proveReceipt.proof.publicInputSer);
+        const publicInputs: PublicInputsInterface = JSONbigNative.parse(
+          proveReceipt.proof.publicInputSer,
+        );
+        console.log(111, proveReceipt, publicInputs);
+        // publicInputs.
+        return;
 
         // const { payload } = await createShyPost({
         //   title,

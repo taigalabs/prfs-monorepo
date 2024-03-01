@@ -9,7 +9,7 @@ import {
   ProofGenSuccessPayload,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { encrypt } from "@taigalabs/prfs-crypto-js";
+import { JSONbigNative, encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
@@ -172,7 +172,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           receipt: processedReceipt,
         };
         const encrypted = [
-          ...encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload))),
+          ...encrypt(proofGenArgs.public_key, Buffer.from(JSONbigNative.stringify(payload))),
         ];
         // console.log("receipt: %o, encrypted", processedReceipt, encrypted);
 
@@ -192,7 +192,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
         // For some reason, parent window sees the child as 'child', so child manually
         // closes itself
-        // window.close();
+        window.close();
       } catch (err: any) {
         console.error(err);
         setCreateProofStatus(Status.Standby);

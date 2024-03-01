@@ -370,7 +370,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         setRangeOptionIdx(optionIdx);
 
         const option = range_data.options[optionIdx];
-
         if (!option) {
           throw new Error(`Option at index does not exist, idx: ${optionIdx}`);
         }
