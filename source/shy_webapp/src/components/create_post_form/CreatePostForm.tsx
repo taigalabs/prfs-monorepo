@@ -173,16 +173,11 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         }
 
         const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
-        console.log(11, proveReceipt);
         const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
           proveReceipt.proof.publicInputSer,
         );
 
-        // const circuitPubInput = JSONbigNative.parse(publicInputs.circuitPubInput as string);
-
-        console.log(111, publicInputs);
-
-        const { payload: createPrfsProofRecordPayload } = await createPrfsProofRecord({
+        const { payload: _createPrfsProofRecordPayload } = await createPrfsProofRecord({
           proof_record: {
             public_key: publicInputs.proofPubKey,
             serial_no: publicInputs.circuitPubInput.serialNo.toString(),
@@ -190,22 +185,20 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           },
         });
 
-        console.log(22, createPrfsProofRecordPayload);
-
         const shy_post_proof_id = rand256Hex();
-        // const { payload } = await createShyPost({
-        //   title,
-        //   post_id: postId,
-        //   content: html,
-        //   channel_id: channel.channel_id,
-        //   shy_post_proof_id,
-        //   proof_identity_input: publicInputs.proofIdentityInput,
-        //   proof: Array.from(proveReceipt.proof.proofBytes),
-        //   public_inputs: proveReceipt.proof.publicInputSer,
-        //   public_key: pkHex2,
-        // });
-        // console.log("create shy post resp", payload);
-        // router.push(`${paths.c}/${channel.channel_id}`);
+        const { payload } = await createShyPost({
+          title,
+          post_id: postId,
+          content: html,
+          channel_id: channel.channel_id,
+          shy_post_proof_id,
+          proof_identity_input: publicInputs.proofIdentityInput,
+          proof: Array.from(proveReceipt.proof.proofBytes),
+          public_inputs: proveReceipt.proof.publicInputSer,
+          public_key: publicInputs.proofPubKey,
+        });
+        console.log("create shy post resp", payload);
+        router.push(`${paths.c}/${channel.channel_id}`);
       } catch (err) {
         console.error(err);
       }
