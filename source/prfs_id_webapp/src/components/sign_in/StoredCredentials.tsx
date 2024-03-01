@@ -21,6 +21,7 @@ import {
 } from "@/functions/validate_id";
 import { makeDecryptKey } from "@taigalabs/prfs-crypto-js";
 import { StoredCredentialRecord } from "@/storage/prfs_id_credential";
+import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 
 export enum SignInStatus {
   Loading,
@@ -131,6 +132,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
         return;
       }
 
+      persistEphemeralPrfsIdCredential(credentialObj);
       handleSucceedSignIn(credentialObj);
     }
   }, [handleSucceedSignIn, formData, selectedCredentialId, setErrorMsg]);

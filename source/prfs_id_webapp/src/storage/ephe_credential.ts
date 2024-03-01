@@ -12,7 +12,7 @@ export function persistEphemeralPrfsIdCredential(credential: PrfsIdCredential) {
   const cred: EphemeralPrfsIdCredential = { createdAt: Date.now(), credential };
   const json = JSON.stringify(cred);
   window.localStorage.setItem(PRFS_ID_EPHEMERAL, json);
-  console.log("Storing prfs is credential", credential.id);
+  // console.log("Storing prfs is credential", credential.id);
 }
 
 export function bustEphemeralPrfsIdCredential() {
@@ -28,5 +28,26 @@ export function bustEphemeralPrfsIdCredential() {
   } catch (err) {
     console.error(err);
     return;
+  }
+}
+
+export function loadEphemeralPrfsIdCredential(): EphemeralPrfsIdCredential | null {
+  try {
+    const val = window.localStorage.getItem(PRFS_ID_EPHEMERAL);
+    if (val) {
+      const cred: EphemeralPrfsIdCredential = JSON.parse(val);
+
+      if (Date.now() - cred.createdAt > FIVE_MIN_MS) {
+        window.localStorage.removeItem(PRFS_ID_EPHEMERAL);
+        return null;
+      } else {
+        return cred;
+      }
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
   }
 }

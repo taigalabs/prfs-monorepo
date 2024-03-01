@@ -83,7 +83,6 @@ const ProofGen: React.FC = () => {
       if (credential) {
         setCredential(credential);
         dispatch(signInPrfs(credential));
-        persistEphemeralPrfsIdCredential(credential);
         setStep(ProofGenStep.Form);
       }
     },

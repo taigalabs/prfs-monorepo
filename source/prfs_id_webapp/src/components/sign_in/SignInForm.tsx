@@ -17,6 +17,7 @@ import {
 } from "@/components/default_module/DefaultModule";
 import { IdCreateForm } from "@/functions/validate_id";
 import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
+import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 
 enum InputCredentialStatus {
   Loading,
@@ -66,6 +67,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
     // console.log("credential", credential, formData);
 
     persistPrfsIdCredentialEncrypted(credential);
+    persistEphemeralPrfsIdCredential(credential);
     handleSucceedSignIn(credential);
   }, [handleSucceedSignIn, formData]);
 

@@ -18,6 +18,7 @@ import {
   loadLocalPrfsIdCredentials,
   removeAllPrfsIdCredentials,
 } from "@/storage/prfs_id_credential";
+import { loadEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 
 enum SignInStep {
   Loading,
@@ -40,6 +41,11 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
   const [storedCredentials, setStoredCredentials] = React.useState<StoredCredentialRecord>({});
 
   React.useEffect(() => {
+    const epheCred = loadEphemeralPrfsIdCredential();
+    if (epheCred) {
+      handleSucceedSignIn(epheCred.credential);
+    }
+
     const storedCredentials = loadLocalPrfsIdCredentials();
     console.log("stored credentials", storedCredentials);
 
@@ -49,7 +55,7 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
     } else {
       setStep(SignInStep.SignInForm);
     }
-  }, [setErrorMsg, setStep, setStoredCredentials]);
+  }, [setErrorMsg, setStep, setStoredCredentials, handleSucceedSignIn]);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
