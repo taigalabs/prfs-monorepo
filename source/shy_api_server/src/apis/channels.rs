@@ -1,15 +1,9 @@
-use prfs_axum_lib::axum::{
-    extract::{Request, State},
-    http::StatusCode,
-    Json, Router,
-};
-use prfs_axum_lib::io::{parse_req, ApiHandlerResult};
+use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
 use shy_entities::shy_api::{
-    CreateShyPostRequest, CreateShyPostResponse, GetShyChannelRequest, GetShyChannelResponse,
-    GetShyChannelsRequest, GetShyChannelsResponse,
+    GetShyChannelRequest, GetShyChannelResponse, GetShyChannelsRequest, GetShyChannelsResponse,
 };
 use std::sync::Arc;
 
