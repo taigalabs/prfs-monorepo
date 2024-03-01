@@ -385,6 +385,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           assetSizeLessThan: upper_bound,
           assetSizeLabel: label,
           merkleProof,
+          proofAction: "power",
         }));
       } catch (err) {
         console.error(err);

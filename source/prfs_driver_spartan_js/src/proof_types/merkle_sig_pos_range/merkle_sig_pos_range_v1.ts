@@ -12,6 +12,7 @@ import {
   toUtf8Bytes,
 } from "@taigalabs/prfs-crypto-js";
 import { hexlify, keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
 
 import { snarkJsWitnessGen } from "@/utils/snarkjs";
 import { PrfsHandlers } from "@/types";
@@ -39,6 +40,10 @@ export async function proveMembership(
     proofAction,
   } = inputs;
 
+  if (!proofAction || proofAction.length < 1) {
+    throw new Error("Proof action should be non-empty string");
+  }
+
   const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
   const nonceHash = await poseidon_2(nonceRaw_);
   const nonceInt = bytesToNumberLE(nonceHash);
@@ -47,9 +52,15 @@ export async function proveMembership(
   const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
   // console.log("sigposAndNonce", sigposAndNonceInt_);
 
-  const sk = PrivateKey.fromHex(proofKey);
-  const proofPubKey = "0x" + sk.publicKey.toHex();
-  const proofPubKey_ = bytesToNumberLE(sk.publicKey.compressed);
+  // const aa = secp.ProjectivePointh
+  // const sk = secp.utils.randomPrivateKey();
+  // const secretKey = hexlify(sk);
+  const publicKey = secp.getPublicKey(proofKey);
+  const proofPubKey = hexlify(publicKey);
+
+  // const sk = PrivateKey.fromHex(proofKey);
+  // const proofPubKey = "0x" + sk.publicKey.toHex();
+  const proofPubKey_ = bytesToNumberLE(publicKey);
   const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
   const proofPubKeyInt = bytesToNumberLE(proofPubKeyHash);
   // console.log("proofPubKeyInt", proofPubKeyInt);
@@ -120,16 +131,16 @@ export async function proveMembership(
   }
   const now = performance.now();
 
-  const proofAction_ = await prfsSign(sk.toHex(), "pwoer");
-  const proofActionResult = proofAction_.toCompactHex();
+  const proofActionResult = await prfsSign(proofKey, proofAction);
+  const proofActionResultHex = proofActionResult.toCompactHex();
 
   return {
     duration: now - prev,
     proof: {
       proofBytes,
       publicInputSer: publicInput.serialize(),
-      proofKey: "0x" + sk.toHex(),
-      proofActionResult,
+      proofKey,
+      proofActionResult: proofActionResultHex,
     },
   };
 }
