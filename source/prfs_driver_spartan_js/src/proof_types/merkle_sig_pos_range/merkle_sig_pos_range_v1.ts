@@ -55,7 +55,7 @@ export async function proveMembership(
   // const aa = secp.ProjectivePointh
   // const sk = secp.utils.randomPrivateKey();
   // const secretKey = hexlify(sk);
-  const publicKey = secp.getPublicKey(proofKey);
+  const publicKey = secp.getPublicKey(proofKey.substring(2));
   const proofPubKey = hexlify(publicKey);
 
   // const sk = PrivateKey.fromHex(proofKey);

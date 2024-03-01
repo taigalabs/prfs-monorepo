@@ -19,7 +19,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
     // const aa = secp.ProjectivePointh
     // const sk = secp.utils.randomPrivateKey();
     // const secretKey = hexlify(sk);
-    const publicKey = secp.getPublicKey(proofKey);
+    const publicKey = secp.getPublicKey(proofKey.substring(2));
     const proofPubKey = hexlify(publicKey);
     // const sk = PrivateKey.fromHex(proofKey);
     // const proofPubKey = "0x" + sk.publicKey.toHex();
