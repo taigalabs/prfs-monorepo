@@ -2,11 +2,11 @@ import React from "react";
 import { sigPoseidon } from "@taigalabs/prfs-crypto-js";
 import { useSearchParams } from "next/navigation";
 import { CommitmentType, PrfsIdCredential, CommitmentQuery } from "@taigalabs/prfs-id-sdk-web";
+import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 import styles from "./CommitmentView.module.scss";
 import CommitmentItem from "./CommitmentItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
-import { hexlify } from "ethers/lib/utils";
 
 const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setReceipt }) => {
   const searchParams = useSearchParams();

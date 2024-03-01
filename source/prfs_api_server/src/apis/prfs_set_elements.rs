@@ -27,12 +27,9 @@ const PRFS_ATTESTATION: &str = "prfs_attestation";
 const CRYPTO_ASSET_SIZE_ATSTS: &str = "crypto_asset_size_atsts";
 
 pub async fn import_prfs_set_elements(
-    // req: Request<Incoming>,
-    // state: Arc<ServerState>,
     State(state): State<Arc<ServerState>>,
     Json(input): Json<ImportPrfsSetElementsRequest>,
 ) -> (StatusCode, Json<ApiResponse<ImportPrfsSetElementsResponse>>) {
-    // let req: ImportPrfsSetElementsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 

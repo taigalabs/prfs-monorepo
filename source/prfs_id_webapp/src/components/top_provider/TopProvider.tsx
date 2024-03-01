@@ -9,7 +9,7 @@ import { mainnet, sepolia } from "@taigalabs/prfs-crypto-deps-js/wagmi/chains";
 
 import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";
-import { envs } from "@/envs";
+import { bustEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +22,10 @@ export const wagmiConfig = createConfig({
 });
 
 const TopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  React.useEffect(() => {
+    bustEphemeralPrfsIdCredential();
+  }, []);
+
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>

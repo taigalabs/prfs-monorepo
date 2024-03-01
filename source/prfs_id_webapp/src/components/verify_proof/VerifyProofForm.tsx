@@ -11,6 +11,7 @@ import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
+import { toUtf8String } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 import styles from "./VerifyProofForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -31,7 +32,6 @@ import {
 } from "@/components/default_module/QueryItem";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
-import { toUtf8String } from "ethers/lib/utils";
 import { usePutSessionValue } from "@/hooks/session";
 
 enum Status {

@@ -5,7 +5,7 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { makePathIndices, makeSiblingPath, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
-import { hexlify } from "ethers/lib/utils";
+import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
@@ -141,7 +141,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           return;
         }
 
-        const { payload } = await getPrfsSetBySetId({
+        const { payload: getPrfsSetPayload } = await getPrfsSetBySetId({
           set_id: circuitTypeData.prfs_set_id,
         });
 
@@ -159,8 +159,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           return;
         }
 
-        if (payload) {
-          setPrfsSet(payload.prfs_set);
+        if (getPrfsSetPayload) {
+          setPrfsSet(getPrfsSetPayload.prfs_set);
         }
 
         if (getLatestPrfsTreeBySetIdPayload?.prfs_tree) {

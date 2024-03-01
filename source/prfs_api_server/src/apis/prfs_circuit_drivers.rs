@@ -22,7 +22,6 @@ pub async fn get_prfs_circuit_drivers(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<GetPrfsCircuitDriversRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsCircuitDriversResponse>>) {
-    // let req: GetPrfsCircuitDriversRequest = parse_req(req).await;
     let pool = &state.clone().db2.pool;
     let prfs_circuit_drivers = prfs::get_prfs_circuit_drivers(&pool).await;
 
@@ -40,7 +39,6 @@ pub async fn get_prfs_circuit_driver_by_driver_id(
     StatusCode,
     Json<ApiResponse<GetPrfsCircuitDriverByDriverIdResponse>>,
 ) {
-    // let req: GetPrfsCircuitDriverByDriverIdRequest = parse_req(req).await;
     let pool = &state.clone().db2.pool;
     let prfs_circuit_driver =
         prfs::get_prfs_circuit_driver_by_circuit_driver_id(&pool, &input.circuit_driver_id).await;

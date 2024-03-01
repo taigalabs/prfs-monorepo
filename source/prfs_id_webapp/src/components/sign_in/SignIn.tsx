@@ -1,12 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  loadLocalPrfsIdCredentials,
-  PrfsIdCredential,
-  removeAllPrfsIdCredentials,
-  StoredCredentialRecord,
-} from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -18,6 +13,12 @@ import {
 import CreateID from "@/components/create_id/CreateID";
 import StoredCredentials from "./StoredCredentials";
 import SignInForm from "./SignInForm";
+import {
+  StoredCredentialRecord,
+  loadLocalPrfsIdCredentials,
+  removeAllPrfsIdCredentials,
+} from "@/storage/prfs_id_credential";
+import { loadEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 
 enum SignInStep {
   Loading,
@@ -40,6 +41,11 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
   const [storedCredentials, setStoredCredentials] = React.useState<StoredCredentialRecord>({});
 
   React.useEffect(() => {
+    const epheCred = loadEphemeralPrfsIdCredential();
+    if (epheCred) {
+      handleSucceedSignIn(epheCred.credential);
+    }
+
     const storedCredentials = loadLocalPrfsIdCredentials();
     console.log("stored credentials", storedCredentials);
 
@@ -49,7 +55,7 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
     } else {
       setStep(SignInStep.SignInForm);
     }
-  }, [setErrorMsg, setStep, setStoredCredentials]);
+  }, [setErrorMsg, setStep, setStoredCredentials, handleSucceedSignIn]);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {

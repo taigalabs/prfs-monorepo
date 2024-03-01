@@ -25,8 +25,10 @@ import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
 import EditorFooter from "./EditorFooter";
+import { SHY_APP_ID } from "@/app_id";
 
 const PROOF = "Proof";
+const CREATE_POST = "CREATE_POST";
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = useI18N();
@@ -68,20 +70,22 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
       const { sk: sk2, pkHex: pkHex2 } = createRandomKeyPair();
-      const json = JSON.stringify({ title, html, postId, publicKey: pkHex2 });
+      const json = JSON.stringify({ appId: SHY_APP_ID, postId });
 
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
       };
       const proofGenArgs: ProofGenArgs = {
         nonce: makeRandInt(1000000),
-        app_id: "prfs_proof",
+        app_id: SHY_APP_ID,
         queries: [
           {
             name: PROOF,
             proofTypeId,
             queryType: QueryType.CREATE_PROOF,
             presetVals,
+            registry: true,
+            proofAction: CREATE_POST,
           },
         ],
         public_key: pkHex,
@@ -91,11 +95,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const searchParams = makeProofGenSearchParams(proofGenArgs);
       const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
-      const popup = openPopup(endpoint);
-      if (!popup) {
-        console.error("Popup couldn't be open");
-        return;
-      }
       let sessionStream;
       try {
         sessionStream = await createSession({
@@ -113,7 +112,14 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         return;
       }
 
+      const popup = openPopup(endpoint);
+      if (!popup) {
+        console.error("Popup couldn't be open");
+        return;
+      }
+
       const { ws, send, receive } = sessionStream;
+
       const session = await receive();
       if (!session) {
         console.error("Coultn' retreieve session");

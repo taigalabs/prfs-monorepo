@@ -5,11 +5,13 @@ const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true })
 export class MerkleSigPosRangePublicInput {
     circuitPubInput;
     nonceRaw;
+    proofPubKey;
     assetSizeLabel;
     proofIdentityInput;
-    constructor(circuitPubInput, nonceRaw, assetSizeLabel) {
+    constructor(circuitPubInput, nonceRaw, proofPubKey, assetSizeLabel) {
         this.circuitPubInput = circuitPubInput;
         this.nonceRaw = nonceRaw;
+        this.proofPubKey = proofPubKey;
         this.assetSizeLabel = assetSizeLabel;
         this.proofIdentityInput = assetSizeLabel;
     }
@@ -19,19 +21,21 @@ export class MerkleSigPosRangePublicInput {
     static deserialize(publicInputSer) {
         const obj = JSONbigNative.parse(publicInputSer);
         const circuitPub = obj.circuitPubInput;
-        const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(circuitPub.merkleRoot, circuitPub.nonceInt, circuitPub.serialNo, circuitPub.assetSizeGreaterEqThan, circuitPub.assetSizeLessThan);
-        return new MerkleSigPosRangePublicInput(circuitPubInput, obj.nonceRaw, obj.assetSizeLabel);
+        const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(circuitPub.merkleRoot, circuitPub.nonceInt, circuitPub.proofPubKeyInt, circuitPub.serialNo, circuitPub.assetSizeGreaterEqThan, circuitPub.assetSizeLessThan);
+        return new MerkleSigPosRangePublicInput(circuitPubInput, obj.nonceRaw, obj.proofPubKey, obj.assetSizeLabel);
     }
 }
 export class MerkleSigPosRangeCircuitPubInput {
     merkleRoot;
     nonceInt;
+    proofPubKeyInt;
     serialNo;
     assetSizeGreaterEqThan;
     assetSizeLessThan;
-    constructor(merkleRoot, nonceInt, serialNo, assetSizeGreaterEqThan, assetSizeLessThan) {
+    constructor(merkleRoot, nonceInt, proofPubKeyInt, serialNo, assetSizeGreaterEqThan, assetSizeLessThan) {
         this.merkleRoot = merkleRoot;
         this.nonceInt = nonceInt;
+        this.proofPubKeyInt = proofPubKeyInt;
         this.serialNo = serialNo;
         this.assetSizeGreaterEqThan = assetSizeGreaterEqThan;
         this.assetSizeLessThan = assetSizeLessThan;
@@ -41,6 +45,7 @@ export class MerkleSigPosRangeCircuitPubInput {
             const elems = [
                 this.merkleRoot,
                 this.nonceInt,
+                this.proofPubKeyInt,
                 this.serialNo,
                 this.assetSizeGreaterEqThan,
                 this.assetSizeLessThan,
@@ -56,10 +61,11 @@ export class MerkleSigPosRangeCircuitPubInput {
         try {
             const merkleRoot = bytesToBigInt(serialized.slice(0, 32));
             const nonceInt = bytesToBigInt(serialized.slice(32, 64));
-            const serialNo = bytesToBigInt(serialized.slice(64, 96));
-            const assetSizeGreaterEqThan = bytesToBigInt(serialized.slice(96, 128));
-            const assetSizeLessThan = bytesToBigInt(serialized.slice(128, 160));
-            return new MerkleSigPosRangeCircuitPubInput(merkleRoot, nonceInt, serialNo, assetSizeGreaterEqThan, assetSizeLessThan);
+            const proofPubKeyInt = bytesToBigInt(serialized.slice(64, 96));
+            const serialNo = bytesToBigInt(serialized.slice(96, 128));
+            const assetSizeGreaterEqThan = bytesToBigInt(serialized.slice(128, 160));
+            const assetSizeLessThan = bytesToBigInt(serialized.slice(160, 192));
+            return new MerkleSigPosRangeCircuitPubInput(merkleRoot, nonceInt, proofPubKeyInt, serialNo, assetSizeGreaterEqThan, assetSizeLessThan);
         }
         catch (err) {
             throw new Error(`Cannot deserialize circuit pub input, err: ${err}`);

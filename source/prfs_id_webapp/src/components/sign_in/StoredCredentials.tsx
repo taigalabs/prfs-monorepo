@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { PrfsIdCredential, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./StoredCredentials.module.scss";
@@ -13,7 +13,6 @@ import {
   DefaultModuleHeader,
   DefaultModuleSubtitle,
   DefaultModuleTitle,
-  DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
 import {
   IdCreateForm,
@@ -21,6 +20,8 @@ import {
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
 import { makeDecryptKey } from "@taigalabs/prfs-crypto-js";
+import { StoredCredentialRecord } from "@/storage/prfs_id_credential";
+import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 
 export enum SignInStatus {
   Loading,
@@ -131,6 +132,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
         return;
       }
 
+      persistEphemeralPrfsIdCredential(credentialObj);
       handleSucceedSignIn(credentialObj);
     }
   }, [handleSucceedSignIn, formData, selectedCredentialId, setErrorMsg]);

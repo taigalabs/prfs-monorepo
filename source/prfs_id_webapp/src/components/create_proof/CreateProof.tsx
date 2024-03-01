@@ -69,6 +69,17 @@ const CreateProof: React.FC<CreateProofProps> = ({
   const { loadDriverProgress, loadDriverStatus, driver, driverArtifacts } = useLoadDriver(
     data?.payload?.prfs_proof_type,
   );
+  // const { data: getPrfsProofRecord } = useQuery({
+  //   queryKey: ["get_prfs_proof_type_by_proof_type_id", proofTypeId],
+  //   queryFn: () => {
+  //     if (proofTypeId) {
+  //       return prfsApi3({
+  //         type: "get_prfs_proof_type_by_proof_type_id",
+  //         proof_type_id: proofTypeId,
+  //       });
+  //     }
+  //   },
+  // });
 
   React.useEffect(() => {
     if (error) {
@@ -110,7 +121,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
 
         try {
-          const isValid = validateInputs(formValues, proofType, setFormErrors);
+          const isValid = await validateInputs(formValues, proofType, setFormErrors);
           if (!isValid) {
             throw new Error("Input validation fail to create a proof");
           }
@@ -132,7 +143,16 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
       },
     }));
-  }, [formValues, setReceipt, query, driver]);
+  }, [formValues, setReceipt, query, driver, credential]);
+
+  React.useEffect(() => {
+    async function fn() {
+      if (query.useProofRegistry) {
+        query;
+      }
+    }
+    fn().then();
+  }, [query.useProofRegistry]);
 
   const proofType = data?.payload?.prfs_proof_type;
   return proofType ? (

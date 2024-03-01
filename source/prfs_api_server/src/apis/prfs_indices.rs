@@ -74,7 +74,6 @@ pub async fn add_prfs_index(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<AddPrfsIndexRequest>,
 ) -> (StatusCode, Json<ApiResponse<AddPrfsIndexResponse>>) {
-    // let req: AddPrfsIndexRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 

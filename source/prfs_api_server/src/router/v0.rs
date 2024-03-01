@@ -15,8 +15,8 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use crate::apis::{
     prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_indices,
-    prfs_polls, prfs_proof_instances, prfs_proof_types, prfs_set_elements, prfs_sets,
-    prfs_tree_nodes, prfs_trees,
+    prfs_polls, prfs_proof_instances, prfs_proof_records, prfs_proof_types, prfs_set_elements,
+    prfs_sets, prfs_tree_nodes, prfs_trees,
 };
 
 pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
@@ -143,7 +143,15 @@ pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
             post(prfs_indices::get_least_recent_index),
         )
         .route("/get_prfs_indices", post(prfs_indices::get_prfs_indices))
-        .route("/add_prfs_index", post(prfs_indices::add_prfs_index));
+        .route("/add_prfs_index", post(prfs_indices::add_prfs_index))
+        .route(
+            "/get_prfs_proof_record",
+            post(prfs_proof_records::get_prfs_proof_record),
+        )
+        .route(
+            "/create_prfs_proof_record",
+            post(prfs_proof_records::create_prfs_proof_record),
+        );
 
     router
 }

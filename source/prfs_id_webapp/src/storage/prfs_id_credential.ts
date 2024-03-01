@@ -1,6 +1,5 @@
 import { encrypt } from "@taigalabs/prfs-crypto-js";
-
-import { PrfsIdCredential } from "./credential";
+import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 const PRFS_ID_STORAGE_KEY = "prfs_id";
 
@@ -12,7 +11,7 @@ export interface StoredCredential {
   credential: number[]; // encrpyted
 }
 
-export function persistPrfsIdCredential(credential: PrfsIdCredential) {
+export function persistPrfsIdCredentialEncrypted(credential: PrfsIdCredential) {
   const encrypted = encrypt(credential.local_encrypt_key, Buffer.from(JSON.stringify(credential)));
   const storedCredential = {
     id: credential.id,

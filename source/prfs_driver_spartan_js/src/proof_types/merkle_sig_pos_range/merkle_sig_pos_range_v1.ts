@@ -1,13 +1,16 @@
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import {
+  PrivateKey,
+  PublicKey,
   bytesToBigInt,
   bytesToNumberLE,
+  deriveProofKey,
   poseidon_2,
   poseidon_2_bigint_le,
   toUtf8Bytes,
 } from "@taigalabs/prfs-crypto-js";
-import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { hexlify, keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 import { snarkJsWitnessGen } from "@/utils/snarkjs";
 import { PrfsHandlers } from "@/types";
@@ -31,13 +34,26 @@ export async function proveMembership(
     assetSizeGreaterEqThan,
     assetSizeLabel,
     nonceRaw,
+    proofPubKey,
   } = inputs;
 
   const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
   const nonceHash = await poseidon_2(nonceRaw_);
-  const nonceInt = bytesToBigInt(nonceHash);
-  const serialNoHash = await poseidon_2_bigint_le([sigpos, nonceInt]);
+  const nonceInt = bytesToNumberLE(nonceHash);
+
+  const sigposAndNonceInt_ = await poseidon_2_bigint_le([sigpos, nonceInt]);
+  const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
+  // console.log("sigposAndNonce", sigposAndNonceInt_);
+
+  const pk = PublicKey.fromHex(proofPubKey);
+  const proofPubKey_ = bytesToNumberLE(pk.compressed);
+  const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
+  const proofPubKeyInt = bytesToNumberLE(proofPubKeyHash);
+  // console.log("proofPubKeyInt", proofPubKeyInt);
+
+  const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
   const serialNo = bytesToNumberLE(serialNoHash);
+  // console.log("serialNo", serialNo);
 
   eventListener({
     type: "CREATE_PROOF_EVENT",
@@ -47,12 +63,18 @@ export async function proveMembership(
   const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(
     merkleProof.root,
     nonceInt,
+    proofPubKeyInt,
     serialNo,
     assetSizeGreaterEqThan,
     assetSizeLessThan,
   );
 
-  const publicInput = new MerkleSigPosRangePublicInput(circuitPubInput, nonceRaw, assetSizeLabel);
+  const publicInput = new MerkleSigPosRangePublicInput(
+    circuitPubInput,
+    nonceRaw,
+    proofPubKey,
+    assetSizeLabel,
+  );
 
   const witnessGenInput = {
     sigpos,
@@ -66,6 +88,7 @@ export async function proveMembership(
     pathIndices: merkleProof.pathIndices,
 
     nonce: nonceInt,
+    proofPubKey: proofPubKeyInt,
     serialNo,
   };
 

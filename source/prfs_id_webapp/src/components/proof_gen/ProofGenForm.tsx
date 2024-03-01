@@ -32,6 +32,7 @@ import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import EncryptView from "@/components/encrypt/EncryptView";
 import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
+import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 
 enum Status {
   InProgress,
@@ -80,7 +81,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
-                break;
+                continue;
               }
               case QueryType.COMMITMENT: {
                 const elem = (
@@ -92,7 +93,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
-                break;
+                continue;
               }
               case QueryType.ENCRYPT: {
                 const elem = (
@@ -104,7 +105,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
-                break;
+                continue;
               }
               case QueryType.APP_SIGN_IN: {
                 const elem = (
@@ -117,7 +118,19 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
-                break;
+                continue;
+              }
+              case QueryType.RAND_KEY_PAIR: {
+                const elem = (
+                  <RandKeyPairView
+                    key={query.name}
+                    credential={credential}
+                    query={query}
+                    setReceipt={setReceipt}
+                  />
+                );
+                elems.push(elem);
+                continue;
               }
               default:
                 console.error("unsupported query type", query);
@@ -176,6 +189,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         }
 
         setCreateProofStatus(Status.Standby);
+
+        // For some reason, parent window sees the child as 'child', so child manually
+        // closes itself
         window.close();
       } catch (err: any) {
         console.error(err);

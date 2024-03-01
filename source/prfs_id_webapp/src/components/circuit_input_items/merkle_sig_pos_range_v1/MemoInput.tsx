@@ -12,6 +12,7 @@ import {
 } from "@/components/form_input/FormInput";
 import { useI18N } from "@/i18n/context";
 import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
+import { bytesToBigInt, deriveProofKey } from "@taigalabs/prfs-crypto-js";
 
 const MemoInput: React.FC<RangeSelectProps> = ({
   circuitTypeData,
@@ -25,13 +26,16 @@ const MemoInput: React.FC<RangeSelectProps> = ({
   const [isPresetVals, setIsPresetVals] = React.useState(false);
 
   React.useEffect(() => {
-    if (presetVals && presetVals.nonceRaw) {
-      setFormValues(oldVals => ({
-        ...oldVals,
-        nonceRaw: presetVals.nonceRaw,
-      }));
-      setIsPresetVals(true);
+    async function fn() {
+      if (presetVals && presetVals.nonceRaw) {
+        setFormValues(oldVals => ({
+          ...oldVals,
+          nonceRaw: presetVals.nonceRaw,
+        }));
+        setIsPresetVals(true);
+      }
     }
+    fn().then();
   }, [setFormValues, presetVals, setIsPresetVals]);
 
   const handleChangeNonce = React.useCallback(

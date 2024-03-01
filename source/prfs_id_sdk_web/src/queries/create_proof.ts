@@ -5,6 +5,8 @@ export interface CreateProofQuery {
   proofTypeId: string;
   queryType: QueryType.CREATE_PROOF;
   presetVals?: QueryPresetVals;
+  useProofRegistry?: boolean;
+  proofAction?: string;
 }
 
 export type QueryPresetVals = Record<string, any>;

@@ -13,6 +13,7 @@ import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindin
 import SimpleHashInput from "@/components/circuit_input_items/simple_hash_v1/SimpleHashInput";
 import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
+import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
   proofType,
@@ -33,7 +34,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             error={formErrors as FormErrors<MerkleSigPosRangeV1Inputs>}
             setFormValues={setFormValues}
             setFormErrors={setFormErrors as any}
-            presetVals={presetVals}
+            presetVals={presetVals as MerkleSigPosRangeV1PresetVals}
             credential={credential}
           />
         );

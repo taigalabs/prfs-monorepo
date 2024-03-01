@@ -3,9 +3,6 @@ use axum::{
     http::{HeaderValue, Method, StatusCode},
     Json,
 };
-use hyper::body::Incoming;
-use hyper::Request;
-use prfs_axum_lib::io::{parse_req, ApiHandlerResult};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::ApiHandleError;
 use prfs_common_server_state::ServerState;
@@ -51,12 +48,9 @@ pub async fn sign_up_prfs_account(
 }
 
 pub async fn sign_in_prfs_account(
-    // req: Request<Incoming>,
-    // state: Arc<ServerState>,
     State(state): State<Arc<ServerState>>,
     Json(input): Json<PrfsSignInRequest>,
 ) -> (StatusCode, Json<ApiResponse<PrfsSignInResponse>>) {
-    // let req: PrfsSignInRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_account = prfs::get_prfs_account_by_account_id(pool, &input.account_id)
         .await
@@ -70,5 +64,4 @@ pub async fn sign_in_prfs_account(
 
     let resp = ApiResponse::new_success(PrfsSignInResponse { prfs_account });
     return (StatusCode::OK, Json(resp));
-    // return Ok(resp.into_hyper_response());
 }

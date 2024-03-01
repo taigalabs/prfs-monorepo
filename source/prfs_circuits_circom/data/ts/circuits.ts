@@ -204,6 +204,12 @@ const circuits: PrfsCircuit[] = [
         public: true,
       },
       {
+        label: "proofPubKey",
+        desc: "A cryptographic commitment",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
         label: "serialNo",
         desc: "A cryptographic commitment",
         type: "FIELD_ELEMENT",

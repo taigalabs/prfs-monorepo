@@ -1,11 +1,7 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import {
-  PrfsIdCredential,
-  makePrfsIdCredential,
-  persistPrfsIdCredential,
-} from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SignInForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -20,6 +16,8 @@ import {
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
 import { IdCreateForm } from "@/functions/validate_id";
+import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
+import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 
 enum InputCredentialStatus {
   Loading,
@@ -68,7 +66,8 @@ const SignInForm: React.FC<InputCredentialProps> = ({
     });
     // console.log("credential", credential, formData);
 
-    persistPrfsIdCredential(credential);
+    persistPrfsIdCredentialEncrypted(credential);
+    persistEphemeralPrfsIdCredential(credential);
     handleSucceedSignIn(credential);
   }, [handleSucceedSignIn, formData]);
 

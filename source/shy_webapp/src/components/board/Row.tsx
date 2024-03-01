@@ -12,9 +12,9 @@ const Row: React.FC<RowProps> = ({ post, now }) => {
     if (now.isSame(d, "day")) {
       return d.format("HH:mm");
     } else if (now.isSame(d, "year")) {
-      return d.format("MM.dd");
+      return d.format("MM.DD");
     } else {
-      return d.format("YY.MM.dd");
+      return d.format("YY.MM.DD");
     }
   }, [post, now]);
 

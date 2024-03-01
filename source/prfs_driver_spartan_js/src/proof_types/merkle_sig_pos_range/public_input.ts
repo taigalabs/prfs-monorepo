@@ -9,16 +9,19 @@ const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true })
 export class MerkleSigPosRangePublicInput implements PublicInputsInterface {
   circuitPubInput: MerkleSigPosRangeCircuitPubInput;
   nonceRaw: string;
+  proofPubKey: string;
   assetSizeLabel: string;
   proofIdentityInput: string;
 
   constructor(
     circuitPubInput: MerkleSigPosRangeCircuitPubInput,
     nonceRaw: string,
+    proofPubKey: string,
     assetSizeLabel: string,
   ) {
     this.circuitPubInput = circuitPubInput;
     this.nonceRaw = nonceRaw;
+    this.proofPubKey = proofPubKey;
     this.assetSizeLabel = assetSizeLabel;
     this.proofIdentityInput = assetSizeLabel;
   }
@@ -34,17 +37,25 @@ export class MerkleSigPosRangePublicInput implements PublicInputsInterface {
     const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(
       circuitPub.merkleRoot,
       circuitPub.nonceInt,
+      circuitPub.proofPubKeyInt,
       circuitPub.serialNo,
       circuitPub.assetSizeGreaterEqThan,
       circuitPub.assetSizeLessThan,
     );
-    return new MerkleSigPosRangePublicInput(circuitPubInput, obj.nonceRaw, obj.assetSizeLabel);
+
+    return new MerkleSigPosRangePublicInput(
+      circuitPubInput,
+      obj.nonceRaw,
+      obj.proofPubKey,
+      obj.assetSizeLabel,
+    );
   }
 }
 
 export class MerkleSigPosRangeCircuitPubInput {
   merkleRoot: bigint;
   nonceInt: bigint;
+  proofPubKeyInt: bigint;
   serialNo: bigint;
   assetSizeGreaterEqThan: bigint;
   assetSizeLessThan: bigint;
@@ -52,12 +63,14 @@ export class MerkleSigPosRangeCircuitPubInput {
   constructor(
     merkleRoot: bigint,
     nonceInt: bigint,
+    proofPubKeyInt: bigint,
     serialNo: bigint,
     assetSizeGreaterEqThan: bigint,
     assetSizeLessThan: bigint,
   ) {
     this.merkleRoot = merkleRoot;
     this.nonceInt = nonceInt;
+    this.proofPubKeyInt = proofPubKeyInt;
     this.serialNo = serialNo;
     this.assetSizeGreaterEqThan = assetSizeGreaterEqThan;
     this.assetSizeLessThan = assetSizeLessThan;
@@ -68,6 +81,7 @@ export class MerkleSigPosRangeCircuitPubInput {
       const elems: bigint[] = [
         this.merkleRoot,
         this.nonceInt,
+        this.proofPubKeyInt,
         this.serialNo,
         this.assetSizeGreaterEqThan,
         this.assetSizeLessThan,
@@ -84,13 +98,15 @@ export class MerkleSigPosRangeCircuitPubInput {
     try {
       const merkleRoot = bytesToBigInt(serialized.slice(0, 32));
       const nonceInt = bytesToBigInt(serialized.slice(32, 64));
-      const serialNo = bytesToBigInt(serialized.slice(64, 96));
-      const assetSizeGreaterEqThan = bytesToBigInt(serialized.slice(96, 128));
-      const assetSizeLessThan = bytesToBigInt(serialized.slice(128, 160));
+      const proofPubKeyInt = bytesToBigInt(serialized.slice(64, 96));
+      const serialNo = bytesToBigInt(serialized.slice(96, 128));
+      const assetSizeGreaterEqThan = bytesToBigInt(serialized.slice(128, 160));
+      const assetSizeLessThan = bytesToBigInt(serialized.slice(160, 192));
 
       return new MerkleSigPosRangeCircuitPubInput(
         merkleRoot,
         nonceInt,
+        proofPubKeyInt,
         serialNo,
         assetSizeGreaterEqThan,
         assetSizeLessThan,

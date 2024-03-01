@@ -5,6 +5,7 @@ include "../circuit_defs/merkle_sig_pos_range/merkle_sig_pos_range.circom";
 component main { public [ 
   root, 
   nonce,
+  proofPubKey,
   serialNo,
   assetSizeGreaterEqThan, 
   assetSizeLessThan 
