@@ -1,5 +1,7 @@
 import React from "react";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { CreatePrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofRecordRequest";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import {
   API_PATH,
   ProofGenArgs,
@@ -42,6 +44,11 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const { mutateAsync: createShyPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
       return shyApi2({ type: "create_shy_post", ...req });
+    },
+  });
+  const { mutateAsync: createPrfsProofRecord } = useMutation({
+    mutationFn: (req: CreatePrfsProofRecordRequest) => {
+      return prfsApi3({ type: "create_prfs_proof_record", ...req });
     },
   });
 
@@ -161,6 +168,13 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
 
         const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
         const shy_post_proof_id = rand256Hex();
+
+        createPrfsProofRecord({
+          proof_record: {
+            serial_no: proveReceipt.proof.publicInputSer,
+            proof_starts_with: proveReceipt.proof.proofBytes[4],
+          },
+        });
 
         const publicInputs: PublicInputsInterface = JSON.parse(proveReceipt.proof.publicInputSer);
 

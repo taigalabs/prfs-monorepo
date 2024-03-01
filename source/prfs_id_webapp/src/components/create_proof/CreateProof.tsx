@@ -80,11 +80,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
   //     }
   //   },
   // });
-  const { mutateAsync: prfsSignInRequest } = useMutation({
-    mutationFn: (req: PrfsSignInRequest) => {
-      return prfsApi3({ type: "sign_in_prfs_account", ...req });
-    },
-  });
 
   React.useEffect(() => {
     if (error) {
@@ -140,6 +135,12 @@ const CreateProof: React.FC<CreateProofProps> = ({
           });
 
           if (query.usePrfsRegistry) {
+            // createPrfsProofRecord({
+            //   proof_record: {
+            //     serial_no: proveReceipt.proof.publicInputSer,
+            //     proof_starts_with: proveReceipt.proof.proofBytes[4],
+            //   },
+            // });
           }
 
           setCreateProofStatus(Status.Standby);

@@ -28,6 +28,7 @@ export interface VerifyArgs {
 export interface Proof {
   proofBytes: Uint8Array | number[];
   publicInputSer: string;
+  proofAction: string;
 }
 
 export interface ProveReceipt {
