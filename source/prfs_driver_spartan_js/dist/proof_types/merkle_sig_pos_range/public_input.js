@@ -20,7 +20,7 @@ export class MerkleSigPosRangePublicInput {
             circuitPubInput: circuitPubInput_,
             ...rest,
         };
-        return JSON.stringify(json);
+        return JSONbigNative.stringify(json);
     }
     static deserialize(publicInputSer) {
         const obj = JSONbigNative.parse(publicInputSer);

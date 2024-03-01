@@ -31,7 +31,7 @@ export class MerkleSigPosRangePublicInput implements PublicInputsInterface {
       ...rest,
     };
 
-    return JSON.stringify(json);
+    return JSONbigNative.stringify(json);
   }
 
   static deserialize(publicInputSer: string): MerkleSigPosRangePublicInput {
