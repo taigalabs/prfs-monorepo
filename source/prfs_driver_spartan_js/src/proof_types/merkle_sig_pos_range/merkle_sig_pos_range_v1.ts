@@ -1,11 +1,7 @@
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import {
-  PrivateKey,
-  PublicKey,
-  bytesToBigInt,
   bytesToNumberLE,
-  deriveProofKey,
   poseidon_2,
   poseidon_2_bigint_le,
   prfsSign,

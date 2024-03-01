@@ -25,13 +25,6 @@ export class MerkleSigPosRangePublicInput implements MerkleSigPosRangeV1PublicIn
   }
 
   stringify(): string {
-    // const { circuitPubInput, ...rest } = this;
-    // const circuitPubInput_ = JSONbigNative.stringify(circuitPubInput);
-    // const json = {
-    //   circuitPubInput: circuitPubInput_,
-    //   ...rest,
-    // };
-
     return JSONbigNative.stringify(this);
   }
 

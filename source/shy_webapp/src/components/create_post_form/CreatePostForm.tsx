@@ -82,7 +82,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const proofTypeId = channel.proof_type_ids[0];
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
-      // const { sk: sk2, pkHex: pkHex2 } = createRandomKeyPair();
       const json = JSON.stringify({ appId: SHY_APP_ID, postId });
 
       const presetVals: MerkleSigPosRangeV1PresetVals = {
