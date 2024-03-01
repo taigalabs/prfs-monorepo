@@ -199,7 +199,8 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           proof: Array.from(proveReceipt.proof.proofBytes),
           public_inputs: proveReceipt.proof.publicInputSer,
           public_key: publicInputs.proofPubKey,
-          proof_action,
+          proof_action: proofAction,
+          // sig: proveReceipt.proof.proofActionResult,
         });
 
         console.log("create shy post resp", payload);
