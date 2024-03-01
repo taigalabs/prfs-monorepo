@@ -5,6 +5,7 @@ import "@taigalabs/prfs-react-lib/src/global.scss";
 
 import "./globals.scss";
 import TopProvider from "@/components/top_provider/TopProvider";
+import { bustEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 
 export const metadata: Metadata = {
   robots: {
@@ -46,4 +47,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </body>
     </html>
   );
+}
+
+if (typeof window !== "undefined") {
+  bustEphemeralPrfsIdCredential();
 }
