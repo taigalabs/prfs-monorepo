@@ -3,6 +3,7 @@ import type { AddPrfsIndexResponse } from "./AddPrfsIndexResponse";
 import type { CreatePrfsDynamicSetElementResponse } from "./CreatePrfsDynamicSetElementResponse";
 import type { CreatePrfsPollResponse } from "./CreatePrfsPollResponse";
 import type { CreatePrfsProofInstanceResponse } from "./CreatePrfsProofInstanceResponse";
+import type { CreatePrfsProofRecordResponse } from "./CreatePrfsProofRecordResponse";
 import type { CreatePrfsProofTypeResponse } from "./CreatePrfsProofTypeResponse";
 import type { CreatePrfsSetResponse } from "./CreatePrfsSetResponse";
 import type { CreatePrfsTreeByPrfsSetResponse } from "./CreatePrfsTreeByPrfsSetResponse";
@@ -69,4 +70,5 @@ export type PrfsApiResponse =
   | ({ type: "GetPrfsTreeLeafNodesBySetId" } & GetPrfsTreeNodesResponse)
   | ({ type: "get_prfs_tree_leaf_indices" } & GetPrfsTreeNodesResponse)
   | ({ type: "UpdatePrfsTreeNode" } & UpdatePrfsTreeNodeResponse)
-  | ({ type: "get_latest_prfs_tree_by_set_id" } & GetLatestPrfsTreeBySetIdResponse);
+  | ({ type: "get_latest_prfs_tree_by_set_id" } & GetLatestPrfsTreeBySetIdResponse)
+  | ({ type: "create_prfs_proof_record" } & CreatePrfsProofRecordResponse);

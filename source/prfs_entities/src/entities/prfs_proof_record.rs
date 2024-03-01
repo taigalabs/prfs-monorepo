@@ -7,5 +7,4 @@ use ts_rs::TS;
 pub struct PrfsProofRecord {
     pub serial_no: String,
     pub proof_starts_with: String,
-    pub proof_action: String,
 }
