@@ -1,9 +1,9 @@
 use axum::{
-    extract::{Request, State},
+    extract::Request,
     handler::HandlerWithoutStateExt,
     http::{HeaderValue, Method, StatusCode},
     routing::get,
-    Json, Router,
+    Router,
 };
 use prfs_atst_server::router::v0::{make_atst_v0_router, ATST_API_V0};
 use prfs_common_server_state::ServerState;
