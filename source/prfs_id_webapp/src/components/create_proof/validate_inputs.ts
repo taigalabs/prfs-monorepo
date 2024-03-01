@@ -33,7 +33,7 @@ export async function validateInputs(
         formErrors.nonceRaw = "Nonce raw is empty";
       } else {
         const sk = await deriveProofKey(formValues.nonceRaw);
-        val.proofKey = sk.toHex();
+        val.proofKey = sk;
       }
 
       break;

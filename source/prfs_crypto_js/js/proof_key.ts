@@ -7,6 +7,6 @@ export async function deriveProofKey(arg: string) {
   const nonceRaw_ = keccak256(toUtf8Bytes(arg)).substring(2);
   const nonceHash = await poseidon_2(nonceRaw_);
 
-  const sk = PrivateKey.fromHex(hexlify(nonceHash));
+  const sk = hexlify(nonceHash);
   return sk;
 }
