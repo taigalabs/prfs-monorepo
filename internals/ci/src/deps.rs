@@ -3,7 +3,6 @@ use std::process::Command;
 pub const CARGO: &str = "cargo";
 pub const SH: &str = "sh";
 pub const DOCKER: &str = "docker";
-pub const PRETTIERD: &str = "prettierd";
 pub const JS_ENGINE: &str = "pnpm";
 pub const NODE_VERSION: &str = "v18";
 pub const WASM_PACK_VERSION: &str = "wasm-pack 0.12.1";

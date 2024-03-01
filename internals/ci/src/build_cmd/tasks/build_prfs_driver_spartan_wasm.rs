@@ -1,7 +1,8 @@
 use super::task::BuildTask;
-use crate::{deps, paths::PATHS, BuildHandle, CiError};
 use colored::Colorize;
 use std::process::Command;
+
+use crate::{deps, paths::PATHS, BuildHandle, CiError};
 
 const WASM_PKG_NAME: &str = "prfs_driver_spartan_wasm";
 

@@ -1,6 +1,7 @@
-use crate::{deps, paths::PATHS};
 use clap::ArgMatches;
 use std::process::Command;
+
+use crate::{deps, paths::PATHS};
 
 pub fn run(_matches: &ArgMatches) {
     run_app();

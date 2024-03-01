@@ -1,11 +1,12 @@
 use super::task::BuildTask;
+use colored::Colorize;
+use std::process::Command;
+
 use crate::{
-    deps::{self, JS_ENGINE},
+    deps::{self},
     paths::PATHS,
     BuildHandle, CiError,
 };
-use colored::Colorize;
-use std::process::Command;
 
 const WASM_PKG_NAME: &str = "prfs_crypto_js";
 
