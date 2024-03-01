@@ -14,3 +14,4 @@ export * from "./sigpos";
 export * from "./addr";
 export * from "./rand";
 export * from "./proof_key";
+export * from "./json";

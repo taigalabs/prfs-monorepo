@@ -1,9 +1,10 @@
-use crate::{
-    deps::{self, JS_ENGINE},
-    paths::PATHS,
-};
 use clap::ArgMatches;
 use std::process::Command;
+
+use crate::{
+    deps::{self},
+    paths::PATHS,
+};
 
 pub const CMD_NAME: &str = "start_prfs_api_server";
 

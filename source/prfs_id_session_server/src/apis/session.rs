@@ -1,21 +1,12 @@
-use axum::{
-    extract::{
-        ws::{Message, WebSocket},
-        MatchedPath, Request, State, WebSocketUpgrade,
-    },
-    handler::HandlerWithoutStateExt,
-    http::{HeaderValue, Method, StatusCode},
-    response::Response,
-    routing::{get, post},
-    Json, Router,
-};
 use futures::stream::SplitSink;
 use futures::{SinkExt, StreamExt};
-use hyper::body::Incoming;
-use hyper::upgrade::Upgraded;
-use hyper_util::rt::TokioIo;
-use prfs_axum_lib::error::ApiHandleError;
-use prfs_axum_lib::io::{full, BytesBoxBody};
+use prfs_axum_lib::axum::{
+    extract::{
+        ws::{Message, WebSocket},
+        State, WebSocketUpgrade,
+    },
+    response::Response,
+};
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::entities::PrfsIdSession;
@@ -25,8 +16,6 @@ use prfs_entities::id_session_api::{
 };
 use std::sync::Arc;
 use tokio::sync::Mutex;
-
-use crate::IdSessionServerError;
 
 pub async fn open_prfs_id_session(
     State(state): State<Arc<ServerState>>,

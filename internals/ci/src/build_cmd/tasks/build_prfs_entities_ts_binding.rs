@@ -1,13 +1,10 @@
 use super::task::BuildTask;
-use crate::{
-    build_cmd::tasks::ts_rs_format::format_ts_files,
-    deps::{JS_ENGINE, PRETTIERD},
-    paths::PATHS,
-    BuildHandle, CiError,
-};
-use colored::Colorize;
 use std::process::Command;
-use which::which;
+
+use crate::{
+    build_cmd::tasks::ts_rs_format::format_ts_files, deps::JS_ENGINE, paths::PATHS, BuildHandle,
+    CiError,
+};
 
 pub struct BuildPrfsEntitiesTSBindingTask;
 
@@ -37,12 +34,7 @@ fn create_bindings_prfs_entities() {
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
-
-    if let None = which(PRETTIERD).ok() {
-        println!("{} not found, not formatting", PRETTIERD.red());
-    } else {
-        format_ts_files(&PATHS.prfs_entities__bindings);
-    }
+    format_ts_files(&PATHS.prfs_entities__bindings);
 }
 
 fn create_bindings_prfs_circuit_interface() {
@@ -57,12 +49,7 @@ fn create_bindings_prfs_circuit_interface() {
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
-
-    if let None = which(PRETTIERD).ok() {
-        println!("{} not found, not formatting", PRETTIERD.red());
-    } else {
-        format_ts_files(&bindings_path);
-    }
+    format_ts_files(&bindings_path);
 }
 
 fn create_bindings_prfs_driver_interface() {
@@ -77,12 +64,7 @@ fn create_bindings_prfs_driver_interface() {
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
-
-    if let None = which(PRETTIERD).ok() {
-        println!("{} not found, not formatting", PRETTIERD.red());
-    } else {
-        format_ts_files(&bindings_path);
-    }
+    format_ts_files(&bindings_path);
 }
 
 fn create_bindings_shy_entities() {
@@ -96,10 +78,5 @@ fn create_bindings_shy_entities() {
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
-
-    if let None = which(PRETTIERD).ok() {
-        println!("{} not found, not formatting", PRETTIERD.red());
-    } else {
-        format_ts_files(&PATHS.shy_entities__bindings);
-    }
+    format_ts_files(&PATHS.shy_entities__bindings);
 }

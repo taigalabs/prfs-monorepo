@@ -1,7 +1,5 @@
-import JSONBig from "json-bigint";
-import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
+import { JSONbigNative, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 import { serializeBigintArray } from "../../utils/buffer";
-const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 export class MerkleSigPosRangePublicInput {
     circuitPubInput;
     nonceRaw;
@@ -15,7 +13,13 @@ export class MerkleSigPosRangePublicInput {
         this.assetSizeLabel = assetSizeLabel;
         this.proofIdentityInput = assetSizeLabel;
     }
-    serialize() {
+    stringify() {
+        // const { circuitPubInput, ...rest } = this;
+        // const circuitPubInput_ = JSONbigNative.stringify(circuitPubInput);
+        // const json = {
+        //   circuitPubInput: circuitPubInput_,
+        //   ...rest,
+        // };
         return JSONbigNative.stringify(this);
     }
     static deserialize(publicInputSer) {

@@ -1,15 +1,15 @@
-use axum::{
-    extract::{MatchedPath, Request, State},
+use prfs_axum_lib::axum::{
+    extract::{Request, State},
     handler::HandlerWithoutStateExt,
     http::{HeaderValue, Method, StatusCode},
     routing::get,
     Json, Router,
 };
+use prfs_axum_lib::tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
 use prfs_circuits_circom::CircuitBuildListJson;
 use serde_json::{json, Value};
 use std::fs;
-use tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
-use tracing::{info, info_span, Span};
+use tracing::{info, Span};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use super::ServerState;

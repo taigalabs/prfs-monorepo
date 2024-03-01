@@ -1,16 +1,14 @@
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import {
-  PrivateKey,
-  PublicKey,
-  bytesToBigInt,
   bytesToNumberLE,
-  deriveProofKey,
   poseidon_2,
   poseidon_2_bigint_le,
+  prfsSign,
   toUtf8Bytes,
 } from "@taigalabs/prfs-crypto-js";
 import { hexlify, keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
 
 import { snarkJsWitnessGen } from "@/utils/snarkjs";
 import { PrfsHandlers } from "@/types";
@@ -34,8 +32,13 @@ export async function proveMembership(
     assetSizeGreaterEqThan,
     assetSizeLabel,
     nonceRaw,
-    proofPubKey,
+    proofKey,
+    proofAction,
   } = inputs;
+
+  if (!proofAction || proofAction.length < 1) {
+    throw new Error("Proof action should be non-empty string");
+  }
 
   const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
   const nonceHash = await poseidon_2(nonceRaw_);
@@ -45,8 +48,9 @@ export async function proveMembership(
   const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
   // console.log("sigposAndNonce", sigposAndNonceInt_);
 
-  const pk = PublicKey.fromHex(proofPubKey);
-  const proofPubKey_ = bytesToNumberLE(pk.compressed);
+  const publicKey = secp.getPublicKey(proofKey.substring(2));
+  const proofPubKey = hexlify(publicKey);
+  const proofPubKey_ = bytesToNumberLE(publicKey);
   const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
   const proofPubKeyInt = bytesToNumberLE(proofPubKeyHash);
   // console.log("proofPubKeyInt", proofPubKeyInt);
@@ -54,6 +58,9 @@ export async function proveMembership(
   const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
   const serialNo = bytesToNumberLE(serialNoHash);
   // console.log("serialNo", serialNo);
+
+  const proofActionResult = await prfsSign(proofKey, proofAction);
+  const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 
   eventListener({
     type: "CREATE_PROOF_EVENT",
@@ -121,7 +128,9 @@ export async function proveMembership(
     duration: now - prev,
     proof: {
       proofBytes,
-      publicInputSer: publicInput.serialize(),
+      publicInputSer: publicInput.stringify(),
+      proofKey,
+      proofActionResult: proofActionResultHex,
     },
   };
 }

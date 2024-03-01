@@ -12,14 +12,6 @@ tokio = { version = "1", features = ["full"] }
 tokio-stream = "0.1"
 tokio-postgres = "0.7"
 lazy_static = "1.4"
-http-body-util = "0.1"
-hyper_014 = { package = "hyper", version = "0.14" }
-hyper = { version = "1.1", features = ["full"] }
-hyper-tls-05 = { package = "hyper-tls", version = "0.5.0" }
-hyper-tls = "0.6"
-hyper-util = { version = "0.1", features = ["full"] }
-routerify = "3"
-routerify-cors = "3"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 serde_urlencoded = "0.7"
@@ -33,16 +25,10 @@ rust_decimal_macros = "1.29"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
 tracing-appender = "0.2"
-uuid = { version = "1.4.1", features = ["v4", "serde"] }
-base62 = "2.0.2"
 csv = "1.2.2"
 git2 = "0.18.1"
 url = "2.5.0"
 google-gmail1 = "5.0"
-axum = "0.7.4"
-axum-extra = "0.9.2"
-tower = { version = "0.4", features = ["util"] }
-tower-http = { version = "0.5", features = ["fs", "trace", "cors"] }
 
 prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_db_interface = { path = "../prfs_db_interface" }

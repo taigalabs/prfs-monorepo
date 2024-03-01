@@ -1,7 +1,7 @@
+use super::task::BuildTask;
 use clap::ArgMatches;
 use colored::Colorize;
 
-use super::task::BuildTask;
 use crate::{build_handle::BuildHandle, CiError};
 
 pub fn run_tasks(

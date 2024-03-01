@@ -55,7 +55,7 @@
 }
 
 .btnRow {
-  height: 36px;
+  /* height: 36px; */
 }
 
 .submitBtn {
@@ -81,6 +81,13 @@
 }
 
 @media screen and (min-width: $mid_display_min_width) {
+  .btnRow {
+    &.sidePadding {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+
   .sidePadding {
     padding-left: 40px;
     padding-right: 40px;

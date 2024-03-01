@@ -1,8 +1,8 @@
 use super::task::BuildTask;
-use crate::{deps, paths::PATHS, BuildHandle, CiError};
-use colored::Colorize;
 use serde::{Deserialize, Serialize};
 use std::process::Command;
+
+use crate::{deps, paths::PATHS, BuildHandle, CiError};
 
 pub struct CompileCircuitsTask;
 

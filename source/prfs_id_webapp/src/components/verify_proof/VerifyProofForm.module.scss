@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .overlay {
   position: absolute;
   inset: 0;
@@ -23,11 +25,6 @@
   color: var(--gray-30);
 }
 
-.sidePadding {
-  padding-left: 40px;
-  padding-right: 40px;
-}
-
 .prfsId {
   padding: 20px 0 10px;
   text-align: center;
@@ -36,7 +33,7 @@
 }
 
 .btnRow {
-  height: 36px;
+  /* height: 36px; */
 }
 
 .submitBtn {
@@ -78,9 +75,14 @@
   }
 }
 
-@media screen and (max-width: 480px) {
+.sidePadding {
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+@media screen and (min-width: $mid_display_min_width) {
   .sidePadding {
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 }

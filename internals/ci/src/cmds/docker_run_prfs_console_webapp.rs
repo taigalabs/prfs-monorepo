@@ -1,9 +1,10 @@
-use crate::{
-    deps::{self, DOCKER, JS_ENGINE},
-    paths::PATHS,
-};
 use clap::ArgMatches;
 use std::process::Command;
+
+use crate::{
+    deps::{self, JS_ENGINE},
+    paths::PATHS,
+};
 
 pub const CMD_NAME: &str = "docker_run_prfs_console_webapp";
 

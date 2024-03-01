@@ -1,8 +1,9 @@
-use crate::deps::PRETTIERD;
 use colored::Colorize;
-use std::{io::Write, path::PathBuf, process::Stdio};
+use std::path::PathBuf;
+use std::process::Command;
 
-const TS_EXT: &str = "ts";
+use crate::deps::JS_ENGINE;
+use crate::paths::PATHS;
 
 // Currently, ts-rs (6.2.1) 'format' feature compiles with error (in dependency)
 pub fn format_ts_files(dir_path: &PathBuf) {
@@ -12,30 +13,11 @@ pub fn format_ts_files(dir_path: &PathBuf) {
         dir_path
     );
 
-    let dir = std::fs::read_dir(dir_path).unwrap();
+    let status = Command::new(JS_ENGINE)
+        .current_dir(&PATHS.ws_root)
+        .args(["exec", "prettier", "--write", dir_path.to_str().unwrap()])
+        .status()
+        .expect("prettier command failed to start");
 
-    for file in dir {
-        let fd = file.unwrap();
-        let file_path = fd.path();
-        let ext = file_path.extension().unwrap();
-
-        let content = std::fs::read(&file_path).unwrap();
-
-        if ext == TS_EXT {
-            println!("Formatting file: {:?}", fd.file_name());
-
-            let mut child = std::process::Command::new(PRETTIERD)
-                .arg(fd.file_name())
-                .stdin(Stdio::piped())
-                .stdout(Stdio::piped())
-                .spawn()
-                .unwrap();
-
-            let stdin = child.stdin.as_mut().unwrap();
-            stdin.write_all(&content).unwrap();
-
-            let output = child.wait_with_output().unwrap();
-            std::fs::write(file_path, &output.stdout).unwrap();
-        }
-    }
+    assert!(status.success());
 }

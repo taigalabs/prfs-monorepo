@@ -1,6 +1,6 @@
-use axum::Router;
+use prfs_axum_lib::axum::{self, Router};
+use prfs_axum_lib::tower_http::trace::TraceLayer;
 use std::net::SocketAddr;
-use tower_http::trace::TraceLayer;
 
 use super::route;
 

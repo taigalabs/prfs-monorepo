@@ -10,5 +10,6 @@ export interface MerkleSigPosRangeV1Inputs {
   assetSizeLabel: string;
   merkleProof: SpartanMerkleProof;
   nonceRaw: string;
-  proofPubKey: string;
+  proofKey: string;
+  proofAction: string;
 }

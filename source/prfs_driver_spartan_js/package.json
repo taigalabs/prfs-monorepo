@@ -25,7 +25,6 @@
     "@taigalabs/prfs-circuits-circom": "*",
     "bn.js": "^5.2.1",
     "comlink": "^4.3.1",
-    "json-bigint": "^1.0.0",
     "lodash.throttle": "^4.1.1",
     "snarkjs": "0.7.3",
     "wasm-feature-detect": "^1.2.11"
@@ -36,7 +35,6 @@
     "@types/bn.js": "^5.1.1",
     "@types/elliptic": "^6.4.14",
     "@types/jest": "^29.2.5",
-    "@types/json-bigint": "^1.0.1",
     "@types/lodash.throttle": "^4.1.8",
     "@types/webpack": "^5.28.3",
     "core-js": "^3.31.0",

@@ -21,13 +21,10 @@ pub struct GetPrfsProofRecordResponse {
 #[ts(export)]
 pub struct CreatePrfsProofRecordRequest {
     pub proof_record: PrfsProofRecord,
-    // pub serial_no: String,
-    // pub proof_starts_with: String,
-    // pub proof_action: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreatePrfsProofRecordResponse {
-    pub serial_no: String,
+    pub public_key: String,
 }

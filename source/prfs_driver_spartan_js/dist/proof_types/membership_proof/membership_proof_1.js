@@ -66,6 +66,8 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         proof: {
             proofBytes,
             publicInputSer: publicInput.serialize(),
+            proofKey: "",
+            proofActionResult: "",
         },
     };
 }

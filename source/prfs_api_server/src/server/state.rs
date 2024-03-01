@@ -1,7 +1,8 @@
 use chrono::{DateTime, Utc};
 use colored::Colorize;
-use ethers_signers::{LocalWallet, Signer, Wallet};
-use git2::{Oid, Repository};
+use ethers_signers::LocalWallet;
+use git2::Repository;
+use prfs_axum_lib::reqwest::Client;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::database2::Database2;
 use prfs_web_fetcher::destinations::infura::InfuraFetcher;
@@ -39,6 +40,8 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
     let wallet = ENVS.prfs_api_private_key.parse::<LocalWallet>()?;
     let launch_time: DateTime<Utc> = Utc::now();
 
+    let client = Client::new();
+
     println!(
         "{} server state, wallet: {:?}, commit_hash: {}, launch_time: {}",
         "Initialized".green(),
@@ -54,5 +57,6 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
         commit_hash,
         infura_fetcher,
         peer_map: Arc::new(Mutex::new(HashMap::new())),
+        client,
     })
 }

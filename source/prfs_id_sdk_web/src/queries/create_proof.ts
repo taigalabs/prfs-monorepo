@@ -5,7 +5,7 @@ export interface CreateProofQuery {
   proofTypeId: string;
   queryType: QueryType.CREATE_PROOF;
   presetVals?: QueryPresetVals;
-  useProofRegistry?: boolean;
+  usePrfsRegistry?: boolean;
   proofAction?: string;
 }
 

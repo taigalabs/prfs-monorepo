@@ -1,9 +1,10 @@
+use clap::ArgMatches;
+use std::process::Command;
+
 use crate::{
     deps::{self, JS_ENGINE},
     paths::PATHS,
 };
-use clap::ArgMatches;
-use std::process::Command;
 
 pub fn run(matches: &ArgMatches) {
     let extra_args = match matches.get_many::<String>("extra_args") {

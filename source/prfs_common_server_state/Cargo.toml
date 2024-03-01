@@ -31,11 +31,12 @@ csv = "1.2.2"
 git2 = "0.18.1"
 futures = { version = "0.3" }
 
-axum = { version = "0.7.4", features=["ws"] }
-axum-extra = "0.9.2"
-tower = { version = "0.4", features = ["util"] }
-tower-http = { version = "0.5", features = ["fs", "trace", "cors"] }
-tokio-tungstenite = "0.21"
+# axum = { version = "0.7.4", features=["ws"] }
+# axum-extra = "0.9.2"
+# tower = { version = "0.4", features = ["util"] }
+# tower-http = { version = "0.5", features = ["fs", "trace", "cors"] }
+# tokio-tungstenite = "0.21"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_web_fetcher = { path = "../prfs_web_fetcher" }
+prfs_axum_lib = { path = "../prfs_axum_lib" }

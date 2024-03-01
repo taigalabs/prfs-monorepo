@@ -1,13 +1,4 @@
-use axum::{
-    extract::{MatchedPath, Request, State},
-    handler::HandlerWithoutStateExt,
-    http::{HeaderValue, Method, StatusCode},
-    routing::{get, post},
-    Json, Router,
-};
-use hyper::body::Incoming;
-use hyper::Response;
-use prfs_axum_lib::io::{empty, parse_req, ApiHandlerResult};
+use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::ApiHandleError;
 use prfs_common_server_state::ServerState;
@@ -45,7 +36,6 @@ pub async fn attest_twitter_acc(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<AttestTwitterAccRequest>,
 ) -> (StatusCode, Json<ApiResponse<AttestTwitterAccResponse>>) {
-    // let req: AttestTwitterAccRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 

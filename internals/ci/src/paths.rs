@@ -9,7 +9,7 @@ lazy_static! {
 #[allow(non_snake_case)]
 #[derive(Debug)]
 pub struct Paths {
-    pub curr_dir: PathBuf,
+    pub ws_root: PathBuf,
 
     // ci
     pub internals_ci: PathBuf,
@@ -51,10 +51,10 @@ pub struct Paths {
 #[allow(non_snake_case)]
 impl Paths {
     pub fn new() -> Paths {
-        let curr_dir = std::env::current_dir().unwrap();
+        let ws_root = std::env::current_dir().unwrap();
 
         {
-            let ci_file_path = curr_dir.join("ci");
+            let ci_file_path = ws_root.join("ci");
             if !ci_file_path.exists() {
                 panic!(
                     "Wrong current dir, ci does not exist, path: {:?}",
@@ -63,43 +63,43 @@ impl Paths {
             }
         }
 
-        let internals_ci = curr_dir.join("internals/ci");
-        let internals__tmux = curr_dir.join("internals/tmux");
-        let internals__vercel = curr_dir.join("internals/vercel");
-        let internals_docker = curr_dir.join("internals/docker");
-        let internals_docker_postgres = curr_dir.join("internals/docker_postgres");
+        let internals_ci = ws_root.join("internals/ci");
+        let internals__tmux = ws_root.join("internals/tmux");
+        let internals__vercel = ws_root.join("internals/vercel");
+        let internals_docker = ws_root.join("internals/docker");
+        let internals_docker_postgres = ws_root.join("internals/docker_postgres");
 
-        let prfs_docs_website = curr_dir.join("source/prfs_docs_website");
-        let prfs_circuits_circom = curr_dir.join("source/prfs_circuits_circom");
-        let prfs_circuit_interface = curr_dir.join("source/prfs_circuit_interface");
-        let prfs_driver_interface = curr_dir.join("source/prfs_driver_interface");
-        let prfs_snap = curr_dir.join("source/prfs_snap");
+        let prfs_docs_website = ws_root.join("source/prfs_docs_website");
+        let prfs_circuits_circom = ws_root.join("source/prfs_circuits_circom");
+        let prfs_circuit_interface = ws_root.join("source/prfs_circuit_interface");
+        let prfs_driver_interface = ws_root.join("source/prfs_driver_interface");
+        let prfs_snap = ws_root.join("source/prfs_snap");
 
-        let prfs_asset_server = curr_dir.join("source/prfs_asset_server");
-        let prfs_asset_server_assets = curr_dir.join("source/prfs_asset_server/assets");
-        let prfs_asset_server_assets_local = curr_dir.join("source/prfs_asset_server/assets/local");
+        let prfs_asset_server = ws_root.join("source/prfs_asset_server");
+        let prfs_asset_server_assets = ws_root.join("source/prfs_asset_server/assets");
+        let prfs_asset_server_assets_local = ws_root.join("source/prfs_asset_server/assets/local");
 
-        let prfs_api_server = curr_dir.join("source/prfs_api_server");
-        let prfs_auth_op_server = curr_dir.join("source/prfs_auth_op_server");
-        let prfs_crypto_js = curr_dir.join("source/prfs_crypto_js");
-        let prfs_crypto_js__build = curr_dir.join("source/prfs_crypto_js/build");
-        let prfs_id_webapp = curr_dir.join("source/prfs_id_webapp");
-        let prfs_entities__bindings = curr_dir.join("source/prfs_entities/bindings");
+        let prfs_api_server = ws_root.join("source/prfs_api_server");
+        let prfs_auth_op_server = ws_root.join("source/prfs_auth_op_server");
+        let prfs_crypto_js = ws_root.join("source/prfs_crypto_js");
+        let prfs_crypto_js__build = ws_root.join("source/prfs_crypto_js/build");
+        let prfs_id_webapp = ws_root.join("source/prfs_id_webapp");
+        let prfs_entities__bindings = ws_root.join("source/prfs_entities/bindings");
 
-        let prfs_driver_spartan_js = curr_dir.join("source/prfs_driver_spartan_js");
-        let prfs_driver_spartan_wasm = curr_dir.join("source/prfs_driver_spartan_wasm");
-        let prfs_driver_spartan_wasm_build = curr_dir.join("source/prfs_driver_spartan_wasm/build");
+        let prfs_driver_spartan_js = ws_root.join("source/prfs_driver_spartan_js");
+        let prfs_driver_spartan_wasm = ws_root.join("source/prfs_driver_spartan_wasm");
+        let prfs_driver_spartan_wasm_build = ws_root.join("source/prfs_driver_spartan_wasm/build");
 
-        let prfs_console_webapp = curr_dir.join("source/prfs_console_webapp");
-        let prfs_proof_webapp = curr_dir.join("source/prfs_proof_webapp");
-        let prfs_poll_webapp = curr_dir.join("source/prfs_poll_webapp");
+        let prfs_console_webapp = ws_root.join("source/prfs_console_webapp");
+        let prfs_proof_webapp = ws_root.join("source/prfs_proof_webapp");
+        let prfs_poll_webapp = ws_root.join("source/prfs_poll_webapp");
 
-        let shy_webapp = curr_dir.join("source/shy_webapp");
-        let shy_api_server = curr_dir.join("source/shy_api_server");
-        let shy_entities__bindings = curr_dir.join("source/shy_entities/bindings");
+        let shy_webapp = ws_root.join("source/shy_webapp");
+        let shy_api_server = ws_root.join("source/shy_api_server");
+        let shy_entities__bindings = ws_root.join("source/shy_entities/bindings");
 
         let p = Paths {
-            curr_dir,
+            ws_root,
 
             // internals
             internals_ci,

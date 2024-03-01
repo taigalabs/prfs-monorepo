@@ -1,6 +1,7 @@
-use crate::paths::PATHS;
 use clap::ArgMatches;
 use std::process::Command;
+
+use crate::paths::PATHS;
 
 pub const CMD_NAME: &str = "dev_prfs_asset_server";
 

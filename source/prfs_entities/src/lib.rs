@@ -1,4 +1,3 @@
-pub mod asset;
 pub mod atst_api;
 pub mod entities;
 pub mod id_api;

@@ -26,14 +26,6 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel }) => {
     } else return null;
   }, [channel]);
 
-  const desc = React.useMemo(() => {
-    if (isDescOpen) {
-      return channel.desc;
-    } else {
-      return channel.desc.substring(0, 45) + "...";
-    }
-  }, [channel.desc, isDescOpen]);
-
   return channel ? (
     <div className={styles.wrapper}>
       <div className={cn(styles.inner, { [styles.isVisible]: isDescOpen })}>
@@ -44,7 +36,7 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel }) => {
           </div>
         </div>
         <div className={cn(styles.descRow)}>
-          <div className={styles.desc}>{desc}</div>
+          <div className={styles.desc}>{channel.desc}</div>
           <div className={styles.proofTypeIds}>
             <p className={styles.title}>{i18n.requiring_proofs_of_type}</p>
             {proofTypesElem}

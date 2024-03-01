@@ -82,8 +82,9 @@
 
 .btnRow {
   display: flex;
-  margin: 32px 0 0px;
   justify-content: space-between;
+  color: red;
+  padding-top: 24px;
 
   > a {
     display: inline-flex;
@@ -95,7 +96,8 @@
   }
 
   &:not(.noSidePadding) {
-    padding: 0 16px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 }
 
@@ -193,7 +195,8 @@
 
   .btnRow {
     &:not(.noSidePadding) {
-      padding: 0 40px;
+      padding-left: 24px;
+      padding-right: 24px;
     }
   }
 }

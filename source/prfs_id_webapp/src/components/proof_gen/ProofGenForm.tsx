@@ -9,7 +9,7 @@ import {
   ProofGenSuccessPayload,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { encrypt } from "@taigalabs/prfs-crypto-js";
+import { JSONbigNative, encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
@@ -171,8 +171,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         const payload: ProofGenSuccessPayload = {
           receipt: processedReceipt,
         };
+
         const encrypted = [
-          ...encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload))),
+          ...encrypt(proofGenArgs.public_key, Buffer.from(JSONbigNative.stringify(payload))),
         ];
         // console.log("receipt: %o, encrypted", processedReceipt, encrypted);
 
@@ -233,7 +234,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           <p className={styles.title}>Make sure you trust {proofGenArgs.app_id} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
-        <DefaultModuleBtnRow className={cn(styles.btnRow)}>
+        <DefaultModuleBtnRow className={cn(styles.btnRow, styles.sidePadding)}>
           <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
             {i18n.go_back}
           </Button>

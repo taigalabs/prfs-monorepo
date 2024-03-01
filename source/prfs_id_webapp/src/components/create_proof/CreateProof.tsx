@@ -5,7 +5,7 @@ import { CreateProofEvent } from "@taigalabs/prfs-driver-interface";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import cn from "classnames";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
-import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { useMutation, useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
@@ -133,6 +133,16 @@ const CreateProof: React.FC<CreateProofProps> = ({
             circuitTypeId: proofType.circuit_type_id,
             eventListener: handleProofGenEvent,
           });
+
+          if (query.usePrfsRegistry) {
+            // createPrfsProofRecord({
+            //   proof_record: {
+            //     serial_no: proveReceipt.proof.publicInputSer,
+            //     proof_starts_with: proveReceipt.proof.proofBytes[4],
+            //   },
+            // });
+          }
+
           setCreateProofStatus(Status.Standby);
           proveReceipt.proof.proofBytes = Array.from(proveReceipt.proof.proofBytes);
           return proveReceipt;
@@ -147,12 +157,11 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      if (query.useProofRegistry) {
-        query;
+      if (query.usePrfsRegistry) {
       }
     }
     fn().then();
-  }, [query.useProofRegistry]);
+  }, [query.usePrfsRegistry]);
 
   const proofType = data?.payload?.prfs_proof_type;
   return proofType ? (
@@ -178,6 +187,12 @@ const CreateProof: React.FC<CreateProofProps> = ({
                 driverArtifacts={driverArtifacts}
               />
             </div>
+            {query.usePrfsRegistry && (
+              <div className={styles.registry}>
+                <input type="checkbox" checked disabled />
+                <span>Use Prfs registry</span>
+              </div>
+            )}
           </QueryItemRightCol>
         </QueryItemMeta>
         <div className={styles.wrapper}>

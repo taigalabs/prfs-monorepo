@@ -1,7 +1,4 @@
-import { bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
-import JSONBig from "json-bigint";
-
-const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
+import { JSONbigNative, bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 
 export class SimpleHashPublicInput {
   circuitPubInput: SimpleHashCircuitPubInput;
@@ -11,7 +8,7 @@ export class SimpleHashPublicInput {
   }
 
   serialize(): string {
-    return JSONBig.stringify(this);
+    return JSONbigNative.stringify(this);
   }
 
   static deserialize(publicInputSer: string): SimpleHashPublicInput {

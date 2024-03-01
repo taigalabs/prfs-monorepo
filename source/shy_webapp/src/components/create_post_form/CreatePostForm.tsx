@@ -1,5 +1,7 @@
 import React from "react";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { CreatePrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofRecordRequest";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import {
   API_PATH,
   ProofGenArgs,
@@ -10,14 +12,21 @@ import {
   makeProofGenSearchParams,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
+import {
+  JSONbigNative,
+  createRandomKeyPair,
+  decrypt,
+  makeRandInt,
+  rand256Hex,
+} from "@taigalabs/prfs-crypto-js";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
+import { ShyPostProofAction } from "@taigalabs/shy-entities/bindings/ShyPostProofAction";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
-import { PublicInputsInterface } from "@taigalabs/prfs-circuit-interface/bindings/PublicInputsInterface";
+import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 
 import styles from "./CreatePostForm.module.scss";
 import { paths } from "@/paths";
@@ -28,7 +37,6 @@ import EditorFooter from "./EditorFooter";
 import { SHY_APP_ID } from "@/app_id";
 
 const PROOF = "Proof";
-const CREATE_POST = "CREATE_POST";
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = useI18N();
@@ -42,6 +50,11 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const { mutateAsync: createShyPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
       return shyApi2({ type: "create_shy_post", ...req });
+    },
+  });
+  const { mutateAsync: createPrfsProofRecord } = useMutation({
+    mutationFn: (req: CreatePrfsProofRecordRequest) => {
+      return prfsApi3({ type: "create_prfs_proof_record", ...req });
     },
   });
 
@@ -69,9 +82,12 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const proofTypeId = channel.proof_type_ids[0];
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
-      const { sk: sk2, pkHex: pkHex2 } = createRandomKeyPair();
       const json = JSON.stringify({ appId: SHY_APP_ID, postId });
 
+      const proofAction: ShyPostProofAction = {
+        type: "create_shy_post",
+        post_id: postId,
+      };
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
       };
@@ -84,8 +100,8 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
             proofTypeId,
             queryType: QueryType.CREATE_PROOF,
             presetVals,
-            registry: true,
-            proofAction: CREATE_POST,
+            usePrfsRegistry: true,
+            proofAction: JSON.stringify(proofAction),
           },
         ],
         public_key: pkHex,
@@ -155,15 +171,24 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         try {
           proofGenPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
         } catch (err) {
-          console.error("cannot parse payload", err);
+          console.error("cannot parse payload, err: %s, obj: %s", err, decrypted);
           return;
         }
 
         const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
+        const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
+          proveReceipt.proof.publicInputSer,
+        );
+
+        const { payload: _createPrfsProofRecordPayload } = await createPrfsProofRecord({
+          proof_record: {
+            public_key: publicInputs.proofPubKey,
+            serial_no: publicInputs.circuitPubInput.serialNo.toString(),
+            proof_starts_with: Array.from(proveReceipt.proof.proofBytes.slice(0, 4)),
+          },
+        });
+
         const shy_post_proof_id = rand256Hex();
-
-        const publicInputs: PublicInputsInterface = JSON.parse(proveReceipt.proof.publicInputSer);
-
         const { payload } = await createShyPost({
           title,
           post_id: postId,
@@ -173,8 +198,11 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           proof_identity_input: publicInputs.proofIdentityInput,
           proof: Array.from(proveReceipt.proof.proofBytes),
           public_inputs: proveReceipt.proof.publicInputSer,
-          public_key: pkHex2,
+          public_key: publicInputs.proofPubKey,
+          proof_action: proofAction,
+          // sig: proveReceipt.proof.proofActionResult,
         });
+
         console.log("create shy post resp", payload);
         router.push(`${paths.c}/${channel.channel_id}`);
       } catch (err) {

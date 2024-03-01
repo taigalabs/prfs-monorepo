@@ -1,3 +1,5 @@
+use clap::ArgMatches;
+
 use crate::{
     build_cmd::tasks::{
         compile_circuits::CompileCircuitsTask, run_tasks::run_tasks, task::BuildTask,
@@ -5,8 +7,6 @@ use crate::{
     build_handle::BuildHandle,
     CiError,
 };
-use clap::ArgMatches;
-use colored::Colorize;
 
 pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     let build_handle = BuildHandle {
