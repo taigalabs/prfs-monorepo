@@ -133,6 +133,10 @@ const CreateProof: React.FC<CreateProofProps> = ({
             circuitTypeId: proofType.circuit_type_id,
             eventListener: handleProofGenEvent,
           });
+
+          if (query.usePrfsRegistry) {
+          }
+
           setCreateProofStatus(Status.Standby);
           proveReceipt.proof.proofBytes = Array.from(proveReceipt.proof.proofBytes);
           return proveReceipt;
@@ -147,12 +151,11 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      if (query.useProofRegistry) {
-        query;
+      if (query.usePrfsRegistry) {
       }
     }
     fn().then();
-  }, [query.useProofRegistry]);
+  }, [query.usePrfsRegistry]);
 
   const proofType = data?.payload?.prfs_proof_type;
   return proofType ? (
