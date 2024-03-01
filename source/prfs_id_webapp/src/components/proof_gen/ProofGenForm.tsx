@@ -171,6 +171,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         const payload: ProofGenSuccessPayload = {
           receipt: processedReceipt,
         };
+
         const encrypted = [
           ...encrypt(proofGenArgs.public_key, Buffer.from(JSONbigNative.stringify(payload))),
         ];

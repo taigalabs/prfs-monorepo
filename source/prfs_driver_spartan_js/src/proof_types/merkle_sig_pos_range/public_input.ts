@@ -23,8 +23,15 @@ export class MerkleSigPosRangePublicInput implements PublicInputsInterface {
     this.proofIdentityInput = assetSizeLabel;
   }
 
-  serialize(): string {
-    return JSONbigNative.stringify(this);
+  stringify(): string {
+    const { circuitPubInput, ...rest } = this;
+    const circuitPubInput_ = JSONbigNative.stringify(circuitPubInput);
+    const json = {
+      circuitPubInput: circuitPubInput_,
+      ...rest,
+    };
+
+    return JSON.stringify(json);
   }
 
   static deserialize(publicInputSer: string): MerkleSigPosRangePublicInput {

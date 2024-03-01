@@ -6,7 +6,7 @@ export declare class MerkleSigPosRangePublicInput implements PublicInputsInterfa
     assetSizeLabel: string;
     proofIdentityInput: string;
     constructor(circuitPubInput: MerkleSigPosRangeCircuitPubInput, nonceRaw: string, proofPubKey: string, assetSizeLabel: string);
-    serialize(): string;
+    stringify(): string;
     static deserialize(publicInputSer: string): MerkleSigPosRangePublicInput;
 }
 export declare class MerkleSigPosRangeCircuitPubInput {

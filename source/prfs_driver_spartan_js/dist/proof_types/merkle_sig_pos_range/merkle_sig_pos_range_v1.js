@@ -1,4 +1,4 @@
-import { bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, prfsSign, toUtf8Bytes, } from "@taigalabs/prfs-crypto-js";
+import { JSONbigNative, bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, prfsSign, toUtf8Bytes, } from "@taigalabs/prfs-crypto-js";
 import { hexlify, keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
 import { snarkJsWitnessGen } from "../../utils/snarkjs";
@@ -71,7 +71,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         duration: now - prev,
         proof: {
             proofBytes,
-            publicInputSer: publicInput.serialize(),
+            publicInputSer: JSONbigNative.stringify(publicInput),
             proofKey,
             proofActionResult: proofActionResultHex,
         },

@@ -164,13 +164,11 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           return;
         }
 
-        console.log(111, decrypted);
-
         let proofGenPayload: ProofGenSuccessPayload;
         try {
-          proofGenPayload = JSONbigNative.parse(decrypted) as ProofGenSuccessPayload;
+          proofGenPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
         } catch (err) {
-          console.error("cannot parse payload, obj: %s", decrypted);
+          console.error("cannot parse payload, err: %s, obj: %s", err, decrypted);
           return;
         }
 
