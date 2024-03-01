@@ -1,4 +1,4 @@
-use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
+use prfs_axum_lib::axum::{body::Body, extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
@@ -21,6 +21,15 @@ pub async fn create_shy_post(
     let state = state.clone();
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
+
+    let cli = &state.client;
+    let reqwest_response = match cli.get("http://127.0.0.1:3000/stream").send().await {
+        Ok(res) => res,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let shy_post_proof = ShyPostProof {
         shy_post_proof_id: input.shy_post_proof_id.to_string(),
