@@ -8,6 +8,7 @@ import {
   deriveProofKey,
   poseidon_2,
   poseidon_2_bigint_le,
+  prfsSign,
   toUtf8Bytes,
 } from "@taigalabs/prfs-crypto-js";
 import { hexlify, keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
@@ -34,7 +35,8 @@ export async function proveMembership(
     assetSizeGreaterEqThan,
     assetSizeLabel,
     nonceRaw,
-    proofPubKey,
+    proofKey,
+    proofAction,
   } = inputs;
 
   const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
@@ -45,8 +47,9 @@ export async function proveMembership(
   const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
   // console.log("sigposAndNonce", sigposAndNonceInt_);
 
-  const pk = PublicKey.fromHex(proofPubKey);
-  const proofPubKey_ = bytesToNumberLE(pk.compressed);
+  const sk = PrivateKey.fromHex(proofKey);
+  const proofPubKey = "0x" + sk.publicKey.toHex();
+  const proofPubKey_ = bytesToNumberLE(sk.publicKey.compressed);
   const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
   const proofPubKeyInt = bytesToNumberLE(proofPubKeyHash);
   // console.log("proofPubKeyInt", proofPubKeyInt);
@@ -117,11 +120,16 @@ export async function proveMembership(
   }
   const now = performance.now();
 
+  const proofAction_ = await prfsSign(sk.toHex(), "pwoer");
+  const proofActionResult = proofAction_.toCompactHex();
+
   return {
     duration: now - prev,
     proof: {
       proofBytes,
       publicInputSer: publicInput.serialize(),
+      proofKey: "0x" + sk.toHex(),
+      proofActionResult,
     },
   };
 }

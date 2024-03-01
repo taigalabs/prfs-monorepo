@@ -1,19 +1,20 @@
-import { PublicKey, bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, toUtf8Bytes, } from "@taigalabs/prfs-crypto-js";
+import { PrivateKey, bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, prfsSign, toUtf8Bytes, } from "@taigalabs/prfs-crypto-js";
 import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { snarkJsWitnessGen } from "../../utils/snarkjs";
 import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     console.log("inputs: %o", inputs);
-    const { sigpos, leaf, merkleProof, assetSize, assetSizeLessThan, assetSizeGreaterEqThan, assetSizeLabel, nonceRaw, proofPubKey, } = inputs;
+    const { sigpos, leaf, merkleProof, assetSize, assetSizeLessThan, assetSizeGreaterEqThan, assetSizeLabel, nonceRaw, proofKey, proofAction, } = inputs;
     const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
     const nonceHash = await poseidon_2(nonceRaw_);
     const nonceInt = bytesToNumberLE(nonceHash);
     const sigposAndNonceInt_ = await poseidon_2_bigint_le([sigpos, nonceInt]);
     const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
     // console.log("sigposAndNonce", sigposAndNonceInt_);
-    const pk = PublicKey.fromHex(proofPubKey);
-    const proofPubKey_ = bytesToNumberLE(pk.compressed);
+    const sk = PrivateKey.fromHex(proofKey);
+    const proofPubKey = "0x" + sk.publicKey.toHex();
+    const proofPubKey_ = bytesToNumberLE(sk.publicKey.compressed);
     const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
     const proofPubKeyInt = bytesToNumberLE(proofPubKeyHash);
     // console.log("proofPubKeyInt", proofPubKeyInt);
@@ -60,11 +61,15 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
         throw new Error(`Error calling prove(), err: ${err}`);
     }
     const now = performance.now();
+    const proofAction_ = await prfsSign(sk.toHex(), "pwoer");
+    const proofActionResult = proofAction_.toCompactHex();
     return {
         duration: now - prev,
         proof: {
             proofBytes,
             publicInputSer: publicInput.serialize(),
+            proofKey: "0x" + sk.toHex(),
+            proofActionResult,
         },
     };
 }
