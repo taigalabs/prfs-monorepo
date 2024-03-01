@@ -1,3 +1,3 @@
-pub mod PostProofAction;
+pub mod shy_post_proof_action;
 
-pub use PostProofAction::*;
+pub use shy_post_proof_action::*;

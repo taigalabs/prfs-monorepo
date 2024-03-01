@@ -2,6 +2,6 @@
 import type { CreateShyPostAction } from "./CreateShyPostAction";
 import type { CreateShyPostReplyAction } from "./CreateShyPostReplyAction";
 
-export type PostProofAction =
+export type ShyPostProofAction =
   | ({ type: "create_shy_post" } & CreateShyPostAction)
   | ({ type: "create_shy_post_reply" } & CreateShyPostReplyAction);

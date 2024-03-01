@@ -22,6 +22,7 @@ import {
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
+import { ShyPostProofAction } from "@taigalabs/shy-entities/bindings/ShyPostProofAction";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
@@ -36,7 +37,6 @@ import EditorFooter from "./EditorFooter";
 import { SHY_APP_ID } from "@/app_id";
 
 const PROOF = "Proof";
-const CREATE_POST = "CREATE_POST";
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = useI18N();
@@ -84,6 +84,10 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
       const { sk, pkHex } = createRandomKeyPair();
       const json = JSON.stringify({ appId: SHY_APP_ID, postId });
 
+      const proofAction: ShyPostProofAction = {
+        type: "create_shy_post",
+        post_id: postId,
+      };
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
       };
@@ -97,7 +101,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
             queryType: QueryType.CREATE_PROOF,
             presetVals,
             usePrfsRegistry: true,
-            proofAction: CREATE_POST,
+            proofAction: JSON.stringify(proofAction),
           },
         ],
         public_key: pkHex,
@@ -195,7 +199,9 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           proof: Array.from(proveReceipt.proof.proofBytes),
           public_inputs: proveReceipt.proof.publicInputSer,
           public_key: publicInputs.proofPubKey,
+          proof_action,
         });
+
         console.log("create shy post resp", payload);
         router.push(`${paths.c}/${channel.channel_id}`);
       } catch (err) {

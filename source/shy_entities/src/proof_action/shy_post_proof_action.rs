@@ -5,7 +5,7 @@ use ts_rs::TS;
 #[allow(non_camel_case_types)]
 #[serde(tag = "type")]
 #[ts(export)]
-pub enum PostProofAction {
+pub enum ShyPostProofAction {
     create_shy_post(CreateShyPostAction),
     create_shy_post_reply(CreateShyPostReplyAction),
 }
