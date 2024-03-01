@@ -18,13 +18,10 @@ envy = "0.4"
 aws-config = "0.56.1"
 aws-sdk-s3 = "0.33.0"
 walkdir = "2"
-axum = "0.7.4"
-axum-extra = "0.9.2"
-tower = { version = "0.4", features = ["util"] }
-tower-http = { version = "0.5", features = ["fs", "trace", "cors"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
+prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 prfs_entities = { path = "../prfs_entities" }
 

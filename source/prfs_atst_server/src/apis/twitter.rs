@@ -36,7 +36,6 @@ pub async fn attest_twitter_acc(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<AttestTwitterAccRequest>,
 ) -> (StatusCode, Json<ApiResponse<AttestTwitterAccResponse>>) {
-    // let req: AttestTwitterAccRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
