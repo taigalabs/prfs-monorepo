@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use colored::Colorize;
-use ethers_signers::{LocalWallet, Signer, Wallet};
-use git2::{Oid, Repository};
+use ethers_signers::LocalWallet;
+use git2::Repository;
 use prfs_axum_lib::reqwest::Client;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::database2::Database2;

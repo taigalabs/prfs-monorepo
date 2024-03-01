@@ -2,7 +2,6 @@ use hyper::{header, Response, StatusCode};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
 use crate::{
-    error::ApiHandleError,
     io::{full, BytesBoxBody},
     ApiHandleErrorCode,
 };

@@ -1,23 +1,10 @@
-use axum::{
-    extract::State,
-    http::StatusCode,
-    routing::{get, post},
-    Json, Router,
-};
-use prfs_axum_lib::{
-    io::{parse_req, ApiHandlerResult, BytesBoxBody},
-    resp::ApiResponse,
-};
+use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
+use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::{
-    entities::PrfsProofType,
-    prfs_api::{
-        CreatePrfsProofRecordRequest, CreatePrfsProofRecordResponse, CreatePrfsProofTypeRequest,
-        CreatePrfsProofTypeResponse, GetPrfsProofRecordRequest, GetPrfsProofRecordResponse,
-        GetPrfsProofTypeByProofTypeIdRequest, GetPrfsProofTypeByProofTypeIdResponse,
-        GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
-    },
+use prfs_entities::prfs_api::{
+    CreatePrfsProofRecordRequest, CreatePrfsProofRecordResponse, GetPrfsProofRecordRequest,
+    GetPrfsProofRecordResponse,
 };
 use std::sync::Arc;
 
