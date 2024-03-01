@@ -41,6 +41,16 @@
   }
 }
 
+.registry {
+  font-size: 12px;
+  color: var(--gray-30);
+  padding-top: 2px;
+
+  input {
+    margin-right: 4px;
+  }
+}
+
 .moduleWrapper {
   width: 100%;
   min-height: 50px;

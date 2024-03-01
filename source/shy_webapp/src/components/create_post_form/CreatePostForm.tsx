@@ -84,7 +84,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
             proofTypeId,
             queryType: QueryType.CREATE_PROOF,
             presetVals,
-            registry: true,
+            usePrfsRegistry: true,
             proofAction: CREATE_POST,
           },
         ],

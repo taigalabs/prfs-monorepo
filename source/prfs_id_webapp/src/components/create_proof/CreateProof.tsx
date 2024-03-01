@@ -178,6 +178,12 @@ const CreateProof: React.FC<CreateProofProps> = ({
                 driverArtifacts={driverArtifacts}
               />
             </div>
+            {query.usePrfsRegistry && (
+              <div className={styles.registry}>
+                <input type="checkbox" checked disabled />
+                <span>Use Prfs registry</span>
+              </div>
+            )}
           </QueryItemRightCol>
         </QueryItemMeta>
         <div className={styles.wrapper}>
