@@ -4,7 +4,12 @@ import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-import { makePathIndices, makeSiblingPath, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
+import {
+  deriveProofKey,
+  makePathIndices,
+  makeSiblingPath,
+  poseidon_2_bigint_le,
+} from "@taigalabs/prfs-crypto-js";
 import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
@@ -19,6 +24,7 @@ import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
+import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 
 import styles from "./MerkleSigPosRange.module.scss";
@@ -132,6 +138,17 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       <span className={styles.inputLabel}>{i18n.loading}</span>
     );
   }, [prfsSet, prfsTree]);
+  React.useEffect(() => {
+    async function fn() {
+      if (presetVals && presetVals.nonceRaw) {
+        const { skHex } = await deriveProofKey(presetVals.nonceRaw);
+        // const pk = secp.getPublicKey(skHex);
+
+        // val.proofKey = sk;
+      }
+    }
+    fn().then();
+  }, [presetVals]);
 
   React.useEffect(() => {
     async function fn() {
