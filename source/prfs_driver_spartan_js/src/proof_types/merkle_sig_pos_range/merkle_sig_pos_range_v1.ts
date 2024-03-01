@@ -52,14 +52,8 @@ export async function proveMembership(
   const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
   // console.log("sigposAndNonce", sigposAndNonceInt_);
 
-  // const aa = secp.ProjectivePointh
-  // const sk = secp.utils.randomPrivateKey();
-  // const secretKey = hexlify(sk);
   const publicKey = secp.getPublicKey(proofKey.substring(2));
   const proofPubKey = hexlify(publicKey);
-
-  // const sk = PrivateKey.fromHex(proofKey);
-  // const proofPubKey = "0x" + sk.publicKey.toHex();
   const proofPubKey_ = bytesToNumberLE(publicKey);
   const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
   const proofPubKeyInt = bytesToNumberLE(proofPubKeyHash);
@@ -68,6 +62,9 @@ export async function proveMembership(
   const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
   const serialNo = bytesToNumberLE(serialNoHash);
   // console.log("serialNo", serialNo);
+
+  const proofActionResult = await prfsSign(proofKey, proofAction);
+  const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 
   eventListener({
     type: "CREATE_PROOF_EVENT",
@@ -130,9 +127,6 @@ export async function proveMembership(
     throw new Error(`Error calling prove(), err: ${err}`);
   }
   const now = performance.now();
-
-  const proofActionResult = await prfsSign(proofKey, proofAction);
-  const proofActionResultHex = proofActionResult.toCompactHex();
 
   return {
     duration: now - prev,
