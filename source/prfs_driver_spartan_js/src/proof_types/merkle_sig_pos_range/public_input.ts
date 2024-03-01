@@ -25,14 +25,14 @@ export class MerkleSigPosRangePublicInput implements MerkleSigPosRangeV1PublicIn
   }
 
   stringify(): string {
-    const { circuitPubInput, ...rest } = this;
-    const circuitPubInput_ = JSONbigNative.stringify(circuitPubInput);
-    const json = {
-      circuitPubInput: circuitPubInput_,
-      ...rest,
-    };
+    // const { circuitPubInput, ...rest } = this;
+    // const circuitPubInput_ = JSONbigNative.stringify(circuitPubInput);
+    // const json = {
+    //   circuitPubInput: circuitPubInput_,
+    //   ...rest,
+    // };
 
-    return JSONbigNative.stringify(json);
+    return JSONbigNative.stringify(this);
   }
 
   static deserialize(publicInputSer: string): MerkleSigPosRangePublicInput {

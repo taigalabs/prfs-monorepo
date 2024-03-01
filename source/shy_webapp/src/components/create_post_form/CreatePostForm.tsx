@@ -173,10 +173,15 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         }
 
         const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
+        console.log(11, proveReceipt);
         const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
           proveReceipt.proof.publicInputSer,
         );
-        // console.log(111, proveReceipt, publicInputs);
+
+        // const circuitPubInput = JSONbigNative.parse(publicInputs.circuitPubInput as string);
+
+        console.log(111, publicInputs);
+
         const { payload: createPrfsProofRecordPayload } = await createPrfsProofRecord({
           proof_record: {
             public_key: publicInputs.proofPubKey,

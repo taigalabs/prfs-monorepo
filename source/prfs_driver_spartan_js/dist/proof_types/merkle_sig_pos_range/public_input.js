@@ -14,13 +14,13 @@ export class MerkleSigPosRangePublicInput {
         this.proofIdentityInput = assetSizeLabel;
     }
     stringify() {
-        const { circuitPubInput, ...rest } = this;
-        const circuitPubInput_ = JSONbigNative.stringify(circuitPubInput);
-        const json = {
-            circuitPubInput: circuitPubInput_,
-            ...rest,
-        };
-        return JSONbigNative.stringify(json);
+        // const { circuitPubInput, ...rest } = this;
+        // const circuitPubInput_ = JSONbigNative.stringify(circuitPubInput);
+        // const json = {
+        //   circuitPubInput: circuitPubInput_,
+        //   ...rest,
+        // };
+        return JSONbigNative.stringify(this);
     }
     static deserialize(publicInputSer) {
         const obj = JSONbigNative.parse(publicInputSer);
