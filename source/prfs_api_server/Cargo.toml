@@ -30,12 +30,6 @@ uuid = { version = "1.4.1", features = ["v4", "serde"] }
 base-62 = "0.1.1"
 csv = "1.2.2"
 git2 = "0.18.1"
-# http-body-util = "0.1"
-# hyper_014 = { package = "hyper", version = "0.14" }
-# hyper = { version = "1.1", features = ["full"] }
-# hyper-tls-05 = { package = "hyper-tls", version = "0.5.0" }
-# hyper-tls = "0.6"
-# hyper-util = { version = "0.1", features = ["full"] }
 
 prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_db_interface = { path = "../prfs_db_interface" }
