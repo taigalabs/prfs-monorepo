@@ -5,8 +5,10 @@ import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 import { DateTimed } from "@taigalabs/shy-entities/bindings/DateTimed";
 
 import styles from "./Row.module.scss";
+import Link from "next/link";
+import { paths } from "@/paths";
 
-const Row: React.FC<RowProps> = ({ post, now }) => {
+const Row: React.FC<RowProps> = ({ post, now, channelId }) => {
   const date = React.useMemo(() => {
     const d = dayjs(post.updated_at);
     if (now.isSame(d, "day")) {
@@ -21,7 +23,9 @@ const Row: React.FC<RowProps> = ({ post, now }) => {
   return (
     <div className={styles.wrapper}>
       <div>
-        <div className={cn(styles.title, styles.col)}>{post.inner.title}</div>
+        <div className={cn(styles.title, styles.col)}>
+          <Link href={`${paths.c}/${channelId}/p/${post.inner.post_id}`}>{post.inner.title}</Link>
+        </div>
         <div></div>
       </div>
       <div className={styles.meta}>
@@ -46,4 +50,5 @@ export default Row;
 export interface RowProps {
   post: DateTimed<ShyPost>;
   now: Dayjs;
+  channelId: string;
 }

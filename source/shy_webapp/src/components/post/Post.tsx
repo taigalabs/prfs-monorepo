@@ -6,7 +6,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 
-import styles from "./Channel.module.scss";
+import styles from "./Post.module.scss";
 import { useSignedInShyUser } from "@/hooks/user";
 import { useIsFontReady } from "@/hooks/font";
 import {

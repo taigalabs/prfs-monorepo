@@ -111,7 +111,7 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
               ? hasNextPage
                 ? "Loading more..."
                 : "Nothing more to load"
-              : post && <Row post={post} now={now} />}
+              : post && <Row post={post} now={now} channelId={channelId} />}
           </InfiniteScrollRowWrapper>
         );
       })}
