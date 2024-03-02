@@ -11,7 +11,7 @@ import {
   poseidon_2_bigint_le,
 } from "@taigalabs/prfs-crypto-js";
 import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
-import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+import { useMutation, useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
@@ -44,6 +44,16 @@ import { FormErrors, FormValues } from "@/components/circuit_input_items/formErr
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
+import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
+
+function usePrfsProofRecord(pk: string) {
+  return useQuery({
+    queryKey: ["get_prfs_proof_record", pk],
+    queryFn: async () => {
+      return prfsApi3({ type: "get_prfs_proof_record", public_key: pk });
+    },
+  });
+}
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -78,6 +88,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const [prfsTree, setPrfsTree] = React.useState<PrfsTree>();
   const [walletAddr, setWalletAddr] = React.useState("");
   const [rangeOptionIdx, setRangeOptionIdx] = React.useState(-1);
+
+  const { mutateAsync: getPrfsProofRecord } = useMutation({
+    mutationFn: (req: GetPrfsProofRecordRequest) => {
+      return prfsApi3({ type: "get_prfs_proof_record", ...req });
+    },
+  });
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
@@ -144,14 +160,23 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     async function fn() {
       if (presetVals && presetVals.nonceRaw) {
         const { skHex } = await deriveProofKey(presetVals.nonceRaw);
-        console.log(11, skHex);
         const publicKey = secp.getPublicKey(skHex.substring(2));
+        const pkHex = hexlify(publicKey);
 
-        // val.proofKey = sk;
+        const { payload, error } = await getPrfsProofRecord({
+          public_key: pkHex,
+        });
+
+        if (error) {
+        }
+
+        if (payload) {
+          console.log(22, payload);
+        }
       }
     }
     fn().then();
-  }, [presetVals, proofAction]);
+  }, [presetVals, proofAction, getPrfsProofRecord]);
 
   React.useEffect(() => {
     async function fn() {

@@ -21,16 +21,17 @@ use super::{
     GetPrfsPollByPollIdResponse, GetPrfsPollsRequest, GetPrfsPollsResponse,
     GetPrfsProofInstanceByInstanceIdRequest, GetPrfsProofInstanceByInstanceIdResponse,
     GetPrfsProofInstanceByShortIdRequest, GetPrfsProofInstanceByShortIdResponse,
-    GetPrfsProofInstancesRequest, GetPrfsProofInstancesResponse,
-    GetPrfsProofTypeByProofTypeIdRequest, GetPrfsProofTypeByProofTypeIdResponse,
-    GetPrfsProofTypesRequest, GetPrfsProofTypesResponse, GetPrfsSetBySetIdRequest,
-    GetPrfsSetBySetIdResponse, GetPrfsSetElementRequest, GetPrfsSetElementResponse,
-    GetPrfsSetElementsRequest, GetPrfsSetElementsResponse, GetPrfsSetsBySetTypeRequest,
-    GetPrfsSetsRequest, GetPrfsSetsResponse, GetPrfsTreeLeafIndicesRequest,
-    GetPrfsTreeLeafNodesBySetIdRequest, GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse,
-    ImportPrfsSetElementsRequest, ImportPrfsSetElementsResponse, PrfsIdentitySignUpRequest,
-    PrfsIdentitySignUpResponse, SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse,
-    UpdatePrfsTreeNodeRequest, UpdatePrfsTreeNodeResponse,
+    GetPrfsProofInstancesRequest, GetPrfsProofInstancesResponse, GetPrfsProofRecordRequest,
+    GetPrfsProofRecordResponse, GetPrfsProofTypeByProofTypeIdRequest,
+    GetPrfsProofTypeByProofTypeIdResponse, GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
+    GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse, GetPrfsSetElementRequest,
+    GetPrfsSetElementResponse, GetPrfsSetElementsRequest, GetPrfsSetElementsResponse,
+    GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest, GetPrfsSetsResponse,
+    GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesBySetIdRequest,
+    GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse, ImportPrfsSetElementsRequest,
+    ImportPrfsSetElementsResponse, PrfsIdentitySignUpRequest, PrfsIdentitySignUpResponse,
+    SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse, UpdatePrfsTreeNodeRequest,
+    UpdatePrfsTreeNodeResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -75,6 +76,7 @@ pub enum PrfsApiRequest {
     UpdatePrfsTreeNode(UpdatePrfsTreeNodeRequest),
     get_latest_prfs_tree_by_set_id(GetLatestPrfsTreeBySetIdRequest),
     create_prfs_proof_record(CreatePrfsProofRecordRequest),
+    get_prfs_proof_record(GetPrfsProofRecordRequest),
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -119,4 +121,5 @@ pub enum PrfsApiResponse {
     UpdatePrfsTreeNode(UpdatePrfsTreeNodeResponse),
     get_latest_prfs_tree_by_set_id(GetLatestPrfsTreeBySetIdResponse),
     create_prfs_proof_record(CreatePrfsProofRecordResponse),
+    get_prfs_proof_record(GetPrfsProofRecordResponse),
 }
