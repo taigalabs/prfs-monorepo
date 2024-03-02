@@ -6,9 +6,7 @@ use crate::entities::PrfsProofRecord;
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsProofRecordRequest {
-    pub serial_no: String,
-    // pub proof_starts_with: String,
-    // pub proof_action: String,
+    pub public_key: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

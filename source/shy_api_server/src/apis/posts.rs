@@ -2,12 +2,14 @@ use prfs_axum_lib::axum::{body::Body, extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
+use prfs_entities::prfs_api::{GetPrfsProofRecordRequest, GetPrfsProofRecordResponse};
 use shy_entities::{
     entities::ShyPostProof,
     shy_api::{
         CreateShyPostRequest, CreateShyPostResponse, GetShyPostsRequest, GetShyPostsResponse,
     },
 };
+use std::collections::HashMap;
 use std::sync::Arc;
 
 use crate::envs::ENVS;
@@ -23,10 +25,12 @@ pub async fn create_shy_post(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    println!("111: {}", ENVS.prfs_api_server_endpoint);
-
     let cli = &state.client;
-    let reqwest_response = match cli.get("http://127.0.0.1:3000/stream").send().await {
+    let url = format!("{}/get_prfs_proof_record", &ENVS.prfs_api_server_endpoint);
+    let data = GetPrfsProofRecordRequest {
+        public_key: input.public_key.to_string(),
+    };
+    let res = match cli.post(url).json(&data).send().await {
         Ok(res) => res,
         Err(err) => {
             let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
@@ -34,7 +38,15 @@ pub async fn create_shy_post(
         }
     };
 
-    println!("222: {:?}", reqwest_response);
+    let res: ApiResponse<GetPrfsProofRecordResponse> = match res.json().await {
+        Ok(r) => r,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
+    println!("222: {:?}", res);
 
     let shy_post_proof = ShyPostProof {
         shy_post_proof_id: input.shy_post_proof_id.to_string(),
