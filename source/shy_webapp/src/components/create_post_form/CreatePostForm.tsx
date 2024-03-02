@@ -196,7 +196,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         });
 
         console.log("create shy post resp", payload, error);
-        // router.push(`${paths.c}/${channel.channel_id}`);
+        router.push(`${paths.c}/${channel.channel_id}`);
       } catch (err) {
         console.error(err);
       }
