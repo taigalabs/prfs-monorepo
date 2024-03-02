@@ -7,21 +7,28 @@ use crate::DbInterfaceError;
 pub async fn get_prfs_proof_record(
     pool: &Pool<Postgres>,
     public_key: &String,
-) -> Result<PrfsProofRecord, DbInterfaceError> {
+) -> Result<Option<PrfsProofRecord>, DbInterfaceError> {
     let query = r#"
 SELECT *
 FROM prfs_proof_records
 WHERE public_key=$1
 "#;
 
-    let row = sqlx::query(query).bind(&public_key).fetch_one(pool).await?;
+    let row = sqlx::query(query)
+        .bind(&public_key)
+        .fetch_optional(pool)
+        .await?;
 
-    let resp: PrfsProofRecord = PrfsProofRecord {
-        public_key: row.get("public_key"),
-        serial_no: row.get("serial_no"),
-        proof_starts_with: row.get("proof_starts_with"),
-    };
-    return Ok(resp);
+    if let Some(r) = row {
+        let resp: PrfsProofRecord = PrfsProofRecord {
+            public_key: r.get("public_key"),
+            serial_no: r.get("serial_no"),
+            proof_starts_with: r.get("proof_starts_with"),
+        };
+        return Ok(Some(resp));
+    } else {
+        return Ok(None);
+    }
 }
 
 pub async fn insert_prfs_proof_record(

@@ -12,7 +12,7 @@ pub struct GetPrfsProofRecordRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsProofRecordResponse {
-    pub proof_record: PrfsProofRecord,
+    pub proof_record: Option<PrfsProofRecord>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
