@@ -6,6 +6,7 @@ use prfs_entities::prfs_api::{
     CreatePrfsProofRecordRequest, CreatePrfsProofRecordResponse, GetPrfsProofRecordRequest,
     GetPrfsProofRecordResponse,
 };
+use prfs_id_server::error_codes::API_ERROR_CODE;
 use std::sync::Arc;
 
 // const LIMIT: i32 = 10;
@@ -15,11 +16,19 @@ pub async fn get_prfs_proof_record(
     Json(input): Json<GetPrfsProofRecordRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsProofRecordResponse>>) {
     let pool = &state.db2.pool;
-    // let rows = prfs::get_prfs_proof_record(pool, input.offset, LIMIT).await;
+    let proof_record = match prfs::get_prfs_proof_record(pool, &input.public_key).await {
+        Ok(r) => r,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &API_ERROR_CODE.UNKNOWN_ERROR,
+                format!("Error getting proof record, err: {:?}", err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
-    // let resp = ApiResponse::new_success(GetPrfsProofTypesResponse { next_offset, rows });
-    // return (StatusCode::OK, Json(resp));
-    unreachable!()
+    let resp = ApiResponse::new_success(GetPrfsProofRecordResponse { proof_record });
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn create_prfs_proof_record(
