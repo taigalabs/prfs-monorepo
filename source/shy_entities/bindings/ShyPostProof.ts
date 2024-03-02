@@ -5,4 +5,5 @@ export interface ShyPostProof {
   proof: Array<number>;
   public_inputs: string;
   public_key: string;
+  serial_no: bigint;
 }

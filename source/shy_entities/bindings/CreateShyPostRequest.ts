@@ -10,4 +10,6 @@ export interface CreateShyPostRequest {
   proof: Array<number>;
   public_inputs: string;
   public_key: string;
+  serial_no: bigint;
+  author_sig: string;
 }

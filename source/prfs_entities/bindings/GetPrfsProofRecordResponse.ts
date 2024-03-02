@@ -2,5 +2,5 @@
 import type { PrfsProofRecord } from "./PrfsProofRecord";
 
 export interface GetPrfsProofRecordResponse {
-  proof_record: PrfsProofRecord;
+  proof_record: PrfsProofRecord | null;
 }

@@ -180,14 +180,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           proveReceipt.proof.publicInputSer,
         );
 
-        // const { payload: _createPrfsProofRecordPayload } = await createPrfsProofRecord({
-        //   proof_record: {
-        //     public_key: publicInputs.proofPubKey,
-        //     serial_no: publicInputs.circuitPubInput.serialNo.toString(),
-        //     proof_starts_with: Array.from(proveReceipt.proof.proofBytes.slice(0, 4)),
-        //   },
-        // });
-
         const shy_post_proof_id = rand256Hex();
         const { payload, error } = await createShyPost({
           title,
@@ -199,10 +191,8 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           proof: Array.from(proveReceipt.proof.proofBytes),
           public_inputs: proveReceipt.proof.publicInputSer,
           public_key: publicInputs.proofPubKey,
-          // serial_no: publicInputs.circuitPubInput.serialNo.toString(),
-          // proof_starts_with: Array.from(proveReceipt.proof.proofBytes.slice(0, 4)),
-          // proof_action: proofAction,
-          // sig: proveReceipt.proof.proofActionResult,
+          serial_no: publicInputs.circuitPubInput.serialNo,
+          author_sig: proveReceipt.proof.proofActionResult,
         });
 
         console.log("create shy post resp", payload, error);

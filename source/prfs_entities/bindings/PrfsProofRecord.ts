@@ -2,6 +2,5 @@
 
 export interface PrfsProofRecord {
   public_key: string;
-  serial_no: string;
   proof_starts_with: Array<number>;
 }

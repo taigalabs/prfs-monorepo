@@ -60,6 +60,7 @@ pub async fn create_shy_post(
         proof: input.proof,
         public_inputs: input.public_inputs,
         public_key: input.public_key,
+        serial_no: input.serial_no,
     };
 
     let _proof_id = match shy::insert_shy_post_proof(&mut tx, &shy_post_proof).await {
