@@ -234,6 +234,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      '@taigalabs/prfs-env':
+        specifier: '*'
+        version: link:../prfs_env
       '@taigalabs/prfs-i18n':
         specifier: '*'
         version: link:../prfs_i18n
@@ -289,9 +292,6 @@ importers:
       '@svgr/webpack':
         specifier: ^8.1.0
         version: 8.1.0
-      '@taigalabs/prfs-env-js':
-        specifier: '*'
-        version: link:../prfs_env_js
       '@tanstack/eslint-plugin-query':
         specifier: ^4.34.1
         version: 4.34.1(eslint@8.26.0)
@@ -462,9 +462,9 @@ importers:
       '@react-icons/all-files':
         specifier: ^4.1.0
         version: 4.1.0(react@18.2.0)
-      '@taigalabs/prfs-env-js':
+      '@taigalabs/prfs-env':
         specifier: '*'
-        version: link:../prfs_env_js
+        version: link:../prfs_env
       '@taigalabs/prfs-react-lib':
         specifier: '*'
         version: link:../prfs_react_lib
@@ -611,7 +611,7 @@ importers:
 
   source/prfs_entities: {}
 
-  source/prfs_env_js:
+  source/prfs_env:
     dependencies:
       dayjs:
         specifier: ^1.11.9
@@ -717,9 +717,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
-      '@taigalabs/prfs-env-js':
+      '@taigalabs/prfs-env':
         specifier: '*'
-        version: link:../prfs_env_js
+        version: link:../prfs_env
       '@taigalabs/prfs-i18n':
         specifier: '*'
         version: link:../prfs_i18n
@@ -1053,6 +1053,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      '@taigalabs/prfs-env':
+        specifier: '*'
+        version: link:../prfs_env
       '@taigalabs/prfs-i18n':
         specifier: '*'
         version: link:../prfs_i18n
@@ -1120,9 +1123,6 @@ importers:
       '@svgr/webpack':
         specifier: ^8.1.0
         version: 8.1.0
-      '@taigalabs/prfs-env-js':
-        specifier: '*'
-        version: link:../prfs_env_js
       '@tanstack/eslint-plugin-query':
         specifier: ^4.34.1
         version: 4.34.1(eslint@8.26.0)
@@ -1524,9 +1524,9 @@ importers:
       '@react-icons/all-files':
         specifier: ^4.1.0
         version: 4.1.0(react@18.2.0)
-      '@taigalabs/prfs-env-js':
+      '@taigalabs/prfs-env':
         specifier: '*'
-        version: link:../prfs_env_js
+        version: link:../prfs_env
       '@taigalabs/prfs-react-lib':
         specifier: '*'
         version: link:../prfs_react_lib
@@ -1623,9 +1623,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
-      '@taigalabs/prfs-env-js':
+      '@taigalabs/prfs-env':
         specifier: '*'
-        version: link:../prfs_env_js
+        version: link:../prfs_env
       '@taigalabs/prfs-i18n':
         specifier: '*'
         version: link:../prfs_i18n

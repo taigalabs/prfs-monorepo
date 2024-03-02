@@ -18,7 +18,7 @@ pub struct CreateShyPostRequest {
     pub proof: Vec<u8>,
     pub public_inputs: String,
     pub public_key: String,
-    pub proof_action: ShyPostProofAction,
+    // pub proof_action: ShyPostProofAction,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

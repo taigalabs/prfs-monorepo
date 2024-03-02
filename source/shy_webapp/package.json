@@ -21,7 +21,7 @@
     "@taigalabs/prfs-api-js": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-crypto-deps-js": "*",
-    "@taigalabs/prfs-env-js": "*",
+    "@taigalabs/prfs-env": "*",
     "@taigalabs/prfs-circuit-interface": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
