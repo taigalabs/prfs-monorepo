@@ -71,6 +71,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   setFormErrors,
   setFormValues,
   presetVals,
+  proofAction,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
@@ -138,18 +139,19 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       <span className={styles.inputLabel}>{i18n.loading}</span>
     );
   }, [prfsSet, prfsTree]);
+
   React.useEffect(() => {
     async function fn() {
       if (presetVals && presetVals.nonceRaw) {
         const { skHex } = await deriveProofKey(presetVals.nonceRaw);
         console.log(11, skHex);
-        // const pk = secp.getPublicKey(skHex);
+        const publicKey = secp.getPublicKey(skHex.substring(2));
 
         // val.proofKey = sk;
       }
     }
     fn().then();
-  }, [presetVals]);
+  }, [presetVals, proofAction]);
 
   React.useEffect(() => {
     async function fn() {
@@ -402,7 +404,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           assetSizeLessThan: upper_bound,
           assetSizeLabel: label,
           merkleProof,
-          proofAction: "power",
+          proofAction,
         }));
       } catch (err) {
         console.error(err);
@@ -418,6 +420,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       getPrfsSetElement,
       setRangeOptionIdx,
       prfsTree,
+      proofAction,
     ],
   );
 
@@ -474,6 +477,7 @@ export interface MerkleSigPosRangeInputProps {
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
   presetVals?: MerkleSigPosRangeV1PresetVals;
   credential: PrfsIdCredential;
+  proofAction: string;
 }
 
 export interface ComputedValueProps {
