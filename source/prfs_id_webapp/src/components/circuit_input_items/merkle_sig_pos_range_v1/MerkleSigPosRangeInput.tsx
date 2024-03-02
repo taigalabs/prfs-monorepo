@@ -142,8 +142,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     async function fn() {
       if (presetVals && presetVals.nonceRaw) {
         const { skHex } = await deriveProofKey(presetVals.nonceRaw);
-        const pk = secp.getPublicKey(skHex);
-        console.log(11, skHex, pk);
+        console.log(11, skHex);
+        // const pk = secp.getPublicKey(skHex);
 
         // val.proofKey = sk;
       }

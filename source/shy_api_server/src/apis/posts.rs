@@ -10,6 +10,7 @@ use shy_entities::{
 };
 use std::sync::Arc;
 
+use crate::envs::ENVS;
 use crate::error_codes::API_ERROR_CODE;
 
 const LIMIT: i32 = 15;
@@ -22,6 +23,8 @@ pub async fn create_shy_post(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
+    println!("111: {}", ENVS.prfs_api_server_endpoint);
+
     let cli = &state.client;
     let reqwest_response = match cli.get("http://127.0.0.1:3000/stream").send().await {
         Ok(res) => res,
@@ -30,6 +33,8 @@ pub async fn create_shy_post(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
+
+    println!("222: {:?}", reqwest_response);
 
     let shy_post_proof = ShyPostProof {
         shy_post_proof_id: input.shy_post_proof_id.to_string(),

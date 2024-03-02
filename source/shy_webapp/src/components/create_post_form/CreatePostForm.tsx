@@ -189,7 +189,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
         // });
 
         const shy_post_proof_id = rand256Hex();
-        const { payload } = await createShyPost({
+        const { payload, error } = await createShyPost({
           title,
           post_id: postId,
           content: html,
@@ -205,8 +205,8 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           // sig: proveReceipt.proof.proofActionResult,
         });
 
-        console.log("create shy post resp", payload);
-        router.push(`${paths.c}/${channel.channel_id}`);
+        console.log("create shy post resp", payload, error);
+        // router.push(`${paths.c}/${channel.channel_id}`);
       } catch (err) {
         console.error(err);
       }

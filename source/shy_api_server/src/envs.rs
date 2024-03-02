@@ -17,6 +17,8 @@ pub struct Envs {
 
     #[serde(default = "default_postgres_pw")]
     pub postgres_pw: String,
+
+    pub prfs_api_server_endpoint: String,
 }
 
 impl Envs {
