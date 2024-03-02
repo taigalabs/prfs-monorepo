@@ -159,8 +159,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   React.useEffect(() => {
     async function fn() {
       if (presetVals && presetVals.nonceRaw) {
-        const { skHex } = await deriveProofKey(presetVals.nonceRaw);
-        const publicKey = secp.getPublicKey(skHex.substring(2));
+        const { publicKey } = await deriveProofKey(presetVals.nonceRaw);
         const pkHex = hexlify(publicKey);
 
         const { payload, error } = await getPrfsProofRecord({
@@ -171,7 +170,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }
 
         if (payload) {
-          console.log(22, payload);
+          // console.log(22, payload);
         }
       }
     }

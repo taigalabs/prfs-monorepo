@@ -25,20 +25,20 @@ import BoardMenu from "@/components/board/BoardMenu";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 
-const Channel: React.FC<ChannelProps> = ({ channelId, isNewPost }) => {
+const Post: React.FC<PostProps> = ({ postId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
   const { isInitialized, shyCredential } = useSignedInShyUser();
   const router = useRouter();
 
-  const { data: channelData, isFetching: channelDataIsFetching } = useQuery({
-    queryKey: ["get_shy_channel"],
-    queryFn: async () => {
-      return shyApi2({ type: "get_shy_channel", channel_id: channelId });
-    },
-  });
-  const channel = channelData?.payload?.shy_channel;
+  // const { data: channelData, isFetching: channelDataIsFetching } = useQuery({
+  //   queryKey: ["get_shy_channel"],
+  //   queryFn: async () => {
+  //     return shyApi2({ type: "get_shy_channel", channel_id: channelId });
+  //   },
+  // });
+  // const channel = channelData?.payload?.shy_channel;
 
   React.useEffect(() => {
     if (isInitialized && !shyCredential) {
@@ -55,23 +55,24 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewPost }) => {
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
-          {channel ? (
-            <>
-              <BoardMeta channel={channel} />
-              {isNewPost ? (
-                <CreatePostForm channel={channel} />
-              ) : (
-                <>
-                  <BoardMenu channelId={channel.channel_id} />
-                  <Board parentRef={parentRef} channelId={channel.channel_id} />
-                </>
-              )}
-            </>
-          ) : (
-            <div>
-              <Spinner />
-            </div>
-          )}
+          123123
+          {/* {channel ? ( */}
+          {/*   <> */}
+          {/*     <BoardMeta channel={channel} /> */}
+          {/*     {isPost ? ( */}
+          {/*       <CreatePostForm channel={channel} /> */}
+          {/*     ) : ( */}
+          {/*       <> */}
+          {/*         <BoardMenu channelId={channel.channel_id} /> */}
+          {/*         <Board parentRef={parentRef} channelId={channel.channel_id} /> */}
+          {/*       </> */}
+          {/*     )} */}
+          {/*   </> */}
+          {/* ) : ( */}
+          {/*   <div> */}
+          {/*     <Spinner /> */}
+          {/*   </div> */}
+          {/* )} */}
         </InfiniteScrollMain>
         <InfiniteScrollRight>{null}</InfiniteScrollRight>
       </InfiniteScrollInner>
@@ -84,9 +85,8 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewPost }) => {
   );
 };
 
-export default Channel;
+export default Post;
 
-export interface ChannelProps {
-  channelId: string;
-  isNewPost?: boolean;
+export interface PostProps {
+  postId: string;
 }
