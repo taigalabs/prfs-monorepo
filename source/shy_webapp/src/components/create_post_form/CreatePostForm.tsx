@@ -191,9 +191,13 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           proof: Array.from(proveReceipt.proof.proofBytes),
           public_inputs: proveReceipt.proof.publicInputSer,
           public_key: publicInputs.proofPubKey,
-          serial_no: publicInputs.circuitPubInput.serialNo,
+          serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
           author_sig: proveReceipt.proof.proofActionResult,
         });
+
+        if (error) {
+          throw new Error(`Failed to create a post, err: ${error}`);
+        }
 
         console.log("create shy post resp", payload, error);
         router.push(`${paths.c}/${channel.channel_id}`);

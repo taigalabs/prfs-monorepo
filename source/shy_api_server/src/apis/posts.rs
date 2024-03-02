@@ -12,7 +12,6 @@ use shy_entities::{
         CreateShyPostRequest, CreateShyPostResponse, GetShyPostsRequest, GetShyPostsResponse,
     },
 };
-use std::collections::HashMap;
 use std::sync::Arc;
 
 use crate::envs::ENVS;
@@ -47,7 +46,7 @@ pub async fn create_shy_post(
         }
     };
 
-    let res: ApiResponse<GetPrfsProofRecordResponse> = match res.json().await {
+    let _res: ApiResponse<GetPrfsProofRecordResponse> = match res.json().await {
         Ok(r) => r,
         Err(err) => {
             let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());

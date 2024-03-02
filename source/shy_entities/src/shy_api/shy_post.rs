@@ -15,7 +15,7 @@ pub struct CreateShyPostRequest {
     pub proof: Vec<u8>,
     pub public_inputs: String,
     pub public_key: String,
-    pub serial_no: i64,
+    pub serial_no: String,
     pub author_sig: String,
 }
 

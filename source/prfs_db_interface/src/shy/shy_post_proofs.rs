@@ -9,8 +9,8 @@ pub async fn insert_shy_post_proof(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO shy_post_proofs
-(shy_post_proof_id, proof, public_inputs, public_key)
-VALUES ($1, $2, $3, $4)
+(shy_post_proof_id, proof, public_inputs, public_key, serial_no)
+VALUES ($1, $2, $3, $4, $5)
 RETURNING shy_post_proof_id
 "#;
 
@@ -19,6 +19,7 @@ RETURNING shy_post_proof_id
         .bind(&shy_post_proof.proof)
         .bind(&shy_post_proof.public_inputs)
         .bind(&shy_post_proof.public_key)
+        .bind(&shy_post_proof.serial_no)
         .fetch_one(&mut **tx)
         .await?;
 
