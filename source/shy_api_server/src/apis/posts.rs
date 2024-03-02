@@ -2,7 +2,10 @@ use prfs_axum_lib::axum::{body::Body, extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
-use prfs_entities::prfs_api::{GetPrfsProofRecordRequest, GetPrfsProofRecordResponse};
+use prfs_entities::entities::PrfsProofRecord;
+use prfs_entities::prfs_api::{
+    CreatePrfsProofRecordRequest, GetPrfsProofRecordRequest, GetPrfsProofRecordResponse,
+};
 use shy_entities::{
     entities::ShyPostProof,
     shy_api::{
@@ -26,14 +29,20 @@ pub async fn create_shy_post(
     let mut tx = pool.begin().await.unwrap();
 
     let cli = &state.client;
-    let url = format!("{}/get_prfs_proof_record", &ENVS.prfs_api_server_endpoint);
-    let data = GetPrfsProofRecordRequest {
-        public_key: input.public_key.to_string(),
+    let url = format!(
+        "{}/api/v0/create_prfs_proof_record",
+        &ENVS.prfs_api_server_endpoint
+    );
+    let data = CreatePrfsProofRecordRequest {
+        proof_record: PrfsProofRecord {
+            public_key: input.public_key.to_string(),
+            proof_starts_with: input.proof[0..10].to_vec(),
+        },
     };
     let res = match cli.post(url).json(&data).send().await {
         Ok(res) => res,
         Err(err) => {
-            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            let resp = ApiResponse::new_error(&API_ERROR_CODE.BAD_URL, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
@@ -45,8 +54,6 @@ pub async fn create_shy_post(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
-
-    println!("222: {:?}", res);
 
     let shy_post_proof = ShyPostProof {
         shy_post_proof_id: input.shy_post_proof_id.to_string(),

@@ -22,7 +22,6 @@ WHERE public_key=$1
     if let Some(r) = row {
         let resp: PrfsProofRecord = PrfsProofRecord {
             public_key: r.get("public_key"),
-            serial_no: r.get("serial_no"),
             proof_starts_with: r.get("proof_starts_with"),
         };
         return Ok(Some(resp));
@@ -37,14 +36,13 @@ pub async fn insert_prfs_proof_record(
 ) -> String {
     let query = r#"
 INSERT INTO prfs_proof_records
-(public_key, serial_no, proof_starts_with)
-VALUES ($1, $2, $3) 
+(public_key, proof_starts_with)
+VALUES ($1, $2)
 RETURNING public_key
 "#;
 
     let row = sqlx::query(query)
         .bind(&proof_record.public_key)
-        .bind(&proof_record.serial_no)
         .bind(&proof_record.proof_starts_with)
         .fetch_one(&mut **tx)
         .await
