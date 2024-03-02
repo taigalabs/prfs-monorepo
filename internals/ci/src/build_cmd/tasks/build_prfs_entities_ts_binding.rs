@@ -15,6 +15,7 @@ impl BuildTask for BuildPrfsEntitiesTSBindingTask {
 
     fn run(&self, _build_handle: &mut BuildHandle) -> Result<(), CiError> {
         create_bindings_prfs_entities();
+        create_bindings_prfs_env();
         create_bindings_prfs_circuit_interface();
         create_bindings_prfs_driver_interface();
         create_bindings_shy_entities();
@@ -35,6 +36,20 @@ fn create_bindings_prfs_entities() {
 
     assert!(status.success());
     format_ts_files(&PATHS.prfs_entities__bindings);
+}
+
+fn create_bindings_prfs_env() {
+    if PATHS.prfs_env__bindings.exists() {
+        std::fs::remove_dir_all(&PATHS.prfs_env__bindings).unwrap();
+    }
+
+    let status = Command::new("cargo")
+        .args(["test", "-p", "prfs_env"])
+        .status()
+        .expect(&format!("{} command failed to start", JS_ENGINE));
+
+    assert!(status.success());
+    format_ts_files(&PATHS.prfs_env__bindings);
 }
 
 fn create_bindings_prfs_circuit_interface() {

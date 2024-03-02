@@ -27,6 +27,7 @@ pub struct Paths {
     pub prfs_circuit_interface: PathBuf,
     pub prfs_driver_interface: PathBuf,
     pub prfs_docs_website: PathBuf,
+    pub prfs_env__bindings: PathBuf,
     pub prfs_entities__bindings: PathBuf,
     pub prfs_console_webapp: PathBuf,
     pub prfs_proof_webapp: PathBuf,
@@ -79,6 +80,8 @@ impl Paths {
         let prfs_asset_server_assets = ws_root.join("source/prfs_asset_server/assets");
         let prfs_asset_server_assets_local = ws_root.join("source/prfs_asset_server/assets/local");
 
+        let prfs_env__bindings = ws_root.join("source/prfs_env/bindings");
+
         let prfs_api_server = ws_root.join("source/prfs_api_server");
         let prfs_auth_op_server = ws_root.join("source/prfs_auth_op_server");
         let prfs_crypto_js = ws_root.join("source/prfs_crypto_js");
@@ -109,6 +112,7 @@ impl Paths {
             internals_docker_postgres,
 
             // Prfs
+            prfs_env__bindings,
             prfs_api_server,
             prfs_auth_op_server,
             prfs_docs_website,
