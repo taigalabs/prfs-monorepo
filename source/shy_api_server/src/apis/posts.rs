@@ -6,6 +6,7 @@ use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{
     CreatePrfsProofRecordRequest, GetPrfsProofRecordRequest, GetPrfsProofRecordResponse,
 };
+use shy_entities::shy_api::{GetShyPostRequest, GetShyPostResponse};
 use shy_entities::{
     entities::ShyPostProof,
     shy_api::{
@@ -118,22 +119,11 @@ pub async fn get_shy_posts(
 
 pub async fn get_shy_post(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<GetShyPostsRequest>,
-) -> (StatusCode, Json<ApiResponse<GetShyPostsResponse>>) {
+    Json(input): Json<GetShyPostRequest>,
+) -> (StatusCode, Json<ApiResponse<GetShyPostResponse>>) {
     let pool = &state.db2.pool;
-    let shy_posts = shy::get_shy_posts(pool, &input.channel_id, input.offset, LIMIT)
-        .await
-        .unwrap();
+    let shy_post = shy::get_shy_post(pool, &input.post_id).await.unwrap();
 
-    let next_offset = if shy_posts.len() < LIMIT.try_into().unwrap() {
-        None
-    } else {
-        Some(input.offset + LIMIT)
-    };
-
-    let resp = ApiResponse::new_success(GetShyPostsResponse {
-        shy_posts,
-        next_offset,
-    });
+    let resp = ApiResponse::new_success(GetShyPostResponse { shy_post });
     return (StatusCode::OK, Json(resp));
 }

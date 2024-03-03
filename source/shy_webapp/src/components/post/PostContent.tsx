@@ -10,7 +10,7 @@ import { paths } from "@/paths";
 
 const PostContent: React.FC<PostContentProps> = ({ postId }) => {
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
-    queryKey: ["get_shy_channel"],
+    queryKey: ["get_shy_post", postId],
     queryFn: async () => {
       return shyApi2({ type: "get_shy_post", post_id: postId });
     },

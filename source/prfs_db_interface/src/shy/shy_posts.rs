@@ -50,6 +50,35 @@ LIMIT $3
     Ok(shy_posts)
 }
 
+pub async fn get_shy_post(
+    pool: &Pool<Postgres>,
+    post_id: &String,
+) -> Result<DateTimed<ShyPost>, DbInterfaceError> {
+    let query = r#"
+SELECT * 
+FROM shy_posts 
+WHERE post_id=$1
+"#;
+
+    let row = sqlx::query(&query).bind(post_id).fetch_one(pool).await?;
+
+    let post_ = ShyPost {
+        title: row.try_get("title")?,
+        post_id: row.try_get("post_id")?,
+        content: row.try_get("content")?,
+        channel_id: row.try_get("channel_id")?,
+        proof_identity_input: row.try_get("proof_identity_input")?,
+        num_replies: row.try_get("num_replies")?,
+    };
+    let post = DateTimed {
+        inner: post_,
+        created_at: row.try_get("created_at")?,
+        updated_at: row.try_get("updated_at")?,
+    };
+
+    Ok(post)
+}
+
 pub async fn insert_shy_post(
     tx: &mut Transaction<'_, Postgres>,
     title: &String,
