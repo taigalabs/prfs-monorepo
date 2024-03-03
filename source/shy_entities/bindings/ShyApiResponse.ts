@@ -2,10 +2,12 @@
 import type { CreateShyPostResponse } from "./CreateShyPostResponse";
 import type { GetShyChannelResponse } from "./GetShyChannelResponse";
 import type { GetShyChannelsResponse } from "./GetShyChannelsResponse";
+import type { GetShyPostResponse } from "./GetShyPostResponse";
 import type { GetShyPostsResponse } from "./GetShyPostsResponse";
 
 export type ShyApiResponse =
   | ({ type: "create_shy_post" } & CreateShyPostResponse)
   | ({ type: "get_shy_channels" } & GetShyChannelsResponse)
   | ({ type: "get_shy_posts" } & GetShyPostsResponse)
+  | ({ type: "get_shy_post" } & GetShyPostResponse)
   | ({ type: "get_shy_channel" } & GetShyChannelResponse);

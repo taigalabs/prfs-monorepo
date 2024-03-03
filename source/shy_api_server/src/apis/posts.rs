@@ -115,3 +115,25 @@ pub async fn get_shy_posts(
     });
     return (StatusCode::OK, Json(resp));
 }
+
+pub async fn get_shy_post(
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetShyPostsRequest>,
+) -> (StatusCode, Json<ApiResponse<GetShyPostsResponse>>) {
+    let pool = &state.db2.pool;
+    let shy_posts = shy::get_shy_posts(pool, &input.channel_id, input.offset, LIMIT)
+        .await
+        .unwrap();
+
+    let next_offset = if shy_posts.len() < LIMIT.try_into().unwrap() {
+        None
+    } else {
+        Some(input.offset + LIMIT)
+    };
+
+    let resp = ApiResponse::new_success(GetShyPostsResponse {
+        shy_posts,
+        next_offset,
+    });
+    return (StatusCode::OK, Json(resp));
+}

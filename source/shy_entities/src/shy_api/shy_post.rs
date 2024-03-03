@@ -38,3 +38,15 @@ pub struct GetShyPostsResponse {
     pub shy_posts: Vec<DateTimed<ShyPost>>,
     pub next_offset: Option<i32>,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetShyPostRequest {
+    pub post_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetShyPostResponse {
+    pub shy_post: DateTimed<ShyPost>,
+}

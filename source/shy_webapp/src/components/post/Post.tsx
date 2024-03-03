@@ -60,14 +60,6 @@ const Post: React.FC<PostProps> = ({ postId, channelId }) => {
             <>
               <BoardMeta channel={channel} noDesc />
               <PostContent postId={postId} />
-              {/* {isPost ? ( */}
-              {/*   <CreatePostForm channel={channel} /> */}
-              {/* ) : ( */}
-              {/*   <> */}
-              {/*     <BoardMenu channelId={channel.channel_id} /> */}
-              {/*     <Board parentRef={parentRef} channelId={channel.channel_id} /> */}
-              {/*   </> */}
-              {/* )} */}
             </>
           ) : (
             <div>
