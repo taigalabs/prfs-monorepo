@@ -17,7 +17,23 @@ const PostContent: React.FC<PostContentProps> = ({ postId }) => {
   });
   const post = postData?.payload?.shy_post;
 
-  return <div className={styles.wrapper}>{post ? <div>pow</div> : <Spinner />}</div>;
+  return (
+    <div className={styles.wrapper}>
+      {post ? (
+        <>
+          <div className={styles.title}>{post.inner.title}</div>
+          <div
+            className={styles.content}
+            dangerouslySetInnerHTML={{
+              __html: post.inner.content,
+            }}
+          />
+        </>
+      ) : (
+        <Spinner />
+      )}
+    </div>
+  );
 };
 
 export default PostContent;

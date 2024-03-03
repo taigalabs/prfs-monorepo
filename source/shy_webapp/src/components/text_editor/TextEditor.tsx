@@ -1,5 +1,5 @@
 import React from "react";
-import { useEditor, useCurrentEditor, EditorProvider } from "@tiptap/react";
+import { useEditor, EditorProvider } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
@@ -34,11 +34,6 @@ const extensions = [
   }),
 ];
 
-const content = `
-  <p><span>This has a &lt;span&gt; tag without a style attribute, so it’s thrown away.</span></p>
-  <p><span style="color: blue;">But this one is wrapped in a &lt;span&gt; tag with an inline style attribute, so it’s kept - even if it’s empty for now.</span></p>
-`;
-
 // const EditorMenuBar = () => {
 //   const { editor } = useCurrentEditor();
 
@@ -69,7 +64,6 @@ const content = `
 const TextEditor: React.FC<TextEditorProps> = ({ footer }) => {
   const editor = useEditor({
     extensions,
-    content,
   });
 
   if (!editor) {

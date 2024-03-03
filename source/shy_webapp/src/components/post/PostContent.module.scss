@@ -1,4 +1,16 @@
 .wrapper {
   position: relative;
   min-height: 150px;
+  padding: 12px 12px;
+  border-top: 1px solid var(--gray-70);
+}
+
+.title {
+  color: var(--black-27);
+  font-size: 1.58em;
+  padding-bottom: 14px;
+  font-weight: 500;
+}
+
+.content {
 }
