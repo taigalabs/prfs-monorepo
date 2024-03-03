@@ -5,6 +5,8 @@ export interface ShyPost {
   post_id: string;
   content: string;
   channel_id: string;
+  shy_post_proof_id: string;
   proof_identity_input: string;
   num_replies: number;
+  public_key: string;
 }

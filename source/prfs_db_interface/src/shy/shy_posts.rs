@@ -67,8 +67,10 @@ WHERE post_id=$1
         post_id: row.try_get("post_id")?,
         content: row.try_get("content")?,
         channel_id: row.try_get("channel_id")?,
+        shy_post_proof_id: row.try_get("shy_post_proof_id")?,
         proof_identity_input: row.try_get("proof_identity_input")?,
         num_replies: row.try_get("num_replies")?,
+        public_key: row.try_get("public_key")?,
     };
     let post = DateTimed {
         inner: post_,
@@ -81,27 +83,29 @@ WHERE post_id=$1
 
 pub async fn insert_shy_post(
     tx: &mut Transaction<'_, Postgres>,
-    title: &String,
-    post_id: &String,
-    content: &String,
-    channel_id: &String,
-    proof_id: &String,
-    proof_identity_input: &String,
+    shy_post: ShyPost,
+    // title: &String,
+    // post_id: &String,
+    // content: &String,
+    // channel_id: &String,
+    // proof_id: &String,
+    // proof_identity_input: &String,
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO shy_posts
-(post_id, content, channel_id, shy_post_proof_id, title, proof_identity_input)
-VALUES ($1, $2, $3, $4, $5, $6)
+(post_id, content, channel_id, shy_post_proof_id, title, proof_identity_input, public_key)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
 RETURNING post_id
 "#;
 
     let row = sqlx::query(query)
-        .bind(&post_id)
-        .bind(&content)
-        .bind(&channel_id)
-        .bind(&proof_id)
-        .bind(&title)
-        .bind(&proof_identity_input)
+        .bind(&shy_post.post_id)
+        .bind(&shy_post.content)
+        .bind(&shy_post.channel_id)
+        .bind(&shy_post.shy_post_proof_id)
+        .bind(&shy_post.title)
+        .bind(&shy_post.proof_identity_input)
+        .bind(&shy_post.public_key)
         .fetch_one(&mut **tx)
         .await?;
 

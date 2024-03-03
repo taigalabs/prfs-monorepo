@@ -6,6 +6,7 @@ use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{
     CreatePrfsProofRecordRequest, GetPrfsProofRecordRequest, GetPrfsProofRecordResponse,
 };
+use shy_entities::entities::ShyPost;
 use shy_entities::shy_api::{GetShyPostRequest, GetShyPostResponse};
 use shy_entities::{
     entities::ShyPostProof,
@@ -71,17 +72,18 @@ pub async fn create_shy_post(
         }
     };
 
-    let post_id = match shy::insert_shy_post(
-        &mut tx,
-        &input.title,
-        &input.post_id,
-        &input.content,
-        &input.channel_id,
-        &input.shy_post_proof_id,
-        &input.proof_identity_input,
-    )
-    .await
-    {
+    let shy_post = ShyPost {
+        title: input.title.to_string(),
+        post_id: input.post_id.to_string(),
+        content: input.content.to_string(),
+        channel_id: input.channel_id.to_string(),
+        shy_post_proof_id: input.shy_post_proof_id.to_string(),
+        proof_identity_input: input.proof_identity_input.to_string(),
+        num_replies: 0,
+        public_key: input.public_key.to_string(),
+    };
+
+    let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
