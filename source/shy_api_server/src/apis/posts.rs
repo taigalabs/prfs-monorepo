@@ -59,8 +59,8 @@ pub async fn create_shy_post(
     let shy_post_proof = ShyPostProof {
         shy_post_proof_id: input.shy_post_proof_id.to_string(),
         proof: input.proof,
-        public_inputs: input.public_inputs,
-        public_key: input.public_key,
+        public_inputs: input.public_inputs.to_string(),
+        public_key: input.public_key.to_string(),
         serial_no: input.serial_no,
     };
 

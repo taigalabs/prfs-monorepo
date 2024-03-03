@@ -31,6 +31,8 @@ LIMIT $3
             let post_ = ShyPost {
                 title: row.try_get("title")?,
                 post_id: row.try_get("post_id")?,
+                public_key: row.try_get("public_key")?,
+                shy_post_proof_id: row.try_get("shy_post_proof_id")?,
                 content: row.try_get("content")?,
                 channel_id: row.try_get("channel_id")?,
                 proof_identity_input: row.try_get("proof_identity_input")?,
@@ -83,13 +85,7 @@ WHERE post_id=$1
 
 pub async fn insert_shy_post(
     tx: &mut Transaction<'_, Postgres>,
-    shy_post: ShyPost,
-    // title: &String,
-    // post_id: &String,
-    // content: &String,
-    // channel_id: &String,
-    // proof_id: &String,
-    // proof_identity_input: &String,
+    shy_post: &ShyPost,
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO shy_posts
