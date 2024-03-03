@@ -6,6 +6,8 @@ import Link from "next/link";
 
 import styles from "./PostContent.module.scss";
 import { paths } from "@/paths";
+import { toShortDate } from "@/utils/time";
+import dayjs from "dayjs";
 
 const PostContent: React.FC<PostContentProps> = ({ postId }) => {
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
@@ -20,14 +22,21 @@ const PostContent: React.FC<PostContentProps> = ({ postId }) => {
     return post?.inner.public_key.substring(0, 10) || "";
   }, [post?.inner.public_key]);
 
+  const date = React.useMemo(() => {
+    if (post?.updated_at) {
+      const now = dayjs();
+      return toShortDate(post?.updated_at, now);
+    } else return "";
+  }, [post?.updated_at]);
+
   return (
     <div className={styles.wrapper}>
       {post ? (
         <>
           <div className={styles.title}>{post.inner.title}</div>
-          <div>
-            <p>{publicKey}</p>
-            <p>{post.created_at}</p>
+          <div className={styles.meta}>
+            <p className={styles.publicKey}>{publicKey}</p>
+            <p>{date}</p>
           </div>
           <div
             className={styles.content}

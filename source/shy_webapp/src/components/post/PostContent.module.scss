@@ -12,5 +12,15 @@
   font-weight: 500;
 }
 
+.meta {
+  display: flex;
+  justify-content: space-between;
+}
+
 .content {
+}
+
+.publicKey {
+  color: var(--gray-30);
+  font-weight: 500;
 }

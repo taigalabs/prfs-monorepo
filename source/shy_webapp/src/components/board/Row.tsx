@@ -7,10 +7,12 @@ import Link from "next/link";
 
 import styles from "./Row.module.scss";
 import { paths } from "@/paths";
-import { useShortDate } from "@/hooks/time";
+import { toShortDate } from "@/utils/time";
 
 const Row: React.FC<RowProps> = ({ post, now, channelId }) => {
-  const date = useShortDate(post.updated_at, now);
+  const date = React.useMemo(() => {
+    return toShortDate(post.updated_at, now);
+  }, [post.updated_at]);
 
   return (
     <div className={styles.wrapper}>
