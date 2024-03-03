@@ -35,8 +35,13 @@ const PostContent: React.FC<PostContentProps> = ({ postId }) => {
         <>
           <div className={styles.title}>{post.inner.title}</div>
           <div className={styles.meta}>
-            <p className={styles.publicKey}>{publicKey}</p>
-            <p>{date}</p>
+            <div>
+              <p className={styles.publicKey}>{publicKey}</p>
+              <div>{post.inner.proof_identity_input}</div>
+            </div>
+            <div>
+              <p>{date}</p>
+            </div>
           </div>
           <div
             className={styles.content}
