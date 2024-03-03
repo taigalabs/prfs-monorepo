@@ -10,7 +10,7 @@ const PostPage: React.FC<ChannelPageProps> = ({ params }) => {
     <DefaultLayout>
       <Suspense>
         <DefaultMain>
-          <Post postId={params.post_id} />
+          <Post postId={params.post_id} channelId={params.channel_id} />
         </DefaultMain>
       </Suspense>
     </DefaultLayout>
@@ -22,5 +22,6 @@ export default PostPage;
 export interface ChannelPageProps {
   params: {
     post_id: string;
+    channel_id: string;
   };
 }

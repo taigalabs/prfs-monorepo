@@ -9,7 +9,7 @@ import styles from "./BoardMeta.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Loading from "@/components/loading/Loading";
 
-const BoardMeta: React.FC<BoardMetaProps> = ({ channel }) => {
+const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc }) => {
   const i18n = useI18N();
   const [isDescOpen, setIsDescOpen] = React.useState(false);
   const handleClickToggleDesc = React.useCallback(() => {
@@ -31,17 +31,21 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel }) => {
       <div className={cn(styles.inner, { [styles.isVisible]: isDescOpen })}>
         <div className={styles.titleRow}>
           <div className={styles.label}>{channel.label}</div>
-          <div className={styles.arrow} onClick={handleClickToggleDesc}>
-            <IoIosArrowDown />
-          </div>
+          {!noDesc && (
+            <div className={styles.arrow} onClick={handleClickToggleDesc}>
+              <IoIosArrowDown />
+            </div>
+          )}
         </div>
-        <div className={cn(styles.descRow)}>
-          <div className={styles.desc}>{channel.desc}</div>
-          <div className={styles.proofTypeIds}>
-            <p className={styles.title}>{i18n.requiring_proofs_of_type}</p>
-            {proofTypesElem}
+        {!noDesc && (
+          <div className={cn(styles.descRow)}>
+            <div className={styles.desc}>{channel.desc}</div>
+            <div className={styles.proofTypeIds}>
+              <p className={styles.title}>{i18n.requiring_proofs_of_type}</p>
+              {proofTypesElem}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   ) : (
@@ -53,4 +57,5 @@ export default BoardMeta;
 
 export interface BoardMetaProps {
   channel: ShyChannel;
+  noDesc?: boolean;
 }

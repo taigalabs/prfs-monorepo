@@ -24,21 +24,22 @@ import BoardMeta from "@/components/board/BoardMeta";
 import BoardMenu from "@/components/board/BoardMenu";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
+import PostContent from "./PostContent";
 
-const Post: React.FC<PostProps> = ({ postId }) => {
+const Post: React.FC<PostProps> = ({ postId, channelId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
   const { isInitialized, shyCredential } = useSignedInShyUser();
   const router = useRouter();
 
-  // const { data: channelData, isFetching: channelDataIsFetching } = useQuery({
-  //   queryKey: ["get_shy_channel"],
-  //   queryFn: async () => {
-  //     return shyApi2({ type: "get_shy_channel", channel_id: channelId });
-  //   },
-  // });
-  // const channel = channelData?.payload?.shy_channel;
+  const { data: channelData, isFetching: channelDataIsFetching } = useQuery({
+    queryKey: ["get_shy_channel"],
+    queryFn: async () => {
+      return shyApi2({ type: "get_shy_channel", channel_id: channelId });
+    },
+  });
+  const channel = channelData?.payload?.shy_channel;
 
   React.useEffect(() => {
     if (isInitialized && !shyCredential) {
@@ -55,24 +56,24 @@ const Post: React.FC<PostProps> = ({ postId }) => {
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
-          123123
-          {/* {channel ? ( */}
-          {/*   <> */}
-          {/*     <BoardMeta channel={channel} /> */}
-          {/*     {isPost ? ( */}
-          {/*       <CreatePostForm channel={channel} /> */}
-          {/*     ) : ( */}
-          {/*       <> */}
-          {/*         <BoardMenu channelId={channel.channel_id} /> */}
-          {/*         <Board parentRef={parentRef} channelId={channel.channel_id} /> */}
-          {/*       </> */}
-          {/*     )} */}
-          {/*   </> */}
-          {/* ) : ( */}
-          {/*   <div> */}
-          {/*     <Spinner /> */}
-          {/*   </div> */}
-          {/* )} */}
+          {channel ? (
+            <>
+              <BoardMeta channel={channel} noDesc />
+              <PostContent postId={postId} />
+              {/* {isPost ? ( */}
+              {/*   <CreatePostForm channel={channel} /> */}
+              {/* ) : ( */}
+              {/*   <> */}
+              {/*     <BoardMenu channelId={channel.channel_id} /> */}
+              {/*     <Board parentRef={parentRef} channelId={channel.channel_id} /> */}
+              {/*   </> */}
+              {/* )} */}
+            </>
+          ) : (
+            <div>
+              <Spinner />
+            </div>
+          )}
         </InfiniteScrollMain>
         <InfiniteScrollRight>{null}</InfiniteScrollRight>
       </InfiniteScrollInner>
@@ -89,4 +90,5 @@ export default Post;
 
 export interface PostProps {
   postId: string;
+  channelId: string;
 }
