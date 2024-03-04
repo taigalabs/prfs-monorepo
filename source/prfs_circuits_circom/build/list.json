@@ -1,0 +1,8 @@
+{
+  "circuits": [
+    "addr_membership_v1",
+    "simple_hash_v1",
+    "merkle_sig_pos_range_v1"
+  ],
+  "timestamp": "2024-02-29T16:52:58.069176069+00:00"
+}
