@@ -1,17 +1,17 @@
 {
   "circuits": [
     {
-      "spartan_circuit_path": "addr_membership_v1/addr_membership_v1.spartan.circuit",
-      "file_hash": "fa41b288b91becfb132061af1141e1c8a6b04d5de572e7b7d6a13cd8ff9f4759"
+      "spartan_circuit_path": "addr_membership_v1/addr_membership_v1.r1cs",
+      "file_hash": "e3dbef788ede89bac9e9dfb347dd50a35c5647f73892894ba67ff622aee07398"
     },
     {
-      "spartan_circuit_path": "simple_hash_v1/simple_hash_v1.spartan.circuit",
-      "file_hash": "fd175eaf5393f507ca18b5553ff09d4cb2ec7a7fc2611c67c0b1237542e61c9e"
+      "spartan_circuit_path": "simple_hash_v1/simple_hash_v1.r1cs",
+      "file_hash": "cf7eb0458d2cee61d25c0a5e452945230272594f6636068d568df3e7c76de2c0"
     },
     {
-      "spartan_circuit_path": "merkle_sig_pos_range_v1/merkle_sig_pos_range_v1.spartan.circuit",
-      "file_hash": "a5bc69365c994d63c19a2c9c44a906015c6af61850d712925590afce570c931c"
+      "spartan_circuit_path": "merkle_sig_pos_range_v1/merkle_sig_pos_range_v1.r1cs",
+      "file_hash": "b92d4961a02b5f7b4b134d36f741e6391024ffa68c41caccaf6ab4b1ac026fb9"
     }
   ],
-  "timestamp": "2024-03-04T03:54:08.213522970+00:00"
+  "timestamp": "2024-03-04T04:06:11.515120370+00:00"
 }

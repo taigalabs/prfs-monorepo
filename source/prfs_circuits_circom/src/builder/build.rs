@@ -15,13 +15,13 @@ pub fn run() {
     for mut circuit in &mut circuits {
         circuit_type_id_should_match_file_stem(&circuit);
         compile_circuits(&circuit);
-        let spartan_circuit_path = make_spartan(&mut circuit);
+        let r1cs_src_path = make_spartan(&mut circuit);
         create_circuit_json(&mut circuit);
 
-        let b = std::fs::read(&spartan_circuit_path).unwrap();
+        let b = std::fs::read(&r1cs_src_path).unwrap();
         let digest = sha256::digest(&b);
         circuit_list.push(CircuitBuild {
-            spartan_circuit_path: spartan_circuit_path
+            spartan_circuit_path: r1cs_src_path
                 .strip_prefix(&PATHS.build)
                 .unwrap()
                 .to_str()
@@ -108,7 +108,7 @@ fn make_spartan(circuit: &mut PrfsCircuit) -> PathBuf {
         circuit.num_public_inputs as usize,
     );
 
-    return spartan_circuit_path;
+    return r1cs_src_path;
 }
 
 fn read_circuits_json() -> Vec<PrfsCircuit> {
