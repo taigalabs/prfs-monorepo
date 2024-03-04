@@ -1,8 +1,17 @@
 {
   "circuits": [
-    "addr_membership_v1",
-    "simple_hash_v1",
-    "merkle_sig_pos_range_v1"
+    {
+      "spartan_circuit_path": "addr_membership_v1/addr_membership_v1.spartan.circuit",
+      "file_hash": "fa41b288b91becfb132061af1141e1c8a6b04d5de572e7b7d6a13cd8ff9f4759"
+    },
+    {
+      "spartan_circuit_path": "simple_hash_v1/simple_hash_v1.spartan.circuit",
+      "file_hash": "fd175eaf5393f507ca18b5553ff09d4cb2ec7a7fc2611c67c0b1237542e61c9e"
+    },
+    {
+      "spartan_circuit_path": "merkle_sig_pos_range_v1/merkle_sig_pos_range_v1.spartan.circuit",
+      "file_hash": "a5bc69365c994d63c19a2c9c44a906015c6af61850d712925590afce570c931c"
+    }
   ],
-  "timestamp": "2024-02-29T16:52:58.069176069+00:00"
+  "timestamp": "2024-03-04T03:54:08.213522970+00:00"
 }

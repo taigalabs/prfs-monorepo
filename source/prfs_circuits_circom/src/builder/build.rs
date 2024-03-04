@@ -1,8 +1,8 @@
-use crate::{driver_id, paths::PATHS, CircuitBuildListJson, CircuitsJson, FileKind};
+use crate::{driver_id, paths::PATHS, CircuitBuild, CircuitBuildListJson, FileKind};
 use chrono::{DateTime, Utc};
 use colored::Colorize;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
-use std::{io::Write, process::Command};
+use std::{io::Write, path::PathBuf, process::Command};
 
 pub fn run() {
     println!("{} building {}", "Start".green(), env!("CARGO_PKG_NAME"),);
@@ -15,10 +15,20 @@ pub fn run() {
     for mut circuit in &mut circuits {
         circuit_type_id_should_match_file_stem(&circuit);
         compile_circuits(&circuit);
-        make_spartan(&mut circuit);
+        let spartan_circuit_path = make_spartan(&mut circuit);
         create_circuit_json(&mut circuit);
 
-        circuit_list.push(circuit.circuit_type_id.to_string());
+        let b = std::fs::read(&spartan_circuit_path).unwrap();
+        let digest = sha256::digest(&b);
+        circuit_list.push(CircuitBuild {
+            spartan_circuit_path: spartan_circuit_path
+                .strip_prefix(&PATHS.build)
+                .unwrap()
+                .to_str()
+                .unwrap()
+                .to_string(),
+            file_hash: digest,
+        });
     }
 
     create_list_json(&circuit_list, now);
@@ -72,7 +82,7 @@ fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> String {
     }
 }
 
-fn make_spartan(circuit: &mut PrfsCircuit) {
+fn make_spartan(circuit: &mut PrfsCircuit) -> PathBuf {
     let raw_public_inputs: Vec<&RawCircuitInputMeta> = circuit
         .raw_circuit_inputs_meta
         .iter()
@@ -97,6 +107,8 @@ fn make_spartan(circuit: &mut PrfsCircuit) {
         &spartan_circuit_path,
         circuit.num_public_inputs as usize,
     );
+
+    return spartan_circuit_path;
 }
 
 fn read_circuits_json() -> Vec<PrfsCircuit> {
@@ -173,7 +185,7 @@ fn create_circuit_json(circuit: &mut PrfsCircuit) {
     );
 }
 
-fn create_list_json(circuits_json: &Vec<String>, now: DateTime<Utc>) {
+fn create_list_json(circuits_json: &Vec<CircuitBuild>, now: DateTime<Utc>) {
     let timestamp = now.to_rfc3339();
     let build_list_json = CircuitBuildListJson {
         timestamp,

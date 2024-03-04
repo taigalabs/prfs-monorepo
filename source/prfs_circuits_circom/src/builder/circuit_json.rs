@@ -11,3 +11,9 @@ pub enum FileKind {
 pub struct CircuitsJson {
     pub circuits: Vec<PrfsCircuit>,
 }
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct CircuitBuild {
+    pub spartan_circuit_path: String,
+    pub file_hash: String,
+}
