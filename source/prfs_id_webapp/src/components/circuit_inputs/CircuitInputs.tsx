@@ -39,6 +39,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             presetVals={presetVals as MerkleSigPosRangeV1PresetVals}
             credential={credential}
             proofAction={proofAction}
+            usePrfsRegistry={usePrfsRegistry}
           />
         );
       }
