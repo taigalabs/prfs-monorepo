@@ -4,6 +4,7 @@ pub use group;
 pub use hex;
 pub use primitive_types;
 pub use rand;
+pub use sha256;
 
 mod hexutils;
 mod merkletree;

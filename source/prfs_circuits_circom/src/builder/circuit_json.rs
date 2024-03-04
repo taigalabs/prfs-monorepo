@@ -14,6 +14,7 @@ pub struct CircuitsJson {
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct CircuitBuild {
+    pub circuit_type_id: String,
     pub r1cs_src_path: String,
     pub file_hash: String,
 }

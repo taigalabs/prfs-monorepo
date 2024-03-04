@@ -1,14 +1,17 @@
 {
   "circuits": [
     {
+      "circuit_type_id": "addr_membership_v1",
       "r1cs_src_path": "addr_membership_v1/addr_membership_v1.r1cs",
       "file_hash": "e3dbef788ede89bac9e9dfb347dd50a35c5647f73892894ba67ff622aee07398"
     },
     {
+      "circuit_type_id": "simple_hash_v1",
       "r1cs_src_path": "simple_hash_v1/simple_hash_v1.r1cs",
       "file_hash": "cf7eb0458d2cee61d25c0a5e452945230272594f6636068d568df3e7c76de2c0"
     },
     {
+      "circuit_type_id": "merkle_sig_pos_range_v1",
       "r1cs_src_path": "merkle_sig_pos_range_v1/merkle_sig_pos_range_v1.r1cs",
       "file_hash": "b92d4961a02b5f7b4b134d36f741e6391024ffa68c41caccaf6ab4b1ac026fb9"
     }

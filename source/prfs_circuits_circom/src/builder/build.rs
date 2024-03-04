@@ -1,8 +1,10 @@
-use crate::{driver_id, paths::PATHS, CircuitBuild, CircuitBuildListJson, FileKind};
 use chrono::{DateTime, Utc};
 use colored::Colorize;
+use prfs_crypto::sha256;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, path::PathBuf, process::Command};
+
+use crate::{driver_id, paths::PATHS, CircuitBuild, CircuitBuildListJson, FileKind};
 
 pub fn run() {
     println!("{} building {}", "Start".green(), env!("CARGO_PKG_NAME"),);
@@ -21,6 +23,7 @@ pub fn run() {
         let b = std::fs::read(&r1cs_src_path).unwrap();
         let digest = sha256::digest(&b);
         circuit_list.push(CircuitBuild {
+            circuit_type_id: circuit.circuit_type_id.to_string(),
             r1cs_src_path: r1cs_src_path
                 .strip_prefix(&PATHS.build)
                 .unwrap()

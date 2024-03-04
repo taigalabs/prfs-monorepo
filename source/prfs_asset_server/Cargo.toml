@@ -23,6 +23,7 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
+prfs_crypto = { path ="../prfs_crypto" }
 prfs_entities = { path = "../prfs_entities" }
 
 [[bin]]

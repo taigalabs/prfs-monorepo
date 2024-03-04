@@ -1,4 +1,5 @@
 use prfs_circuits_circom::CircuitBuildListJson;
+use prfs_crypto::sha256;
 use prfs_entities::sqlx::types::chrono::Utc;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
@@ -7,7 +8,7 @@ use std::path::PathBuf;
 pub struct ServerState {
     pub launched_at: String,
     pub circuits_build_path: PathBuf,
-    pub circuit_built_at_launch: String,
+    pub circuit_list_at_launch: CircuitBuildListJson,
 }
 
 impl ServerState {
@@ -23,16 +24,27 @@ impl ServerState {
         let list_json_path = circuits_build_path.join("list.json");
         let b = std::fs::read(list_json_path).unwrap();
         let list_json = serde_json::from_slice::<CircuitBuildListJson>(&b).unwrap();
+        check_circuits(&list_json);
 
         let launched_at = Utc::now().to_rfc3339();
         let s = ServerState {
             launched_at,
-            circuit_built_at_launch: list_json.timestamp,
             circuits_build_path,
+            circuit_list_at_launch: list_json,
         };
 
         println!("Initializing prfs asset server state: {:?}", s);
 
         s
+    }
+}
+
+fn check_circuits(list_json: &CircuitBuildListJson) {
+    for circuit in &list_json.circuits {
+        let fd = std::fs::read(&circuit.r1cs_src_path).unwrap();
+        let digest = sha256::digest(&fd);
+        if circuit.file_hash != digest {
+            println!("!23123");
+        }
     }
 }

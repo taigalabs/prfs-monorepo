@@ -58,7 +58,7 @@ pub async fn handle_server_status(State(state): State<ServerState>) -> (StatusCo
     let list_json: CircuitBuildListJson = serde_json::from_slice(&b).unwrap();
 
     let json: serde_json::Value = json!({
-        "circuit_built_at": list_json.timestamp,
+        "circuit_list": list_json,
         "state": state,
     });
 
