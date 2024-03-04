@@ -21,17 +21,17 @@ pub fn run() {
         let b = std::fs::read(&r1cs_src_path).unwrap();
         let digest = sha256::digest(&b);
         circuit_list.push(CircuitBuild {
-            spartan_circuit_path: r1cs_src_path
+            r1cs_src_path: r1cs_src_path
                 .strip_prefix(&PATHS.build)
                 .unwrap()
-                .to_str()
-                .unwrap()
+                .to_string_lossy()
                 .to_string(),
             file_hash: digest,
         });
     }
 
-    create_list_json(&circuit_list, now);
+    create_list_json(&circuit_list);
+    create_built_at(&now);
 }
 
 fn clean_build() {
@@ -185,10 +185,8 @@ fn create_circuit_json(circuit: &mut PrfsCircuit) {
     );
 }
 
-fn create_list_json(circuits_json: &Vec<CircuitBuild>, now: DateTime<Utc>) {
-    let timestamp = now.to_rfc3339();
+fn create_list_json(circuits_json: &Vec<CircuitBuild>) {
     let build_list_json = CircuitBuildListJson {
-        timestamp,
         circuits: circuits_json.clone(),
     };
 
@@ -202,4 +200,13 @@ fn create_list_json(circuits_json: &Vec<CircuitBuild>, now: DateTime<Utc>) {
         "Created".green(),
         build_list_json_path
     );
+}
+
+fn create_built_at(now: &DateTime<Utc>) {
+    let timestamp = now.to_rfc3339();
+    let path = PATHS.build.join("built_at");
+    let mut fd = std::fs::File::create(&path).unwrap();
+    // let build_json_str = serde_json::to_string_pretty(&time).unwrap();
+    write!(fd, "{}", &timestamp).unwrap();
+    // fd.write_fmt("{}", &timestamp).unwrap();
 }
