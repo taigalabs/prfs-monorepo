@@ -82,6 +82,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   setFormValues,
   presetVals,
   proofAction,
+  usePrfsRegistry,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
@@ -170,12 +171,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }
 
         if (payload) {
-          // console.log(22, payload);
+          console.log(22, payload);
         }
       }
     }
     fn().then();
-  }, [presetVals, proofAction, getPrfsProofRecord]);
+  }, [presetVals, proofAction, getPrfsProofRecord, usePrfsRegistry]);
 
   React.useEffect(() => {
     async function fn() {
@@ -502,6 +503,7 @@ export interface MerkleSigPosRangeInputProps {
   presetVals?: MerkleSigPosRangeV1PresetVals;
   credential: PrfsIdCredential;
   proofAction: string;
+  usePrfsRegistry?: boolean;
 }
 
 export interface ComputedValueProps {

@@ -155,14 +155,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
     }));
   }, [formValues, setReceipt, query, driver, credential]);
 
-  React.useEffect(() => {
-    async function fn() {
-      if (query.usePrfsRegistry) {
-      }
-    }
-    fn().then();
-  }, [query.usePrfsRegistry]);
-
   const proofType = data?.payload?.prfs_proof_type;
   return proofType ? (
     <>
@@ -217,6 +209,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
                   presetVals={query.presetVals}
                   credential={credential}
                   proofAction={query.proofAction}
+                  usePrfsRegistry={query.usePrfsRegistry}
                 />
               </div>
             </TutorialStepper>
