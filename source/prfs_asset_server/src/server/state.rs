@@ -24,7 +24,7 @@ impl ServerState {
         let list_json_path = circuits_build_path.join("list.json");
         let b = std::fs::read(list_json_path).unwrap();
         let list_json = serde_json::from_slice::<CircuitBuildListJson>(&b).unwrap();
-        check_circuits(&list_json);
+        check_circuits(&circuits_build_path, &list_json);
 
         let launched_at = Utc::now().to_rfc3339();
         let s = ServerState {
@@ -39,12 +39,15 @@ impl ServerState {
     }
 }
 
-fn check_circuits(list_json: &CircuitBuildListJson) {
+fn check_circuits(circuits_build_path: &PathBuf, list_json: &CircuitBuildListJson) {
     for circuit in &list_json.circuits {
-        let fd = std::fs::read(&circuit.r1cs_src_path).unwrap();
+        let path = circuits_build_path.join(&circuit.r1cs_src_path);
+        let fd = std::fs::read(&path).unwrap();
         let digest = sha256::digest(&fd);
-        if circuit.file_hash != digest {
-            println!("!23123");
-        }
+
+        assert_eq!(
+            circuit.file_hash, digest,
+            "Old circuit binary. You may have to re-compile the circuits"
+        );
     }
 }
