@@ -209,7 +209,6 @@ fn create_built_at(now: &DateTime<Utc>) {
     let timestamp = now.to_rfc3339();
     let path = PATHS.build.join("built_at");
     let mut fd = std::fs::File::create(&path).unwrap();
-    // let build_json_str = serde_json::to_string_pretty(&time).unwrap();
+
     write!(fd, "{}", &timestamp).unwrap();
-    // fd.write_fmt("{}", &timestamp).unwrap();
 }
