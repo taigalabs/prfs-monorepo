@@ -9,6 +9,7 @@ import styles from "./PostContent.module.scss";
 import { paths } from "@/paths";
 import { toShortDate } from "@/utils/time";
 import { PostInner } from "./PostComponent";
+import PostMenu from "./PostMenu";
 
 const PostContent: React.FC<PostContentProps> = ({ postId }) => {
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
@@ -55,6 +56,7 @@ const PostContent: React.FC<PostContentProps> = ({ postId }) => {
                 __html: post.inner.content,
               }}
             />
+            <PostMenu postId={postId} />
           </PostInner>
         </>
       ) : (
