@@ -15,12 +15,34 @@
 .meta {
   display: flex;
   justify-content: space-between;
+  padding-top: 4px;
+  font-size: 15px;
+
+  .left {
+    flex-grow: 1;
+
+    /* border: 1px solid blue; */
+  }
+
+  .right {
+    /* border: 1px solid red; */
+  }
+
+  .item {
+    display: inline-block;
+    padding-right: 8px;
+  }
+}
+
+.proofIdentityInput {
+  color: var(--gray-40);
 }
 
 .content {
+  padding-top: 20px;
 }
 
 .publicKey {
-  color: var(--gray-30);
+  color: var(--gray-20);
   font-weight: 500;
 }

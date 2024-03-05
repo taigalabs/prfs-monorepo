@@ -41,9 +41,9 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
   const [error, setError] = React.useState<string | null>(null);
-  const [postId, shortId] = React.useMemo(() => {
+  const postId = React.useMemo(() => {
     const hex = rand256Hex();
-    return [hex, hex.substring(0, 10)];
+    return hex.substring(0, 14);
   }, []);
   const { mutateAsync: createShyPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
@@ -216,7 +216,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
     <div className={styles.wrapper}>
       <div className={styles.title}>
         <span>{i18n.create_a_post}</span>
-        <span> ({shortId}...)</span>
+        <span> ({postId})</span>
       </div>
       <div className={styles.titleInput}>
         <input
