@@ -1,5 +1,5 @@
 import React from "react";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import cn from "classnames";
 import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 import { DateTimed } from "@taigalabs/shy-entities/bindings/DateTimed";
