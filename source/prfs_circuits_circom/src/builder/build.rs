@@ -1,8 +1,10 @@
-use crate::{driver_id, paths::PATHS, CircuitBuildListJson, CircuitsJson, FileKind};
 use chrono::{DateTime, Utc};
 use colored::Colorize;
+use prfs_crypto::sha256;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
-use std::{io::Write, process::Command};
+use std::{io::Write, path::PathBuf, process::Command};
+
+use crate::{driver_id, paths::PATHS, CircuitBuild, CircuitBuildListJson, FileKind};
 
 pub fn run() {
     println!("{} building {}", "Start".green(), env!("CARGO_PKG_NAME"),);
@@ -15,13 +17,24 @@ pub fn run() {
     for mut circuit in &mut circuits {
         circuit_type_id_should_match_file_stem(&circuit);
         compile_circuits(&circuit);
-        make_spartan(&mut circuit);
+        let r1cs_src_path = make_spartan(&mut circuit);
         create_circuit_json(&mut circuit);
 
-        circuit_list.push(circuit.circuit_type_id.to_string());
+        let b = std::fs::read(&r1cs_src_path).unwrap();
+        let digest = sha256::digest(&b);
+        circuit_list.push(CircuitBuild {
+            circuit_type_id: circuit.circuit_type_id.to_string(),
+            r1cs_src_path: r1cs_src_path
+                .strip_prefix(&PATHS.build)
+                .unwrap()
+                .to_string_lossy()
+                .to_string(),
+            file_hash: digest,
+        });
     }
 
-    create_list_json(&circuit_list, now);
+    create_list_json(&circuit_list);
+    create_built_at(&now);
 }
 
 fn clean_build() {
@@ -72,7 +85,7 @@ fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> String {
     }
 }
 
-fn make_spartan(circuit: &mut PrfsCircuit) {
+fn make_spartan(circuit: &mut PrfsCircuit) -> PathBuf {
     let raw_public_inputs: Vec<&RawCircuitInputMeta> = circuit
         .raw_circuit_inputs_meta
         .iter()
@@ -97,6 +110,8 @@ fn make_spartan(circuit: &mut PrfsCircuit) {
         &spartan_circuit_path,
         circuit.num_public_inputs as usize,
     );
+
+    return r1cs_src_path;
 }
 
 fn read_circuits_json() -> Vec<PrfsCircuit> {
@@ -173,10 +188,8 @@ fn create_circuit_json(circuit: &mut PrfsCircuit) {
     );
 }
 
-fn create_list_json(circuits_json: &Vec<String>, now: DateTime<Utc>) {
-    let timestamp = now.to_rfc3339();
+fn create_list_json(circuits_json: &Vec<CircuitBuild>) {
     let build_list_json = CircuitBuildListJson {
-        timestamp,
         circuits: circuits_json.clone(),
     };
 
@@ -190,4 +203,12 @@ fn create_list_json(circuits_json: &Vec<String>, now: DateTime<Utc>) {
         "Created".green(),
         build_list_json_path
     );
+}
+
+fn create_built_at(now: &DateTime<Utc>) {
+    let timestamp = now.to_rfc3339();
+    let path = PATHS.build.join("built_at");
+    let mut fd = std::fs::File::create(&path).unwrap();
+
+    write!(fd, "{}", &timestamp).unwrap();
 }

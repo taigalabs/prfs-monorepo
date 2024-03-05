@@ -7,7 +7,7 @@ import {
   getPrfsProdEndpoints,
   getTimestamp,
   writeEnvsToDotEnv,
-} from "@taigalabs/prfs-env-js";
+} from "@taigalabs/prfs-env";
 
 import { Envs } from "./src/envs";
 

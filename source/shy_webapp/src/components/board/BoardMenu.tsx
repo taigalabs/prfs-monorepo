@@ -11,7 +11,7 @@ import { paths } from "@/paths";
 const BoardMenu: React.FC<BoardMenuProps> = ({ channelId }) => {
   const i18n = useI18N();
   const postURL = React.useMemo(() => {
-    return `${paths.c}/${channelId}/post`;
+    return `${paths.c}/${channelId}/new_post`;
   }, [channelId]);
 
   return (

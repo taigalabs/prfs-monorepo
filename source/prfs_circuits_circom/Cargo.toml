@@ -15,4 +15,5 @@ lazy_static = "1.4"
 uuid = { version = "1.4.1", features = ["v4", "serde"] }
 
 circuit_reader = { path = "../../externals/circuit_reader" }
+prfs_crypto = { path = "../prfs_crypto" }
 prfs_entities = { path = "../prfs_entities" }

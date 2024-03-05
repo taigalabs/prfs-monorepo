@@ -32,42 +32,42 @@
         "label": "Asset size in USD",
         "options": [
           {
-            "label": "0 - 10",
+            "label": "$0-$10",
             "lower_bound": 0,
             "upper_bound": 10
           },
           {
-            "label": "10 - 1K",
+            "label": "$10-$1K",
             "lower_bound": 10,
             "upper_bound": 1000
           },
           {
-            "label": "1K - 10K",
+            "label": "$1K-$10K",
             "lower_bound": 1000,
             "upper_bound": 10000
           },
           {
-            "label": "10K - 100K",
+            "label": "$10K-$100K",
             "lower_bound": 10000,
             "upper_bound": 100000
           },
           {
-            "label": "100K - 1M",
+            "label": "$100K-$1M",
             "lower_bound": 100000,
             "upper_bound": 1000000
           },
           {
-            "label": "1M - 10M",
+            "label": "$1M-$10M",
             "lower_bound": 1000000,
             "upper_bound": 10000000
           },
           {
-            "label": "10M - 50M",
+            "label": "$10M-$50M",
             "lower_bound": 10000000,
             "upper_bound": 50000000
           },
           {
-            "label": "50M - 1B",
+            "label": "$50M-$1B",
             "lower_bound": 50000000,
             "upper_bound": 1000000000
           }

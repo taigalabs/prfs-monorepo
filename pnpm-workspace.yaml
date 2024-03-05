@@ -12,7 +12,7 @@ packages:
   - "source/prfs_crypto_deps_js"
   - "source/prfs_entities"
   - "source/prfs_i18n"
-  - "source/prfs_env_js"
+  - "source/prfs_env"
   - "source/prfs_react_lib"
   - "source/prfs_id_sdk_web"
   - "source/prfs_proof_gen_js"

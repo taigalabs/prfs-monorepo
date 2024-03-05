@@ -25,7 +25,8 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
     const serialNo = bytesToNumberLE(serialNoHash);
     // console.log("serialNo", serialNo);
-    const proofActionResult = await prfsSign(proofKey, proofAction);
+    const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
+    const proofActionResult = await prfsSign(proofKey, proofAction_);
     const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
     eventListener({
         type: "CREATE_PROOF_EVENT",

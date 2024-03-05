@@ -23,8 +23,9 @@ pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
     let mut circuits = HashMap::new();
     let mut circuit_ids = HashSet::new();
 
-    for circuit_name in build_list_json.circuits {
-        let circuit_json_path = build_path.join(format!("{}/{}", circuit_name, "circuit.json"));
+    for circuit in build_list_json.circuits {
+        let circuit_json_path =
+            build_path.join(format!("{}/{}", circuit.circuit_type_id, "circuit.json"));
 
         println!("Reading circuit, json_path: {:?}", circuit_json_path,);
 
@@ -35,7 +36,7 @@ pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
         }
 
         circuit_ids.insert(circuit_json.circuit_id.to_string());
-        circuits.insert(circuit_name, circuit_json.clone());
+        circuits.insert(circuit.circuit_type_id, circuit_json.clone());
     }
 
     circuits

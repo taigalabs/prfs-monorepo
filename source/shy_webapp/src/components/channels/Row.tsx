@@ -1,8 +1,8 @@
 import React from "react";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import Link from "next/link";
 
 import styles from "./Row.module.scss";
-import Link from "next/link";
 import { paths } from "@/paths";
 
 const Row: React.FC<RowProps> = ({ channel }) => {

@@ -23,13 +23,15 @@ import Board from "@/components/board/Board";
 import BoardMeta from "@/components/board/BoardMeta";
 import BoardMenu from "@/components/board/BoardMenu";
 import Loading from "@/components/loading/Loading";
+import { useHandleScroll } from "@/hooks/scroll";
 
-const Channel: React.FC<ChannelProps> = ({ channelId, isPost }) => {
+const Channel: React.FC<ChannelProps> = ({ channelId, isNewPost }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
   const { isInitialized, shyCredential } = useSignedInShyUser();
   const router = useRouter();
+
   const { data: channelData, isFetching: channelDataIsFetching } = useQuery({
     queryKey: ["get_shy_channel"],
     queryFn: async () => {
@@ -45,23 +47,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isPost }) => {
     }
   }, [isInitialized, router, shyCredential]);
 
-  const handleScroll = React.useCallback(() => {
-    if (parentRef.current && rightBarContainerRef.current) {
-      const { scrollTop, clientHeight } = parentRef.current;
-      const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current!;
-
-      if (ch < clientHeight) {
-        rightBarContainerRef.current!.style.top = `0px`;
-      } else {
-        const delta = clientHeight + scrollTop - ch;
-        if (delta >= 0) {
-          rightBarContainerRef.current.style.transform = `translateY(${delta}px)`;
-        } else {
-          rightBarContainerRef.current!.style.transform = "translateY(0px)";
-        }
-      }
-    }
-  }, [parentRef.current, rightBarContainerRef.current]);
+  const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
 
   return isFontReady && shyCredential ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
@@ -71,8 +57,8 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isPost }) => {
         <InfiniteScrollMain>
           {channel ? (
             <>
-              <BoardMeta channel={channel} />
-              {isPost ? (
+              <BoardMeta channel={channel} noSubChannel />
+              {isNewPost ? (
                 <CreatePostForm channel={channel} />
               ) : (
                 <>
@@ -102,5 +88,5 @@ export default Channel;
 
 export interface ChannelProps {
   channelId: string;
-  isPost?: boolean;
+  isNewPost?: boolean;
 }

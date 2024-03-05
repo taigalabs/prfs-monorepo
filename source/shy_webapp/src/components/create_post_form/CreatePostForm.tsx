@@ -1,7 +1,5 @@
 import React from "react";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { CreatePrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofRecordRequest";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import {
   API_PATH,
   ProofGenArgs,
@@ -43,18 +41,13 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
   const [error, setError] = React.useState<string | null>(null);
-  const [postId, shortId] = React.useMemo(() => {
+  const postId = React.useMemo(() => {
     const hex = rand256Hex();
-    return [hex, hex.substring(0, 10)];
+    return hex.substring(0, 14);
   }, []);
   const { mutateAsync: createShyPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
       return shyApi2({ type: "create_shy_post", ...req });
-    },
-  });
-  const { mutateAsync: createPrfsProofRecord } = useMutation({
-    mutationFn: (req: CreatePrfsProofRecordRequest) => {
-      return prfsApi3({ type: "create_prfs_proof_record", ...req });
     },
   });
 
@@ -180,16 +173,8 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           proveReceipt.proof.publicInputSer,
         );
 
-        const { payload: _createPrfsProofRecordPayload } = await createPrfsProofRecord({
-          proof_record: {
-            public_key: publicInputs.proofPubKey,
-            serial_no: publicInputs.circuitPubInput.serialNo.toString(),
-            proof_starts_with: Array.from(proveReceipt.proof.proofBytes.slice(0, 4)),
-          },
-        });
-
         const shy_post_proof_id = rand256Hex();
-        const { payload } = await createShyPost({
+        const { payload, error } = await createShyPost({
           title,
           post_id: postId,
           content: html,
@@ -199,12 +184,16 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
           proof: Array.from(proveReceipt.proof.proofBytes),
           public_inputs: proveReceipt.proof.publicInputSer,
           public_key: publicInputs.proofPubKey,
-          proof_action: proofAction,
-          // sig: proveReceipt.proof.proofActionResult,
+          serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
+          author_sig: proveReceipt.proof.proofActionResult,
         });
 
-        console.log("create shy post resp", payload);
-        router.push(`${paths.c}/${channel.channel_id}`);
+        if (error) {
+          throw new Error(`Failed to create a post, err: ${error}`);
+        }
+
+        console.log("create shy post resp", payload, error);
+        router.push(`${paths.c}/${channel.channel_id}/p/${postId}`);
       } catch (err) {
         console.error(err);
       }
@@ -227,7 +216,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
     <div className={styles.wrapper}>
       <div className={styles.title}>
         <span>{i18n.create_a_post}</span>
-        <span> ({shortId}...)</span>
+        <span> ({postId})</span>
       </div>
       <div className={styles.titleInput}>
         <input

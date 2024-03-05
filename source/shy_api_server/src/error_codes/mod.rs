@@ -7,4 +7,5 @@ generate_api_error_codes! {
     API_ERROR_CODE,
     (2000000, SUCCESS, "Success");
     (4000000, UNKNOWN_ERROR, "Unknown error");
+    (4000001, BAD_URL, "Unable to make http requests (CLI) to this URL");
 }

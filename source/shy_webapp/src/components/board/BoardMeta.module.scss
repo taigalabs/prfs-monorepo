@@ -1,7 +1,7 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  padding: 10px $side_padding 14px;
+  padding: 8px $side_padding 8px;
 }
 
 .inner {
@@ -22,6 +22,11 @@
     cursor: pointer;
     transition: all 0.25s ease-out;
   }
+}
+
+.subChannel {
+  padding-top: 3px;
+  color: var(--gray-40);
 }
 
 .isVisible {

@@ -21,6 +21,7 @@ import type { GetPrfsPollsRequest } from "./GetPrfsPollsRequest";
 import type { GetPrfsProofInstanceByInstanceIdRequest } from "./GetPrfsProofInstanceByInstanceIdRequest";
 import type { GetPrfsProofInstanceByShortIdRequest } from "./GetPrfsProofInstanceByShortIdRequest";
 import type { GetPrfsProofInstancesRequest } from "./GetPrfsProofInstancesRequest";
+import type { GetPrfsProofRecordRequest } from "./GetPrfsProofRecordRequest";
 import type { GetPrfsProofTypeByProofTypeIdRequest } from "./GetPrfsProofTypeByProofTypeIdRequest";
 import type { GetPrfsProofTypesRequest } from "./GetPrfsProofTypesRequest";
 import type { GetPrfsSetBySetIdRequest } from "./GetPrfsSetBySetIdRequest";
@@ -74,4 +75,5 @@ export type PrfsApiRequest =
   | ({ type: "get_prfs_tree_leaf_indices" } & GetPrfsTreeLeafIndicesRequest)
   | ({ type: "UpdatePrfsTreeNode" } & UpdatePrfsTreeNodeRequest)
   | ({ type: "get_latest_prfs_tree_by_set_id" } & GetLatestPrfsTreeBySetIdRequest)
-  | ({ type: "create_prfs_proof_record" } & CreatePrfsProofRecordRequest);
+  | ({ type: "create_prfs_proof_record" } & CreatePrfsProofRecordRequest)
+  | ({ type: "get_prfs_proof_record" } & GetPrfsProofRecordRequest);

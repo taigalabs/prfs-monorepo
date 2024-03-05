@@ -8,13 +8,18 @@ import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import styles from "./BoardMeta.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Loading from "@/components/loading/Loading";
+import Link from "next/link";
+import { paths } from "@/paths";
 
-const BoardMeta: React.FC<BoardMetaProps> = ({ channel }) => {
+const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel }) => {
   const i18n = useI18N();
   const [isDescOpen, setIsDescOpen] = React.useState(false);
   const handleClickToggleDesc = React.useCallback(() => {
     setIsDescOpen(b => !b);
   }, [setIsDescOpen]);
+  const channelUrl = React.useMemo(() => {
+    return `${paths.c}/${channel.channel_id}`;
+  }, [channel.channel_id]);
 
   const proofTypesElem = React.useMemo(() => {
     if (channel) {
@@ -30,18 +35,25 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel }) => {
     <div className={styles.wrapper}>
       <div className={cn(styles.inner, { [styles.isVisible]: isDescOpen })}>
         <div className={styles.titleRow}>
-          <div className={styles.label}>{channel.label}</div>
-          <div className={styles.arrow} onClick={handleClickToggleDesc}>
-            <IoIosArrowDown />
+          <div className={styles.label}>
+            <Link href={channelUrl}>{channel.label}</Link>
           </div>
+          {!noDesc && (
+            <div className={styles.arrow} onClick={handleClickToggleDesc}>
+              <IoIosArrowDown />
+            </div>
+          )}
         </div>
-        <div className={cn(styles.descRow)}>
-          <div className={styles.desc}>{channel.desc}</div>
-          <div className={styles.proofTypeIds}>
-            <p className={styles.title}>{i18n.requiring_proofs_of_type}</p>
-            {proofTypesElem}
+        {!noSubChannel && <div className={styles.subChannel}>{i18n.general}</div>}
+        {!noDesc && (
+          <div className={cn(styles.descRow)}>
+            <div className={styles.desc}>{channel.desc}</div>
+            <div className={styles.proofTypeIds}>
+              <p className={styles.title}>{i18n.requiring_proofs_of_type}</p>
+              {proofTypesElem}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   ) : (
@@ -53,4 +65,6 @@ export default BoardMeta;
 
 export interface BoardMetaProps {
   channel: ShyChannel;
+  noDesc?: boolean;
+  noSubChannel?: boolean;
 }

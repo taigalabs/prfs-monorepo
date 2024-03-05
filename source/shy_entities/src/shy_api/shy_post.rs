@@ -1,10 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::{
-    entities::{DateTimed, ShyPost},
-    proof_action::ShyPostProofAction,
-};
+use crate::entities::{DateTimed, ShyPost};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -18,7 +15,8 @@ pub struct CreateShyPostRequest {
     pub proof: Vec<u8>,
     pub public_inputs: String,
     pub public_key: String,
-    pub proof_action: ShyPostProofAction,
+    pub serial_no: String,
+    pub author_sig: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -39,4 +37,16 @@ pub struct GetShyPostsRequest {
 pub struct GetShyPostsResponse {
     pub shy_posts: Vec<DateTimed<ShyPost>>,
     pub next_offset: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetShyPostRequest {
+    pub post_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetShyPostResponse {
+    pub shy_post: DateTimed<ShyPost>,
 }

@@ -33,9 +33,9 @@ pub fn make_spartan_instance(
     let spartan_inst = load_as_spartan_inst(circom_r1cs_path, num_pub_inputs);
     let sparta_inst_bytes = bincode::serialize(&spartan_inst).unwrap();
 
-    File::create(&output_path)
-        .expect("file has to be created for spartan program")
-        .write_all(sparta_inst_bytes.as_slice())
+    let mut f = File::create(&output_path).expect("file has to be created for spartan program");
+
+    f.write_all(sparta_inst_bytes.as_slice())
         .expect("spartan program has to be written");
 
     println!("Success writing spartan circuit to {:?}", output_path);

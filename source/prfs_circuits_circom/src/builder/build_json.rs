@@ -1,7 +1,8 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+use crate::CircuitBuild;
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CircuitBuildListJson {
-    pub circuits: Vec<String>,
-    pub timestamp: String,
+    pub circuits: Vec<CircuitBuild>,
 }

@@ -49,7 +49,7 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 70,
+    estimateSize: () => 74,
     overscan: 5,
   });
 
@@ -111,7 +111,7 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
               ? hasNextPage
                 ? "Loading more..."
                 : "Nothing more to load"
-              : post && <Row post={post} now={now} />}
+              : post && <Row post={post} now={now} channelId={channelId} />}
           </InfiniteScrollRowWrapper>
         );
       })}

@@ -23,6 +23,8 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   setFormErrors,
   presetVals,
   credential,
+  proofAction,
+  usePrfsRegistry,
 }) => {
   const circuitInputsElem = React.useMemo(() => {
     switch (proofType.circuit_type_id) {
@@ -36,6 +38,8 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             setFormErrors={setFormErrors as any}
             presetVals={presetVals as MerkleSigPosRangeV1PresetVals}
             credential={credential}
+            proofAction={proofAction}
+            usePrfsRegistry={usePrfsRegistry}
           />
         );
       }
@@ -82,5 +86,7 @@ export interface CircuitInputsProps {
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   presetVals?: QueryPresetVals;
+  proofAction: string;
   credential: PrfsIdCredential;
+  usePrfsRegistry?: boolean;
 }

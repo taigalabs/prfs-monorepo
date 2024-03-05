@@ -15,6 +15,7 @@ import {
   InfiniteScrollInner,
   InfiniteScrollLeft,
   InfiniteScrollRowContainer,
+  InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import ChannelMenu from "./ChannelMenu";
@@ -103,12 +104,8 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
                   const row = allRows[virtualRow.index];
 
                   return (
-                    <div
+                    <InfiniteScrollRowWrapper
                       style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
                         height: `${virtualRow.size}px`,
                         transform: `translateY(${virtualRow.start}px)`,
                       }}
@@ -118,7 +115,7 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
                       ref={rowVirtualizer.measureElement}
                     >
                       {isLoaderRow ? <span>Loading...</span> : row && <Row channel={row} />}
-                    </div>
+                    </InfiniteScrollRowWrapper>
                   );
                 })}
               </InfiniteScrollRowContainer>

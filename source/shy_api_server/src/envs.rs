@@ -17,6 +17,9 @@ pub struct Envs {
 
     #[serde(default = "default_postgres_pw")]
     pub postgres_pw: String,
+
+    #[serde(default = "default_prfs_api_server_endpoint")]
+    pub prfs_api_server_endpoint: String,
 }
 
 impl Envs {
@@ -46,4 +49,8 @@ fn default_postgres_username() -> String {
 
 fn default_postgres_pw() -> String {
     "some postgres pw".to_string()
+}
+
+fn default_prfs_api_server_endpoint() -> String {
+    "http://127.0.0.1:4000".to_string()
 }
