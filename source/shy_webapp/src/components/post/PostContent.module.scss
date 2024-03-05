@@ -3,22 +3,21 @@
 .wrapper {
   position: relative;
   min-height: 150px;
-  padding: 12px 12px;
+  padding: 0px 12px 12px;
 
   /* border-top: 1px solid var(--gray-70); */
 }
 
 .title {
   color: var(--black-27);
-  font-size: 1.58em;
-  padding-bottom: 14px;
+  font-size: 26px;
+  padding-bottom: 12px;
   font-weight: 500;
 }
 
 .meta {
   display: flex;
   justify-content: space-between;
-  padding-top: 4px;
   font-size: 15px;
 
   .left {
@@ -28,7 +27,6 @@
   }
 
   .right {
-    /* border: 1px solid red; */
   }
 
   .item {
@@ -37,12 +35,17 @@
   }
 }
 
-.proofIdentityInput {
+.date {
   color: var(--gray-40);
 }
 
+.proofIdentityInput {
+  color: var(--gray-30);
+}
+
 .content {
-  padding-top: 20px;
+  padding-top: 16px;
+  font-size: 15px;
 }
 
 .publicKey {

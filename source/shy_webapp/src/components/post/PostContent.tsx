@@ -47,7 +47,7 @@ const PostContent: React.FC<PostContentProps> = ({ postId }) => {
                 </div>
               </div>
               <div className={styles.right}>
-                <p>{date}</p>
+                <p className={styles.date}>{date}</p>
               </div>
             </div>
             <div
