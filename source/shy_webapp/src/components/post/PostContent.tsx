@@ -3,11 +3,12 @@ import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Link from "next/link";
+import dayjs from "dayjs";
 
 import styles from "./PostContent.module.scss";
 import { paths } from "@/paths";
 import { toShortDate } from "@/utils/time";
-import dayjs from "dayjs";
+import { PostInner } from "./PostComponent";
 
 const PostContent: React.FC<PostContentProps> = ({ postId }) => {
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
@@ -34,25 +35,27 @@ const PostContent: React.FC<PostContentProps> = ({ postId }) => {
       {post ? (
         <>
           <div className={styles.title}>{post.inner.title}</div>
-          <div className={styles.meta}>
-            <div className={styles.left}>
-              <div className={styles.item}>
-                <p className={styles.publicKey}>{publicKey}</p>
+          <PostInner>
+            <div className={styles.meta}>
+              <div className={styles.left}>
+                <div className={styles.item}>
+                  <p className={styles.publicKey}>{publicKey}</p>
+                </div>
+                <div className={styles.item}>
+                  <p className={styles.proofIdentityInput}>{post.inner.proof_identity_input}</p>
+                </div>
               </div>
-              <div className={styles.item}>
-                <p className={styles.proofIdentityInput}>{post.inner.proof_identity_input}</p>
+              <div className={styles.right}>
+                <p>{date}</p>
               </div>
             </div>
-            <div className={styles.right}>
-              <p>{date}</p>
-            </div>
-          </div>
-          <div
-            className={styles.content}
-            dangerouslySetInnerHTML={{
-              __html: post.inner.content,
-            }}
-          />
+            <div
+              className={styles.content}
+              dangerouslySetInnerHTML={{
+                __html: post.inner.content,
+              }}
+            />
+          </PostInner>
         </>
       ) : (
         <Spinner />

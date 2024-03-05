@@ -8,6 +8,8 @@ import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import styles from "./BoardMeta.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Loading from "@/components/loading/Loading";
+import Link from "next/link";
+import { paths } from "@/paths";
 
 const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc }) => {
   const i18n = useI18N();
@@ -15,6 +17,9 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc }) => {
   const handleClickToggleDesc = React.useCallback(() => {
     setIsDescOpen(b => !b);
   }, [setIsDescOpen]);
+  const channelUrl = React.useMemo(() => {
+    return `${paths.c}/${channel.channel_id}`;
+  }, [channel.channel_id]);
 
   const proofTypesElem = React.useMemo(() => {
     if (channel) {
@@ -30,7 +35,9 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc }) => {
     <div className={styles.wrapper}>
       <div className={cn(styles.inner, { [styles.isVisible]: isDescOpen })}>
         <div className={styles.titleRow}>
-          <div className={styles.label}>{channel.label}</div>
+          <div className={styles.label}>
+            <Link href={channelUrl}>{channel.label}</Link>
+          </div>
           {!noDesc && (
             <div className={styles.arrow} onClick={handleClickToggleDesc}>
               <IoIosArrowDown />
