@@ -4,7 +4,8 @@
   position: relative;
   min-height: 150px;
   padding: 12px 12px;
-  border-top: 1px solid var(--gray-70);
+
+  /* border-top: 1px solid var(--gray-70); */
 }
 
 .title {
@@ -47,10 +48,4 @@
 .publicKey {
   color: var(--gray-20);
   font-weight: 500;
-}
-
-@media screen and (min-width: $big_display_min_width) {
-  .thread {
-    max-width: 712px;
-  }
 }
