@@ -11,7 +11,7 @@ import Loading from "@/components/loading/Loading";
 import Link from "next/link";
 import { paths } from "@/paths";
 
-const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc }) => {
+const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel }) => {
   const i18n = useI18N();
   const [isDescOpen, setIsDescOpen] = React.useState(false);
   const handleClickToggleDesc = React.useCallback(() => {
@@ -44,6 +44,7 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc }) => {
             </div>
           )}
         </div>
+        {!noSubChannel && <div className={styles.subChannel}>{i18n.general}</div>}
         {!noDesc && (
           <div className={cn(styles.descRow)}>
             <div className={styles.desc}>{channel.desc}</div>
@@ -65,4 +66,5 @@ export default BoardMeta;
 export interface BoardMetaProps {
   channel: ShyChannel;
   noDesc?: boolean;
+  noSubChannel?: boolean;
 }

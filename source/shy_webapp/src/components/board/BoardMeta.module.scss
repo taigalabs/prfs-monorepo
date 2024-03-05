@@ -24,6 +24,11 @@
   }
 }
 
+.subChannel {
+  padding-top: 3px;
+  color: var(--gray-40);
+}
+
 .isVisible {
   .arrow {
     transform: rotate(180deg);

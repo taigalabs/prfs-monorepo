@@ -57,7 +57,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewPost }) => {
         <InfiniteScrollMain>
           {channel ? (
             <>
-              <BoardMeta channel={channel} />
+              <BoardMeta channel={channel} noSubChannel />
               {isNewPost ? (
                 <CreatePostForm channel={channel} />
               ) : (
