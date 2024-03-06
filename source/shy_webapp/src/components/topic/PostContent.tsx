@@ -18,28 +18,28 @@ const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
     queryKey: ["get_shy_post", topicId],
     queryFn: async () => {
-      return shyApi2({ type: "get_shy_post", post_id: topicId });
+      return shyApi2({ type: "get_shy_topic", topic_id: topicId });
     },
   });
-  const post = postData?.payload?.shy_post;
+  const topic = postData?.payload?.shy_topic;
 
   const publicKey = React.useMemo(() => {
-    return post?.inner.public_key.substring(0, 10) || "";
-  }, [post?.inner.public_key]);
+    return topic?.inner.public_key.substring(0, 10) || "";
+  }, [topic?.inner.public_key]);
 
   const date = React.useMemo(() => {
-    if (post?.updated_at) {
+    if (topic?.updated_at) {
       const now = dayjs();
-      return toShortDate(post?.updated_at, now);
+      return toShortDate(topic?.updated_at, now);
     } else return "";
-  }, [post?.updated_at]);
+  }, [topic?.updated_at]);
 
   return (
     <div className={styles.wrapper}>
-      {post ? (
+      {topic ? (
         <>
           <div className={styles.titleRow}>
-            <p className={styles.title}>{post.inner.title}</p>
+            <p className={styles.title}>{topic.inner.title}</p>
             <div className={styles.postMeta}>
               <button className={styles.participants} type="button">
                 <MdGroup />
@@ -54,7 +54,7 @@ const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
                   <p className={styles.publicKey}>{publicKey}</p>
                 </div>
                 <div className={styles.item}>
-                  <p className={styles.proofIdentityInput}>{post.inner.proof_identity_input}</p>
+                  <p className={styles.proofIdentityInput}>{topic.inner.proof_identity_input}</p>
                 </div>
               </div>
               <div className={styles.right}>
@@ -64,7 +64,7 @@ const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
             <div
               className={styles.content}
               dangerouslySetInnerHTML={{
-                __html: post.inner.content,
+                __html: topic.inner.content,
               }}
             />
             <TopicMenu topicId={topicId} />

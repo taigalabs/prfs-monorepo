@@ -5,19 +5,19 @@ use ts_rs::TS;
 #[allow(non_camel_case_types)]
 #[serde(tag = "type")]
 #[ts(export)]
-pub enum ShyPostProofAction {
-    create_shy_post(CreateShyPostAction),
-    create_shy_post_reply(CreateShyPostReplyAction),
+pub enum ShyTopicProofAction {
+    create_shy_topic(CreateShyTopicAction),
+    create_shy_topic_reply(CreateShyTopicReplyAction),
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateShyPostAction {
-    pub post_id: String,
+pub struct CreateShyTopicAction {
+    pub topic_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateShyPostReplyAction {
+pub struct CreateShyTopicReplyAction {
     pub reply_id: String,
 }

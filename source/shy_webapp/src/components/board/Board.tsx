@@ -18,10 +18,10 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
   const i18n = useI18N();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_shy_posts", channelId],
+      queryKey: ["get_shy_topics", channelId],
       queryFn: async ({ pageParam = 0 }) => {
         return await shyApi2({
-          type: "get_shy_posts",
+          type: "get_shy_topics",
           channel_id: channelId,
           offset: pageParam,
         });
@@ -39,7 +39,7 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
   const allRows = data
     ? data.pages.flatMap(d => {
         if (d.payload) {
-          return d.payload.shy_posts;
+          return d.payload.shy_topics;
         } else {
           [];
         }
@@ -95,7 +95,7 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
       )}
       {virtualItems.map(virtualRow => {
         const isLoaderRow = virtualRow.index > allRows.length - 1;
-        const post = allRows[virtualRow.index];
+        const topic = allRows[virtualRow.index];
         return (
           <InfiniteScrollRowWrapper
             style={{
@@ -111,7 +111,7 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
               ? hasNextPage
                 ? "Loading more..."
                 : "Nothing more to load"
-              : post && <Row post={post} now={now} channelId={channelId} />}
+              : topic && <Row topic={topic} now={now} channelId={channelId} />}
           </InfiniteScrollRowWrapper>
         );
       })}

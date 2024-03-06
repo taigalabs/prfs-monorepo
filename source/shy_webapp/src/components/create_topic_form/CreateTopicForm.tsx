@@ -19,8 +19,8 @@ import {
 } from "@taigalabs/prfs-crypto-js";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
-import { ShyPostProofAction } from "@taigalabs/shy-entities/bindings/ShyPostProofAction";
+import { CreateShyTopicRequest } from "@taigalabs/shy-entities/bindings/CreateShyTopicRequest";
+import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
@@ -41,13 +41,13 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
   const [error, setError] = React.useState<string | null>(null);
-  const postId = React.useMemo(() => {
+  const topicId = React.useMemo(() => {
     const hex = rand256Hex();
     return hex.substring(0, 14);
   }, []);
-  const { mutateAsync: createShyPost } = useMutation({
-    mutationFn: (req: CreateShyPostRequest) => {
-      return shyApi2({ type: "create_shy_post", ...req });
+  const { mutateAsync: createShyTopic } = useMutation({
+    mutationFn: (req: CreateShyTopicRequest) => {
+      return shyApi2({ type: "create_shy_topic", ...req });
     },
   });
 
@@ -58,7 +58,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
     [setTitle],
   );
 
-  const handleCreatePost = React.useCallback(
+  const handleCreateTopic = React.useCallback(
     async (html: string) => {
       setError(null);
 
@@ -75,11 +75,11 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
       const proofTypeId = channel.proof_type_ids[0];
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
-      const json = JSON.stringify({ appId: SHY_APP_ID, postId });
+      const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
 
-      const proofAction: ShyPostProofAction = {
-        type: "create_shy_post",
-        post_id: postId,
+      const proofAction: ShyTopicProofAction = {
+        type: "create_shy_topic",
+        topic_id: topicId,
       };
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
@@ -173,13 +173,13 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           proveReceipt.proof.publicInputSer,
         );
 
-        const shy_post_proof_id = rand256Hex();
-        const { payload, error } = await createShyPost({
+        const shy_topic_proof_id = rand256Hex();
+        const { payload, error } = await createShyTopic({
           title,
-          post_id: postId,
+          topic_id: topicId,
           content: html,
           channel_id: channel.channel_id,
-          shy_post_proof_id,
+          shy_topic_proof_id,
           proof_identity_input: publicInputs.proofIdentityInput,
           proof: Array.from(proveReceipt.proof.proofBytes),
           public_inputs: proveReceipt.proof.publicInputSer,
@@ -189,25 +189,25 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         });
 
         if (error) {
-          throw new Error(`Failed to create a post, err: ${error}`);
+          throw new Error(`Failed to create a topic, err: ${error}`);
         }
 
-        console.log("create shy post resp", payload, error);
-        router.push(`${paths.c}/${channel.channel_id}/p/${postId}`);
+        console.log("create shy topic resp", payload, error);
+        router.push(`${paths.c}/${channel.channel_id}/t/${topicId}`);
       } catch (err) {
         console.error(err);
       }
       ws.close();
       popup.close();
     },
-    [channel, postId, title, setError, createShyPost, router],
+    [channel, topicId, title, setError, createShyTopic, router],
   );
 
   const footer = React.useMemo(() => {
     return (
       <>
         {error && <div className={styles.error}>{error}</div>}
-        <EditorFooter handleClickPost={handleCreatePost} />
+        <EditorFooter handleClickTopic={handleCreateTopic} />
       </>
     );
   }, [error, title]);
@@ -215,8 +215,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
-        <span>{i18n.create_a_post}</span>
-        <span> ({postId})</span>
+        <span>{i18n.create_a_topic}</span>
+        <span> ({topicId})</span>
       </div>
       <div className={styles.titleInput}>
         <input

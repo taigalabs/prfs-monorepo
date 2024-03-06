@@ -5,22 +5,22 @@ import styles from "./EditorFooter.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Button from "@/components/button/Button";
 
-const EditorFooter: React.FC<EditorFooterProps> = ({ handleClickPost }) => {
+const EditorFooter: React.FC<EditorFooterProps> = ({ handleClickTopic }) => {
   const i18n = useI18N();
   const { editor } = useCurrentEditor();
 
-  const extendedHandleClickPost = React.useCallback(() => {
+  const extendedHandleClickTopic = React.useCallback(() => {
     if (!editor) {
       return null;
     }
 
     const html = editor.getHTML();
-    handleClickPost(html);
-  }, [handleClickPost, editor]);
+    handleClickTopic(html);
+  }, [handleClickTopic, editor]);
 
   return (
     <div className={styles.wrapper}>
-      <Button variant="green_1" handleClick={extendedHandleClickPost}>
+      <Button variant="green_1" handleClick={extendedHandleClickTopic}>
         {i18n.prove_and_post}
       </Button>
     </div>
@@ -30,5 +30,5 @@ const EditorFooter: React.FC<EditorFooterProps> = ({ handleClickPost }) => {
 export default EditorFooter;
 
 export interface EditorFooterProps {
-  handleClickPost: (html: string) => void;
+  handleClickTopic: (html: string) => void;
 }
