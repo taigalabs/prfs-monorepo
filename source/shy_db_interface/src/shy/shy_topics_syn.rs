@@ -10,18 +10,15 @@ pub async fn get_shy_topic_posts(
     limit: i32,
 ) -> Result<Vec<DateTimed<ShyTopicPost>>, ShyDbInterfaceError> {
     let query = r#"
-SELECT t.*, p.*
+SELECT t.*, p.*, f.*
 FROM shy_topics t 
 INNER JOIN shy_posts p ON t.topic_id = p.post_id
+INNER JOIN shy_topic_proofs f ON f.shy_topic_proof_id = p.shy_topic_proof_id
 WHERE t.channel_id=$1
 ORDER BY t.updated_at DESC
 OFFSET $2
 LIMIT $3
 "#;
-
-    // SELECT *
-    // FROM shy_topics
-    // WHERE channel_id=$1
 
     let rows = sqlx::query(&query)
         .bind(channel_id)
@@ -41,7 +38,7 @@ LIMIT $3
                 num_replies: row.try_get("num_replies")?,
                 shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
                 proof_identity_input: row.try_get("proof_identity_input")?,
-                author_sig: row.try_get("author_isg")?,
+                author_sig: row.try_get("author_sig")?,
             };
 
             let topic = DateTimed {

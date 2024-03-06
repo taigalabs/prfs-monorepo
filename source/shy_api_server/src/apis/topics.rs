@@ -113,18 +113,22 @@ pub async fn get_shy_topics(
     Json(input): Json<GetShyTopicsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyTopicsResponse>>) {
     let pool = &state.db2.pool;
-    let shy_topics = shy::get_shy_topic_posts(pool, &input.channel_id, input.offset, LIMIT)
-        .await
-        .unwrap();
+    let rows = match shy::get_shy_topic_posts(pool, &input.channel_id, input.offset, LIMIT).await {
+        Ok(r) => r,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
-    let next_offset = if shy_topics.len() < LIMIT.try_into().unwrap() {
+    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
         None
     } else {
         Some(input.offset + LIMIT)
     };
 
     let resp = ApiResponse::new_success(GetShyTopicsResponse {
-        shy_topic_posts,
+        shy_topic_posts: rows,
         next_offset,
     });
     return (StatusCode::OK, Json(resp));
