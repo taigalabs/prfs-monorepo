@@ -38,10 +38,6 @@ const CreatePostDialog: React.FC<CreatePostDialogProps> = ({}) => {
   const headingId = useId();
   const descriptionId = useId();
 
-  // const baseElem = React.useMemo(() => {
-  //   return createBase();
-  // }, [createBase]);
-
   return (
     <>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
