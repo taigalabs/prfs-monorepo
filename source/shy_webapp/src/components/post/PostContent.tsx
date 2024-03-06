@@ -4,14 +4,17 @@ import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Link from "next/link";
 import dayjs from "dayjs";
+import { MdGroup } from "@react-icons/all-files/md/MdGroup";
 
 import styles from "./PostContent.module.scss";
 import { paths } from "@/paths";
 import { toShortDate } from "@/utils/time";
 import { PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
+import { useI18N } from "@/i18n/hook";
 
 const PostContent: React.FC<PostContentProps> = ({ postId }) => {
+  const i18n = useI18N();
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
     queryKey: ["get_shy_post", postId],
     queryFn: async () => {
@@ -35,7 +38,15 @@ const PostContent: React.FC<PostContentProps> = ({ postId }) => {
     <div className={styles.wrapper}>
       {post ? (
         <>
-          <div className={styles.title}>{post.inner.title}</div>
+          <div className={styles.titleRow}>
+            <p className={styles.title}>{post.inner.title}</p>
+            <div>
+              <div className={styles.participants}>
+                <MdGroup />
+                <span>{i18n.participants}</span>
+              </div>
+            </div>
+          </div>
           <PostInner>
             <div className={styles.meta}>
               <div className={styles.left}>

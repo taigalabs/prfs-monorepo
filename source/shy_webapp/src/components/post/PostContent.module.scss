@@ -8,11 +8,23 @@
   /* border-top: 1px solid var(--gray-70); */
 }
 
+.titleRow {
+  padding-bottom: 12px;
+}
+
 .title {
   color: var(--black-27);
   font-size: 26px;
-  padding-bottom: 12px;
   font-weight: 500;
+}
+
+.participants {
+  display: flex;
+  align-items: center;
+
+  svg {
+    padding-right: 3px;
+  }
 }
 
 .meta {
