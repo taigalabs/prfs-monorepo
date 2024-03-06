@@ -12,7 +12,7 @@ pub async fn get_shy_topic_syn1s(
     let query = r#"
 SELECT t.*, f.*
 FROM shy_topics t 
-INNER JOIN shy_topic_proofs f ON f.shy_topic_proof_id = p.shy_topic_proof_id
+INNER JOIN shy_topic_proofs f ON f.shy_topic_proof_id = t.shy_topic_proof_id
 WHERE t.channel_id=$1
 ORDER BY t.updated_at DESC
 OFFSET $2
