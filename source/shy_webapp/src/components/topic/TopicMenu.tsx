@@ -5,7 +5,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Link from "next/link";
 import dayjs from "dayjs";
 
-import styles from "./PostMenu.module.scss";
+import styles from "./TopicMenu.module.scss";
 import { paths } from "@/paths";
 import { toShortDate } from "@/utils/time";
 import { PostInner } from "./PostComponent";
