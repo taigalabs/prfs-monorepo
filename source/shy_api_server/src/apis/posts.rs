@@ -27,6 +27,7 @@ pub async fn get_shy_posts_of_topic(
         .await
         .unwrap();
 
-    let resp = ApiResponse::new_success(GetShyPostsOfTopicResponse { shy_topic });
-    return (StatusCode::OK, Json(resp));
+    panic!();
+    // let resp = ApiResponse::new_success(GetShyPostsOfTopicResponse { shy_topic });
+    // return (StatusCode::OK, Json(resp));
 }
