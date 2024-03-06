@@ -1,8 +1,9 @@
-use crate::{database2::Database2, DbInterfaceError};
 use prfs_entities::entities::{EthAccount, PrfsAccount};
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 use rust_decimal::Decimal;
 use std::collections::BTreeMap;
+
+use crate::DbInterfaceError;
 
 pub async fn get_eth_accounts(
     pool: &Pool<Postgres>,

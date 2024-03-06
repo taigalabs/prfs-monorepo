@@ -1,7 +1,7 @@
-use crate::database2::Database2;
-use crate::DbInterfaceError;
 use prfs_entities::entities::{PrfsIdSession, PrfsProofType};
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+
+use crate::DbInterfaceError;
 
 pub async fn get_prfs_id_session(
     pool: &Pool<Postgres>,

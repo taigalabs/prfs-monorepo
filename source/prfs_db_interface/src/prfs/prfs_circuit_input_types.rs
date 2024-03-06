@@ -1,5 +1,4 @@
 use prfs_entities::entities::PrfsCircuitInputType;
-use prfs_entities::entities::{PrfsProofInstance, PrfsProofType};
 use prfs_entities::sqlx::{self, Postgres, Row, Transaction};
 
 pub async fn insert_prfs_circuit_input_type(

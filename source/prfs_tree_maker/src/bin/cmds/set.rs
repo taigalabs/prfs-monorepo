@@ -1,6 +1,6 @@
 use clap::ArgMatches;
 use colored::Colorize;
-use prfs_db_interface::database2::Database2;
+use prfs_db_driver::database2::Database2;
 use prfs_tree_maker::apis;
 use prfs_tree_maker::envs::ENVS;
 

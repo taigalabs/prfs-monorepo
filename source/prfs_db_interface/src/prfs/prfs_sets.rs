@@ -1,8 +1,9 @@
-use crate::DbInterfaceError;
 use chrono::{DateTime, Utc};
 use prfs_entities::entities::{PrfsSet, PrfsSetType};
 use prfs_entities::prfs_api::PrfsSetIns1;
-use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
+use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+
+use crate::DbInterfaceError;
 
 pub async fn get_prfs_set_by_set_id(
     pool: &Pool<Postgres>,

@@ -1,7 +1,5 @@
-use prfs_entities::entities::{PrfsCircuitDriver, PrfsCircuitType};
-use prfs_entities::entities::{PrfsProofInstance, PrfsProofType};
-use prfs_entities::sqlx::{self, types::Json, Pool, Postgres, Row, Transaction};
-use rust_decimal::Decimal;
+use prfs_entities::entities::PrfsCircuitType;
+use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_circuit_types(pool: &Pool<Postgres>) -> Vec<PrfsCircuitType> {
     let query = r#"

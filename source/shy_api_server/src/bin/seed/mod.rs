@@ -1,9 +1,7 @@
 mod seed;
 
-use prfs_db_interface::{
-    database2::Database2,
-    shy::{self},
-};
+use prfs_db_driver::database2::Database2;
+use prfs_db_interface::shy::{self};
 use prfs_entities::sqlx;
 use prfs_tree_maker::envs::ENVS;
 use seed::load_shy_channels;

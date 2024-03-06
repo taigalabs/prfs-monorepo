@@ -1,7 +1,3 @@
-use crate::envs::ENVS;
-use crate::geth::{
-    GetBalanceRequest, GetBlockByNumberRequest, GetTransactionReceiptRequest, GethClient,
-};
 use crate::TreeMakerError;
 use prfs_db_interface::prfs;
 use prfs_entities::entities::EthAccount;
@@ -9,6 +5,11 @@ use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::Decimal;
 use std::collections::BTreeMap;
 use std::time::Duration;
+
+use crate::envs::ENVS;
+use crate::geth::{
+    GetBalanceRequest, GetBlockByNumberRequest, GetTransactionReceiptRequest, GethClient,
+};
 
 const MAX_CONSEQ_ERR_COUNT: usize = 10;
 

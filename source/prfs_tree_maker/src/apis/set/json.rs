@@ -1,7 +1,8 @@
-use crate::paths::PATHS;
 use colored::Colorize;
 use prfs_entities::entities::PrfsSetType;
 use serde::{Deserialize, Serialize};
+
+use crate::paths::PATHS;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SetJson {

@@ -1,6 +1,7 @@
-use crate::DbInterfaceError;
-use prfs_entities::entities::{PrfsAccAtst, PrfsIdentity};
+use prfs_entities::entities::PrfsAccAtst;
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+
+use crate::DbInterfaceError;
 
 pub async fn get_prfs_acc_atsts(
     pool: &Pool<Postgres>,

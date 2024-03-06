@@ -1,9 +1,3 @@
-use crate::envs::ENVS;
-use crate::geth::{GetBalanceRequest, GethClient};
-use crate::paths::PATHS;
-use crate::TreeMakerError;
-use clap::ArgMatches;
-use prfs_db_interface::database2::Database2;
 use prfs_db_interface::prfs;
 use prfs_entities::entities::EthAccount;
 use prfs_entities::sqlx::{Pool, Postgres, Transaction};
@@ -11,6 +5,10 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};
 use std::fs::{self};
+
+use crate::geth::{GetBalanceRequest, GethClient};
+use crate::paths::PATHS;
+use crate::TreeMakerError;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GenesisEntry {

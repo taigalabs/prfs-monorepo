@@ -1,5 +1,4 @@
-use prfs_entities::entities::{PrfsCircuit, PrfsCircuitDriver, PrfsCircuitType};
-use prfs_entities::entities::{PrfsProofInstance, PrfsProofType};
+use prfs_entities::entities::PrfsCircuit;
 use prfs_entities::prfs_api::PrfsCircuitSyn1;
 use prfs_entities::sqlx::{self, types::Json, Pool, Postgres, Row, Transaction};
 use uuid::Uuid;

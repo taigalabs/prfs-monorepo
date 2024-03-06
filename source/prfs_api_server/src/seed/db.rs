@@ -1,5 +1,6 @@
+use prfs_db_driver::database2::Database2;
+
 use crate::envs::ENVS;
-use prfs_db_interface::database2::Database2;
 
 pub enum Endpoint {
     Local,

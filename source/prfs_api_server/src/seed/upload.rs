@@ -1,17 +1,10 @@
-use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
-use prfs_db_interface::database2::Database2;
+use prfs_db_driver::database2::Database2;
 use prfs_db_interface::prfs;
-use prfs_entities::entities::{PrfsProofType, PrfsTreeNode};
-use prfs_entities::sqlx::{self, types::Json};
-use prfs_tree_maker::tree_maker_apis;
-use rust_decimal::Decimal;
-use std::path::PathBuf;
+use prfs_entities::sqlx::{self};
 
-use crate::paths::PATHS;
-use crate::seed::json::SetElementRecord;
 use crate::seed::local::{
     load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
-    load_dynamic_sets, load_policy_items, load_prfs_accounts, load_proof_types,
+    load_policy_items, load_prfs_accounts, load_proof_types,
 };
 use crate::seed::utils;
 

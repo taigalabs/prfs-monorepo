@@ -1,13 +1,8 @@
-use crate::{
-    envs::ENVS,
-    geth::{GetBalanceRequest, GethClient},
-};
-use clap::ArgMatches;
-use prfs_db_interface::database2::Database2;
 use prfs_db_interface::prfs;
-use prfs_entities::entities::EthAccount;
 use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::Decimal;
+
+use crate::geth::{GetBalanceRequest, GethClient};
 
 pub async fn revisit(pool: &Pool<Postgres>, tx: &mut Transaction<'_, Postgres>, geth: &GethClient) {
     let accs = prfs::get_eth_accounts(
