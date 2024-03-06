@@ -7,17 +7,19 @@ pub async fn insert_shy_post(
     tx: &mut Transaction<'_, Postgres>,
     shy_post: &ShyPost,
 ) -> Result<String, ShyDbInterfaceError> {
+    println!("123123");
+
     let query = r#"
 INSERT INTO shy_posts
-(post_id, topic_id, content, channel_id, shy_topic_proof_id, author_public_key, author_sig)
+(topic_id, content, post_id, channel_id, shy_topic_proof_id, author_public_key, author_sig)
 VALUES ($1, $2, $3, $4, $5, $6, $7)
-RETURNING shy_topic_proof_id
+RETURNING post_id
 "#;
 
     let row = sqlx::query(query)
-        .bind(&shy_post.post_id)
         .bind(&shy_post.topic_id)
         .bind(&shy_post.content)
+        .bind(&shy_post.post_id)
         .bind(&shy_post.channel_id)
         .bind(&shy_post.shy_topic_proof_id)
         .bind(&shy_post.author_public_key)
@@ -25,6 +27,9 @@ RETURNING shy_topic_proof_id
         .fetch_one(&mut **tx)
         .await?;
 
-    let post_id: String = row.try_get("post_id")?;
+    let post_id: String = row
+        .try_get("post_id")
+        .map_err(|err| format!("Failed to insert shy post, err: {}", err))?;
+
     Ok(post_id)
 }

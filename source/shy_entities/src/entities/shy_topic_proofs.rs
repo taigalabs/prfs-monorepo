@@ -1,4 +1,3 @@
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
@@ -10,5 +9,5 @@ pub struct ShyTopicProof {
     pub public_inputs: String,
     pub public_key: String,
     pub serial_no: String,
-    pub proof_identity_proof: String,
+    pub proof_identity_input: String,
 }

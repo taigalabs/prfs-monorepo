@@ -9,7 +9,7 @@ pub async fn insert_shy_topic_proof(
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_topic_proofs
-(shy_topic_proof_id, proof, public_inputs, public_key, serial_no, proof_identity_proof)
+(shy_topic_proof_id, proof, public_inputs, public_key, serial_no, proof_identity_input)
 VALUES ($1, $2, $3, $4, $5, $6)
 RETURNING shy_topic_proof_id
 "#;
@@ -20,7 +20,7 @@ RETURNING shy_topic_proof_id
         .bind(&shy_topic_proof.public_inputs)
         .bind(&shy_topic_proof.public_key)
         .bind(&shy_topic_proof.serial_no)
-        .bind(&shy_topic_proof.proof_identity_proof)
+        .bind(&shy_topic_proof.proof_identity_input)
         .fetch_one(&mut **tx)
         .await?;
 

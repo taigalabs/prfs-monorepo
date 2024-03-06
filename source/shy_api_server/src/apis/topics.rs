@@ -57,7 +57,7 @@ pub async fn create_shy_topic(
         public_inputs: input.public_inputs.to_string(),
         public_key: input.author_public_key.to_string(),
         serial_no: input.serial_no,
-        proof_identity_proof: input.proof_identity_input.to_string(),
+        proof_identity_input: input.proof_identity_input.to_string(),
     };
 
     let _proof_id = match shy::insert_shy_topic_proof(&mut tx, &shy_topic_proof).await {
@@ -73,7 +73,7 @@ pub async fn create_shy_topic(
         topic_id: input.topic_id.to_string(),
         // content: input.content.to_string(),
         channel_id: input.channel_id.to_string(),
-        shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
+        // shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
         // proof_identity_input: input.proof_identity_input.to_string(),
         num_replies: 0,
         author_public_key: input.author_public_key.to_string(),
