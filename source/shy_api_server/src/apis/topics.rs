@@ -1,4 +1,4 @@
-use prfs_axum_lib::axum::{body::Body, extract::State, http::StatusCode, Json};
+use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_entities::entities::PrfsProofRecord;
