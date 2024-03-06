@@ -125,9 +125,13 @@ pub async fn get_shy_topic(
     Json(input): Json<GetShyTopicRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyTopicResponse>>) {
     let pool = &state.db2.pool;
-    let shy_topic_syn1 = shy::get_shy_topic_syn1(pool, &input.topic_id)
-        .await
-        .unwrap();
+    let shy_topic_syn1 = match shy::get_shy_topic_syn1(pool, &input.topic_id).await {
+        Ok(t) => t,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let resp = ApiResponse::new_success(GetShyTopicResponse { shy_topic_syn1 });
     return (StatusCode::OK, Json(resp));
