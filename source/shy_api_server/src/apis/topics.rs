@@ -4,7 +4,7 @@ use prfs_common_server_state::ServerState;
 use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordResponse};
 use shy_db_interface::shy;
-use shy_entities::entities::{ShyTopic, ShyTopicProof};
+use shy_entities::entities::{ShyPost, ShyTopic, ShyTopicProof};
 use shy_entities::shy_api::{
     CreateShyTopicRequest, CreateShyTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
     GetShyTopicsRequest, GetShyTopicsResponse,
@@ -79,6 +79,24 @@ pub async fn create_shy_topic(
     };
 
     let topic_id = match shy::insert_shy_topic(&mut tx, &shy_topic).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
+    let shy_post = ShyPost {
+        post_id: input.topic_id.to_string(),
+        content: input.content.to_string(),
+        channel_id: input.channel_id.to_string(),
+        shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
+        topic_id: input.topic_id.to_string(),
+        author_public_key: input.author_public_key.to_string(),
+        author_sig: input.author_sig.to_string(),
+    };
+
+    let _post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());

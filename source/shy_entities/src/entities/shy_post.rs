@@ -5,6 +5,7 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct ShyPost {
     pub post_id: String,
+    pub topic_id: String,
     pub content: String,
     pub channel_id: String,
     pub shy_topic_proof_id: String,
