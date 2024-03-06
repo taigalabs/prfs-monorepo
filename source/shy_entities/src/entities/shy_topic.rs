@@ -17,12 +17,6 @@ pub struct ShyTopic {
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
 pub struct ShyTopicSyn1 {
-    pub title: String,
-    pub topic_id: String,
-    pub channel_id: String,
-    pub num_replies: i32,
-    pub author_public_key: String,
-    pub shy_topic_proof_id: String,
+    pub shy_topic: ShyTopic,
     pub proof_identity_input: String,
-    pub author_sig: String,
 }

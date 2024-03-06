@@ -30,14 +30,17 @@ LIMIT $3
         .iter()
         .map(|row| {
             let topic_ = ShyTopicSyn1 {
-                title: row.try_get("title")?,
-                topic_id: row.try_get("topic_id")?,
-                author_public_key: row.try_get("author_public_key")?,
-                channel_id: row.try_get("channel_id")?,
-                num_replies: row.try_get("num_replies")?,
-                shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
+                shy_topic: ShyTopic {
+                    title: row.try_get("title")?,
+                    topic_id: row.try_get("topic_id")?,
+                    content: row.try_get("content")?,
+                    author_public_key: row.try_get("author_public_key")?,
+                    channel_id: row.try_get("channel_id")?,
+                    num_replies: row.try_get("num_replies")?,
+                    shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
+                    author_sig: row.try_get("author_sig")?,
+                },
                 proof_identity_input: row.try_get("proof_identity_input")?,
-                author_sig: row.try_get("author_sig")?,
             };
 
             let topic = DateTimed {
@@ -62,22 +65,22 @@ SELECT t.*, f.*
 FROM shy_topics t 
 INNER JOIN shy_topic_proofs f ON f.shy_topic_proof_id = t.shy_topic_proof_id
 WHERE t.topic_id=$1
-ORDER BY t.updated_at DESC
-OFFSET $2
-LIMIT $3
 "#;
 
     let row = sqlx::query(&query).bind(topic_id).fetch_one(pool).await?;
 
     let topic_ = ShyTopicSyn1 {
-        title: row.try_get("title")?,
-        topic_id: row.try_get("topic_id")?,
-        author_public_key: row.try_get("author_public_key")?,
-        channel_id: row.try_get("channel_id")?,
-        num_replies: row.try_get("num_replies")?,
-        shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
+        shy_topic: ShyTopic {
+            title: row.try_get("title")?,
+            topic_id: row.try_get("topic_id")?,
+            content: row.try_get("content")?,
+            author_public_key: row.try_get("author_public_key")?,
+            channel_id: row.try_get("channel_id")?,
+            num_replies: row.try_get("num_replies")?,
+            shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
+            author_sig: row.try_get("author_sig")?,
+        },
         proof_identity_input: row.try_get("proof_identity_input")?,
-        author_sig: row.try_get("author_sig")?,
     };
 
     let topic = DateTimed {
