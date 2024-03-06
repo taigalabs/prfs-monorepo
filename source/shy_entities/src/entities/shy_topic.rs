@@ -9,7 +9,7 @@ pub struct ShyTopic {
     pub channel_id: String,
     pub num_replies: i32,
     pub content: String,
-    pub shy_post_proof_id: String,
+    pub shy_topic_proof_id: String,
     pub author_public_key: String,
     pub author_sig: String,
 }

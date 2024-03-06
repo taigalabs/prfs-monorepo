@@ -75,7 +75,7 @@ pub async fn create_shy_topic(
         channel_id: input.channel_id.to_string(),
         num_replies: 0,
         content: input.content.to_string(),
-        shy_post_proof_id: input.shy_topic_proof_id.to_string(),
+        shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
         author_public_key: input.author_public_key.to_string(),
         author_sig: input.author_sig.to_string(),
     };

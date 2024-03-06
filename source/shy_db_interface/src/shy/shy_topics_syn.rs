@@ -19,8 +19,6 @@ OFFSET $2
 LIMIT $3
 "#;
 
-    // INNER JOIN shy_posts p ON t.topic_id = p.post_id
-
     let rows = sqlx::query(&query)
         .bind(channel_id)
         .bind(offset)
