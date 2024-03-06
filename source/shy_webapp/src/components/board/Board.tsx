@@ -39,7 +39,7 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
   const allRows = data
     ? data.pages.flatMap(d => {
         if (d.payload) {
-          return d.payload.shy_topic_posts;
+          return d.payload.shy_topic_syn1s;
         } else {
           [];
         }

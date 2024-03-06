@@ -1,7 +1,7 @@
 import React from "react";
 import { Dayjs } from "dayjs";
 import cn from "classnames";
-import { ShyTopicPost } from "@taigalabs/shy-entities/bindings/ShyTopicPost";
+import { ShyTopicSyn1 } from "@taigalabs/shy-entities/bindings/ShyTopicSyn1";
 import { DateTimed } from "@taigalabs/shy-entities/bindings/DateTimed";
 import Link from "next/link";
 
@@ -38,7 +38,7 @@ const Row: React.FC<RowProps> = ({ topic, now, channelId }) => {
 export default Row;
 
 export interface RowProps {
-  topic: DateTimed<ShyTopicPost>;
+  topic: DateTimed<ShyTopicSyn1>;
   now: Dayjs;
   channelId: string;
 }

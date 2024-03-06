@@ -21,7 +21,7 @@ const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
       return shyApi2({ type: "get_shy_topic", topic_id: topicId });
     },
   });
-  const topic = postData?.payload?.shy_topic;
+  const topic = postData?.payload?.shy_topic_syn1;
 
   const publicKey = React.useMemo(() => {
     return topic?.inner.author_public_key.substring(0, 10) || "";
