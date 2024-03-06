@@ -1,16 +1,16 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::entities::{DateTimed, ShyPost};
+use crate::entities::{DateTimed, ShyTopic};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateShyPostRequest {
+pub struct CreateShyTopicRequest {
     pub title: String,
-    pub post_id: String,
+    pub topic_id: String,
     pub content: String,
     pub channel_id: String,
-    pub shy_post_proof_id: String,
+    pub shy_topic_proof_id: String,
     pub proof_identity_input: String,
     pub proof: Vec<u8>,
     pub public_inputs: String,
@@ -21,32 +21,32 @@ pub struct CreateShyPostRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateShyPostResponse {
-    pub post_id: String,
+pub struct CreateShyTopicResponse {
+    pub topic_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetShyPostsRequest {
+pub struct GetShyTopicsRequest {
     pub channel_id: String,
     pub offset: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetShyPostsResponse {
-    pub shy_posts: Vec<DateTimed<ShyPost>>,
+pub struct GetShyTopicsResponse {
+    pub shy_topics: Vec<DateTimed<ShyTopic>>,
     pub next_offset: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetShyPostRequest {
-    pub post_id: String,
+pub struct GetShyTopicRequest {
+    pub topic_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetShyPostResponse {
-    pub shy_post: DateTimed<ShyPost>,
+pub struct GetShyTopicResponse {
+    pub shy_topic: DateTimed<ShyTopic>,
 }

@@ -2,17 +2,12 @@ use prfs_axum_lib::axum::{body::Body, extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_entities::entities::PrfsProofRecord;
-use prfs_entities::prfs_api::{
-    CreatePrfsProofRecordRequest, GetPrfsProofRecordRequest, GetPrfsProofRecordResponse,
-};
+use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordResponse};
 use shy_db_interface::shy;
-use shy_entities::entities::ShyPost;
-use shy_entities::shy_api::{GetShyPostRequest, GetShyPostResponse};
-use shy_entities::{
-    entities::ShyPostProof,
-    shy_api::{
-        CreateShyPostRequest, CreateShyPostResponse, GetShyPostsRequest, GetShyPostsResponse,
-    },
+use shy_entities::entities::{ShyTopic, ShyTopicProof};
+use shy_entities::shy_api::{
+    CreateShyTopicRequest, CreateShyTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
+    GetShyTopicsRequest, GetShyTopicsResponse,
 };
 use std::sync::Arc;
 
@@ -21,10 +16,10 @@ use crate::error_codes::API_ERROR_CODE;
 
 const LIMIT: i32 = 15;
 
-pub async fn create_shy_post(
+pub async fn create_shy_topic(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<CreateShyPostRequest>,
-) -> (StatusCode, Json<ApiResponse<CreateShyPostResponse>>) {
+    Json(input): Json<CreateShyTopicRequest>,
+) -> (StatusCode, Json<ApiResponse<CreateShyTopicResponse>>) {
     let state = state.clone();
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
@@ -56,15 +51,15 @@ pub async fn create_shy_post(
         }
     };
 
-    let shy_post_proof = ShyPostProof {
-        shy_post_proof_id: input.shy_post_proof_id.to_string(),
+    let shy_topic_proof = ShyTopicProof {
+        shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
         proof: input.proof,
         public_inputs: input.public_inputs.to_string(),
         public_key: input.public_key.to_string(),
         serial_no: input.serial_no,
     };
 
-    let _proof_id = match shy::insert_shy_post_proof(&mut tx, &shy_post_proof).await {
+    let _proof_id = match shy::insert_shy_topic_proof(&mut tx, &shy_topic_proof).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
@@ -72,18 +67,18 @@ pub async fn create_shy_post(
         }
     };
 
-    let shy_post = ShyPost {
+    let shy_post = ShyTopic {
         title: input.title.to_string(),
-        post_id: input.post_id.to_string(),
+        topic_id: input.topic_id.to_string(),
         content: input.content.to_string(),
         channel_id: input.channel_id.to_string(),
-        shy_post_proof_id: input.shy_post_proof_id.to_string(),
+        shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
         proof_identity_input: input.proof_identity_input.to_string(),
         num_replies: 0,
         public_key: input.public_key.to_string(),
     };
 
-    let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
+    let topic_id = match shy::insert_shy_topic(&mut tx, &shy_post).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
@@ -93,39 +88,39 @@ pub async fn create_shy_post(
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreateShyPostResponse { post_id });
+    let resp = ApiResponse::new_success(CreateShyTopicResponse { topic_id });
     return (StatusCode::OK, Json(resp));
 }
 
-pub async fn get_shy_posts(
+pub async fn get_shy_topics(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<GetShyPostsRequest>,
-) -> (StatusCode, Json<ApiResponse<GetShyPostsResponse>>) {
+    Json(input): Json<GetShyTopicsRequest>,
+) -> (StatusCode, Json<ApiResponse<GetShyTopicsResponse>>) {
     let pool = &state.db2.pool;
-    let shy_posts = shy::get_shy_posts(pool, &input.channel_id, input.offset, LIMIT)
+    let shy_topics = shy::get_shy_topics(pool, &input.channel_id, input.offset, LIMIT)
         .await
         .unwrap();
 
-    let next_offset = if shy_posts.len() < LIMIT.try_into().unwrap() {
+    let next_offset = if shy_topics.len() < LIMIT.try_into().unwrap() {
         None
     } else {
         Some(input.offset + LIMIT)
     };
 
-    let resp = ApiResponse::new_success(GetShyPostsResponse {
-        shy_posts,
+    let resp = ApiResponse::new_success(GetShyTopicsResponse {
+        shy_topics,
         next_offset,
     });
     return (StatusCode::OK, Json(resp));
 }
 
-pub async fn get_shy_post(
+pub async fn get_shy_topic(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<GetShyPostRequest>,
-) -> (StatusCode, Json<ApiResponse<GetShyPostResponse>>) {
+    Json(input): Json<GetShyTopicRequest>,
+) -> (StatusCode, Json<ApiResponse<GetShyTopicResponse>>) {
     let pool = &state.db2.pool;
-    let shy_post = shy::get_shy_post(pool, &input.post_id).await.unwrap();
+    let shy_topic = shy::get_shy_topic(pool, &input.topic_id).await.unwrap();
 
-    let resp = ApiResponse::new_success(GetShyPostResponse { shy_post });
+    let resp = ApiResponse::new_success(GetShyTopicResponse { shy_topic });
     return (StatusCode::OK, Json(resp));
 }
