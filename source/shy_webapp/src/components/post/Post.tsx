@@ -58,7 +58,7 @@ const Post: React.FC<PostContentProps> = ({
           __html: content,
         }}
       />
-      <PostMenu />
+      <PostMenu content={content} originalPostAuthorPubkey={publicKey} />
     </PostInner>
   );
 };

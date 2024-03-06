@@ -19,6 +19,7 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId }) => {
     },
   });
   const topic = postData?.payload?.shy_topic_syn1;
+  // topic?.inner.shy_topic.topic_id
 
   return (
     <div className={styles.wrapper}>
