@@ -1,11 +1,11 @@
 import React from "react";
 import cn from "classnames";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
+import Link from "next/link";
 
 import styles from "./BoardMenu.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Button from "@/components/button/Button";
-import Link from "next/link";
 import { paths } from "@/paths";
 
 const BoardMenu: React.FC<BoardMenuProps> = ({ channelId }) => {

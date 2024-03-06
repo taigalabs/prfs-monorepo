@@ -3,6 +3,7 @@ import cn from "classnames";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi2 } from "@taigalabs/shy-api-js";
+import dayjs from "dayjs";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./Board.module.scss";
@@ -12,7 +13,6 @@ import {
   InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import { useI18N } from "@/i18n/hook";
-import dayjs from "dayjs";
 
 const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
   const i18n = useI18N();

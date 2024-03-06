@@ -1,6 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
+import Link from "next/link";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
@@ -8,7 +9,6 @@ import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import styles from "./BoardMeta.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Loading from "@/components/loading/Loading";
-import Link from "next/link";
 import { paths } from "@/paths";
 
 const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel }) => {
