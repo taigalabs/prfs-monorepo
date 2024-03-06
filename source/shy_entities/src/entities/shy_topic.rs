@@ -16,7 +16,7 @@ pub struct ShyTopic {
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
-pub struct ShyTopicPost {
+pub struct ShyTopicSyn1 {
     pub title: String,
     pub topic_id: String,
     pub channel_id: String,

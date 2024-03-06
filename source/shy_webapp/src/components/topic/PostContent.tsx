@@ -54,7 +54,7 @@ const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
                   <p className={styles.publicKey}>{publicKey}</p>
                 </div>
                 <div className={styles.item}>
-                  {/* <p className={styles.proofIdentityInput}>{topic.inner.proof_identity_input}</p> */}
+                  <p className={styles.proofIdentityInput}>{topic.inner.proof_identity_input}</p>
                 </div>
               </div>
               <div className={styles.right}>

@@ -99,7 +99,7 @@ pub async fn get_shy_topics(
     Json(input): Json<GetShyTopicsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyTopicsResponse>>) {
     let pool = &state.db2.pool;
-    let rows = match shy::get_shy_topic_posts(pool, &input.channel_id, input.offset, LIMIT).await {
+    let rows = match shy::get_shy_topic_syn1s(pool, &input.channel_id, input.offset, LIMIT).await {
         Ok(r) => r,
         Err(err) => {
             let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
@@ -114,7 +114,7 @@ pub async fn get_shy_topics(
     };
 
     let resp = ApiResponse::new_success(GetShyTopicsResponse {
-        shy_topic_posts: rows,
+        shy_topic_syn1s: rows,
         next_offset,
     });
     return (StatusCode::OK, Json(resp));
@@ -125,8 +125,10 @@ pub async fn get_shy_topic(
     Json(input): Json<GetShyTopicRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyTopicResponse>>) {
     let pool = &state.db2.pool;
-    let shy_topic = shy::get_shy_topic(pool, &input.topic_id).await.unwrap();
+    let shy_topic_syn1 = shy::get_shy_topic_syn1(pool, &input.topic_id)
+        .await
+        .unwrap();
 
-    let resp = ApiResponse::new_success(GetShyTopicResponse { shy_topic });
+    let resp = ApiResponse::new_success(GetShyTopicResponse { shy_topic_syn1 });
     return (StatusCode::OK, Json(resp));
 }

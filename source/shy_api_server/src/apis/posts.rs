@@ -23,9 +23,9 @@ pub async fn get_shy_posts_of_topic(
 ) -> (StatusCode, Json<ApiResponse<GetShyPostsOfTopicResponse>>) {
     let pool = &state.db2.pool;
 
-    let shy_topic = shy::get_shy_posts_of_topic(pool, &input.topic_id, input.offset, LIMIT)
-        .await
-        .unwrap();
+    // let shy_topic = shy::get_shy_posts_of_topic(pool, &input.topic_id, input.offset, LIMIT)
+    //     .await
+    //     .unwrap();
 
     panic!();
     // let resp = ApiResponse::new_success(GetShyPostsOfTopicResponse { shy_topic });
