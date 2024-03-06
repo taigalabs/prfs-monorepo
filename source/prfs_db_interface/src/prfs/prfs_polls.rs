@@ -1,6 +1,6 @@
+use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
 use prfs_entities::entities::PrfsPoll;
 use prfs_entities::prfs_api::CreatePrfsPollRequest;
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 use uuid::Uuid;
 
 use crate::DbInterfaceError;

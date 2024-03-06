@@ -2,6 +2,7 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::ApiHandleError;
 use prfs_common_server_state::ServerState;
+use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api::{
     ComputeCryptoAssetSizeTotalValuesRequest, ComputeCryptoAssetSizeTotalValuesResponse,
@@ -10,7 +11,6 @@ use prfs_entities::atst_api::{
     GetCryptoAssetSizeAtstsRequest, GetCryptoAssetSizeAtstsResponse,
 };
 use prfs_entities::entities::{PrfsAtstStatus, PrfsCryptoAssetSizeAtst};
-use prfs_entities::sqlx::types::Json as JsonType;
 use prfs_web_fetcher::destinations::coinbase::{self};
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;

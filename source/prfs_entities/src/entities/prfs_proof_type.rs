@@ -2,10 +2,9 @@ use chrono::{DateTime, Utc};
 use prfs_circuit_interface::circuit_types::{
     CircuitTypeData, CircuitTypeId, MerkleSigPosRangeV1Data,
 };
+use prfs_db_lib::sqlx;
 use prfs_driver_interface::CircuitDriverId;
 use serde::{Deserialize, Serialize};
-use sqlx::Type;
-use std::collections::HashMap;
 use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

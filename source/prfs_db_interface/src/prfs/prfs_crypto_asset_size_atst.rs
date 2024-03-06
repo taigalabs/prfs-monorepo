@@ -1,6 +1,7 @@
-use crate::DbInterfaceError;
+use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
 use prfs_entities::entities::PrfsCryptoAssetSizeAtst;
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+
+use crate::DbInterfaceError;
 
 pub async fn insert_prfs_crypto_asset_size_atst(
     tx: &mut Transaction<'_, Postgres>,

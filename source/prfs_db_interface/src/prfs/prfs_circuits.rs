@@ -1,6 +1,6 @@
+use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
 use prfs_entities::entities::PrfsCircuit;
 use prfs_entities::prfs_api::PrfsCircuitSyn1;
-use prfs_entities::sqlx::{self, types::Json, Pool, Postgres, Row, Transaction};
 use uuid::Uuid;
 
 pub async fn get_prfs_circuit_syn1_by_circuit_id(

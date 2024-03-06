@@ -1,6 +1,6 @@
+use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
 use prfs_entities::entities::PrfsProofInstance;
 use prfs_entities::prfs_api::PrfsProofInstanceSyn1;
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 use rust_decimal::Decimal;
 
 pub async fn get_prfs_proof_instance_syn1_by_instance_id(

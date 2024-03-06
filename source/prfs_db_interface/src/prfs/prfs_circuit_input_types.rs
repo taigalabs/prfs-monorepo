@@ -1,5 +1,5 @@
+use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
 use prfs_entities::entities::PrfsCircuitInputType;
-use prfs_entities::sqlx::{self, Postgres, Row, Transaction};
 
 pub async fn insert_prfs_circuit_input_type(
     tx: &mut Transaction<'_, Postgres>,

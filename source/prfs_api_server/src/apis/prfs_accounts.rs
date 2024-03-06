@@ -3,11 +3,11 @@ use prfs_axum_lib::axum::{http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::ApiHandleError;
 use prfs_common_server_state::ServerState;
+use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::{
     entities::PrfsAccount,
     id_api::{PrfsSignInRequest, PrfsSignInResponse, PrfsSignUpRequest, PrfsSignUpResponse},
-    sqlx::types::Json as JsonType,
 };
 use std::sync::Arc;
 

@@ -1,5 +1,5 @@
+use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
 use prfs_entities::entities::PrfsCircuitType;
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_circuit_types(pool: &Pool<Postgres>) -> Vec<PrfsCircuitType> {
     let query = r#"

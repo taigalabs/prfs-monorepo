@@ -1,10 +1,11 @@
-use crate::DbDriverError;
 use log::LevelFilter;
-use prfs_entities::sqlx::{
+use prfs_db_lib::sqlx::{
     postgres::{PgConnectOptions, PgPoolOptions},
     ConnectOptions, Pool, Postgres,
 };
 use std::time::Duration;
+
+use crate::DbDriverError;
 
 pub struct Database2 {
     pub pool: Pool<Postgres>,

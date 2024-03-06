@@ -1,6 +1,6 @@
 use prfs_db_driver::database2::Database2;
+use prfs_db_driver::sqlx;
 use prfs_db_interface::prfs;
-use prfs_entities::sqlx::{self};
 
 use crate::seed::local::{
     load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,

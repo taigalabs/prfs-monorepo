@@ -1,6 +1,6 @@
+use prfs_db_driver::sqlx::{Pool, Postgres, Transaction};
 use prfs_db_interface::prfs;
 use prfs_entities::entities::EthAccount;
-use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};

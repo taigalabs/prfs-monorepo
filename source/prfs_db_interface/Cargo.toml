@@ -23,6 +23,7 @@ rust_decimal = { version = "1.29", features = ["db-postgres"] }
 rust_decimal_macros = "1.29"
 uuid = { version = "1.4.1", features = ["v4", "serde"] }
 
+prfs_db_lib = { path = "../prfs_db_lib" }
 prfs_db_driver = { path = "../prfs_db_driver" }
 prfs_entities = { path = "../prfs_entities" }
 shy_entities = { path = "../shy_entities" }
