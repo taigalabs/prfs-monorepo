@@ -19,8 +19,14 @@
 }
 
 .participants {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  border: 1px solid var(--gray-70);
+  color: var(--gray-20);
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 13px;
+  cursor: pointer;
 
   svg {
     padding-right: 3px;

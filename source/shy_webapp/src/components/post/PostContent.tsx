@@ -40,11 +40,11 @@ const PostContent: React.FC<PostContentProps> = ({ postId }) => {
         <>
           <div className={styles.titleRow}>
             <p className={styles.title}>{post.inner.title}</p>
-            <div>
-              <div className={styles.participants}>
+            <div className={styles.postMeta}>
+              <button className={styles.participants} type="button">
                 <MdGroup />
                 <span>{i18n.participants}</span>
-              </div>
+              </button>
             </div>
           </div>
           <PostInner>
