@@ -21,7 +21,7 @@ import { paths, searchParamKeys } from "@/paths";
 import BoardMeta from "@/components/board/BoardMeta";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
-import PostContent from "./PostContent";
+import TopicContent from "./TopicContent";
 
 const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
@@ -56,7 +56,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
           {channel ? (
             <>
               <BoardMeta channel={channel} noDesc />
-              <PostContent topicId={topicId} />
+              <TopicContent topicId={topicId} />
             </>
           ) : (
             <div>

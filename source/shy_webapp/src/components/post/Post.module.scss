@@ -1,0 +1,39 @@
+@import "@/styles/layouts.module.scss";
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+
+  .left {
+    flex-grow: 1;
+
+    /* border: 1px solid blue; */
+  }
+
+  .right {
+  }
+
+  .item {
+    display: inline-block;
+    padding-right: 8px;
+  }
+}
+
+.date {
+  color: var(--gray-40);
+}
+
+.proofIdentityInput {
+  color: var(--gray-30);
+}
+
+.content {
+  padding-top: 16px;
+  font-size: 15px;
+}
+
+.publicKey {
+  color: var(--gray-20);
+  font-weight: 500;
+}
