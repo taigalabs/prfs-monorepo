@@ -26,7 +26,7 @@ import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 
-import styles from "./CreatePostForm.module.scss";
+import styles from "./CreateTopicForm.module.scss";
 import { paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
@@ -36,7 +36,7 @@ import { SHY_APP_ID } from "@/app_id";
 
 const PROOF = "Proof";
 
-const CreateTopicForm: React.FC<CreatePostFormProps> = ({ channel }) => {
+const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
   const i18n = useI18N();
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
@@ -235,6 +235,6 @@ const CreateTopicForm: React.FC<CreatePostFormProps> = ({ channel }) => {
 
 export default CreateTopicForm;
 
-export interface CreatePostFormProps {
+export interface CreateTopicFormProps {
   channel: ShyChannel;
 }
