@@ -1,7 +1,5 @@
-use crate::database2::Database2;
+use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsProofType;
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
-use rust_decimal::Decimal;
 
 pub async fn get_prfs_proof_type_by_proof_type_id(
     pool: &Pool<Postgres>,

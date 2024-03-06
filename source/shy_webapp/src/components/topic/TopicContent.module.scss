@@ -1,0 +1,38 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  position: relative;
+  min-height: 150px;
+  padding: 0px 12px 12px;
+
+  /* border-top: 1px solid var(--gray-70); */
+}
+
+.titleRow {
+  padding-bottom: 12px;
+}
+
+.title {
+  color: var(--black-27);
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.postMeta {
+  padding-top: 6px;
+}
+
+.participants {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--gray-70);
+  color: var(--gray-20);
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 13px;
+  cursor: pointer;
+
+  svg {
+    padding-right: 3px;
+  }
+}

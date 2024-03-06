@@ -1,6 +1,6 @@
 use prfs_circuits_circom::CircuitBuildListJson;
 use prfs_crypto::sha256;
-use prfs_entities::sqlx::types::chrono::Utc;
+use prfs_db_driver::sqlx::types::chrono::Utc;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 

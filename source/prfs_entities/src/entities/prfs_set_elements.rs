@@ -1,5 +1,6 @@
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
+use sqlx::prelude::Type;
 use strum_macros::{Display, EnumString};
 use ts_rs::TS;
 
@@ -24,7 +25,7 @@ pub struct PrfsSetElementData {
     pub val: String,
 }
 
-#[derive(TS, Clone, Debug, Serialize, Deserialize, sqlx::Type, EnumString, Display)]
+#[derive(TS, Clone, Debug, Serialize, Deserialize, Type, EnumString, Display)]
 #[ts(export)]
 #[sqlx(type_name = "VARCHAR")]
 pub enum PrfsSetElementStatus {
@@ -32,7 +33,7 @@ pub enum PrfsSetElementStatus {
     NotRegistered,
 }
 
-#[derive(TS, Clone, Debug, Serialize, Deserialize, sqlx::Type, EnumString, Display)]
+#[derive(TS, Clone, Debug, Serialize, Deserialize, Type, EnumString, Display)]
 #[ts(export)]
 #[sqlx(type_name = "VARCHAR")]
 pub enum PrfsSetElementDataType {

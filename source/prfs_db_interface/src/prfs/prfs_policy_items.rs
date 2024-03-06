@@ -1,6 +1,7 @@
+use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
+use prfs_entities::entities::PrfsPolicyItem;
+
 use crate::DbInterfaceError;
-use prfs_entities::entities::{PrfsAccount, PrfsPolicyItem};
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
 pub async fn get_policy_item_policy_id(
     pool: &Pool<Postgres>,

@@ -7,6 +7,7 @@ members = [
   "externals/circuit_reader",
 
   # prfs lib
+  "source/prfs_db_driver",
   "source/prfs_db_interface",
   "source/prfs_circuit_interface",
   "source/prfs_env",
@@ -30,6 +31,7 @@ members = [
   "internals/ci",
 
   # Shy
+  "source/shy_db_interface",
   "source/shy_api_server",
   "source/shy_entities",
 ]

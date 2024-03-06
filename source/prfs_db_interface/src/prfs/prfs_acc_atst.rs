@@ -1,6 +1,7 @@
+use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
+use prfs_entities::entities::PrfsAccAtst;
+
 use crate::DbInterfaceError;
-use prfs_entities::entities::{PrfsAccAtst, PrfsIdentity};
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_acc_atsts(
     pool: &Pool<Postgres>,

@@ -1,7 +1,7 @@
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::shy;
+use shy_db_interface::shy;
 use shy_entities::shy_api::{
     GetShyChannelRequest, GetShyChannelResponse, GetShyChannelsRequest, GetShyChannelsResponse,
 };

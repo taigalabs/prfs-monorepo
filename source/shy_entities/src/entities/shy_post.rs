@@ -4,12 +4,11 @@ use ts_rs::TS;
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
 pub struct ShyPost {
-    pub title: String,
     pub post_id: String,
+    pub topic_id: String,
     pub content: String,
     pub channel_id: String,
-    pub shy_post_proof_id: String,
-    pub proof_identity_input: String,
-    pub num_replies: i32,
-    pub public_key: String,
+    pub shy_topic_proof_id: String,
+    pub author_public_key: String,
+    pub author_sig: String,
 }

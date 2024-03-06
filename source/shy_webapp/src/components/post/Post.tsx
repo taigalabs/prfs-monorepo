@@ -1,83 +1,73 @@
-"use client";
-
 import React from "react";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { useRouter } from "next/navigation";
-import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
+import Link from "next/link";
+import dayjs from "dayjs";
+import { MdGroup } from "@react-icons/all-files/md/MdGroup";
 
 import styles from "./Post.module.scss";
-import { useSignedInShyUser } from "@/hooks/user";
-import { useIsFontReady } from "@/hooks/font";
-import {
-  InfiniteScrollMain,
-  InfiniteScrollRight,
-  InfiniteScrollWrapper,
-  InfiniteScrollInner,
-  InfiniteScrollLeft,
-} from "@/components/infinite_scroll/InfiniteScrollComponents";
-import GlobalHeader from "@/components/global_header/GlobalHeader";
-import { paths, searchParamKeys } from "@/paths";
-import BoardMeta from "@/components/board/BoardMeta";
-import Loading from "@/components/loading/Loading";
-import { useHandleScroll } from "@/hooks/scroll";
-import PostContent from "./PostContent";
+import { paths } from "@/paths";
+import { toShortDate } from "@/utils/time";
+import { PostInner } from "./PostComponent";
+import PostMenu from "./PostMenu";
+import { useI18N } from "@/i18n/hook";
 
-const Post: React.FC<PostProps> = ({ postId, channelId }) => {
-  const parentRef = React.useRef<HTMLDivElement | null>(null);
-  const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
-  const isFontReady = useIsFontReady();
-  const { isInitialized, shyCredential } = useSignedInShyUser();
-  const router = useRouter();
+const Post: React.FC<PostContentProps> = ({
+  author_public_key,
+  content,
+  proof_identity_input,
+  updated_at,
+}) => {
+  const i18n = useI18N();
+  // const { data: postData, isFetching: postDataIsFetching } = useQuery({
+  //   queryKey: ["get_shy_topic", topicId],
+  //   queryFn: async () => {
+  //     return shyApi2({ type: "get_shy_topic", topic_id: topicId });
+  //   },
+  // });
+  // const topic = postData?.payload?.shy_topic_syn1;
 
-  const { data: channelData, isFetching: channelDataIsFetching } = useQuery({
-    queryKey: ["get_shy_channel"],
-    queryFn: async () => {
-      return shyApi2({ type: "get_shy_channel", channel_id: channelId });
-    },
-  });
-  const channel = channelData?.payload?.shy_channel;
+  const publicKey = React.useMemo(() => {
+    return author_public_key.substring(0, 10) || "";
+  }, [author_public_key]);
 
-  React.useEffect(() => {
-    if (isInitialized && !shyCredential) {
-      const href = encodeURI(window.location.href);
-      router.push(`${paths.account__sign_in}?${searchParamKeys.continue}=${href}`);
-    }
-  }, [isInitialized, router, shyCredential]);
+  const date = React.useMemo(() => {
+    const now = dayjs();
+    return toShortDate(updated_at, now);
+  }, [updated_at]);
 
-  const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
-
-  return isFontReady && shyCredential ? (
-    <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
-      <GlobalHeader />
-      <InfiniteScrollInner>
-        <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
-        <InfiniteScrollMain>
-          {channel ? (
-            <>
-              <BoardMeta channel={channel} noDesc />
-              <PostContent postId={postId} />
-            </>
-          ) : (
-            <div>
-              <Spinner />
-            </div>
-          )}
-        </InfiniteScrollMain>
-        <InfiniteScrollRight>{null}</InfiniteScrollRight>
-      </InfiniteScrollInner>
-    </InfiniteScrollWrapper>
-  ) : (
-    <>
-      <Loading>Loading</Loading>
-      <span className={styles.fontLoadText} />
-    </>
+  return (
+    <PostInner>
+      <div className={styles.meta}>
+        <div className={styles.left}>
+          <div className={styles.item}>
+            <p className={styles.publicKey}>{publicKey}</p>
+          </div>
+          <div className={styles.item}>
+            <p className={styles.proofIdentityInput}>{proof_identity_input}</p>
+          </div>
+        </div>
+        <div className={styles.right}>
+          <p className={styles.date}>{date}</p>
+        </div>
+      </div>
+      <div
+        className={styles.content}
+        dangerouslySetInnerHTML={{
+          __html: content,
+        }}
+      />
+      <PostMenu />
+    </PostInner>
   );
 };
 
 export default Post;
 
-export interface PostProps {
-  postId: string;
-  channelId: string;
+export interface PostContentProps {
+  author_public_key: string;
+  proof_identity_input: string;
+  content: string;
+  updated_at: string;
 }

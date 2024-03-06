@@ -1,6 +1,5 @@
-use prfs_entities::entities::{PrfsProofInstance, PrfsProofRecord};
-use prfs_entities::sqlx::{self, types::Json, Pool, Postgres, Row, Transaction};
-use rust_decimal::Decimal;
+use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
+use prfs_entities::entities::PrfsProofRecord;
 
 use crate::DbInterfaceError;
 

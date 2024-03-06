@@ -1,6 +1,7 @@
-use crate::DbInterfaceError;
+use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsIdentity;
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+
+use crate::DbInterfaceError;
 
 pub async fn get_prfs_identity_by_id(
     pool: &Pool<Postgres>,

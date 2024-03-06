@@ -6,6 +6,11 @@ export const paths = {
   c: "/c",
 };
 
+export const pathParts = {
+  new_topic: "new_topic",
+  t: "t",
+};
+
 export const searchParamKeys = {
   continue: "continue",
 };

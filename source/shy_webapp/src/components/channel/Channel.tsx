@@ -17,7 +17,7 @@ import {
   InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
-import CreatePostForm from "@/components/create_post_form/CreatePostForm";
+import CreateTopicForm from "@/components/create_topic_form/CreateTopicForm";
 import { paths, searchParamKeys } from "@/paths";
 import Board from "@/components/board/Board";
 import BoardMeta from "@/components/board/BoardMeta";
@@ -25,7 +25,7 @@ import BoardMenu from "@/components/board/BoardMenu";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 
-const Channel: React.FC<ChannelProps> = ({ channelId, isNewPost }) => {
+const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
@@ -58,8 +58,8 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewPost }) => {
           {channel ? (
             <>
               <BoardMeta channel={channel} noSubChannel />
-              {isNewPost ? (
-                <CreatePostForm channel={channel} />
+              {isNewTopic ? (
+                <CreateTopicForm channel={channel} />
               ) : (
                 <>
                   <BoardMenu channelId={channel.channel_id} />
@@ -88,5 +88,5 @@ export default Channel;
 
 export interface ChannelProps {
   channelId: string;
-  isNewPost?: boolean;
+  isNewTopic?: boolean;
 }

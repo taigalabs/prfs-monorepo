@@ -7,5 +7,3 @@ pub mod seed;
 pub mod snap;
 
 // mod example;
-
-pub use sqlx;
