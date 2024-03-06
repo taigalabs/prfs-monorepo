@@ -7,5 +7,5 @@ pub mod seed;
 pub mod snap;
 
 // mod example;
-
-// pub use sqlx;
+//
+pub use prfs_db_lib::sqlx;

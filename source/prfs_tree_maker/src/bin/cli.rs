@@ -1,9 +1,7 @@
-mod cmds;
-
 use chrono::Utc;
 use clap::{command, Arg};
 use colored::Colorize;
-use prfs_tree_maker::{apis, envs::ENVS, logger, TreeMakerError};
+use prfs_tree_maker::{envs::ENVS, logger, TreeMakerError};
 
 #[tokio::main]
 async fn main() {
@@ -30,25 +28,25 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
         .version("v0.1")
         .propagate_version(true)
         .arg_required_else_help(true)
-        .subcommand(command!("scan_genesis").arg(Arg::new("extra_args")))
-        .subcommand(command!("scan").arg(Arg::new("extra_args")))
-        .subcommand(command!("set").arg(Arg::new("extra_args")))
-        .subcommand(command!("revisit").arg(Arg::new("extra_args")))
+        // .subcommand(command!("scan_genesis").arg(Arg::new("extra_args")))
+        // .subcommand(command!("scan").arg(Arg::new("extra_args")))
+        // .subcommand(command!("set").arg(Arg::new("extra_args")))
+        // .subcommand(command!("revisit").arg(Arg::new("extra_args")))
         .get_matches();
 
     match matches.subcommand() {
-        Some(("scan_genesis", sub_matches)) => {
-            cmds::scan_genesis::run(sub_matches).await;
-        }
-        Some(("scan", sub_matches)) => {
-            cmds::scan::run(sub_matches).await;
-        }
-        Some(("set", sub_matches)) => {
-            cmds::set::run(sub_matches).await;
-        }
-        Some(("revisit", sub_matches)) => {
-            cmds::revisit::run(sub_matches).await;
-        }
+        // Some(("scan_genesis", sub_matches)) => {
+        //     cmds::scan_genesis::run(sub_matches).await;
+        // }
+        // Some(("scan", sub_matches)) => {
+        //     cmds::scan::run(sub_matches).await;
+        // }
+        // Some(("set", sub_matches)) => {
+        //     cmds::set::run(sub_matches).await;
+        // }
+        // Some(("revisit", sub_matches)) => {
+        //     cmds::revisit::run(sub_matches).await;
+        // }
         _ => unreachable!("Subcommand not defined"),
     }
 

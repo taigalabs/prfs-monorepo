@@ -1,6 +1,5 @@
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
-use sqlx::prelude::Type;
 use ts_rs::TS;
 
 use crate::entities::PrfsIdSession;

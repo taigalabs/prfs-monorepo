@@ -18,6 +18,5 @@ uuid = { version = "1.4.1", features = ["v4", "serde"] }
 strum = "0.25"
 strum_macros = { version = "0.25" }
 
-prfs_db_lib = { path = "../prfs_db_lib" }
 prfs_circuit_interface = { path = "../prfs_circuit_interface/" }
 prfs_driver_interface = { path = "../prfs_driver_interface/" }

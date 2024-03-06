@@ -1,4 +1,4 @@
-use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsCircuitType;
 
 pub async fn get_prfs_circuit_types(pool: &Pool<Postgres>) -> Vec<PrfsCircuitType> {

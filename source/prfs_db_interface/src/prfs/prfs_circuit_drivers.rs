@@ -1,4 +1,4 @@
-use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsCircuitDriver;
 
 pub async fn get_prfs_circuit_driver_by_circuit_driver_id(

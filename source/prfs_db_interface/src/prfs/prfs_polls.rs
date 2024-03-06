@@ -1,4 +1,4 @@
-use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsPoll;
 use prfs_entities::prfs_api::CreatePrfsPollRequest;
 use uuid::Uuid;

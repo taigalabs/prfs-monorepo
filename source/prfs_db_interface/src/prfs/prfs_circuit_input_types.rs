@@ -1,4 +1,4 @@
-use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsCircuitInputType;
 
 pub async fn insert_prfs_circuit_input_type(

@@ -1,5 +1,5 @@
 use log::LevelFilter;
-use prfs_db_lib::sqlx::{
+use sqlx::{
     postgres::{PgConnectOptions, PgPoolOptions},
     ConnectOptions, Pool, Postgres,
 };

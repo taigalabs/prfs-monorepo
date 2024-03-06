@@ -1,4 +1,4 @@
-use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsProofType;
 
 pub async fn get_prfs_proof_type_by_proof_type_id(
