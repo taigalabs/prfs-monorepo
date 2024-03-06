@@ -18,8 +18,8 @@ const Row: React.FC<RowProps> = ({ topic, now, channelId }) => {
     <div className={styles.wrapper}>
       <div>
         <div className={cn(styles.title, styles.col)}>
-          <Link href={`${paths.c}/${channelId}/${pathParts.t}/${topic.inner.topic_id}`}>
-            {topic.inner.title}
+          <Link href={`${paths.c}/${channelId}/${pathParts.t}/${topic.inner.shy_topic.topic_id}`}>
+            {topic.inner.shy_topic.title}
           </Link>
         </div>
         <div></div>
@@ -29,7 +29,7 @@ const Row: React.FC<RowProps> = ({ topic, now, channelId }) => {
           {topic.inner.proof_identity_input}
         </div>
         <div className={cn(styles.col)}>{date}</div>
-        <div className={cn(styles.numReplies, styles.col)}>{topic.inner.num_replies}</div>
+        <div className={cn(styles.numReplies, styles.col)}>{topic.inner.shy_topic.num_replies}</div>
       </div>
     </div>
   );

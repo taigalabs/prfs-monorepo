@@ -24,8 +24,8 @@ const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
   const topic = postData?.payload?.shy_topic_syn1;
 
   const publicKey = React.useMemo(() => {
-    return topic?.inner.author_public_key.substring(0, 10) || "";
-  }, [topic?.inner.author_public_key]);
+    return topic?.inner.shy_topic.author_public_key.substring(0, 10) || "";
+  }, [topic?.inner.shy_topic.author_public_key]);
 
   const date = React.useMemo(() => {
     if (topic?.updated_at) {
@@ -39,7 +39,7 @@ const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
       {topic ? (
         <>
           <div className={styles.titleRow}>
-            <p className={styles.title}>{topic.inner.title}</p>
+            <p className={styles.title}>{topic.inner.shy_topic.title}</p>
             <div className={styles.postMeta}>
               <button className={styles.participants} type="button">
                 <MdGroup />
@@ -61,12 +61,12 @@ const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
                 <p className={styles.date}>{date}</p>
               </div>
             </div>
-            {/* <div */}
-            {/*   className={styles.content} */}
-            {/*   dangerouslySetInnerHTML={{ */}
-            {/*     __html: topic.inner.content, */}
-            {/*   }} */}
-            {/* /> */}
+            <div
+              className={styles.content}
+              dangerouslySetInnerHTML={{
+                __html: topic.inner.shy_topic.content,
+              }}
+            />
             <TopicMenu topicId={topicId} />
           </PostInner>
         </>
