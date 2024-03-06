@@ -262,6 +262,7 @@ export default {
   latest: "Latest",
   all_channels: "All channels",
   new_post: "New post",
+  new_topic: "New topic",
   proof_instances: "Proof instances",
   create_proof: "Create proof",
   create_proof_with_prfs: "Create proof with Prfs",

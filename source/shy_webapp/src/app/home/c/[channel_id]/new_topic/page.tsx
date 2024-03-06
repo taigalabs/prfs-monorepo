@@ -4,7 +4,7 @@ import styles from "./ChannelPage.module.scss";
 import DefaultLayout, { DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
 import Channel from "@/components/channel/Channel";
 
-const NewPostPage: React.FC<ChannelPageProps> = ({ params }) => {
+const NewTopicPage: React.FC<ChannelPageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <Suspense>
@@ -16,7 +16,7 @@ const NewPostPage: React.FC<ChannelPageProps> = ({ params }) => {
   );
 };
 
-export default NewPostPage;
+export default NewTopicPage;
 
 export interface ChannelPageProps {
   params: {

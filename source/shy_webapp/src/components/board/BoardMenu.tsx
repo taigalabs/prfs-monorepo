@@ -28,7 +28,7 @@ const BoardMenu: React.FC<BoardMenuProps> = ({ channelId }) => {
         </Button>
         <Link href={postURL} className={cn(styles.rightAlign)}>
           <Button variant="green_1" className={styles.button}>
-            {i18n.new_post}
+            {i18n.new_topic}
           </Button>
         </Link>
       </div>

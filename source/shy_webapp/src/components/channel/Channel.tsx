@@ -25,7 +25,7 @@ import BoardMenu from "@/components/board/BoardMenu";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 
-const Channel: React.FC<ChannelProps> = ({ channelId, isNewPost }) => {
+const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
@@ -58,7 +58,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewPost }) => {
           {channel ? (
             <>
               <BoardMeta channel={channel} noSubChannel />
-              {isNewPost ? (
+              {isNewTopic ? (
                 <CreateTopicForm channel={channel} />
               ) : (
                 <>
@@ -88,5 +88,5 @@ export default Channel;
 
 export interface ChannelProps {
   channelId: string;
-  isNewPost?: boolean;
+  isNewTopic?: boolean;
 }
