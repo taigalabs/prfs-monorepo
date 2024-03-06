@@ -23,7 +23,7 @@ import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import PostContent from "./PostContent";
 
-const Topic: React.FC<PostProps> = ({ topicId, channelId }) => {
+const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
@@ -77,7 +77,7 @@ const Topic: React.FC<PostProps> = ({ topicId, channelId }) => {
 
 export default Topic;
 
-export interface PostProps {
+export interface TopicProps {
   topicId: string;
   channelId: string;
 }
