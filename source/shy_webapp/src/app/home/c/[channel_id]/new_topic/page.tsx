@@ -9,7 +9,7 @@ const NewTopicPage: React.FC<ChannelPageProps> = ({ params }) => {
     <DefaultLayout>
       <Suspense>
         <DefaultMain>
-          <Channel channelId={params.channel_id} isNewPost />
+          <Channel channelId={params.channel_id} isNewTopic />
         </DefaultMain>
       </Suspense>
     </DefaultLayout>

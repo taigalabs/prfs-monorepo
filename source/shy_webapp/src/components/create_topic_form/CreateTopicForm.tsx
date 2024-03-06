@@ -41,9 +41,9 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
   const [error, setError] = React.useState<string | null>(null);
-  const topicId = React.useMemo(() => {
+  const { topicId, shortTopicId } = React.useMemo(() => {
     const hex = rand256Hex();
-    return hex.substring(0, 14);
+    return { topicId: hex.substring(0, 22), shortTopicId: hex.substring(0, 8) };
   }, []);
   const { mutateAsync: createShyTopic } = useMutation({
     mutationFn: (req: CreateShyTopicRequest) => {
@@ -216,7 +216,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
     <div className={styles.wrapper}>
       <div className={styles.title}>
         <span>{i18n.create_a_topic}</span>
-        <span> ({topicId})</span>
+        <span> ({shortTopicId})</span>
       </div>
       <div className={styles.titleInput}>
         <input
