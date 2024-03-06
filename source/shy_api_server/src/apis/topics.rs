@@ -74,28 +74,13 @@ pub async fn create_shy_topic(
         topic_id: input.topic_id.to_string(),
         channel_id: input.channel_id.to_string(),
         num_replies: 0,
-        author_public_key: input.author_public_key.to_string(),
-    };
-
-    let topic_id = match shy::insert_shy_topic(&mut tx, &shy_topic).await {
-        Ok(i) => i,
-        Err(err) => {
-            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
-
-    let shy_post = ShyPost {
-        post_id: input.topic_id.to_string(),
         content: input.content.to_string(),
-        channel_id: input.channel_id.to_string(),
-        shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
-        topic_id: input.topic_id.to_string(),
+        shy_post_proof_id: input.shy_topic_proof_id.to_string(),
         author_public_key: input.author_public_key.to_string(),
         author_sig: input.author_sig.to_string(),
     };
 
-    let _post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
+    let topic_id = match shy::insert_shy_topic(&mut tx, &shy_topic).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());

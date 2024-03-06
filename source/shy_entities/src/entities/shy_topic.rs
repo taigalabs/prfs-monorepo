@@ -8,7 +8,10 @@ pub struct ShyTopic {
     pub topic_id: String,
     pub channel_id: String,
     pub num_replies: i32,
+    pub content: String,
+    pub shy_post_proof_id: String,
     pub author_public_key: String,
+    pub author_sig: String,
 }
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]

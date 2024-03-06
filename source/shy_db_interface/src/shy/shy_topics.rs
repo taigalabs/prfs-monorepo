@@ -31,9 +31,12 @@ LIMIT $3
             let topic_ = ShyTopic {
                 title: row.try_get("title")?,
                 topic_id: row.try_get("topic_id")?,
-                author_public_key: row.try_get("author_public_key")?,
                 channel_id: row.try_get("channel_id")?,
                 num_replies: row.try_get("num_replies")?,
+                author_public_key: row.try_get("author_public_key")?,
+                content: row.try_get("content")?,
+                shy_post_proof_id: row.try_get("shy_post_proof_id")?,
+                author_sig: row.try_get("author_sig")?,
             };
 
             let topic = DateTimed {
@@ -67,6 +70,9 @@ WHERE topic_id=$1
         channel_id: row.try_get("channel_id")?,
         num_replies: row.try_get("num_replies")?,
         author_public_key: row.try_get("author_public_key")?,
+        content: row.try_get("content")?,
+        shy_post_proof_id: row.try_get("shy_post_proof_id")?,
+        author_sig: row.try_get("author_sig")?,
     };
     let topic = DateTimed {
         inner: topic,
@@ -83,8 +89,8 @@ pub async fn insert_shy_topic(
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_topics
-(topic_id, channel_id, title, author_public_key, num_replies)
-VALUES ($1, $2, $3, $4, $5)
+(topic_id, channel_id, title, author_public_key, num_replies, content, shy_post_proof_id, author_sig)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING topic_id
 "#;
 
@@ -94,6 +100,9 @@ RETURNING topic_id
         .bind(&shy_topic.title)
         .bind(&shy_topic.author_public_key)
         .bind(&shy_topic.num_replies)
+        .bind(&shy_topic.content)
+        .bind(&shy_topic.shy_post_proof_id)
+        .bind(&shy_topic.author_sig)
         .fetch_one(&mut **tx)
         .await?;
 
