@@ -6,12 +6,12 @@ import Link from "next/link";
 import styles from "./BoardMenu.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Button from "@/components/button/Button";
-import { paths } from "@/paths";
+import { pathParts, paths } from "@/paths";
 
 const BoardMenu: React.FC<BoardMenuProps> = ({ channelId }) => {
   const i18n = useI18N();
   const postURL = React.useMemo(() => {
-    return `${paths.c}/${channelId}/new_post`;
+    return `${paths.c}/${channelId}/${pathParts.new_topic}`;
   }, [channelId]);
 
   return (

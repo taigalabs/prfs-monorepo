@@ -27,7 +27,7 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 
 import styles from "./CreateTopicForm.module.scss";
-import { paths } from "@/paths";
+import { pathParts, paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
@@ -193,7 +193,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         }
 
         console.log("create shy topic resp", payload, error);
-        router.push(`${paths.c}/${channel.channel_id}/t/${topicId}`);
+        router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
       } catch (err) {
         console.error(err);
       }
