@@ -3,10 +3,8 @@
 export interface ShyTopic {
   title: string;
   topic_id: string;
-  content: string;
   channel_id: string;
   shy_topic_proof_id: string;
-  proof_identity_input: string;
   num_replies: number;
-  public_key: string;
+  author_public_key: string;
 }

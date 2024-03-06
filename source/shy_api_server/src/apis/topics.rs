@@ -31,7 +31,7 @@ pub async fn create_shy_topic(
     );
     let data = CreatePrfsProofRecordRequest {
         proof_record: PrfsProofRecord {
-            public_key: input.public_key.to_string(),
+            public_key: input.author_public_key.to_string(),
             proof_starts_with: input.proof[0..10].to_vec(),
         },
     };
@@ -55,7 +55,7 @@ pub async fn create_shy_topic(
         shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
         proof: input.proof,
         public_inputs: input.public_inputs.to_string(),
-        public_key: input.public_key.to_string(),
+        public_key: input.author_public_key.to_string(),
         serial_no: input.serial_no,
     };
 
@@ -67,18 +67,18 @@ pub async fn create_shy_topic(
         }
     };
 
-    let shy_post = ShyTopic {
+    let shy_topic = ShyTopic {
         title: input.title.to_string(),
         topic_id: input.topic_id.to_string(),
-        content: input.content.to_string(),
+        // content: input.content.to_string(),
         channel_id: input.channel_id.to_string(),
         shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
-        proof_identity_input: input.proof_identity_input.to_string(),
+        // proof_identity_input: input.proof_identity_input.to_string(),
         num_replies: 0,
-        public_key: input.public_key.to_string(),
+        author_public_key: input.author_public_key.to_string(),
     };
 
-    let topic_id = match shy::insert_shy_topic(&mut tx, &shy_post).await {
+    let topic_id = match shy::insert_shy_topic(&mut tx, &shy_topic).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());

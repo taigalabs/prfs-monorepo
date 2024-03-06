@@ -26,7 +26,7 @@ const Row: React.FC<RowProps> = ({ topic, now, channelId }) => {
       </div>
       <div className={styles.meta}>
         <div className={cn(styles.proofIdentity, styles.col)}>
-          {topic.inner.proof_identity_input}
+          {/* {topic.inner.proof_identity_input} */}
         </div>
         <div className={cn(styles.col)}>{date}</div>
         <div className={cn(styles.numReplies, styles.col)}>{topic.inner.num_replies}</div>

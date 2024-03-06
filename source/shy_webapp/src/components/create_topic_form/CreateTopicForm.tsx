@@ -183,7 +183,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           proof_identity_input: publicInputs.proofIdentityInput,
           proof: Array.from(proveReceipt.proof.proofBytes),
           public_inputs: proveReceipt.proof.publicInputSer,
-          public_key: publicInputs.proofPubKey,
+          author_public_key: publicInputs.proofPubKey,
           serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
           author_sig: proveReceipt.proof.proofActionResult,
         });

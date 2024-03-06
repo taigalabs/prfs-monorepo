@@ -31,11 +31,11 @@ LIMIT $3
             let topic_ = ShyTopic {
                 title: row.try_get("title")?,
                 topic_id: row.try_get("topic_id")?,
-                public_key: row.try_get("public_key")?,
+                author_public_key: row.try_get("author_public_key")?,
                 shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
-                content: row.try_get("content")?,
+                // content: row.try_get("content")?,
                 channel_id: row.try_get("channel_id")?,
-                proof_identity_input: row.try_get("proof_identity_input")?,
+                // proof_identity_input: row.try_get("proof_identity_input")?,
                 num_replies: row.try_get("num_replies")?,
             };
 
@@ -67,12 +67,12 @@ WHERE topic_id=$1
     let topic = ShyTopic {
         title: row.try_get("title")?,
         topic_id: row.try_get("topic_id")?,
-        content: row.try_get("content")?,
+        // content: row.try_get("content")?,
         channel_id: row.try_get("channel_id")?,
         shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
-        proof_identity_input: row.try_get("proof_identity_input")?,
+        // proof_identity_input: row.try_get("proof_identity_input")?,
         num_replies: row.try_get("num_replies")?,
-        public_key: row.try_get("public_key")?,
+        author_public_key: row.try_get("author_public_key")?,
     };
     let topic = DateTimed {
         inner: topic,
@@ -89,19 +89,19 @@ pub async fn insert_shy_topic(
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_topics
-(topic_id, content, channel_id, shy_topic_proof_id, title, proof_identity_input, public_key)
-VALUES ($1, $2, $3, $4, $5, $6, $7)
+(topic_id, channel_id, shy_topic_proof_id, title, author_public_key)
+VALUES ($1, $2, $3, $4, $5)
 RETURNING topic_id
 "#;
 
     let row = sqlx::query(query)
         .bind(&shy_topic.topic_id)
-        .bind(&shy_topic.content)
+        // .bind(&shy_topic.content)
         .bind(&shy_topic.channel_id)
         .bind(&shy_topic.shy_topic_proof_id)
         .bind(&shy_topic.title)
-        .bind(&shy_topic.proof_identity_input)
-        .bind(&shy_topic.public_key)
+        // .bind(&shy_topic.proof_identity_input)
+        .bind(&shy_topic.author_public_key)
         .fetch_one(&mut **tx)
         .await?;
 

@@ -24,8 +24,8 @@ const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
   const topic = postData?.payload?.shy_topic;
 
   const publicKey = React.useMemo(() => {
-    return topic?.inner.public_key.substring(0, 10) || "";
-  }, [topic?.inner.public_key]);
+    return topic?.inner.author_public_key.substring(0, 10) || "";
+  }, [topic?.inner.author_public_key]);
 
   const date = React.useMemo(() => {
     if (topic?.updated_at) {
@@ -54,19 +54,19 @@ const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
                   <p className={styles.publicKey}>{publicKey}</p>
                 </div>
                 <div className={styles.item}>
-                  <p className={styles.proofIdentityInput}>{topic.inner.proof_identity_input}</p>
+                  {/* <p className={styles.proofIdentityInput}>{topic.inner.proof_identity_input}</p> */}
                 </div>
               </div>
               <div className={styles.right}>
                 <p className={styles.date}>{date}</p>
               </div>
             </div>
-            <div
-              className={styles.content}
-              dangerouslySetInnerHTML={{
-                __html: topic.inner.content,
-              }}
-            />
+            {/* <div */}
+            {/*   className={styles.content} */}
+            {/*   dangerouslySetInnerHTML={{ */}
+            {/*     __html: topic.inner.content, */}
+            {/*   }} */}
+            {/* /> */}
             <TopicMenu topicId={topicId} />
           </PostInner>
         </>
