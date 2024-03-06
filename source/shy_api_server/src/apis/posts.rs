@@ -1,11 +1,11 @@
 use prfs_axum_lib::axum::{body::Body, extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::shy;
 use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{
     CreatePrfsProofRecordRequest, GetPrfsProofRecordRequest, GetPrfsProofRecordResponse,
 };
+use shy_db_interface::shy;
 use shy_entities::entities::ShyPost;
 use shy_entities::shy_api::{GetShyPostRequest, GetShyPostResponse};
 use shy_entities::{
