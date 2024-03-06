@@ -16,7 +16,7 @@ import { useI18N } from "@/i18n/hook";
 const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
   const i18n = useI18N();
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
-    queryKey: ["get_shy_post", topicId],
+    queryKey: ["get_shy_topic", topicId],
     queryFn: async () => {
       return shyApi2({ type: "get_shy_topic", topic_id: topicId });
     },

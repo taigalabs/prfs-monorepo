@@ -6,8 +6,9 @@ use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordRe
 use shy_db_interface::shy;
 use shy_entities::entities::{ShyPost, ShyTopic, ShyTopicProof};
 use shy_entities::shy_api::{
-    CreateShyTopicRequest, CreateShyTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
-    GetShyTopicsRequest, GetShyTopicsResponse,
+    CreateShyTopicRequest, CreateShyTopicResponse, GetShyPostsOfTopicRequest,
+    GetShyPostsOfTopicResponse, GetShyTopicRequest, GetShyTopicResponse, GetShyTopicsRequest,
+    GetShyTopicsResponse,
 };
 use std::sync::Arc;
 

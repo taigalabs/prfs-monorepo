@@ -2,6 +2,6 @@
 import type { DateTimed } from "./DateTimed";
 import type { ShyTopic } from "./ShyTopic";
 
-export interface GetShyTopicResponse {
+export interface GetShyPostsOfTopicResponse {
   shy_topic: DateTimed<ShyTopic>;
 }

@@ -11,6 +11,10 @@ pub fn make_shy_v0_router() -> Router<Arc<ServerState>> {
         .route("/create_shy_topic", post(topics::create_shy_topic))
         .route("/get_shy_topics", post(topics::get_shy_topics))
         .route("/get_shy_topic", post(topics::get_shy_topic))
+        .route(
+            "/get_shy_posts_of_topic",
+            post(topics::get_shy_posts_of_topic),
+        )
         .route("/get_shy_channels", post(channels::get_shy_channels))
         .route("/get_shy_channel", post(channels::get_shy_channel));
 
