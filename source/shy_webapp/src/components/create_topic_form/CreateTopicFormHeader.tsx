@@ -2,11 +2,11 @@ import React from "react";
 import Link from "next/link";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
-import styles from "./CreatePostFormHeader.module.scss";
+import styles from "./CreateTopicFormHeader.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
-const CreatePostFormHeader: React.FC<CreatePostFormHeaderProps> = ({ channelId }) => {
+const CreateTopicFormHeader: React.FC<CreatePostFormHeaderProps> = ({ channelId }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -20,7 +20,7 @@ const CreatePostFormHeader: React.FC<CreatePostFormHeaderProps> = ({ channelId }
   );
 };
 
-export default CreatePostFormHeader;
+export default CreateTopicFormHeader;
 
 export interface CreatePostFormHeaderProps {
   channelId: string;

@@ -10,15 +10,15 @@ import styles from "./PostContent.module.scss";
 import { paths } from "@/paths";
 import { toShortDate } from "@/utils/time";
 import { PostInner } from "./PostComponent";
-import PostMenu from "./PostMenu";
+import TopicMenu from "./TopicMenu";
 import { useI18N } from "@/i18n/hook";
 
-const PostContent: React.FC<PostContentProps> = ({ postId }) => {
+const PostContent: React.FC<PostContentProps> = ({ topicId }) => {
   const i18n = useI18N();
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
-    queryKey: ["get_shy_post", postId],
+    queryKey: ["get_shy_post", topicId],
     queryFn: async () => {
-      return shyApi2({ type: "get_shy_post", post_id: postId });
+      return shyApi2({ type: "get_shy_post", post_id: topicId });
     },
   });
   const post = postData?.payload?.shy_post;
@@ -67,7 +67,7 @@ const PostContent: React.FC<PostContentProps> = ({ postId }) => {
                 __html: post.inner.content,
               }}
             />
-            <PostMenu postId={postId} />
+            <TopicMenu topicId={topicId} />
           </PostInner>
         </>
       ) : (
@@ -80,5 +80,5 @@ const PostContent: React.FC<PostContentProps> = ({ postId }) => {
 export default PostContent;
 
 export interface PostContentProps {
-  postId: string;
+  topicId: string;
 }

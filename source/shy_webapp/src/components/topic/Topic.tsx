@@ -6,7 +6,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 
-import styles from "./Post.module.scss";
+import styles from "./Topic.module.scss";
 import { useSignedInShyUser } from "@/hooks/user";
 import { useIsFontReady } from "@/hooks/font";
 import {
@@ -23,7 +23,7 @@ import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import PostContent from "./PostContent";
 
-const Post: React.FC<PostProps> = ({ postId, channelId }) => {
+const Topic: React.FC<PostProps> = ({ topicId, channelId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
@@ -56,7 +56,7 @@ const Post: React.FC<PostProps> = ({ postId, channelId }) => {
           {channel ? (
             <>
               <BoardMeta channel={channel} noDesc />
-              <PostContent postId={postId} />
+              <PostContent topicId={topicId} />
             </>
           ) : (
             <div>
@@ -75,9 +75,9 @@ const Post: React.FC<PostProps> = ({ postId, channelId }) => {
   );
 };
 
-export default Post;
+export default Topic;
 
 export interface PostProps {
-  postId: string;
+  topicId: string;
   channelId: string;
 }

@@ -11,7 +11,7 @@ import { toShortDate } from "@/utils/time";
 import { PostInner } from "./PostComponent";
 import { useI18N } from "@/i18n/hook";
 
-const PostMenu: React.FC<PostContentProps> = ({ postId }) => {
+const TopicMenu: React.FC<PostContentProps> = ({ topicId }) => {
   const i18n = useI18N();
   return (
     <div className={styles.wrapper}>
@@ -22,8 +22,8 @@ const PostMenu: React.FC<PostContentProps> = ({ postId }) => {
   );
 };
 
-export default PostMenu;
+export default TopicMenu;
 
 export interface PostContentProps {
-  postId: string;
+  topicId: string;
 }

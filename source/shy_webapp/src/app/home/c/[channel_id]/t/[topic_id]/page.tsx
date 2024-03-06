@@ -3,25 +3,25 @@ import React, { Suspense } from "react";
 import styles from "./ChannelPage.module.scss";
 import DefaultLayout, { DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
 import Channel from "@/components/channel/Channel";
-import Post from "@/components/post/Post";
+import Topic from "@/components/topic/Topic";
 
-const PostPage: React.FC<ChannelPageProps> = ({ params }) => {
+const TopicPage: React.FC<ChannelPageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <Suspense>
         <DefaultMain>
-          <Post postId={params.post_id} channelId={params.channel_id} />
+          <Topic topicId={params.topic_id} channelId={params.channel_id} />
         </DefaultMain>
       </Suspense>
     </DefaultLayout>
   );
 };
 
-export default PostPage;
+export default TopicPage;
 
 export interface ChannelPageProps {
   params: {
-    post_id: string;
+    topic_id: string;
     channel_id: string;
   };
 }

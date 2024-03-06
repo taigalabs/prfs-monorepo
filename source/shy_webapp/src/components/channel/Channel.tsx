@@ -17,7 +17,7 @@ import {
   InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
-import CreatePostForm from "@/components/create_post_form/CreatePostForm";
+import CreateTopicForm from "@/components/create_topic_form/CreateTopicForm";
 import { paths, searchParamKeys } from "@/paths";
 import Board from "@/components/board/Board";
 import BoardMeta from "@/components/board/BoardMeta";
@@ -59,7 +59,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewPost }) => {
             <>
               <BoardMeta channel={channel} noSubChannel />
               {isNewPost ? (
-                <CreatePostForm channel={channel} />
+                <CreateTopicForm channel={channel} />
               ) : (
                 <>
                   <BoardMenu channelId={channel.channel_id} />

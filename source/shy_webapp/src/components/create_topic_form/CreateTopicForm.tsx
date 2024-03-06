@@ -36,7 +36,7 @@ import { SHY_APP_ID } from "@/app_id";
 
 const PROOF = "Proof";
 
-const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
+const CreateTopicForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   const i18n = useI18N();
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
@@ -233,7 +233,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channel }) => {
   );
 };
 
-export default CreatePostForm;
+export default CreateTopicForm;
 
 export interface CreatePostFormProps {
   channel: ShyChannel;
