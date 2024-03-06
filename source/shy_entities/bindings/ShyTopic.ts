@@ -4,7 +4,6 @@ export interface ShyTopic {
   title: string;
   topic_id: string;
   channel_id: string;
-  shy_topic_proof_id: string;
   num_replies: number;
   author_public_key: string;
 }

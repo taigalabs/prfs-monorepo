@@ -6,4 +6,5 @@ export interface ShyTopicProof {
   public_inputs: string;
   public_key: string;
   serial_no: string;
+  proof_identity_input: string;
 }

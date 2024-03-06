@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::entities::{DateTimed, ShyTopic};
+use crate::entities::{DateTimed, ShyTopic, ShyTopicPost};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -35,7 +35,7 @@ pub struct GetShyTopicsRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyTopicsResponse {
-    pub shy_topics: Vec<DateTimed<ShyTopic>>,
+    pub shy_topic_posts: Vec<DateTimed<ShyTopicPost>>,
     pub next_offset: Option<i32>,
 }
 

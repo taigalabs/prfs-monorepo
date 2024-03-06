@@ -71,10 +71,7 @@ pub async fn create_shy_topic(
     let shy_topic = ShyTopic {
         title: input.title.to_string(),
         topic_id: input.topic_id.to_string(),
-        // content: input.content.to_string(),
         channel_id: input.channel_id.to_string(),
-        // shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
-        // proof_identity_input: input.proof_identity_input.to_string(),
         num_replies: 0,
         author_public_key: input.author_public_key.to_string(),
     };
@@ -116,7 +113,7 @@ pub async fn get_shy_topics(
     Json(input): Json<GetShyTopicsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyTopicsResponse>>) {
     let pool = &state.db2.pool;
-    let shy_topics = shy::get_shy_topics(pool, &input.channel_id, input.offset, LIMIT)
+    let shy_topics = shy::get_shy_topic_posts(pool, &input.channel_id, input.offset, LIMIT)
         .await
         .unwrap();
 
@@ -127,7 +124,7 @@ pub async fn get_shy_topics(
     };
 
     let resp = ApiResponse::new_success(GetShyTopicsResponse {
-        shy_topics,
+        shy_topic_posts,
         next_offset,
     });
     return (StatusCode::OK, Json(resp));
