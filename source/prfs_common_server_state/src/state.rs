@@ -5,7 +5,6 @@ use futures::stream::SplitSink;
 use git2::Oid;
 use prfs_axum_lib::axum::extract::ws::{Message, WebSocket};
 use prfs_axum_lib::reqwest::Client;
-// use prfs_db_interface::database2::Database2;
 use prfs_db_driver::database2::Database2;
 use prfs_web_fetcher::destinations::infura::InfuraFetcher;
 use std::collections::HashMap;
