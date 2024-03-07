@@ -25,6 +25,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   credential,
   proofAction,
   usePrfsRegistry,
+  handleSkip,
 }) => {
   const circuitInputsElem = React.useMemo(() => {
     switch (proofType.circuit_type_id) {
@@ -40,6 +41,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             credential={credential}
             proofAction={proofAction}
             usePrfsRegistry={usePrfsRegistry}
+            handleSkip={handleSkip}
           />
         );
       }
@@ -89,4 +91,5 @@ export interface CircuitInputsProps {
   proofAction: string;
   credential: PrfsIdCredential;
   usePrfsRegistry?: boolean;
+  handleSkip: (proofId: string) => void;
 }

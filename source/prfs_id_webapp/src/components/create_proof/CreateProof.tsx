@@ -210,6 +210,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
                   credential={credential}
                   proofAction={query.proofAction}
                   usePrfsRegistry={query.usePrfsRegistry}
+                  handleSkip={() => {}}
                 />
               </div>
             </TutorialStepper>
