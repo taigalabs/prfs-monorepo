@@ -2,7 +2,6 @@ import React from "react";
 import cn from "classnames";
 import { useEditor, EditorProvider } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Focus from "@tiptap/extension-focus";
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
