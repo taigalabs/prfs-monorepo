@@ -20,8 +20,7 @@ LIMIT $2
         .bind(offset)
         .bind(limit)
         .fetch_all(pool)
-        .await
-        .unwrap();
+        .await?;
 
     let shy_channels: Vec<ShyChannel> = rows
         .iter()
@@ -47,11 +46,7 @@ FROM shy_channels
 WHERE channel_id=$1
 "#;
 
-    let row = sqlx::query(&query)
-        .bind(channel_id)
-        .fetch_one(pool)
-        .await
-        .expect("Row does not exist");
+    let row = sqlx::query(&query).bind(channel_id).fetch_one(pool).await?;
 
     let shy_channel = ShyChannel {
         channel_id: row.get("channel_id"),
@@ -67,7 +62,7 @@ WHERE channel_id=$1
 pub async fn insert_shy_channel(
     tx: &mut Transaction<'_, Postgres>,
     shy_channel: &ShyChannel,
-) -> String {
+) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_channels
 (channel_id, label, proof_type_ids, locale, "desc")
@@ -82,10 +77,8 @@ RETURNING channel_id
         .bind(&shy_channel.locale)
         .bind(&shy_channel.desc)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
     let channel_id: String = row.get("channel_id");
-
-    channel_id
+    Ok(channel_id)
 }
