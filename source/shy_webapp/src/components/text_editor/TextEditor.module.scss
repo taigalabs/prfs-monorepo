@@ -1,4 +1,7 @@
 .wrapper {
+  :global(.ProseMirror-focused) {
+    border-bottom: 1px solid var(--gray-50);
+  }
 }
 
 .editor {
@@ -8,10 +11,6 @@
   color: var(--shy-gray-20);
   outline: none;
   border-bottom: 1px solid var(--bright-gray-30);
-
-  &:active {
-    border-bottom: 1px solid var(--gray-50);
-  }
 }
 
 .menuBar {
