@@ -5,9 +5,21 @@ import styles from "./CreatePostEditorFooter.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Button from "@/components/button/Button";
 
-const CreatePostEditorFooter: React.FC<EditorFooterProps> = ({ handleClickCancel }) => {
+const CreatePostEditorFooter: React.FC<EditorFooterProps> = ({
+  handleClickCancel,
+  handleClickReply,
+}) => {
   const i18n = useI18N();
   const { editor } = useCurrentEditor();
+
+  const extendedHandleClickReply = React.useCallback(() => {
+    if (!editor) {
+      return null;
+    }
+
+    const html = editor.getHTML();
+    handleClickReply(html);
+  }, [handleClickReply, editor]);
 
   return (
     <ul className={styles.wrapper}>
@@ -17,7 +29,9 @@ const CreatePostEditorFooter: React.FC<EditorFooterProps> = ({ handleClickCancel
         </Button>
       </li>
       <li>
-        <Button variant="green_1">{i18n.reply}</Button>
+        <Button variant="green_1" handleClick={extendedHandleClickReply}>
+          {i18n.reply}
+        </Button>
       </li>
     </ul>
   );
@@ -27,4 +41,5 @@ export default CreatePostEditorFooter;
 
 export interface EditorFooterProps {
   handleClickCancel: () => void;
+  handleClickReply: (content: string) => void;
 }

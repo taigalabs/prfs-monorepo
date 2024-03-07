@@ -31,8 +31,8 @@ import { pathParts, paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
-import EditorFooter from "./EditorFooter";
 import { SHY_APP_ID } from "@/app_id";
+import CreateTopicFooter from "./CreateTopicFooter";
 
 const PROOF = "Proof";
 
@@ -204,7 +204,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
   );
 
   const footer = React.useMemo(() => {
-    return <EditorFooter handleClickTopic={handleCreateTopic} />;
+    return <CreateTopicFooter handleClickTopic={handleCreateTopic} />;
   }, [error, title]);
 
   return (

@@ -9,8 +9,9 @@ import { MdGroup } from "@react-icons/all-files/md/MdGroup";
 import styles from "./TopicContent.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Post from "@/components/post/Post";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
-const TopicContent: React.FC<PostContentProps> = ({ topicId }) => {
+const TopicContent: React.FC<PostContentProps> = ({ topicId, channel }) => {
   const i18n = useI18N();
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
     queryKey: ["get_shy_topic", topicId],
@@ -35,6 +36,8 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId }) => {
             </div>
           </div>
           <Post
+            topicId={topicId}
+            channel={channel}
             author_public_key={topic.inner.shy_topic.author_public_key}
             content={topic.inner.shy_topic.content}
             proof_identity_input={topic.inner.proof_identity_input}
@@ -52,4 +55,5 @@ export default TopicContent;
 
 export interface PostContentProps {
   topicId: string;
+  channel: ShyChannel;
 }

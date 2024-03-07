@@ -13,8 +13,11 @@ import { PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
 import { useI18N } from "@/i18n/hook";
 import CreatePost from "../create_post/CreatePost";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 const Post: React.FC<PostContentProps> = ({
+  topicId,
+  channel,
   author_public_key,
   content,
   proof_identity_input,
@@ -64,7 +67,9 @@ const Post: React.FC<PostContentProps> = ({
         originalPostAuthorPubkey={publicKey}
         handleClickReply={handleClickReply}
       />
-      {isReplyOpen && <CreatePost handleClickCancel={handleClickCancel} />}
+      {isReplyOpen && (
+        <CreatePost handleClickCancel={handleClickCancel} channel={channel} topicId={topicId} />
+      )}
     </PostInner>
   );
 };
@@ -76,4 +81,6 @@ export interface PostContentProps {
   proof_identity_input: string;
   content: string;
   updated_at: string;
+  channel: ShyChannel;
+  topicId: string;
 }

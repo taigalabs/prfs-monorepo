@@ -176,7 +176,12 @@ const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel, channel, top
   );
 
   const footer = React.useMemo(() => {
-    return <CreatePostEditorFooter handleClickCancel={handleClickCancel} />;
+    return (
+      <CreatePostEditorFooter
+        handleClickCancel={handleClickCancel}
+        handleClickReply={handleClickReply}
+      />
+    );
   }, []);
 
   return (

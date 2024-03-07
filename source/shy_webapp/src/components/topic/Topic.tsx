@@ -56,7 +56,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
           {channel ? (
             <>
               <BoardMeta channel={channel} noDesc />
-              <TopicContent topicId={topicId} />
+              <TopicContent topicId={topicId} channel={channel} />
             </>
           ) : (
             <div>
