@@ -3,6 +3,7 @@
 .wrapper {
   border: 1px solid var(--gray-50);
   border-radius: 5px;
+  padding: 5px;
 }
 
 .btn {
@@ -15,13 +16,6 @@
   > svg {
     margin-right: 5px;
   }
-}
-
-.footer {
-  display: flex;
-  justify-content: flex-end;
-  padding: 12px;
-  gap: 18px;
 }
 
 @media screen and (min-width: $big_display_min_width) {

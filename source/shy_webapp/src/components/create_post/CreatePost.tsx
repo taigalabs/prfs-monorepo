@@ -23,17 +23,13 @@ import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import EditorFooter from "./EditorFooter";
 import Button from "@/components/button/Button";
+import CreatePostEditorFooter from "./EditorFooter";
 
 const CreatePost: React.FC<CreatePostProps> = ({}) => {
   const i18n = useI18N();
 
   const footer = React.useMemo(() => {
-    return (
-      <ul className={styles.footer}>
-        <li>{i18n.cancel}</li>
-        <li>{i18n.submit}</li>
-      </ul>
-    );
+    return <CreatePostEditorFooter />;
   }, []);
 
   return (
