@@ -17,7 +17,7 @@ import {
   InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
-import CreateTopicForm from "@/components/create_topic_form/CreateTopicForm";
+import CreateTopicForm from "@/components/create_topic/CreateTopicForm";
 import { paths, searchParamKeys } from "@/paths";
 import Board from "@/components/board/Board";
 import BoardMeta from "@/components/board/BoardMeta";
