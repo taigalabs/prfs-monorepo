@@ -35,7 +35,7 @@ const extensions = [
   }),
 ];
 
-const TextEditor: React.FC<TextEditorProps> = ({ footer, editorClassName }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ footer, editorClassName, className }) => {
   const editor = useEditor({
     extensions,
   });
@@ -45,7 +45,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ footer, editorClassName }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cn(styles.wrapper, className)}>
       <EditorProvider
         editorProps={{
           attributes: {
@@ -67,5 +67,6 @@ export default TextEditor;
 
 export interface TextEditorProps {
   footer: React.JSX.Element;
+  className?: string;
   editorClassName?: string;
 }

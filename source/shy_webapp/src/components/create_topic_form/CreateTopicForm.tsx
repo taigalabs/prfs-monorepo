@@ -223,7 +223,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         />
       </div>
       <div className={styles.editorWrapper}>
-        <TextEditor footer={footer} />
+        <TextEditor footer={footer} className={styles.editor} />
       </div>
       {error && <div className={styles.error}>{error}</div>}
     </div>

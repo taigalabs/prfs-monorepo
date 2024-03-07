@@ -48,5 +48,11 @@
   color: red;
 }
 
+.editor {
+  :global(.ProseMirror-focused) {
+    border-bottom: 1px solid var(--gray-50);
+  }
+}
+
 @media screen and (min-width: $big_display_min_width) {
 }
