@@ -38,9 +38,11 @@ pub async fn get_shy_channel(
     let shy_channel = match shy::get_shy_channel(pool, &input.channel_id).await {
         Ok(c) => c,
         Err(err) => {
+            tracing::error!("Error getting shy channel, err: {:?}", err);
+
             let resp = ApiResponse::new_error(
                 &API_ERROR_CODE.UNKNOWN_ERROR,
-                format!("Error getting shy channel, err: {:?}", err),
+                format!("Error getting shy channel"),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
