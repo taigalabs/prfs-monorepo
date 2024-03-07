@@ -27,7 +27,7 @@ async fn main() -> Result<(), ApiServerError> {
                 // target, at `TRACE` level. `axum::rejection=trace` enables showing those events
                 format!(
                     "{},{},{},{},{}",
-                    "prfs_api_server=info",
+                    prfs_api_server::log::RUST_LOG_ENV,
                     shy_api_server::log::RUST_LOG_ENV,
                     prfs_id_session_server::log::RUST_LOG_ENV,
                     "tower_http=info",
