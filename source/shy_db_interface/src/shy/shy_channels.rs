@@ -39,21 +39,29 @@ LIMIT $2
 pub async fn get_shy_channel(
     pool: &Pool<Postgres>,
     channel_id: &String,
-) -> Result<ShyChannel, ShyDbInterfaceError> {
+) -> Result<Option<ShyChannel>, ShyDbInterfaceError> {
     let query = r#"
 SELECT *
 FROM shy_channels
 WHERE channel_id=$1
 "#;
 
-    let row = sqlx::query(&query).bind(channel_id).fetch_one(pool).await?;
+    let row = sqlx::query(&query)
+        .bind(channel_id)
+        .fetch_optional(pool)
+        .await?;
 
-    let shy_channel = ShyChannel {
-        channel_id: row.get("channel_id"),
-        label: row.get("label"),
-        locale: row.get("locale"),
-        desc: row.get("desc"),
-        proof_type_ids: row.get("proof_type_ids"),
+    let shy_channel = if let Some(r) = row {
+        let c = ShyChannel {
+            channel_id: r.get("channel_id"),
+            label: r.get("label"),
+            locale: r.get("locale"),
+            desc: r.get("desc"),
+            proof_type_ids: r.get("proof_type_ids"),
+        };
+        Some(c)
+    } else {
+        None
     };
 
     Ok(shy_channel)

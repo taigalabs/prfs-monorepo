@@ -2,5 +2,5 @@
 import type { ShyChannel } from "./ShyChannel";
 
 export interface GetShyChannelResponse {
-  shy_channel: ShyChannel;
+  shy_channel: ShyChannel | null;
 }

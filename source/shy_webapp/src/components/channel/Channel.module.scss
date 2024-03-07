@@ -8,5 +8,13 @@
   opacity: 0;
 }
 
+.noChannelFound {
+  padding: 18px;
+  min-height: 140px;
+  display: grid;
+  place-items: center;
+  color: var(--gray-20);
+}
+
 @media screen and (min-width: $big_display_min_width) {
 }

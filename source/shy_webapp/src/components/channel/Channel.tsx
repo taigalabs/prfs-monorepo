@@ -24,15 +24,21 @@ import BoardMeta from "@/components/board/BoardMeta";
 import BoardMenu from "@/components/board/BoardMenu";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
+import { useI18N } from "@/i18n/hook";
 
 const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
+  const i18n = useI18N();
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
   const { isInitialized, shyCredential } = useSignedInShyUser();
   const router = useRouter();
 
-  const { data: channelData, isFetching: channelDataIsFetching } = useQuery({
+  const {
+    data: channelData,
+    isFetching: channelDataIsFetching,
+    error,
+  } = useQuery({
     queryKey: ["get_shy_channel"],
     queryFn: async () => {
       return shyApi2({ type: "get_shy_channel", channel_id: channelId });
@@ -49,12 +55,17 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
 
   const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
 
+  if (error || channelData?.error) {
+    return <div>Error fetching data</div>;
+  }
+
   return isFontReady && shyCredential ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
       <GlobalHeader />
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
+          {channelDataIsFetching && <Spinner />}
           {channel ? (
             <>
               <BoardMeta channel={channel} noSubChannel />
@@ -68,9 +79,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
               )}
             </>
           ) : (
-            <div>
-              <Spinner />
-            </div>
+            <div className={styles.noChannelFound}>{i18n.no_channel_found}</div>
           )}
         </InfiniteScrollMain>
         <InfiniteScrollRight>{null}</InfiniteScrollRight>
