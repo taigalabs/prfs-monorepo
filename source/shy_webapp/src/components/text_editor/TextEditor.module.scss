@@ -7,8 +7,11 @@
   padding: 0.5em 0.65em;
   color: var(--shy-gray-20);
   outline: none;
+  border-bottom: 1px solid var(--bright-gray-30);
 
-  /* border: 1px solid red; */
+  &:active {
+    border-bottom: 1px solid var(--gray-50);
+  }
 }
 
 .menuBar {
@@ -41,18 +44,11 @@
 
 .footer {
   padding-top: 8px;
-  /* height: 52px; */
   margin-bottom: 0;
   display: flex;
   align-items: center;
 
   button {
-    /* border: 1px solid var(--gray-74); */
     padding: 0.5em 0.65em;
-    /* cursor: pointer; */
-
-    /* &:hover { */
-    /*   border: 1px solid var(--gray-60); */
-    /* } */
   }
 }

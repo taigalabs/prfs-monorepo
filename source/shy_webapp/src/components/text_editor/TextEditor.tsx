@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import { useEditor, EditorProvider } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Color } from "@tiptap/extension-color";
@@ -34,7 +35,7 @@ const extensions = [
   }),
 ];
 
-const TextEditor: React.FC<TextEditorProps> = ({ footer }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ footer, editorClassName }) => {
   const editor = useEditor({
     extensions,
   });
@@ -48,7 +49,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ footer }) => {
       <EditorProvider
         editorProps={{
           attributes: {
-            class: `${styles.editor}`,
+            class: cn(styles.editor, editorClassName),
           },
         }}
         // slotBefore={<EditorMenuBar />}
@@ -66,4 +67,5 @@ export default TextEditor;
 
 export interface TextEditorProps {
   footer: React.JSX.Element;
+  editorClassName?: string;
 }

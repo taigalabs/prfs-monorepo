@@ -20,10 +20,14 @@
 .titleInput {
   width: 100%;
   font-size: 15px;
-  border-bottom: 1px solid var(--gray-74);
+  border-bottom: 1px solid var(--bright-gray-30);
   color: var(--shy-gray-20);
   padding: 0.5em 0.65em;
   outline: none;
+
+  &:active {
+    border-bottom: 1px solid var(--gray-50);
+  }
 }
 
 .editorWrapper {
