@@ -11,7 +11,7 @@ const CreatePostEditorFooter: React.FC<EditorFooterProps> = ({}) => {
   return (
     <ul className={styles.wrapper}>
       <li>{i18n.cancel}</li>
-      <li>{i18n.submit}</li>
+      <li>{i18n.reply}</li>
     </ul>
   );
 };
