@@ -27,6 +27,7 @@ import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 import { useAppSelector } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
+import { FormValues } from "@/components/circuit_input_items/formTypes";
 
 enum Status {
   Standby,
@@ -59,6 +60,9 @@ const CreateProof: React.FC<CreateProofProps> = ({
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
+  const [processInput, setProcessInput] = React.useState<
+    ((formValues: FormValues<any>) => void) | null
+  >(null);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const tutorialStep = useAppSelector(state => state.tutorial.tutorialStep);
@@ -195,6 +199,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
                   proofAction={query.proofAction}
                   usePrfsRegistry={query.usePrfsRegistry}
                   handleSkip={handleSkip}
+                  setProcessInput={setProcessInput}
                 />
               </div>
             </TutorialStepper>

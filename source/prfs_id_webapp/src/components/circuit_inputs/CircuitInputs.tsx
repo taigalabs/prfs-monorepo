@@ -6,7 +6,11 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import MerkleSigPosRangeInput from "@/components/circuit_input_items/merkle_sig_pos_range_v1/MerkleSigPosRangeInput";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
+import {
+  FormErrors,
+  FormValues,
+  SetProcessInput,
+} from "@/components/circuit_input_items/formTypes";
 import AddrMembershipInput from "@/components/circuit_input_items/addr_membership_v1/AddrMembershipInput";
 import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
@@ -26,6 +30,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   proofAction,
   usePrfsRegistry,
   handleSkip,
+  setProcessInput,
 }) => {
   const circuitInputsElem = React.useMemo(() => {
     switch (proofType.circuit_type_id) {
@@ -42,6 +47,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             proofAction={proofAction}
             usePrfsRegistry={usePrfsRegistry}
             handleSkip={handleSkip}
+            setProcessInput={setProcessInput as SetProcessInput<MerkleSigPosRangeV1Inputs>}
           />
         );
       }
@@ -68,6 +74,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             setFormErrors={setFormErrors as any}
             presetVals={presetVals}
             credential={credential}
+            setProcessInput={setProcessInput as SetProcessInput<SimpleHashV1Inputs>}
           />
         );
       }
@@ -92,4 +99,5 @@ export interface CircuitInputsProps {
   credential: PrfsIdCredential;
   usePrfsRegistry?: boolean;
   handleSkip: (proofId: string) => void;
+  setProcessInput: SetProcessInput<any>;
 }

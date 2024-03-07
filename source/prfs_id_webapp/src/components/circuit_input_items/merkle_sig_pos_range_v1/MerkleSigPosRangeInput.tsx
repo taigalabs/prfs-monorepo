@@ -24,8 +24,8 @@ import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
-import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
+import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -40,11 +40,14 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
+import {
+  FormErrors,
+  FormValues,
+  SetProcessInput,
+} from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
-import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -75,6 +78,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   proofAction,
   usePrfsRegistry,
   handleSkip,
+  setProcessInput,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
@@ -148,6 +152,10 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       <span className={styles.inputLabel}>{i18n.loading}</span>
     );
   }, [prfsSet, prfsTree]);
+
+  React.useEffect(() => {
+    setProcessInput((formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {});
+  }, [setProcessInput]);
 
   React.useEffect(() => {
     async function fn() {
@@ -499,6 +507,7 @@ export interface MerkleSigPosRangeInputProps {
   proofAction: string;
   usePrfsRegistry?: boolean;
   handleSkip: (proofId: string) => void;
+  setProcessInput: SetProcessInput<FormValues<MerkleSigPosRangeV1Inputs>>;
 }
 
 export interface ComputedValueProps {

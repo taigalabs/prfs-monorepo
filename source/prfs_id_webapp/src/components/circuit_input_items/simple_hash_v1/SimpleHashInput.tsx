@@ -17,7 +17,11 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
-import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
+import {
+  FormErrors,
+  FormValues,
+  SetProcessInput,
+} from "@/components/circuit_input_items/formTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -63,7 +67,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       if (error?.hashData && error.hashData) {
-        setFormErrors(oldVals => {
+        setFormErrors((oldVals: any) => {
           const newVals = { ...oldVals };
           delete newVals.hashData;
           return newVals;
@@ -105,7 +109,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
     } else {
       const hashDataError = <span>Type some input to get hash result</span>;
 
-      setFormErrors(oldVals => ({
+      setFormErrors((oldVals: any) => ({
         ...oldVals,
         hashData: hashDataError,
       }));
@@ -149,6 +153,7 @@ export interface SimpleHashInputProps {
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<SimpleHashV1Inputs>>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;
+  setProcessInput: SetProcessInput<FormValues<SimpleHashV1Inputs>>;
 }
 
 export interface ComputedValueProps {
