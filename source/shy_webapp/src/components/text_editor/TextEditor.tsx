@@ -30,8 +30,7 @@ const extensions = [
   }),
   Placeholder.configure({
     emptyEditorClass: styles.isEditorEmpty,
-    placeholder:
-      "Type here. You can use Markdown to format. Copy pasting images will later be supported.",
+    placeholder: "Type here. You can use Markdown to format.",
   }),
 ];
 

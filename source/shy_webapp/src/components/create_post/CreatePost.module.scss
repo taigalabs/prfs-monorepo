@@ -1,9 +1,20 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  border: 1px solid var(--gray-50);
-  border-radius: 5px;
+  border: 1px solid var(--bright-gray-30);
+
+  &:focus-within {
+    border: 1px solid var(--shy-green-50);
+  }
+}
+
+.inner {
+  border: 1px solid transparent;
   padding: 5px;
+
+  &:focus-within {
+    border: 1px solid var(--shy-green-50);
+  }
 }
 
 .btn {
