@@ -26,7 +26,6 @@ export async function proveSimpleHash(args, handlers, wtnsGen, circuit) {
             proofBytes,
             publicInputSer: publicInput.serialize(),
             proofKey: "",
-            proofActionResult: "",
         },
     };
 }

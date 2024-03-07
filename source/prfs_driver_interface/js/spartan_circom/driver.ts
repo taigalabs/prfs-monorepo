@@ -29,7 +29,7 @@ export interface Proof {
   proofBytes: Uint8Array | number[];
   publicInputSer: string;
   proofKey: string;
-  proofActionResult: string;
+  // proofActionResult: string;
 }
 
 export interface ProveReceipt {

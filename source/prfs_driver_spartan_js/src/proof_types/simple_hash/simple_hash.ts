@@ -43,7 +43,6 @@ export async function proveSimpleHash(
       proofBytes,
       publicInputSer: publicInput.serialize(),
       proofKey: "",
-      proofActionResult: "",
     },
   };
 }

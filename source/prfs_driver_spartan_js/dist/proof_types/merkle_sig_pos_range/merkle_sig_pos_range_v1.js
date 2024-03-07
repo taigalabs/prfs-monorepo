@@ -1,4 +1,4 @@
-import { bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, prfsSign, toUtf8Bytes, } from "@taigalabs/prfs-crypto-js";
+import { bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, toUtf8Bytes, } from "@taigalabs/prfs-crypto-js";
 import { hexlify, keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
 import { snarkJsWitnessGen } from "../../utils/snarkjs";
@@ -6,10 +6,12 @@ import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     console.log("inputs: %o", inputs);
-    const { sigpos, leaf, merkleProof, assetSize, assetSizeLessThan, assetSizeGreaterEqThan, assetSizeLabel, nonceRaw, proofKey, proofAction, } = inputs;
-    if (!proofAction || proofAction.length < 1) {
-        throw new Error("Proof action should be non-empty string");
-    }
+    const { sigpos, leaf, merkleProof, assetSize, assetSizeLessThan, assetSizeGreaterEqThan, assetSizeLabel, nonceRaw, proofKey,
+    // proofAction,
+     } = inputs;
+    // if (!proofAction || proofAction.length < 1) {
+    //   throw new Error("Proof action should be non-empty string");
+    // }
     const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
     const nonceHash = await poseidon_2(nonceRaw_);
     const nonceInt = bytesToNumberLE(nonceHash);
@@ -25,9 +27,9 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
     const serialNo = bytesToNumberLE(serialNoHash);
     // console.log("serialNo", serialNo);
-    const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
-    const proofActionResult = await prfsSign(proofKey, proofAction_);
-    const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
+    // const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
+    // const proofActionResult = await prfsSign(proofKey, proofAction_);
+    // const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
     eventListener({
         type: "CREATE_PROOF_EVENT",
         payload: { type: "info", payload: "Computed ECDSA pub input" },
@@ -74,7 +76,7 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
             proofBytes,
             publicInputSer: publicInput.stringify(),
             proofKey,
-            proofActionResult: proofActionResultHex,
+            // proofActionResult: proofActionResultHex,
         },
     };
 }
