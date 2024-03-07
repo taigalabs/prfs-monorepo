@@ -222,8 +222,12 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           onChange={handleChangeTitle}
         />
       </div>
-      <div className={styles.editorWrapper}>
-        <TextEditor footer={footer} className={styles.editor} />
+      <div className={styles.editorRow}>
+        <TextEditor
+          footer={footer}
+          className={styles.editorWrapper}
+          editorClassName={styles.editor}
+        />
       </div>
       {error && <div className={styles.error}>{error}</div>}
     </div>

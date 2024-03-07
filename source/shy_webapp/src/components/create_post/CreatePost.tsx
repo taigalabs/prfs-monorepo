@@ -38,7 +38,7 @@ const CreatePost: React.FC<CreatePostProps> = ({}) => {
   }, []);
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <TextEditor footer={footer} />
     </div>
   );

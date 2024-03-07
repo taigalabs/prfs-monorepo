@@ -1,5 +1,10 @@
 @import "@/styles/layouts.module.scss";
 
+.wrapper {
+  border: 1px solid var(--gray-50);
+  border-radius: 5px;
+}
+
 .btn {
   display: flex;
   align-items: center;
