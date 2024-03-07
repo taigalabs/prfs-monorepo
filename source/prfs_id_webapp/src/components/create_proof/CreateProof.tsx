@@ -53,6 +53,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
   setReceipt,
   tutorial,
   setErrorDialogMsg,
+  handleSkip,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
@@ -80,6 +81,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
   //     }
   //   },
   // });
+  //
 
   React.useEffect(() => {
     if (error) {
@@ -210,7 +212,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
                   credential={credential}
                   proofAction={query.proofAction}
                   usePrfsRegistry={query.usePrfsRegistry}
-                  handleSkip={() => {}}
+                  handleSkip={handleSkip}
                 />
               </div>
             </TutorialStepper>
@@ -237,6 +239,7 @@ export interface CreateProofProps {
   setErrorDialogMsg: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
   tutorial: TutorialArgs | undefined;
+  handleSkip: (proofId: string) => void;
 }
 
 export interface LoadDriverProgressProps {

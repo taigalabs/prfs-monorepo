@@ -173,12 +173,13 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         if (payload) {
           if (payload.proof_record) {
+            handleSkip("123");
           }
         }
       }
     }
     fn().then();
-  }, [presetVals, proofAction, getPrfsProofRecord, usePrfsRegistry]);
+  }, [presetVals, proofAction, getPrfsProofRecord, usePrfsRegistry, handleSkip]);
 
   React.useEffect(() => {
     async function fn() {

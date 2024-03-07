@@ -61,6 +61,10 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     <div className={styles.sidePadding}>Loading...</div>,
   );
 
+  const handleSkip = React.useCallback(() => {
+    console.log(123123);
+  }, []);
+
   React.useEffect(() => {
     async function fn() {
       try {
@@ -78,6 +82,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                     query={query}
                     setReceipt={setReceipt}
                     tutorial={proofGenArgs.tutorial}
+                    handleSkip={handleSkip}
                   />
                 );
                 elems.push(elem);
@@ -148,7 +153,15 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
     }
     fn().then();
-  }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus, setErrorDialogMsg]);
+  }, [
+    searchParams,
+    setReceipt,
+    setQueryElems,
+    proofGenArgs,
+    setStatus,
+    setErrorDialogMsg,
+    handleSkip,
+  ]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && status === Status.Standby) {
