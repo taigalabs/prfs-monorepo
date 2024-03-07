@@ -27,7 +27,7 @@ const Post: React.FC<PostContentProps> = ({
   }, [setIsReplyOpen]);
 
   const publicKey = React.useMemo(() => {
-    return author_public_key.substring(0, 10) || "";
+    return author_public_key.substring(0, 8) || "";
   }, [author_public_key]);
 
   const date = React.useMemo(() => {

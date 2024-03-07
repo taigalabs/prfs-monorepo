@@ -204,12 +204,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
   );
 
   const footer = React.useMemo(() => {
-    return (
-      <>
-        {error && <div className={styles.error}>{error}</div>}
-        <EditorFooter handleClickTopic={handleCreateTopic} />
-      </>
-    );
+    return <EditorFooter handleClickTopic={handleCreateTopic} />;
   }, [error, title]);
 
   return (
@@ -229,6 +224,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
       <div className={styles.editorWrapper}>
         <TextEditor footer={footer} />
       </div>
+      {error && <div className={styles.error}>{error}</div>}
     </div>
   );
 };
