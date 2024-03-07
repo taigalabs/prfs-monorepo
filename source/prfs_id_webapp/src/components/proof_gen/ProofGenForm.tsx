@@ -11,7 +11,7 @@ import {
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { JSONbigNative, encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { idApi } from "@taigalabs/prfs-api-js";
+import { idApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 
@@ -60,9 +60,15 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
     <div className={styles.sidePadding}>Loading...</div>,
   );
+  // const { mutateAsync: getPrfsProofRecord } = useMutation({
+  //   mutationFn: req => {
+  //     return prfsApi3({ type: "get_prfs_proof_record", req });
+  //   },
+  // });
 
-  const handleSkip = React.useCallback(() => {
-    console.log(123123);
+  const handleSkip = React.useCallback(async (proofId: string) => {
+    console.log(123123, proofId);
+    // await getPrfsProofRecord();
   }, []);
 
   React.useEffect(() => {

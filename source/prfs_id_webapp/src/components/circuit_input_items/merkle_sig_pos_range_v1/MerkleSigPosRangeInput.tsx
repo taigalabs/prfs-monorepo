@@ -46,15 +46,6 @@ import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
 
-function usePrfsProofRecord(pk: string) {
-  return useQuery({
-    queryKey: ["get_prfs_proof_record", pk],
-    queryFn: async () => {
-      return prfsApi3({ type: "get_prfs_proof_record", public_key: pk });
-    },
-  });
-}
-
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
     if (value.merkleProof) {
@@ -173,7 +164,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         if (payload) {
           if (payload.proof_record) {
-            handleSkip("123");
+            handleSkip(payload.proof_record.public_key);
           }
         }
       }

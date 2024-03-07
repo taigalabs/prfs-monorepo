@@ -70,18 +70,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
   const { loadDriverProgress, loadDriverStatus, driver, driverArtifacts } = useLoadDriver(
     data?.payload?.prfs_proof_type,
   );
-  // const { data: getPrfsProofRecord } = useQuery({
-  //   queryKey: ["get_prfs_proof_type_by_proof_type_id", proofTypeId],
-  //   queryFn: () => {
-  //     if (proofTypeId) {
-  //       return prfsApi3({
-  //         type: "get_prfs_proof_type_by_proof_type_id",
-  //         proof_type_id: proofTypeId,
-  //       });
-  //     }
-  //   },
-  // });
-  //
 
   React.useEffect(() => {
     if (error) {
@@ -136,14 +124,8 @@ const CreateProof: React.FC<CreateProofProps> = ({
             eventListener: handleProofGenEvent,
           });
 
-          if (query.usePrfsRegistry) {
-            // createPrfsProofRecord({
-            //   proof_record: {
-            //     serial_no: proveReceipt.proof.publicInputSer,
-            //     proof_starts_with: proveReceipt.proof.proofBytes[4],
-            //   },
-            // });
-          }
+          // if (query.usePrfsRegistry) {
+          // }
 
           setCreateProofStatus(Status.Standby);
           proveReceipt.proof.proofBytes = Array.from(proveReceipt.proof.proofBytes);
