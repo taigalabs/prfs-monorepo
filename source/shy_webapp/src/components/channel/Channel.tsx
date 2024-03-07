@@ -65,7 +65,11 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
-          {channelDataIsFetching && <Spinner />}
+          {channelDataIsFetching && (
+            <div>
+              <Spinner />
+            </div>
+          )}
           {channel ? (
             <>
               <BoardMeta channel={channel} noSubChannel />
