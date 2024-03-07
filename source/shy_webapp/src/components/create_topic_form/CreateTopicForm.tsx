@@ -213,8 +213,9 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         <span>{i18n.create_a_topic}</span>
         <span> ({shortTopicId})</span>
       </div>
-      <div className={styles.titleInput}>
+      <div className={styles.titleInputWrapper}>
         <input
+          className={styles.titleInput}
           type="text"
           placeholder={i18n.what_is_this_discussion_about_in_one_sentence}
           value={title}

@@ -13,16 +13,17 @@
   padding: 0px $side_padding 6px;
 }
 
-.titleInput {
+.titleInputWrapper {
   padding: 0 12px 8px;
+}
 
-  input {
-    width: 100%;
-    font-size: 15px;
-    border-bottom: 1px solid var(--gray-74);
-    color: var(--shy-gray-20);
-    padding: 0.5em 0.65em;
-  }
+.titleInput {
+  width: 100%;
+  font-size: 15px;
+  border-bottom: 1px solid var(--gray-74);
+  color: var(--shy-gray-20);
+  padding: 0.5em 0.65em;
+  outline: none;
 }
 
 .editorWrapper {
