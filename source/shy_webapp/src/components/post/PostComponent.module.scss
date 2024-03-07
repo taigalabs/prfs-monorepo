@@ -7,6 +7,6 @@
 
 @media screen and (min-width: $big_display_min_width) {
   .postInner {
-    max-width: 712px;
+    max-width: $form_width;
   }
 }

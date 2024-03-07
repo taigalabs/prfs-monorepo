@@ -58,6 +58,6 @@
 
 @media screen and (min-width: $big_display_min_width) {
   .wrapper {
-    width: 720px;
+    width: $form_width;
   }
 }
