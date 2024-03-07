@@ -2,6 +2,7 @@
 
 .wrapper {
   border: 1px solid var(--bright-gray-30);
+  margin-top: 8px;
 
   &:focus-within {
     border: 1px solid var(--shy-green-50);

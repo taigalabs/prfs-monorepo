@@ -31,9 +31,8 @@ import { pathParts, paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
-// import EditorFooter from "./EditorFooter";
 import { SHY_APP_ID } from "@/app_id";
-import EditorFooter from "./EditorFooter";
+import CreatePostEditorFooter from "./CreatePostEditorFooter";
 
 const PROOF = "Proof";
 
@@ -208,7 +207,7 @@ const CreatePostForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
     return (
       <>
         {error && <div className={styles.error}>{error}</div>}
-        <EditorFooter handleClickTopic={handleCreateTopic} />
+        {/* <CreatePostEditorFooter handleClickTopic={handleCreateTopic} /> */}
       </>
     );
   }, [error, title]);
