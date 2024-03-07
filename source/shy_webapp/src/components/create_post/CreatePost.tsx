@@ -29,11 +29,10 @@ const CreatePost: React.FC<CreatePostProps> = ({}) => {
 
   const footer = React.useMemo(() => {
     return (
-      <>
-        menu
-        {/* {error && <div className={styles.error}>{error}</div>} */}
-        {/* <EditorFooter handleClickTopic={handleCreateTopic} /> */}
-      </>
+      <ul className={styles.footer}>
+        <li>{i18n.cancel}</li>
+        <li>{i18n.submit}</li>
+      </ul>
     );
   }, []);
 
