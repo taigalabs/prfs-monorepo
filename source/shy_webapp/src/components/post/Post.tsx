@@ -12,6 +12,7 @@ import { toShortDate } from "@/utils/time";
 import { PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
 import { useI18N } from "@/i18n/hook";
+import CreatePost from "../create_post/CreatePost";
 
 const Post: React.FC<PostContentProps> = ({
   author_public_key,
@@ -20,13 +21,10 @@ const Post: React.FC<PostContentProps> = ({
   updated_at,
 }) => {
   const i18n = useI18N();
-  // const { data: postData, isFetching: postDataIsFetching } = useQuery({
-  //   queryKey: ["get_shy_topic", topicId],
-  //   queryFn: async () => {
-  //     return shyApi2({ type: "get_shy_topic", topic_id: topicId });
-  //   },
-  // });
-  // const topic = postData?.payload?.shy_topic_syn1;
+  const [isReplyOpen, setIsReplyOpen] = React.useState(false);
+  const handleClickReply = React.useCallback(() => {
+    setIsReplyOpen(true);
+  }, [setIsReplyOpen]);
 
   const publicKey = React.useMemo(() => {
     return author_public_key.substring(0, 10) || "";
@@ -58,7 +56,12 @@ const Post: React.FC<PostContentProps> = ({
           __html: content,
         }}
       />
-      <PostMenu content={content} originalPostAuthorPubkey={publicKey} />
+      <PostMenu
+        content={content}
+        originalPostAuthorPubkey={publicKey}
+        handleClickReply={handleClickReply}
+      />
+      {isReplyOpen && <CreatePost />}
     </PostInner>
   );
 };

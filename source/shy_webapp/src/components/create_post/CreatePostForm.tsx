@@ -37,7 +37,7 @@ import EditorFooter from "./EditorFooter";
 
 const PROOF = "Proof";
 
-const CreatePostDialog: React.FC<CreateTopicFormProps> = ({ channel }) => {
+const CreatePostForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
   const i18n = useI18N();
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
@@ -234,7 +234,7 @@ const CreatePostDialog: React.FC<CreateTopicFormProps> = ({ channel }) => {
   );
 };
 
-export default CreatePostDialog;
+export default CreatePostForm;
 
 export interface CreateTopicFormProps {
   channel: ShyChannel;

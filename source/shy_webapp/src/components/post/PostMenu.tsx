@@ -9,9 +9,9 @@ import styles from "./PostMenu.module.scss";
 import { paths } from "@/paths";
 import { useI18N } from "@/i18n/hook";
 import Button from "@/components/button/Button";
-import CreatePostDialog from "../create_post_dialog/CreatePostDialog";
+import CreatePost from "@/components/create_post/CreatePost";
 
-const PostMenu: React.FC<PostContentProps> = ({}) => {
+const PostMenu: React.FC<PostContentProps> = ({ handleClickReply }) => {
   const i18n = useI18N();
 
   return (
@@ -19,12 +19,11 @@ const PostMenu: React.FC<PostContentProps> = ({}) => {
       <div className={styles.wrapper}>
         <ul>
           <li>
-            <CreatePostDialog>
-              <Button variant="transparent_1" className={styles.btn}>
-                <FaReply />
-                <span>{i18n.reply}</span>
-              </Button>
-            </CreatePostDialog>
+            <Button variant="transparent_1" className={styles.btn} handleClick={handleClickReply}>
+              <FaReply />
+              <span>{i18n.reply}</span>
+            </Button>
+            {/* <CreatePost /> */}
           </li>
         </ul>
       </div>
@@ -37,4 +36,5 @@ export default PostMenu;
 export interface PostContentProps {
   content: string;
   originalPostAuthorPubkey: string;
+  handleClickReply: () => void;
 }
