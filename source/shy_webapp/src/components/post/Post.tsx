@@ -25,6 +25,9 @@ const Post: React.FC<PostContentProps> = ({
   const handleClickReply = React.useCallback(() => {
     setIsReplyOpen(true);
   }, [setIsReplyOpen]);
+  const handleClickCancel = React.useCallback(() => {
+    setIsReplyOpen(false);
+  }, [setIsReplyOpen]);
 
   const publicKey = React.useMemo(() => {
     return author_public_key.substring(0, 8) || "";
@@ -61,7 +64,7 @@ const Post: React.FC<PostContentProps> = ({
         originalPostAuthorPubkey={publicKey}
         handleClickReply={handleClickReply}
       />
-      {isReplyOpen && <CreatePost />}
+      {isReplyOpen && <CreatePost handleClickCancel={handleClickCancel} />}
     </PostInner>
   );
 };

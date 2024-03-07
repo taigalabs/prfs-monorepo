@@ -5,11 +5,11 @@ import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
 import CreatePostEditorFooter from "./CreatePostEditorFooter";
 
-const CreatePost: React.FC<CreatePostProps> = ({}) => {
+const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel }) => {
   const i18n = useI18N();
 
   const footer = React.useMemo(() => {
-    return <CreatePostEditorFooter />;
+    return <CreatePostEditorFooter handleClickCancel={handleClickCancel} />;
   }, []);
 
   return (
@@ -23,4 +23,6 @@ const CreatePost: React.FC<CreatePostProps> = ({}) => {
 
 export default CreatePost;
 
-export interface CreatePostProps {}
+export interface CreatePostProps {
+  handleClickCancel: () => void;
+}
