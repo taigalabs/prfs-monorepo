@@ -150,8 +150,49 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   }, [prfsSet, prfsTree]);
 
   React.useEffect(() => {
-    setFormHandler((formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {});
-  }, [setFormHandler]);
+    setFormHandler(async (formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {
+      const val = formValues as MerkleSigPosRangeV1Inputs | undefined;
+
+      if (!val) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          merkleProof: "Form is empty, something is wrong",
+        }));
+        return false;
+      }
+
+      if (!val?.merkleProof) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          merkleProof: "Merkle proof is empty",
+        }));
+        return false;
+      }
+
+      const { root, siblings, pathIndices } = val.merkleProof;
+
+      if (!root || !siblings || !pathIndices) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          merkleProof: "Merkle path is not provided. Have you put address?",
+        }));
+        return false;
+      }
+
+      if (!val.nonceRaw || val.nonceRaw.length === 0) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          nonceRaw: "Nonce raw is empty",
+        }));
+        return false;
+      }
+
+      const { skHex } = await deriveProofKey(val.nonceRaw);
+      val.proofKey = skHex;
+
+      return true;
+    });
+  }, [setFormHandler, setFormErrors]);
 
   React.useEffect(() => {
     async function fn() {
