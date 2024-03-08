@@ -6,11 +6,11 @@ use crate::{
     ApiHandleErrorCode,
 };
 
-pub const API_HANDLE_SUCCESS_CODE: u32 = 2_000_000;
+pub const API_HANDLE_SUCCESS_CODE: &'static str = "2000000";
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ApiResponse<P> {
-    pub code: u32,
+    pub code: String,
     pub error: Option<String>,
     pub payload: Option<P>,
 }
@@ -18,7 +18,7 @@ pub struct ApiResponse<P> {
 impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
     pub fn new_success(payload: P) -> ApiResponse<P> {
         ApiResponse {
-            code: API_HANDLE_SUCCESS_CODE,
+            code: API_HANDLE_SUCCESS_CODE.to_string(),
             error: None,
             payload: Some(payload),
         }
@@ -47,7 +47,7 @@ impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
 
     pub fn new_error(error_code: &ApiHandleErrorCode, err: String) -> ApiResponse<P> {
         ApiResponse {
-            code: error_code.code,
+            code: error_code.code.to_string(),
             error: Some(err),
             payload: None,
         }

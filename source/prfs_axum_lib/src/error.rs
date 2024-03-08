@@ -28,6 +28,6 @@ impl ApiHandleError {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ApiHandleErrorCode {
-    pub code: u32,
+    pub code: String,
     pub phrase: String,
 }
