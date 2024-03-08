@@ -210,6 +210,10 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         if (payload) {
           if (payload.proof_record) {
+            const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
+            const proofActionResult = await prfsSign(skHex, proofAction_);
+            const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
+
             handleSkip(payload.proof_record.public_key);
           }
         }

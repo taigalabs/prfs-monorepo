@@ -1,28 +1,9 @@
-import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import {
-  AppSignInResult,
-  CommitmentReceipt,
-  EncryptedReceipt,
-  ProofGenReceiptItems,
-  RandKeyPairReceipt,
-} from "@taigalabs/prfs-id-sdk-web";
+import { ProofGenReceiptItems } from "@taigalabs/prfs-id-sdk-web";
 
 export type ProofGenReceiptRaw = Record<
   string,
   ProofGenReceiptItems | (() => Promise<ProofGenReceiptItems>)
 >;
-
-// export type ProofGenReceiptRaw = Record<
-//   string,
-//   ProofGenReceiptItems | (() => Promise<ProofGenReceiptItems>)
-// >;
-
-// export type ProofGenReceiptItems =
-//   | ProveReceipt
-//   | CommitmentReceipt
-//   | RandKeyPairReceipt
-//   | AppSignInResult
-//   | EncryptedReceipt;
 
 export async function processReceipt(
   raw: ProofGenReceiptRaw,
