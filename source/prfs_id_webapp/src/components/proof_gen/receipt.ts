@@ -3,6 +3,7 @@ import {
   AppSignInResult,
   CommitmentReceipt,
   EncryptedReceipt,
+  ProofGenReceiptItems,
   RandKeyPairReceipt,
 } from "@taigalabs/prfs-id-sdk-web";
 
@@ -11,12 +12,17 @@ export type ProofGenReceiptRaw = Record<
   ProofGenReceiptItems | (() => Promise<ProofGenReceiptItems>)
 >;
 
-export type ProofGenReceiptItems =
-  | ProveReceipt
-  | CommitmentReceipt
-  | RandKeyPairReceipt
-  | AppSignInResult
-  | EncryptedReceipt;
+// export type ProofGenReceiptRaw = Record<
+//   string,
+//   ProofGenReceiptItems | (() => Promise<ProofGenReceiptItems>)
+// >;
+
+// export type ProofGenReceiptItems =
+//   | ProveReceipt
+//   | CommitmentReceipt
+//   | RandKeyPairReceipt
+//   | AppSignInResult
+//   | EncryptedReceipt;
 
 export async function processReceipt(
   raw: ProofGenReceiptRaw,

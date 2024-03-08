@@ -5,6 +5,8 @@ import { CreateProofQuery } from "../queries/create_proof";
 import { EncryptQuery } from "../queries/encrypt";
 import { AppSignInQuery } from "../queries/app_sign_in";
 import { RandKeyPairQuery } from "../queries/rand_key_pair";
+import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { AppSignInResult, CommitmentReceipt, EncryptedReceipt, RandKeyPairReceipt } from "..";
 
 export function makeProofGenSearchParams(args: ProofGenArgs): string {
   const s = "?" + createQueryString(args);
@@ -65,6 +67,13 @@ export interface ProofGenArgs {
 export interface ProofGenSuccessPayload {
   receipt: Record<string, any>;
 }
+
+export type ProofGenReceiptItems =
+  | ProveReceipt
+  | CommitmentReceipt
+  | RandKeyPairReceipt
+  | AppSignInResult
+  | EncryptedReceipt;
 
 export type ProofGenQuery =
   | CommitmentQuery
