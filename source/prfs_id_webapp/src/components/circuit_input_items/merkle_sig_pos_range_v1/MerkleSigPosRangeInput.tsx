@@ -41,7 +41,12 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
+import {
+  FormErrors,
+  FormHandler,
+  FormValues,
+  HandleSkip,
+} from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
@@ -214,7 +219,11 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             const proofActionResult = await prfsSign(skHex, proofAction_);
             const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 
-            handleSkip(payload.proof_record.public_key);
+            handleSkip({
+              proofAction,
+              proofActionResult: proofActionResultHex,
+              proofPubKey: pkHex,
+            });
           }
         }
       }
@@ -549,7 +558,7 @@ export interface MerkleSigPosRangeInputProps {
   credential: PrfsIdCredential;
   proofAction: string;
   usePrfsRegistry?: boolean;
-  handleSkip: (proofId: string) => void;
+  handleSkip: HandleSkip;
 }
 
 export interface ComputedValueProps {

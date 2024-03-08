@@ -26,7 +26,7 @@ import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 import { useAppSelector } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
-import { FormHandler } from "@/components/circuit_input_items/formTypes";
+import { FormHandler, HandleSkip } from "@/components/circuit_input_items/formTypes";
 
 enum Status {
   Standby,
@@ -232,7 +232,7 @@ export interface CreateProofProps {
   setErrorDialogMsg: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
   tutorial: TutorialArgs | undefined;
-  handleSkip: (proofId: string) => void;
+  handleSkip: HandleSkip;
 }
 
 export interface LoadDriverProgressProps {

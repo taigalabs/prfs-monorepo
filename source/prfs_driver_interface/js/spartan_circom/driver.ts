@@ -29,7 +29,6 @@ export interface Proof {
   proofBytes: Uint8Array | number[];
   publicInputSer: string;
   proofKey: string;
-  // proofActionResult: string;
 }
 
 export interface ProveResult {
@@ -43,6 +42,8 @@ export interface ProofActionPayload {
 }
 
 export type ProveReceipt = ProveResult & ProofActionPayload;
+
+export type CachedProveReceipt = { proofPubKey: string } & ProofActionPayload;
 
 export interface VerifyReceipt {
   verifyResult: boolean;

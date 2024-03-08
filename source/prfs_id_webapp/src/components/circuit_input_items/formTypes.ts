@@ -1,3 +1,4 @@
+import { CachedProveReceipt } from "@taigalabs/prfs-driver-interface";
 import React from "react";
 
 export type FormValues<T> = {
@@ -13,3 +14,5 @@ export type FormHandler = (formValues: FormValues<any>) => Promise<{
   proofAction?: string;
   proofActionResult?: string;
 }>;
+
+export type HandleSkip = (proveReceipt: CachedProveReceipt) => void;

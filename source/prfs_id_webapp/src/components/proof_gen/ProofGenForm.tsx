@@ -33,6 +33,7 @@ import EncryptView from "@/components/encrypt/EncryptView";
 import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
 import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
+import { CachedProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 enum Status {
   InProgress,
@@ -60,13 +61,10 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
     <div className={styles.sidePadding}>Loading...</div>,
   );
-  // const { mutateAsync: getPrfsProofRecord } = useMutation({
-  //   mutationFn: req => {
-  //     return prfsApi3({ type: "get_prfs_proof_record", req });
-  //   },
-  // });
-  const handleSkip = React.useCallback(async (proofId: string) => {
-    console.log(123123, proofId);
+
+  const handleSkip = React.useCallback(async (proveReceipt: CachedProveReceipt) => {
+    console.log(33, proveReceipt);
+    // console.log(123123, proofId);
     // await getPrfsProofRecord();
   }, []);
 
