@@ -32,10 +32,14 @@ export interface Proof {
   // proofActionResult: string;
 }
 
-export interface ProveReceipt {
+export interface ProveResult {
   proof: Proof;
   duration: number;
 }
+
+export type ProveReceipt = ProveResult & {
+  proofActionResult: string;
+};
 
 export interface VerifyReceipt {
   verifyResult: boolean;

@@ -1,4 +1,4 @@
-import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
+import { ProveArgs, ProveReceipt, ProveResult, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
 
 import { PrfsHandlers } from "@/types";
@@ -10,7 +10,7 @@ export async function proveSimpleHash(
   handlers: PrfsHandlers,
   wtnsGen: Uint8Array,
   circuit: Uint8Array,
-): Promise<ProveReceipt> {
+): Promise<ProveResult> {
   const { inputs, eventListener } = args;
   const { hashData } = inputs;
   const { msgRawInt, msgHash } = hashData;

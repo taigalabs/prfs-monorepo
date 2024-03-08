@@ -14,7 +14,6 @@ import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { validateInputs } from "./validate_inputs";
 import CircuitInputs from "@/components/circuit_inputs/CircuitInputs";
 import {
   QueryItem,
@@ -117,11 +116,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
 
         try {
-          // const isValid = await validateInputs(formValues, proofType, setFormErrors);
-          // if (!isValid) {
-          //   throw new Error("Input validation fail to create a proof");
-          // }
-          //
           const isValid = await formHandler(formValues);
           if (!isValid) {
             throw new Error("Input validation fail to create a proof");

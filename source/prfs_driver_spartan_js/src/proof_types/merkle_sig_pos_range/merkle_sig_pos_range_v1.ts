@@ -1,4 +1,4 @@
-import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
+import { ProveArgs, ProveReceipt, ProveResult, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import {
   bytesToNumberLE,
@@ -19,7 +19,7 @@ export async function proveMembership(
   handlers: PrfsHandlers,
   wtnsGen: Uint8Array,
   circuit: Uint8Array,
-): Promise<ProveReceipt> {
+): Promise<ProveResult> {
   const { inputs, eventListener } = args;
   console.log("inputs: %o", inputs);
 
@@ -33,12 +33,7 @@ export async function proveMembership(
     assetSizeLabel,
     nonceRaw,
     proofKey,
-    // proofAction,
   } = inputs;
-
-  // if (!proofAction || proofAction.length < 1) {
-  //   throw new Error("Proof action should be non-empty string");
-  // }
 
   const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
   const nonceHash = await poseidon_2(nonceRaw_);
