@@ -15,13 +15,13 @@ export function persistEphemeralPrfsIdCredential(credential: PrfsIdCredential) {
   // console.log("Storing prfs is credential", credential.id);
 }
 
-export function bustEphemeralPrfsIdCredential() {
+export function bustEphemeralPrfsIdCredential(force?: boolean) {
   try {
     const json = window.localStorage.getItem(PRFS_ID_EPHEMERAL);
     if (json) {
       const cred: EphemeralPrfsIdCredential = JSON.parse(json);
       const lasted = Date.now() - cred.createdAt;
-      if (lasted > FIVE_MIN_MS) {
+      if (lasted > FIVE_MIN_MS || force) {
         console.log("Busting ephemeral prfs id credential");
         window.localStorage.removeItem(PRFS_ID_EPHEMERAL);
       }

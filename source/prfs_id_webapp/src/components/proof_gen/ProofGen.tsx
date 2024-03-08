@@ -4,6 +4,7 @@ import React from "react";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
+import { bustEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./ProofGen.module.scss";
@@ -74,6 +75,7 @@ const ProofGen: React.FC = () => {
   }, []);
 
   const handleClickPrev = React.useCallback(() => {
+    bustEphemeralPrfsIdCredential(true);
     setStep(ProofGenStep.PrfsIdCredential);
   }, [setStep]);
 
