@@ -41,6 +41,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
   value,
   error,
   setFormErrors,
+  setFormHandler,
   setFormValues,
   credential,
 }) => {
@@ -73,6 +74,50 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
         return prfsApi3({ type: "get_latest_prfs_tree_by_set_id", ...req });
       },
     });
+
+  React.useEffect(() => {
+    setFormHandler(async (formValues: FormValues<AddrMembershipV1Inputs>) => {
+      const val = formValues as AddrMembershipV1Inputs | undefined;
+
+      if (!val?.merkleProof) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          merkleProof: "Merkle proof is empty",
+        }));
+        return false;
+      } else {
+        const { root, siblings, pathIndices } = val.merkleProof;
+
+        if (!root || !siblings || !pathIndices) {
+          setFormErrors(oldVal => ({
+            ...oldVal,
+            merkleProof: "Merkle path is not provided",
+          }));
+          return false;
+        }
+      }
+
+      if (!val?.sigData) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          sigData: "Input is empty",
+        }));
+        return false;
+      } else {
+        const { sig, msgHash, msgRaw } = val.sigData;
+
+        if (!sig || !msgHash || !msgRaw) {
+          setFormErrors(oldVal => ({
+            ...oldVal,
+            sigData: "Signature is not provided. Have you signed?",
+          }));
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [setFormHandler, setFormErrors]);
 
   React.useEffect(() => {
     async function fn() {

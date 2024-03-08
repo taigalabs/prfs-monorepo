@@ -40,25 +40,10 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
   error,
   setFormErrors,
   setFormValues,
+  setFormHandler,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [isPresetAssigned, setIsPresetAssigned] = React.useState(false);
-
-  // React.useEffect(() => {
-  //   if (value === undefined) {
-  //     const defaultHashData: FormErrors<SimpleHashV1Inputs> = {
-  //       hashData: null,
-  //     };
-
-  //     setFormValues(oldVals => {
-  //       return {
-  //         ...oldVals,
-  //         hashData: null,
-  //         // hashData: defaultHashData,
-  //       };
-  //     });
-  //   }
-  // }, [value, setFormValues, isPresetAssigned, setIsPresetAssigned]);
 
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,6 +102,32 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
       return value.hashData.msgRaw.toString();
     } else return "";
   }, [value?.hashData]);
+
+  React.useEffect(() => {
+    setFormHandler(async (formValues: FormValues<SimpleHashV1Inputs>) => {
+      const val = formValues as SimpleHashV1Inputs | undefined;
+
+      if (!val?.hashData) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          hashData: "Input is empty",
+        }));
+        return false;
+      } else {
+        const { msgRaw, msgRawInt, msgHash } = val.hashData;
+
+        if (!msgRaw || !msgRawInt || !msgHash) {
+          setFormErrors(oldVal => ({
+            ...oldVal,
+            hashData: "Hashed outcome should be provided. Have you hashed the input?",
+          }));
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [setFormHandler, setFormErrors]);
 
   return (
     <FormInput>
