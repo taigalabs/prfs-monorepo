@@ -13,6 +13,10 @@ export enum CommitmentType {
   SIG_POSEIDON_1 = "SIG_POSEIDON_1",
 }
 
+export interface CommitmentReceipt {
+  commitment: string;
+}
+
 export function makeCmCacheKeyQueries(
   _name: string,
   count: number,

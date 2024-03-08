@@ -8,6 +8,10 @@ export interface RandKeyPairQuery {
   skipAfterIfExists?: boolean;
 }
 
+export interface RandKeyPairReceipt {
+  secretKey: string;
+}
+
 export enum RandKeyPairType {
   EC_SECP256K1 = "EC_SECP256K1",
 }

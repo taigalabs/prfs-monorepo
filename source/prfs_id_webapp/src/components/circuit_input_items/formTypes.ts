@@ -10,5 +10,6 @@ export type FormErrors<T> = {
 
 export type FormHandler = (formValues: FormValues<any>) => Promise<{
   isValid: boolean;
+  proofAction?: string;
   proofActionResult?: string;
 }>;

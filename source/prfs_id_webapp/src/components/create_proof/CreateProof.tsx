@@ -100,25 +100,29 @@ const CreateProof: React.FC<CreateProofProps> = ({
       [name]: async () => {
         const proofType = data?.payload?.prfs_proof_type;
         if (!proofType) {
-          return;
+          throw new Error("Proof type does not exist");
         }
 
         if (!driver) {
-          return;
+          throw new Error("Driver does not exist");
         }
 
         if (createProofStatus === Status.InProgress) {
-          return;
+          throw new Error("Create proof status is in progress");
         }
 
         if (!formHandler) {
-          return;
+          throw new Error("Form handler does not exist");
         }
 
         try {
-          const { isValid, proofActionResult } = await formHandler(formValues);
+          const { isValid, proofAction, proofActionResult } = await formHandler(formValues);
           if (!isValid) {
             throw new Error("Input validation fail to create a proof");
+          }
+
+          if (!proofAction) {
+            throw new Error("Proof action is empty");
           }
 
           if (!proofActionResult) {
@@ -135,7 +139,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
           setCreateProofStatus(Status.Standby);
           proveResult.proof.proofBytes = Array.from(proveResult.proof.proofBytes);
-          return { ...proveResult, proofActionResult };
+          return { ...proveResult, proofAction, proofActionResult };
         } catch (err: any) {
           setCreateProofStatus(Status.Standby);
           // setSystemMsg(err.toString());

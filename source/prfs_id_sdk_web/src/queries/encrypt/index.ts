@@ -7,6 +7,10 @@ export interface EncryptQuery {
   queryType: QueryType.ENCRYPT;
 }
 
+export interface EncryptedReceipt {
+  encrypted: string;
+}
+
 export enum EncryptType {
   EC_SECP256K1 = "EC_SECP256K1",
 }

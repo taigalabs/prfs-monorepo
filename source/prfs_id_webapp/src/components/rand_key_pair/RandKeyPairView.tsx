@@ -25,7 +25,7 @@ const RandKeyPairView: React.FC<RandKeyPairViewProps> = ({ query, credential, se
 
           setReceipt(oldVal => ({
             ...oldVal,
-            [name]: () => skHex,
+            [name]: { secretKey: skHex },
           }));
 
           setElem(
