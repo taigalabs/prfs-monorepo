@@ -116,22 +116,26 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
 
         try {
-          const isValid = await formHandler(formValues);
+          const { isValid, proofActionResult } = await formHandler(formValues);
           if (!isValid) {
             throw new Error("Input validation fail to create a proof");
           }
 
+          if (!proofActionResult) {
+            throw new Error("Proof action result is empty");
+          }
+
           console.log("Form values", formValues);
           setCreateProofStatus(Status.InProgress);
-          const proveReceipt = await driver.prove({
+          const proveResult = await driver.prove({
             inputs: formValues,
             circuitTypeId: proofType.circuit_type_id,
             eventListener: handleProofGenEvent,
           });
 
           setCreateProofStatus(Status.Standby);
-          proveReceipt.proof.proofBytes = Array.from(proveReceipt.proof.proofBytes);
-          return proveReceipt;
+          proveResult.proof.proofBytes = Array.from(proveResult.proof.proofBytes);
+          return proveResult;
         } catch (err: any) {
           setCreateProofStatus(Status.Standby);
           // setSystemMsg(err.toString());

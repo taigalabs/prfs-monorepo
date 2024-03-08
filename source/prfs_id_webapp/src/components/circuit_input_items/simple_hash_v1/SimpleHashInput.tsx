@@ -112,7 +112,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
           ...oldVal,
           hashData: "Input is empty",
         }));
-        return false;
+        return { isValid: false };
       } else {
         const { msgRaw, msgRawInt, msgHash } = val.hashData;
 
@@ -121,11 +121,11 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
             ...oldVal,
             hashData: "Hashed outcome should be provided. Have you hashed the input?",
           }));
-          return false;
+          return { isValid: false };
         }
       }
 
-      return true;
+      return { isValid: true, proofActionResult: "" };
     });
   }, [setFormHandler, setFormErrors]);
 

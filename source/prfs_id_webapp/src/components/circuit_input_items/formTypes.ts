@@ -8,4 +8,7 @@ export type FormErrors<T> = {
   [Key in keyof T]: undefined | React.ReactNode;
 };
 
-export type FormHandler = (formValues: FormValues<any>) => Promise<boolean>;
+export type FormHandler = (formValues: FormValues<any>) => Promise<{
+  isValid: boolean;
+  proofActionResult?: string;
+}>;

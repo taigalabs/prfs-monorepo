@@ -9,7 +9,7 @@ export interface CircuitDriverGen {
 
 export interface CircuitDriver {
   getArtifactCount(): number;
-  prove(args: ProveArgs<any>): Promise<ProveReceipt>;
+  prove(args: ProveArgs<any>): Promise<ProveResult>;
   verify(args: VerifyArgs): Promise<boolean>;
   getBuildStatus(): Promise<any>;
 }

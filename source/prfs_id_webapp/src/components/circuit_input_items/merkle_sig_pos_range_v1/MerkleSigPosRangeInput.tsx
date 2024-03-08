@@ -9,8 +9,9 @@ import {
   makePathIndices,
   makeSiblingPath,
   poseidon_2_bigint_le,
+  prfsSign,
 } from "@taigalabs/prfs-crypto-js";
-import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { hexlify, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation, useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
@@ -44,6 +45,7 @@ import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
+import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -157,14 +159,15 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           ...oldVal,
           merkleProof: "Form is empty, something is wrong",
         }));
-        return false;
+        return { isValid: false };
       }
+
       if (!val?.merkleProof) {
         setFormErrors(oldVal => ({
           ...oldVal,
           merkleProof: "Merkle proof is empty",
         }));
-        return false;
+        return { isValid: false };
       }
       const { root, siblings, pathIndices } = val.merkleProof;
       if (!root || !siblings || !pathIndices) {
@@ -172,19 +175,23 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           ...oldVal,
           merkleProof: "Merkle path is not provided. Have you put address?",
         }));
-        return false;
+        return { isValid: false };
       }
       if (!val.nonceRaw || val.nonceRaw.length === 0) {
         setFormErrors(oldVal => ({
           ...oldVal,
           nonceRaw: "Nonce raw is empty",
         }));
-        return false;
+        return { isValid: false };
       }
       const { skHex } = await deriveProofKey(val.nonceRaw);
       val.proofKey = skHex;
 
-      return true;
+      const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
+      const proofActionResult = await prfsSign(skHex, proofAction_);
+      const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
+
+      return { isValid: true, proofActionResult: proofActionResultHex };
     });
   }, [setFormHandler, setFormErrors]);
 
