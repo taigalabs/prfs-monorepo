@@ -1,6 +1,6 @@
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
-export type ProofGenReceiptRaw = Record<string, string | (() => Promise<any | ProveReceipt>)>;
+export type ProofGenReceiptRaw = Record<string, () => Awaited<Promise<any | ProveReceipt>>>;
 
 export async function processReceipt(raw: ProofGenReceiptRaw): Promise<Record<string, any>> {
   const newObj = { ...raw };

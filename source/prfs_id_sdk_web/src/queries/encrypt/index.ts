@@ -1,4 +1,4 @@
-import { QueryType } from "./query";
+import { QueryType } from "../query_type";
 
 export interface EncryptQuery {
   name: string;

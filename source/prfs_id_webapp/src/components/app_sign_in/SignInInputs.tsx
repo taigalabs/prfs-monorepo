@@ -45,7 +45,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
 
           setReceipt(oldVal => ({
             ...oldVal,
-            [name]: JSON.stringify(data),
+            [name]: () => JSON.stringify(data),
           }));
 
           el.push(

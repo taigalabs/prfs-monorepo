@@ -37,9 +37,12 @@ export interface ProveResult {
   duration: number;
 }
 
-export type ProveReceipt = ProveResult & {
+export interface ProofActionPayload {
+  proofAction: string;
   proofActionResult: string;
-};
+}
+
+export type ProveReceipt = ProveResult & ProofActionPayload;
 
 export interface VerifyReceipt {
   verifyResult: boolean;

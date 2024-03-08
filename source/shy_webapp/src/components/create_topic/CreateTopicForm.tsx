@@ -173,6 +173,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           proveReceipt.proof.publicInputSer,
         );
 
+        console.log(123, proveReceipt);
+
         const shy_topic_proof_id = rand256Hex();
         const { payload, error } = await createShyTopic({
           title,

@@ -135,7 +135,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
           setCreateProofStatus(Status.Standby);
           proveResult.proof.proofBytes = Array.from(proveResult.proof.proofBytes);
-          return proveResult;
+          return { ...proveResult, proofActionResult };
         } catch (err: any) {
           setCreateProofStatus(Status.Standby);
           // setSystemMsg(err.toString());

@@ -75,7 +75,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       try {
         if (proofGenArgs) {
           let elems = [];
-          const receipt: Record<string, string> = {};
+          // const receipt = {};
           for (const query of proofGenArgs.queries) {
             switch (query.queryType) {
               case QueryType.CREATE_PROOF: {
@@ -149,7 +149,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
             }
           }
 
-          setReceipt(receipt);
+          // fresh initailize
+          setReceipt({});
+
           setQueryElems(elems);
           setStatus(Status.Standby);
         }
