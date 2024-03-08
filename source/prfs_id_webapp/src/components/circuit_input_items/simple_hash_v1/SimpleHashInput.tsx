@@ -17,7 +17,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
-import { FormErrors, FormValues } from "@/components/circuit_input_items/formTypes";
+import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -147,6 +147,7 @@ export interface SimpleHashInputProps {
   error: FormErrors<SimpleHashV1Inputs> | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<SimpleHashV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<SimpleHashV1Inputs>>>;
+  setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;
 }

@@ -19,7 +19,7 @@ import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRaw from "./MerkleProofRaw";
 import { i18nContext } from "@/i18n/context";
 import MerkleProofInput from "./MerkleProofInput";
-import { FormErrors, FormValues } from "@/components/circuit_input_items/formTypes";
+import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
 import SigDataInput from "./SigDataInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
@@ -294,6 +294,7 @@ export interface MerkleProofInputProps {
   value: FormValues<AddrMembershipV1Inputs>;
   error: FormErrors<AddrMembershipV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<AddrMembershipV1Inputs>>;
+  setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<AddrMembershipV1Inputs>>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;

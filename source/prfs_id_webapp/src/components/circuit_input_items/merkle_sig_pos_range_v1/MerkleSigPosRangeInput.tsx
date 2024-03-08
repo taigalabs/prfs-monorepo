@@ -40,7 +40,7 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import { FormErrors, FormValues } from "@/components/circuit_input_items/formTypes";
+import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
@@ -70,6 +70,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   error,
   setFormErrors,
   setFormValues,
+  setFormHandler,
   presetVals,
   proofAction,
   usePrfsRegistry,
@@ -493,6 +494,7 @@ export interface MerkleSigPosRangeInputProps {
   error: FormErrors<MerkleSigPosRangeV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
+  setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
   presetVals?: MerkleSigPosRangeV1PresetVals;
   credential: PrfsIdCredential;
   proofAction: string;
