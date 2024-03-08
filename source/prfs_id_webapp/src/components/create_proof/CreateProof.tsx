@@ -112,8 +112,17 @@ const CreateProof: React.FC<CreateProofProps> = ({
           return;
         }
 
+        if (!formHandler) {
+          return;
+        }
+
         try {
-          const isValid = await validateInputs(formValues, proofType, setFormErrors);
+          // const isValid = await validateInputs(formValues, proofType, setFormErrors);
+          // if (!isValid) {
+          //   throw new Error("Input validation fail to create a proof");
+          // }
+          //
+          const isValid = formHandler(formValues);
           if (!isValid) {
             throw new Error("Input validation fail to create a proof");
           }
@@ -136,7 +145,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
       },
     }));
-  }, [formValues, setReceipt, query, driver, credential]);
+  }, [formValues, setReceipt, query, driver, credential, formHandler]);
 
   const proofType = data?.payload?.prfs_proof_type;
   return proofType ? (
