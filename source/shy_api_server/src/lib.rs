@@ -1,6 +1,7 @@
 mod apis;
 pub mod envs;
 mod error_codes;
+pub mod log;
 pub mod paths;
 pub mod router;
 

@@ -1,4 +1,4 @@
-import { QueryType } from "./query";
+import { QueryType } from "../query_type";
 
 export interface RandKeyPairQuery {
   name: string;
@@ -6,6 +6,10 @@ export interface RandKeyPairQuery {
   type: RandKeyPairType;
   queryType: QueryType.RAND_KEY_PAIR;
   skipAfterIfExists?: boolean;
+}
+
+export interface RandKeyPairReceipt {
+  secretKey: string;
 }
 
 export enum RandKeyPairType {

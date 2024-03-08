@@ -4,7 +4,7 @@ export interface FetchError {
 }
 
 export type ApiResponse<P> = {
-  code: number;
+  code: string;
   error?: any | FetchError;
   payload: P | null;
 };

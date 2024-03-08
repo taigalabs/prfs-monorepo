@@ -1,6 +1,9 @@
 import { sigPoseidon } from "@taigalabs/prfs-crypto-js";
 
-import { PRFS_ATTESTATION_STEM, WALLET_CM_STEM } from "..";
+import { PRFS_ATTESTATION_STEM } from "../attestation";
+
+export const WALLET_CACHE_KEY = "wallet_cache_key";
+export const WALLET_CM_STEM = "WALLET";
 
 export async function makeWalletCacheKeyCm(sk: string, idx: number) {
   return sigPoseidon(sk, `${WALLET_CM_STEM}_${idx}`);

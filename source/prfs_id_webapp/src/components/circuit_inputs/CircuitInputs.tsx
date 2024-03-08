@@ -6,7 +6,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import MerkleSigPosRangeInput from "@/components/circuit_input_items/merkle_sig_pos_range_v1/MerkleSigPosRangeInput";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
+import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
 import AddrMembershipInput from "@/components/circuit_input_items/addr_membership_v1/AddrMembershipInput";
 import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
@@ -21,10 +21,12 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   formErrors,
   setFormValues,
   setFormErrors,
+  setFormHandler,
   presetVals,
   credential,
   proofAction,
   usePrfsRegistry,
+  handleSkip,
 }) => {
   const circuitInputsElem = React.useMemo(() => {
     switch (proofType.circuit_type_id) {
@@ -36,10 +38,12 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             error={formErrors as FormErrors<MerkleSigPosRangeV1Inputs>}
             setFormValues={setFormValues}
             setFormErrors={setFormErrors as any}
+            setFormHandler={setFormHandler}
             presetVals={presetVals as MerkleSigPosRangeV1PresetVals}
             credential={credential}
             proofAction={proofAction}
             usePrfsRegistry={usePrfsRegistry}
+            handleSkip={handleSkip}
           />
         );
       }
@@ -50,6 +54,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             value={formValues as FormValues<AddrMembershipV1Inputs>}
             error={formErrors as FormErrors<AddrMembershipV1Inputs>}
             setFormValues={setFormValues}
+            setFormHandler={setFormHandler}
             setFormErrors={setFormErrors as any}
             presetVals={presetVals}
             credential={credential}
@@ -63,6 +68,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             value={formValues as FormValues<SimpleHashV1Inputs>}
             error={formErrors as FormErrors<SimpleHashV1Inputs>}
             setFormValues={setFormValues}
+            setFormHandler={setFormHandler}
             setFormErrors={setFormErrors as any}
             presetVals={presetVals}
             credential={credential}
@@ -85,8 +91,10 @@ export interface CircuitInputsProps {
   formErrors: Record<string, string>;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
   presetVals?: QueryPresetVals;
   proofAction: string;
   credential: PrfsIdCredential;
   usePrfsRegistry?: boolean;
+  handleSkip: (proofId: string) => void;
 }

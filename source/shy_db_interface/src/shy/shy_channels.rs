@@ -20,8 +20,7 @@ LIMIT $2
         .bind(offset)
         .bind(limit)
         .fetch_all(pool)
-        .await
-        .unwrap();
+        .await?;
 
     let shy_channels: Vec<ShyChannel> = rows
         .iter()
@@ -40,7 +39,7 @@ LIMIT $2
 pub async fn get_shy_channel(
     pool: &Pool<Postgres>,
     channel_id: &String,
-) -> Result<ShyChannel, ShyDbInterfaceError> {
+) -> Result<Option<ShyChannel>, ShyDbInterfaceError> {
     let query = r#"
 SELECT *
 FROM shy_channels
@@ -49,16 +48,20 @@ WHERE channel_id=$1
 
     let row = sqlx::query(&query)
         .bind(channel_id)
-        .fetch_one(pool)
-        .await
-        .expect("Row does not exist");
+        .fetch_optional(pool)
+        .await?;
 
-    let shy_channel = ShyChannel {
-        channel_id: row.get("channel_id"),
-        label: row.get("label"),
-        locale: row.get("locale"),
-        desc: row.get("desc"),
-        proof_type_ids: row.get("proof_type_ids"),
+    let shy_channel = if let Some(r) = row {
+        let c = ShyChannel {
+            channel_id: r.get("channel_id"),
+            label: r.get("label"),
+            locale: r.get("locale"),
+            desc: r.get("desc"),
+            proof_type_ids: r.get("proof_type_ids"),
+        };
+        Some(c)
+    } else {
+        None
     };
 
     Ok(shy_channel)
@@ -67,7 +70,7 @@ WHERE channel_id=$1
 pub async fn insert_shy_channel(
     tx: &mut Transaction<'_, Postgres>,
     shy_channel: &ShyChannel,
-) -> String {
+) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_channels
 (channel_id, label, proof_type_ids, locale, "desc")
@@ -82,10 +85,8 @@ RETURNING channel_id
         .bind(&shy_channel.locale)
         .bind(&shy_channel.desc)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
     let channel_id: String = row.get("channel_id");
-
-    channel_id
+    Ok(channel_id)
 }

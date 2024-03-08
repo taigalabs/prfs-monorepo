@@ -19,7 +19,7 @@ import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRaw from "./MerkleProofRaw";
 import { i18nContext } from "@/i18n/context";
 import MerkleProofInput from "./MerkleProofInput";
-import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
+import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
 import SigDataInput from "./SigDataInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
@@ -41,6 +41,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
   value,
   error,
   setFormErrors,
+  setFormHandler,
   setFormValues,
   credential,
 }) => {
@@ -73,6 +74,50 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
         return prfsApi3({ type: "get_latest_prfs_tree_by_set_id", ...req });
       },
     });
+
+  React.useEffect(() => {
+    setFormHandler(() => async (formValues: FormValues<AddrMembershipV1Inputs>) => {
+      const val = formValues as AddrMembershipV1Inputs | undefined;
+
+      if (!val?.merkleProof) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          merkleProof: "Merkle proof is empty",
+        }));
+        return { isValid: false };
+      } else {
+        const { root, siblings, pathIndices } = val.merkleProof;
+
+        if (!root || !siblings || !pathIndices) {
+          setFormErrors(oldVal => ({
+            ...oldVal,
+            merkleProof: "Merkle path is not provided",
+          }));
+          return { isValid: false };
+        }
+      }
+
+      if (!val?.sigData) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          sigData: "Input is empty",
+        }));
+        return { isValid: false };
+      } else {
+        const { sig, msgHash, msgRaw } = val.sigData;
+
+        if (!sig || !msgHash || !msgRaw) {
+          setFormErrors(oldVal => ({
+            ...oldVal,
+            sigData: "Signature is not provided. Have you signed?",
+          }));
+          return { isValid: false };
+        }
+      }
+
+      return { isValid: true, proofActionResult: "" };
+    });
+  }, [setFormHandler, setFormErrors]);
 
   React.useEffect(() => {
     async function fn() {
@@ -294,6 +339,7 @@ export interface MerkleProofInputProps {
   value: FormValues<AddrMembershipV1Inputs>;
   error: FormErrors<AddrMembershipV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<AddrMembershipV1Inputs>>;
+  setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<AddrMembershipV1Inputs>>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;

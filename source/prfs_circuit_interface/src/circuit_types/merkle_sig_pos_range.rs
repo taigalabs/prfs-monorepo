@@ -16,7 +16,7 @@ pub struct MerkleSigPosRangeV1Inputs {
     merkleProof: SpartanMerkleProof,
     nonceRaw: String,
     proofKey: String,
-    proofAction: String,
+    // proofAction: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

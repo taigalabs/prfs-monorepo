@@ -139,8 +139,8 @@ pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
             post(prfs_trees::get_latest_prfs_tree_by_set_id),
         )
         .route(
-            "/get_least_recent_index",
-            post(prfs_indices::get_least_recent_index),
+            "/get_least_recent_prfs_index",
+            post(prfs_indices::get_least_recent_prfs_index),
         )
         .route("/get_prfs_indices", post(prfs_indices::get_prfs_indices))
         .route("/add_prfs_index", post(prfs_indices::add_prfs_index))

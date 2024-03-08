@@ -17,6 +17,8 @@ import {
   createSessionKey,
   openPopup,
   makeWalletAtstCmPreImage,
+  CommitmentReceipt,
+  EncryptedReceipt,
 } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./ClaimSecretItem.module.scss";
@@ -146,11 +148,20 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         return;
       }
 
-      const { [CLAIM]: cm, [ENCRYPT_WALLET_ADDR]: walletAddrEncrypted, ...rest } = payload.receipt;
-      if (cm) {
-        setClaimCm(cm);
-        setWalletCacheKeys(rest);
-        setWalletAddrEnc(walletAddrEncrypted);
+      const cm: CommitmentReceipt = payload.receipt[CLAIM];
+      const walletAddrEncrypted: EncryptedReceipt = payload.receipt[ENCRYPT_WALLET_ADDR];
+      const { [CLAIM]: _cm, [ENCRYPT_WALLET_ADDR]: _enc, ...rest } = payload.receipt;
+
+      const rest_: Record<string, CommitmentReceipt> = rest;
+      const walletCacheKeys: Record<string, string> = {};
+      for (const key in rest_) {
+        walletCacheKeys[key] = rest_[key].commitment;
+      }
+
+      if (cm?.commitment && walletAddrEncrypted?.encrypted) {
+        setClaimCm(cm.commitment);
+        setWalletCacheKeys(walletCacheKeys);
+        setWalletAddrEnc(walletAddrEncrypted.encrypted);
         setStep(AttestationStep.POST_TWEET);
       } else {
         console.error("no commitment delivered");

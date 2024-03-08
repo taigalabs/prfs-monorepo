@@ -1,0 +1,34 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  border: 1px solid var(--bright-gray-30);
+  margin-top: 8px;
+
+  &:focus-within {
+    border: 1px solid var(--shy-green-50);
+  }
+}
+
+.inner {
+  border: 1px solid transparent;
+  padding: 5px;
+
+  &:focus-within {
+    border: 1px solid var(--shy-green-50);
+  }
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 10px;
+  color: var(--gray-30);
+
+  > svg {
+    margin-right: 5px;
+  }
+}
+
+@media screen and (min-width: $big_display_min_width) {
+}

@@ -22,7 +22,9 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setR
 
           setReceipt(oldVal => ({
             ...oldVal,
-            [name]: cm,
+            [name]: {
+              commitment: cm,
+            },
           }));
 
           setElem(

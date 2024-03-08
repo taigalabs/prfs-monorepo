@@ -1,4 +1,6 @@
-import { QueryType } from "./query";
+export * from "./utils";
+
+import { QueryType } from "../query_type";
 
 export interface CommitmentQuery {
   name: string;
@@ -11,8 +13,9 @@ export enum CommitmentType {
   SIG_POSEIDON_1 = "SIG_POSEIDON_1",
 }
 
-export const WALLET_CACHE_KEY = "wallet_cache_key";
-export const WALLET_CM_STEM = "WALLET";
+export interface CommitmentReceipt {
+  commitment: string;
+}
 
 export function makeCmCacheKeyQueries(
   _name: string,

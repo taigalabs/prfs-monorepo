@@ -14,7 +14,6 @@ import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { validateInputs } from "./validate_inputs";
 import CircuitInputs from "@/components/circuit_inputs/CircuitInputs";
 import {
   QueryItem,
@@ -27,6 +26,7 @@ import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 import { useAppSelector } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
+import { FormHandler } from "@/components/circuit_input_items/formTypes";
 
 enum Status {
   Standby,
@@ -53,11 +53,13 @@ const CreateProof: React.FC<CreateProofProps> = ({
   setReceipt,
   tutorial,
   setErrorDialogMsg,
+  handleSkip,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
+  const [formHandler, setFormHandler] = React.useState<FormHandler | null>(null);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const tutorialStep = useAppSelector(state => state.tutorial.tutorialStep);
@@ -69,17 +71,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
   const { loadDriverProgress, loadDriverStatus, driver, driverArtifacts } = useLoadDriver(
     data?.payload?.prfs_proof_type,
   );
-  // const { data: getPrfsProofRecord } = useQuery({
-  //   queryKey: ["get_prfs_proof_type_by_proof_type_id", proofTypeId],
-  //   queryFn: () => {
-  //     if (proofTypeId) {
-  //       return prfsApi3({
-  //         type: "get_prfs_proof_type_by_proof_type_id",
-  //         proof_type_id: proofTypeId,
-  //       });
-  //     }
-  //   },
-  // });
 
   React.useEffect(() => {
     if (error) {
@@ -109,43 +100,46 @@ const CreateProof: React.FC<CreateProofProps> = ({
       [name]: async () => {
         const proofType = data?.payload?.prfs_proof_type;
         if (!proofType) {
-          return;
+          throw new Error("Proof type does not exist");
         }
 
         if (!driver) {
-          return;
+          throw new Error("Driver does not exist");
         }
 
         if (createProofStatus === Status.InProgress) {
-          return;
+          throw new Error("Create proof status is in progress");
+        }
+
+        if (!formHandler) {
+          throw new Error("Form handler does not exist");
         }
 
         try {
-          const isValid = await validateInputs(formValues, proofType, setFormErrors);
+          const { isValid, proofAction, proofActionResult } = await formHandler(formValues);
           if (!isValid) {
             throw new Error("Input validation fail to create a proof");
           }
 
+          if (!proofAction) {
+            throw new Error("Proof action is empty");
+          }
+
+          if (!proofActionResult) {
+            throw new Error("Proof action result is empty");
+          }
+
           console.log("Form values", formValues);
           setCreateProofStatus(Status.InProgress);
-          const proveReceipt = await driver.prove({
+          const proveResult = await driver.prove({
             inputs: formValues,
             circuitTypeId: proofType.circuit_type_id,
             eventListener: handleProofGenEvent,
           });
 
-          if (query.usePrfsRegistry) {
-            // createPrfsProofRecord({
-            //   proof_record: {
-            //     serial_no: proveReceipt.proof.publicInputSer,
-            //     proof_starts_with: proveReceipt.proof.proofBytes[4],
-            //   },
-            // });
-          }
-
           setCreateProofStatus(Status.Standby);
-          proveReceipt.proof.proofBytes = Array.from(proveReceipt.proof.proofBytes);
-          return proveReceipt;
+          proveResult.proof.proofBytes = Array.from(proveResult.proof.proofBytes);
+          return { ...proveResult, proofAction, proofActionResult };
         } catch (err: any) {
           setCreateProofStatus(Status.Standby);
           // setSystemMsg(err.toString());
@@ -153,7 +147,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
       },
     }));
-  }, [formValues, setReceipt, query, driver, credential]);
+  }, [formValues, setReceipt, query, driver, credential, formHandler]);
 
   const proofType = data?.payload?.prfs_proof_type;
   return proofType ? (
@@ -204,12 +198,14 @@ const CreateProof: React.FC<CreateProofProps> = ({
                   proofType={proofType}
                   formValues={formValues}
                   setFormValues={setFormValues}
+                  setFormHandler={setFormHandler}
                   formErrors={formErrors}
                   setFormErrors={setFormErrors}
                   presetVals={query.presetVals}
                   credential={credential}
                   proofAction={query.proofAction}
                   usePrfsRegistry={query.usePrfsRegistry}
+                  handleSkip={handleSkip}
                 />
               </div>
             </TutorialStepper>
@@ -236,6 +232,7 @@ export interface CreateProofProps {
   setErrorDialogMsg: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
   tutorial: TutorialArgs | undefined;
+  handleSkip: (proofId: string) => void;
 }
 
 export interface LoadDriverProgressProps {

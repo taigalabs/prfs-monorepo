@@ -12,24 +12,28 @@ import { toShortDate } from "@/utils/time";
 import { PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
 import { useI18N } from "@/i18n/hook";
+import CreatePost from "../create_post/CreatePost";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 const Post: React.FC<PostContentProps> = ({
+  topicId,
+  channel,
   author_public_key,
   content,
   proof_identity_input,
   updated_at,
 }) => {
   const i18n = useI18N();
-  // const { data: postData, isFetching: postDataIsFetching } = useQuery({
-  //   queryKey: ["get_shy_topic", topicId],
-  //   queryFn: async () => {
-  //     return shyApi2({ type: "get_shy_topic", topic_id: topicId });
-  //   },
-  // });
-  // const topic = postData?.payload?.shy_topic_syn1;
+  const [isReplyOpen, setIsReplyOpen] = React.useState(false);
+  const handleClickReply = React.useCallback(() => {
+    setIsReplyOpen(true);
+  }, [setIsReplyOpen]);
+  const handleClickCancel = React.useCallback(() => {
+    setIsReplyOpen(false);
+  }, [setIsReplyOpen]);
 
   const publicKey = React.useMemo(() => {
-    return author_public_key.substring(0, 10) || "";
+    return author_public_key.substring(0, 8) || "";
   }, [author_public_key]);
 
   const date = React.useMemo(() => {
@@ -58,7 +62,14 @@ const Post: React.FC<PostContentProps> = ({
           __html: content,
         }}
       />
-      <PostMenu />
+      <PostMenu
+        content={content}
+        originalPostAuthorPubkey={publicKey}
+        handleClickReply={handleClickReply}
+      />
+      {isReplyOpen && (
+        <CreatePost handleClickCancel={handleClickCancel} channel={channel} topicId={topicId} />
+      )}
     </PostInner>
   );
 };
@@ -70,4 +81,6 @@ export interface PostContentProps {
   proof_identity_input: string;
   content: string;
   updated_at: string;
+  channel: ShyChannel;
+  topicId: string;
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import { useEditor, EditorProvider } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Color } from "@tiptap/extension-color";
@@ -29,39 +30,11 @@ const extensions = [
   }),
   Placeholder.configure({
     emptyEditorClass: styles.isEditorEmpty,
-    placeholder:
-      "Type here. You can use Markdown to format. Copy pasting images will later be supported.",
+    placeholder: "Type here. You can use Markdown to format.",
   }),
 ];
 
-// const EditorMenuBar = () => {
-//   const { editor } = useCurrentEditor();
-
-//   if (!editor) {
-//     return null;
-//   }
-
-//   return (
-//     <div className={styles.menuBar}>
-//       <button
-//         onClick={() => editor.chain().focus().toggleBold().run()}
-//         disabled={!editor.can().chain().focus().toggleBold().run()}
-//         className={editor.isActive("bold") ? "is-active" : ""}
-//       >
-//         bold
-//       </button>
-//       <button
-//         onClick={() => editor.chain().focus().toggleItalic().run()}
-//         disabled={!editor.can().chain().focus().toggleItalic().run()}
-//         className={editor.isActive("italic") ? "is-active" : ""}
-//       >
-//         italic
-//       </button>
-//     </div>
-//   );
-// };
-
-const TextEditor: React.FC<TextEditorProps> = ({ footer }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ footer, editorClassName, className }) => {
   const editor = useEditor({
     extensions,
   });
@@ -71,11 +44,11 @@ const TextEditor: React.FC<TextEditorProps> = ({ footer }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cn(styles.wrapper, className)}>
       <EditorProvider
         editorProps={{
           attributes: {
-            class: `${styles.editor}`,
+            class: cn(styles.editor, editorClassName),
           },
         }}
         // slotBefore={<EditorMenuBar />}
@@ -93,4 +66,6 @@ export default TextEditor;
 
 export interface TextEditorProps {
   footer: React.JSX.Element;
+  className?: string;
+  editorClassName?: string;
 }

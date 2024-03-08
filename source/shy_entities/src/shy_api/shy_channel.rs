@@ -25,5 +25,5 @@ pub struct GetShyChannelRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyChannelResponse {
-    pub shy_channel: ShyChannel,
+    pub shy_channel: Option<ShyChannel>,
 }

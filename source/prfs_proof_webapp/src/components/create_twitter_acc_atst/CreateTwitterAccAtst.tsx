@@ -22,6 +22,7 @@ import {
   createSession,
   createSessionKey,
   openPopup,
+  CommitmentReceipt,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
@@ -237,9 +238,9 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         return;
       }
 
-      const cm = payload.receipt[CLAIM];
-      if (cm) {
-        setClaimCm(cm);
+      const cm: CommitmentReceipt = payload.receipt[CLAIM];
+      if (cm?.commitment) {
+        setClaimCm(cm.commitment);
         setStep(AttestationStep.POST_TWEET);
       } else {
         console.error("no commitment delivered");

@@ -3,12 +3,10 @@
 
 .editor {
   width: 100%;
-  min-height: 140px;
-  border: 1px solid var(--gray-74);
+  min-height: 70px;
   padding: 0.5em 0.65em;
   color: var(--shy-gray-20);
-
-  /* border: 1px solid red; */
+  outline: none;
 }
 
 .menuBar {
@@ -41,18 +39,11 @@
 
 .footer {
   padding-top: 8px;
-  /* height: 52px; */
   margin-bottom: 0;
   display: flex;
   align-items: center;
 
   button {
-    /* border: 1px solid var(--gray-74); */
     padding: 0.5em 0.65em;
-    /* cursor: pointer; */
-
-    /* &:hover { */
-    /*   border: 1px solid var(--gray-60); */
-    /* } */
   }
 }

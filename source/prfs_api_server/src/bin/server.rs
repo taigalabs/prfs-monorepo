@@ -25,7 +25,15 @@ async fn main() -> Result<(), ApiServerError> {
             tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
                 // axum logs rejections from built-in extractors with the `axum::rejection`
                 // target, at `TRACE` level. `axum::rejection=trace` enables showing those events
-                "prfs_api_server=info,tower_http=info,axum::rejection=trace".into()
+                format!(
+                    "{},{},{},{},{}",
+                    prfs_api_server::log::RUST_LOG_ENV,
+                    shy_api_server::log::RUST_LOG_ENV,
+                    prfs_id_session_server::log::RUST_LOG_ENV,
+                    "tower_http=info",
+                    "axum::rejection=trace"
+                )
+                .into()
             }),
         )
         .with(tracing_subscriber::fmt::layer())

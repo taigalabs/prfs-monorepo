@@ -9,8 +9,9 @@ import {
   makePathIndices,
   makeSiblingPath,
   poseidon_2_bigint_le,
+  prfsSign,
 } from "@taigalabs/prfs-crypto-js";
-import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { hexlify, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation, useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
@@ -24,8 +25,8 @@ import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
-import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
+import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -40,20 +41,11 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
+import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
-import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
-
-function usePrfsProofRecord(pk: string) {
-  return useQuery({
-    queryKey: ["get_prfs_proof_record", pk],
-    queryFn: async () => {
-      return prfsApi3({ type: "get_prfs_proof_record", public_key: pk });
-    },
-  });
-}
+import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -80,9 +72,11 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   error,
   setFormErrors,
   setFormValues,
+  setFormHandler,
   presetVals,
   proofAction,
   usePrfsRegistry,
+  handleSkip,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
@@ -158,9 +152,53 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   }, [prfsSet, prfsTree]);
 
   React.useEffect(() => {
+    setFormHandler(() => async (formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {
+      const val = formValues as MerkleSigPosRangeV1Inputs | undefined;
+      if (!val) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          merkleProof: "Form is empty, something is wrong",
+        }));
+        return { isValid: false };
+      }
+
+      if (!val?.merkleProof) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          merkleProof: "Merkle proof is empty",
+        }));
+        return { isValid: false };
+      }
+      const { root, siblings, pathIndices } = val.merkleProof;
+      if (!root || !siblings || !pathIndices) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          merkleProof: "Merkle path is not provided. Have you put address?",
+        }));
+        return { isValid: false };
+      }
+      if (!val.nonceRaw || val.nonceRaw.length === 0) {
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          nonceRaw: "Nonce raw is empty",
+        }));
+        return { isValid: false };
+      }
+      const { skHex } = await deriveProofKey(val.nonceRaw);
+      val.proofKey = skHex;
+
+      const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
+      const proofActionResult = await prfsSign(skHex, proofAction_);
+      const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
+
+      return { isValid: true, proofActionResult: proofActionResultHex };
+    });
+  }, [setFormHandler, setFormErrors]);
+
+  React.useEffect(() => {
     async function fn() {
       if (presetVals?.nonceRaw && usePrfsRegistry) {
-        const { publicKey } = await deriveProofKey(presetVals.nonceRaw);
+        const { publicKey, skHex } = await deriveProofKey(presetVals.nonceRaw);
         const pkHex = hexlify(publicKey);
 
         const { payload, error } = await getPrfsProofRecord({
@@ -171,12 +209,14 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }
 
         if (payload) {
-          console.log(22, payload);
+          if (payload.proof_record) {
+            handleSkip(payload.proof_record.public_key);
+          }
         }
       }
     }
     fn().then();
-  }, [presetVals, proofAction, getPrfsProofRecord, usePrfsRegistry]);
+  }, [presetVals, proofAction, getPrfsProofRecord, usePrfsRegistry, handleSkip]);
 
   React.useEffect(() => {
     async function fn() {
@@ -500,10 +540,12 @@ export interface MerkleSigPosRangeInputProps {
   error: FormErrors<MerkleSigPosRangeV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
+  setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
   presetVals?: MerkleSigPosRangeV1PresetVals;
   credential: PrfsIdCredential;
   proofAction: string;
   usePrfsRegistry?: boolean;
+  handleSkip: (proofId: string) => void;
 }
 
 export interface ComputedValueProps {

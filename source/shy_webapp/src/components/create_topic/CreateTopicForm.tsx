@@ -31,8 +31,8 @@ import { pathParts, paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
-import EditorFooter from "./EditorFooter";
 import { SHY_APP_ID } from "@/app_id";
+import CreateTopicFooter from "./CreateTopicFooter";
 
 const PROOF = "Proof";
 
@@ -173,6 +173,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           proveReceipt.proof.publicInputSer,
         );
 
+        console.log(123, proveReceipt);
+
         const shy_topic_proof_id = rand256Hex();
         const { payload, error } = await createShyTopic({
           title,
@@ -185,7 +187,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           public_inputs: proveReceipt.proof.publicInputSer,
           author_public_key: publicInputs.proofPubKey,
           serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
-          author_sig: proveReceipt.proof.proofActionResult,
+          // author_sig: proveReceipt.proof.proofActionResult,
+          author_sig: "",
         });
 
         if (error) {
@@ -204,12 +207,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
   );
 
   const footer = React.useMemo(() => {
-    return (
-      <>
-        {error && <div className={styles.error}>{error}</div>}
-        <EditorFooter handleClickTopic={handleCreateTopic} />
-      </>
-    );
+    return <CreateTopicFooter handleClickTopic={handleCreateTopic} />;
   }, [error, title]);
 
   return (
@@ -218,17 +216,23 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         <span>{i18n.create_a_topic}</span>
         <span> ({shortTopicId})</span>
       </div>
-      <div className={styles.titleInput}>
+      <div className={styles.titleInputWrapper}>
         <input
+          className={styles.titleInput}
           type="text"
           placeholder={i18n.what_is_this_discussion_about_in_one_sentence}
           value={title}
           onChange={handleChangeTitle}
         />
       </div>
-      <div className={styles.editorWrapper}>
-        <TextEditor footer={footer} />
+      <div className={styles.editorRow}>
+        <TextEditor
+          footer={footer}
+          className={styles.editorWrapper}
+          editorClassName={styles.editor}
+        />
       </div>
+      {error && <div className={styles.error}>{error}</div>}
     </div>
   );
 };

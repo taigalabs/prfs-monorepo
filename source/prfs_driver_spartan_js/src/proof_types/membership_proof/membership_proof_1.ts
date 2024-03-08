@@ -1,5 +1,5 @@
 import { BN } from "bn.js";
-import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
+import { ProveArgs, ProveReceipt, ProveResult, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { toBuffer } from "@ethereumjs/util";
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
 import { bytesToNumberLE, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
@@ -20,7 +20,7 @@ export async function proveMembership(
   handlers: PrfsHandlers,
   wtnsGen: Uint8Array,
   circuit: Uint8Array,
-): Promise<ProveReceipt> {
+): Promise<ProveResult> {
   const { inputs, eventListener } = args;
   const { sigData, merkleProof } = inputs;
   const { msgRaw, msgHash, sig } = sigData;
@@ -102,7 +102,6 @@ export async function proveMembership(
       proofBytes,
       publicInputSer: publicInput.serialize(),
       proofKey: "",
-      proofActionResult: "",
     },
   };
 }

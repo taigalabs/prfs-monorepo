@@ -11,7 +11,7 @@ import {
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { JSONbigNative, encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { idApi } from "@taigalabs/prfs-api-js";
+import { idApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 
@@ -60,13 +60,22 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
     <div className={styles.sidePadding}>Loading...</div>,
   );
+  // const { mutateAsync: getPrfsProofRecord } = useMutation({
+  //   mutationFn: req => {
+  //     return prfsApi3({ type: "get_prfs_proof_record", req });
+  //   },
+  // });
+  const handleSkip = React.useCallback(async (proofId: string) => {
+    console.log(123123, proofId);
+    // await getPrfsProofRecord();
+  }, []);
 
   React.useEffect(() => {
     async function fn() {
       try {
         if (proofGenArgs) {
           let elems = [];
-          const receipt: Record<string, string> = {};
+          // const receipt = {};
           for (const query of proofGenArgs.queries) {
             switch (query.queryType) {
               case QueryType.CREATE_PROOF: {
@@ -78,6 +87,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                     query={query}
                     setReceipt={setReceipt}
                     tutorial={proofGenArgs.tutorial}
+                    handleSkip={handleSkip}
                   />
                 );
                 elems.push(elem);
@@ -139,7 +149,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
             }
           }
 
-          setReceipt(receipt);
+          // fresh initailize
+          setReceipt({});
+
           setQueryElems(elems);
           setStatus(Status.Standby);
         }
@@ -148,7 +160,15 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
     }
     fn().then();
-  }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus, setErrorDialogMsg]);
+  }, [
+    searchParams,
+    setReceipt,
+    setQueryElems,
+    proofGenArgs,
+    setStatus,
+    setErrorDialogMsg,
+    handleSkip,
+  ]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && status === Status.Standby) {

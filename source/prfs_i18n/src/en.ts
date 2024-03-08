@@ -58,6 +58,7 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
+  no_channel_found: "No channel found for this channel id. Check out the channel id",
   participants: "Participants",
   no_records_to_show: "No records to show",
   newest: "Newest",

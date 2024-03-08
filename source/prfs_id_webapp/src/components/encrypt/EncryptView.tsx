@@ -25,7 +25,9 @@ const EncryptView: React.FC<EncodeViewProps> = ({ query, credential, setReceipt 
 
           setReceipt(oldVal => ({
             ...oldVal,
-            [name]: encryptedHex,
+            [name]: {
+              encrypted: encryptedHex,
+            },
           }));
 
           setElem(
