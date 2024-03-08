@@ -199,7 +199,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
                   proofAction={query.proofAction}
                   usePrfsRegistry={query.usePrfsRegistry}
                   handleSkip={handleSkip}
-                  setProcessInput={setProcessInput}
                 />
               </div>
             </TutorialStepper>
