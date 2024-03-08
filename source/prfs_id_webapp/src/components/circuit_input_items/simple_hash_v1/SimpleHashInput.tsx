@@ -104,7 +104,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
   }, [value?.hashData]);
 
   React.useEffect(() => {
-    setFormHandler(async (formValues: FormValues<SimpleHashV1Inputs>) => {
+    setFormHandler(() => async (formValues: FormValues<SimpleHashV1Inputs>) => {
       const val = formValues as SimpleHashV1Inputs | undefined;
 
       if (!val?.hashData) {
@@ -158,7 +158,7 @@ export interface SimpleHashInputProps {
   error: FormErrors<SimpleHashV1Inputs> | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<SimpleHashV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<SimpleHashV1Inputs>>>;
-  setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
+  setFormHandler: React.Dispatch<React.SetStateAction<(() => FormHandler) | null>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;
 }

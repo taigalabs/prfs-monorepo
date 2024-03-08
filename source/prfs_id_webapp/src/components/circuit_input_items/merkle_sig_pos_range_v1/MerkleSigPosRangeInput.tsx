@@ -150,9 +150,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   }, [prfsSet, prfsTree]);
 
   React.useEffect(() => {
-    setFormHandler(async (formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {
+    setFormHandler(() => async (formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {
       const val = formValues as MerkleSigPosRangeV1Inputs | undefined;
-
       if (!val) {
         setFormErrors(oldVal => ({
           ...oldVal,
@@ -160,7 +159,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }));
         return false;
       }
-
       if (!val?.merkleProof) {
         setFormErrors(oldVal => ({
           ...oldVal,
@@ -168,9 +166,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }));
         return false;
       }
-
       const { root, siblings, pathIndices } = val.merkleProof;
-
       if (!root || !siblings || !pathIndices) {
         setFormErrors(oldVal => ({
           ...oldVal,
@@ -178,7 +174,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }));
         return false;
       }
-
       if (!val.nonceRaw || val.nonceRaw.length === 0) {
         setFormErrors(oldVal => ({
           ...oldVal,
@@ -186,10 +181,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }));
         return false;
       }
-
       const { skHex } = await deriveProofKey(val.nonceRaw);
       val.proofKey = skHex;
-
       return true;
     });
   }, [setFormHandler, setFormErrors]);
@@ -539,7 +532,7 @@ export interface MerkleSigPosRangeInputProps {
   error: FormErrors<MerkleSigPosRangeV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
-  setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
+  setFormHandler: React.Dispatch<React.SetStateAction<(() => FormHandler) | null>>;
   presetVals?: MerkleSigPosRangeV1PresetVals;
   credential: PrfsIdCredential;
   proofAction: string;
