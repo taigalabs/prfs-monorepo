@@ -158,7 +158,7 @@ export interface SimpleHashInputProps {
   error: FormErrors<SimpleHashV1Inputs> | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<SimpleHashV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<SimpleHashV1Inputs>>>;
-  setFormHandler: React.Dispatch<React.SetStateAction<(() => FormHandler) | null>>;
+  setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;
 }

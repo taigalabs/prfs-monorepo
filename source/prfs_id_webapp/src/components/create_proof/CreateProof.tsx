@@ -60,7 +60,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
-  const [formHandler, setFormHandler] = React.useState<(() => FormHandler) | null>(null);
+  const [formHandler, setFormHandler] = React.useState<FormHandler | null>(null);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const tutorialStep = useAppSelector(state => state.tutorial.tutorialStep);
@@ -116,33 +116,33 @@ const CreateProof: React.FC<CreateProofProps> = ({
           return;
         }
 
-        // try {
-        //   // const isValid = await validateInputs(formValues, proofType, setFormErrors);
-        //   // if (!isValid) {
-        //   //   throw new Error("Input validation fail to create a proof");
-        //   // }
-        //   //
-        //   const isValid = await formHandler(formValues);
-        //   if (!isValid) {
-        //     throw new Error("Input validation fail to create a proof");
-        //   }
+        try {
+          // const isValid = await validateInputs(formValues, proofType, setFormErrors);
+          // if (!isValid) {
+          //   throw new Error("Input validation fail to create a proof");
+          // }
+          //
+          const isValid = await formHandler(formValues);
+          if (!isValid) {
+            throw new Error("Input validation fail to create a proof");
+          }
 
-        //   console.log("Form values", formValues);
-        //   setCreateProofStatus(Status.InProgress);
-        //   const proveReceipt = await driver.prove({
-        //     inputs: formValues,
-        //     circuitTypeId: proofType.circuit_type_id,
-        //     eventListener: handleProofGenEvent,
-        //   });
+          console.log("Form values", formValues);
+          setCreateProofStatus(Status.InProgress);
+          const proveReceipt = await driver.prove({
+            inputs: formValues,
+            circuitTypeId: proofType.circuit_type_id,
+            eventListener: handleProofGenEvent,
+          });
 
-        //   setCreateProofStatus(Status.Standby);
-        //   proveReceipt.proof.proofBytes = Array.from(proveReceipt.proof.proofBytes);
-        //   return proveReceipt;
-        // } catch (err: any) {
-        //   setCreateProofStatus(Status.Standby);
-        //   // setSystemMsg(err.toString());
-        //   throw err;
-        // }
+          setCreateProofStatus(Status.Standby);
+          proveReceipt.proof.proofBytes = Array.from(proveReceipt.proof.proofBytes);
+          return proveReceipt;
+        } catch (err: any) {
+          setCreateProofStatus(Status.Standby);
+          // setSystemMsg(err.toString());
+          throw err;
+        }
       },
     }));
   }, [formValues, setReceipt, query, driver, credential, formHandler]);

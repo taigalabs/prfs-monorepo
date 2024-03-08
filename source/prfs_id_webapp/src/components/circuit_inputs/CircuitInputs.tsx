@@ -91,7 +91,7 @@ export interface CircuitInputsProps {
   formErrors: Record<string, string>;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
-  setFormHandler: React.Dispatch<React.SetStateAction<(() => FormHandler) | null>>;
+  setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
   presetVals?: QueryPresetVals;
   proofAction: string;
   credential: PrfsIdCredential;

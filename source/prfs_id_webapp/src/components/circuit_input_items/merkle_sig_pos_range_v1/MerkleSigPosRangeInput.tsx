@@ -183,6 +183,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       }
       const { skHex } = await deriveProofKey(val.nonceRaw);
       val.proofKey = skHex;
+
       return true;
     });
   }, [setFormHandler, setFormErrors]);
@@ -532,7 +533,7 @@ export interface MerkleSigPosRangeInputProps {
   error: FormErrors<MerkleSigPosRangeV1Inputs>;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
-  setFormHandler: React.Dispatch<React.SetStateAction<(() => FormHandler) | null>>;
+  setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
   presetVals?: MerkleSigPosRangeV1PresetVals;
   credential: PrfsIdCredential;
   proofAction: string;
