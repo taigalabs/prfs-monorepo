@@ -168,12 +168,12 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           return;
         }
 
+        console.log(123, proofGenPayload);
+
         const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
         const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
           proveReceipt.proof.publicInputSer,
         );
-
-        console.log(123, proveReceipt);
 
         const shy_topic_proof_id = rand256Hex();
         const { payload, error } = await createShyTopic({

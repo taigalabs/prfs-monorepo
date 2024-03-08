@@ -140,12 +140,14 @@ const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel, channel, top
           return;
         }
 
-        const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
-        const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
-          proveReceipt.proof.publicInputSer,
-        );
+        console.log(22, proofGenPayload);
 
-        const shy_topic_proof_id = rand256Hex();
+        // const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
+        // const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
+        //   proveReceipt.proof.publicInputSer,
+        // );
+
+        // const shy_topic_proof_id = rand256Hex();
         // const { payload, error } = await createShyTopic({
         //   title,
         //   topic_id: topicId,

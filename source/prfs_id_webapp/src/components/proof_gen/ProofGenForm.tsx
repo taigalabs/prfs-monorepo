@@ -62,11 +62,37 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     <div className={styles.sidePadding}>Loading...</div>,
   );
 
-  const handleSkip = React.useCallback(async (proveReceipt: CachedProveReceipt) => {
-    console.log(33, proveReceipt);
-    // console.log(123123, proofId);
-    // await getPrfsProofRecord();
-  }, []);
+  const handleSkip = React.useCallback(
+    async (proveReceipt: CachedProveReceipt) => {
+      if (proofGenArgs) {
+        const payload: ProofGenSuccessPayload = {
+          receipt: proveReceipt,
+        };
+
+        console.log(11, payload);
+
+        const encrypted = [
+          ...encrypt(proofGenArgs.public_key, Buffer.from(JSONbigNative.stringify(payload))),
+        ];
+
+        const { error } = await putSessionValueRequest({
+          key: proofGenArgs.session_key,
+          value: encrypted,
+          ticket: "TICKET",
+        });
+
+        if (error) {
+          console.error(error);
+          setErrorMsg(error.toString());
+          return;
+        }
+
+        setCreateProofStatus(Status.Standby);
+        // window.close();
+      }
+    },
+    [proofGenArgs, putSessionValueRequest, setErrorMsg, setCreateProofStatus],
+  );
 
   React.useEffect(() => {
     async function fn() {
@@ -211,7 +237,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
         // For some reason, parent window sees the child as 'child', so child manually
         // closes itself
-        window.close();
+        // window.close();
       } catch (err: any) {
         console.error(err);
         setCreateProofStatus(Status.Standby);
