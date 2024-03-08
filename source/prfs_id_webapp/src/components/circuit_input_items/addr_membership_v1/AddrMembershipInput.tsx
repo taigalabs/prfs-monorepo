@@ -19,7 +19,7 @@ import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRaw from "./MerkleProofRaw";
 import { i18nContext } from "@/i18n/context";
 import MerkleProofInput from "./MerkleProofInput";
-import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formTypes";
 import SigDataInput from "./SigDataInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {

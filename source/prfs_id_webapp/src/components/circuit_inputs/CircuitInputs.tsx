@@ -47,7 +47,6 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             proofAction={proofAction}
             usePrfsRegistry={usePrfsRegistry}
             handleSkip={handleSkip}
-            setProcessInput={setProcessInput as SetProcessInput<MerkleSigPosRangeV1Inputs>}
           />
         );
       }
@@ -74,7 +73,6 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             setFormErrors={setFormErrors as any}
             presetVals={presetVals}
             credential={credential}
-            setProcessInput={setProcessInput as SetProcessInput<SimpleHashV1Inputs>}
           />
         );
       }

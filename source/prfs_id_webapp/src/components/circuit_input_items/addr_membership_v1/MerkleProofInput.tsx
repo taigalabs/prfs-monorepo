@@ -25,7 +25,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
-import { FormErrors, FormValues } from "../formErrorTypes";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {

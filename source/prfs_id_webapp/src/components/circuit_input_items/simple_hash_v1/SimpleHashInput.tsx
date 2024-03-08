@@ -153,7 +153,6 @@ export interface SimpleHashInputProps {
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<SimpleHashV1Inputs>>>;
   presetVals?: QueryPresetVals;
   credential: PrfsIdCredential;
-  setProcessInput: SetProcessInput<FormValues<SimpleHashV1Inputs>>;
 }
 
 export interface ComputedValueProps {

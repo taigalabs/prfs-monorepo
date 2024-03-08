@@ -11,7 +11,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { useI18N } from "@/i18n/context";
-import { FormErrors, FormValues } from "@/components/circuit_input_items/formErrorTypes";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formTypes";
 import { bytesToBigInt, deriveProofKey } from "@taigalabs/prfs-crypto-js";
 
 const MemoInput: React.FC<RangeSelectProps> = ({

@@ -4,6 +4,9 @@ import { SigData } from "@taigalabs/prfs-circuit-interface/bindings/SigData";
 import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import { useSignMessage } from "@taigalabs/prfs-crypto-deps-js/wagmi";
 import { bufferToHex, hashPersonalMessage } from "@taigalabs/prfs-crypto-deps-js/ethereumjs";
+import { prfsSign } from "@taigalabs/prfs-crypto-js";
+import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
+import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -15,10 +18,7 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
-import { prfsSign } from "@taigalabs/prfs-crypto-js";
-import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
-import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
-import { FormErrors, FormValues } from "../formErrorTypes";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {

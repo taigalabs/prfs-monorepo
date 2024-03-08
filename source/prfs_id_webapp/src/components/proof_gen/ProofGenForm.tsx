@@ -65,7 +65,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   //     return prfsApi3({ type: "get_prfs_proof_record", req });
   //   },
   // });
-
   const handleSkip = React.useCallback(async (proofId: string) => {
     console.log(123123, proofId);
     // await getPrfsProofRecord();
