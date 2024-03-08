@@ -9,10 +9,15 @@ export type FormErrors<T> = {
   [Key in keyof T]: undefined | React.ReactNode;
 };
 
-export type FormHandler = (formValues: FormValues<any>) => Promise<{
-  isValid: boolean;
-  proofAction?: string;
-  proofActionResult?: string;
-}>;
+export type FormHandler = (formValues: FormValues<any>) => Promise<
+  | {
+      isValid: false;
+    }
+  | {
+      isValid: true;
+      proofAction: string;
+      proofActionResult: string;
+    }
+>;
 
 export type HandleSkip = (proveReceipt: CachedProveReceipt) => void;

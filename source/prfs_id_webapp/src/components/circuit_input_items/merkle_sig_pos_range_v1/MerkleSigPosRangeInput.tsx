@@ -164,7 +164,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           ...oldVal,
           merkleProof: "Form is empty, something is wrong",
         }));
-        return { isValid: false };
+        return { isValid: false as const };
       }
 
       if (!val?.merkleProof) {
@@ -172,7 +172,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           ...oldVal,
           merkleProof: "Merkle proof is empty",
         }));
-        return { isValid: false };
+        return { isValid: false as const };
       }
       const { root, siblings, pathIndices } = val.merkleProof;
       if (!root || !siblings || !pathIndices) {
@@ -180,14 +180,14 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           ...oldVal,
           merkleProof: "Merkle path is not provided. Have you put address?",
         }));
-        return { isValid: false };
+        return { isValid: false as const };
       }
       if (!val.nonceRaw || val.nonceRaw.length === 0) {
         setFormErrors(oldVal => ({
           ...oldVal,
           nonceRaw: "Nonce raw is empty",
         }));
-        return { isValid: false };
+        return { isValid: false as const };
       }
       const { skHex } = await deriveProofKey(val.nonceRaw);
       val.proofKey = skHex;
@@ -196,9 +196,9 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       const proofActionResult = await prfsSign(skHex, proofAction_);
       const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 
-      return { isValid: true, proofActionResult: proofActionResultHex };
+      return { isValid: true, proofAction, proofActionResult: proofActionResultHex };
     });
-  }, [setFormHandler, setFormErrors]);
+  }, [setFormHandler, setFormErrors, proofAction]);
 
   React.useEffect(() => {
     async function fn() {

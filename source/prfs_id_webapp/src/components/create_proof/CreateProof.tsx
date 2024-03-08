@@ -116,11 +116,13 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
 
         try {
-          const { isValid, proofAction, proofActionResult } = await formHandler(formValues);
-          if (!isValid) {
+          const val = await formHandler(formValues);
+          const { isValid } = val;
+          if (isValid === false) {
             throw new Error("Input validation fail to create a proof");
           }
 
+          const { proofAction, proofActionResult } = val;
           if (!proofAction) {
             throw new Error("Proof action is empty");
           }
