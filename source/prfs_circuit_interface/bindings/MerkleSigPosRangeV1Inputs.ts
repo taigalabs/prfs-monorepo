@@ -11,5 +11,4 @@ export interface MerkleSigPosRangeV1Inputs {
   merkleProof: SpartanMerkleProof;
   nonceRaw: string;
   proofKey: string;
-  proofAction: string;
 }

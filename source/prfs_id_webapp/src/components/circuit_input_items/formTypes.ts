@@ -8,4 +8,4 @@ export type FormErrors<T> = {
   [Key in keyof T]: undefined | React.ReactNode;
 };
 
-export type FormHandler = () => void;
+export type FormHandler = (formValues: FormValues<any>) => void;

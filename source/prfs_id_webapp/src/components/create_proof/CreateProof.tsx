@@ -126,9 +126,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
             eventListener: handleProofGenEvent,
           });
 
-          // if (query.usePrfsRegistry) {
-          // }
-
           setCreateProofStatus(Status.Standby);
           proveReceipt.proof.proofBytes = Array.from(proveReceipt.proof.proofBytes);
           return proveReceipt;

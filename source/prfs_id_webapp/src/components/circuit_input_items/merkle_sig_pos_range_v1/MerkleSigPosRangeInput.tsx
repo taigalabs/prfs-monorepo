@@ -150,6 +150,10 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   }, [prfsSet, prfsTree]);
 
   React.useEffect(() => {
+    setFormHandler((formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {});
+  }, [setFormHandler]);
+
+  React.useEffect(() => {
     async function fn() {
       if (presetVals?.nonceRaw && usePrfsRegistry) {
         const { publicKey, skHex } = await deriveProofKey(presetVals.nonceRaw);
