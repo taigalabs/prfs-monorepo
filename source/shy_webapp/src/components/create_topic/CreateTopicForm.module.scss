@@ -45,6 +45,15 @@
   color: red;
 }
 
+.navigating {
+  padding: 16px 12px;
+  font-size: 15px;
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
 .editorWrapper {
   :global(.ProseMirror-focused) {
     border-bottom: 1px solid var(--gray-50);

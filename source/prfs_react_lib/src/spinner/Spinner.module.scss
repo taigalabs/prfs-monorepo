@@ -17,6 +17,12 @@
   animation: load8 2s infinite linear;
 }
 
+.gray_1 {
+  border-top-color: gray;
+  border-right-color: gray;
+  border-bottom-color: gray;
+}
+
 @keyframes load8 {
   0% {
     transform: rotate(0deg);
