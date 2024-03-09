@@ -35,4 +35,5 @@ export const globalMsgReducer = globalMsgSlice.reducer;
 
 interface GlobalMsg {
   message: string;
+  notDimissible?: boolean;
 }

@@ -3,10 +3,10 @@
 import React from "react";
 import cn from "classnames";
 import {
-  GlobalErrorDialogContent,
-  GlobalErrorDialogWrapper,
-  GlobalErrorDialogBtnGroup,
-} from "@taigalabs/prfs-react-lib/src/global_error_dialog/GlobalErrorDialog";
+  GlobalMsgHeaderContent,
+  GlobalMsgHeaderWrapper,
+  GlobalMsgHeaderBtnGroup,
+} from "@taigalabs/prfs-react-lib/src/global_msg_header/GlobalMsgHeader";
 import { IoMdWarning } from "@react-icons/all-files/io/IoMdWarning";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
@@ -25,17 +25,17 @@ const GlobalErrorDialog: React.FC<GlobalErrorDialogProps> = ({}) => {
   return (
     error && (
       <Overlay className={styles.wrapper}>
-        <GlobalErrorDialogWrapper>
-          <GlobalErrorDialogContent>
+        <GlobalMsgHeaderWrapper>
+          <GlobalMsgHeaderContent>
             <IoMdWarning />
             <p>{error.message}</p>
-          </GlobalErrorDialogContent>
-          <GlobalErrorDialogBtnGroup>
+          </GlobalMsgHeaderContent>
+          <GlobalMsgHeaderBtnGroup>
             <button type="button" onClick={handleClickClose}>
               <IoClose />
             </button>
-          </GlobalErrorDialogBtnGroup>
-        </GlobalErrorDialogWrapper>
+          </GlobalMsgHeaderBtnGroup>
+        </GlobalMsgHeaderWrapper>
       </Overlay>
     )
   );

@@ -98,7 +98,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           return;
         }
 
-        // dispatch(setMsg({ message: "power" }));
+        dispatch(setGlobalMsg({ message: "power", notDimissible: true }));
         setCreateProofStatus(Status.Standby);
         // window.close();
       }

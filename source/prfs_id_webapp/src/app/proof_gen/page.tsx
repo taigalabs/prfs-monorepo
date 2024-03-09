@@ -3,7 +3,7 @@ import React, { Suspense } from "react";
 import { DefaultLayout, DefaultBody } from "@/components/layouts/default_layout/DefaultLayout";
 import ProofGen from "@/components/proof_gen/ProofGen";
 import CommitHash from "@/components/commit_hash/CommitHash";
-import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
+import GlobalErrorHeader from "@/components/global_error_header/GlobalErrorHeader";
 import GlobalMsgDialog from "@/components/global_msg_dialog/GlobalMsgDialog";
 
 const ProofGenPage = () => {
@@ -12,7 +12,7 @@ const ProofGenPage = () => {
       <DefaultBody>
         <Suspense>
           <ProofGen />
-          <GlobalErrorDialog />
+          <GlobalErrorHeader />
           <GlobalMsgDialog />
         </Suspense>
       </DefaultBody>
