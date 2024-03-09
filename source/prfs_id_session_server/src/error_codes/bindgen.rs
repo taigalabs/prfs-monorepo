@@ -1,12 +1,10 @@
 use std::fs;
 
-use crate::error_codes::API_ERROR_CODES;
-use crate::paths::PATHS;
-use crate::ApiServerError;
+use crate::{error_codes::API_ERROR_CODES, paths::PATHS, IdSessionServerError};
 
-pub fn generate_error_code_json_binding() -> Result<(), ApiServerError> {
+pub fn generate_error_code_json_binding() -> Result<(), IdSessionServerError> {
     let json = serde_json::to_string_pretty(&API_ERROR_CODES.clone()).unwrap();
-    println!("Successfully loaded error codes to generate json binding");
+    println!("[prfs_id_session_server] Successfully loaded error codes to generate json binding");
 
     let file_path = PATHS.data_api.join("error_codes.json");
 

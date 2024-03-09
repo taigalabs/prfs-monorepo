@@ -1,3 +1,5 @@
+pub mod bindgen;
+
 use prfs_axum_lib::generate_api_error_codes;
 use prfs_axum_lib::ApiHandleErrorCode;
 use serde::{Deserialize, Serialize};

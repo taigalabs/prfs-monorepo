@@ -1,14 +1,22 @@
 {
+  "SUCCESS": {
+    "code": "2000000",
+    "phrase": "Success"
+  },
   "UNKNOWN_ERROR": {
-    "code": 4000000,
+    "code": "4000000",
     "phrase": "Unknown error"
   },
-  "CANNOT_FIND_ID": {
-    "code": 4000001,
-    "phrase": "Can't find a ID"
+  "SESSION_NOT_EXISTS": {
+    "code": "4000001",
+    "phrase": "Can't find a session"
   },
-  "ID_ALREADY_EXISTS": {
-    "code": 4000002,
-    "phrase": "ID already exists"
+  "USER_ALREADY_EXISTS": {
+    "code": "4000002",
+    "phrase": "User already exists"
+  },
+  "NO_POLICY_ATTACHED": {
+    "code": "4000003",
+    "phrase": "User has no policy attached"
   }
 }
