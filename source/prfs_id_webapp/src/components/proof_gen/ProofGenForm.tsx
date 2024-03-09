@@ -29,13 +29,13 @@ import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
-import GlobalMsgDialog from "@/components/global_msg_dialog/GlobalMsgDialog";
 import EncryptView from "@/components/encrypt/EncryptView";
 import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
 import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 import { useAppDispatch } from "@/state/hooks";
 import { reportError } from "@/state/errorReducer";
+import { setMsg } from "@/state/globalMsgReducer";
 
 enum Status {
   InProgress,
@@ -100,6 +100,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           }, 4000);
           return;
         }
+
+        dispatch(setMsg({ message: "power" }));
 
         setCreateProofStatus(Status.Standby);
         // window.close();
@@ -267,9 +269,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
   return proofGenArgs ? (
     <>
-      {errorDialogMsg && (
-        <GlobalMsgDialog msg={errorDialogMsg} handleClose={handleCloseErrorDialog} />
-      )}
+      {/* {errorDialogMsg && ( */}
+      {/*   <GlobalMsgDialog msg={errorDialogMsg} handleClose={handleCloseErrorDialog} /> */}
+      {/* )} */}
       <DefaultInnerPadding noSidePadding>
         {(status === Status.InProgress || createProofStatus === Status.InProgress) && (
           <div className={styles.overlay} />

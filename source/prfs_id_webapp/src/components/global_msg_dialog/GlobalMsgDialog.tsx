@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
@@ -14,18 +16,18 @@ import {
 } from "@floating-ui/react";
 
 import styles from "./GlobalMsgDialog.module.scss";
-import { i18nContext } from "@/i18n/context";
+import { useI18N } from "@/i18n/context";
+import { useAppDispatch, useAppSelector } from "@/state/hooks";
+import { removeMsg } from "@/state/globalMsgReducer";
 
-const GlobalMsgDialog: React.FC<PrfsIdErrorDialogProps> = ({ msg, handleClose }) => {
-  const i18n = React.useContext(i18nContext);
+const GlobalMsgDialog: React.FC<PrfsIdErrorDialogProps> = ({}) => {
+  const i18n = useI18N();
   const [isOpen, setIsOpen] = React.useState(true);
+  const globalMsg = useAppSelector(state => state.globalMsg.msg?.message);
+  const dispatch = useAppDispatch();
   const handleClickClose = React.useCallback(() => {
-    window.close();
-  }, [setIsOpen, handleClose]);
-
-  const handleClickReload = React.useCallback(() => {
-    window.location.reload();
-  }, [setIsOpen, handleClose]);
+    dispatch(removeMsg());
+  }, [dispatch]);
 
   const { refs, context } = useFloating({
     open: isOpen,
@@ -43,9 +45,9 @@ const GlobalMsgDialog: React.FC<PrfsIdErrorDialogProps> = ({ msg, handleClose })
 
   return (
     <>
-      <div ref={refs.setReference} {...getReferenceProps()}></div>
+      {/* <div ref={refs.setReference} {...getReferenceProps()}></div> */}
       <FloatingPortal>
-        {isOpen && (
+        {globalMsg && (
           <FloatingOverlay className={styles.overlay} lockScroll>
             <Fade>
               <FloatingFocusManager context={context}>
@@ -56,15 +58,15 @@ const GlobalMsgDialog: React.FC<PrfsIdErrorDialogProps> = ({ msg, handleClose })
                   aria-describedby={descriptionId}
                   {...getFloatingProps()}
                 >
-                  <div className={styles.msg}>{msg}</div>
+                  <div className={styles.msg}>{globalMsg}</div>
                   <div className={styles.btnRow}>
-                    <Button
-                      variant="transparent_blue_2"
-                      className={styles.closeBtn}
-                      handleClick={handleClickReload}
-                    >
-                      {i18n.reload.toUpperCase()}
-                    </Button>
+                    {/* <Button */}
+                    {/*   variant="transparent_blue_2" */}
+                    {/*   className={styles.closeBtn} */}
+                    {/*   handleClick={handleClickReload} */}
+                    {/* > */}
+                    {/*   {i18n.reload.toUpperCase()} */}
+                    {/* </Button> */}
                     <Button
                       variant="transparent_blue_2"
                       className={styles.closeBtn}
@@ -85,8 +87,4 @@ const GlobalMsgDialog: React.FC<PrfsIdErrorDialogProps> = ({ msg, handleClose })
 
 export default GlobalMsgDialog;
 
-export interface PrfsIdErrorDialogProps {
-  msg: React.ReactNode | null;
-  handleClose: () => void;
-  noClickOutside?: boolean;
-}
+export interface PrfsIdErrorDialogProps {}
