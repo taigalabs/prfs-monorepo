@@ -66,9 +66,9 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
           {channelDataIsFetching && (
-            <div>
+            <Loading centerAlign>
               <Spinner />
-            </div>
+            </Loading>
           )}
           {channel ? (
             <>

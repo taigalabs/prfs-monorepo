@@ -13,6 +13,7 @@ import {
   InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import { useI18N } from "@/i18n/hook";
+import Loading from "../loading/Loading";
 
 const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
   const i18n = useI18N();
@@ -75,9 +76,9 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
 
   if (status === "pending") {
     return (
-      <div className={styles.loading}>
+      <Loading centerAlign>
         <Spinner />
-      </div>
+      </Loading>
     );
   }
 
