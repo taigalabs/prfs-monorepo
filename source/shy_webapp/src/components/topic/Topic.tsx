@@ -59,9 +59,9 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
               <TopicContent topicId={topicId} channel={channel} />
             </>
           ) : (
-            <div>
+            <Loading centerAlign>
               <Spinner />
-            </div>
+            </Loading>
           )}
         </InfiniteScrollMain>
         <InfiniteScrollRight>{null}</InfiniteScrollRight>
@@ -69,7 +69,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
     </InfiniteScrollWrapper>
   ) : (
     <>
-      <Loading>Loading</Loading>
+      <Loading>Loading...</Loading>
       <span className={styles.fontLoadText} />
     </>
   );
