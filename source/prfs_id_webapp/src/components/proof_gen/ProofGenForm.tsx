@@ -28,12 +28,11 @@ import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
-import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
+import GlobalMsgDialog from "@/components/global_msg_dialog/GlobalMsgDialog";
 import EncryptView from "@/components/encrypt/EncryptView";
 import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
 import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
-import { CachedProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 enum Status {
   InProgress,
@@ -255,7 +254,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   return proofGenArgs ? (
     <>
       {errorDialogMsg && (
-        <PrfsIdErrorDialog errorMsg={errorDialogMsg} handleClose={handleCloseErrorDialog} />
+        <GlobalMsgDialog msg={errorDialogMsg} handleClose={handleCloseErrorDialog} />
       )}
       <DefaultInnerPadding noSidePadding>
         {(status === Status.InProgress || createProofStatus === Status.InProgress) && (

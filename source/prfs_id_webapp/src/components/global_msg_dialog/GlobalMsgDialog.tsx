@@ -13,10 +13,10 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 
-import styles from "./PrfsIdErrorDialog.module.scss";
+import styles from "./GlobalMsgDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
 
-const PrfsIdErrorDialog: React.FC<PrfsIdErrorDialogProps> = ({ errorMsg, handleClose }) => {
+const GlobalMsgDialog: React.FC<PrfsIdErrorDialogProps> = ({ msg, handleClose }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(true);
   const handleClickClose = React.useCallback(() => {
@@ -56,7 +56,7 @@ const PrfsIdErrorDialog: React.FC<PrfsIdErrorDialogProps> = ({ errorMsg, handleC
                   aria-describedby={descriptionId}
                   {...getFloatingProps()}
                 >
-                  <div className={styles.msg}>{errorMsg}</div>
+                  <div className={styles.msg}>{msg}</div>
                   <div className={styles.btnRow}>
                     <Button
                       variant="transparent_blue_2"
@@ -83,10 +83,10 @@ const PrfsIdErrorDialog: React.FC<PrfsIdErrorDialogProps> = ({ errorMsg, handleC
   );
 };
 
-export default PrfsIdErrorDialog;
+export default GlobalMsgDialog;
 
 export interface PrfsIdErrorDialogProps {
-  errorMsg: React.ReactNode | null;
+  msg: React.ReactNode | null;
   handleClose: () => void;
   noClickOutside?: boolean;
 }
