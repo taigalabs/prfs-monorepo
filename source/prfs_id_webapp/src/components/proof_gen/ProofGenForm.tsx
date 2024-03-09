@@ -34,8 +34,8 @@ import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
 import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 import { useAppDispatch } from "@/state/hooks";
-import { reportError } from "@/state/errorReducer";
-import { setMsg } from "@/state/globalMsgReducer";
+import { setGlobalError } from "@/state/globalErrorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 enum Status {
   InProgress,
@@ -53,7 +53,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [status, setStatus] = React.useState(Status.InProgress);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
-  const [errorDialogMsg, setErrorDialogMsg] = React.useState<React.ReactNode | null>(null);
+  // const [errorDialogMsg, setErrorDialogMsg] = React.useState<React.ReactNode | null>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
@@ -89,15 +89,16 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           setErrorMsg(error.toString());
           setCreateProofStatus(Status.Standby);
           dispatch(
-            reportError({
+            setGlobalError({
               errorObj: "",
               message: "Session may be old. Re-try after closing the window",
+              shouldCloseWindow: true,
             }),
           );
           return;
         }
 
-        dispatch(setMsg({ message: "power" }));
+        // dispatch(setMsg({ message: "power" }));
         setCreateProofStatus(Status.Standby);
         // window.close();
       }
@@ -117,7 +118,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   <CreateProof
                     key={query.name}
                     credential={credential}
-                    setErrorDialogMsg={setErrorDialogMsg}
+                    // setErrorDialogMsg={setErrorDialogMsg}
                     query={query}
                     setReceipt={setReceipt}
                     tutorial={proofGenArgs.tutorial}
@@ -178,7 +179,12 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
               }
               default:
                 console.error("unsupported query type", query);
-                setErrorDialogMsg(<span>Unsupported query type, something is wrong</span>);
+                dispatch(
+                  setGlobalError({
+                    message: "Unsupported query type, something is wrong",
+                  }),
+                );
+                // setErrorDialogMsg(<span>Unsupported query type, something is wrong</span>);
                 return;
             }
           }
@@ -197,7 +203,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     setQueryElems,
     proofGenArgs,
     setStatus,
-    setErrorDialogMsg,
+    // setErrorDialogMsg,
     handleSkip,
   ]);
 

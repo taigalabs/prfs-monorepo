@@ -28,11 +28,11 @@ import {
   QueryName,
 } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
-import { useAppSelector } from "@/state/hooks";
+import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
 import { FormHandler } from "@/components/circuit_input_items/formTypes";
-import { JSONbigNative } from "@taigalabs/prfs-crypto-js";
+import { setGlobalError } from "@/state/globalErrorReducer";
 
 enum Status {
   Standby,
@@ -58,12 +58,13 @@ const CreateProof: React.FC<CreateProofProps> = ({
   query,
   setReceipt,
   tutorial,
-  setErrorDialogMsg,
+  // setErrorDialogMsg,
   handleSkip,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
+  const dispatch = useAppDispatch();
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [formHandler, setFormHandler] = React.useState<FormHandler | null>(null);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
@@ -89,23 +90,35 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
   React.useEffect(() => {
     if (error) {
-      setErrorDialogMsg(
-        <p>
-          <span>Error fetching proof type, something is wrong. </span>
-          <span>{error.toString()}</span>
-        </p>,
+      dispatch(
+        setGlobalError({
+          message: "Error fetching proof type, something is wrong. ",
+        }),
       );
+
+      // setErrorDialogMsg(
+      //   <p>
+      //     <span>Error fetching proof type, something is wrong. </span>
+      //     <span>{error.toString()}</span>
+      //   </p>,
+      // );
     }
 
     if (data?.error) {
-      setErrorDialogMsg(
-        <p>
-          <span>Error fetching proof type, something is wrong. </span>
-          <span>{data.error.toString()}</span>
-        </p>,
+      dispatch(
+        setGlobalError({
+          message: "Error fetching proof type, something is wrong. ",
+        }),
       );
+
+      // setErrorDialogMsg(
+      //   <p>
+      //     <span>Error fetching proof type, something is wrong. </span>
+      //     <span>{data.error.toString()}</span>
+      //   </p>,
+      // );
     }
-  }, [data, error, setErrorDialogMsg]);
+  }, [data, error, dispatch]);
 
   React.useEffect(() => {
     const { name } = query;
@@ -246,7 +259,7 @@ export default CreateProof;
 export interface CreateProofProps {
   credential: PrfsIdCredential;
   query: CreateProofQuery;
-  setErrorDialogMsg: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+  // setErrorDialogMsg: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
   tutorial: TutorialArgs | undefined;
   handleSkip: (record: Record<string, any>) => void;

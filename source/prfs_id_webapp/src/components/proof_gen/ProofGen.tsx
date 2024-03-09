@@ -15,7 +15,6 @@ import {
   DefaultModuleFooter,
   DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
-import GlobalMsgDialog from "@/components/global_msg_dialog/GlobalMsgDialog";
 import SignIn from "@/components/sign_in/SignIn";
 import ProofGenForm from "./ProofGenForm";
 import { useAppDispatch } from "@/state/hooks";
@@ -118,7 +117,6 @@ const ProofGen: React.FC = () => {
   return (
     <DefaultModule>
       <DefaultForm>
-        {errorMsg && <GlobalMsgDialog msg={errorMsg} handleClose={handleCloseErrorDialog} />}
         <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
         {status === Status.Loading ? (
           <Overlay fixed>

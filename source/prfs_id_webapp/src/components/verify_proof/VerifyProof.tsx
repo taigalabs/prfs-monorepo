@@ -13,7 +13,6 @@ import {
   DefaultModuleFooter,
   DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
-import GlobalMsgDialog from "@/components/global_msg_dialog/GlobalMsgDialog";
 import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
@@ -61,14 +60,9 @@ const VerifyProof: React.FC = () => {
     }
   }, [setStatus, setErrorMsg, verifyProofArgs, dispatch]);
 
-  const handleCloseErrorDialog = React.useCallback(() => {
-    window.close();
-  }, []);
-
   return (
     <DefaultModule>
       <DefaultForm>
-        {errorMsg && <GlobalMsgDialog msg={errorMsg} handleClose={handleCloseErrorDialog} />}
         <DefaultTopLabel>{i18n.verify_proof_with_prfs}</DefaultTopLabel>
         {status === Status.Loading ? (
           <div className={styles.overlay}>

@@ -18,7 +18,7 @@ import {
 import styles from "./GlobalMsgDialog.module.scss";
 import { useI18N } from "@/i18n/context";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { removeMsg } from "@/state/globalMsgReducer";
+import { removeGlobalMsg } from "@/state/globalMsgReducer";
 
 const GlobalMsgDialog: React.FC<PrfsIdErrorDialogProps> = ({}) => {
   const i18n = useI18N();
@@ -26,7 +26,7 @@ const GlobalMsgDialog: React.FC<PrfsIdErrorDialogProps> = ({}) => {
   const globalMsg = useAppSelector(state => state.globalMsg.msg?.message);
   const dispatch = useAppDispatch();
   const handleClickClose = React.useCallback(() => {
-    dispatch(removeMsg());
+    dispatch(removeGlobalMsg());
   }, [dispatch]);
 
   const { refs, context } = useFloating({

@@ -12,7 +12,7 @@ const globalMsgSlice = createSlice({
   name: "globalMsg",
   initialState,
   reducers: {
-    setMsg: (state, action: PayloadAction<GlobalMsg>) => {
+    setGlobalMsg: (state, action: PayloadAction<GlobalMsg>) => {
       console.error("Set msg: %s", action.payload.message);
 
       return {
@@ -20,7 +20,7 @@ const globalMsgSlice = createSlice({
         msg: action.payload,
       };
     },
-    removeMsg: (state, _action: PayloadAction<void>) => {
+    removeGlobalMsg: (state, _action: PayloadAction<void>) => {
       return {
         ...state,
         msg: null,
@@ -29,7 +29,7 @@ const globalMsgSlice = createSlice({
   },
 });
 
-export const { setMsg, removeMsg } = globalMsgSlice.actions;
+export const { setGlobalMsg, removeGlobalMsg } = globalMsgSlice.actions;
 
 export const globalMsgReducer = globalMsgSlice.reducer;
 

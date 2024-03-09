@@ -4,7 +4,7 @@ import { createLogger } from "redux-logger";
 import userReducer from "./userReducer";
 import { globalMsgReducer } from "./globalMsgReducer";
 import tutorialReducer from "./tutorialReducer";
-import { errorReducer } from "./errorReducer";
+import { globalErrorReducer } from "./globalErrorReducer";
 
 const logger = createLogger({
   level: {
@@ -17,7 +17,7 @@ export const store = configureStore({
   reducer: {
     user: userReducer,
     tutorial: tutorialReducer,
-    error: errorReducer,
+    globalError: globalErrorReducer,
     globalMsg: globalMsgReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger) as any,
