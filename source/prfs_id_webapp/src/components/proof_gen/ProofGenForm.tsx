@@ -91,9 +91,13 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           dispatch(
             reportError({
               errorObj: "",
-              message: "Session might have been broken",
+              message: "Session is broken. Re-try after closing the window",
             }),
           );
+
+          setTimeout(() => {
+            window.close();
+          }, 4000);
           return;
         }
 
