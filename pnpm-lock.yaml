@@ -670,6 +670,40 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2
 
+  source/prfs_id_session_api_error_codes:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@taigalabs/prfs-api-server':
+        specifier: '*'
+        version: link:../prfs_api_server
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-spartan-js':
+        specifier: '*'
+        version: link:../prfs_driver_spartan_js
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      '@taigalabs/shy-entities':
+        specifier: '*'
+        version: link:../shy_entities
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+    devDependencies:
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+
   source/prfs_id_webapp:
     dependencies:
       '@floating-ui/react':
