@@ -67,6 +67,11 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         return;
       }
 
+      if (title.length > 150) {
+        setError("Title needs to be present");
+        return;
+      }
+
       if (channel.proof_type_ids.length < 1) {
         setError("Proof type does not exist");
         return;
@@ -167,8 +172,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           console.error("cannot parse payload, err: %s, obj: %s", err, decrypted);
           return;
         }
-
-        console.log(123, proofGenPayload);
 
         const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
         const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
