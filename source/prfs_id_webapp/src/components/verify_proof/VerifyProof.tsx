@@ -13,7 +13,7 @@ import {
   DefaultModuleFooter,
   DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
-import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
+import GlobalMsgDialog from "@/components/global_msg_dialog/GlobalMsgDialog";
 import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
@@ -68,7 +68,7 @@ const VerifyProof: React.FC = () => {
   return (
     <DefaultModule>
       <DefaultForm>
-        {errorMsg && <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />}
+        {errorMsg && <GlobalMsgDialog msg={errorMsg} handleClose={handleCloseErrorDialog} />}
         <DefaultTopLabel>{i18n.verify_proof_with_prfs}</DefaultTopLabel>
         {status === Status.Loading ? (
           <div className={styles.overlay}>
