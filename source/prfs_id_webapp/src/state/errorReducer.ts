@@ -13,7 +13,7 @@ export const errorSlice = createSlice({
   initialState,
   reducers: {
     reportError: (state, action: PayloadAction<ReportableError>) => {
-      console.error("Reporting error: %o", action.payload.errorObj);
+      console.error("Reporting error: %s", action.payload.message);
 
       return {
         ...state,
@@ -34,6 +34,6 @@ export const { reportError, removeError } = errorSlice.actions;
 export const errorReducer = errorSlice.reducer;
 
 interface ReportableError {
-  errorObj: any;
+  errorObj?: any;
   message: string;
 }

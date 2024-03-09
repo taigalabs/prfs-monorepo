@@ -35,6 +35,7 @@ import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
 import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 import { useAppDispatch } from "@/state/hooks";
+import { reportError } from "@/state/errorReducer";
 
 enum Status {
   InProgress,
@@ -84,12 +85,15 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           ticket: "TICKET",
         });
 
-        // PrfsIdSessionErrorCodes
-
-        if (error) {
-          console.log(11, error, code);
+        if (error && code === PrfsIdSessionErrorCodes.SESSION_NOT_EXISTS.code) {
           setErrorMsg(error.toString());
           setCreateProofStatus(Status.Standby);
+          dispatch(
+            reportError({
+              errorObj: "",
+              message: "Session might have been broken",
+            }),
+          );
           return;
         }
 

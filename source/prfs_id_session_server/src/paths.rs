@@ -11,7 +11,6 @@ lazy_static! {
 pub struct Paths {
     pub workspace_dir: PathBuf,
     pub manifest_dir: PathBuf,
-    pub data_api: PathBuf,
 }
 
 impl Paths {
@@ -23,12 +22,10 @@ impl Paths {
             .parent()
             .unwrap()
             .to_path_buf();
-        let data_api = manifest_dir.join("data_api");
 
         let p = Paths {
             workspace_dir,
             manifest_dir,
-            data_api,
         };
 
         println!(
