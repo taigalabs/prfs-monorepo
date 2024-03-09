@@ -34,10 +34,7 @@ pub async fn put_prfs_id_session_value(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    if let Err(err) = prfs::get_prfs_id_session(&pool, &input.key)
-        .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))
-    {
+    if let Err(err) = prfs::get_prfs_id_session(&pool, &input.key).await {
         let resp = ApiResponse::new_error(&API_ERROR_CODE.SESSION_NOT_EXISTS, err.to_string());
         return (StatusCode::BAD_REQUEST, Json(resp));
     };
@@ -48,10 +45,13 @@ pub async fn put_prfs_id_session_value(
         ticket: input.ticket,
     };
 
-    let key = prfs::upsert_prfs_id_session(&mut tx, &session)
-        .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))
-        .unwrap();
+    let key = match prfs::upsert_prfs_id_session(&mut tx, &session).await {
+        Ok(k) => k,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&API_ERROR_CODE.SESSION_NOT_EXISTS, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     tx.commit().await.unwrap();
 

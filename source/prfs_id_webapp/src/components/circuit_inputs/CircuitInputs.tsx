@@ -10,7 +10,7 @@ import {
   FormErrors,
   FormHandler,
   FormValues,
-  HandleSkip,
+  HandleSkipCreateProof,
 } from "@/components/circuit_input_items/formTypes";
 import AddrMembershipInput from "@/components/circuit_input_items/addr_membership_v1/AddrMembershipInput";
 import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
@@ -31,7 +31,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   credential,
   proofAction,
   usePrfsRegistry,
-  handleSkip,
+  handleSkipCreateProof,
 }) => {
   const circuitInputsElem = React.useMemo(() => {
     switch (proofType.circuit_type_id) {
@@ -48,7 +48,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             credential={credential}
             proofAction={proofAction}
             usePrfsRegistry={usePrfsRegistry}
-            handleSkip={handleSkip}
+            handleSkipCreateProof={handleSkipCreateProof}
           />
         );
       }
@@ -101,5 +101,5 @@ export interface CircuitInputsProps {
   proofAction: string;
   credential: PrfsIdCredential;
   usePrfsRegistry?: boolean;
-  handleSkip: HandleSkip;
+  handleSkipCreateProof: HandleSkipCreateProof;
 }

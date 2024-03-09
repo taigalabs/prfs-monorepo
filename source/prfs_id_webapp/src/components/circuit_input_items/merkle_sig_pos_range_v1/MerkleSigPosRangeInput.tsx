@@ -45,7 +45,7 @@ import {
   FormErrors,
   FormHandler,
   FormValues,
-  HandleSkip,
+  HandleSkipCreateProof,
 } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
@@ -81,7 +81,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   presetVals,
   proofAction,
   usePrfsRegistry,
-  handleSkip,
+  handleSkipCreateProof,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
@@ -219,7 +219,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             const proofActionResult = await prfsSign(skHex, proofAction_);
             const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 
-            handleSkip({
+            handleSkipCreateProof({
               proofAction,
               proofActionResult: proofActionResultHex,
               proofPubKey: pkHex,
@@ -229,7 +229,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       }
     }
     fn().then();
-  }, [presetVals, proofAction, getPrfsProofRecord, usePrfsRegistry, handleSkip]);
+  }, [presetVals, proofAction, getPrfsProofRecord, usePrfsRegistry, handleSkipCreateProof]);
 
   React.useEffect(() => {
     async function fn() {
@@ -558,7 +558,7 @@ export interface MerkleSigPosRangeInputProps {
   credential: PrfsIdCredential;
   proofAction: string;
   usePrfsRegistry?: boolean;
-  handleSkip: HandleSkip;
+  handleSkipCreateProof: HandleSkipCreateProof;
 }
 
 export interface ComputedValueProps {

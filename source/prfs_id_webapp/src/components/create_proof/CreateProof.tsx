@@ -1,13 +1,18 @@
 "use client";
 
 import React from "react";
-import { CreateProofEvent } from "@taigalabs/prfs-driver-interface";
+import { CachedProveReceipt, CreateProofEvent } from "@taigalabs/prfs-driver-interface";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import cn from "classnames";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
+import {
+  CreateProofQuery,
+  PrfsIdCredential,
+  ProofGenSuccessPayload,
+  TutorialArgs,
+} from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
@@ -26,7 +31,8 @@ import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 import { useAppSelector } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
-import { FormHandler, HandleSkip } from "@/components/circuit_input_items/formTypes";
+import { FormHandler } from "@/components/circuit_input_items/formTypes";
+import { JSONbigNative } from "@taigalabs/prfs-crypto-js";
 
 enum Status {
   Standby,
@@ -70,6 +76,15 @@ const CreateProof: React.FC<CreateProofProps> = ({
   }, []);
   const { loadDriverProgress, loadDriverStatus, driver, driverArtifacts } = useLoadDriver(
     data?.payload?.prfs_proof_type,
+  );
+
+  const handleSkipCreateProof = React.useCallback(
+    async (proveReceipt: CachedProveReceipt) => {
+      handleSkip({
+        [query.name]: proveReceipt,
+      });
+    },
+    [query.name],
   );
 
   React.useEffect(() => {
@@ -207,7 +222,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
                   credential={credential}
                   proofAction={query.proofAction}
                   usePrfsRegistry={query.usePrfsRegistry}
-                  handleSkip={handleSkip}
+                  handleSkipCreateProof={handleSkipCreateProof}
                 />
               </div>
             </TutorialStepper>
@@ -234,7 +249,7 @@ export interface CreateProofProps {
   setErrorDialogMsg: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
   tutorial: TutorialArgs | undefined;
-  handleSkip: HandleSkip;
+  handleSkip: (record: Record<string, any>) => void;
 }
 
 export interface LoadDriverProgressProps {

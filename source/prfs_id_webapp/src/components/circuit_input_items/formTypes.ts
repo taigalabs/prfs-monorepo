@@ -20,4 +20,4 @@ export type FormHandler = (formValues: FormValues<any>) => Promise<
     }
 >;
 
-export type HandleSkip = (proveReceipt: CachedProveReceipt) => void;
+export type HandleSkipCreateProof = (proveReceipt: CachedProveReceipt) => void;

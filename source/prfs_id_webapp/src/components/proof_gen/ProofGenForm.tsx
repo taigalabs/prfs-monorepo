@@ -57,24 +57,25 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     },
   });
   const { mutateAsync: putSessionValueRequest } = usePutSessionValue();
-  const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>(null);
+  const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>({});
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
     <div className={styles.sidePadding}>Loading...</div>,
   );
 
   const handleSkip = React.useCallback(
-    async (proveReceipt: CachedProveReceipt) => {
-      if (proofGenArgs) {
+    async (arg: Record<string, any>) => {
+      if (proofGenArgs && receipt && arg) {
+        setCreateProofStatus(Status.InProgress);
         const payload: ProofGenSuccessPayload = {
-          receipt: proveReceipt,
+          receipt: {
+            ...receipt,
+            ...arg,
+          },
         };
-
-        console.log(11, payload);
 
         const encrypted = [
           ...encrypt(proofGenArgs.public_key, Buffer.from(JSONbigNative.stringify(payload))),
         ];
-
         const { error } = await putSessionValueRequest({
           key: proofGenArgs.session_key,
           value: encrypted,
@@ -86,12 +87,12 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           setErrorMsg(error.toString());
           return;
         }
-
         setCreateProofStatus(Status.Standby);
+
         // window.close();
       }
     },
-    [proofGenArgs, putSessionValueRequest, setErrorMsg, setCreateProofStatus],
+    [proofGenArgs, putSessionValueRequest, setErrorMsg, setCreateProofStatus, receipt],
   );
 
   React.useEffect(() => {
@@ -99,7 +100,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       try {
         if (proofGenArgs) {
           let elems = [];
-          // const receipt = {};
           for (const query of proofGenArgs.queries) {
             switch (query.queryType) {
               case QueryType.CREATE_PROOF: {
@@ -172,9 +172,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                 return;
             }
           }
-
-          // fresh initailize
-          setReceipt({});
 
           setQueryElems(elems);
           setStatus(Status.Standby);
