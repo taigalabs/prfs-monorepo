@@ -33,6 +33,7 @@ import EncryptView from "@/components/encrypt/EncryptView";
 import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
 import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
+import { useAppDispatch } from "@/state/hooks";
 
 enum Status {
   InProgress,
@@ -46,6 +47,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
   const [status, setStatus] = React.useState(Status.InProgress);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
@@ -82,16 +84,17 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         });
 
         if (error) {
-          console.error(error);
+          console.log(11, error);
           setErrorMsg(error.toString());
+          setCreateProofStatus(Status.Standby);
           return;
         }
-        setCreateProofStatus(Status.Standby);
 
+        setCreateProofStatus(Status.Standby);
         // window.close();
       }
     },
-    [proofGenArgs, putSessionValueRequest, setErrorMsg, setCreateProofStatus, receipt],
+    [proofGenArgs, putSessionValueRequest, setErrorMsg, setCreateProofStatus, receipt, dispatch],
   );
 
   React.useEffect(() => {
@@ -224,8 +227,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         });
 
         if (error) {
-          console.error(error);
           setErrorMsg(error.toString());
+          setCreateProofStatus(Status.Standby);
           return;
         }
 

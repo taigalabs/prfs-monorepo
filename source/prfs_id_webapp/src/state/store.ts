@@ -3,6 +3,7 @@ import { createLogger } from "redux-logger";
 
 import userReducer from "./userReducer";
 import tutorialReducer from "./tutorialReducer";
+import { errorReducer } from "./errorReducer";
 
 const logger = createLogger({
   level: {
@@ -15,6 +16,7 @@ export const store = configureStore({
   reducer: {
     user: userReducer,
     tutorial: tutorialReducer,
+    error: errorReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger) as any,
 });

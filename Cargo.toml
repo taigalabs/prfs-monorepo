@@ -26,6 +26,7 @@ members = [
   "source/prfs_circuits_circom",
   "source/prfs_driver_spartan_wasm",
   "source/prfs_axum_lib",
+  "source/prfs_id_session_api_error_codes",
 
   # internals
   "internals/ci",
