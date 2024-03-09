@@ -2,6 +2,7 @@
   "name": "@taigalabs/prfs-id-session-api-error-codes",
   "version": "0.0.1",
   "license": "MIT",
+  "main": "./bindings/error_codes.json",
   "scripts": {
     "clean": "rimraf ./build",
     "build": "pnpm clean && tsc"

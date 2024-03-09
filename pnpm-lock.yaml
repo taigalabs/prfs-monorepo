@@ -760,6 +760,9 @@ importers:
       '@taigalabs/prfs-id-sdk-web':
         specifier: '*'
         version: link:../prfs_id_sdk_web
+      '@taigalabs/prfs-id-session-api-error-codes':
+        specifier: '*'
+        version: link:../prfs_id_session_api_error_codes
       '@taigalabs/prfs-proof-gen-js':
         specifier: '*'
         version: link:../prfs_proof_gen_js

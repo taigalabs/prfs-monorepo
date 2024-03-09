@@ -14,6 +14,7 @@ import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/Prf
 import { idApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
+import PrfsIdSessionErrorCodes from "@taigalabs/prfs-id-session-api-error-codes";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -77,14 +78,16 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         const encrypted = [
           ...encrypt(proofGenArgs.public_key, Buffer.from(JSONbigNative.stringify(payload))),
         ];
-        const { error } = await putSessionValueRequest({
+        const { error, code } = await putSessionValueRequest({
           key: proofGenArgs.session_key,
           value: encrypted,
           ticket: "TICKET",
         });
 
+        // PrfsIdSessionErrorCodes
+
         if (error) {
-          console.log(11, error);
+          console.log(11, error, code);
           setErrorMsg(error.toString());
           setCreateProofStatus(Status.Standby);
           return;
