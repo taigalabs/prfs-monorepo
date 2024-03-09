@@ -2,14 +2,13 @@ import React from "react";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import Link from "next/link";
-import dayjs from "dayjs";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { MdGroup } from "@react-icons/all-files/md/MdGroup";
 
 import styles from "./TopicContent.module.scss";
 import { useI18N } from "@/i18n/hook";
 import Post from "@/components/post/Post";
-import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import Loading from "@/components/loading/Loading";
 
 const TopicContent: React.FC<PostContentProps> = ({ topicId, channel }) => {
   const i18n = useI18N();
@@ -20,7 +19,6 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel }) => {
     },
   });
   const topic = postData?.payload?.shy_topic_syn1;
-  // topic?.inner.shy_topic.topic_id
 
   return (
     <div className={styles.wrapper}>
@@ -45,7 +43,9 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel }) => {
           />
         </>
       ) : (
-        <Spinner />
+        <Loading centerAlign>
+          <Spinner />
+        </Loading>
       )}
     </div>
   );
