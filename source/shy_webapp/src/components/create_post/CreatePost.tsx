@@ -17,7 +17,7 @@ import {
   rand256Hex,
 } from "@taigalabs/prfs-crypto-js";
 import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
+import { ShyPostProofAction } from "@taigalabs/shy-entities/bindings/ShyPostProofAction";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { useRouter } from "next/navigation";
 import { shyApi2 } from "@taigalabs/shy-api-js";
@@ -68,10 +68,13 @@ const CreatePost: React.FC<CreatePostProps> = ({
       const session_key = createSessionKey();
       const { sk, pkHex } = createRandomKeyPair();
       const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
+      const postId = rand256Hex();
 
-      const proofAction: ShyTopicProofAction = {
-        type: "create_shy_topic",
+      const proofAction: ShyPostProofAction = {
+        type: "create_shy_post",
         topic_id: topicId,
+        post_id: postId,
+        content: html,
       };
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
@@ -167,7 +170,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
             public_key: receipt.proofPubKey,
           });
           if (getShyTopicProofPayload?.shy_topic_proof) {
-            const postId = rand256Hex();
             const topicProof = getShyTopicProofPayload.shy_topic_proof;
 
             const { payload: createShyPostPayload } = await createShyPost({

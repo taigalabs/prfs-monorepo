@@ -1,9 +1,6 @@
 import React from "react";
-import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
-import { shyApi2 } from "@taigalabs/shy-api-js";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import Link from "next/link";
 import dayjs from "dayjs";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 import styles from "./Post.module.scss";
@@ -12,8 +9,7 @@ import { toShortDate } from "@/utils/time";
 import { PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
 import { useI18N } from "@/i18n/hook";
-import CreatePost from "../create_post/CreatePost";
-import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import CreatePost from "@/components/create_post/CreatePost";
 
 const Post: React.FC<PostContentProps> = ({
   topicId,
@@ -25,7 +21,8 @@ const Post: React.FC<PostContentProps> = ({
 }) => {
   const i18n = useI18N();
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
-  const { rerender, nonce } = useRerender();
+  const { rerender } = useRerender();
+
   const handleClickReply = React.useCallback(() => {
     setIsReplyOpen(true);
   }, [setIsReplyOpen]);
