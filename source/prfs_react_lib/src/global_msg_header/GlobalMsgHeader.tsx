@@ -5,8 +5,20 @@ import cn from "classnames";
 
 import styles from "./GlobalMsgHeader.module.scss";
 
-export const GlobalMsgHeaderWrapper: React.FC<GlobalErrorDialogProps> = ({ children }) => {
-  return <div className={styles.wrapper}>{children}</div>;
+export const GlobalMsgHeaderWrapper: React.FC<GlobalMsgHeaderWrapperProps> = ({
+  children,
+  variant,
+}) => {
+  return (
+    <div
+      className={cn(styles.wrapper, {
+        [styles.warn]: variant === "warn",
+        [styles.error]: variant === "error",
+      })}
+    >
+      {children}
+    </div>
+  );
 };
 
 export const GlobalMsgHeaderContent: React.FC<GlobalErrorDialogProps> = ({ children }) => {
@@ -19,4 +31,9 @@ export const GlobalMsgHeaderBtnGroup: React.FC<GlobalErrorDialogProps> = ({ chil
 
 export interface GlobalErrorDialogProps {
   children: React.ReactNode;
+}
+
+export interface GlobalMsgHeaderWrapperProps {
+  children: React.ReactNode;
+  variant: "error" | "warn";
 }

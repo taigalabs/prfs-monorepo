@@ -28,7 +28,7 @@ const GlobalMsgHeader: React.FC<PrfsIdErrorDialogProps> = ({}) => {
   return (
     globalMsg && (
       <Overlay className={styles.wrapper}>
-        <GlobalMsgHeaderWrapper>
+        <GlobalMsgHeaderWrapper variant="warn">
           <GlobalMsgHeaderContent>
             p{/* <IoMdWarning /> */}
             <p>{globalMsg.message}</p>
