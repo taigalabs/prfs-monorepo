@@ -13,8 +13,6 @@ const globalMsgSlice = createSlice({
   initialState,
   reducers: {
     setGlobalMsg: (state, action: PayloadAction<GlobalMsg>) => {
-      console.error("Set msg: %s", action.payload.message);
-
       return {
         ...state,
         msg: action.payload,

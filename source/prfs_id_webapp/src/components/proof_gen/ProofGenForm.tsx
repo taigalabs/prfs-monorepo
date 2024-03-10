@@ -53,7 +53,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [status, setStatus] = React.useState(Status.InProgress);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
-  // const [errorDialogMsg, setErrorDialogMsg] = React.useState<React.ReactNode | null>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
@@ -187,7 +186,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                     message: "Unsupported query type, something is wrong",
                   }),
                 );
-                // setErrorDialogMsg(<span>Unsupported query type, something is wrong</span>);
                 return;
             }
           }
@@ -200,15 +198,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
     }
     fn().then();
-  }, [
-    searchParams,
-    setReceipt,
-    setQueryElems,
-    proofGenArgs,
-    setStatus,
-    // setErrorDialogMsg,
-    handleSkip,
-  ]);
+  }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus, handleSkip]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && status === Status.Standby) {
@@ -269,13 +259,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     putSessionValueRequest,
   ]);
 
-  const handleCloseErrorDialog = React.useCallback(() => {}, []);
-
   return proofGenArgs ? (
     <>
-      {/* {errorDialogMsg && ( */}
-      {/*   <GlobalMsgDialog msg={errorDialogMsg} handleClose={handleCloseErrorDialog} /> */}
-      {/* )} */}
       <DefaultInnerPadding noSidePadding>
         {(status === Status.InProgress || createProofStatus === Status.InProgress) && (
           <div className={styles.overlay} />
