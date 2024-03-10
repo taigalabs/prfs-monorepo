@@ -39,6 +39,8 @@ pub async fn create_shy_post(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
+    println!("power: {:?}", input);
+
     let shy_post = ShyPost {
         post_id: input.post_id,
         topic_id: input.topic_id,

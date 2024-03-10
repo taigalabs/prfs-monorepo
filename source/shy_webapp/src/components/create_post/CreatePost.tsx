@@ -76,6 +76,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
         post_id: postId,
         content: html,
       };
+      const proofActionStr = JSON.stringify(proofAction);
+
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
       };
@@ -89,7 +91,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
             queryType: QueryType.CREATE_PROOF,
             presetVals,
             usePrfsRegistry: true,
-            proofAction: JSON.stringify(proofAction),
+            proofAction: proofActionStr,
           },
         ],
         public_key: pkHex,
@@ -177,6 +179,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
               channel_id: channel.channel_id,
               shy_topic_proof_id: topicProof.shy_topic_proof_id,
               author_public_key: topicProof.public_key,
+              author_sig_msg: proofActionStr,
               author_sig: receipt.proofAction,
               post_id: postId,
               content: html,
