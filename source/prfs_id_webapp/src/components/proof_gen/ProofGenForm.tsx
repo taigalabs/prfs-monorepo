@@ -100,7 +100,10 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
         dispatch(setGlobalMsg({ message: i18n.already_made_proof, notDismissible: true }));
         setCreateProofStatus(Status.Standby);
-        // window.close();
+
+        setTimeout(() => {
+          window.close();
+        }, 2000);
       }
     },
     [proofGenArgs, putSessionValueRequest, setErrorMsg, setCreateProofStatus, receipt, dispatch],

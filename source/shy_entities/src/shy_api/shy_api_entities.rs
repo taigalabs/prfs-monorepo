@@ -4,7 +4,8 @@ use ts_rs::TS;
 use super::{
     CreateShyTopicRequest, CreateShyTopicResponse, GetShyChannelResponse, GetShyChannelsRequest,
     GetShyChannelsResponse, GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse,
-    GetShyTopicRequest, GetShyTopicResponse, GetShyTopicsRequest, GetShyTopicsResponse,
+    GetShyTopicProofRequest, GetShyTopicProofResponse, GetShyTopicRequest, GetShyTopicResponse,
+    GetShyTopicsRequest, GetShyTopicsResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -16,6 +17,7 @@ pub enum ShyApiRequest {
     get_shy_channels(GetShyChannelsRequest),
     get_shy_topics(GetShyTopicsRequest),
     get_shy_topic(GetShyTopicRequest),
+    get_shy_topic_proof(GetShyTopicProofRequest),
     get_shy_posts_of_topic(GetShyPostsOfTopicRequest),
     get_shy_channel(GetShyChannelsRequest),
 }
@@ -29,6 +31,7 @@ pub enum ShyApiResponse {
     get_shy_channels(GetShyChannelsResponse),
     get_shy_topics(GetShyTopicsResponse),
     get_shy_topic(GetShyTopicResponse),
+    get_shy_topic_proof(GetShyTopicProofResponse),
     get_shy_posts_of_topic(GetShyPostsOfTopicResponse),
     get_shy_channel(GetShyChannelResponse),
 }

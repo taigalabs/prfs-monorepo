@@ -16,24 +16,32 @@ import {
   makeRandInt,
   rand256Hex,
 } from "@taigalabs/prfs-crypto-js";
+import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
+import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
+import { shyApi2 } from "@taigalabs/shy-api-js";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+import { GetShyTopicProofRequest } from "@taigalabs/shy-entities/bindings/GetShyTopicProofRequest";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 
 import styles from "./CreatePost.module.scss";
 import TextEditor from "@/components/text_editor/TextEditor";
 import { useI18N } from "@/i18n/hook";
 import CreatePostEditorFooter from "./CreatePostEditorFooter";
 import { envs } from "@/envs";
-import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
-import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
-import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { SHY_APP_ID } from "@/app_id";
-import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 const PROOF = "Proof";
 
 const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel, channel, topicId }) => {
   const i18n = useI18N();
   const [error, setError] = React.useState<string | null>(null);
+  const { mutateAsync: getShyTopicProof } = useMutation({
+    mutationFn: (req: GetShyTopicProofRequest) => {
+      return shyApi2({ type: "get_shy_topic_proof", ...req });
+    },
+  });
 
   const handleClickReply = React.useCallback(
     async (html: string) => {
@@ -140,7 +148,15 @@ const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel, channel, top
           return;
         }
 
-        console.log(22, proofGenPayload);
+        const receipt = proofGenPayload.receipt as GenericProveReceipt;
+        console.log(22, receipt);
+
+        if (receipt.type === "cached_prove_receipt") {
+          const { payload } = await getShyTopicProof({ public_key: receipt.proofPubKey });
+          console.log(11, payload);
+          // getShyProofReceipt
+          // receipt;
+        }
 
         // const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
         // const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
@@ -174,7 +190,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel, channel, top
       ws.close();
       popup.close();
     },
-    [channel, topicId, setError],
+    [channel, topicId, setError, getShyTopicProof],
   );
 
   const footer = React.useMemo(() => {

@@ -41,9 +41,14 @@ export interface ProofActionPayload {
   proofActionResult: string;
 }
 
-export type ProveReceipt = ProveResult & ProofActionPayload;
+export type ProveReceipt = { type: "prove_receipt" } & ProveResult & ProofActionPayload;
 
-export type CachedProveReceipt = { proofPubKey: string } & ProofActionPayload;
+export type CachedProveReceipt = {
+  type: "cached_prove_receipt";
+  proofPubKey: string;
+} & ProofActionPayload;
+
+export type GenericProveReceipt = ProveReceipt | CachedProveReceipt;
 
 export interface VerifyReceipt {
   verifyResult: boolean;

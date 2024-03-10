@@ -27,3 +27,27 @@ RETURNING shy_topic_proof_id
     let proof_id: String = row.try_get("shy_topic_proof_id")?;
     Ok(proof_id)
 }
+
+pub async fn get_shy_topic_proof(
+    pool: &Pool<Postgres>,
+    public_key: &String,
+) -> Result<ShyTopicProof, ShyDbInterfaceError> {
+    let query = r#"
+SELECT *
+FROM shy_topic_proof
+WHERE public_key=$1
+"#;
+
+    let row = sqlx::query(&query).bind(public_key).fetch_one(pool).await?;
+
+    let topic_proof = ShyTopicProof {
+        shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
+        proof: row.try_get("proof")?,
+        public_inputs: row.try_get("public_inputs")?,
+        public_key: row.try_get("public_key")?,
+        serial_no: row.try_get("serial_no")?,
+        proof_identity_input: row.try_get("proof_identity_input")?,
+    };
+
+    Ok(topic_proof)
+}
