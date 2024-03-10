@@ -25,9 +25,17 @@ pub struct CreateShyPostRequest {
     pub post_id: String,
     pub content: String,
     pub author_public_key: String,
-    pub author_sig: String,
+    pub author_sig: ECDSASig,
     pub author_sig_msg: String,
     pub author_sig_msg_hash: Vec<u8>,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct ECDSASig {
+    pub r: Vec<u8>,
+    pub s: Vec<u8>,
+    pub v: i64,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

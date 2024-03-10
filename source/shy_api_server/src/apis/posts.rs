@@ -1,4 +1,4 @@
-// use ethers_core::k256::ecdsa::{RecoveryId, SigningKey};
+// use ethers_core::k256::ecdsa::RecoveryId;
 // use ethers_core::k256::ecdsa::{VerifyingKey};
 use ethers_core::k256::pkcs8::DecodePublicKey;
 use ethers_core::k256::PublicKey;
@@ -18,6 +18,7 @@ use std::str::FromStr;
 use std::sync::Arc;
 
 // use elliptic_curve::ops::Reduce;
+use ecdsa::RecoveryId;
 use p256::{
     ecdsa::{Signature, SigningKey, VerifyingKey},
     NonZeroScalar, U256,
@@ -55,14 +56,27 @@ pub async fn create_shy_post(
     let mut tx = pool.begin().await.unwrap();
 
     println!("power: {:?}", input);
+
+    // let sig_ = hex::decode(&input.author_sig[2..]).unwrap();
+    // println!("sig_: {:?}", sig_);
+
+    let mut r = input.author_sig.r.clone();
+    let mut s = input.author_sig.s.clone();
+    r.append(&mut s);
+    // &input.author_sig.s].concat().unwrap();
+    let sig = Signature::from_slice(&r).unwrap();
+    println!("sig: {:?}", sig);
     // let message = Message::from_hashed_data::<sha256::Hash>(input.author_sig_msg.as_bytes());
     // println!("message: {}", message);
-    let msg = b"example";
-    let sk = SigningKey::random(&mut OsRng);
-    let (signature, v) = sk.sign_recoverable(msg).unwrap();
-    println!("123: sig: {:?}, v: {:?}: msg: {:?}", signature, v, msg);
-    let recovered_vk = VerifyingKey::recover_from_msg(msg, &signature, v).unwrap();
-    println!("recovered vk: {:?}", recovered_vk);
+    // let msg = b"example";
+    // let sk = SigningKey::random(&mut OsRng);
+    // let (signature, v) = sk.sign_recoverable(msg).unwrap();
+    // // input.author_sig
+    // println!("123: sig: {:?}, v: {:?}: msg: {:?}", signature, v, msg);
+    let v_ = input.author_sig.v.try_into().unwrap();
+    let v = RecoveryId::from_byte(v_).unwrap();
+    let recovered_vk = VerifyingKey::recover_from_msg(&input.author_sig_msg_hash, &sig, v).unwrap();
+    // println!("recovered vk: {:?}", recovered_vk);
 
     // let sig = Signature::from_str(&input.author_sig).unwrap();
 
@@ -81,7 +95,7 @@ pub async fn create_shy_post(
         channel_id: input.channel_id,
         shy_topic_proof_id: input.shy_topic_proof_id,
         author_public_key: input.author_public_key,
-        author_sig: input.author_sig,
+        author_sig: "1".to_string(),
     };
 
     let post_id = shy::insert_shy_post(&mut tx, &shy_post).await.unwrap();

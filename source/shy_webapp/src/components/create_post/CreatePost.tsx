@@ -16,6 +16,7 @@ import {
   makeRandInt,
   rand256Hex,
 } from "@taigalabs/prfs-crypto-js";
+import { fromRpcSig } from "@taigalabs/prfs-crypto-deps-js/ethereumjs";
 import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { ShyPostProofAction } from "@taigalabs/shy-entities/bindings/ShyPostProofAction";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
@@ -167,6 +168,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
 
         const receipt = proofGenPayload.receipt[PROOF] as GenericProveReceipt;
 
+        const sig = fromRpcSig(receipt.proofActionSig);
+
         if (receipt.type === "cached_prove_receipt") {
           const { payload: getShyTopicProofPayload } = await getShyTopicProof({
             public_key: receipt.proofPubKey,
@@ -181,7 +184,12 @@ const CreatePost: React.FC<CreatePostProps> = ({
               author_public_key: topicProof.public_key,
               post_id: postId,
               content: html,
-              author_sig: receipt.proofActionSig,
+              // author_sig: receipt.proofActionSig,
+              author_sig: {
+                r: Array.from(sig.r),
+                s: Array.from(sig.s),
+                v: sig.v,
+              },
               author_sig_msg: proofActionStr,
               author_sig_msg_hash: Array.from(receipt.proofActionHash),
             });
