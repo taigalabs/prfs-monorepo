@@ -8,6 +8,7 @@ import {
   GlobalMsgHeaderWrapper,
 } from "@taigalabs/prfs-react-lib/src/global_msg_header/GlobalMsgHeader";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
+import { IoWarningOutline } from "@react-icons/all-files/io5/IoWarningOutline";
 
 import styles from "./GlobalMsgHeader.module.scss";
 import { useI18N } from "@/i18n/context";
@@ -27,10 +28,10 @@ const GlobalMsgHeader: React.FC<PrfsIdErrorDialogProps> = ({}) => {
 
   return (
     globalMsg && (
-      <Overlay className={styles.wrapper}>
+      <Overlay className={styles.overlay}>
         <GlobalMsgHeaderWrapper variant="warn">
           <GlobalMsgHeaderContent>
-            p{/* <IoMdWarning /> */}
+            <IoWarningOutline />
             <p>{globalMsg.message}</p>
           </GlobalMsgHeaderContent>
           <GlobalMsgHeaderBtnGroup>

@@ -1,7 +1,7 @@
 @import "@/styles/layouts.module.scss";
 
 .error {
-  .wrapper {
+  &.wrapper {
     background-color: rgb(253, 237, 237);
   }
 
@@ -9,6 +9,23 @@
     color: rgb(95, 33, 32);
     > svg {
       color: rgb(211, 47, 47);
+    }
+  }
+
+  .btnGroup {
+    color: rgb(211, 47, 47);
+  }
+}
+
+.warn {
+  &.wrapper {
+    background-color: rgb(255, 244, 229);
+  }
+
+  .content {
+    color: rgb(102, 60, 0);
+    > svg {
+      color: rgb(237, 108, 2);
     }
   }
 
