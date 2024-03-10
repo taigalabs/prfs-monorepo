@@ -19,11 +19,12 @@ import {
 import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
+import { useRouter } from "next/navigation";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetShyTopicProofRequest } from "@taigalabs/shy-entities/bindings/GetShyTopicProofRequest";
+import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
 
 import styles from "./CreatePost.module.scss";
 import TextEditor from "@/components/text_editor/TextEditor";
@@ -36,10 +37,16 @@ const PROOF = "Proof";
 
 const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel, channel, topicId }) => {
   const i18n = useI18N();
+  const router = useRouter();
   const [error, setError] = React.useState<string | null>(null);
   const { mutateAsync: getShyTopicProof } = useMutation({
     mutationFn: (req: GetShyTopicProofRequest) => {
       return shyApi2({ type: "get_shy_topic_proof", ...req });
+    },
+  });
+  const { mutateAsync: createShyPost } = useMutation({
+    mutationFn: (req: CreateShyPostRequest) => {
+      return shyApi2({ type: "create_shy_post", ...req });
     },
   });
 
@@ -148,14 +155,30 @@ const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel, channel, top
           return;
         }
 
-        const receipt = proofGenPayload.receipt as GenericProveReceipt;
-        console.log(22, receipt);
+        const receipt = proofGenPayload.receipt[PROOF] as GenericProveReceipt;
 
         if (receipt.type === "cached_prove_receipt") {
-          const { payload } = await getShyTopicProof({ public_key: receipt.proofPubKey });
-          console.log(11, payload);
-          // getShyProofReceipt
-          // receipt;
+          const { payload: getShyTopicProofPayload } = await getShyTopicProof({
+            public_key: receipt.proofPubKey,
+          });
+          if (getShyTopicProofPayload?.shy_topic_proof) {
+            const postId = rand256Hex();
+            const topicProof = getShyTopicProofPayload.shy_topic_proof;
+
+            const { payload: createShyPostPayload } = await createShyPost({
+              topic_id: topicId,
+              channel_id: channel.channel_id,
+              shy_topic_proof_id: topicProof.shy_topic_proof_id,
+              author_public_key: topicProof.public_key,
+              author_sig: receipt.proofAction,
+              post_id: postId,
+              content: html,
+            });
+
+            console.log(11, createShyPostPayload);
+          }
+        } else {
+          console.log;
         }
 
         // const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
@@ -190,7 +213,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel, channel, top
       ws.close();
       popup.close();
     },
-    [channel, topicId, setError, getShyTopicProof],
+    [channel, topicId, setError, getShyTopicProof, router],
   );
 
   const footer = React.useMemo(() => {

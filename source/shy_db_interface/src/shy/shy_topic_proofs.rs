@@ -34,7 +34,7 @@ pub async fn get_shy_topic_proof(
 ) -> Result<ShyTopicProof, ShyDbInterfaceError> {
     let query = r#"
 SELECT *
-FROM shy_topic_proof
+FROM shy_topic_proofs
 WHERE public_key=$1
 "#;
 

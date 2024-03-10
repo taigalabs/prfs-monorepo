@@ -2,10 +2,11 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use super::{
-    CreateShyTopicRequest, CreateShyTopicResponse, GetShyChannelResponse, GetShyChannelsRequest,
-    GetShyChannelsResponse, GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse,
-    GetShyTopicProofRequest, GetShyTopicProofResponse, GetShyTopicRequest, GetShyTopicResponse,
-    GetShyTopicsRequest, GetShyTopicsResponse,
+    CreateShyPostRequest, CreateShyPostResponse, CreateShyTopicRequest, CreateShyTopicResponse,
+    GetShyChannelResponse, GetShyChannelsRequest, GetShyChannelsResponse,
+    GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse, GetShyTopicProofRequest,
+    GetShyTopicProofResponse, GetShyTopicRequest, GetShyTopicResponse, GetShyTopicsRequest,
+    GetShyTopicsResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -14,6 +15,7 @@ use super::{
 #[ts(export)]
 pub enum ShyApiRequest {
     create_shy_topic(CreateShyTopicRequest),
+    create_shy_post(CreateShyPostRequest),
     get_shy_channels(GetShyChannelsRequest),
     get_shy_topics(GetShyTopicsRequest),
     get_shy_topic(GetShyTopicRequest),
@@ -28,6 +30,7 @@ pub enum ShyApiRequest {
 #[ts(export)]
 pub enum ShyApiResponse {
     create_shy_topic(CreateShyTopicResponse),
+    create_shy_post(CreateShyPostResponse),
     get_shy_channels(GetShyChannelsResponse),
     get_shy_topics(GetShyTopicsResponse),
     get_shy_topic(GetShyTopicResponse),
