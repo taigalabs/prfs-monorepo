@@ -227,16 +227,32 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             const proofActionHash = toBytes(proofAction_);
             const skHex_ = toBytes(skHex);
 
-            const sig = ecsign(Buffer.from(proofActionHash), Buffer.from(skHex_));
-            const proofActionSig = toRpcSig(sig.v, sig.r, sig.s);
+            const msg = new Uint8Array([0, 10]);
+            const sig = ecsign(Buffer.from(msg), Buffer.from(skHex_));
+
+            const r = sig.r;
+            console.log("r: %o, sig: %o", r, sig);
+            // const proofActionSig = toRpcSig(sig.v, sig.r, sig.s);
             // console.log(11, sig);
 
-            // return;
-            // const aa = await prfsSign(skHex, proofAction_);
-            const sig2 = secp.sign(proofActionHash, BigInt(skHex));
+            const sig2 = secp.sign(msg, BigInt(skHex));
             const pk = secp.getPublicKey(BigInt(skHex));
-            const isValid = secp.verify(sig2, proofActionHash, pk);
-            console.log(11, sig2, pk, isValid);
+            const isValid = secp.verify(sig2, proofActionHash, pkHex.substring(2));
+
+            // sig2.toDERRawBytes()
+            const sig2Bytes = sig2.toCompactRawBytes();
+
+            console.log(
+              "msg: %o, sk: %o, sig2: %o, pk: %o, isValid: %o, pkHex: %s, skHex: %s, sigByes: %o",
+              msg,
+              skHex_,
+              sig2,
+              pk,
+              isValid,
+              pkHex,
+              skHex,
+              sig2Bytes,
+            );
 
             // const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 
@@ -244,7 +260,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
               type: "cached_prove_receipt",
               proofAction,
               proofActionHash,
-              proofActionSig,
+              proofActionSig: "0x" + sig2.toCompactHex(),
               proofPubKey: pkHex,
             });
           }
