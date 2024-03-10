@@ -150,13 +150,13 @@ const CreateProof: React.FC<CreateProofProps> = ({
             throw new Error("Input validation fail to create a proof");
           }
 
-          const { proofAction, proofActionResult } = val;
+          const { proofAction, proofActionSig, proofActionHash } = val;
           if (!proofAction) {
             throw new Error("Proof action is empty");
           }
 
-          if (!proofActionResult) {
-            throw new Error("Proof action result is empty");
+          if (!proofActionSig) {
+            throw new Error("Proof action sig is empty");
           }
 
           console.log("Form values", formValues);
@@ -169,7 +169,13 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
           setCreateProofStatus(Status.Standby);
           proveResult.proof.proofBytes = Array.from(proveResult.proof.proofBytes);
-          return { ...proveResult, proofAction, proofActionResult, type: "prove_receipt" };
+          return {
+            ...proveResult,
+            proofAction,
+            proofActionSig,
+            proofActionHash,
+            type: "prove_receipt",
+          };
         } catch (err: any) {
           setCreateProofStatus(Status.Standby);
           // setSystemMsg(err.toString());

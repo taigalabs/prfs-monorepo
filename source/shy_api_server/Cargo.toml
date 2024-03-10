@@ -26,7 +26,9 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
 tracing-appender = "0.2"
 
-secp256k1 = "0.28"
+# secp256k1 = { version = "0.28", features = ["hashes", "rand"] }
+p256 = { version = "0.13.2" }
+rand_core = { version = "0.6" }
 
 prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_db_driver = { path = "../prfs_db_driver" }

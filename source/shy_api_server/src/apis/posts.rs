@@ -1,3 +1,7 @@
+// use ethers_core::k256::ecdsa::{RecoveryId, SigningKey};
+// use ethers_core::k256::ecdsa::{VerifyingKey};
+use ethers_core::k256::pkcs8::DecodePublicKey;
+use ethers_core::k256::PublicKey;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
@@ -10,7 +14,18 @@ use shy_entities::shy_api::{
     GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
     GetShyTopicsRequest, GetShyTopicsResponse,
 };
+use std::str::FromStr;
 use std::sync::Arc;
+
+// use elliptic_curve::ops::Reduce;
+use p256::{
+    ecdsa::{Signature, SigningKey, VerifyingKey},
+    NonZeroScalar, U256,
+};
+use rand_core::OsRng; // requires 'getrandom' feature
+                      // use secp256k1::hashes::sha256;
+                      // use secp256k1::rand::rngs::OsRng;
+                      // use secp256k1::{Message, PublicKey, Secp256k1, SecretKey};
 
 use crate::envs::ENVS;
 use crate::error_codes::API_ERROR_CODE;
@@ -40,6 +55,24 @@ pub async fn create_shy_post(
     let mut tx = pool.begin().await.unwrap();
 
     println!("power: {:?}", input);
+    // let message = Message::from_hashed_data::<sha256::Hash>(input.author_sig_msg.as_bytes());
+    // println!("message: {}", message);
+    let msg = b"example";
+    let sk = SigningKey::random(&mut OsRng);
+    let (signature, v) = sk.sign_recoverable(msg).unwrap();
+    println!("123: sig: {:?}, v: {:?}: msg: {:?}", signature, v, msg);
+    let recovered_vk = VerifyingKey::recover_from_msg(msg, &signature, v).unwrap();
+    println!("recovered vk: {:?}", recovered_vk);
+
+    // let sig = Signature::from_str(&input.author_sig).unwrap();
+
+    // let recovered_vk = VerifyingKey::recover_from_msg(
+    //     &input.author_sig_msg.as_bytes(),
+    //     &sig,
+    //     RecoveryId::from_byte(3).unwrap(),
+    // )
+    // .unwrap();
+    // println!("{:?}", recovered_vk);
 
     let shy_post = ShyPost {
         post_id: input.post_id,

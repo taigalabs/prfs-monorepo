@@ -26,7 +26,8 @@ import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindi
 import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
-import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
+import { keccak256, toBytes } from "@taigalabs/prfs-crypto-deps-js/viem";
+import { ecsign, fromRpcSig, toRpcSig } from "@taigalabs/prfs-crypto-deps-js/ethereumjs";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
 
 import styles from "./MerkleSigPosRange.module.scss";
@@ -193,10 +194,15 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       val.proofKey = skHex;
 
       const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
-      const proofActionResult = await prfsSign(skHex, proofAction_);
-      const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
+      const proofActionHash = toBytes(proofAction_);
+      const skHex_ = toBytes(skHex);
 
-      return { isValid: true, proofAction, proofActionResult: proofActionResultHex };
+      const sig = ecsign(Buffer.from(proofActionHash), Buffer.from(skHex_));
+      const proofActionSig = toRpcSig(sig.v, sig.r, sig.s);
+      // const proofActionResult = await prfsSign(skHex, proofAction_);
+      // const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
+
+      return { isValid: true, proofAction, proofActionSig: proofActionSig, proofActionHash };
     });
   }, [setFormHandler, setFormErrors, proofAction]);
 
@@ -215,14 +221,23 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         if (payload) {
           if (payload.proof_record) {
-            const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
-            const proofActionResult = await prfsSign(skHex, proofAction_);
-            const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
+            const proofAction_ = keccak256(toUtf8Bytes(proofAction));
+            const proofActionHash = toBytes(proofAction_);
+            const skHex_ = toBytes(skHex);
+
+            const sig = ecsign(Buffer.from(proofActionHash), Buffer.from(skHex_));
+            const proofActionSig = toRpcSig(sig.v, sig.r, sig.s);
+            // console.log(11, sig);
+
+            // return;
+            // const proofActionResult = await prfsSign(skHex, proofAction_);
+            // const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 
             handleSkipCreateProof({
               type: "cached_prove_receipt",
               proofAction,
-              proofActionResult: proofActionResultHex,
+              proofActionHash,
+              proofActionSig,
               proofPubKey: pkHex,
             });
           }

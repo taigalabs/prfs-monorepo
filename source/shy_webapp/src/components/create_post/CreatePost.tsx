@@ -179,10 +179,11 @@ const CreatePost: React.FC<CreatePostProps> = ({
               channel_id: channel.channel_id,
               shy_topic_proof_id: topicProof.shy_topic_proof_id,
               author_public_key: topicProof.public_key,
-              author_sig_msg: proofActionStr,
-              author_sig: receipt.proofAction,
               post_id: postId,
               content: html,
+              author_sig: receipt.proofActionSig,
+              author_sig_msg: proofActionStr,
+              author_sig_msg_hash: Array.from(receipt.proofActionHash),
             });
 
             console.log(11, createShyPostPayload);

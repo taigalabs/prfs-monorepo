@@ -38,7 +38,8 @@ export interface ProveResult {
 
 export interface ProofActionPayload {
   proofAction: string;
-  proofActionResult: string;
+  proofActionHash: Uint8Array;
+  proofActionSig: string;
 }
 
 export type ProveReceipt = { type: "prove_receipt" } & ProveResult & ProofActionPayload;

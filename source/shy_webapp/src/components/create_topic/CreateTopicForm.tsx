@@ -204,7 +204,9 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           public_inputs: proveReceipt.proof.publicInputSer,
           author_public_key: publicInputs.proofPubKey,
           serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
-          author_sig: proveReceipt.proofActionResult,
+          author_sig: proveReceipt.proofActionSig,
+          author_sig_msg: proveReceipt.proofAction,
+          author_sig_msg_hash: Array.from(proveReceipt.proofActionHash),
         });
 
         if (error) {
