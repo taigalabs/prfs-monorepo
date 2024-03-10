@@ -69,13 +69,14 @@ pub async fn create_shy_post(
     // let message = Message::from_hashed_data::<sha256::Hash>(input.author_sig_msg.as_bytes());
     // println!("message: {}", message);
     // let msg = b"example";
-    // let sk = SigningKey::random(&mut OsRng);
-    // let (signature, v) = sk.sign_recoverable(msg).unwrap();
+    let sk = SigningKey::from_slice(&[0]).unwrap();
+    let (signature, v) = sk.sign_recoverable(&input.author_sig_msg_hash).unwrap();
+    println!("sig: {:?}, v: {:?}", signature, v);
     // // input.author_sig
     // println!("123: sig: {:?}, v: {:?}: msg: {:?}", signature, v, msg);
-    let v_ = input.author_sig.v.try_into().unwrap();
-    let v = RecoveryId::from_byte(v_).unwrap();
-    let recovered_vk = VerifyingKey::recover_from_msg(&input.author_sig_msg_hash, &sig, v).unwrap();
+    // let v_ = (input.author_sig.v - 27).try_into().unwrap();
+    // let v = RecoveryId::from_byte(v_).unwrap();
+    // let recovered_vk = VerifyingKey::recover_from_msg(&input.author_sig_msg_hash, &sig, v).unwrap();
     // println!("recovered vk: {:?}", recovered_vk);
 
     // let sig = Signature::from_str(&input.author_sig).unwrap();

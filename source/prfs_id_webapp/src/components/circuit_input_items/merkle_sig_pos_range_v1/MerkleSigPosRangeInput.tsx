@@ -30,6 +30,8 @@ import { keccak256, toBytes } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { ecsign, fromRpcSig, toRpcSig } from "@taigalabs/prfs-crypto-deps-js/ethereumjs";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
 
+import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
+
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
@@ -230,7 +232,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             // console.log(11, sig);
 
             // return;
-            // const proofActionResult = await prfsSign(skHex, proofAction_);
+            // const aa = await prfsSign(skHex, proofAction_);
+            const sig2 = secp.sign(proofActionHash, BigInt(skHex));
+            const pk = secp.getPublicKey(BigInt(skHex));
+            const isValid = secp.verify(sig2, proofActionHash, pk);
+            console.log(11, sig2, pk, isValid);
+
             // const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 
             handleSkipCreateProof({
