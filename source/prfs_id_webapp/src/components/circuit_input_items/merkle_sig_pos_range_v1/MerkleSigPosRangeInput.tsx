@@ -220,6 +220,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 
             handleSkipCreateProof({
+              type: "cached_prove_receipt",
               proofAction,
               proofActionResult: proofActionResultHex,
               proofPubKey: pkHex,
