@@ -98,7 +98,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           return;
         }
 
-        dispatch(setGlobalMsg({ message: "power", notDimissible: true }));
+        dispatch(setGlobalMsg({ message: i18n.already_made_proof, notDimissible: true }));
         setCreateProofStatus(Status.Standby);
         // window.close();
       }
