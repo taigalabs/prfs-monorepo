@@ -4,7 +4,7 @@ import { DefaultLayout, DefaultBody } from "@/components/layouts/default_layout/
 import ProofGen from "@/components/proof_gen/ProofGen";
 import CommitHash from "@/components/commit_hash/CommitHash";
 import GlobalErrorHeader from "@/components/global_error_header/GlobalErrorHeader";
-import GlobalMsgDialog from "@/components/global_msg_dialog/GlobalMsgDialog";
+import GlobalMsgHeader from "@/components/global_msg_header/GlobalMsgHeader";
 
 const ProofGenPage = () => {
   return (
@@ -13,7 +13,7 @@ const ProofGenPage = () => {
         <Suspense>
           <ProofGen />
           <GlobalErrorHeader />
-          <GlobalMsgDialog />
+          <GlobalMsgHeader />
         </Suspense>
       </DefaultBody>
       <CommitHash />
