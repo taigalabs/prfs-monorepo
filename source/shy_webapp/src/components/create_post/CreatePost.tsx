@@ -35,7 +35,12 @@ import { SHY_APP_ID } from "@/app_id";
 
 const PROOF = "Proof";
 
-const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel, channel, topicId }) => {
+const CreatePost: React.FC<CreatePostProps> = ({
+  handleClickCancel,
+  channel,
+  topicId,
+  handleSucceedPost,
+}) => {
   const i18n = useI18N();
   const router = useRouter();
   const [error, setError] = React.useState<string | null>(null);
@@ -176,6 +181,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel, channel, top
             });
 
             console.log(11, createShyPostPayload);
+            handleSucceedPost();
           }
         } else {
           console.log;
@@ -213,7 +219,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ handleClickCancel, channel, top
       ws.close();
       popup.close();
     },
-    [channel, topicId, setError, getShyTopicProof, router],
+    [channel, topicId, setError, getShyTopicProof, router, handleSucceedPost],
   );
 
   const footer = React.useMemo(() => {
@@ -238,6 +244,7 @@ export default CreatePost;
 
 export interface CreatePostProps {
   handleClickCancel: () => void;
+  handleSucceedPost: () => void;
   topicId: string;
   channel: ShyChannel;
 }

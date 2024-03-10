@@ -4,7 +4,7 @@ import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Link from "next/link";
 import dayjs from "dayjs";
-import { MdGroup } from "@react-icons/all-files/md/MdGroup";
+import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 import styles from "./Post.module.scss";
 import { paths } from "@/paths";
@@ -25,12 +25,17 @@ const Post: React.FC<PostContentProps> = ({
 }) => {
   const i18n = useI18N();
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
+  const { rerender, nonce } = useRerender();
   const handleClickReply = React.useCallback(() => {
     setIsReplyOpen(true);
   }, [setIsReplyOpen]);
   const handleClickCancel = React.useCallback(() => {
     setIsReplyOpen(false);
   }, [setIsReplyOpen]);
+  const handleSucceedPost = React.useCallback(() => {
+    setIsReplyOpen(false);
+    rerender();
+  }, [rerender, setIsReplyOpen]);
 
   const publicKey = React.useMemo(() => {
     return author_public_key.substring(0, 8) || "";
@@ -68,7 +73,12 @@ const Post: React.FC<PostContentProps> = ({
         handleClickReply={handleClickReply}
       />
       {isReplyOpen && (
-        <CreatePost handleClickCancel={handleClickCancel} channel={channel} topicId={topicId} />
+        <CreatePost
+          handleClickCancel={handleClickCancel}
+          channel={channel}
+          topicId={topicId}
+          handleSucceedPost={handleSucceedPost}
+        />
       )}
     </PostInner>
   );
