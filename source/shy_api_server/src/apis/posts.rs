@@ -1,10 +1,12 @@
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
+use prfs_crypto::signature::verify_eth_sig;
 use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordResponse};
 use shy_db_interface::shy;
 use shy_entities::entities::{ShyPost, ShyTopic, ShyTopicProof};
+use shy_entities::proof_action::CreateShyPostAction;
 use shy_entities::shy_api::{
     CreateShyPostRequest, CreateShyPostResponse, CreateShyTopicRequest, CreateShyTopicResponse,
     GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
@@ -38,6 +40,16 @@ pub async fn create_shy_post(
 ) -> (StatusCode, Json<ApiResponse<CreateShyPostResponse>>) {
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
+
+    let action = CreateShyPostAction {
+        topic_id: input.topic_id.to_string(),
+        post_id: input.post_id.to_string(),
+        content: input.content.to_string(),
+    };
+
+    let msg = serde_json::to_string(&action).unwrap();
+
+    verify_eth_sig(&input.author_sig, &msg, &input.author_public_key).unwrap();
 
     let shy_post = ShyPost {
         post_id: input.post_id,

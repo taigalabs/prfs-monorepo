@@ -167,8 +167,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
         }
 
         const receipt = proofGenPayload.receipt[PROOF] as GenericProveReceipt;
-
-        const sig = fromRpcSig(receipt.proofActionSig);
+        console.log(123, receipt);
 
         if (receipt.type === "cached_prove_receipt") {
           const { payload: getShyTopicProofPayload } = await getShyTopicProof({

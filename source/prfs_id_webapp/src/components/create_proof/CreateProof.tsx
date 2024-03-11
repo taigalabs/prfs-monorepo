@@ -95,13 +95,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
           message: "Error fetching proof type, something is wrong. ",
         }),
       );
-
-      // setErrorDialogMsg(
-      //   <p>
-      //     <span>Error fetching proof type, something is wrong. </span>
-      //     <span>{error.toString()}</span>
-      //   </p>,
-      // );
     }
 
     if (data?.error) {
@@ -110,13 +103,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
           message: "Error fetching proof type, something is wrong. ",
         }),
       );
-
-      // setErrorDialogMsg(
-      //   <p>
-      //     <span>Error fetching proof type, something is wrong. </span>
-      //     <span>{data.error.toString()}</span>
-      //   </p>,
-      // );
     }
   }, [data, error, dispatch]);
 
@@ -265,7 +251,6 @@ export default CreateProof;
 export interface CreateProofProps {
   credential: PrfsIdCredential;
   query: CreateProofQuery;
-  // setErrorDialogMsg: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
   tutorial: TutorialArgs | undefined;
   handleSkip: (record: Record<string, any>) => void;

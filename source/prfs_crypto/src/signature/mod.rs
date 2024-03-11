@@ -12,11 +12,13 @@ pub fn verify_eth_sig<S: AsRef<str>>(
     public_key: S,
 ) -> Result<H160, PrfsCryptoError> {
     let msg_ = msg.as_ref().as_bytes();
-    let sig_deserialized = Signature::from_str(sig.as_ref()).unwrap();
-    let addr1 = sig_deserialized.recover(msg_).unwrap();
+    println!("msg_: {:?}", msg_);
 
-    let vk_bytes = hex::decode(&public_key.as_ref()[2..]).unwrap();
-    let vk2 = VerifyingKey::from_sec1_bytes(&vk_bytes).unwrap();
+    let sig_deserialized = Signature::from_str(&sig.as_ref()[2..])?;
+    let addr1 = sig_deserialized.recover(msg_)?;
+
+    let vk_bytes = hex::decode(&public_key.as_ref()[2..])?;
+    let vk2 = VerifyingKey::from_sec1_bytes(&vk_bytes)?;
     let point = vk2.to_encoded_point(false);
     let point_bytes = point.as_bytes();
     let hash = keccak256(&point_bytes[1..]);
@@ -58,10 +60,10 @@ async fn test_1() {
     let sig = wallet.sign_message(msg_bytes).await.unwrap();
     println!("sig: {:?}", sig);
 
-    let b = sig.to_vec();
-    println!("b: {:?}", b);
+    let sig_bytes = sig.to_vec();
+    println!("sig bytes: {:?}", sig_bytes);
 
-    let sig_hex = hex::encode(b);
+    let sig_hex = format!("0x{}", hex::encode(sig_bytes));
     println!("sig_hex: {}", sig_hex);
 
     let addr2 = verify_eth_sig(&sig_hex, &msg.to_string(), &vk_hex).unwrap();

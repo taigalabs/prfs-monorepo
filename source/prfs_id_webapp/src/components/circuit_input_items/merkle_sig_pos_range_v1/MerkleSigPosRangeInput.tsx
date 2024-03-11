@@ -11,7 +11,11 @@ import {
   poseidon_2_bigint_le,
   prfsSign,
 } from "@taigalabs/prfs-crypto-js";
-import { hexlify, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import {
+  computeAddress,
+  hexlify,
+  toUtf8Bytes,
+} from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation, useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
@@ -27,7 +31,7 @@ import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindin
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
-import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
+import { Wallet, ethers } from "@taigalabs/prfs-crypto-deps-js/ethers";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -196,7 +200,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       const wallet = new Wallet(skHex);
       const sig = await wallet.signMessage(proofActionSigMsg);
 
-      return { isValid: true, proofAction, proofActionSig: "0x" + sig, proofActionSigMsg };
+      return {
+        isValid: true,
+        proofAction,
+        proofActionSig: "0x" + sig,
+        proofActionSigMsg: Array.from(proofActionSigMsg),
+      };
     });
   }, [setFormHandler, setFormErrors, proofAction]);
 
@@ -218,12 +227,16 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             const proofActionSigMsg = toUtf8Bytes(proofAction);
             const wallet = new Wallet(skHex);
             const sig = await wallet.signMessage(proofActionSigMsg);
-            console.log("sig", sig);
+            console.log("sig: %o, skHex: %o, sigMsg: %o", sig, skHex, proofActionSigMsg);
+
+            // const addr = ethers.utils.verifyMessage(proofActionSigMsg, sig);
+            // const addr2 = computeAddress(pkHex);
+            // console.log(addr, addr2);
 
             handleSkipCreateProof({
               type: "cached_prove_receipt",
               proofAction,
-              proofActionSigMsg,
+              proofActionSigMsg: Array.from(proofActionSigMsg),
               proofActionSig: "0x" + sig,
               proofPubKey: pkHex,
             });

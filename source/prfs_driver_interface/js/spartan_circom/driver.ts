@@ -38,7 +38,7 @@ export interface ProveResult {
 
 export interface ProofActionPayload {
   proofAction: string;
-  proofActionSigMsg: Uint8Array;
+  proofActionSigMsg: Uint8Array | number[];
   proofActionSig: string;
 }
 
