@@ -14,21 +14,22 @@ import {
   InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
-const PostList: React.FC<PostListProps> = ({ parentRef, channelId, topicId, className }) => {
+const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, className }) => {
   const i18n = usePrfsI18N();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_shy_posts_of_topic", topicId, channelId],
+      queryKey: ["get_shy_posts_of_topic", topicId, channel.channel_id],
       queryFn: async ({ pageParam = 0 }) => {
         return await shyApi2({
           type: "get_shy_posts_of_topic",
           topic_id: topicId,
-          channel_id: channelId,
+          channel_id: channel.channel_id,
           offset: pageParam,
         });
       },
-      enabled: !!topicId && !!channelId,
+      enabled: !!topicId,
       initialPageParam: 0,
       getNextPageParam: lastPage => {
         if (lastPage.payload) {
@@ -115,7 +116,7 @@ const PostList: React.FC<PostListProps> = ({ parentRef, channelId, topicId, clas
               ? hasNextPage
                 ? "Loading more..."
                 : "Nothing more to load"
-              : post && <Row post={post} now={now} />}
+              : post && <Row post={post} now={now} channel={channel} />}
           </InfiniteScrollRowWrapper>
         );
       })}
@@ -126,8 +127,8 @@ const PostList: React.FC<PostListProps> = ({ parentRef, channelId, topicId, clas
 export default PostList;
 
 export interface PostListProps {
-  topicId: string;
-  channelId: string;
   className?: string;
+  topicId: string;
+  channel: ShyChannel;
   parentRef: React.MutableRefObject<HTMLDivElement | null>;
 }

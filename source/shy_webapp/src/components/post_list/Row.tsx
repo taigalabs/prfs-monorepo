@@ -9,17 +9,17 @@ import styles from "./Row.module.scss";
 import { paths } from "@/paths";
 import Post from "@/components/post/Post";
 
-const Row: React.FC<RowProps> = ({ post }) => {
+const Row: React.FC<RowProps> = ({ post, channel }) => {
   return (
     <div className={styles.wrapper}>
-      {/* <Post */}
-      {/*   topicId={post.inner.shy_post.topic_id} */}
-      {/*   channel={channel} */}
-      {/*   author_public_key={topic.inner.shy_topic.author_public_key} */}
-      {/*   content={topic.inner.shy_topic.content} */}
-      {/*   proof_identity_input={topic.inner.proof_identity_input} */}
-      {/*   updated_at={topic.updated_at} */}
-      {/* /> */}
+      <Post
+        topicId={post.inner.shy_post.topic_id}
+        channel={channel}
+        author_public_key={post.inner.shy_post.author_public_key}
+        content={post.inner.shy_post.content}
+        proof_identity_input={post.inner.proof_identity_input}
+        updated_at={post.updated_at}
+      />
     </div>
   );
 };
@@ -29,4 +29,5 @@ export default Row;
 export interface RowProps {
   post: DateTimed<ShyPostSyn1>;
   now: Dayjs;
+  channel: ShyChannel;
 }

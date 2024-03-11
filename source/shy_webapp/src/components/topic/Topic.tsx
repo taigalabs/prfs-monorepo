@@ -60,7 +60,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
             <>
               <BoardMeta channel={channel} noDesc />
               <TopicContent topicId={topicId} channel={channel} />
-              <PostList parentRef={parentRef} channelId={channel.channel_id} topicId={topicId} />
+              <PostList parentRef={parentRef} channel={channel} topicId={topicId} />
             </>
           ) : (
             <Loading centerAlign>
