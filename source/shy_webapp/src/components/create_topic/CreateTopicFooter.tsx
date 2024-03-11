@@ -1,10 +1,10 @@
 import React from "react";
 import { useCurrentEditor } from "@tiptap/react";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./CreateTopicFooter.module.scss";
 import Button from "@/components/button/Button";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 const CreateTopicFooter: React.FC<EditorFooterProps> = ({ handleClickTopic, inProgress }) => {
   const i18n = usePrfsI18N();

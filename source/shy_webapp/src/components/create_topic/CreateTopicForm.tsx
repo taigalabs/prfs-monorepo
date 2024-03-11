@@ -26,6 +26,7 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./CreateTopicForm.module.scss";
 import { pathParts, paths } from "@/paths";
@@ -33,7 +34,6 @@ import TextEditor from "@/components/text_editor/TextEditor";
 import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import CreateTopicFooter from "./CreateTopicFooter";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 const PROOF = "Proof";
 
