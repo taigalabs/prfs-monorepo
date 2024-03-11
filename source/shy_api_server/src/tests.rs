@@ -1,10 +1,10 @@
-use ethers_signers::{LocalWallet, Signer};
-use prfs_crypto::k256::ecdsa::{
-    signature::Signer, RecoveryId, Signature, SigningKey, VerifyingKey,
-};
+use prfs_crypto::ethers_signers::{LocalWallet, Signer};
+use prfs_crypto::k256::ecdsa::{RecoveryId, Signature, SigningKey, VerifyingKey};
 
 #[test]
 fn test_1() {
+    use prfs_crypto::k256::schnorr::signature::Signer;
+
     let sk_str = "_";
     let sk_ = hex::decode(&sk_str[2..]).unwrap();
     let sk = SigningKey::from_slice(&sk_).unwrap();
