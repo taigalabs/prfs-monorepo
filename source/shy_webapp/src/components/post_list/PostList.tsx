@@ -12,20 +12,30 @@ import Loading from "@/components/loading/Loading";
 
 const PostList: React.FC<PostList> = ({ topicId, channel }) => {
   const i18n = usePrfsI18N();
-  const { data: postsData, isFetching: postsDataIsFetching } = useQuery({
-    queryKey: ["get_shy_posts_of_topic", topicId, channel.channel_id],
-    queryFn: async () => {
-      return shyApi2({
-        type: "get_shy_posts_of_topic",
-        topic_id: topicId,
-        channel_id: channel.channel_id,
-      });
-    },
-  });
-  const topic = postsData?.payload?.shy_topic;
+  // const { data: postsData, isFetching: postsDataIsFetching } = useQuery({
+  //   queryKey: ["get_shy_posts_of_topic", topicId, channel.channel_id],
+  //   queryFn: async () => {
+  //     return shyApi2({
+  //       type: "get_shy_posts_of_topic",
+  //       topic_id: topicId,
+  //       channel_id: channel.channel_id,
+  //     });
+  //   },
+  // });
+  // const posts = postsData?.payload?.shy_posts;
+
+  // const listElem = React.useMemo(() => {
+  //   if (posts) {
+  //     posts.map(p => {
+  //       return <div key={p.inner.shy_post.post_id}>{p.inner.proof_identity_input}</div>;
+  //     });
+  //   }
+  //   return null;
+  // }, [posts]);
 
   return (
     <div className={styles.wrapper}>
+      {/* {listElem} */}
       {/* {topic ? ( */}
       {/*   <> */}
       {/*     <div className={styles.titleRow}> */}
