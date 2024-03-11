@@ -13,11 +13,13 @@
 }
 
 .title {
-  font-size: 15px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  font-size: 17px;
+  line-height: 1.2em;
+  color: var(--black-28);
 }
 
 .meta {
