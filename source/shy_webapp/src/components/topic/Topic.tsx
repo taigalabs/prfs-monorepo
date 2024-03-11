@@ -22,6 +22,7 @@ import BoardMeta from "@/components/board/BoardMeta";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import TopicContent from "./TopicContent";
+import PostList from "@/components/post_list/PostList";
 
 const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
@@ -29,7 +30,6 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
   const isFontReady = useIsFontReady();
   const { isInitialized, shyCredential } = useSignedInShyUser();
   const router = useRouter();
-
   const { data: channelData, isFetching: channelDataIsFetching } = useQuery({
     queryKey: ["get_shy_channel"],
     queryFn: async () => {
@@ -57,6 +57,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
             <>
               <BoardMeta channel={channel} noDesc />
               <TopicContent topicId={topicId} channel={channel} />
+              <PostList topicId={topicId} channel={channel} />
             </>
           ) : (
             <Loading centerAlign>

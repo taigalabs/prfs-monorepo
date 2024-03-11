@@ -1,19 +1,20 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::entities::{DateTimed, ShyTopic};
+use crate::entities::{DateTimed, ShyPost, ShyPostSyn1, ShyTopic};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyPostsOfTopicRequest {
     pub topic_id: String,
+    pub channel_id: String,
     pub offset: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyPostsOfTopicResponse {
-    pub shy_topic: DateTimed<ShyTopic>,
+    pub shy_posts: Vec<DateTimed<ShyPostSyn1>>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

@@ -25,6 +25,8 @@ pub async fn get_shy_posts_of_topic(
 ) -> (StatusCode, Json<ApiResponse<GetShyPostsOfTopicResponse>>) {
     let pool = &state.db2.pool;
 
+    shy::get_shy_posts_of_topic_syn1(&pool, &input.topic_id, input.offset, LIMIT).await;
+
     // let shy_topic = shy::get_shy_posts_of_topic(pool, &input.topic_id, input.offset, LIMIT)
     //     .await
     //     .unwrap();
@@ -74,7 +76,16 @@ pub async fn create_shy_post(
         author_sig: "1".to_string(),
     };
 
-    let post_id = shy::insert_shy_post(&mut tx, &shy_post).await.unwrap();
+    let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &API_ERROR_CODE.UNKNOWN_ERROR,
+                format!("Can't insert shy post, err: {}", err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
     tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(CreateShyPostResponse { post_id });
