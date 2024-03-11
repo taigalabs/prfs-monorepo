@@ -188,7 +188,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
               author_sig_msg: Array.from(receipt.proofActionSigMsg),
             });
 
-            console.log(11, createShyPostPayload);
             handleSucceedPost();
           }
         } else {

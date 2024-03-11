@@ -11,6 +11,7 @@ pub use sha256;
 pub mod hexutils;
 pub mod merkletree;
 pub mod poseidon;
+pub mod signature;
 
 #[cfg(test)]
 mod test;

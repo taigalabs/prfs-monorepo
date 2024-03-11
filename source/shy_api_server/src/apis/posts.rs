@@ -39,68 +39,6 @@ pub async fn create_shy_post(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    println!("power: {:?}", input);
-
-    // let sig_ = hex::decode(&input.author_sig[2..]).unwrap();
-    // println!("sig_: {:?}", sig_);
-
-    // let mut r = input.author_sig.r.clone();
-    // let mut s = input.author_sig.s.clone();
-    // r.append(&mut s);
-    //
-    // let sk_ = hex::decode(&sk_str[2..]).unwrap();
-    // let sk = SigningKey::from_slice(&sk_).unwrap();
-    // println!("sk: {:?}", sk.to_bytes());
-
-    // // let signing_key = SigningKey::random(&mut OsRng);
-    // // let b = signing_key.to_bytes();
-    // // println!("signingkey: {:?}", b);
-    // let msg: &[u8] = &[0, 10];
-    // let signature: Signature = sk.sign(msg);
-    // println!("sig: {:?}", signature);
-
-    // // let r = &input.author_sig.r;
-    // // let r = GenericArray::from_slice(r);
-    // // let s = &input.author_sig.s;
-    // // let s = GenericArray::from_slice(s);
-
-    // let signature_ = signature.to_bytes();
-    // println!("signature_: {:?}", signature_);
-
-    // let recid = RecoveryId::from_byte(1).unwrap();
-    // let vk = VerifyingKey::recover_from_msg(&msg, &sig22, recid).unwrap();
-    // // let verifying_key = VerifyingKey::from(&sk); // Serialize with `::to_encoded_point()`
-    // //                                              // verifying_key.to_encoded_point(compress)
-    // let res = vk.verify(msg, &signature);
-    // println!("res: {:?}, vk: {:?}", res, vk.to_sec1_bytes());
-
-    // &input.author_sig.s].concat().unwrap();
-
-    // println!("sk: {:?}", sk);
-    // let sig = Signature::from_slice(&r).unwrap();
-    // println!("sig: {:?}", sig);
-
-    // let sk = SigningKey::from_slice(&[0]).unwrap();
-    // let (signature, v) = sk.sign_recoverable(&input.author_sig_msg_hash).unwrap();
-    // println!("sig: {:?}, v: {:?}", signature, v);
-
-    // // input.author_sig
-    // println!("123: sig: {:?}, v: {:?}: msg: {:?}", signature, v, msg);
-    // let v_ = (input.author_sig.v - 27).try_into().unwrap();
-    // let v = RecoveryId::from_byte(v_).unwrap();
-    // let recovered_vk = VerifyingKey::recover_from_msg(&input.author_sig_msg_hash, &sig, v).unwrap();
-    // println!("recovered vk: {:?}", recovered_vk);
-
-    // let sig = Signature::from_str(&input.author_sig).unwrap();
-
-    // let recovered_vk = VerifyingKey::recover_from_msg(
-    //     &input.author_sig_msg.as_bytes(),
-    //     &sig,
-    //     RecoveryId::from_byte(3).unwrap(),
-    // )
-    // .unwrap();
-    // println!("{:?}", recovered_vk);
-
     let shy_post = ShyPost {
         post_id: input.post_id,
         topic_id: input.topic_id,
