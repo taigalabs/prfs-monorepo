@@ -8,39 +8,25 @@ import { DateTimed } from "@taigalabs/shy-entities/bindings/DateTimed";
 import { ShyPostSyn1 } from "@taigalabs/shy-entities/bindings/ShyPostSyn1";
 
 const Row: React.FC<RowProps> = ({ post }) => {
-  return <div>33</div>;
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.labelRow}>
+        33
+        {/* <span className={styles.label}>{post.inner.shy_post.}</span> */}
+        {/* <span className={styles.locale}>{channel.locale}</span> */}
+      </div>
+      <div
+        className={styles.content}
+        dangerouslySetInnerHTML={{
+          __html: post.inner.shy_post.content,
+        }}
+      />
+    </div>
+  );
 };
 
 export default Row;
 
 export interface RowProps {
   post: DateTimed<ShyPostSyn1>;
-}
-
-{
-  /* <Link href={`${paths.c}/${channel.channel_id}`}> */
-}
-{
-  /*   <div className={styles.wrapper}> */
-}
-{
-  /*     <div className={styles.labelRow}> */
-}
-{
-  /*       <span className={styles.label}>{channel.label}</span> */
-}
-{
-  /*       <span className={styles.locale}>{channel.locale}</span> */
-}
-{
-  /*     </div> */
-}
-{
-  /*     <div className={styles.desc}>{channel.desc}</div> */
-}
-{
-  /*   </div> */
-}
-{
-  /* </Link> */
 }

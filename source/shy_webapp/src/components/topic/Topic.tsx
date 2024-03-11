@@ -68,6 +68,26 @@ function usePosts(topicId: string, channelId: string) {
     estimateSize: () => 100,
     overscan: 5,
   });
+  const aa = rowVirtualizer.getTotalSize();
+  console.log(22, aa);
+
+  React.useEffect(() => {
+    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
+
+    if (!lastItem) {
+      return;
+    }
+
+    if (lastItem.index >= allRows.length - 1 && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [
+    hasNextPage,
+    fetchNextPage,
+    allRows.length,
+    isFetchingNextPage,
+    rowVirtualizer.getVirtualItems(),
+  ]);
 
   return {
     rowVirtualizer,
@@ -92,6 +112,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
   });
   const channel = channelData?.payload?.shy_channel;
   const { rowVirtualizer, allRows } = usePosts(topicId, channelId);
+  console.log(11, allRows, rowVirtualizer.getVirtualItems());
 
   React.useEffect(() => {
     if (isInitialized && !shyCredential) {
@@ -122,6 +143,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
                 {rowVirtualizer.getVirtualItems().map(virtualRow => {
                   const isLoaderRow = virtualRow.index > allRows.length - 1;
                   const row = allRows[virtualRow.index];
+                  console.log(23, row);
 
                   return (
                     <InfiniteScrollRowWrapper
