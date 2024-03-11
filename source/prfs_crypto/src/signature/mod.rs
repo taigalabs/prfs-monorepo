@@ -8,17 +8,24 @@ use crate::PrfsCryptoError;
 
 pub fn verify_eth_sig<S: AsRef<str>>(
     sig: S,
-    msg: S,
+    msg: &[u8],
     public_key: S,
 ) -> Result<H160, PrfsCryptoError> {
-    let msg_ = msg.as_ref().as_bytes();
-    println!("msg_: {:?}", msg_);
+    println!("sig: {}, public_key: {}", sig.as_ref(), public_key.as_ref());
 
     let sig_deserialized = Signature::from_str(&sig.as_ref()[2..])?;
-    let addr1 = sig_deserialized.recover(msg_)?;
+    let addr1 = sig_deserialized.recover(msg)?;
 
     let vk_bytes = hex::decode(&public_key.as_ref()[2..])?;
-    let vk2 = VerifyingKey::from_sec1_bytes(&vk_bytes)?;
+    let vk2 = VerifyingKey::from_sec1_bytes(&vk_bytes).map_err(|err| {
+        format!(
+            "Verifying key cannot be made pk: {}, vk_bytes: {:?}, err: {:?}",
+            public_key.as_ref(),
+            vk_bytes,
+            err
+        )
+    })?;
+
     let point = vk2.to_encoded_point(false);
     let point_bytes = point.as_bytes();
     let hash = keccak256(&point_bytes[1..]);
@@ -26,10 +33,14 @@ pub fn verify_eth_sig<S: AsRef<str>>(
     if &hash[12..] == addr1.as_bytes() {
         return Ok(addr1);
     } else {
+        let addr1 = hex::encode(addr1.as_bytes());
+        let addr2 = hex::encode(&hash[12..]);
+
         return Err(format!(
-            "addrs are different, 1: {:?}, 2: {:?}",
-            &hash[12..],
-            addr1.as_bytes()
+            "addrs are different, addr_recovered: {:?}, addr_public_key: {:?}, sig: {}",
+            addr1,
+            addr2,
+            sig.as_ref()
         )
         .into());
     }
@@ -53,11 +64,22 @@ async fn test_1() {
 
     let wallet = sk.parse::<LocalWallet>().unwrap();
 
-    let msg = r#"{a: "가나다"}"#;
-    let msg_bytes = msg.as_bytes();
-    println!("msg: {:?}, msg_bytes: {:?}", msg, msg_bytes);
+    // let msg = r#"{a: "가나다"}"#;
+    let msg = [
+        123, 34, 116, 121, 112, 101, 34, 58, 34, 99, 114, 101, 97, 116, 101, 95, 115, 104, 121, 95,
+        112, 111, 115, 116, 34, 44, 34, 116, 111, 112, 105, 99, 95, 105, 100, 34, 58, 34, 48, 120,
+        100, 49, 101, 52, 49, 55, 52, 101, 50, 98, 97, 102, 57, 100, 48, 57, 48, 102, 49, 57, 34,
+        44, 34, 112, 111, 115, 116, 95, 105, 100, 34, 58, 34, 48, 120, 52, 97, 98, 52, 100, 50, 51,
+        101, 98, 100, 50, 97, 101, 99, 54, 99, 100, 56, 48, 97, 98, 101, 99, 98, 99, 54, 99, 51,
+        100, 56, 99, 57, 50, 48, 51, 56, 56, 98, 54, 101, 53, 54, 99, 97, 48, 99, 55, 100, 54, 52,
+        56, 54, 101, 102, 55, 101, 101, 98, 50, 55, 55, 101, 99, 57, 34, 44, 34, 99, 111, 110, 116,
+        101, 110, 116, 34, 58, 34, 60, 112, 62, 227, 133, 129, 227, 132, 183, 227, 133, 142, 227,
+        132, 177, 227, 133, 129, 227, 133, 136, 227, 132, 183, 227, 133, 142, 60, 47, 112, 62, 34,
+        125,
+    ];
+    println!("msg: {:?}", msg);
 
-    let sig = wallet.sign_message(msg_bytes).await.unwrap();
+    let sig = wallet.sign_message(&msg).await.unwrap();
     println!("sig: {:?}", sig);
 
     let sig_bytes = sig.to_vec();
@@ -66,6 +88,25 @@ async fn test_1() {
     let sig_hex = format!("0x{}", hex::encode(sig_bytes));
     println!("sig_hex: {}", sig_hex);
 
-    let addr2 = verify_eth_sig(&sig_hex, &msg.to_string(), &vk_hex).unwrap();
+    let addr2 = verify_eth_sig(&sig_hex, &msg, &vk_hex).unwrap();
+    println!("addr: {}", addr2);
+}
+
+#[tokio::test]
+async fn test_2() {
+    let sig_hex = "0xd1ccaa0abd76288668a630e5858ecb8130f9360844d451c9b70aee8b655bc8e11cd0a4ba9e4001a91fedb8c4558055fe332e7578ae91ff5a2ca7a5dad878864e1b";
+    let msg = [
+        123, 34, 116, 121, 112, 101, 34, 58, 34, 99, 114, 101, 97, 116, 101, 95, 115, 104, 121, 95,
+        112, 111, 115, 116, 34, 44, 34, 116, 111, 112, 105, 99, 95, 105, 100, 34, 58, 34, 48, 120,
+        100, 49, 101, 52, 49, 55, 52, 101, 50, 98, 97, 102, 57, 100, 48, 57, 48, 102, 49, 57, 34,
+        44, 34, 112, 111, 115, 116, 95, 105, 100, 34, 58, 34, 48, 120, 49, 49, 52, 97, 55, 99, 49,
+        49, 52, 55, 52, 102, 55, 55, 56, 101, 52, 53, 54, 56, 48, 52, 101, 100, 100, 57, 51, 51,
+        48, 97, 101, 97, 50, 98, 54, 57, 54, 98, 98, 55, 50, 97, 52, 51, 48, 54, 49, 99, 50, 56,
+        56, 52, 57, 56, 101, 98, 48, 49, 100, 55, 49, 56, 50, 100, 34, 44, 34, 99, 111, 110, 116,
+        101, 110, 116, 34, 58, 34, 60, 112, 62, 227, 133, 136, 227, 133, 142, 227, 133, 129, 227,
+        133, 136, 227, 132, 183, 60, 47, 112, 62, 34, 125,
+    ];
+    let vk_hex = "0x02f4068680af14b83162804307b55e45519133e3b23fcaed4e1013dc26c6473c78";
+    let addr2 = verify_eth_sig(&sig_hex, &msg, &vk_hex).unwrap();
     println!("addr: {}", addr2);
 }

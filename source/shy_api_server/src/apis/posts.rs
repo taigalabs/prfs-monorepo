@@ -6,7 +6,7 @@ use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordResponse};
 use shy_db_interface::shy;
 use shy_entities::entities::{ShyPost, ShyTopic, ShyTopicProof};
-use shy_entities::proof_action::CreateShyPostAction;
+use shy_entities::proof_action::{CreateShyPostAction, ShyPostProofAction};
 use shy_entities::shy_api::{
     CreateShyPostRequest, CreateShyPostResponse, CreateShyTopicRequest, CreateShyTopicResponse,
     GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
@@ -41,20 +41,28 @@ pub async fn create_shy_post(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let action = CreateShyPostAction {
+    let action = ShyPostProofAction::create_shy_post(CreateShyPostAction {
         topic_id: input.topic_id.to_string(),
         post_id: input.post_id.to_string(),
         content: input.content.to_string(),
-    };
+    });
 
-    let msg = serde_json::to_string(&action).unwrap();
-    println!(
-        "msg: {:?}\nauthor_sig_msg: {:?}",
-        msg.as_bytes(),
-        input.author_sig_msg
-    );
+    let msg = serde_json::to_vec(&action).unwrap();
+    if msg != input.author_sig_msg {
+        let resp = ApiResponse::new_error(
+            &API_ERROR_CODE.NOT_MACHING_SIG_MSG,
+            format!("msg: {:?}", input.author_sig_msg),
+        );
+        return (StatusCode::BAD_REQUEST, Json(resp));
+    }
 
-    verify_eth_sig(&input.author_sig, &msg, &input.author_public_key).unwrap();
+    if let Err(err) = verify_eth_sig(&input.author_sig, &msg, &input.author_public_key) {
+        let resp = ApiResponse::new_error(
+            &API_ERROR_CODE.INVALID_SIG,
+            format!("sig: {}, err: {}", input.author_sig, err),
+        );
+        return (StatusCode::BAD_REQUEST, Json(resp));
+    }
 
     let shy_post = ShyPost {
         post_id: input.post_id,

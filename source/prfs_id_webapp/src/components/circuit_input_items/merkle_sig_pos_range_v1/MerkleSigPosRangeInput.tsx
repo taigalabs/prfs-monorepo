@@ -227,17 +227,18 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             const proofActionSigMsg = toUtf8Bytes(proofAction);
             const wallet = new Wallet(skHex);
             const sig = await wallet.signMessage(proofActionSigMsg);
-            console.log("sig: %o, skHex: %o, sigMsg: %o", sig, skHex, proofActionSigMsg);
 
+            // console.log("sig: %s, skHex: %o, sigMsg: %o", sig, skHex, proofActionSigMsg);
             // const addr = ethers.utils.verifyMessage(proofActionSigMsg, sig);
             // const addr2 = computeAddress(pkHex);
-            // console.log(addr, addr2);
+            // console.log("addr", addr, addr2);
+            // console.log("pkHex", pkHex);
 
             handleSkipCreateProof({
               type: "cached_prove_receipt",
               proofAction,
               proofActionSigMsg: Array.from(proofActionSigMsg),
-              proofActionSig: "0x" + sig,
+              proofActionSig: sig,
               proofPubKey: pkHex,
             });
           }
