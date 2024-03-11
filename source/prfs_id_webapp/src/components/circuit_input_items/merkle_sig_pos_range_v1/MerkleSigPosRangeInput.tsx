@@ -26,12 +26,8 @@ import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindi
 import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
-import { keccak256, toBytes } from "@taigalabs/prfs-crypto-deps-js/viem";
-import { ecsign, fromRpcSig, toRpcSig } from "@taigalabs/prfs-crypto-deps-js/ethereumjs";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
-
-import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
-import { sha256 } from "@taigalabs/prfs-crypto-deps-js/noble_hashes";
+import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -196,16 +192,11 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       const { skHex } = await deriveProofKey(val.nonceRaw);
       val.proofKey = skHex;
 
-      const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
-      const proofActionHash = toBytes(proofAction_);
-      const skHex_ = toBytes(skHex);
+      const proofActionSigMsg = toUtf8Bytes(proofAction);
+      const wallet = new Wallet(skHex);
+      const sig = await wallet.signMessage(proofActionSigMsg);
 
-      const sig = ecsign(Buffer.from(proofActionHash), Buffer.from(skHex_));
-      const proofActionSig = toRpcSig(sig.v, sig.r, sig.s);
-      // const proofActionResult = await prfsSign(skHex, proofAction_);
-      // const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
-
-      return { isValid: true, proofAction, proofActionSig: proofActionSig, proofActionHash };
+      return { isValid: true, proofAction, proofActionSig: "0x" + sig, proofActionSigMsg };
     });
   }, [setFormHandler, setFormErrors, proofAction]);
 
@@ -224,46 +215,16 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         if (payload) {
           if (payload.proof_record) {
-            const proofAction_ = keccak256(toUtf8Bytes(proofAction));
-            const proofActionHash = toBytes(proofAction_);
-            const skHex_ = toBytes(skHex);
-
-            const msg = new Uint8Array([0, 10]);
-            // const msgHash = sha256(msg);
-            // const sig = ecsign(Buffer.from(msg), Buffer.from(skHex_));
-            // console.log("sig: %o", sig);
-
-            // const r = sig.r;
-            // console.log("sig: %o", sig);
-            // const proofActionSig = toRpcSig(sig.v, sig.r, sig.s);
-            // console.log(11, sig);
-
-            const sig2 = secp.sign(msg, BigInt(skHex));
-            const pk = secp.getPublicKey(BigInt(skHex));
-            // const isValid = secp.verify(sig2, msg, pkHex.substring(2));
-            const sig2Bytes = sig2.toCompactRawBytes();
-
-            console.log(22, sig2, sig2Bytes, pk);
-
-            // console.log(
-            //   "msg: %o, sk: %o, sig2: %o, pk: %o, isValid: %o, pkHex: %s, skHex: %s, sigBytes: %o",
-            //   msg,
-            //   skHex_,
-            //   sig2,
-            //   pk,
-            //   isValid,
-            //   pkHex,
-            //   skHex,
-            //   sig2Bytes,
-            // );
-
-            // const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
+            const proofActionSigMsg = toUtf8Bytes(proofAction);
+            const wallet = new Wallet(skHex);
+            const sig = await wallet.signMessage(proofActionSigMsg);
+            console.log("sig", sig);
 
             handleSkipCreateProof({
               type: "cached_prove_receipt",
               proofAction,
-              proofActionHash,
-              proofActionSig: "0x" + sig2.toCompactHex(),
+              proofActionSigMsg,
+              proofActionSig: "0x" + sig,
               proofPubKey: pkHex,
             });
           }

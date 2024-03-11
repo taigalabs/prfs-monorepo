@@ -129,7 +129,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
         isValid: true,
         proofAction: "",
         proofActionSig: "",
-        proofActionHash: new Uint8Array(),
+        proofActionSigMsg: new Uint8Array(),
       };
     });
   }, [setFormHandler, setFormErrors]);

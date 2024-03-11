@@ -1,4 +1,4 @@
-use crate::poseidon_2;
+use crate::poseidon::poseidon_2;
 
 #[test]
 pub fn test_poseidon1() {

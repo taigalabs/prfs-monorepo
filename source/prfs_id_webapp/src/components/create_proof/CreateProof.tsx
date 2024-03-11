@@ -150,7 +150,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
             throw new Error("Input validation fail to create a proof");
           }
 
-          const { proofAction, proofActionSig, proofActionHash } = val;
+          const { proofAction, proofActionSig, proofActionSigMsg } = val;
           if (!proofAction) {
             throw new Error("Proof action is empty");
           }
@@ -173,7 +173,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
             ...proveResult,
             proofAction,
             proofActionSig,
-            proofActionHash,
+            proofActionSigMsg,
             type: "prove_receipt",
           };
         } catch (err: any) {

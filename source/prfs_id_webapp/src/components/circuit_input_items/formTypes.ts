@@ -16,7 +16,7 @@ export type FormHandler = (formValues: FormValues<any>) => Promise<
   | {
       isValid: true;
       proofAction: string;
-      proofActionHash: Uint8Array;
+      proofActionSigMsg: Uint8Array;
       proofActionSig: string;
     }
 >;

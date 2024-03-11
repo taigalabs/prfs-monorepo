@@ -24,16 +24,9 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
 tracing-appender = "0.2"
 
-# secp256k1 = { version = "0.28", features = ["hashes", "rand"] }
-# ecdsa = "0.16.9"
-k256 = { version = "0.13.3", features = ["ecdsa-core"] }
-rand_core = { version = "0.6" }
-sha3 = "0.10.8"
-hex-literal = "0.4.1"
-sha2 = "0.10"
-ethers-signers = "2.0"
-ethers-core = "2.0"
-secp256k1 = { version = "0.28.2", features = ["hashes-std"] }
+# k256 = { version = "0.13.3", features = ["ecdsa-core"] }
+# ethers-signers = "2.0"
+# ethers-core = "2.0"
 
 prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_db_driver = { path = "../prfs_db_driver" }

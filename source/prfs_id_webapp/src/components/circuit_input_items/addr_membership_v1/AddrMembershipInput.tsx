@@ -119,7 +119,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
         isValid: true,
         proofAction: "",
         proofActionSig: "",
-        proofActionHash: new Uint8Array(),
+        proofActionSigMsg: new Uint8Array(),
       };
     });
   }, [setFormHandler, setFormErrors]);

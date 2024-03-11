@@ -17,6 +17,8 @@ hex = "0.4.3"
 ff = "0.13"
 group = "0.13"
 rand = "0.8"
+ethers-signers = "2.0"
+k256 = { version = "0.13.3", features = ["ecdsa-core"] }
 
 poseidon = { path = "../../externals/poseidon" }
 secq256k1 = { path = "../../externals/secq256k1" }
