@@ -16,7 +16,6 @@ $header_height_big: 61px;
   left: 0;
   right: 0;
   height: $header_height_small;
-  padding: 0 $side_padding;
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -27,6 +26,7 @@ $header_height_big: 61px;
 }
 
 .inner {
+  padding: 0 $side_padding;
   display: flex;
   flex-grow: 1;
   justify-content: space-between;
@@ -40,7 +40,7 @@ $header_height_big: 61px;
 }
 
 .logo {
-  font-size: 22px;
+  font-size: 18px;
   > div {
     padding-top: 10px;
   }
@@ -61,9 +61,9 @@ $header_height_big: 61px;
   }
 
   .logo {
-    font-size: 28px;
+    font-size: 24px;
     > div {
-      padding-top: 12px;
+      padding-top: 15px;
     }
   }
 }
