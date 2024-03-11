@@ -31,6 +31,7 @@ import { ecsign, fromRpcSig, toRpcSig } from "@taigalabs/prfs-crypto-deps-js/eth
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
 
 import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
+import { sha256 } from "@taigalabs/prfs-crypto-deps-js/noble_hashes";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -228,31 +229,33 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             const skHex_ = toBytes(skHex);
 
             const msg = new Uint8Array([0, 10]);
-            const sig = ecsign(Buffer.from(msg), Buffer.from(skHex_));
+            // const msgHash = sha256(msg);
+            // const sig = ecsign(Buffer.from(msg), Buffer.from(skHex_));
+            // console.log("sig: %o", sig);
 
-            const r = sig.r;
-            console.log("r: %o, sig: %o", r, sig);
+            // const r = sig.r;
+            // console.log("sig: %o", sig);
             // const proofActionSig = toRpcSig(sig.v, sig.r, sig.s);
             // console.log(11, sig);
 
             const sig2 = secp.sign(msg, BigInt(skHex));
             const pk = secp.getPublicKey(BigInt(skHex));
-            const isValid = secp.verify(sig2, proofActionHash, pkHex.substring(2));
-
-            // sig2.toDERRawBytes()
+            // const isValid = secp.verify(sig2, msg, pkHex.substring(2));
             const sig2Bytes = sig2.toCompactRawBytes();
 
-            console.log(
-              "msg: %o, sk: %o, sig2: %o, pk: %o, isValid: %o, pkHex: %s, skHex: %s, sigByes: %o",
-              msg,
-              skHex_,
-              sig2,
-              pk,
-              isValid,
-              pkHex,
-              skHex,
-              sig2Bytes,
-            );
+            console.log(22, sig2, sig2Bytes, pk);
+
+            // console.log(
+            //   "msg: %o, sk: %o, sig2: %o, pk: %o, isValid: %o, pkHex: %s, skHex: %s, sigBytes: %o",
+            //   msg,
+            //   skHex_,
+            //   sig2,
+            //   pk,
+            //   isValid,
+            //   pkHex,
+            //   skHex,
+            //   sig2Bytes,
+            // );
 
             // const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 

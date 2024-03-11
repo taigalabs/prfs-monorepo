@@ -1,8 +1,4 @@
-use ethers_core::types::U256;
-use k256::ecdsa::RecoveryId;
-use k256::elliptic_curve::generic_array::GenericArray;
-use k256::schnorr::signature::SignatureEncoding;
-use k256::schnorr::SignatureBytes;
+// use k256::schnorr::SigningKey;
 // use ecdsa::elliptic_curve::SecretKey;
 // use ethers_core::k256::ecdsa::{RecoveryId, SigningKey};
 // use ethers_core::k256::{PublicKey, SecretKey};
@@ -11,6 +7,7 @@ use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordResponse};
+use sha2::Sha256;
 use shy_db_interface::shy;
 use shy_entities::entities::{ShyPost, ShyTopic, ShyTopicProof};
 use shy_entities::shy_api::{
@@ -18,29 +15,20 @@ use shy_entities::shy_api::{
     GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
     GetShyTopicsRequest, GetShyTopicsResponse,
 };
-use std::str::FromStr;
 use std::sync::Arc;
 
-// use elliptic_curve::ops::Reduce;
-// use p256::{
-//     ecdsa::{Signature, SigningKey, VerifyingKey},
-//     NonZeroScalar, U256,
-// };
 use rand_core::OsRng; // requires 'getrandom' feature
                       // use secp256k1::hashes::sha256;
                       // use secp256k1::rand::rngs::OsRng;
                       // use secp256k1::{Message, PublicKey, Secp256k1, SecretKey};
-use k256::{
-    ecdsa::{signature::Signer, Signature, SigningKey},
-    SecretKey,
-};
-use k256::{
-    ecdsa::{signature::Verifier, VerifyingKey},
-    EncodedPoint,
-};
-
 use crate::envs::ENVS;
 use crate::error_codes::API_ERROR_CODE;
+use hex_literal::hex;
+use k256::{
+    ecdsa::{signature::Signer, RecoveryId, Signature, SigningKey, VerifyingKey},
+    SecretKey,
+};
+// use sha3::{Digest, Keccak256};
 
 const LIMIT: i32 = 15;
 
@@ -75,43 +63,31 @@ pub async fn create_shy_post(
     // let mut s = input.author_sig.s.clone();
     // r.append(&mut s);
     //
-    let sk_ = hex::decode(&sk_str[2..]).unwrap();
-    let sk = SigningKey::from_slice(&sk_).unwrap();
-    println!("sk: {:?}", sk.to_bytes());
+    // let sk_ = hex::decode(&sk_str[2..]).unwrap();
+    // let sk = SigningKey::from_slice(&sk_).unwrap();
+    // println!("sk: {:?}", sk.to_bytes());
 
-    // let signing_key = SigningKey::random(&mut OsRng);
-    // let b = signing_key.to_bytes();
-    // println!("signingkey: {:?}", b);
-    let msg: &[u8] = &[0, 10];
-    let signature: Signature = sk.sign(msg);
-    println!("sig: {:?}", signature);
+    // // let signing_key = SigningKey::random(&mut OsRng);
+    // // let b = signing_key.to_bytes();
+    // // println!("signingkey: {:?}", b);
+    // let msg: &[u8] = &[0, 10];
+    // let signature: Signature = sk.sign(msg);
+    // println!("sig: {:?}", signature);
 
-    // let r = &input.author_sig.r;
-    // let r = GenericArray::from_slice(r);
-    // let s = &input.author_sig.s;
-    // let s = GenericArray::from_slice(s);
+    // // let r = &input.author_sig.r;
+    // // let r = GenericArray::from_slice(r);
+    // // let s = &input.author_sig.s;
+    // // let s = GenericArray::from_slice(s);
 
-    let sig22 = Signature::try_from(
-        [
-            77, 35, 181, 217, 215, 117, 86, 109, 184, 143, 231, 111, 55, 41, 205, 163, 132, 124,
-            34, 99, 213, 187, 241, 143, 190, 74, 41, 0, 127, 83, 44, 233, 110, 1, 22, 190, 32, 234,
-            145, 71, 121, 193, 241, 202, 220, 125, 164, 51, 248, 173, 65, 6, 151, 113, 228, 183,
-            253, 34, 120, 214, 27, 187, 216, 95,
-        ]
-        .as_slice(),
-    )
-    .unwrap();
-    println!("sig22: {:?}", sig22.to_bytes());
+    // let signature_ = signature.to_bytes();
+    // println!("signature_: {:?}", signature_);
 
-    let signature_ = signature.to_bytes();
-    println!("signature_: {:?}", signature_);
-
-    let recid = RecoveryId::from_byte(1).unwrap();
-    let vk = VerifyingKey::recover_from_msg(&msg, &sig22, recid).unwrap();
-    // let verifying_key = VerifyingKey::from(&sk); // Serialize with `::to_encoded_point()`
-    //                                              // verifying_key.to_encoded_point(compress)
-    let res = vk.verify(msg, &signature);
-    println!("res: {:?}, vk: {:?}", res, vk.to_sec1_bytes());
+    // let recid = RecoveryId::from_byte(1).unwrap();
+    // let vk = VerifyingKey::recover_from_msg(&msg, &sig22, recid).unwrap();
+    // // let verifying_key = VerifyingKey::from(&sk); // Serialize with `::to_encoded_point()`
+    // //                                              // verifying_key.to_encoded_point(compress)
+    // let res = vk.verify(msg, &signature);
+    // println!("res: {:?}, vk: {:?}", res, vk.to_sec1_bytes());
 
     // &input.author_sig.s].concat().unwrap();
 
@@ -155,4 +131,89 @@ pub async fn create_shy_post(
 
     let resp = ApiResponse::new_success(CreateShyPostResponse { post_id });
     return (StatusCode::OK, Json(resp));
+}
+
+#[test]
+fn test_1() {
+    println!("12312311");
+
+    let sk_ = hex::decode(&sk_str[2..]).unwrap();
+    let sk = SigningKey::from_slice(&sk_).unwrap();
+    println!("sk: {:?}", sk.to_bytes());
+
+    let msg: &[u8] = &[0, 10];
+
+    let sig: Signature = sk.sign(msg);
+    println!(
+        "sigBytes: {:?}\n r: {:?}\n  s: {:?}",
+        sig.to_bytes(),
+        sig.r().to_bytes(),
+        sig.s().to_bytes(),
+    );
+
+    let recid = RecoveryId::from_byte(1).unwrap();
+    let vk = VerifyingKey::recover_from_msg(&msg, &sig, recid).unwrap();
+    // let verifying_key = VerifyingKey::from(&sk); // Serialize with `::to_encoded_point()`
+    //                                              // verifying_key.to_encoded_point(compress)
+    // let res = vk.verify(msg, &sig);
+    println!("\nvk: {:?}", vk.to_sec1_bytes());
+}
+
+#[tokio::test]
+async fn test_2() {
+    // use hashes::{sha256, Hash};
+    use secp256k1::hashes::{sha256, Hash};
+    use secp256k1::{
+        ecdsa, Error, Message, PublicKey, Secp256k1, SecretKey, Signing, Verification,
+    };
+
+    fn sign<C: Signing>(
+        secp: &Secp256k1<C>,
+        msg: &[u8],
+        seckey: [u8; 32],
+    ) -> Result<ecdsa::Signature, Error> {
+        let msg = sha256::Hash::hash(msg);
+        let msg = Message::from_digest_slice(msg.as_ref())?;
+        let seckey = SecretKey::from_slice(&seckey)?;
+        Ok(secp.sign_ecdsa(&msg, &seckey))
+    }
+    let secp = Secp256k1::new();
+
+    let msg = &[0, 10];
+    let signature = sign(&secp, msg, seckey).unwrap();
+
+    let serialize_sig = signature.serialize_compact();
+
+    println!("sig: {:?}, ser: {:?}", signature, serialize_sig);
+}
+
+#[tokio::test]
+async fn test_3() {
+    use ethers_core::{k256::ecdsa::SigningKey, types::TransactionRequest};
+    use ethers_signers::{LocalWallet, Signer};
+
+    // pub fn sign_hash(&self, hash: H256) -> Signature {
+    //     // sign_prehashed(d, k, z)
+    //     let (recoverable_sig, recovery_id) = self.signer.sign_prehash(hash.as_ref())?;
+
+    //     let v = u8::from(recovery_id) as u64 + 27;
+
+    //     let r_bytes: FieldBytes<Secp256k1> = recoverable_sig.r().into();
+    //     let s_bytes: FieldBytes<Secp256k1> = recoverable_sig.s().into();
+    //     let r = U256::from_big_endian(r_bytes.as_slice());
+    //     let s = U256::from_big_endian(s_bytes.as_slice());
+
+    //     Signature { r, s, v }
+    // }
+
+    // let message = "Some data";
+
+    // // Sign the message
+    // let signature = wallet.sign_message(message).await.unwrap();
+    // println!("sig: {:?}", signature);
+
+    // Recover the signer from the message
+    // let recovered = signature.recover(message).unwrap();
+
+    // assert_eq!(recovered, wallet.address());
 }
