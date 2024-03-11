@@ -1,73 +1,133 @@
 import React from "react";
-import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
-import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
+import cn from "classnames";
+import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi2 } from "@taigalabs/shy-api-js";
+import dayjs from "dayjs";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-import { MdGroup } from "@react-icons/all-files/md/MdGroup";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./PostList.module.scss";
-import Post from "@/components/post/Post";
+import Row from "./Row";
+import {
+  InfiniteScrollRowContainer,
+  InfiniteScrollRowWrapper,
+} from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
 
-const PostList: React.FC<PostList> = ({ topicId, channel }) => {
+const PostList: React.FC<PostListProps> = ({ parentRef, channelId, topicId, className }) => {
   const i18n = usePrfsI18N();
-  // const { data: postsData, isFetching: postsDataIsFetching } = useQuery({
-  //   queryKey: ["get_shy_posts_of_topic", topicId, channel.channel_id],
-  //   queryFn: async () => {
-  //     return shyApi2({
-  //       type: "get_shy_posts_of_topic",
-  //       topic_id: topicId,
-  //       channel_id: channel.channel_id,
-  //     });
-  //   },
-  // });
-  // const posts = postsData?.payload?.shy_posts;
+  const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["get_shy_posts_of_topic", topicId, channelId],
+      queryFn: async ({ pageParam = 0 }) => {
+        return await shyApi2({
+          type: "get_shy_posts_of_topic",
+          topic_id: topicId,
+          channel_id: channelId,
+          offset: pageParam,
+        });
+      },
+      enabled: !!topicId && !!channelId,
+      initialPageParam: 0,
+      getNextPageParam: lastPage => {
+        if (lastPage.payload) {
+          return lastPage.payload.next_offset;
+        } else {
+          return null;
+        }
+      },
+    });
 
-  // const listElem = React.useMemo(() => {
-  //   if (posts) {
-  //     posts.map(p => {
-  //       return <div key={p.inner.shy_post.post_id}>{p.inner.proof_identity_input}</div>;
-  //     });
-  //   }
-  //   return null;
-  // }, [posts]);
+  const allRows = data
+    ? data.pages.flatMap(d => {
+        if (d.payload) {
+          return d.payload.rows;
+        } else {
+          [];
+        }
+      })
+    : [];
 
+  const rowVirtualizer = useVirtualizer({
+    count: hasNextPage ? allRows.length + 1 : allRows.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 74,
+    overscan: 5,
+  });
+
+  const now = dayjs();
+
+  React.useEffect(() => {
+    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
+
+    if (!lastItem) {
+      return;
+    }
+
+    if (lastItem.index >= allRows.length - 1 && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [
+    hasNextPage,
+    fetchNextPage,
+    allRows.length,
+    isFetchingNextPage,
+    rowVirtualizer.getVirtualItems(),
+  ]);
+
+  if (status === "pending") {
+    return (
+      <Loading centerAlign>
+        <Spinner />
+      </Loading>
+    );
+  }
+
+  const virtualItems = rowVirtualizer.getVirtualItems();
   return (
-    <div className={styles.wrapper}>
-      {/* {listElem} */}
-      {/* {topic ? ( */}
-      {/*   <> */}
-      {/*     <div className={styles.titleRow}> */}
-      {/*       <p className={styles.title}>{topic.inner.shy_topic.title}</p> */}
-      {/*       <div className={styles.postMeta}> */}
-      {/*         <button className={styles.participants} type="button"> */}
-      {/*           <MdGroup /> */}
-      {/*           <span>{i18n.participants}</span> */}
-      {/*         </button> */}
-      {/*       </div> */}
-      {/*     </div> */}
-      {/*     <Post */}
-      {/*       topicId={topicId} */}
-      {/*       channel={channel} */}
-      {/*       author_public_key={topic.inner.shy_topic.author_public_key} */}
-      {/*       content={topic.inner.shy_topic.content} */}
-      {/*       proof_identity_input={topic.inner.proof_identity_input} */}
-      {/*       updated_at={topic.updated_at} */}
-      {/*     /> */}
-      {/*   </> */}
-      {/* ) : ( */}
-      {/*   <Loading centerAlign> */}
-      {/*     <Spinner /> */}
-      {/*   </Loading> */}
-      {/* )} */}
-    </div>
+    <InfiniteScrollRowContainer
+      className={cn(styles.infiniteScroll, className)}
+      style={{
+        height: `${rowVirtualizer.getTotalSize()}px`,
+        position: "relative",
+      }}
+    >
+      {status === "success" && virtualItems.length === 0 && (
+        <div className={styles.emptyBoard}>{i18n.no_records_to_show}</div>
+      )}
+      {virtualItems.map(virtualRow => {
+        const isLoaderRow = virtualRow.index > allRows.length - 1;
+        const post = allRows[virtualRow.index];
+
+        return (
+          <InfiniteScrollRowWrapper
+            style={{
+              height: `${virtualRow.size}px`,
+              transform: `translateY(${virtualRow.start}px)`,
+            }}
+            className={styles.row}
+            key={virtualRow.index}
+            data-index={virtualRow.index}
+            ref={rowVirtualizer.measureElement}
+          >
+            {isLoaderRow
+              ? hasNextPage
+                ? "Loading more..."
+                : "Nothing more to load"
+              : post && <Row post={post} now={now} />}
+          </InfiniteScrollRowWrapper>
+        );
+      })}
+    </InfiniteScrollRowContainer>
   );
 };
 
 export default PostList;
 
-export interface PostList {
+export interface PostListProps {
   topicId: string;
-  channel: ShyChannel;
+  channelId: string;
+  className?: string;
+  parentRef: React.MutableRefObject<HTMLDivElement | null>;
 }
