@@ -4,7 +4,7 @@ import React from "react";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { useInfiniteQuery, useQuery } from "@taigalabs/prfs-react-lib/react_query";
 
 import styles from "./Topic.module.scss";
 import { useSignedInShyUser } from "@/hooks/user";
@@ -23,6 +23,45 @@ import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import TopicContent from "./TopicContent";
 import PostList from "@/components/post_list/PostList";
+import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
+
+function usePosts() {
+  const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["get_shy_channels"],
+      queryFn: async ({ pageParam = 0 }) => {
+        return await shyApi2({
+          type: "get_shy_channels",
+          offset: pageParam,
+        });
+      },
+      initialPageParam: 0,
+      getNextPageParam: lastPage => {
+        if (lastPage.payload) {
+          return lastPage.payload.next_offset;
+        } else {
+          return null;
+        }
+      },
+    });
+
+  const allRows = data
+    ? data.pages.flatMap(d => {
+        if (d.payload) {
+          return d.payload.rows;
+        } else {
+          [];
+        }
+      })
+    : [];
+  const parentRef = React.useRef<HTMLDivElement | null>(null);
+  const rowVirtualizer = useVirtualizer({
+    count: hasNextPage ? allRows.length + 1 : allRows.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 100,
+    overscan: 5,
+  });
+}
 
 const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
@@ -37,6 +76,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
     },
   });
   const channel = channelData?.payload?.shy_channel;
+  const a = usePosts();
 
   React.useEffect(() => {
     if (isInitialized && !shyCredential) {
