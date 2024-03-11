@@ -1,12 +1,12 @@
 import React from "react";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./ChannelMenu.module.scss";
-import { useI18N } from "@/i18n/hook";
 import Button from "@/components/button/Button";
 
 const ChannelMenu: React.FC<BoardMenuProps> = ({}) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
 
   return (
     <div className={styles.wrapper}>

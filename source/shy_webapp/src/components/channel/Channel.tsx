@@ -5,6 +5,7 @@ import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./Channel.module.scss";
 import { useSignedInShyUser } from "@/hooks/user";
@@ -24,10 +25,9 @@ import BoardMeta from "@/components/board/BoardMeta";
 import BoardMenu from "@/components/board/BoardMenu";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
-import { useI18N } from "@/i18n/hook";
 
 const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();

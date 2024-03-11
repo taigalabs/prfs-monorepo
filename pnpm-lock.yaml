@@ -628,10 +628,17 @@ importers:
         version: 3.0.2
 
   source/prfs_i18n:
+    dependencies:
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
     devDependencies:
       '@types/node':
         specifier: 20.3.1
         version: 20.3.1
+      '@types/react':
+        specifier: 18.2.25
+        version: 18.2.25
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2

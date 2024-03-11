@@ -12,6 +12,5 @@ export interface CreateShyTopicRequest {
   serial_no: string;
   author_public_key: string;
   author_sig: string;
-  author_sig_msg: string;
-  author_sig_msg_hash: Array<number>;
+  author_sig_msg: Array<number>;
 }

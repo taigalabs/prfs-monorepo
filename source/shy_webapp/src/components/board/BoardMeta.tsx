@@ -5,14 +5,14 @@ import Link from "next/link";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./BoardMeta.module.scss";
-import { useI18N } from "@/i18n/hook";
 import Loading from "@/components/loading/Loading";
 import { paths } from "@/paths";
 
 const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel }) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
   const [isDescOpen, setIsDescOpen] = React.useState(false);
   const handleClickToggleDesc = React.useCallback(() => {
     setIsDescOpen(b => !b);

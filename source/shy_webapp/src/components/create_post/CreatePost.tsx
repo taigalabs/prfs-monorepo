@@ -17,6 +17,7 @@ import {
   rand256Hex,
 } from "@taigalabs/prfs-crypto-js";
 import { fromRpcSig } from "@taigalabs/prfs-crypto-deps-js/ethereumjs";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { ShyPostProofAction } from "@taigalabs/shy-entities/bindings/ShyPostProofAction";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
@@ -29,7 +30,6 @@ import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 import styles from "./CreatePost.module.scss";
 import TextEditor from "@/components/text_editor/TextEditor";
-import { useI18N } from "@/i18n/hook";
 import CreatePostEditorFooter from "./CreatePostEditorFooter";
 import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
@@ -42,7 +42,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
   topicId,
   handleSucceedPost,
 }) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
   const router = useRouter();
   const [error, setError] = React.useState<string | null>(null);
   const { mutateAsync: getShyTopicProof } = useMutation({
@@ -184,14 +184,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
               author_public_key: topicProof.public_key,
               post_id: postId,
               content: html,
-              // author_sig: receipt.proofActionSig,
-              author_sig: {
-                r: Array.from(sig.r),
-                s: Array.from(sig.s),
-                v: sig.v,
-              },
-              author_sig_msg: proofActionStr,
-              author_sig_msg_hash: Array.from(receipt.proofActionHash),
+              author_sig: receipt.proofActionSig,
+              author_sig_msg: Array.from(receipt.proofActionSigMsg),
             });
 
             console.log(11, createShyPostPayload);

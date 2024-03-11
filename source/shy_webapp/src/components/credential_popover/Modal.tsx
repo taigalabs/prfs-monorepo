@@ -1,13 +1,13 @@
 import React from "react";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import cn from "classnames";
 
 import styles from "./Modal.module.scss";
 import MyAvatar from "@/components/my_avatar/MyAvatar";
 import { LocalShyCredential } from "@/storage/local_storage";
-import { useI18N } from "@/i18n/hook";
 
 const Modal: React.FC<ModalProps> = ({ handleClickSignOut, credential }) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
 
   return (
     <div className={styles.modal}>

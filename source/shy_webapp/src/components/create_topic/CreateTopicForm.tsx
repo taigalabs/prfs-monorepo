@@ -1,5 +1,6 @@
 import React from "react";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import {
   API_PATH,
   ProofGenArgs,
@@ -29,7 +30,6 @@ import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interfa
 import styles from "./CreateTopicForm.module.scss";
 import { pathParts, paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
-import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import CreateTopicFooter from "./CreateTopicFooter";
@@ -43,7 +43,7 @@ enum Status {
 }
 
 const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
   const [status, setStatus] = React.useState(Status.Standby);
@@ -205,8 +205,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           author_public_key: publicInputs.proofPubKey,
           serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
           author_sig: proveReceipt.proofActionSig,
-          author_sig_msg: proveReceipt.proofAction,
-          author_sig_msg_hash: Array.from(proveReceipt.proofActionHash),
+          author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
         });
 
         if (error) {

@@ -5,6 +5,7 @@ import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import dayjs from "dayjs";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./Board.module.scss";
 import Row from "./Row";
@@ -12,11 +13,10 @@ import {
   InfiniteScrollRowContainer,
   InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
-import { useI18N } from "@/i18n/hook";
-import Loading from "../loading/Loading";
+import Loading from "@/components/loading/Loading";
 
 const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["get_shy_topics", channelId],
