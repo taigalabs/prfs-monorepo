@@ -48,6 +48,11 @@ pub async fn create_shy_post(
     };
 
     let msg = serde_json::to_string(&action).unwrap();
+    println!(
+        "msg: {:?}\nauthor_sig_msg: {:?}",
+        msg.as_bytes(),
+        input.author_sig_msg
+    );
 
     verify_eth_sig(&input.author_sig, &msg, &input.author_public_key).unwrap();
 
