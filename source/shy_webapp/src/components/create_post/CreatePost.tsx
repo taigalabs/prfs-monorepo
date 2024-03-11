@@ -9,14 +9,7 @@ import {
   makeProofGenSearchParams,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import {
-  JSONbigNative,
-  createRandomKeyPair,
-  decrypt,
-  makeRandInt,
-  rand256Hex,
-} from "@taigalabs/prfs-crypto-js";
-import { fromRpcSig } from "@taigalabs/prfs-crypto-deps-js/ethereumjs";
+import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { ShyPostProofAction } from "@taigalabs/shy-entities/bindings/ShyPostProofAction";

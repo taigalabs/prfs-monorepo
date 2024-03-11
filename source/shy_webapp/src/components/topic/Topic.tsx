@@ -16,6 +16,8 @@ import {
   InfiniteScrollWrapper,
   InfiniteScrollInner,
   InfiniteScrollLeft,
+  InfiniteScrollRowContainer,
+  InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import { paths, searchParamKeys } from "@/paths";
@@ -24,17 +26,21 @@ import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import TopicContent from "./TopicContent";
 import PostList from "@/components/post_list/PostList";
+import Row from "./Row";
 
-function usePosts() {
+function usePosts(topicId: string, channelId: string) {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_shy_channels"],
+      queryKey: ["get_shy_posts_of_topic", topicId, channelId],
       queryFn: async ({ pageParam = 0 }) => {
         return await shyApi2({
-          type: "get_shy_channels",
+          type: "get_shy_posts_of_topic",
+          topic_id: topicId,
+          channel_id: channelId,
           offset: pageParam,
         });
       },
+      enabled: !!topicId && !!channelId,
       initialPageParam: 0,
       getNextPageParam: lastPage => {
         if (lastPage.payload) {
@@ -54,6 +60,7 @@ function usePosts() {
         }
       })
     : [];
+
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
@@ -61,6 +68,14 @@ function usePosts() {
     estimateSize: () => 100,
     overscan: 5,
   });
+
+  return {
+    rowVirtualizer,
+    allRows,
+    data,
+    status,
+    isFetching,
+  };
 }
 
 const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
@@ -76,7 +91,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
     },
   });
   const channel = channelData?.payload?.shy_channel;
-  const a = usePosts();
+  const { rowVirtualizer, allRows } = usePosts(topicId, channelId);
 
   React.useEffect(() => {
     if (isInitialized && !shyCredential) {
@@ -97,7 +112,33 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
             <>
               <BoardMeta channel={channel} noDesc />
               <TopicContent topicId={topicId} channel={channel} />
-              <PostList topicId={topicId} channel={channel} />
+              <InfiniteScrollRowContainer
+                className={styles.infiniteScroll}
+                style={{
+                  height: `${rowVirtualizer.getTotalSize()}px`,
+                  position: "relative",
+                }}
+              >
+                {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                  const isLoaderRow = virtualRow.index > allRows.length - 1;
+                  const row = allRows[virtualRow.index];
+
+                  return (
+                    <InfiniteScrollRowWrapper
+                      style={{
+                        height: `${virtualRow.size}px`,
+                        transform: `translateY(${virtualRow.start}px)`,
+                      }}
+                      className={styles.row}
+                      key={virtualRow.index}
+                      data-index={virtualRow.index}
+                      ref={rowVirtualizer.measureElement}
+                    >
+                      {isLoaderRow ? <span>Loading...</span> : row && <Row post={row} />}
+                    </InfiniteScrollRowWrapper>
+                  );
+                })}
+              </InfiniteScrollRowContainer>
             </>
           ) : (
             <Loading centerAlign>

@@ -2,19 +2,15 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_crypto::signature::verify_eth_sig;
-use prfs_entities::entities::PrfsProofRecord;
-use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordResponse};
 use shy_db_interface::shy;
-use shy_entities::entities::{ShyPost, ShyTopic, ShyTopicProof};
+use shy_entities::entities::ShyPost;
 use shy_entities::proof_action::{CreateShyPostAction, ShyPostProofAction};
 use shy_entities::shy_api::{
-    CreateShyPostRequest, CreateShyPostResponse, CreateShyTopicRequest, CreateShyTopicResponse,
-    GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
-    GetShyTopicsRequest, GetShyTopicsResponse,
+    CreateShyPostRequest, CreateShyPostResponse, GetShyPostsOfTopicRequest,
+    GetShyPostsOfTopicResponse,
 };
 use std::sync::Arc;
 
-use crate::envs::ENVS;
 use crate::error_codes::API_ERROR_CODE;
 
 const LIMIT: i32 = 15;
@@ -25,15 +21,23 @@ pub async fn get_shy_posts_of_topic(
 ) -> (StatusCode, Json<ApiResponse<GetShyPostsOfTopicResponse>>) {
     let pool = &state.db2.pool;
 
-    shy::get_shy_posts_of_topic_syn1(&pool, &input.topic_id, input.offset, LIMIT).await;
+    let rows =
+        match shy::get_shy_posts_of_topic_syn1(&pool, &input.topic_id, input.offset, LIMIT).await {
+            Ok(p) => p,
+            Err(err) => {
+                let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
 
-    // let shy_topic = shy::get_shy_posts_of_topic(pool, &input.topic_id, input.offset, LIMIT)
-    //     .await
-    //     .unwrap();
+    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
+        None
+    } else {
+        Some(input.offset + LIMIT)
+    };
 
-    panic!();
-    // let resp = ApiResponse::new_success(GetShyPostsOfTopicResponse { shy_topic });
-    // return (StatusCode::OK, Json(resp));
+    let resp = ApiResponse::new_success(GetShyPostsOfTopicResponse { rows, next_offset });
+    return (StatusCode::OK, Json(resp));
 }
 
 pub async fn create_shy_post(
