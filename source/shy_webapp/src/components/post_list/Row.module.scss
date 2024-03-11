@@ -1,37 +1,12 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--bright-gray-32);
+  /* padding: 14px 0px; */
+  position: relative;
 
   &:hover {
     /* background-color: var(--bright-gray-45); */
   }
-}
-
-/* .labelRow { */
-/*   display: flex; */
-/*   align-items: center; */
-/* } */
-
-/* .label { */
-/*   padding-right: 6px; */
-/*   font-size: 1.51em; */
-/* } */
-
-/* .locale { */
-/*   color: var(--shy-green-60); */
-/*   background-color: #d1f4e6; */
-/*   border-radius: 3px; */
-/*   padding: 1px 4px; */
-/* } */
-
-.wrapper {
-  position: relative;
-  /* min-height: 150px; */
-  padding: 0px 12px 12px;
-
-  /* border-top: 1px solid var(--gray-70); */
 }
 
 .titleRow {

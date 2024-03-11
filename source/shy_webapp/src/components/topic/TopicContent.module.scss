@@ -3,13 +3,12 @@
 .wrapper {
   position: relative;
   min-height: 150px;
-  padding: 0px 0px 12px;
 
   /* border-top: 1px solid var(--gray-70); */
 }
 
 .titleRow {
-  padding: 12px 0;
+  padding: 18px 0 15px;
 }
 
 .inner {
@@ -24,7 +23,7 @@
 }
 
 .postMeta {
-  padding-top: 8px;
+  padding-top: 10px;
 }
 
 .participants {
@@ -38,5 +37,14 @@
 
   svg {
     padding-right: 3px;
+  }
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .wrapper {
+  }
+
+  .titleRow {
+    padding: 22px 0;
   }
 }
