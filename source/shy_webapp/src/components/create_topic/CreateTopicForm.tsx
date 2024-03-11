@@ -1,5 +1,6 @@
 import React from "react";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import {
   API_PATH,
   ProofGenArgs,
@@ -25,21 +26,28 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./CreateTopicForm.module.scss";
 import { pathParts, paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
-import { useI18N } from "@/i18n/hook";
 import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import CreateTopicFooter from "./CreateTopicFooter";
 
 const PROOF = "Proof";
 
+enum Status {
+  Standby,
+  InProgress,
+}
+
 const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
+  const [status, setStatus] = React.useState(Status.Standby);
+  const [isNavigating, setIsNavigating] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const { topicId, shortTopicId } = React.useMemo(() => {
     const hex = rand256Hex();
@@ -63,6 +71,16 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
       setError(null);
 
       if (title.length < 1) {
+        setError("Title needs to be present");
+        return;
+      }
+
+      if (title.length < 20) {
+        setError("Title needs to be at least 20 characters");
+        return;
+      }
+
+      if (title.length > 150) {
         setError("Title needs to be present");
         return;
       }
@@ -135,6 +153,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         return;
       }
 
+      setStatus(Status.InProgress);
       try {
         if (session.error) {
           console.error(session.error);
@@ -173,8 +192,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           proveReceipt.proof.publicInputSer,
         );
 
-        console.log(123, proveReceipt);
-
         const shy_topic_proof_id = rand256Hex();
         const { payload, error } = await createShyTopic({
           title,
@@ -187,8 +204,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           public_inputs: proveReceipt.proof.publicInputSer,
           author_public_key: publicInputs.proofPubKey,
           serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
-          // author_sig: proveReceipt.proof.proofActionResult,
-          author_sig: "",
+          author_sig: proveReceipt.proofActionSig,
+          author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
         });
 
         if (error) {
@@ -196,21 +213,35 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         }
 
         console.log("create shy topic resp", payload, error);
+
+        setStatus(Status.Standby);
         router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
+        setIsNavigating(true);
       } catch (err) {
         console.error(err);
       }
+
+      setStatus(Status.Standby);
       ws.close();
       popup.close();
     },
-    [channel, topicId, title, setError, createShyTopic, router],
+    [channel, topicId, title, setError, createShyTopic, router, setStatus, setIsNavigating],
   );
 
   const footer = React.useMemo(() => {
-    return <CreateTopicFooter handleClickTopic={handleCreateTopic} />;
-  }, [error, title]);
+    return (
+      <CreateTopicFooter
+        handleClickTopic={handleCreateTopic}
+        inProgress={status === Status.InProgress}
+      />
+    );
+  }, [error, title, status]);
 
-  return (
+  return isNavigating ? (
+    <div className={styles.navigating}>
+      <Spinner variant="gray_1" />
+    </div>
+  ) : (
     <div className={styles.wrapper}>
       <div className={styles.title}>
         <span>{i18n.create_a_topic}</span>

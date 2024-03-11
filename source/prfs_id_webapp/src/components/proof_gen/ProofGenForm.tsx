@@ -14,6 +14,7 @@ import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/Prf
 import { idApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
+import PrfsIdSessionErrorCodes from "@taigalabs/prfs-id-session-api-error-codes";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -28,11 +29,13 @@ import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
-import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import EncryptView from "@/components/encrypt/EncryptView";
 import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
 import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
+import { useAppDispatch } from "@/state/hooks";
+import { setGlobalError } from "@/state/globalErrorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 enum Status {
   InProgress,
@@ -46,36 +49,70 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
   const [status, setStatus] = React.useState(Status.InProgress);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
-  const [errorDialogMsg, setErrorDialogMsg] = React.useState<React.ReactNode | null>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
     },
   });
   const { mutateAsync: putSessionValueRequest } = usePutSessionValue();
-  const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>(null);
+  const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>({});
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
     <div className={styles.sidePadding}>Loading...</div>,
   );
-  // const { mutateAsync: getPrfsProofRecord } = useMutation({
-  //   mutationFn: req => {
-  //     return prfsApi3({ type: "get_prfs_proof_record", req });
-  //   },
-  // });
-  const handleSkip = React.useCallback(async (proofId: string) => {
-    console.log(123123, proofId);
-    // await getPrfsProofRecord();
-  }, []);
+
+  const handleSkip = React.useCallback(
+    async (arg: Record<string, any>) => {
+      if (proofGenArgs && receipt && arg) {
+        setCreateProofStatus(Status.InProgress);
+        const payload: ProofGenSuccessPayload = {
+          receipt: {
+            ...receipt,
+            ...arg,
+          },
+        };
+
+        const encrypted = [
+          ...encrypt(proofGenArgs.public_key, Buffer.from(JSONbigNative.stringify(payload))),
+        ];
+        const { error, code } = await putSessionValueRequest({
+          key: proofGenArgs.session_key,
+          value: encrypted,
+          ticket: "TICKET",
+        });
+
+        if (error && code === PrfsIdSessionErrorCodes.SESSION_NOT_EXISTS.code) {
+          setErrorMsg(error.toString());
+          setCreateProofStatus(Status.Standby);
+          dispatch(
+            setGlobalError({
+              errorObj: "",
+              message: "Session may be old. Re-try after closing the window",
+              shouldCloseWindow: true,
+            }),
+          );
+          return;
+        }
+
+        dispatch(setGlobalMsg({ message: i18n.already_made_proof, notDismissible: true }));
+        setCreateProofStatus(Status.Standby);
+
+        setTimeout(() => {
+          window.close();
+        }, 2000);
+      }
+    },
+    [proofGenArgs, putSessionValueRequest, setErrorMsg, setCreateProofStatus, receipt, dispatch],
+  );
 
   React.useEffect(() => {
     async function fn() {
       try {
         if (proofGenArgs) {
           let elems = [];
-          // const receipt = {};
           for (const query of proofGenArgs.queries) {
             switch (query.queryType) {
               case QueryType.CREATE_PROOF: {
@@ -83,7 +120,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   <CreateProof
                     key={query.name}
                     credential={credential}
-                    setErrorDialogMsg={setErrorDialogMsg}
+                    // setErrorDialogMsg={setErrorDialogMsg}
                     query={query}
                     setReceipt={setReceipt}
                     tutorial={proofGenArgs.tutorial}
@@ -144,13 +181,14 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
               }
               default:
                 console.error("unsupported query type", query);
-                setErrorDialogMsg(<span>Unsupported query type, something is wrong</span>);
+                dispatch(
+                  setGlobalError({
+                    message: "Unsupported query type, something is wrong",
+                  }),
+                );
                 return;
             }
           }
-
-          // fresh initailize
-          setReceipt({});
 
           setQueryElems(elems);
           setStatus(Status.Standby);
@@ -160,15 +198,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
     }
     fn().then();
-  }, [
-    searchParams,
-    setReceipt,
-    setQueryElems,
-    proofGenArgs,
-    setStatus,
-    setErrorDialogMsg,
-    handleSkip,
-  ]);
+  }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus, handleSkip]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && status === Status.Standby) {
@@ -204,8 +234,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         });
 
         if (error) {
-          console.error(error);
           setErrorMsg(error.toString());
+          setCreateProofStatus(Status.Standby);
           return;
         }
 
@@ -229,13 +259,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     putSessionValueRequest,
   ]);
 
-  const handleCloseErrorDialog = React.useCallback(() => {}, []);
-
   return proofGenArgs ? (
     <>
-      {errorDialogMsg && (
-        <PrfsIdErrorDialog errorMsg={errorDialogMsg} handleClose={handleCloseErrorDialog} />
-      )}
       <DefaultInnerPadding noSidePadding>
         {(status === Status.InProgress || createProofStatus === Status.InProgress) && (
           <div className={styles.overlay} />

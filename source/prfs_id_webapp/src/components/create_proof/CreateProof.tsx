@@ -1,13 +1,18 @@
 "use client";
 
 import React from "react";
-import { CreateProofEvent } from "@taigalabs/prfs-driver-interface";
+import { CachedProveReceipt, CreateProofEvent } from "@taigalabs/prfs-driver-interface";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import cn from "classnames";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
-import { useMutation, useQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
+import {
+  CreateProofQuery,
+  PrfsIdCredential,
+  ProofGenSuccessPayload,
+  TutorialArgs,
+} from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
@@ -23,10 +28,11 @@ import {
   QueryName,
 } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
-import { useAppSelector } from "@/state/hooks";
+import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
 import { FormHandler } from "@/components/circuit_input_items/formTypes";
+import { setGlobalError } from "@/state/globalErrorReducer";
 
 enum Status {
   Standby,
@@ -52,12 +58,12 @@ const CreateProof: React.FC<CreateProofProps> = ({
   query,
   setReceipt,
   tutorial,
-  setErrorDialogMsg,
   handleSkip,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
+  const dispatch = useAppDispatch();
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [formHandler, setFormHandler] = React.useState<FormHandler | null>(null);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
@@ -72,25 +78,32 @@ const CreateProof: React.FC<CreateProofProps> = ({
     data?.payload?.prfs_proof_type,
   );
 
+  const handleSkipCreateProof = React.useCallback(
+    async (proveReceipt: CachedProveReceipt) => {
+      handleSkip({
+        [query.name]: proveReceipt,
+      });
+    },
+    [query.name],
+  );
+
   React.useEffect(() => {
     if (error) {
-      setErrorDialogMsg(
-        <p>
-          <span>Error fetching proof type, something is wrong. </span>
-          <span>{error.toString()}</span>
-        </p>,
+      dispatch(
+        setGlobalError({
+          message: "Error fetching proof type, something is wrong. ",
+        }),
       );
     }
 
     if (data?.error) {
-      setErrorDialogMsg(
-        <p>
-          <span>Error fetching proof type, something is wrong. </span>
-          <span>{data.error.toString()}</span>
-        </p>,
+      dispatch(
+        setGlobalError({
+          message: "Error fetching proof type, something is wrong. ",
+        }),
       );
     }
-  }, [data, error, setErrorDialogMsg]);
+  }, [data, error, dispatch]);
 
   React.useEffect(() => {
     const { name } = query;
@@ -116,17 +129,19 @@ const CreateProof: React.FC<CreateProofProps> = ({
         }
 
         try {
-          const { isValid, proofAction, proofActionResult } = await formHandler(formValues);
-          if (!isValid) {
+          const val = await formHandler(formValues);
+          const { isValid } = val;
+          if (isValid === false) {
             throw new Error("Input validation fail to create a proof");
           }
 
+          const { proofAction, proofActionSig, proofActionSigMsg } = val;
           if (!proofAction) {
             throw new Error("Proof action is empty");
           }
 
-          if (!proofActionResult) {
-            throw new Error("Proof action result is empty");
+          if (!proofActionSig) {
+            throw new Error("Proof action sig is empty");
           }
 
           console.log("Form values", formValues);
@@ -139,7 +154,13 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
           setCreateProofStatus(Status.Standby);
           proveResult.proof.proofBytes = Array.from(proveResult.proof.proofBytes);
-          return { ...proveResult, proofAction, proofActionResult };
+          return {
+            ...proveResult,
+            proofAction,
+            proofActionSig,
+            proofActionSigMsg,
+            type: "prove_receipt",
+          };
         } catch (err: any) {
           setCreateProofStatus(Status.Standby);
           // setSystemMsg(err.toString());
@@ -205,7 +226,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
                   credential={credential}
                   proofAction={query.proofAction}
                   usePrfsRegistry={query.usePrfsRegistry}
-                  handleSkip={handleSkip}
+                  handleSkipCreateProof={handleSkipCreateProof}
                 />
               </div>
             </TutorialStepper>
@@ -229,10 +250,9 @@ export default CreateProof;
 export interface CreateProofProps {
   credential: PrfsIdCredential;
   query: CreateProofQuery;
-  setErrorDialogMsg: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
   tutorial: TutorialArgs | undefined;
-  handleSkip: (proofId: string) => void;
+  handleSkip: (record: Record<string, any>) => void;
 }
 
 export interface LoadDriverProgressProps {

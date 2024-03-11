@@ -1,10 +1,11 @@
-use super::merklepath::make_sibling_path;
 use serde::{Deserialize, Serialize};
 
+use super::merklepath::make_sibling_path;
 use crate::{
-    hash_two,
     hexutils::{convert_32bytes_le_into_decimal_string, convert_hex_into_32bytes},
-    make_path_indices, PrfsCryptoError,
+    make_path_indices,
+    poseidon::hash_two,
+    PrfsCryptoError,
 };
 
 pub const ZERO_NODE: [u8; 32] = [0u8; 32];

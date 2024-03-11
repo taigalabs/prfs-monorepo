@@ -6,7 +6,7 @@ use crate::ApiServerError;
 
 pub fn generate_error_code_json_binding() -> Result<(), ApiServerError> {
     let json = serde_json::to_string_pretty(&API_ERROR_CODES.clone()).unwrap();
-    println!("Successfully loaded error codes to generate json binding");
+    println!("[prfs_api_server] Successfully loaded error codes to generate json binding");
 
     let file_path = PATHS.data_api.join("error_codes.json");
 

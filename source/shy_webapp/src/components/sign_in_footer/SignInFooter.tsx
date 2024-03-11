@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./SignInFooter.module.scss";
 import { envs } from "@/envs";
-import { useI18N } from "@/i18n/hook";
 
 const SignInFooter: React.FC<SignInFooterProps> = () => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
 
   return (
     <ul className={styles.wrapper}>

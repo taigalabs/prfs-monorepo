@@ -1,5 +1,6 @@
 use crate::api;
 use console_error_panic_hook;
+use prfs_crypto::poseidon;
 use serde::{Deserialize, Serialize};
 use std::io::{Error, Read};
 use wasm_bindgen::{prelude::*, Clamped};
@@ -80,7 +81,7 @@ pub fn poseidon_2(arg1: &[u8], arg2: &[u8]) -> Result<Vec<u8>, JsValue> {
         }
     };
 
-    return match api::poseidon_2(a1, a2) {
+    return match poseidon::poseidon_2(a1, a2) {
         Ok(p) => Ok(p.to_vec()),
         Err(err) => Err(JsValue::from_str(&err.to_string())),
     };

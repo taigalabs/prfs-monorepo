@@ -1,9 +1,8 @@
 use prfs_crypto::{
     convert_32bytes_le_into_decimal_string, convert_dec_into_32bytes, convert_hex_into_32bytes,
-    crypto_bigint::Encoding, hex, poseidon_2, primitive_types, ZERO_NODE,
+    crypto_bigint::Encoding, hex, poseidon::poseidon_2, primitive_types, ZERO_NODE,
 };
 use prfs_entities::entities::{PrfsSet, PrfsSetElement, PrfsSetElementDataType};
-use std::u128;
 
 use crate::TreeMakerError;
 

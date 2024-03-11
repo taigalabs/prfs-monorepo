@@ -1,15 +1,15 @@
 import React from "react";
 import { useCurrentEditor } from "@tiptap/react";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./CreatePostEditorFooter.module.scss";
-import { useI18N } from "@/i18n/hook";
 import Button from "@/components/button/Button";
 
 const CreatePostEditorFooter: React.FC<EditorFooterProps> = ({
   handleClickCancel,
   handleClickReply,
 }) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
   const { editor } = useCurrentEditor();
 
   const extendedHandleClickReply = React.useCallback(() => {

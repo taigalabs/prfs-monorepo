@@ -1,0 +1,24 @@
+{
+  "name": "@taigalabs/prfs-id-session-api-error-codes",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "./bindings/error_codes.json",
+  "scripts": {
+    "clean": "rimraf ./build",
+    "build": "pnpm clean && tsc"
+  },
+  "devDependencies": {
+    "@types/node": "20.3.1",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "@ethereumjs/util": "^8.0.3",
+    "@taigalabs/prfs-crypto-js": "*",
+    "@taigalabs/prfs-driver-interface": "*",
+    "@taigalabs/prfs-driver-spartan-js": "*",
+    "@taigalabs/prfs-entities": "*",
+    "@taigalabs/prfs-api-server": "*",
+    "@taigalabs/shy-entities": "*",
+    "classnames": "^2.3.2"
+  }
+}

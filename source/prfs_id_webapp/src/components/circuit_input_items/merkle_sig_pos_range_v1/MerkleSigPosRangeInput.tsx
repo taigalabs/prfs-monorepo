@@ -11,7 +11,11 @@ import {
   poseidon_2_bigint_le,
   prfsSign,
 } from "@taigalabs/prfs-crypto-js";
-import { hexlify, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import {
+  computeAddress,
+  hexlify,
+  toUtf8Bytes,
+} from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation, useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
@@ -27,6 +31,7 @@ import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindin
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
+import { Wallet, ethers } from "@taigalabs/prfs-crypto-deps-js/ethers";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -41,11 +46,15 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
+import {
+  FormErrors,
+  FormHandler,
+  FormValues,
+  HandleSkipCreateProof,
+} from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
-import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -76,7 +85,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   presetVals,
   proofAction,
   usePrfsRegistry,
-  handleSkip,
+  handleSkipCreateProof,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
@@ -159,7 +168,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           ...oldVal,
           merkleProof: "Form is empty, something is wrong",
         }));
-        return { isValid: false };
+        return { isValid: false as const };
       }
 
       if (!val?.merkleProof) {
@@ -167,7 +176,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           ...oldVal,
           merkleProof: "Merkle proof is empty",
         }));
-        return { isValid: false };
+        return { isValid: false as const };
       }
       const { root, siblings, pathIndices } = val.merkleProof;
       if (!root || !siblings || !pathIndices) {
@@ -175,25 +184,30 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           ...oldVal,
           merkleProof: "Merkle path is not provided. Have you put address?",
         }));
-        return { isValid: false };
+        return { isValid: false as const };
       }
       if (!val.nonceRaw || val.nonceRaw.length === 0) {
         setFormErrors(oldVal => ({
           ...oldVal,
           nonceRaw: "Nonce raw is empty",
         }));
-        return { isValid: false };
+        return { isValid: false as const };
       }
       const { skHex } = await deriveProofKey(val.nonceRaw);
       val.proofKey = skHex;
 
-      const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
-      const proofActionResult = await prfsSign(skHex, proofAction_);
-      const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
+      const proofActionSigMsg = toUtf8Bytes(proofAction);
+      const wallet = new Wallet(skHex);
+      const sig = await wallet.signMessage(proofActionSigMsg);
 
-      return { isValid: true, proofActionResult: proofActionResultHex };
+      return {
+        isValid: true,
+        proofAction,
+        proofActionSig: "0x" + sig,
+        proofActionSigMsg: Array.from(proofActionSigMsg),
+      };
     });
-  }, [setFormHandler, setFormErrors]);
+  }, [setFormHandler, setFormErrors, proofAction]);
 
   React.useEffect(() => {
     async function fn() {
@@ -210,13 +224,29 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
         if (payload) {
           if (payload.proof_record) {
-            handleSkip(payload.proof_record.public_key);
+            const proofActionSigMsg = toUtf8Bytes(proofAction);
+            const wallet = new Wallet(skHex);
+            const sig = await wallet.signMessage(proofActionSigMsg);
+
+            // console.log("sig: %s, skHex: %o, sigMsg: %o", sig, skHex, proofActionSigMsg);
+            // const addr = ethers.utils.verifyMessage(proofActionSigMsg, sig);
+            // const addr2 = computeAddress(pkHex);
+            // console.log("addr", addr, addr2);
+            // console.log("pkHex", pkHex);
+
+            handleSkipCreateProof({
+              type: "cached_prove_receipt",
+              proofAction,
+              proofActionSigMsg: Array.from(proofActionSigMsg),
+              proofActionSig: sig,
+              proofPubKey: pkHex,
+            });
           }
         }
       }
     }
     fn().then();
-  }, [presetVals, proofAction, getPrfsProofRecord, usePrfsRegistry, handleSkip]);
+  }, [presetVals, proofAction, getPrfsProofRecord, usePrfsRegistry, handleSkipCreateProof]);
 
   React.useEffect(() => {
     async function fn() {
@@ -545,7 +575,7 @@ export interface MerkleSigPosRangeInputProps {
   credential: PrfsIdCredential;
   proofAction: string;
   usePrfsRegistry?: boolean;
-  handleSkip: (proofId: string) => void;
+  handleSkipCreateProof: HandleSkipCreateProof;
 }
 
 export interface ComputedValueProps {

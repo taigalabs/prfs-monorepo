@@ -31,3 +31,4 @@ prfs_tree_maker = { path = "../prfs_tree_maker" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 prfs_entities = { path = "../prfs_entities" }
 prfs_common_server_state = { path = "../prfs_common_server_state" }
+prfs_id_session_api_error_codes = { path = "../prfs_id_session_api_error_codes" }

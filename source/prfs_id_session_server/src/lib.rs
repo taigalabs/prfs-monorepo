@@ -1,7 +1,7 @@
 mod apis;
-pub(crate) mod error_codes;
 pub mod event_loop;
 pub mod log;
+pub mod paths;
 pub mod peer_map;
 pub mod router;
 

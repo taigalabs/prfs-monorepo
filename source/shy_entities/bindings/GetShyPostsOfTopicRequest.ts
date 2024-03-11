@@ -2,5 +2,6 @@
 
 export interface GetShyPostsOfTopicRequest {
   topic_id: string;
+  channel_id: string;
   offset: number;
 }

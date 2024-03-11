@@ -1,3 +1,5 @@
+import { CachedProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
+
 import { createQueryString } from "../search_params";
 import { TutorialArgs } from "../tutorial";
 import { CommitmentQuery } from "../queries/commitment";
@@ -5,7 +7,6 @@ import { CreateProofQuery } from "../queries/create_proof";
 import { EncryptQuery } from "../queries/encrypt";
 import { AppSignInQuery } from "../queries/app_sign_in";
 import { RandKeyPairQuery } from "../queries/rand_key_pair";
-import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { AppSignInResult, CommitmentReceipt, EncryptedReceipt, RandKeyPairReceipt } from "..";
 
 export function makeProofGenSearchParams(args: ProofGenArgs): string {
@@ -70,6 +71,7 @@ export interface ProofGenSuccessPayload {
 
 export type ProofGenReceiptItems =
   | ProveReceipt
+  | CachedProveReceipt
   | CommitmentReceipt
   | RandKeyPairReceipt
   | AppSignInResult

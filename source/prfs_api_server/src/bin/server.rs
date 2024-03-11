@@ -1,6 +1,6 @@
 use colored::Colorize;
-use prfs_api_server::bindgen::generate_error_code_json_binding;
 use prfs_api_server::envs::ENVS;
+use prfs_api_server::error_codes::bindgen::generate_error_code_json_binding;
 use prfs_api_server::server::server2::run_server;
 use prfs_api_server::ApiServerError;
 use tracing_subscriber::layer::SubscriberExt;

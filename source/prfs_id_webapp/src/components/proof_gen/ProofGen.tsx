@@ -4,6 +4,7 @@ import React from "react";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
+import { bustEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./ProofGen.module.scss";
@@ -14,7 +15,6 @@ import {
   DefaultModuleFooter,
   DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
-import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
 import ProofGenForm from "./ProofGenForm";
 import { useAppDispatch } from "@/state/hooks";
@@ -74,6 +74,7 @@ const ProofGen: React.FC = () => {
   }, []);
 
   const handleClickPrev = React.useCallback(() => {
+    bustEphemeralPrfsIdCredential(true);
     setStep(ProofGenStep.PrfsIdCredential);
   }, [setStep]);
 
@@ -116,7 +117,6 @@ const ProofGen: React.FC = () => {
   return (
     <DefaultModule>
       <DefaultForm>
-        {errorMsg && <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />}
         <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
         {status === Status.Loading ? (
           <Overlay fixed>

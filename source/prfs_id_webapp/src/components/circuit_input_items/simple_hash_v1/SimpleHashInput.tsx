@@ -112,7 +112,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
           ...oldVal,
           hashData: "Input is empty",
         }));
-        return { isValid: false };
+        return { isValid: false as const };
       } else {
         const { msgRaw, msgRawInt, msgHash } = val.hashData;
 
@@ -121,11 +121,16 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
             ...oldVal,
             hashData: "Hashed outcome should be provided. Have you hashed the input?",
           }));
-          return { isValid: false };
+          return { isValid: false as const };
         }
       }
 
-      return { isValid: true, proofActionResult: "" };
+      return {
+        isValid: true,
+        proofAction: "",
+        proofActionSig: "",
+        proofActionSigMsg: new Uint8Array(),
+      };
     });
   }, [setFormHandler, setFormErrors]);
 

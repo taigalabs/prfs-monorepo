@@ -3,7 +3,7 @@ use byteorder::{LittleEndian, ReadBytesExt};
 use ff::PrimeField;
 use libspartan::{Assignment, Instance, NIZKGens, NIZK};
 use merlin::Transcript;
-use prfs_crypto::{hash_from_bytes, MerkleProof};
+use prfs_crypto::{poseidon::hash_from_bytes, MerkleProof};
 use secq256k1::affine::Group;
 use std::io::{Error, Read};
 use wasm_bindgen::{prelude::*, Clamped};

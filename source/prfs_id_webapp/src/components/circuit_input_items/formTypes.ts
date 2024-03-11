@@ -1,3 +1,4 @@
+import { CachedProveReceipt } from "@taigalabs/prfs-driver-interface";
 import React from "react";
 
 export type FormValues<T> = {
@@ -8,8 +9,16 @@ export type FormErrors<T> = {
   [Key in keyof T]: undefined | React.ReactNode;
 };
 
-export type FormHandler = (formValues: FormValues<any>) => Promise<{
-  isValid: boolean;
-  proofAction?: string;
-  proofActionResult?: string;
-}>;
+export type FormHandler = (formValues: FormValues<any>) => Promise<
+  | {
+      isValid: false;
+    }
+  | {
+      isValid: true;
+      proofAction: string;
+      proofActionSigMsg: Uint8Array | number[];
+      proofActionSig: string;
+    }
+>;
+
+export type HandleSkipCreateProof = (proveReceipt: CachedProveReceipt) => void;

@@ -9,7 +9,8 @@ export interface CreateShyTopicRequest {
   proof_identity_input: string;
   proof: Array<number>;
   public_inputs: string;
-  author_public_key: string;
   serial_no: string;
+  author_public_key: string;
   author_sig: string;
+  author_sig_msg: Array<number>;
 }

@@ -84,7 +84,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
           ...oldVal,
           merkleProof: "Merkle proof is empty",
         }));
-        return { isValid: false };
+        return { isValid: false as const };
       } else {
         const { root, siblings, pathIndices } = val.merkleProof;
 
@@ -93,7 +93,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
             ...oldVal,
             merkleProof: "Merkle path is not provided",
           }));
-          return { isValid: false };
+          return { isValid: false as const };
         }
       }
 
@@ -102,7 +102,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
           ...oldVal,
           sigData: "Input is empty",
         }));
-        return { isValid: false };
+        return { isValid: false as const };
       } else {
         const { sig, msgHash, msgRaw } = val.sigData;
 
@@ -111,11 +111,16 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
             ...oldVal,
             sigData: "Signature is not provided. Have you signed?",
           }));
-          return { isValid: false };
+          return { isValid: false as const };
         }
       }
 
-      return { isValid: true, proofActionResult: "" };
+      return {
+        isValid: true,
+        proofAction: "",
+        proofActionSig: "",
+        proofActionSigMsg: new Uint8Array(),
+      };
     });
   }, [setFormHandler, setFormErrors]);
 

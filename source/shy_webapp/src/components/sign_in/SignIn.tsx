@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./SignIn.module.scss";
 import ShyLogo from "@/components/shy_logo/ShyLogo";
@@ -9,11 +10,10 @@ import SigningInGuideline from "./SigningInGuideline.mdx";
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths, searchParamKeys } from "@/paths";
 import SignInFooter from "@/components/sign_in_footer/SignInFooter";
-import { useI18N } from "@/i18n/hook";
 import ShySignInBtn from "@/components/shy_sign_in_btn/ShySignInBtn";
 
 const SignIn: React.FC<SignInProps> = () => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
   const { shyCredential } = useSignedInShyUser();
   const router = useRouter();
   const searchParams = useSearchParams();

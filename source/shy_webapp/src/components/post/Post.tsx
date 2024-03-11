@@ -1,19 +1,15 @@
 import React from "react";
-import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
-import { shyApi2 } from "@taigalabs/shy-api-js";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import Link from "next/link";
 import dayjs from "dayjs";
-import { MdGroup } from "@react-icons/all-files/md/MdGroup";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
+import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 import styles from "./Post.module.scss";
 import { paths } from "@/paths";
 import { toShortDate } from "@/utils/time";
 import { PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
-import { useI18N } from "@/i18n/hook";
-import CreatePost from "../create_post/CreatePost";
-import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import CreatePost from "@/components/create_post/CreatePost";
 
 const Post: React.FC<PostContentProps> = ({
   topicId,
@@ -23,14 +19,20 @@ const Post: React.FC<PostContentProps> = ({
   proof_identity_input,
   updated_at,
 }) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
+  const { rerender } = useRerender();
+
   const handleClickReply = React.useCallback(() => {
     setIsReplyOpen(true);
   }, [setIsReplyOpen]);
   const handleClickCancel = React.useCallback(() => {
     setIsReplyOpen(false);
   }, [setIsReplyOpen]);
+  const handleSucceedPost = React.useCallback(() => {
+    setIsReplyOpen(false);
+    rerender();
+  }, [rerender, setIsReplyOpen]);
 
   const publicKey = React.useMemo(() => {
     return author_public_key.substring(0, 8) || "";
@@ -68,7 +70,12 @@ const Post: React.FC<PostContentProps> = ({
         handleClickReply={handleClickReply}
       />
       {isReplyOpen && (
-        <CreatePost handleClickCancel={handleClickCancel} channel={channel} topicId={topicId} />
+        <CreatePost
+          handleClickCancel={handleClickCancel}
+          channel={channel}
+          topicId={topicId}
+          handleSucceedPost={handleSucceedPost}
+        />
       )}
     </PostInner>
   );

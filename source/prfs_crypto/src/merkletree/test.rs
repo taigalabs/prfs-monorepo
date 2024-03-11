@@ -1,9 +1,5 @@
 use super::{merklepath::make_sibling_path, tree::make_merkle_proof};
-use crate::{convert_hex_into_32bytes, hash_from_bytes, verify, PrfsCryptoError};
-// use ff::PrimeField;
-use primitive_types::U256;
-use rs_merkle::Hasher;
-// use secq256k1::field::BaseField;
+use crate::{convert_hex_into_32bytes, verify, PrfsCryptoError};
 
 #[test]
 fn test_merkle_path() {

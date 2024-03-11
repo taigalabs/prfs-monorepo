@@ -159,6 +159,7 @@
 .error {
   color: var(--red-50);
   padding: 8px 0;
+  word-break: break-all;
 }
 
 @media screen and (min-width: $mid_display_min_width) {

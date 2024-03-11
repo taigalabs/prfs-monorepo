@@ -8,9 +8,8 @@ use prfs_entities::id_session_api::{
     GetPrfsIdSessionValueRequest, GetPrfsIdSessionValueResponse, PutPrfsIdSessionValueRequest,
     PutPrfsIdSessionValueResponse,
 };
+use prfs_id_session_api_error_codes::error_codes::PRFS_ID_SESSION_API_ERROR_CODES;
 use std::sync::Arc;
-
-use crate::error_codes::API_ERROR_CODE;
 
 pub async fn get_prfs_id_session_value(
     State(state): State<Arc<ServerState>>,
@@ -20,7 +19,7 @@ pub async fn get_prfs_id_session_value(
 
     let session = prfs::get_prfs_id_session(&pool, &input.key)
         .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))
+        .map_err(|err| ApiHandleError::from(&PRFS_ID_SESSION_API_ERROR_CODES.UNKNOWN_ERROR, err))
         .unwrap();
 
     let resp = ApiResponse::new_success(GetPrfsIdSessionValueResponse { session });
@@ -34,11 +33,11 @@ pub async fn put_prfs_id_session_value(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    if let Err(err) = prfs::get_prfs_id_session(&pool, &input.key)
-        .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))
-    {
-        let resp = ApiResponse::new_error(&API_ERROR_CODE.SESSION_NOT_EXISTS, err.to_string());
+    if let Err(err) = prfs::get_prfs_id_session(&pool, &input.key).await {
+        let resp = ApiResponse::new_error(
+            &PRFS_ID_SESSION_API_ERROR_CODES.SESSION_NOT_EXISTS,
+            err.to_string(),
+        );
         return (StatusCode::BAD_REQUEST, Json(resp));
     };
 
@@ -48,10 +47,16 @@ pub async fn put_prfs_id_session_value(
         ticket: input.ticket,
     };
 
-    let key = prfs::upsert_prfs_id_session(&mut tx, &session)
-        .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))
-        .unwrap();
+    let key = match prfs::upsert_prfs_id_session(&mut tx, &session).await {
+        Ok(k) => k,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &PRFS_ID_SESSION_API_ERROR_CODES.SESSION_NOT_EXISTS,
+                err.to_string(),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     tx.commit().await.unwrap();
 

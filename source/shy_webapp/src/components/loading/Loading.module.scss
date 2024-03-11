@@ -2,3 +2,9 @@
   font-size: 15px;
   padding: 24px 24px;
 }
+
+.centerAlign {
+  display: grid;
+  place-items: center;
+  min-height: 130px;
+}

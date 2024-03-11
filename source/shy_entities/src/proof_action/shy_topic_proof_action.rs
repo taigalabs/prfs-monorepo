@@ -7,17 +7,10 @@ use ts_rs::TS;
 #[ts(export)]
 pub enum ShyTopicProofAction {
     create_shy_topic(CreateShyTopicAction),
-    create_shy_topic_reply(CreateShyTopicReplyAction),
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreateShyTopicAction {
     pub topic_id: String,
-}
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
-pub struct CreateShyTopicReplyAction {
-    pub reply_id: String,
 }

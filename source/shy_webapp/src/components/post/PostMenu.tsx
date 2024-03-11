@@ -1,18 +1,15 @@
 import React from "react";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
-import { shyApi2 } from "@taigalabs/shy-api-js";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import Link from "next/link";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { FaReply } from "@react-icons/all-files/fa/FaReply";
 
 import styles from "./PostMenu.module.scss";
 import { paths } from "@/paths";
-import { useI18N } from "@/i18n/hook";
 import Button from "@/components/button/Button";
 import CreatePost from "@/components/create_post/CreatePost";
 
 const PostMenu: React.FC<PostContentProps> = ({ handleClickReply }) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
 
   return (
     <>

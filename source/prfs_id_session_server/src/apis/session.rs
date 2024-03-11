@@ -24,45 +24,6 @@ pub async fn open_prfs_id_session(
     ws.on_upgrade(move |socket| serve_websocket(socket, state))
 }
 
-// async fn integration_testable_handle_socket(mut socket: WebSocket) {
-//     while let Some(Ok(msg)) = socket.recv().await {
-//         if let Message::Text(msg) = msg {
-//             if socket
-//                 .send(Message::Text(format!("You said: {msg}")))
-//                 .await
-//                 .is_err()
-//             {
-//                 break;
-//             }
-//         }
-//     }
-// }
-
-// pub async fn open_prfs_id_session(
-//     mut request: Request<Incoming>,
-//     state: Arc<ServerState>,
-//     // State(state): State<Arc<ServerState>>,
-//     // Json(input): Json<GetPrfsTreeNodesByPosRequest>,
-//     // ws: WebSocketUpgrade,
-// ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
-//     // Check if the request is a websocket upgrade request.
-//     if hyper_tungstenite2::is_upgrade_request(&request) {
-//         let (response, websocket) = hyper_tungstenite2::upgrade(&mut request, None).unwrap();
-
-//         tokio::spawn(async {
-//             if let Err(e) = serve_websocket(websocket, state).await {
-//                 eprintln!("Error in websocket connection: {e}");
-//             }
-//         });
-
-//         return Ok(response);
-//     } else {
-//         // Normal HTTP request shouldn't be reached at this route
-//         Ok(Response::new(full("Wrong path")))
-//     }
-// }
-
-/// Handle a websocket connection.
 async fn serve_websocket(websocket: WebSocket, state: Arc<ServerState>) {
     // let websocket = websocket.await?;
     let (tx, mut rx) = websocket.split();

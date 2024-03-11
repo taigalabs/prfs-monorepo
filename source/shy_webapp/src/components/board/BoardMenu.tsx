@@ -2,14 +2,14 @@ import React from "react";
 import cn from "classnames";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import Link from "next/link";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./BoardMenu.module.scss";
-import { useI18N } from "@/i18n/hook";
 import Button from "@/components/button/Button";
 import { pathParts, paths } from "@/paths";
 
 const BoardMenu: React.FC<BoardMenuProps> = ({ channelId }) => {
-  const i18n = useI18N();
+  const i18n = usePrfsI18N();
   const postURL = React.useMemo(() => {
     return `${paths.c}/${channelId}/${pathParts.new_topic}`;
   }, [channelId]);
