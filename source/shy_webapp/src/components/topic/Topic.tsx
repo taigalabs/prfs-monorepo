@@ -4,6 +4,7 @@ import React from "react";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
+import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { useInfiniteQuery, useQuery } from "@taigalabs/prfs-react-lib/react_query";
 
 import styles from "./Topic.module.scss";
@@ -23,7 +24,6 @@ import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import TopicContent from "./TopicContent";
 import PostList from "@/components/post_list/PostList";
-import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 
 function usePosts() {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
