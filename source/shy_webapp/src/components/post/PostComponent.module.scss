@@ -1,12 +1,16 @@
 @import "@/styles/layouts.module.scss";
 
-.postInner {
+.wrapper {
   border-top: 1px solid var(--bright-gray-35);
   padding-top: 12px;
 }
 
+.inner {
+  padding: 0 $side_padding;
+}
+
 @media screen and (min-width: $big_display_min_width) {
-  .postInner {
+  .wrapper {
     max-width: $form_width;
   }
 }

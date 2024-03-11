@@ -7,7 +7,7 @@ import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 import styles from "./Post.module.scss";
 import { paths } from "@/paths";
 import { toShortDate } from "@/utils/time";
-import { PostInner } from "./PostComponent";
+import { PostWrapper, PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
 import CreatePost from "@/components/create_post/CreatePost";
 
@@ -44,40 +44,42 @@ const Post: React.FC<PostContentProps> = ({
   }, [updated_at]);
 
   return (
-    <PostInner>
-      <div className={styles.meta}>
-        <div className={styles.left}>
-          <div className={styles.item}>
-            <p className={styles.publicKey}>{publicKey}</p>
+    <PostWrapper>
+      <PostInner>
+        <div className={styles.meta}>
+          <div className={styles.left}>
+            <div className={styles.item}>
+              <p className={styles.publicKey}>{publicKey}</p>
+            </div>
+            <div className={styles.item}>
+              <p className={styles.proofIdentityInput}>{proof_identity_input}</p>
+            </div>
           </div>
-          <div className={styles.item}>
-            <p className={styles.proofIdentityInput}>{proof_identity_input}</p>
+          <div className={styles.right}>
+            <p className={styles.date}>{date}</p>
           </div>
         </div>
-        <div className={styles.right}>
-          <p className={styles.date}>{date}</p>
-        </div>
-      </div>
-      <div
-        className={styles.content}
-        dangerouslySetInnerHTML={{
-          __html: content,
-        }}
-      />
-      <PostMenu
-        content={content}
-        originalPostAuthorPubkey={publicKey}
-        handleClickReply={handleClickReply}
-      />
-      {isReplyOpen && (
-        <CreatePost
-          handleClickCancel={handleClickCancel}
-          channel={channel}
-          topicId={topicId}
-          handleSucceedPost={handleSucceedPost}
+        <div
+          className={styles.content}
+          dangerouslySetInnerHTML={{
+            __html: content,
+          }}
         />
-      )}
-    </PostInner>
+        <PostMenu
+          content={content}
+          originalPostAuthorPubkey={publicKey}
+          handleClickReply={handleClickReply}
+        />
+        {isReplyOpen && (
+          <CreatePost
+            handleClickCancel={handleClickCancel}
+            channel={channel}
+            topicId={topicId}
+            handleSucceedPost={handleSucceedPost}
+          />
+        )}
+      </PostInner>
+    </PostWrapper>
   );
 };
 
