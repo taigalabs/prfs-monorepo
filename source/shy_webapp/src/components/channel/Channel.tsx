@@ -72,7 +72,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
           )}
           {channel ? (
             <>
-              <BoardMeta channel={channel} noDesc />
+              <BoardMeta channel={channel} />
               {isNewTopic ? (
                 <CreateTopicForm channel={channel} />
               ) : (
