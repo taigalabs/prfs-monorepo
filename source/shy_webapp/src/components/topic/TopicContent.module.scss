@@ -3,13 +3,17 @@
 .wrapper {
   position: relative;
   min-height: 150px;
-  padding: 0px 12px 12px;
+  padding: 0px 0px 12px;
 
   /* border-top: 1px solid var(--gray-70); */
 }
 
 .titleRow {
-  padding-bottom: 12px;
+  padding: 12px 0;
+}
+
+.inner {
+  padding: 0 $side_padding;
 }
 
 .title {
@@ -19,7 +23,7 @@
 }
 
 .postMeta {
-  padding-top: 6px;
+  padding-top: 8px;
 }
 
 .participants {

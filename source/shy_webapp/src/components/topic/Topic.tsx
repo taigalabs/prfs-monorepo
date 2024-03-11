@@ -58,7 +58,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
         <InfiniteScrollMain>
           {channel ? (
             <>
-              <BoardMeta channel={channel} noDesc />
+              <BoardMeta channel={channel} noDesc noSubChannel />
               <TopicContent topicId={topicId} channel={channel} />
               <PostList parentRef={parentRef} channel={channel} topicId={topicId} />
             </>

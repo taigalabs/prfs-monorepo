@@ -2,6 +2,15 @@
 
 .wrapper {
   padding: 8px $side_padding 8px;
+  border-bottom: 1px solid var(--bright-gray-35);
+}
+
+.small {
+  .titleRow {
+    .label {
+      font-size: 16px;
+    }
+  }
 }
 
 .inner {

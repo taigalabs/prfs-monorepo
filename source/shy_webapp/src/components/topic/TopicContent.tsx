@@ -25,12 +25,14 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel }) => {
       {topic ? (
         <>
           <div className={styles.titleRow}>
-            <p className={styles.title}>{topic.inner.shy_topic.title}</p>
-            <div className={styles.postMeta}>
-              <button className={styles.participants} type="button">
-                <MdGroup />
-                <span>{i18n.participants}</span>
-              </button>
+            <div className={styles.inner}>
+              <p className={styles.title}>{topic.inner.shy_topic.title}</p>
+              <div className={styles.postMeta}>
+                <button className={styles.participants} type="button">
+                  <MdGroup />
+                  <span>{i18n.participants}</span>
+                </button>
+              </div>
             </div>
           </div>
           <Post

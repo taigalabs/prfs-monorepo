@@ -1,11 +1,22 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   position: relative;
-  padding-bottom: 6px;
+  height: 100%;
+  /* padding-bottom: 6px; */
 
   /* border: 1px solid blue; */
+}
+
+.paddingBox {
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.upperBox {
+  background-color: var(--shy-orange-50);
 }
 
 .box {
@@ -18,7 +29,7 @@
 
   > span {
     font-family: "Ubuntu", sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0.02em;
     color: #fff;
   }
@@ -32,6 +43,6 @@
 
 @media screen and (min-width: $big_display_min_width) {
   .wrapper {
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
   }
 }
