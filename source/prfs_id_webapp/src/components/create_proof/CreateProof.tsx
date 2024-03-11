@@ -58,7 +58,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
   query,
   setReceipt,
   tutorial,
-  // setErrorDialogMsg,
   handleSkip,
 }) => {
   const i18n = React.useContext(i18nContext);
