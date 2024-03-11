@@ -1,67 +1,61 @@
-use ethers_core::abi::AbiEncode;
 use ethers_core::types::Signature;
 use ethers_core::utils::keccak256;
-use ethers_core::{types::RecoveryMessage, utils::hash_message};
-use ethers_signers::{LocalWallet, Signer};
-use k256::ecdsa::{RecoveryId, SigningKey, VerifyingKey};
-use k256::elliptic_curve::sec1::ToEncodedPoint;
-use k256::elliptic_curve::PublicKey;
-use k256::schnorr::signature::Keypair;
-use k256::PublicKey as K256Publickey;
+use k256::ecdsa::VerifyingKey;
+use primitive_types::H160;
 use std::str::FromStr;
 
 use crate::PrfsCryptoError;
 
-pub fn verify_ethSignature(sig: String) {}
+pub fn verify_eth_sig<S: AsRef<str>>(
+    sig: S,
+    msg: S,
+    public_key: S,
+) -> Result<H160, PrfsCryptoError> {
+    let msg_ = msg.as_ref().as_bytes();
+    let sig_deserialized = Signature::from_str(sig.as_ref()).unwrap();
+    let addr1 = sig_deserialized.recover(msg_).unwrap();
 
-#[test]
-fn test_1() {
-    use k256::schnorr::signature::Signer;
-    use k256::schnorr::SigningKey;
+    let vk_bytes = hex::decode(&public_key.as_ref()[2..]).unwrap();
+    let vk2 = VerifyingKey::from_sec1_bytes(&vk_bytes).unwrap();
+    let point = vk2.to_encoded_point(false);
+    let point_bytes = point.as_bytes();
+    let hash = keccak256(&point_bytes[1..]);
 
-    // let sk_str = "_";
-    // let sk_ = hex::decode(&sk_str[2..]).unwrap();
-    // let sk = SigningKey::from_slice(&sk_).unwrap();
-    // println!("sk: {:?}", sk.to_bytes());
-
-    // let msg: &[u8] = &[0, 10];
-
-    // let sig: Signature = sk.sign(msg);
-    // println!(
-    //     "sigBytes: {:?}\n r: {:?}\n  s: {:?}",
-    //     sig.to_bytes(),
-    //     sig.r().to_bytes(),
-    //     sig.s().to_bytes(),
-    // );
-
-    // let recid = RecoveryId::from_byte(1).unwrap();
-    // let vk = VerifyingKey::recover_from_msg(&msg, &sig, recid).unwrap();
-    // // let verifying_key = VerifyingKey::from(&sk); // Serialize with `::to_encoded_point()`
-    // //                                              // verifying_key.to_encoded_point(compress)
-    // // let res = vk.verify(msg, &sig);
-    // println!("\nvk: {:?}", vk.to_sec1_bytes());
+    if &hash[12..] == addr1.as_bytes() {
+        return Ok(addr1);
+    } else {
+        return Err(format!(
+            "addrs are different, 1: {:?}, 2: {:?}",
+            &hash[12..],
+            addr1.as_bytes()
+        )
+        .into());
+    }
 }
 
 #[tokio::test]
-async fn test_2() {
+async fn test_1() {
+    use ethers_signers::{LocalWallet, Signer};
+    use k256::ecdsa::SigningKey;
+
     let sk = "72784c91a7f6320ee5fc0b06004dbf1645769969fbfe2eaa2d4ce13c069eade6";
     let sk_bytes = hex::decode(sk).unwrap();
-
     let signing_key = SigningKey::from_slice(&sk_bytes).unwrap();
     let vk = signing_key.verifying_key();
-    let point = vk.to_encoded_point(false);
-    let point_bytes = point.as_bytes();
-    let hash = keccak256(&point_bytes[1..]);
-    let addr1 = format!("0x{}", hex::encode(&hash[12..]));
-    println!("hash: {:?}, addr: {}", hash, addr1);
+
+    let vk_bytes = vk.to_sec1_bytes();
+    println!("vk_bytes: {:?}", vk_bytes);
+
+    let vk_hex = format!("0x{}", hex::encode(&vk_bytes));
+    println!("vk_hex: {}", vk_hex);
 
     let wallet = sk.parse::<LocalWallet>().unwrap();
 
-    // let msg = &[0, 10];
-    let msg = r#"{a: "가나다"}"#.as_bytes();
-    println!("msg: {:?}", msg);
+    let msg = r#"{a: "가나다"}"#;
+    let msg_bytes = msg.as_bytes();
+    println!("msg: {:?}, msg_bytes: {:?}", msg, msg_bytes);
 
-    let sig = wallet.sign_message(msg).await.unwrap();
+    let sig = wallet.sign_message(msg_bytes).await.unwrap();
     println!("sig: {:?}", sig);
 
     let b = sig.to_vec();
@@ -70,10 +64,6 @@ async fn test_2() {
     let sig_hex = hex::encode(b);
     println!("sig_hex: {}", sig_hex);
 
-    let sig_deserialized = Signature::from_str(&sig_hex).unwrap();
-    println!("sig_des: {:?}", sig_deserialized);
-
-    let addr2 = sig_deserialized.recover(msg).unwrap();
-
-    assert_eq!(&hash[12..], addr2.as_bytes());
+    let addr2 = verify_eth_sig(&sig_hex, &msg.to_string(), &vk_hex).unwrap();
+    println!("addr: {}", addr2);
 }
