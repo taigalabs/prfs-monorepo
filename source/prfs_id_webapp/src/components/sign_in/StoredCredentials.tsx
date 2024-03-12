@@ -220,7 +220,7 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
       <li key="sign_in" className={styles.entry} onClick={handleClickUseAnotherId} role="button">
         <div className={styles.item}>
           <div className={styles.inner}>
-            <p>{i18n.use_another_id}</p>
+            <p className={styles.useAnotherId}>{i18n.use_another_id}</p>
           </div>
         </div>
       </li>,
