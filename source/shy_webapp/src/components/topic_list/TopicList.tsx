@@ -8,7 +8,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./TopicList.module.scss";
-import Row from "./Row";
+import TopicRow from "./TopicRow";
 import {
   InfiniteScrollRowContainerOuter,
   InfiniteScrollRowContainerInner,
@@ -117,7 +117,7 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, 
                 ? hasNextPage
                   ? "Loading more..."
                   : "Nothing more to load"
-                : topic && <Row topic={topic} now={now} channelId={channelId} />}
+                : topic && <TopicRow topic={topic} now={now} channelId={channelId} />}
             </InfiniteScrollRowWrapper>
           );
         })}

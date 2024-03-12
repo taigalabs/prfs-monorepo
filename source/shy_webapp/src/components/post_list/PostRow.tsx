@@ -5,11 +5,11 @@ import { ShyPostSyn1 } from "@taigalabs/shy-entities/bindings/ShyPostSyn1";
 import { Dayjs } from "dayjs";
 import Link from "next/link";
 
-import styles from "./Row.module.scss";
+import styles from "./PostRow.module.scss";
 import { paths } from "@/paths";
 import Post from "@/components/post/Post";
 
-const Row: React.FC<RowProps> = ({ post, channel }) => {
+const PostRow: React.FC<RowProps> = ({ post, channel }) => {
   return (
     <Post
       topicId={post.inner.shy_post.topic_id}
@@ -22,7 +22,7 @@ const Row: React.FC<RowProps> = ({ post, channel }) => {
   );
 };
 
-export default Row;
+export default PostRow;
 
 export interface RowProps {
   post: DateTimed<ShyPostSyn1>;

@@ -7,16 +7,16 @@ import dayjs from "dayjs";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { GiDiamonds } from "@react-icons/all-files/gi/GiDiamonds";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 import styles from "./PostList.module.scss";
-import Row from "./Row";
+import PostRow from "./PostRow";
 import {
   InfiniteScrollRowContainerInner,
   InfiniteScrollRowContainerOuter,
   InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
-import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, className }) => {
   const i18n = usePrfsI18N();
@@ -122,7 +122,7 @@ const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, classN
                 ? hasNextPage
                   ? "Loading more..."
                   : "Nothing more to load"
-                : post && <Row post={post} now={now} channel={channel} />}
+                : post && <PostRow post={post} now={now} channel={channel} />}
             </div>
           );
         })}
