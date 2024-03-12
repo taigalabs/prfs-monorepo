@@ -1,22 +1,26 @@
 {
   "SUCCESS": {
-    "code": "2000000",
+    "code": "20000000",
     "phrase": "Success"
   },
   "UNKNOWN_ERROR": {
-    "code": "4000000",
+    "code": "40000000",
     "phrase": "Unknown error"
   },
-  "SESSION_NOT_EXISTS": {
-    "code": "4000001",
-    "phrase": "Can't find a session"
+  "BAD_URL": {
+    "code": "40000001",
+    "phrase": "Unable to make http requests (CLI) to this URL"
   },
-  "USER_ALREADY_EXISTS": {
-    "code": "4000002",
-    "phrase": "User already exists"
+  "NOT_MACHING_SIG_MSG": {
+    "code": "400000A0",
+    "phrase": "Signature might have been made on an invalid msg"
   },
-  "NO_POLICY_ATTACHED": {
-    "code": "4000003",
-    "phrase": "User has no policy attached"
+  "INVALID_SIG": {
+    "code": "400000A1",
+    "phrase": "Signature is invalid"
+  },
+  "RECORD_INSERT_FAIL": {
+    "code": "40000B00",
+    "phrase": "Unabled to insert the record"
   }
 }
