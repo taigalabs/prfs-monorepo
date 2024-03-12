@@ -439,6 +439,7 @@ export default {
   select_wallet: "Select a wallet",
   configure_public_inputs: "Configure public inputs",
   signed: "Signed",
+  signed_in: "Signed in",
   wallet_address: "Wallet address",
   wallet_address_should_start_with_0x: "Wallet address should start with '0x'",
   amount: "Amount",

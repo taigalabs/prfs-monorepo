@@ -18,7 +18,10 @@ import {
   loadLocalPrfsIdCredentials,
   removeAllPrfsIdCredentials,
 } from "@/storage/prfs_id_credential";
-import { loadEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
+import {
+  EphemeralPrfsIdCredential,
+  loadEphemeralPrfsIdCredential,
+} from "@/storage/ephe_credential";
 
 enum SignInStep {
   Loading,
@@ -39,13 +42,16 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   const [step, setStep] = React.useState(SignInStep.Loading);
   const [storedCredentials, setStoredCredentials] = React.useState<StoredCredentialRecord>({});
+  const [epheCredential, setEpheCredential] = React.useState<EphemeralPrfsIdCredential | null>(
+    null,
+  );
 
   React.useEffect(() => {
-    const epheCred = loadEphemeralPrfsIdCredential();
-    console.log(11, epheCred);
-    // if (epheCred) {
-    //   handleSucceedSignIn(epheCred.credential);
-    // }
+    const epheCredential = loadEphemeralPrfsIdCredential();
+    if (epheCredential) {
+      setEpheCredential(epheCredential);
+      // handleSucceedSignIn(epheCred.credential);
+    }
 
     const storedCredentials = loadLocalPrfsIdCredentials();
     console.log("stored credentials", storedCredentials);
@@ -56,7 +62,7 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
     } else {
       setStep(SignInStep.SignInForm);
     }
-  }, [setErrorMsg, setStep, setStoredCredentials, handleSucceedSignIn]);
+  }, [setErrorMsg, setStep, setStoredCredentials, handleSucceedSignIn, setEpheCredential]);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,6 +116,7 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
             handleClickUseAnotherId={handleGotoPrfsIdCredential}
             handleSucceedSignIn={handleSucceedSignIn}
             handleClickForgetAllCredentials={handleClickForgetAllCredentials}
+            epheCredential={epheCredential}
           />
         );
       }

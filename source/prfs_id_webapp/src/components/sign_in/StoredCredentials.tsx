@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import { abbrevMandN } from "@taigalabs/prfs-ts-utils";
 import { makeDecryptKey } from "@taigalabs/prfs-crypto-js";
@@ -22,7 +23,10 @@ import {
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
 import { StoredCredentialRecord } from "@/storage/prfs_id_credential";
-import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
+import {
+  EphemeralPrfsIdCredential,
+  persistEphemeralPrfsIdCredential,
+} from "@/storage/ephe_credential";
 
 export enum SignInStatus {
   Loading,
@@ -36,6 +40,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   handleClickUseAnotherId,
   handleSucceedSignIn,
   handleClickForgetAllCredentials,
+  epheCredential,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [selectedCredentialId, setSelectedCredentialId] = React.useState<string | null>(null);
@@ -128,7 +133,8 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
 
       if (!credentialObj.local_encrypt_key) {
         setErrorMsg(
-          `Persisted credential is corrupted, local_encrypt_key: ${credentialObj.local_encrypt_key}`,
+          `Persisted credential is corrupted, \
+local_encrypt_key: ${credentialObj.local_encrypt_key}`,
         );
         return;
       }
@@ -166,7 +172,15 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
           role="button"
         >
           <div className={styles.item}>
-            <p className={styles.prfsId}>{id}</p>
+            <div className={styles.idRow}>
+              <p className={styles.prfsId}>{id}</p>
+              {cred.id === epheCredential?.credential.id && (
+                <div className={styles.signedIn}>
+                  <FaCheck />
+                  <span>{i18n.signed_in}</span>
+                </div>
+              )}
+            </div>
             {cred.id === selectedCredentialId && (
               <div>
                 <DefaultInputItem
@@ -212,6 +226,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     handleClickNextWithCredential,
     errorMsg,
     handleClickUseAnotherId,
+    epheCredential,
   ]);
 
   const subtitle = React.useMemo(() => {
@@ -251,4 +266,5 @@ export interface StoredCredentialsProps {
   handleClickUseAnotherId: () => void;
   handleSucceedSignIn: (credential: PrfsIdCredential) => void;
   handleClickForgetAllCredentials: () => void;
+  epheCredential: EphemeralPrfsIdCredential | null;
 }
