@@ -20,36 +20,6 @@ use crate::error_codes::API_ERROR_CODE;
 
 const LIMIT: i32 = 15;
 
-#[test]
-fn test_123() {
-    let str = r#"{"power": "su pe r"}"#;
-    println!("str: {}", str);
-
-    let str_b = str.as_bytes();
-    println!("str_b: {:?}", str_b);
-
-    let str_str = serde_json::to_string(str).unwrap();
-    println!("str_str: {:?}", str_str);
-
-    let str_b2 = serde_json::to_vec(str).unwrap();
-    println!("str_b2: {:?}", str_b2);
-
-    let action = ShyTopicProofAction::create_shy_topic(CreateShyTopicAction {
-        topic_id: "power 11".to_string(),
-        channel_id: " pork 1".to_string(),
-        content: " af foo ".to_string(),
-    });
-
-    let action_str = serde_json::to_string(&action).unwrap();
-    println!("action_str: {:?}", action_str);
-
-    let action_b = serde_json::to_vec(&action).unwrap();
-    println!("action_b1: {:?}", action_b);
-
-    let action_b2 = action_str.as_bytes();
-    println!("action_b2: {:?}", action_b2);
-}
-
 pub async fn create_shy_topic(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<CreateShyTopicRequest>,
@@ -71,24 +41,6 @@ pub async fn create_shy_topic(
     });
 
     let msg = serde_json::to_vec(&action).unwrap();
-    let msg2 = serde_json::to_string(&action).unwrap();
-
-    println!(
-        "msg2: {}, msg22: {}, eq: {}",
-        msg2,
-        input.author_sig_msg2,
-        msg2 == input.author_sig_msg2
-    );
-
-    for (idx, c) in msg.iter().enumerate() {
-        if *c != input.author_sig_msg[idx] {
-            println!(
-                "444, idx: {}, c_ours: {}, c_input: {}",
-                idx, c, input.author_sig_msg[idx]
-            );
-        }
-    }
-
     if msg != input.author_sig_msg {
         let resp = ApiResponse::new_error(
             &API_ERROR_CODE.NOT_MACHING_SIG_MSG,
