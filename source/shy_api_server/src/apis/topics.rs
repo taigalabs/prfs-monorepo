@@ -1,10 +1,12 @@
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
+use prfs_crypto::signature::verify_eth_sig;
 use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordResponse};
 use shy_db_interface::shy;
 use shy_entities::entities::{ShyPost, ShyTopic, ShyTopicProof};
+use shy_entities::proof_action::{CreateShyTopicAction, ShyTopicProofAction};
 use shy_entities::shy_api::{
     CreateShyTopicRequest, CreateShyTopicResponse, GetShyPostsOfTopicRequest,
     GetShyPostsOfTopicResponse, GetShyTopicRequest, GetShyTopicResponse, GetShyTopicsRequest,
@@ -30,6 +32,30 @@ pub async fn create_shy_topic(
         "{}/api/v0/create_prfs_proof_record",
         &ENVS.prfs_api_server_endpoint
     );
+
+    let action = ShyTopicProofAction::create_shy_topic(CreateShyTopicAction {
+        topic_id: input.topic_id.to_string(),
+        channel_id: input.channel_id.to_string(),
+        content: input.content.to_string(),
+    });
+
+    let msg = serde_json::to_vec(&action).unwrap();
+    if msg != input.author_sig_msg {
+        let resp = ApiResponse::new_error(
+            &API_ERROR_CODE.NOT_MACHING_SIG_MSG,
+            format!("msg: {:?}", input.author_sig_msg),
+        );
+        return (StatusCode::BAD_REQUEST, Json(resp));
+    }
+
+    if let Err(err) = verify_eth_sig(&input.author_sig, &msg, &input.author_public_key) {
+        let resp = ApiResponse::new_error(
+            &API_ERROR_CODE.INVALID_SIG,
+            format!("sig: {}, err: {}", input.author_sig, err),
+        );
+        return (StatusCode::BAD_REQUEST, Json(resp));
+    }
+
     let data = CreatePrfsProofRecordRequest {
         proof_record: PrfsProofRecord {
             public_key: input.author_public_key.to_string(),

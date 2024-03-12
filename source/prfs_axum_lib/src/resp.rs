@@ -48,7 +48,7 @@ impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
     pub fn new_error(error_code: &ApiHandleErrorCode, err: String) -> ApiResponse<P> {
         ApiResponse {
             code: error_code.code.to_string(),
-            error: Some(err),
+            error: Some(format!("{}, err: {}", error_code.phrase, err)),
             payload: None,
         }
     }

@@ -75,13 +75,18 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         return;
       }
 
-      if (title.length < 20) {
-        setError("Title needs to be at least 20 characters");
+      if (title.length < 10) {
+        setError("Title needs to be longer");
         return;
       }
 
-      if (title.length > 150) {
-        setError("Title needs to be present");
+      if (title.length > 40) {
+        setError("Title needs to be shorter");
+        return;
+      }
+
+      if (html.length < 40) {
+        setError("Content needs to be longer");
         return;
       }
 

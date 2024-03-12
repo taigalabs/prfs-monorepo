@@ -15,7 +15,7 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
 
-const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
+const Board: React.FC<BoardProps> = ({ parentRef, channelId, className, placeholder }) => {
   const i18n = usePrfsI18N();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -92,7 +92,7 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className }) => {
       }}
     >
       {status === "success" && virtualItems.length === 0 && (
-        <div className={styles.emptyBoard}>{i18n.no_records_to_show}</div>
+        <div className={styles.emptyBoard}>{placeholder ?? i18n.no_records_to_show}</div>
       )}
       {virtualItems.map(virtualRow => {
         const isLoaderRow = virtualRow.index > allRows.length - 1;
@@ -126,4 +126,5 @@ export interface BoardProps {
   parentRef: React.MutableRefObject<HTMLDivElement | null>;
   channelId: string;
   className?: string;
+  placeholder?: React.ReactNode;
 }
