@@ -7,7 +7,7 @@ import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./Channels.module.scss";
-import Row from "./Row";
+import ChannelRow from "./ChannelRow";
 import {
   InfiniteScrollMain,
   InfiniteScrollRight,
@@ -121,7 +121,11 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
                         data-index={virtualRow.index}
                         ref={virtualizer.measureElement}
                       >
-                        {isLoaderRow ? <span>Loading...</span> : row && <Row channel={row} />}
+                        {isLoaderRow ? (
+                          <span>Loading...</span>
+                        ) : (
+                          row && <ChannelRow channel={row} />
+                        )}
                       </InfiniteScrollRowWrapper>
                     );
                   })}
