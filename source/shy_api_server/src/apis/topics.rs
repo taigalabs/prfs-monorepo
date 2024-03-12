@@ -2,6 +2,7 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_crypto::signature::verify_eth_sig;
+use prfs_db_driver::sqlx;
 use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordResponse};
 use shy_db_interface::shy;
@@ -138,7 +139,7 @@ pub async fn create_shy_topic(
     let _proof_id = match shy::insert_shy_topic_proof(&mut tx, &shy_topic_proof).await {
         Ok(i) => i,
         Err(err) => {
-            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            let resp = ApiResponse::new_error(&API_ERROR_CODE.RECORD_INSERT_FAIL, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
@@ -152,13 +153,15 @@ pub async fn create_shy_topic(
         shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
         author_public_key: input.author_public_key.to_string(),
         author_sig: input.author_sig.to_string(),
-        participant_identity_inputs: vec![input.proof_identity_input.to_string()],
+        participant_identity_inputs: sqlx::types::Json(vec![input
+            .proof_identity_input
+            .to_string()]),
     };
 
     let topic_id = match shy::insert_shy_topic(&mut tx, &shy_topic).await {
         Ok(i) => i,
         Err(err) => {
-            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            let resp = ApiResponse::new_error(&API_ERROR_CODE.RECORD_INSERT_FAIL, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };

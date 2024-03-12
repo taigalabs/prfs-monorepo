@@ -93,7 +93,7 @@ pub async fn insert_shy_topic(
 INSERT INTO shy_topics
 (topic_id, channel_id, title, author_public_key, num_replies, content, shy_topic_proof_id, 
 author_sig, participant_identity_inputs)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 RETURNING topic_id
 "#;
 

@@ -9,5 +9,5 @@ export interface ShyTopic {
   shy_topic_proof_id: string;
   author_public_key: string;
   author_sig: string;
-  participant_identity_inputs: Array<string>;
+  participant_identity_inputs: string[];
 }
