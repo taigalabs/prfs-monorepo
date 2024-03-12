@@ -6,6 +6,7 @@ import { shyApi2 } from "@taigalabs/shy-api-js";
 import dayjs from "dayjs";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
+import { GiDiamonds } from "@react-icons/all-files/gi/GiDiamonds";
 
 import styles from "./PostList.module.scss";
 import Row from "./Row";
@@ -95,7 +96,11 @@ const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, classN
       }}
     >
       {status === "success" && virtualItems.length === 0 && (
-        <div className={styles.emptyBoard}>{i18n.no_records_to_show}</div>
+        <div className={styles.emptyBoard}>
+          <GiDiamonds />
+          <GiDiamonds />
+          <GiDiamonds />
+        </div>
       )}
       {virtualItems.map(virtualRow => {
         const isLoaderRow = virtualRow.index > allRows.length - 1;
