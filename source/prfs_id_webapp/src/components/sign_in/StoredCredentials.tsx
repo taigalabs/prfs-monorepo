@@ -253,7 +253,8 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
       </DefaultInnerPadding>
       <DefaultModuleBtnRow className={styles.btnRow}>
         <Button
-          variant="transparent_blue_2"
+          variant="transparent_blue_3"
+          rounded
           noTransition
           handleClick={handleClickForgetAllCredentials}
           type="button"

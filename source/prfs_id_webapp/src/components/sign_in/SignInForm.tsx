@@ -25,6 +25,10 @@ enum InputCredentialStatus {
   Standby,
 }
 
+const EMAIL = "email";
+const PASSWORD_1 = "password_1";
+const PASSWORD_2 = "password_2";
+
 const SignInForm: React.FC<InputCredentialProps> = ({
   formData,
   formErrors,
@@ -61,9 +65,9 @@ const SignInForm: React.FC<InputCredentialProps> = ({
 
   const enhancedHandleClickNext = React.useCallback(async () => {
     const credential = await makePrfsIdCredential({
-      email: formData.email,
-      password_1: formData.password_1,
-      password_2: formData.password_2,
+      email: formData[EMAIL],
+      password_1: formData[PASSWORD_1],
+      password_2: formData[PASSWORD_2],
     });
     // console.log("credential", credential, formData);
 
@@ -107,7 +111,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
               {/*   handleKeyDown={handleKeyDown} */}
               {/* /> */}
               <Input
-                name="email"
+                name={EMAIL}
                 error={formErrors.email}
                 label={i18n.email}
                 value={formData.email}
@@ -115,25 +119,41 @@ const SignInForm: React.FC<InputCredentialProps> = ({
               />
             </div>
             <div className={styles.inputGroup}>
-              <DefaultInputItem
-                name="password_1"
-                value={formData.password_1}
-                placeholder={i18n.password_1}
-                error={formErrors.password_1}
-                handleChangeValue={handleChangeValue}
-                handleKeyDown={handleKeyDown}
+              {/* <DefaultInputItem */}
+              {/*   name={PASSWORD_1} */}
+              {/*   value={formData.password_1} */}
+              {/*   placeholder={i18n.password_1} */}
+              {/*   error={formErrors.password_1} */}
+              {/*   handleChangeValue={handleChangeValue} */}
+              {/*   handleKeyDown={handleKeyDown} */}
+              {/*   type="password" */}
+              {/* /> */}
+              <Input
+                name={PASSWORD_1}
+                error={formErrors[PASSWORD_1]}
+                label={i18n.password_1}
+                value={formData[PASSWORD_1]}
                 type="password"
+                handleChangeValue={handleChangeValue}
               />
             </div>
             <div className={styles.inputGroup}>
-              <DefaultInputItem
-                name="password_2"
-                value={formData.password_2}
-                placeholder={i18n.password_2}
-                error={formErrors.password_2}
-                handleChangeValue={handleChangeValue}
-                handleKeyDown={handleKeyDown}
+              {/* <DefaultInputItem */}
+              {/*   name="password_2" */}
+              {/*   value={formData.password_2} */}
+              {/*   placeholder={i18n.password_2} */}
+              {/*   error={formErrors.password_2} */}
+              {/*   handleChangeValue={handleChangeValue} */}
+              {/*   handleKeyDown={handleKeyDown} */}
+              {/*   type="password" */}
+              {/* /> */}
+              <Input
                 type="password"
+                name={PASSWORD_2}
+                error={formErrors[PASSWORD_2]}
+                label={i18n.password_2}
+                value={formData[PASSWORD_2]}
+                handleChangeValue={handleChangeValue}
               />
             </div>
           </DefaultModuleInputArea>
