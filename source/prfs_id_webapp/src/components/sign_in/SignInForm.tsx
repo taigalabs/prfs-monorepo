@@ -91,7 +91,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
       <DefaultInnerPadding>
         <div className={styles.main}>
           <DefaultModuleLogoArea />
-          <DefaultModuleHeader>
+          <DefaultModuleHeader noSidePadding>
             <DefaultModuleTitle>{title}</DefaultModuleTitle>
             <DefaultModuleSubtitle>{i18n.use_your_prfs_identity}</DefaultModuleSubtitle>
           </DefaultModuleHeader>
@@ -137,10 +137,11 @@ const SignInForm: React.FC<InputCredentialProps> = ({
           </p>
           <DefaultModuleBtnRow noSidePadding>
             <Button
-              variant="transparent_blue_2"
+              variant="transparent_blue_3"
               noTransition
               handleClick={handleClickCreateID}
               type="button"
+              rounded
             >
               {i18n.create_id}
             </Button>

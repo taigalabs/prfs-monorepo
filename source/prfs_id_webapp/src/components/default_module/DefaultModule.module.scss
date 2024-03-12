@@ -52,11 +52,13 @@
 .header {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  padding: 0 24px;
 
   &:not(.noTopPadding) {
-    padding-top: 16px;
+    padding-top: 22px;
+  }
+
+  &:not(.noSidePadding) {
+    padding: 0 24px;
   }
 }
 
@@ -73,7 +75,6 @@
 
 .logoArea {
   display: flex;
-  justify-content: center;
 
   span {
     color: var(--gray-30);

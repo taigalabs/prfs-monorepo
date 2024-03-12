@@ -17,9 +17,15 @@ export const DefaultModuleHeader: React.FC<DefaultModuleInputAreaProps> = ({
   className,
   children,
   noTopPadding,
+  noSidePadding,
 }) => {
   return (
-    <div className={cn(styles.header, className, { [styles.noTopPadding]: noTopPadding })}>
+    <div
+      className={cn(styles.header, className, {
+        [styles.noTopPadding]: noTopPadding,
+        [styles.noSidePadding]: noSidePadding,
+      })}
+    >
       {children}
     </div>
   );
