@@ -32,9 +32,10 @@
   align-items: center;
   border: 1px solid var(--gray-70);
   color: var(--gray-20);
-  border-radius: 3px;
-  padding: 4px 6px;
+  border-radius: 16px;
+  padding: 4px 10px;
   cursor: pointer;
+  font-size: 13px;
 
   svg {
     font-size: 20px;

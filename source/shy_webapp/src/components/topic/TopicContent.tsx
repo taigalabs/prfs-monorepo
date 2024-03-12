@@ -19,6 +19,7 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel }) => {
     },
   });
   const topic = postData?.payload?.shy_topic_syn1;
+  const identity_inputs = topic?.inner.shy_topic.participant_identity_inputs.join(",");
 
   return (
     <div className={styles.wrapper}>
@@ -30,7 +31,7 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel }) => {
               <div className={styles.postMeta}>
                 <button className={styles.participants} type="button">
                   <MdGroup />
-                  <span>{i18n.participants}</span>
+                  <span>{identity_inputs ?? i18n.participants}</span>
                 </button>
               </div>
             </div>

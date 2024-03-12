@@ -4,8 +4,7 @@ import React from "react";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
-import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
-import { useInfiniteQuery, useQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 
 import styles from "./Topic.module.scss";
 import { useSignedInShyUser } from "@/hooks/user";
