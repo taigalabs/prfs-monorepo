@@ -26,7 +26,7 @@ import BoardMenu from "@/components/board/BoardMenu";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 
-const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
+const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }) => {
   const i18n = usePrfsI18N();
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
@@ -98,5 +98,6 @@ export default Channel;
 
 export interface ChannelProps {
   channelId: string;
+  subChannelId: string;
   isNewTopic?: boolean;
 }
