@@ -8,7 +8,8 @@ export const paths = {
 
 export const pathParts = {
   new_topic: "new_topic",
-  t: "t",
+  t: "t", // topic
+  s: "s", // subchannel
 };
 
 export const searchParamKeys = {

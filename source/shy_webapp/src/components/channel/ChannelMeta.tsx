@@ -7,11 +7,11 @@ import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
-import styles from "./BoardMeta.module.scss";
+import styles from "./ChannelMeta.module.scss";
 import Loading from "@/components/loading/Loading";
 import { paths } from "@/paths";
 
-const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel }) => {
+const ChannelMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel, small }) => {
   const i18n = usePrfsI18N();
   const [isDescOpen, setIsDescOpen] = React.useState(false);
   const handleClickToggleDesc = React.useCallback(() => {
@@ -32,7 +32,7 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel }) 
   }, [channel]);
 
   return channel ? (
-    <div className={styles.wrapper}>
+    <div className={cn(styles.wrapper, { [styles.small]: small })}>
       <div className={cn(styles.inner, { [styles.isVisible]: isDescOpen })}>
         <div className={styles.titleRow}>
           <div className={styles.label}>
@@ -44,7 +44,7 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel }) 
             </div>
           )}
         </div>
-        {!noSubChannel && <div className={styles.subChannel}>{i18n.general}</div>}
+        {/* {!noSubChannel && <div className={styles.subChannel}>{i18n.general}</div>} */}
         {!noDesc && (
           <div className={cn(styles.descRow)}>
             <div className={styles.desc}>{channel.desc}</div>
@@ -61,10 +61,11 @@ const BoardMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel }) 
   );
 };
 
-export default BoardMeta;
+export default ChannelMeta;
 
 export interface BoardMetaProps {
   channel: ShyChannel;
   noDesc?: boolean;
   noSubChannel?: boolean;
+  small?: boolean;
 }

@@ -3,23 +3,28 @@
 .wrapper {
   position: relative;
   min-height: 150px;
-  padding: 0px 12px 12px;
 
   /* border-top: 1px solid var(--gray-70); */
 }
 
 .titleRow {
-  padding-bottom: 12px;
+  padding: 18px 0 15px;
+  border-bottom: 1px solid var(--bright-gray-35);
+}
+
+.inner {
+  padding: 0 $side_padding;
 }
 
 .title {
   color: var(--black-27);
   font-size: 26px;
   font-weight: 500;
+  word-break: break-all;
 }
 
 .postMeta {
-  padding-top: 6px;
+  padding-top: 10px;
 }
 
 .participants {
@@ -27,11 +32,22 @@
   align-items: center;
   border: 1px solid var(--gray-70);
   color: var(--gray-20);
-  border-radius: 3px;
-  padding: 4px 6px;
+  border-radius: 16px;
+  padding: 4px 10px;
   cursor: pointer;
+  font-size: 13px;
 
   svg {
+    font-size: 20px;
     padding-right: 3px;
+  }
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .wrapper {
+  }
+
+  .titleRow {
+    padding: 22px 0;
   }
 }

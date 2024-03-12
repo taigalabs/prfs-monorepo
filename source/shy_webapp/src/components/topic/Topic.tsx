@@ -18,13 +18,13 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import { paths, searchParamKeys } from "@/paths";
-import BoardMeta from "@/components/board/BoardMeta";
+import ChannelMeta from "@/components/channel/ChannelMeta";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import TopicContent from "./TopicContent";
 import PostList from "@/components/post_list/PostList";
 
-const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
+const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
@@ -55,9 +55,15 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
         <InfiniteScrollMain>
           {channel ? (
             <>
-              <BoardMeta channel={channel} noDesc />
+              <ChannelMeta channel={channel} noDesc noSubChannel small />
               <TopicContent topicId={topicId} channel={channel} />
-              <PostList topicId={topicId} channel={channel} />
+              <PostList
+                parentRef={parentRef}
+                channel={channel}
+                topicId={topicId}
+                subChannelId={subChannelId}
+              />
+              {/* <TopicFooter topicId={topicId} channel={channel} subChannelId={subChannelId} /> */}
             </>
           ) : (
             <Loading centerAlign>
@@ -70,7 +76,9 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
     </InfiniteScrollWrapper>
   ) : (
     <>
-      <Loading>Loading...</Loading>
+      <Loading centerAlign>
+        <Spinner />
+      </Loading>
       <span className={styles.fontLoadText} />
     </>
   );
@@ -81,4 +89,5 @@ export default Topic;
 export interface TopicProps {
   topicId: string;
   channelId: string;
+  subChannelId: string;
 }

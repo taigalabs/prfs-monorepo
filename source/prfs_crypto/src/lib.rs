@@ -14,7 +14,7 @@ pub mod poseidon;
 pub mod signature;
 
 #[cfg(test)]
-mod test;
+mod tests;
 
 pub use ::poseidon::poseidon_k256::hash;
 pub use ::poseidon::*;

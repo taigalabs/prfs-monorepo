@@ -1,13 +1,14 @@
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
+use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
 use shy_entities::shy_api::{
     GetShyChannelRequest, GetShyChannelResponse, GetShyChannelsRequest, GetShyChannelsResponse,
 };
 use std::sync::Arc;
 
-use crate::error_codes::API_ERROR_CODE;
+// use crate::error_codes::API_ERROR_CODE;
 
 const LIMIT: i32 = 15;
 
@@ -41,7 +42,7 @@ pub async fn get_shy_channel(
             tracing::error!("Error getting shy channel, err: {:?}", err);
 
             let resp = ApiResponse::new_error(
-                &API_ERROR_CODE.UNKNOWN_ERROR,
+                &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
                 format!("Error getting shy channel"),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));

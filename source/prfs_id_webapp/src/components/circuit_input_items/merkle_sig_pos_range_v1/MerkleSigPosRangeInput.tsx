@@ -9,18 +9,13 @@ import {
   makePathIndices,
   makeSiblingPath,
   poseidon_2_bigint_le,
-  prfsSign,
 } from "@taigalabs/prfs-crypto-js";
-import {
-  computeAddress,
-  hexlify,
-  toUtf8Bytes,
-} from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
-import { useMutation, useQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { hexlify, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import { PrfsIdCredential, QueryPresetVals, makeWalletAtstCm } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, makeWalletAtstCm } from "@taigalabs/prfs-id-sdk-web";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
@@ -31,7 +26,7 @@ import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindin
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
-import { Wallet, ethers } from "@taigalabs/prfs-crypto-deps-js/ethers";
+import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -200,6 +195,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       const wallet = new Wallet(skHex);
       const sig = await wallet.signMessage(proofActionSigMsg);
 
+      // console.log("proofAction: %o, str: %o", proofAction, proofActionSigMsg);
+
       return {
         isValid: true,
         proofAction,
@@ -228,6 +225,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             const wallet = new Wallet(skHex);
             const sig = await wallet.signMessage(proofActionSigMsg);
 
+            // console.log("proofAction: %o, str: %o", proofAction, proofActionSigMsg);
             // console.log("sig: %s, skHex: %o, sigMsg: %o", sig, skHex, proofActionSigMsg);
             // const addr = ethers.utils.verifyMessage(proofActionSigMsg, sig);
             // const addr2 = computeAddress(pkHex);

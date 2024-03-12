@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod tests;
+
 use ethers_core::types::Signature;
 use ethers_core::utils::keccak256;
 use k256::ecdsa::VerifyingKey;
@@ -47,7 +50,7 @@ pub fn verify_eth_sig<S: AsRef<str>>(
 }
 
 #[tokio::test]
-async fn test_1() {
+async fn test_verify_eth_sig_1() {
     use ethers_signers::{LocalWallet, Signer};
     use k256::ecdsa::SigningKey;
 
@@ -93,7 +96,7 @@ async fn test_1() {
 }
 
 #[tokio::test]
-async fn test_2() {
+async fn test_verify_eth_sig_2() {
     let sig_hex = "0xd1ccaa0abd76288668a630e5858ecb8130f9360844d451c9b70aee8b655bc8e11cd0a4ba9e4001a91fedb8c4558055fe332e7578ae91ff5a2ca7a5dad878864e1b";
     let msg = [
         123, 34, 116, 121, 112, 101, 34, 58, 34, 99, 114, 101, 97, 116, 101, 95, 115, 104, 121, 95,

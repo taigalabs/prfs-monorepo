@@ -2,12 +2,11 @@ import React from "react";
 import dayjs from "dayjs";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
-import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
+import { useRouter } from "next/navigation";
 
 import styles from "./Post.module.scss";
-import { paths } from "@/paths";
 import { toShortDate } from "@/utils/time";
-import { PostInner } from "./PostComponent";
+import { PostWrapper, PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
 import CreatePost from "@/components/create_post/CreatePost";
 
@@ -18,10 +17,11 @@ const Post: React.FC<PostContentProps> = ({
   content,
   proof_identity_input,
   updated_at,
+  rerender,
 }) => {
   const i18n = usePrfsI18N();
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
-  const { rerender } = useRerender();
+  const router = useRouter();
 
   const handleClickReply = React.useCallback(() => {
     setIsReplyOpen(true);
@@ -31,8 +31,12 @@ const Post: React.FC<PostContentProps> = ({
   }, [setIsReplyOpen]);
   const handleSucceedPost = React.useCallback(() => {
     setIsReplyOpen(false);
-    rerender();
-  }, [rerender, setIsReplyOpen]);
+
+    if (rerender) {
+      rerender();
+    }
+    // router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
+  }, [rerender, setIsReplyOpen, router, rerender]);
 
   const publicKey = React.useMemo(() => {
     return author_public_key.substring(0, 8) || "";
@@ -44,40 +48,42 @@ const Post: React.FC<PostContentProps> = ({
   }, [updated_at]);
 
   return (
-    <PostInner>
-      <div className={styles.meta}>
-        <div className={styles.left}>
-          <div className={styles.item}>
-            <p className={styles.publicKey}>{publicKey}</p>
+    <PostWrapper>
+      <PostInner>
+        <div className={styles.meta}>
+          <div className={styles.left}>
+            <div className={styles.item}>
+              <p className={styles.publicKey}>{publicKey}</p>
+            </div>
+            <div className={styles.item}>
+              <p className={styles.proofIdentityInput}>{proof_identity_input}</p>
+            </div>
           </div>
-          <div className={styles.item}>
-            <p className={styles.proofIdentityInput}>{proof_identity_input}</p>
+          <div className={styles.right}>
+            <p className={styles.date}>{date}</p>
           </div>
         </div>
-        <div className={styles.right}>
-          <p className={styles.date}>{date}</p>
-        </div>
-      </div>
-      <div
-        className={styles.content}
-        dangerouslySetInnerHTML={{
-          __html: content,
-        }}
-      />
-      <PostMenu
-        content={content}
-        originalPostAuthorPubkey={publicKey}
-        handleClickReply={handleClickReply}
-      />
-      {isReplyOpen && (
-        <CreatePost
-          handleClickCancel={handleClickCancel}
-          channel={channel}
-          topicId={topicId}
-          handleSucceedPost={handleSucceedPost}
+        <div
+          className={styles.content}
+          dangerouslySetInnerHTML={{
+            __html: content,
+          }}
         />
-      )}
-    </PostInner>
+        <PostMenu
+          content={content}
+          originalPostAuthorPubkey={publicKey}
+          handleClickReply={handleClickReply}
+        />
+        {isReplyOpen && (
+          <CreatePost
+            handleClickCancel={handleClickCancel}
+            channel={channel}
+            topicId={topicId}
+            handleSucceedPost={handleSucceedPost}
+          />
+        )}
+      </PostInner>
+    </PostWrapper>
   );
 };
 
@@ -90,4 +96,5 @@ export interface PostContentProps {
   updated_at: string;
   channel: ShyChannel;
   topicId: string;
+  rerender?: React.DispatchWithoutAction;
 }

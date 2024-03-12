@@ -1,0 +1,26 @@
+{
+  "SUCCESS": {
+    "code": "20000000",
+    "phrase": "Success"
+  },
+  "UNKNOWN_ERROR": {
+    "code": "40000000",
+    "phrase": "Unknown error"
+  },
+  "BAD_URL": {
+    "code": "40000001",
+    "phrase": "Unable to make http requests (CLI) to this URL"
+  },
+  "NOT_MACHING_SIG_MSG": {
+    "code": "400000A0",
+    "phrase": "Signature might have been made on an invalid msg"
+  },
+  "INVALID_SIG": {
+    "code": "400000A1",
+    "phrase": "Signature is invalid"
+  },
+  "RECORD_INSERT_FAIL": {
+    "code": "40000B00",
+    "phrase": "Unabled to insert the record"
+  }
+}

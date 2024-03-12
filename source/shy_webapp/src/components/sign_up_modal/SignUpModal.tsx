@@ -6,17 +6,17 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
 import Modal from "@taigalabs/prfs-react-lib/src/modal/Modal";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./SignUpModal.module.scss";
 import { paths } from "@/paths";
 import { useAppDispatch } from "@/state/hooks";
 import { signInShy } from "@/state/userReducer";
 import { LocalShyCredential, persistShyCredential } from "@/storage/local_storage";
-import { i18nContext } from "@/i18n/context";
 
 const SignUpModal: React.FC<SignUpModalProps> = ({ credential }) => {
   const router = useRouter();
-  const i18n = React.useContext(i18nContext);
+  const i18n = usePrfsI18N();
   const [printable, setPrintable] = React.useState({
     label: "",
     avatar_color: "",

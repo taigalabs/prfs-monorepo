@@ -1,7 +1,23 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  padding: 8px $side_padding 8px;
+  padding: 8px $side_padding;
+  border-bottom: 1px solid var(--bright-gray-35);
+
+  &.small {
+    padding: 4px $side_padding;
+  }
+}
+
+.small {
+  .titleRow {
+    padding: 4px 0;
+
+    .label {
+      font-weight: 300;
+      font-size: 14px;
+    }
+  }
 }
 
 .inner {
@@ -9,7 +25,7 @@
 
 .titleRow {
   display: flex;
-  line-height: 1.92em;
+  /* line-height: 1.92em; */
 
   .label {
     font-size: 20px;
@@ -102,5 +118,16 @@
 @media screen and (min-width: $big_display_min_width) {
   .wrapper {
     padding: 18px $side_padding 10px;
+  }
+
+  .small {
+    .titleRow {
+      padding: 8px 0;
+
+      .label {
+        font-weight: 400;
+        font-size: 18px;
+      }
+    }
   }
 }

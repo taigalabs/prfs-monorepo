@@ -1,13 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./CreateTopicFormHeader.module.scss";
-import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
 const CreateTopicFormHeader: React.FC<CreatePostFormHeaderProps> = ({ channelId }) => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = usePrfsI18N();
 
   return (
     <div className={styles.wrapper}>

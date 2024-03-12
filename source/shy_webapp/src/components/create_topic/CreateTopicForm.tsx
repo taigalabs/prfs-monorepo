@@ -42,7 +42,7 @@ enum Status {
   InProgress,
 }
 
-const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
+const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId }) => {
   const i18n = usePrfsI18N();
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
@@ -75,13 +75,18 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         return;
       }
 
-      if (title.length < 20) {
-        setError("Title needs to be at least 20 characters");
+      if (title.length < 10) {
+        setError("Title needs to be longer");
         return;
       }
 
-      if (title.length > 150) {
-        setError("Title needs to be present");
+      if (title.length > 80) {
+        setError("Title needs to be shorter");
+        return;
+      }
+
+      if (html.length < 40) {
+        setError("Content needs to be longer");
         return;
       }
 
@@ -98,7 +103,11 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
       const proofAction: ShyTopicProofAction = {
         type: "create_shy_topic",
         topic_id: topicId,
+        channel_id: channel.channel_id,
+        content: html,
       };
+
+      const proofActionStr = JSON.stringify(proofAction);
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
       };
@@ -112,7 +121,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
             queryType: QueryType.CREATE_PROOF,
             presetVals,
             usePrfsRegistry: true,
-            proofAction: JSON.stringify(proofAction),
+            proofAction: proofActionStr,
           },
         ],
         public_key: pkHex,
@@ -206,12 +215,12 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
           author_sig: proveReceipt.proofActionSig,
           author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
+          sub_channel_id: subChannelId,
         });
 
         if (error) {
           throw new Error(`Failed to create a topic, err: ${error}`);
         }
-
         console.log("create shy topic resp", payload, error);
 
         setStatus(Status.Standby);
@@ -272,4 +281,5 @@ export default CreateTopicForm;
 
 export interface CreateTopicFormProps {
   channel: ShyChannel;
+  subChannelId: string;
 }

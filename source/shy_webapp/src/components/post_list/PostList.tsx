@@ -1,73 +1,156 @@
 import React from "react";
-import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
-import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
+import cn from "classnames";
+import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi2 } from "@taigalabs/shy-api-js";
+import dayjs from "dayjs";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
+import { GiDiamonds } from "@react-icons/all-files/gi/GiDiamonds";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-import { MdGroup } from "@react-icons/all-files/md/MdGroup";
 
 import styles from "./PostList.module.scss";
-import Post from "@/components/post/Post";
+import PostRow from "./PostRow";
+import {
+  InfiniteScrollRowContainerInner,
+  InfiniteScrollRowContainerOuter,
+} from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
+import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
+import TopicFooter from "../topic/TopicFooter";
 
-const PostList: React.FC<PostList> = ({ topicId, channel }) => {
+const PostList: React.FC<PostListProps> = ({
+  parentRef,
+  channel,
+  topicId,
+  className,
+  subChannelId,
+}) => {
   const i18n = usePrfsI18N();
-  // const { data: postsData, isFetching: postsDataIsFetching } = useQuery({
-  //   queryKey: ["get_shy_posts_of_topic", topicId, channel.channel_id],
-  //   queryFn: async () => {
-  //     return shyApi2({
-  //       type: "get_shy_posts_of_topic",
-  //       topic_id: topicId,
-  //       channel_id: channel.channel_id,
-  //     });
-  //   },
-  // });
-  // const posts = postsData?.payload?.shy_posts;
+  const { rerender, nonce } = useRerender();
 
-  // const listElem = React.useMemo(() => {
-  //   if (posts) {
-  //     posts.map(p => {
-  //       return <div key={p.inner.shy_post.post_id}>{p.inner.proof_identity_input}</div>;
-  //     });
-  //   }
-  //   return null;
-  // }, [posts]);
+  const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["get_shy_posts_of_topic", topicId, channel.channel_id, nonce],
+      queryFn: async ({ pageParam = 0 }) => {
+        return await shyApi2({
+          type: "get_shy_posts_of_topic",
+          topic_id: topicId,
+          channel_id: channel.channel_id,
+          offset: pageParam,
+        });
+      },
+      enabled: !!topicId,
+      initialPageParam: 0,
+      getNextPageParam: lastPage => {
+        if (lastPage.payload) {
+          return lastPage.payload.next_offset;
+        } else {
+          return null;
+        }
+      },
+    });
 
+  const allRows = data
+    ? data.pages.flatMap(d => {
+        if (d.payload) {
+          return d.payload.rows;
+        } else {
+          [];
+        }
+      })
+    : [];
+
+  const virtualizer = useVirtualizer({
+    count: hasNextPage ? allRows.length + 1 : allRows.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 74,
+    overscan: 5,
+  });
+
+  const now = React.useMemo(() => {
+    return dayjs();
+  }, []);
+
+  React.useEffect(() => {
+    const [lastItem] = [...virtualizer.getVirtualItems()].reverse();
+
+    if (!lastItem) {
+      return;
+    }
+
+    if (lastItem.index >= allRows.length - 1 && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [
+    hasNextPage,
+    fetchNextPage,
+    allRows.length,
+    isFetchingNextPage,
+    virtualizer.getVirtualItems(),
+  ]);
+
+  if (status === "pending") {
+    return (
+      <Loading centerAlign>
+        <Spinner />
+      </Loading>
+    );
+  }
+
+  const items = virtualizer.getVirtualItems();
   return (
-    <div className={styles.wrapper}>
-      {/* {listElem} */}
-      {/* {topic ? ( */}
-      {/*   <> */}
-      {/*     <div className={styles.titleRow}> */}
-      {/*       <p className={styles.title}>{topic.inner.shy_topic.title}</p> */}
-      {/*       <div className={styles.postMeta}> */}
-      {/*         <button className={styles.participants} type="button"> */}
-      {/*           <MdGroup /> */}
-      {/*           <span>{i18n.participants}</span> */}
-      {/*         </button> */}
-      {/*       </div> */}
-      {/*     </div> */}
-      {/*     <Post */}
-      {/*       topicId={topicId} */}
-      {/*       channel={channel} */}
-      {/*       author_public_key={topic.inner.shy_topic.author_public_key} */}
-      {/*       content={topic.inner.shy_topic.content} */}
-      {/*       proof_identity_input={topic.inner.proof_identity_input} */}
-      {/*       updated_at={topic.updated_at} */}
-      {/*     /> */}
-      {/*   </> */}
-      {/* ) : ( */}
-      {/*   <Loading centerAlign> */}
-      {/*     <Spinner /> */}
-      {/*   </Loading> */}
-      {/* )} */}
-    </div>
+    <InfiniteScrollRowContainerOuter
+      className={cn(className)}
+      style={{
+        height: `${virtualizer.getTotalSize()}px`,
+      }}
+    >
+      <InfiniteScrollRowContainerInner
+        style={{
+          transform: `translateY(${items[0]?.start ?? 0}px)`,
+        }}
+      >
+        {status === "success" && items.length === 0 && (
+          <div className={styles.emptyBoard}>
+            <GiDiamonds />
+            <GiDiamonds />
+            <GiDiamonds />
+          </div>
+        )}
+        {items.map(virtualRow => {
+          const isLoaderRow = virtualRow.index > allRows.length - 1;
+          const post = allRows[virtualRow.index];
+
+          return (
+            <div
+              className={styles.row}
+              key={virtualRow.key}
+              data-index={virtualRow.index}
+              ref={virtualizer.measureElement}
+            >
+              {isLoaderRow
+                ? hasNextPage
+                  ? "Loading more..."
+                  : "Nothing more to load"
+                : post && <PostRow post={post} now={now} channel={channel} rerender={rerender} />}
+            </div>
+          );
+        })}
+        {!hasNextPage && (
+          <TopicFooter topicId={topicId} channel={channel} subChannelId={subChannelId} />
+        )}
+      </InfiniteScrollRowContainerInner>
+    </InfiniteScrollRowContainerOuter>
   );
 };
 
 export default PostList;
 
-export interface PostList {
+export interface PostListProps {
+  className?: string;
   topicId: string;
   channel: ShyChannel;
+  parentRef: React.MutableRefObject<HTMLDivElement | null>;
+  subChannelId: string;
 }

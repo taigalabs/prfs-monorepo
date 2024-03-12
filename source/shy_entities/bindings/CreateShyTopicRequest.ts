@@ -13,4 +13,5 @@ export interface CreateShyTopicRequest {
   author_public_key: string;
   author_sig: string;
   author_sig_msg: Array<number>;
+  sub_channel_id: string;
 }

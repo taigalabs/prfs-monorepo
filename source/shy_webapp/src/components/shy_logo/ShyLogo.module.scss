@@ -1,11 +1,22 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   position: relative;
-  padding-bottom: 6px;
+  height: 100%;
+  /* padding-bottom: 6px; */
 
   /* border: 1px solid blue; */
+}
+
+.paddingBox {
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.upperBox {
+  background-color: var(--shy-orange-50);
 }
 
 .box {
@@ -18,16 +29,9 @@
 
   > span {
     font-family: "Ubuntu", sans-serif;
-    /* font-size: 84px; */
     font-weight: 400;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
     color: #fff;
-
-    /* background: #2d021f; */
-    /* background: linear-gradient(to right, #2d021f 0%, #ce4620 100%); */
-    /* background-clip: text; */
-    /* -webkit-background-clip: text; */
-    /* -webkit-text-fill-color: transparent; */
   }
 
   img {
@@ -39,6 +43,6 @@
 
 @media screen and (min-width: $big_display_min_width) {
   .wrapper {
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
   }
 }

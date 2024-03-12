@@ -12,8 +12,8 @@ export type ShyApiResponse =
   | ({ type: "create_shy_topic" } & CreateShyTopicResponse)
   | ({ type: "create_shy_post" } & CreateShyPostResponse)
   | ({ type: "get_shy_channels" } & GetShyChannelsResponse)
+  | ({ type: "get_shy_channel" } & GetShyChannelResponse)
   | ({ type: "get_shy_topics" } & GetShyTopicsResponse)
   | ({ type: "get_shy_topic" } & GetShyTopicResponse)
   | ({ type: "get_shy_topic_proof" } & GetShyTopicProofResponse)
-  | ({ type: "get_shy_posts_of_topic" } & GetShyPostsOfTopicResponse)
-  | ({ type: "get_shy_channel" } & GetShyChannelResponse);
+  | ({ type: "get_shy_posts_of_topic" } & GetShyPostsOfTopicResponse);

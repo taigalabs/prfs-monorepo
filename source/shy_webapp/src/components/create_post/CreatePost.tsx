@@ -9,14 +9,7 @@ import {
   makeProofGenSearchParams,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import {
-  JSONbigNative,
-  createRandomKeyPair,
-  decrypt,
-  makeRandInt,
-  rand256Hex,
-} from "@taigalabs/prfs-crypto-js";
-import { fromRpcSig } from "@taigalabs/prfs-crypto-deps-js/ethereumjs";
+import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { ShyPostProofAction } from "@taigalabs/shy-entities/bindings/ShyPostProofAction";
@@ -33,6 +26,7 @@ import TextEditor from "@/components/text_editor/TextEditor";
 import CreatePostEditorFooter from "./CreatePostEditorFooter";
 import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
+import ErrorDialog from "./ErrorDialog";
 
 const PROOF = "Proof";
 
@@ -62,6 +56,11 @@ const CreatePost: React.FC<CreatePostProps> = ({
 
       if (channel.proof_type_ids.length < 1) {
         setError("Proof type does not exist");
+        return;
+      }
+
+      if (html.length < 10) {
+        setError("Content needs to be longer");
         return;
       }
 
@@ -167,7 +166,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
         }
 
         const receipt = proofGenPayload.receipt[PROOF] as GenericProveReceipt;
-        console.log(123, receipt);
 
         if (receipt.type === "cached_prove_receipt") {
           const { payload: getShyTopicProofPayload } = await getShyTopicProof({
@@ -193,32 +191,9 @@ const CreatePost: React.FC<CreatePostProps> = ({
           console.log;
         }
 
-        // const proveReceipt = proofGenPayload.receipt[PROOF] as ProveReceipt;
-        // const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
-        //   proveReceipt.proof.publicInputSer,
-        // );
-
-        // const shy_topic_proof_id = rand256Hex();
-        // const { payload, error } = await createShyTopic({
-        //   title,
-        //   topic_id: topicId,
-        //   content: html,
-        //   channel_id: channel.channel_id,
-        //   shy_topic_proof_id,
-        //   proof_identity_input: publicInputs.proofIdentityInput,
-        //   proof: Array.from(proveReceipt.proof.proofBytes),
-        //   public_inputs: proveReceipt.proof.publicInputSer,
-        //   author_public_key: publicInputs.proofPubKey,
-        //   serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
-        //   author_sig: proveReceipt.proof.proofActionResult,
-        // });
-
         if (error) {
           throw new Error(`Failed to create a topic, err: ${error}`);
         }
-
-        // console.log("create shy topic resp", payload, error);
-        // router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
       } catch (err) {
         console.error(err);
       }
@@ -237,8 +212,13 @@ const CreatePost: React.FC<CreatePostProps> = ({
     );
   }, []);
 
+  const handleClickClose = React.useCallback(() => {
+    setError(null);
+  }, [setError]);
+
   return (
     <div className={styles.wrapper}>
+      {error && <ErrorDialog handleClickClose={handleClickClose} error={error} />}
       <div className={styles.inner}>
         <TextEditor footer={footer} />
       </div>

@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import {
   AppSignInData,
   makeColor,
@@ -32,7 +33,6 @@ import {
 } from "@/storage/local_storage";
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInShyUser } from "@/hooks/user";
-import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import { reportError } from "@/state/errorReducer";
 
@@ -49,7 +49,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
   noCredentialPopover,
   noSignInBtn,
 }) => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = usePrfsI18N();
   const router = useRouter();
   const [status, setStatus] = React.useState(Status.Standby);
   const dispatch = useAppDispatch();

@@ -2,10 +2,10 @@ import React from "react";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import Link from "next/link";
 
-import styles from "./Row.module.scss";
+import styles from "./ChannelRow.module.scss";
 import { paths } from "@/paths";
 
-const Row: React.FC<RowProps> = ({ channel }) => {
+const ChannelRow: React.FC<RowProps> = ({ channel }) => {
   return (
     <Link href={`${paths.c}/${channel.channel_id}`}>
       <div className={styles.wrapper}>
@@ -19,7 +19,7 @@ const Row: React.FC<RowProps> = ({ channel }) => {
   );
 };
 
-export default Row;
+export default ChannelRow;
 
 export interface RowProps {
   channel: ShyChannel;

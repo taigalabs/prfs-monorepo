@@ -19,18 +19,21 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel }) => {
     },
   });
   const topic = postData?.payload?.shy_topic_syn1;
+  const identity_inputs = topic?.inner.shy_topic.participant_identity_inputs.join(",");
 
   return (
     <div className={styles.wrapper}>
       {topic ? (
         <>
           <div className={styles.titleRow}>
-            <p className={styles.title}>{topic.inner.shy_topic.title}</p>
-            <div className={styles.postMeta}>
-              <button className={styles.participants} type="button">
-                <MdGroup />
-                <span>{i18n.participants}</span>
-              </button>
+            <div className={styles.inner}>
+              <p className={styles.title}>{topic.inner.shy_topic.title}</p>
+              <div className={styles.postMeta}>
+                <button className={styles.participants} type="button">
+                  <MdGroup />
+                  <span>{identity_inputs ?? i18n.participants}</span>
+                </button>
+              </div>
             </div>
           </div>
           <Post

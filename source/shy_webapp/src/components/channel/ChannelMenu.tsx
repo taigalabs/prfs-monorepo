@@ -4,11 +4,11 @@ import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import Link from "next/link";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
-import styles from "./BoardMenu.module.scss";
+import styles from "./ChannelMenu.module.scss";
 import Button from "@/components/button/Button";
 import { pathParts, paths } from "@/paths";
 
-const BoardMenu: React.FC<BoardMenuProps> = ({ channelId }) => {
+const ChannelMenu: React.FC<BoardMenuProps> = ({ channelId }) => {
   const i18n = usePrfsI18N();
   const postURL = React.useMemo(() => {
     return `${paths.c}/${channelId}/${pathParts.new_topic}`;
@@ -36,7 +36,7 @@ const BoardMenu: React.FC<BoardMenuProps> = ({ channelId }) => {
   );
 };
 
-export default BoardMenu;
+export default ChannelMenu;
 
 export interface BoardMenuProps {
   channelId: string;

@@ -58,6 +58,7 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
+  fetching_data_failed: "Oops, fetching data has failed",
   already_made_proof:
     "You've already made the same proof. All good. Getting back to the app in seconds",
   no_channel_found: "No channel found for this channel id. Check out the channel id",
@@ -438,6 +439,7 @@ export default {
   select_wallet: "Select a wallet",
   configure_public_inputs: "Configure public inputs",
   signed: "Signed",
+  signed_in: "Signed in",
   wallet_address: "Wallet address",
   wallet_address_should_start_with_0x: "Wallet address should start with '0x'",
   amount: "Amount",

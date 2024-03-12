@@ -3,5 +3,6 @@ import type { DateTimed } from "./DateTimed";
 import type { ShyPostSyn1 } from "./ShyPostSyn1";
 
 export interface GetShyPostsOfTopicResponse {
-  shy_posts: Array<DateTimed<ShyPostSyn1>>;
+  rows: Array<DateTimed<ShyPostSyn1>>;
+  next_offset: number | null;
 }

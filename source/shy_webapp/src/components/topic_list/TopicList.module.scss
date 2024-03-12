@@ -1,0 +1,26 @@
+@import "@/styles/layouts.module.scss";
+
+.row {
+  height: 100px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.emptyBoard {
+  height: 110px;
+  display: grid;
+  place-items: center;
+  color: var(--gray-50);
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .side {
+    display: none;
+  }
+
+  .header {
+    display: flex;
+  }
+}

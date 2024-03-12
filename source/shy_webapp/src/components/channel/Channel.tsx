@@ -20,13 +20,13 @@ import {
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import CreateTopicForm from "@/components/create_topic/CreateTopicForm";
 import { paths, searchParamKeys } from "@/paths";
-import Board from "@/components/board/Board";
-import BoardMeta from "@/components/board/BoardMeta";
-import BoardMenu from "@/components/board/BoardMenu";
+import TopicList from "@/components/topic_list/TopicList";
+import ChannelMeta from "@/components/channel/ChannelMeta";
+import ChannelMenu from "@/components/channel/ChannelMenu";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 
-const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
+const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }) => {
   const i18n = usePrfsI18N();
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
@@ -53,11 +53,17 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
     }
   }, [isInitialized, router, shyCredential]);
 
+  React.useEffect(() => {
+    if (error) {
+      console.error("err fetchin data: %o", error);
+    }
+  }, [error]);
+
   const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
 
-  if (error || channelData?.error) {
-    return <div>Error fetching data</div>;
-  }
+  const boardPlaceholderElem = React.useMemo(() => {
+    return "No post has been made yet";
+  }, []);
 
   return isFontReady && shyCredential ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
@@ -65,6 +71,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
+          {channelData?.error && <Loading>{i18n.fetching_data_failed}</Loading>}
           {channelDataIsFetching && (
             <Loading centerAlign>
               <Spinner />
@@ -72,13 +79,17 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
           )}
           {channel ? (
             <>
-              <BoardMeta channel={channel} noSubChannel />
+              <ChannelMeta channel={channel} />
               {isNewTopic ? (
-                <CreateTopicForm channel={channel} />
+                <CreateTopicForm channel={channel} subChannelId={subChannelId} />
               ) : (
                 <>
-                  <BoardMenu channelId={channel.channel_id} />
-                  <Board parentRef={parentRef} channelId={channel.channel_id} />
+                  <ChannelMenu channelId={channel.channel_id} />
+                  <TopicList
+                    parentRef={parentRef}
+                    channelId={channel.channel_id}
+                    placeholder={boardPlaceholderElem}
+                  />
                 </>
               )}
             </>
@@ -101,5 +112,6 @@ export default Channel;
 
 export interface ChannelProps {
   channelId: string;
+  subChannelId: string;
   isNewTopic?: boolean;
 }
