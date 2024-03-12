@@ -3,7 +3,7 @@ import cn from "classnames";
 
 import styles from "./Input.module.scss";
 
-export const Input: React.FC<InputProps> = ({
+const Input: React.FC<InputProps> = ({
   className,
   label,
   name,
@@ -52,6 +52,8 @@ export const Input: React.FC<InputProps> = ({
     </div>
   );
 };
+
+export default Input;
 
 export interface InputProps {
   className?: string;

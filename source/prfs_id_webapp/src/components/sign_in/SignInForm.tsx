@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SignInForm.module.scss";
@@ -97,13 +98,20 @@ const SignInForm: React.FC<InputCredentialProps> = ({
           </DefaultModuleHeader>
           <DefaultModuleInputArea>
             <div className={styles.inputGroup}>
-              <DefaultInputItem
+              {/* <DefaultInputItem */}
+              {/*   name="email" */}
+              {/*   value={formData.email} */}
+              {/*   placeholder={i18n.email} */}
+              {/*   error={formErrors.email} */}
+              {/*   handleChangeValue={handleChangeValue} */}
+              {/*   handleKeyDown={handleKeyDown} */}
+              {/* /> */}
+              <Input
                 name="email"
-                value={formData.email}
-                placeholder={i18n.email}
                 error={formErrors.email}
+                label={i18n.email}
+                value={formData.email}
                 handleChangeValue={handleChangeValue}
-                handleKeyDown={handleKeyDown}
               />
             </div>
             <div className={styles.inputGroup}>

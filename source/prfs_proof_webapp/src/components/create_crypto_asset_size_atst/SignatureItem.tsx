@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
-import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import { verifyMessage } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";

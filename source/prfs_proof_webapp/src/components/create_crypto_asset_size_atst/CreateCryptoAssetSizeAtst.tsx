@@ -2,7 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
-import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { atstApi, prfsApi3 } from "@taigalabs/prfs-api-js";
