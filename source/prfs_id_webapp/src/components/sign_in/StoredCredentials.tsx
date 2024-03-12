@@ -2,6 +2,8 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
+import { abbrevMandN } from "@taigalabs/prfs-ts-utils";
+import { makeDecryptKey } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./StoredCredentials.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -19,7 +21,6 @@ import {
   makeEmptyIDCreateFormErrors,
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
-import { makeDecryptKey } from "@taigalabs/prfs-crypto-js";
 import { StoredCredentialRecord } from "@/storage/prfs_id_credential";
 import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 
@@ -150,8 +151,8 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   const content = React.useMemo(() => {
     const elems = Object.values(storedCredentials).map(cred => {
       let id = "";
-      if (cred.id.length > 34) {
-        id = `${cred.id.substring(0, 34)}...`;
+      if (cred.id.length > 14) {
+        id = abbrevMandN(cred.id, 7, 5);
       } else {
         id = cred.id;
       }
