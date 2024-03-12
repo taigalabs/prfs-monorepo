@@ -14,7 +14,6 @@ import PostRow from "./PostRow";
 import {
   InfiniteScrollRowContainerInner,
   InfiniteScrollRowContainerOuter,
-  InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
 

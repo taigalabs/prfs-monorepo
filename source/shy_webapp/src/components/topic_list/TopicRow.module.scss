@@ -22,16 +22,27 @@
 }
 
 .meta {
-  color: var(--gray-20);
+  color: var(--gray-50);
   padding-top: 9px;
   display: flex;
   font-size: 14px;
-  gap: 14px;
   margin-top: auto;
+  justify-content: space-between;
+
+  .left,
+  .right {
+    display: flex;
+    gap: 14px;
+  }
 }
 
 .totalReplyCount {
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+
+  > svg {
+    margin-right: 3px;
+  }
 }
 
 .col {

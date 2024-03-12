@@ -26,13 +26,17 @@ const TopicRow: React.FC<RowProps> = ({ topic, now, channelId }) => {
         <div></div>
       </div>
       <div className={styles.meta}>
-        <div className={cn(styles.proofIdentity, styles.col)}>
-          {topic.inner.proof_identity_input}
+        <div className={styles.left}>
+          <div className={cn(styles.proofIdentity, styles.col)}>
+            {topic.inner.proof_identity_input}
+          </div>
+          <div className={cn(styles.totalReplyCount, styles.col)}>
+            <FaReply />
+            <span>{topic.inner.shy_topic.total_reply_count}</span>
+          </div>
         </div>
-        <div className={cn(styles.col)}>{date}</div>
-        <div className={cn(styles.totalReplyCount, styles.col)}>
-          <FaReply />
-          <span>{topic.inner.shy_topic.total_reply_count}</span>
+        <div className={styles.right}>
+          <div className={cn(styles.col)}>{date}</div>
         </div>
       </div>
     </div>
