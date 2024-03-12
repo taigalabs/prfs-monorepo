@@ -146,7 +146,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
             </Button>
             <Button
               type="button"
-              variant="blue_2"
+              variant="blue_3"
               className={styles.signInBtn}
               noTransition
               handleClick={enhancedHandleClickNext}

@@ -22,7 +22,7 @@
 }
 
 .topLabel {
-  color: var(--gray-40);
+  color: var(--gray-23);
   font-size: 16px;
   font-weight: 400;
   padding: 10px 16px;
@@ -95,7 +95,8 @@
   }
 
   button {
-    height: 100%;
+    /* height: 100%; */
+    height: 40px;
   }
 
   &:not(.noSidePadding) {
@@ -117,12 +118,17 @@
 
   .input {
     font-size: 16px;
-    border: 1px solid var(--bright-gray-32);
+    border: 1px solid var(--black-26);
     border-radius: 4px;
     width: 100%;
     padding: 10px 14px;
     height: 52px;
     outline: none;
+    color: var(--black-26);
+
+    &::placeholder {
+      opacity: 1;
+    }
   }
 
   .error {

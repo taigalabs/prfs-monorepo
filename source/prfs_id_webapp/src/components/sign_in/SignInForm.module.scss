@@ -21,13 +21,20 @@
 
 .guide {
   padding: 36px 0 6px;
-  color: var(--gray-34);
+  color: var(--gray-23);
 }
 
 .blue {
-  color: var(--blue-120);
+  color: var(--blue-05);
   font-weight: 500;
   cursor: pointer;
+}
+
+.signInBtn {
+  border-radius: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 40px;
 }
 
 @media screen and (min-width: $mid_display_min_width) {
