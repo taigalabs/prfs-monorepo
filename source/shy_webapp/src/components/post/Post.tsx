@@ -6,7 +6,7 @@ import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 import { useRouter } from "next/navigation";
 
 import styles from "./Post.module.scss";
-import { paths } from "@/paths";
+import { pathParts, paths } from "@/paths";
 import { toShortDate } from "@/utils/time";
 import { PostWrapper, PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
@@ -34,7 +34,8 @@ const Post: React.FC<PostContentProps> = ({
   const handleSucceedPost = React.useCallback(() => {
     setIsReplyOpen(false);
     rerender();
-  }, [rerender, setIsReplyOpen]);
+    // router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
+  }, [rerender, setIsReplyOpen, router]);
 
   const publicKey = React.useMemo(() => {
     return author_public_key.substring(0, 8) || "";

@@ -1,53 +1,17 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  width: 100%;
-  overflow-y: auto;
-  height: 100vh;
-  overflow-y: auto;
-  display: flex;
-
   /* border: 1px solid red; */
 }
 
-.main {
-  position: relative;
-  width: $timeline_feeds_main_width;
-}
-
-.header {
-  display: none;
-  justify-content: space-between;
-  height: 100%;
-  align-items: center;
-  padding: 0 16px;
-
-  > li {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 0;
-  }
-
-  .drawerBtn {
-    > div {
-      cursor: pointer;
-    }
-  }
-
-  .logo {
-    display: flex;
-    justify-content: center;
-  }
-}
-
 .row {
-  height: 100px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  /* min-height: 100px; */
+  /* width: 100%; */
+  /* position: absolute; */
+  /* top: 0; */
+  /* left: 0; */
+
+  /* border: 1px solid red; */
 }
 
 .emptyBoard {
@@ -60,11 +24,4 @@
 }
 
 @media screen and (min-width: $big_display_min_width) {
-  .side {
-    display: none;
-  }
-
-  .header {
-    display: flex;
-  }
 }

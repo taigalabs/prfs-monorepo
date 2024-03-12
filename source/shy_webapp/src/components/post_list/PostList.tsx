@@ -11,7 +11,8 @@ import { GiDiamonds } from "@react-icons/all-files/gi/GiDiamonds";
 import styles from "./PostList.module.scss";
 import Row from "./Row";
 import {
-  InfiniteScrollRowContainer,
+  InfiniteScrollRowContainerInner,
+  InfiniteScrollRowContainerOuter,
   InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
@@ -51,7 +52,7 @@ const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, classN
       })
     : [];
 
-  const rowVirtualizer = useVirtualizer({
+  const virtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 74,
@@ -61,7 +62,7 @@ const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, classN
   const now = dayjs();
 
   React.useEffect(() => {
-    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
+    const [lastItem] = [...virtualizer.getVirtualItems()].reverse();
 
     if (!lastItem) {
       return;
@@ -75,7 +76,7 @@ const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, classN
     fetchNextPage,
     allRows.length,
     isFetchingNextPage,
-    rowVirtualizer.getVirtualItems(),
+    virtualizer.getVirtualItems(),
   ]);
 
   if (status === "pending") {
@@ -86,46 +87,47 @@ const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, classN
     );
   }
 
-  const virtualItems = rowVirtualizer.getVirtualItems();
+  const items = virtualizer.getVirtualItems();
   return (
-    <InfiniteScrollRowContainer
-      className={cn(styles.infiniteScroll, className)}
+    <InfiniteScrollRowContainerOuter
+      className={cn(className)}
       style={{
-        height: `${rowVirtualizer.getTotalSize()}px`,
-        position: "relative",
+        height: `${virtualizer.getTotalSize()}px`,
       }}
     >
-      {status === "success" && virtualItems.length === 0 && (
-        <div className={styles.emptyBoard}>
-          <GiDiamonds />
-          <GiDiamonds />
-          <GiDiamonds />
-        </div>
-      )}
-      {virtualItems.map(virtualRow => {
-        const isLoaderRow = virtualRow.index > allRows.length - 1;
-        const post = allRows[virtualRow.index];
+      <InfiniteScrollRowContainerInner
+        style={{
+          transform: `translateY(${items[0]?.start ?? 0}px)`,
+        }}
+      >
+        {status === "success" && items.length === 0 && (
+          <div className={styles.emptyBoard}>
+            <GiDiamonds />
+            <GiDiamonds />
+            <GiDiamonds />
+          </div>
+        )}
+        {items.map(virtualRow => {
+          const isLoaderRow = virtualRow.index > allRows.length - 1;
+          const post = allRows[virtualRow.index];
 
-        return (
-          <InfiniteScrollRowWrapper
-            style={{
-              height: `${virtualRow.size}px`,
-              transform: `translateY(${virtualRow.start}px)`,
-            }}
-            className={styles.row}
-            key={virtualRow.index}
-            data-index={virtualRow.index}
-            ref={rowVirtualizer.measureElement}
-          >
-            {isLoaderRow
-              ? hasNextPage
-                ? "Loading more..."
-                : "Nothing more to load"
-              : post && <Row post={post} now={now} channel={channel} />}
-          </InfiniteScrollRowWrapper>
-        );
-      })}
-    </InfiniteScrollRowContainer>
+          return (
+            <div
+              className={styles.row}
+              key={virtualRow.key}
+              data-index={virtualRow.index}
+              ref={virtualizer.measureElement}
+            >
+              {isLoaderRow
+                ? hasNextPage
+                  ? "Loading more..."
+                  : "Nothing more to load"
+                : post && <Row post={post} now={now} channel={channel} />}
+            </div>
+          );
+        })}
+      </InfiniteScrollRowContainerInner>
+    </InfiniteScrollRowContainerOuter>
   );
 };
 

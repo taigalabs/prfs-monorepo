@@ -29,9 +29,11 @@
 }
 
 .content {
+  word-break: break-all;
   padding-top: 16px;
   font-size: 15px;
   line-height: 1.4;
+  color: var(--black-28);
 }
 
 .publicKey {

@@ -50,12 +50,24 @@
   /* border: 1px solid green; */
 }
 
-.rowContainer {
+.rowContainerOuter {
+  width: 100%;
+  position: relative;
+
+  // border-top: 1px solid var(--bright-gray-32);
+}
+
+.rowContainerInner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
   // border-top: 1px solid var(--bright-gray-32);
 }
 
 .rowWrapper {
-  height: 100px;
+  /* height: 100px; */
   width: 100%;
   position: absolute;
   top: 0;

@@ -42,13 +42,25 @@ export const InfiniteScrollRowWrapper = React.forwardRef<any, TimelineFeedsMainP
   },
 );
 
-export const InfiniteScrollRowContainer: React.FC<TimelineFeedsMainProps> = ({
+export const InfiniteScrollRowContainerOuter: React.FC<TimelineFeedsMainProps> = ({
   children,
   className,
   style,
 }) => {
   return (
-    <div className={cn(styles.rowContainer, className)} style={style}>
+    <div className={cn(styles.rowContainerOuter, className)} style={style}>
+      {children}
+    </div>
+  );
+};
+
+export const InfiniteScrollRowContainerInner: React.FC<TimelineFeedsMainProps> = ({
+  children,
+  className,
+  style,
+}) => {
+  return (
+    <div className={cn(styles.rowContainerInner, className)} style={style}>
       {children}
     </div>
   );
