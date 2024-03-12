@@ -53,7 +53,17 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
     }
   }, [isInitialized, router, shyCredential]);
 
+  React.useEffect(() => {
+    if (error) {
+      console.error("err fetchin data: %o", error);
+    }
+  }, [error]);
+
   const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
+
+  const boardPlaceholderElem = React.useMemo(() => {
+    return "No post has been made yet";
+  }, []);
 
   return isFontReady && shyCredential ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
@@ -61,7 +71,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
-          {error || (channelData?.error && <Loading>{i18n.fetching_data_failed}</Loading>)}
+          {channelData?.error && <Loading>{i18n.fetching_data_failed}</Loading>}
           {channelDataIsFetching && (
             <Loading centerAlign>
               <Spinner />
@@ -75,7 +85,11 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
               ) : (
                 <>
                   <BoardMenu channelId={channel.channel_id} />
-                  <Board parentRef={parentRef} channelId={channel.channel_id} />
+                  <Board
+                    parentRef={parentRef}
+                    channelId={channel.channel_id}
+                    placeholder={boardPlaceholderElem}
+                  />
                 </>
               )}
             </>
