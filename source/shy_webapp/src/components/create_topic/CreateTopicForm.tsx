@@ -80,7 +80,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         return;
       }
 
-      if (title.length > 40) {
+      if (title.length > 80) {
         setError("Title needs to be shorter");
         return;
       }
@@ -106,6 +106,10 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
         channel_id: channel.channel_id,
         content: html,
       };
+
+      const proofActionStr = JSON.stringify(proofAction);
+      console.log(11, proofAction, JSON.stringify(proofAction));
+
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
       };
@@ -119,7 +123,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
             queryType: QueryType.CREATE_PROOF,
             presetVals,
             usePrfsRegistry: true,
-            proofAction: JSON.stringify(proofAction),
+            proofAction: proofActionStr,
           },
         ],
         public_key: pkHex,
@@ -213,6 +217,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
           author_sig: proveReceipt.proofActionSig,
           author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
+          author_sig_msg2: proofActionStr,
         });
 
         if (error) {

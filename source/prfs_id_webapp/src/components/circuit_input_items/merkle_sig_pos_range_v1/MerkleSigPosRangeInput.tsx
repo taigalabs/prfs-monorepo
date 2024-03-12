@@ -200,6 +200,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       const wallet = new Wallet(skHex);
       const sig = await wallet.signMessage(proofActionSigMsg);
 
+      console.log("proofAction: %o, str: %o", proofAction, proofActionSigMsg);
+
       return {
         isValid: true,
         proofAction,
@@ -227,6 +229,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             const proofActionSigMsg = toUtf8Bytes(proofAction);
             const wallet = new Wallet(skHex);
             const sig = await wallet.signMessage(proofActionSigMsg);
+
+            console.log("proofAction: %o, str: %o", proofAction, proofActionSigMsg);
 
             // console.log("sig: %s, skHex: %o, sigMsg: %o", sig, skHex, proofActionSigMsg);
             // const addr = ethers.utils.verifyMessage(proofActionSigMsg, sig);

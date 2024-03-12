@@ -55,16 +55,13 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic }) => {
 
   const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
 
-  if (error || channelData?.error) {
-    return <div>Error fetching data</div>;
-  }
-
   return isFontReady && shyCredential ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
       <GlobalHeader />
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
+          {error || (channelData?.error && <Loading>{i18n.fetching_data_failed}</Loading>)}
           {channelDataIsFetching && (
             <Loading centerAlign>
               <Spinner />

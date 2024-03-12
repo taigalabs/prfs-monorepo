@@ -58,6 +58,7 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
+  fetching_data_failed: "Oops, fetching data has failed",
   already_made_proof:
     "You've already made the same proof. All good. Getting back to the app in seconds",
   no_channel_found: "No channel found for this channel id. Check out the channel id",
