@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
+import { useRouter } from "next/navigation";
 
 import styles from "./Post.module.scss";
 import { paths } from "@/paths";
@@ -22,6 +23,7 @@ const Post: React.FC<PostContentProps> = ({
   const i18n = usePrfsI18N();
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
   const { rerender } = useRerender();
+  const router = useRouter();
 
   const handleClickReply = React.useCallback(() => {
     setIsReplyOpen(true);
