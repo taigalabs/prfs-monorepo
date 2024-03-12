@@ -10,11 +10,13 @@ pub async fn get_shy_posts_of_topic_syn1(
     limit: i32,
 ) -> Result<Vec<DateTimed<ShyPostSyn1>>, ShyDbInterfaceError> {
     let query = r#"
-SELECT p.*, f.*
+SELECT
+p.*,
+f.proof_identity_input
 FROM shy_posts p
 INNER JOIN shy_topic_proofs f ON f.shy_topic_proof_id = p.shy_topic_proof_id
 WHERE p.topic_id=$1
-ORDER BY p.updated_at DESC
+ORDER BY p.updated_at ASC
 OFFSET $2
 LIMIT $3
 "#;
