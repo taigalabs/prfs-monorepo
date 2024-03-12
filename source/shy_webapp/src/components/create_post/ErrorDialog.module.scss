@@ -1,0 +1,19 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  max-width: 180px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+  padding: 6px 8px;
+
+  color: var(--white-100);
+  background-color: var(--red-50);
+}
+
+.closeBtn {
+  cursor: pointer;
+}

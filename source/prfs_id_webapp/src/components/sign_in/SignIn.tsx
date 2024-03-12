@@ -42,9 +42,10 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
 
   React.useEffect(() => {
     const epheCred = loadEphemeralPrfsIdCredential();
-    if (epheCred) {
-      handleSucceedSignIn(epheCred.credential);
-    }
+    console.log(11, epheCred);
+    // if (epheCred) {
+    //   handleSucceedSignIn(epheCred.credential);
+    // }
 
     const storedCredentials = loadLocalPrfsIdCredentials();
     console.log("stored credentials", storedCredentials);

@@ -26,6 +26,7 @@ import TextEditor from "@/components/text_editor/TextEditor";
 import CreatePostEditorFooter from "./CreatePostEditorFooter";
 import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
+import ErrorDialog from "./ErrorDialog";
 
 const PROOF = "Proof";
 
@@ -211,8 +212,13 @@ const CreatePost: React.FC<CreatePostProps> = ({
     );
   }, []);
 
+  const handleClickClose = React.useCallback(() => {
+    setError(null);
+  }, [setError]);
+
   return (
     <div className={styles.wrapper}>
+      {error && <ErrorDialog handleClickClose={handleClickClose} error={error} />}
       <div className={styles.inner}>
         <TextEditor footer={footer} />
       </div>
