@@ -14,8 +14,9 @@ import {
   InfiniteScrollWrapper,
   InfiniteScrollInner,
   InfiniteScrollLeft,
-  InfiniteScrollRowContainer,
   InfiniteScrollRowWrapper,
+  InfiniteScrollRowContainerOuter,
+  InfiniteScrollRowContainerInner,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import ChannelMenu from "./ChannelMenu";
@@ -49,8 +50,9 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
         }
       })
     : [];
+
   const parentRef = React.useRef<HTMLDivElement | null>(null);
-  const rowVirtualizer = useVirtualizer({
+  const virtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 100,
@@ -58,7 +60,7 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
   });
 
   React.useEffect(() => {
-    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
+    const [lastItem] = [...virtualizer.getVirtualItems()].reverse();
 
     if (!lastItem) {
       return;
@@ -72,13 +74,14 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
     fetchNextPage,
     allRows.length,
     isFetchingNextPage,
-    rowVirtualizer.getVirtualItems(),
+    virtualizer.getVirtualItems(),
   ]);
 
   if (status === "error") {
     return <span>Error: {(error as Error).message}</span>;
   }
 
+  const items = virtualizer.getVirtualItems();
   return (
     <InfiniteScrollWrapper innerRef={parentRef}>
       <GlobalHeader />
@@ -92,33 +95,38 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
             </div>
           ) : (
             <>
-              <InfiniteScrollRowContainer
-                className={styles.infiniteScroll}
+              <InfiniteScrollRowContainerOuter
+                className={styles.rowContainerOuter}
                 style={{
-                  height: `${rowVirtualizer.getTotalSize()}px`,
-                  position: "relative",
+                  height: `${virtualizer.getTotalSize()}px`,
                 }}
               >
-                {rowVirtualizer.getVirtualItems().map(virtualRow => {
-                  const isLoaderRow = virtualRow.index > allRows.length - 1;
-                  const row = allRows[virtualRow.index];
+                <InfiniteScrollRowContainerInner
+                  style={{
+                    transform: `translateY(${items[0]?.start ?? 0}px)`,
+                  }}
+                >
+                  {virtualizer.getVirtualItems().map(virtualRow => {
+                    const isLoaderRow = virtualRow.index > allRows.length - 1;
+                    const row = allRows[virtualRow.index];
 
-                  return (
-                    <InfiniteScrollRowWrapper
-                      style={{
-                        height: `${virtualRow.size}px`,
-                        transform: `translateY(${virtualRow.start}px)`,
-                      }}
-                      className={styles.row}
-                      key={virtualRow.index}
-                      data-index={virtualRow.index}
-                      ref={rowVirtualizer.measureElement}
-                    >
-                      {isLoaderRow ? <span>Loading...</span> : row && <Row channel={row} />}
-                    </InfiniteScrollRowWrapper>
-                  );
-                })}
-              </InfiniteScrollRowContainer>
+                    return (
+                      <InfiniteScrollRowWrapper
+                        style={{
+                          height: `${virtualRow.size}px`,
+                          transform: `translateY(${virtualRow.start}px)`,
+                        }}
+                        className={styles.row}
+                        key={virtualRow.index}
+                        data-index={virtualRow.index}
+                        ref={virtualizer.measureElement}
+                      >
+                        {isLoaderRow ? <span>Loading...</span> : row && <Row channel={row} />}
+                      </InfiniteScrollRowWrapper>
+                    );
+                  })}
+                </InfiniteScrollRowContainerInner>
+              </InfiniteScrollRowContainerOuter>
             </>
           )}
         </InfiniteScrollMain>
