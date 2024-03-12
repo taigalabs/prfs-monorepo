@@ -17,8 +17,15 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
+import TopicFooter from "../topic/TopicFooter";
 
-const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, className }) => {
+const PostList: React.FC<PostListProps> = ({
+  parentRef,
+  channel,
+  topicId,
+  className,
+  subChannelId,
+}) => {
   const i18n = usePrfsI18N();
   const { rerender, nonce } = useRerender();
 
@@ -130,6 +137,9 @@ const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, classN
             </div>
           );
         })}
+        {!hasNextPage && (
+          <TopicFooter topicId={topicId} channel={channel} subChannelId={subChannelId} />
+        )}
       </InfiniteScrollRowContainerInner>
     </InfiniteScrollRowContainerOuter>
   );
@@ -142,4 +152,5 @@ export interface PostListProps {
   topicId: string;
   channel: ShyChannel;
   parentRef: React.MutableRefObject<HTMLDivElement | null>;
+  subChannelId: string;
 }
