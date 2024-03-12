@@ -16,12 +16,15 @@ import {
   InfiniteScrollRowContainerOuter,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
+import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, className }) => {
   const i18n = usePrfsI18N();
+  const { rerender, nonce } = useRerender();
+
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_shy_posts_of_topic", topicId, channel.channel_id],
+      queryKey: ["get_shy_posts_of_topic", topicId, channel.channel_id, nonce],
       queryFn: async ({ pageParam = 0 }) => {
         return await shyApi2({
           type: "get_shy_posts_of_topic",
@@ -58,7 +61,9 @@ const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, classN
     overscan: 5,
   });
 
-  const now = dayjs();
+  const now = React.useMemo(() => {
+    return dayjs();
+  }, []);
 
   React.useEffect(() => {
     const [lastItem] = [...virtualizer.getVirtualItems()].reverse();
@@ -121,7 +126,7 @@ const PostList: React.FC<PostListProps> = ({ parentRef, channel, topicId, classN
                 ? hasNextPage
                   ? "Loading more..."
                   : "Nothing more to load"
-                : post && <PostRow post={post} now={now} channel={channel} />}
+                : post && <PostRow post={post} now={now} channel={channel} rerender={rerender} />}
             </div>
           );
         })}

@@ -2,11 +2,9 @@ import React from "react";
 import dayjs from "dayjs";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
-import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 import { useRouter } from "next/navigation";
 
 import styles from "./Post.module.scss";
-import { pathParts, paths } from "@/paths";
 import { toShortDate } from "@/utils/time";
 import { PostWrapper, PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
@@ -19,10 +17,10 @@ const Post: React.FC<PostContentProps> = ({
   content,
   proof_identity_input,
   updated_at,
+  rerender,
 }) => {
   const i18n = usePrfsI18N();
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
-  const { rerender } = useRerender();
   const router = useRouter();
 
   const handleClickReply = React.useCallback(() => {
@@ -33,9 +31,12 @@ const Post: React.FC<PostContentProps> = ({
   }, [setIsReplyOpen]);
   const handleSucceedPost = React.useCallback(() => {
     setIsReplyOpen(false);
-    rerender();
+
+    if (rerender) {
+      rerender();
+    }
     // router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
-  }, [rerender, setIsReplyOpen, router]);
+  }, [rerender, setIsReplyOpen, router, rerender]);
 
   const publicKey = React.useMemo(() => {
     return author_public_key.substring(0, 8) || "";
@@ -95,4 +96,5 @@ export interface PostContentProps {
   updated_at: string;
   channel: ShyChannel;
   topicId: string;
+  rerender?: React.DispatchWithoutAction;
 }
