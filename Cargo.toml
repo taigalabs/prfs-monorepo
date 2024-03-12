@@ -33,6 +33,7 @@ members = [
 
   # Shy
   "source/shy_db_interface",
+  "source/shy_api_error_codes",
   "source/shy_api_server",
   "source/shy_entities",
 ]

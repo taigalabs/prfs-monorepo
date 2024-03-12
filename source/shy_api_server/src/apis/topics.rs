@@ -5,18 +5,17 @@ use prfs_crypto::signature::verify_eth_sig;
 use prfs_db_driver::sqlx;
 use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordResponse};
+use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::entities::{ShyPost, ShyTopic, ShyTopicProof};
+use shy_entities::entities::{ShyTopic, ShyTopicProof};
 use shy_entities::proof_action::{CreateShyTopicAction, ShyTopicProofAction};
 use shy_entities::shy_api::{
-    CreateShyTopicRequest, CreateShyTopicResponse, GetShyPostsOfTopicRequest,
-    GetShyPostsOfTopicResponse, GetShyTopicRequest, GetShyTopicResponse, GetShyTopicsRequest,
-    GetShyTopicsResponse,
+    CreateShyTopicRequest, CreateShyTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
+    GetShyTopicsRequest, GetShyTopicsResponse,
 };
 use std::sync::Arc;
 
 use crate::envs::ENVS;
-use crate::error_codes::API_ERROR_CODE;
 
 const LIMIT: i32 = 15;
 
@@ -43,7 +42,7 @@ pub async fn create_shy_topic(
     let msg = serde_json::to_vec(&action).unwrap();
     if msg != input.author_sig_msg {
         let resp = ApiResponse::new_error(
-            &API_ERROR_CODE.NOT_MACHING_SIG_MSG,
+            &SHY_API_ERROR_CODES.NOT_MACHING_SIG_MSG,
             format!("msg: {:?}, author_sig_msg: {:?}", msg, input.author_sig_msg),
         );
         return (StatusCode::BAD_REQUEST, Json(resp));
@@ -51,7 +50,7 @@ pub async fn create_shy_topic(
 
     if let Err(err) = verify_eth_sig(&input.author_sig, &msg, &input.author_public_key) {
         let resp = ApiResponse::new_error(
-            &API_ERROR_CODE.INVALID_SIG,
+            &SHY_API_ERROR_CODES.INVALID_SIG,
             format!("sig: {}, err: {}", input.author_sig, err),
         );
         return (StatusCode::BAD_REQUEST, Json(resp));
@@ -66,7 +65,7 @@ pub async fn create_shy_topic(
     let res = match cli.post(url).json(&data).send().await {
         Ok(res) => res,
         Err(err) => {
-            let resp = ApiResponse::new_error(&API_ERROR_CODE.BAD_URL, err.to_string());
+            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.BAD_URL, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
@@ -74,7 +73,7 @@ pub async fn create_shy_topic(
     let _res: ApiResponse<GetPrfsProofRecordResponse> = match res.json().await {
         Ok(r) => r,
         Err(err) => {
-            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
@@ -91,7 +90,8 @@ pub async fn create_shy_topic(
     let _proof_id = match shy::insert_shy_topic_proof(&mut tx, &shy_topic_proof).await {
         Ok(i) => i,
         Err(err) => {
-            let resp = ApiResponse::new_error(&API_ERROR_CODE.RECORD_INSERT_FAIL, err.to_string());
+            let resp =
+                ApiResponse::new_error(&SHY_API_ERROR_CODES.RECORD_INSERT_FAIL, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
@@ -113,7 +113,8 @@ pub async fn create_shy_topic(
     let topic_id = match shy::insert_shy_topic(&mut tx, &shy_topic).await {
         Ok(i) => i,
         Err(err) => {
-            let resp = ApiResponse::new_error(&API_ERROR_CODE.RECORD_INSERT_FAIL, err.to_string());
+            let resp =
+                ApiResponse::new_error(&SHY_API_ERROR_CODES.RECORD_INSERT_FAIL, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
@@ -132,7 +133,7 @@ pub async fn get_shy_topics(
     let rows = match shy::get_shy_topic_syn1s(pool, &input.channel_id, input.offset, LIMIT).await {
         Ok(r) => r,
         Err(err) => {
-            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
@@ -158,7 +159,7 @@ pub async fn get_shy_topic(
     let shy_topic_syn1 = match shy::get_shy_topic_syn1(pool, &input.topic_id).await {
         Ok(t) => t,
         Err(err) => {
-            let resp = ApiResponse::new_error(&API_ERROR_CODE.UNKNOWN_ERROR, err.to_string());
+            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };

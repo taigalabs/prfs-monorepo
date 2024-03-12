@@ -1,10 +1,12 @@
+pub mod bindgen;
+
 use prfs_axum_lib::generate_api_error_codes;
 use prfs_axum_lib::ApiHandleErrorCode;
 use serde::{Deserialize, Serialize};
 
 generate_api_error_codes! {
-    PrfsAttestationApiErrorCodes,
-    API_ERROR_CODE,
+    ShyApiErrorCodes,
+    SHY_API_ERROR_CODES,
     (String::from("20000000"), SUCCESS, "Success");
     (String::from("40000000"), UNKNOWN_ERROR, "Unknown error");
     (String::from("40000001"), BAD_URL, "Unable to make http requests (CLI) to this URL");
