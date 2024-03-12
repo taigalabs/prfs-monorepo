@@ -1,0 +1,13 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  padding: 24px $side_padding;
+  font-size: 16px;
+
+  a {
+    color: var(--shy-blue-50);
+  }
+}
+
+@media screen and (min-width: $big_display_min_width) {
+}

@@ -23,8 +23,9 @@ import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import TopicContent from "./TopicContent";
 import PostList from "@/components/post_list/PostList";
+import TopicFooter from "./TopicFooter";
 
-const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
+const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
@@ -58,6 +59,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
               <ChannelMeta channel={channel} noDesc noSubChannel small />
               <TopicContent topicId={topicId} channel={channel} />
               <PostList parentRef={parentRef} channel={channel} topicId={topicId} />
+              <TopicFooter topicId={topicId} channel={channel} subChannelId={subChannelId} />
             </>
           ) : (
             <Loading centerAlign>
@@ -83,4 +85,5 @@ export default Topic;
 export interface TopicProps {
   topicId: string;
   channelId: string;
+  subChannelId: string;
 }

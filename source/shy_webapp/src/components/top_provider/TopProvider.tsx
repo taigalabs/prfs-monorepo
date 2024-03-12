@@ -6,7 +6,7 @@ import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-lib/src/i
 import { http, createConfig, WagmiProvider } from "@taigalabs/prfs-crypto-deps-js/wagmi";
 import { mainnet, sepolia } from "@taigalabs/prfs-crypto-deps-js/wagmi/chains";
 
-import { I18nProvider } from "@/i18n/context";
+import { I18nProvider } from "@/i18n";
 import { store } from "@/state/store";
 
 const queryClient = new QueryClient();
