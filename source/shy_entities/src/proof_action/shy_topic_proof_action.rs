@@ -13,4 +13,6 @@ pub enum ShyTopicProofAction {
 #[ts(export)]
 pub struct CreateShyTopicAction {
     pub topic_id: String,
+    pub channel_id: String,
+    pub content: String,
 }

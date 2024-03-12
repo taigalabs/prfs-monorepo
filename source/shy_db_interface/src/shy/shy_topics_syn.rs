@@ -39,6 +39,7 @@ LIMIT $3
                     num_replies: row.try_get("num_replies")?,
                     shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
                     author_sig: row.try_get("author_sig")?,
+                    participant_identity_inputs: row.try_get("participant_identity_inputs")?,
                 },
                 proof_identity_input: row.try_get("proof_identity_input")?,
             };
@@ -79,6 +80,7 @@ WHERE t.topic_id=$1
             num_replies: row.try_get("num_replies")?,
             shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
             author_sig: row.try_get("author_sig")?,
+            participant_identity_inputs: row.try_get("participant_identity_inputs")?,
         },
         proof_identity_input: row.try_get("proof_identity_input")?,
     };

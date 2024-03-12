@@ -12,6 +12,7 @@ pub struct ShyTopic {
     pub shy_topic_proof_id: String,
     pub author_public_key: String,
     pub author_sig: String,
+    pub participant_identity_inputs: Vec<String>,
 }
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]

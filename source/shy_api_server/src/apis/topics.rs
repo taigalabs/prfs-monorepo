@@ -78,6 +78,7 @@ pub async fn create_shy_topic(
         shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
         author_public_key: input.author_public_key.to_string(),
         author_sig: input.author_sig.to_string(),
+        participant_identity_inputs: vec![input.proof_identity_input.to_string()],
     };
 
     let topic_id = match shy::insert_shy_topic(&mut tx, &shy_topic).await {

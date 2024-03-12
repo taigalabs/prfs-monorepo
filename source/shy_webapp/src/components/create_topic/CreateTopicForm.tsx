@@ -98,6 +98,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
       const proofAction: ShyTopicProofAction = {
         type: "create_shy_topic",
         topic_id: topicId,
+        channel_id: channel.channel_id,
+        content: html,
       };
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,

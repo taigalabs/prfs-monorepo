@@ -37,6 +37,7 @@ LIMIT $3
                 content: row.try_get("content")?,
                 shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
                 author_sig: row.try_get("author_sig")?,
+                participant_identity_inputs: row.try_get("participant_identity_inputs")?,
             };
 
             let topic = DateTimed {
@@ -73,6 +74,7 @@ WHERE topic_id=$1
         content: row.try_get("content")?,
         shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
         author_sig: row.try_get("author_sig")?,
+        participant_identity_inputs: row.try_get("participant_identity_inputs")?,
     };
     let topic = DateTimed {
         inner: topic,
@@ -90,7 +92,7 @@ pub async fn insert_shy_topic(
     let query = r#"
 INSERT INTO shy_topics
 (topic_id, channel_id, title, author_public_key, num_replies, content, shy_topic_proof_id, 
-author_sig)
+author_sig, participant_identity_inputs)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING topic_id
 "#;
@@ -104,6 +106,7 @@ RETURNING topic_id
         .bind(&shy_topic.content)
         .bind(&shy_topic.shy_topic_proof_id)
         .bind(&shy_topic.author_sig)
+        .bind(&shy_topic.participant_identity_inputs)
         .fetch_one(&mut **tx)
         .await?;
 

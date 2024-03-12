@@ -2,4 +2,6 @@
 
 export interface CreateShyTopicAction {
   topic_id: string;
+  channel_id: string;
+  content: string;
 }
