@@ -4,10 +4,12 @@ export interface ShyTopic {
   title: string;
   topic_id: string;
   channel_id: string;
-  num_replies: number;
+  total_reply_count: number;
   content: string;
   shy_topic_proof_id: string;
   author_public_key: string;
   author_sig: string;
   participant_identity_inputs: string[];
+  sub_channel_id: string;
+  total_like_count: bigint;
 }

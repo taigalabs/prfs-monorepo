@@ -29,7 +29,9 @@ const Row: React.FC<RowProps> = ({ topic, now, channelId }) => {
           {topic.inner.proof_identity_input}
         </div>
         <div className={cn(styles.col)}>{date}</div>
-        <div className={cn(styles.numReplies, styles.col)}>{topic.inner.shy_topic.num_replies}</div>
+        <div className={cn(styles.totalReplyCount, styles.col)}>
+          {topic.inner.shy_topic.total_reply_count}
+        </div>
       </div>
     </div>
   );

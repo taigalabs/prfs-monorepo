@@ -32,12 +32,14 @@ LIMIT $3
                 title: row.try_get("title")?,
                 topic_id: row.try_get("topic_id")?,
                 channel_id: row.try_get("channel_id")?,
-                num_replies: row.try_get("num_replies")?,
+                total_reply_count: row.try_get("total_reply_count")?,
                 author_public_key: row.try_get("author_public_key")?,
                 content: row.try_get("content")?,
                 shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
                 author_sig: row.try_get("author_sig")?,
                 participant_identity_inputs: row.try_get("participant_identity_inputs")?,
+                sub_channel_id: row.try_get("sub_channel_id")?,
+                total_like_count: row.try_get("total_like_count")?,
             };
 
             let topic = DateTimed {
@@ -69,12 +71,14 @@ WHERE topic_id=$1
         title: row.try_get("title")?,
         topic_id: row.try_get("topic_id")?,
         channel_id: row.try_get("channel_id")?,
-        num_replies: row.try_get("num_replies")?,
+        total_reply_count: row.try_get("total_reply_count")?,
         author_public_key: row.try_get("author_public_key")?,
         content: row.try_get("content")?,
         shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
         author_sig: row.try_get("author_sig")?,
         participant_identity_inputs: row.try_get("participant_identity_inputs")?,
+        sub_channel_id: row.try_get("sub_channel_id")?,
+        total_like_count: row.try_get("total_like_count")?,
     };
     let topic = DateTimed {
         inner: topic,
@@ -91,9 +95,9 @@ pub async fn insert_shy_topic(
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_topics
-(topic_id, channel_id, title, author_public_key, num_replies, content, shy_topic_proof_id, 
-author_sig, participant_identity_inputs)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+(topic_id, channel_id, title, author_public_key, total_reply_count, content, shy_topic_proof_id, 
+author_sig, participant_identity_inputs, sub_channel_id, total_like_count)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 RETURNING topic_id
 "#;
 
@@ -102,11 +106,13 @@ RETURNING topic_id
         .bind(&shy_topic.channel_id)
         .bind(&shy_topic.title)
         .bind(&shy_topic.author_public_key)
-        .bind(&shy_topic.num_replies)
+        .bind(&shy_topic.total_reply_count)
         .bind(&shy_topic.content)
         .bind(&shy_topic.shy_topic_proof_id)
         .bind(&shy_topic.author_sig)
         .bind(&shy_topic.participant_identity_inputs)
+        .bind(&shy_topic.sub_channel_id)
+        .bind(&shy_topic.total_like_count)
         .fetch_one(&mut **tx)
         .await?;
 

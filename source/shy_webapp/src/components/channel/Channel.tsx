@@ -71,7 +71,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
             <>
               <BoardMeta channel={channel} />
               {isNewTopic ? (
-                <CreateTopicForm channel={channel} />
+                <CreateTopicForm channel={channel} subChannelId={subChannelId} />
               ) : (
                 <>
                   <BoardMenu channelId={channel.channel_id} />

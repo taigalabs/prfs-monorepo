@@ -100,7 +100,7 @@ pub async fn create_shy_topic(
         title: input.title.to_string(),
         topic_id: input.topic_id.to_string(),
         channel_id: input.channel_id.to_string(),
-        num_replies: 0,
+        total_reply_count: 0,
         content: input.content.to_string(),
         shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
         author_public_key: input.author_public_key.to_string(),
@@ -108,6 +108,8 @@ pub async fn create_shy_topic(
         participant_identity_inputs: sqlx::types::Json(vec![input
             .proof_identity_input
             .to_string()]),
+        sub_channel_id: input.sub_channel_id.to_string(),
+        total_like_count: 0,
     };
 
     let topic_id = match shy::insert_shy_topic(&mut tx, &shy_topic).await {

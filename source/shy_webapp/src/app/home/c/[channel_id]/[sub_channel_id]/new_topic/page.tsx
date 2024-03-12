@@ -9,7 +9,7 @@ const NewTopicPage: React.FC<ChannelPageProps> = ({ params }) => {
     <DefaultLayout>
       <Suspense>
         <DefaultMain>
-          <Channel channelId={params.channel_id} isNewTopic />
+          <Channel channelId={params.channel_id} isNewTopic subChannelId={params.sub_channel_id} />
         </DefaultMain>
       </Suspense>
     </DefaultLayout>
@@ -21,5 +21,6 @@ export default NewTopicPage;
 export interface ChannelPageProps {
   params: {
     channel_id: string;
+    sub_channel_id: string;
   };
 }

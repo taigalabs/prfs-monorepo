@@ -42,7 +42,7 @@ enum Status {
   InProgress,
 }
 
-const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
+const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId }) => {
   const i18n = usePrfsI18N();
   const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
@@ -108,8 +108,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
       };
 
       const proofActionStr = JSON.stringify(proofAction);
-      console.log(11, proofAction, JSON.stringify(proofAction));
-
       const presetVals: MerkleSigPosRangeV1PresetVals = {
         nonceRaw: json,
       };
@@ -217,13 +215,12 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel }) => {
           serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
           author_sig: proveReceipt.proofActionSig,
           author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
-          author_sig_msg2: proofActionStr,
+          sub_channel_id: subChannelId,
         });
 
         if (error) {
           throw new Error(`Failed to create a topic, err: ${error}`);
         }
-
         console.log("create shy topic resp", payload, error);
 
         setStatus(Status.Standby);
@@ -284,4 +281,5 @@ export default CreateTopicForm;
 
 export interface CreateTopicFormProps {
   channel: ShyChannel;
+  subChannelId: string;
 }
