@@ -75,10 +75,14 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     (e: React.MouseEvent<HTMLLIElement>) => {
       const dataset = e.currentTarget.dataset;
       if (dataset.id) {
-        setSelectedCredentialId(dataset.id);
+        if (epheCredential?.credential.id === dataset.id) {
+          handleSucceedSignIn(epheCredential.credential);
+        } else {
+          setSelectedCredentialId(dataset.id);
+        }
       }
     },
-    [storedCredentials, setSelectedCredentialId],
+    [storedCredentials, setSelectedCredentialId, epheCredential, handleSucceedSignIn],
   );
 
   const handleClickNextWithCredential = React.useCallback(async () => {
