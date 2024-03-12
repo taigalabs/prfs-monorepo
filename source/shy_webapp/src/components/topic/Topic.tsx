@@ -15,12 +15,10 @@ import {
   InfiniteScrollWrapper,
   InfiniteScrollInner,
   InfiniteScrollLeft,
-  InfiniteScrollRowContainer,
-  InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import { paths, searchParamKeys } from "@/paths";
-import BoardMeta from "@/components/board/BoardMeta";
+import ChannelMeta from "@/components/channel/ChannelMeta";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import TopicContent from "./TopicContent";
@@ -57,7 +55,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
         <InfiniteScrollMain>
           {channel ? (
             <>
-              <BoardMeta channel={channel} noDesc noSubChannel small />
+              <ChannelMeta channel={channel} noDesc noSubChannel small />
               <TopicContent topicId={topicId} channel={channel} />
               <PostList parentRef={parentRef} channel={channel} topicId={topicId} />
             </>
@@ -72,7 +70,9 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId }) => {
     </InfiniteScrollWrapper>
   ) : (
     <>
-      <Loading>Loading...</Loading>
+      <Loading centerAlign>
+        <Spinner />
+      </Loading>
       <span className={styles.fontLoadText} />
     </>
   );

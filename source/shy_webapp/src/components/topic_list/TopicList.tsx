@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
-import styles from "./Board.module.scss";
+import styles from "./TopicList.module.scss";
 import Row from "./Row";
 import {
   InfiniteScrollRowContainer,
@@ -15,7 +15,7 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
 
-const Board: React.FC<BoardProps> = ({ parentRef, channelId, className, placeholder }) => {
+const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, placeholder }) => {
   const i18n = usePrfsI18N();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -120,9 +120,9 @@ const Board: React.FC<BoardProps> = ({ parentRef, channelId, className, placehol
   );
 };
 
-export default Board;
+export default TopicList;
 
-export interface BoardProps {
+export interface TopicListProps {
   parentRef: React.MutableRefObject<HTMLDivElement | null>;
   channelId: string;
   className?: string;

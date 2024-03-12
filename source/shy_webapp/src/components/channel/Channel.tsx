@@ -20,9 +20,9 @@ import {
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import CreateTopicForm from "@/components/create_topic/CreateTopicForm";
 import { paths, searchParamKeys } from "@/paths";
-import Board from "@/components/board/Board";
-import BoardMeta from "@/components/board/BoardMeta";
-import BoardMenu from "@/components/board/BoardMenu";
+import TopicList from "@/components/topic_list/TopicList";
+import ChannelMeta from "@/components/channel/ChannelMeta";
+import ChannelMenu from "@/components/channel/ChannelMenu";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 
@@ -79,13 +79,13 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
           )}
           {channel ? (
             <>
-              <BoardMeta channel={channel} />
+              <ChannelMeta channel={channel} />
               {isNewTopic ? (
                 <CreateTopicForm channel={channel} subChannelId={subChannelId} />
               ) : (
                 <>
-                  <BoardMenu channelId={channel.channel_id} />
-                  <Board
+                  <ChannelMenu channelId={channel.channel_id} />
+                  <TopicList
                     parentRef={parentRef}
                     channelId={channel.channel_id}
                     placeholder={boardPlaceholderElem}

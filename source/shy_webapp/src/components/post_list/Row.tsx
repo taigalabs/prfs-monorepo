@@ -11,16 +11,14 @@ import Post from "@/components/post/Post";
 
 const Row: React.FC<RowProps> = ({ post, channel }) => {
   return (
-    <div className={styles.wrapper}>
-      <Post
-        topicId={post.inner.shy_post.topic_id}
-        channel={channel}
-        author_public_key={post.inner.shy_post.author_public_key}
-        content={post.inner.shy_post.content}
-        proof_identity_input={post.inner.proof_identity_input}
-        updated_at={post.updated_at}
-      />
-    </div>
+    <Post
+      topicId={post.inner.shy_post.topic_id}
+      channel={channel}
+      author_public_key={post.inner.shy_post.author_public_key}
+      content={post.inner.shy_post.content}
+      proof_identity_input={post.inner.proof_identity_input}
+      updated_at={post.updated_at}
+    />
   );
 };
 
