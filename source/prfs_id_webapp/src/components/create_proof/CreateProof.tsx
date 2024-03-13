@@ -7,12 +7,7 @@ import cn from "classnames";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import {
-  CreateProofQuery,
-  PrfsIdCredential,
-  ProofGenSuccessPayload,
-  TutorialArgs,
-} from "@taigalabs/prfs-id-sdk-web";
+import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
@@ -202,34 +197,29 @@ const CreateProof: React.FC<CreateProofProps> = ({
             )}
           </QueryItemRightCol>
         </QueryItemMeta>
-        <div className={styles.wrapper}>
-          <div className={styles.moduleWrapper}>
+        <div className={styles.inner}>
+          <QueryItemLeftCol>{null}</QueryItemLeftCol>
+          <div className={styles.rightCol}>
             {loadDriverStatus === LoadDriverStatus.InProgress && (
               <div className={styles.overlay}>
                 <Spinner size={24} color={colors.blue_12} />
               </div>
             )}
-            <TutorialStepper
-              tutorialId={tutorial ? tutorial.tutorialId : null}
-              step={tutorialStep}
-              steps={[2]}
-            >
-              <div className={styles.form}>
-                <CircuitInputs
-                  proofType={proofType}
-                  formValues={formValues}
-                  setFormValues={setFormValues}
-                  setFormHandler={setFormHandler}
-                  formErrors={formErrors}
-                  setFormErrors={setFormErrors}
-                  presetVals={query.presetVals}
-                  credential={credential}
-                  proofAction={query.proofAction}
-                  usePrfsRegistry={query.usePrfsRegistry}
-                  handleSkipCreateProof={handleSkipCreateProof}
-                />
-              </div>
-            </TutorialStepper>
+            <div className={styles.form}>
+              <CircuitInputs
+                proofType={proofType}
+                formValues={formValues}
+                setFormValues={setFormValues}
+                setFormHandler={setFormHandler}
+                formErrors={formErrors}
+                setFormErrors={setFormErrors}
+                presetVals={query.presetVals}
+                credential={credential}
+                proofAction={query.proofAction}
+                usePrfsRegistry={query.usePrfsRegistry}
+                handleSkipCreateProof={handleSkipCreateProof}
+              />
+            </div>
             {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
             {errorMsg && <div className={cn(styles.systemMsg, styles.red)}>{errorMsg}</div>}
           </div>

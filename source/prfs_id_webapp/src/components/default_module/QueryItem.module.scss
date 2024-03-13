@@ -1,12 +1,12 @@
 @import "@/styles/layouts.module.scss";
 
 .list {
-  padding: 16px 16px 20px;
+  padding: 16px 0px;
 }
 
 .sidePadding {
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 .item {
@@ -27,17 +27,11 @@
   font-size: 20px;
   width: 32px;
   flex-shrink: 0;
-  padding-top: 6px;
-  padding-left: 4px;
 }
 
 .rightCol {
   word-break: break-all;
   color: var(--black-20);
-
-  > * {
-    padding-left: 6px;
-  }
 }
 
 .val {
@@ -46,6 +40,7 @@
 
 .name {
   font-weight: 500;
+  font-size: 16px;
 }
 
 .type {
@@ -66,7 +61,7 @@
   }
 
   .sidePadding {
-    padding-left: 40px;
-    padding-right: 40px;
+    /* padding-left: 40px; */
+    /* padding-right: 40px; */
   }
 }
