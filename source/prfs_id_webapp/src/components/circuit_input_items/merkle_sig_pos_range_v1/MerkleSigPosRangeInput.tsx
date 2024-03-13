@@ -548,11 +548,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             </ConnectWallet>
           </div>
         </div>
-        {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
-        <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
-        {value && <ComputedValue value={value} />}
-      </FormInput>
-      <FormInput>
         <MemoInput
           value={value}
           presetVals={presetVals}
@@ -561,7 +556,20 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           setFormErrors={setFormErrors}
           error={error}
         />
+        {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
+        <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
+        {value && <ComputedValue value={value} />}
       </FormInput>
+      {/* <FormInput> */}
+      {/*   <MemoInput */}
+      {/*     value={value} */}
+      {/*     presetVals={presetVals} */}
+      {/*     circuitTypeData={circuitTypeData} */}
+      {/*     setFormValues={setFormValues} */}
+      {/*     setFormErrors={setFormErrors} */}
+      {/*     error={error} */}
+      {/*   /> */}
+      {/* </FormInput> */}
     </>
   );
 };

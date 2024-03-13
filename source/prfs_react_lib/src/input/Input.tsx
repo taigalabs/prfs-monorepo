@@ -12,6 +12,7 @@ const Input: React.FC<InputProps> = ({
   value,
   error,
   type,
+  disabled,
   readOnly,
   // placeholder,
   handleChangeValue,
@@ -51,6 +52,7 @@ const Input: React.FC<InputProps> = ({
         onChange={handleChangeValue}
         onKeyDown={handleKeyDown}
         readOnly={readOnly}
+        disabled={disabled}
       />
       {error && error.length && <p className={styles.error}>{error}</p>}
     </div>
@@ -63,6 +65,7 @@ export interface InputProps {
   className?: string;
   inputClassName?: string;
   labelClassName?: string;
+  disabled?: boolean;
   name?: string;
   value: string;
   label: string;

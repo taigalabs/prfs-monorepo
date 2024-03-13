@@ -13,6 +13,7 @@ import {
 import { useI18N } from "@/i18n/context";
 import { FormErrors, FormValues } from "@/components/circuit_input_items/formTypes";
 import { bytesToBigInt, deriveProofKey } from "@taigalabs/prfs-crypto-js";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
 const MemoInput: React.FC<RangeSelectProps> = ({
   circuitTypeData,
@@ -56,18 +57,26 @@ const MemoInput: React.FC<RangeSelectProps> = ({
 
   return (
     <>
-      <FormInputTitleRow>
-        <FormInputTitle>{i18n.memo}</FormInputTitle>
-      </FormInputTitleRow>
-      <InputWrapper>
-        <input
-          className={styles.input}
-          placeholder={i18n.leave_anything_that_makes_a_proof_unique}
-          value={value.nonceRaw || ""}
-          onChange={handleChangeNonce}
-          disabled={isPresetVals}
-        />
-      </InputWrapper>
+      {/* <FormInputTitleRow> */}
+      {/*   <FormInputTitle>{i18n.memo}</FormInputTitle> */}
+      {/* </FormInputTitleRow> */}
+      <Input
+        name={""}
+        label={i18n.memo}
+        value={value.nonceRaw || ""}
+        handleChangeValue={handleChangeNonce}
+        disabled={isPresetVals}
+        readOnly
+      />
+      {/* <InputWrapper> */}
+      {/*   <input */}
+      {/*     className={styles.input} */}
+      {/*     placeholder={i18n.leave_anything_that_makes_a_proof_unique} */}
+      {/*     value={value.nonceRaw || ""} */}
+      {/*     onChange={handleChangeNonce} */}
+      {/*     disabled={isPresetVals} */}
+      {/*   /> */}
+      {/* </InputWrapper> */}
       {error?.nonceRaw && <FormError>{error.nonceRaw}</FormError>}
     </>
   );
