@@ -56,7 +56,6 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
   const [formHandler, setFormHandler] = React.useState<FormHandler | null>(null);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
-  const tutorialStep = useAppSelector(state => state.tutorial.tutorialStep);
   const { data, error } = useProofType(query?.proofTypeId);
   const handleProofGenEvent = React.useCallback((ev: CreateProofEvent) => {
     const { payload } = ev;
@@ -173,7 +172,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
               <span>{query.name}</span>
               {createProofStatus === Status.InProgress && <span> (Creating...)</span>}
             </QueryName>
-            <div>{proofType.proof_type_id}</div>
+            <p className={styles.proofTypeId}>{proofType.proof_type_id}</p>
             <div className={styles.driverMsg}>
               <LoadDriver
                 proofType={proofType}
@@ -191,7 +190,6 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
           </QueryItemRightCol>
         </QueryItemMeta>
         <div className={styles.inner}>
-          <QueryItemLeftCol>{null}</QueryItemLeftCol>
           <div className={styles.rightCol}>
             {loadDriverStatus === LoadDriverStatus.InProgress && (
               <div className={styles.overlay}>

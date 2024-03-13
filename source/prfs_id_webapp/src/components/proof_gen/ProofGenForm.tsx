@@ -121,10 +121,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   <CreateProof
                     key={query.name}
                     credential={credential}
-                    // setErrorDialogMsg={setErrorDialogMsg}
                     query={query}
                     setReceipt={setReceipt}
-                    tutorial={proofGenArgs.tutorial}
                     handleSkip={handleSkip}
                   />
                 );
