@@ -3,13 +3,13 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Link from "next/link";
 import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
 import styles from "./SignUpForm.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   DefaultInnerPadding,
   DefaultInputGuide,
-  DefaultInputItem,
   DefaultModuleBtnRow,
   DefaultModuleHeader,
   DefaultModuleInputArea,
@@ -18,6 +18,13 @@ import {
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
 import { IdCreateForm } from "@/functions/validate_id";
+
+const EMAIL = "email";
+const EMAIL_CONFIRM = "email_confirm";
+const PASSWORD_1 = "password_1";
+const PASSWORD_1_CONFIRM = "password_1_confirm";
+const PASSWORD_2 = "password_2";
+const PASSWORD_2_CONFIRM = "password_2_confirm";
 
 const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
   formData,
@@ -63,24 +70,27 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
       <div className={styles.main}>
         <DefaultModuleLogoArea />
         <Fade>
-          <DefaultModuleHeader>
+          <DefaultModuleHeader noSidePadding>
             <DefaultModuleTitle>{i18n.create_an_identity}</DefaultModuleTitle>
             <DefaultModuleSubtitle>{i18n.create_a_strong_password}</DefaultModuleSubtitle>
           </DefaultModuleHeader>
           <DefaultModuleInputArea>
             <div className={styles.inputGroup}>
-              <DefaultInputItem
-                name="email"
-                value={formData.email}
-                placeholder={i18n.email}
-                error={formErrors.email}
+              <Input
+                className={styles.input}
+                name={EMAIL}
+                error={formErrors[EMAIL]}
+                label={i18n.email}
+                value={formData[EMAIL]}
+                type="text"
                 handleChangeValue={handleChangeValue}
               />
-              <DefaultInputItem
-                name="email_confirm"
-                value={formData.email_confirm}
-                placeholder={i18n.confirm}
-                error={formErrors.email_confirm}
+              <Input
+                name={EMAIL_CONFIRM}
+                error={formErrors[EMAIL_CONFIRM]}
+                label={i18n.confirm}
+                value={formData[EMAIL_CONFIRM]}
+                type="text"
                 handleChangeValue={handleChangeValue}
               />
             </div>
@@ -93,39 +103,39 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
               </Link>
             </DefaultInputGuide>
             <div className={styles.inputGroup}>
-              <DefaultInputItem
-                name="password_1"
-                value={formData.password_1}
-                placeholder={i18n.password_1}
-                error={formErrors.password_1}
-                handleChangeValue={handleChangeValue}
+              <Input
+                name={PASSWORD_1}
+                error={formErrors[PASSWORD_1]}
+                label={i18n.password_1}
+                value={formData[PASSWORD_1]}
                 type="password"
+                handleChangeValue={handleChangeValue}
               />
-              <DefaultInputItem
-                name="password_1_confirm"
-                value={formData.password_1_confirm}
-                placeholder={i18n.confirm}
-                error={formErrors.password_1_confirm}
-                handleChangeValue={handleChangeValue}
+              <Input
+                name={PASSWORD_1_CONFIRM}
+                error={formErrors[PASSWORD_1_CONFIRM]}
+                label={i18n.confirm}
+                value={formData[PASSWORD_1_CONFIRM]}
                 type="password"
+                handleChangeValue={handleChangeValue}
               />
             </div>
             <div className={styles.inputGroup}>
-              <DefaultInputItem
-                name="password_2"
-                value={formData.password_2}
-                placeholder={i18n.password_2}
-                error={formErrors.password_2}
-                handleChangeValue={handleChangeValue}
+              <Input
+                name={PASSWORD_2}
+                error={formErrors[PASSWORD_2]}
+                label={i18n.password_2}
+                value={formData[PASSWORD_2]}
                 type="password"
+                handleChangeValue={handleChangeValue}
               />
-              <DefaultInputItem
-                name="password_2_confirm"
-                value={formData.password_2_confirm}
-                placeholder={i18n.confirm}
-                error={formErrors.password_2_confirm}
-                handleChangeValue={handleChangeValue}
+              <Input
+                name={PASSWORD_2_CONFIRM}
+                error={formErrors[PASSWORD_2_CONFIRM]}
+                label={i18n.confirm}
+                value={formData[PASSWORD_2_CONFIRM]}
                 type="password"
+                handleChangeValue={handleChangeValue}
               />
             </div>
             <DefaultInputGuide>
