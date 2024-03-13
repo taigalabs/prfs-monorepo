@@ -140,12 +140,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
     return prfsSet ? (
       <span className={styles.inputLabel}>
+        <span>{prfsSet.label}</span>
         <a
           className={styles.link}
           onClick={handleClick}
           href={`${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/sets/${prfsSet.set_id}`}
         >
-          <span>{prfsSet.label}</span>
           <span> ({treeId})</span>
         </a>
       </span>
