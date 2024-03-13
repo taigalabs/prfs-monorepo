@@ -50,6 +50,7 @@ import {
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -152,6 +153,13 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       <span className={styles.inputLabel}>{i18n.loading}</span>
     );
   }, [prfsSet, prfsTree]);
+
+  const abbrevWalletAddr = React.useMemo(() => {
+    if (walletAddr.length > 10) {
+      return abbrev7and5(walletAddr);
+    }
+    return "";
+  }, [walletAddr]);
 
   React.useEffect(() => {
     setFormHandler(() => async (formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {
@@ -527,7 +535,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             labelClassName={styles.addrInput}
             name={""}
             label={i18n.wallet}
-            value={walletAddr}
+            value={abbrevWalletAddr}
             readOnly
           />
           <div className={styles.btnRow}>
