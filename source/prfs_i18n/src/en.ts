@@ -44,6 +44,7 @@ export default {
   address: "Address",
   fetch_cached_address: "Fetch cached addresses",
   fetch_addresses: "Fetch addresses",
+  cache: "Cache",
   create_attestation: "Create attestation",
   twitter_handle: "Twitter handle",
   tweet_url: "Tweet URL",
