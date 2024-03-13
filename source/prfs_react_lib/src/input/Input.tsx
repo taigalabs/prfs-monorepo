@@ -10,7 +10,7 @@ const Input: React.FC<InputProps> = ({
   value,
   error,
   type,
-  placeholder,
+  // placeholder,
   handleChangeValue,
   handleKeyDown,
 }) => {

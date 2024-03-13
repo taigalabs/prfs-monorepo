@@ -1,17 +1,18 @@
 import React from "react";
+import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import { abbrevMandN } from "@taigalabs/prfs-ts-utils";
 import { makeDecryptKey } from "@taigalabs/prfs-crypto-js";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
 import styles from "./StoredCredentials.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   DefaultErrorMsg,
   DefaultInnerPadding,
-  DefaultInputItem,
   DefaultModuleBtnRow,
   DefaultModuleHeader,
   DefaultModuleSubtitle,
@@ -27,6 +28,8 @@ import {
   EphemeralPrfsIdCredential,
   persistEphemeralPrfsIdCredential,
 } from "@/storage/ephe_credential";
+
+const PASSWORD_2 = "password_2";
 
 export enum SignInStatus {
   Loading,
@@ -187,22 +190,22 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
                 )}
               </div>
               {cred.id === selectedCredentialId && (
-                <div>
-                  <DefaultInputItem
-                    className={styles.passwordInput}
-                    name="password_2"
-                    value={formData.password_2}
-                    placeholder={i18n.password_2}
-                    error={formErrors.password_2}
+                <div className={styles.inputArea}>
+                  <Input
+                    className={styles.input}
+                    type="password"
+                    name={PASSWORD_2}
+                    error={formErrors[PASSWORD_2]}
+                    label={i18n.password_2}
+                    value={formData[PASSWORD_2]}
                     handleChangeValue={handleChangeValue}
                     handleKeyDown={handleKeyDown}
-                    type="password"
                   />
                   <Button
-                    variant="blue_2"
+                    className={styles.btn}
+                    variant="blue_3"
                     type="button"
                     noTransition
-                    noShadow
                     handleClick={handleClickNextWithCredential}
                   >
                     {i18n.next}
@@ -219,7 +222,7 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
     elems.push(
       <li key="sign_in" className={styles.entry} onClick={handleClickUseAnotherId} role="button">
         <div className={styles.item}>
-          <div className={styles.inner}>
+          <div className={cn(styles.inner, styles.idRow)}>
             <p className={styles.useAnotherId}>{i18n.use_another_id}</p>
           </div>
         </div>
@@ -243,7 +246,6 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
 
   return (
     <>
-      {/* <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel> */}
       <DefaultInnerPadding noSidePadding>
         <DefaultModuleHeader noTopPadding>
           <DefaultModuleTitle>{i18n.choose_account}</DefaultModuleTitle>

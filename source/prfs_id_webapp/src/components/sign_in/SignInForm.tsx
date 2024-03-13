@@ -8,7 +8,6 @@ import styles from "./SignInForm.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   DefaultInnerPadding,
-  DefaultInputItem,
   DefaultModuleBtnRow,
   DefaultModuleHeader,
   DefaultModuleInputArea,
@@ -100,34 +99,18 @@ const SignInForm: React.FC<InputCredentialProps> = ({
             <DefaultModuleTitle>{title}</DefaultModuleTitle>
             <DefaultModuleSubtitle>{i18n.use_your_prfs_identity}</DefaultModuleSubtitle>
           </DefaultModuleHeader>
-          <DefaultModuleInputArea>
+          <DefaultModuleInputArea className={styles.inputArea}>
             <div className={styles.inputGroup}>
-              {/* <DefaultInputItem */}
-              {/*   name="email" */}
-              {/*   value={formData.email} */}
-              {/*   placeholder={i18n.email} */}
-              {/*   error={formErrors.email} */}
-              {/*   handleChangeValue={handleChangeValue} */}
-              {/*   handleKeyDown={handleKeyDown} */}
-              {/* /> */}
               <Input
                 name={EMAIL}
                 error={formErrors.email}
                 label={i18n.email}
                 value={formData.email}
                 handleChangeValue={handleChangeValue}
+                handleKeyDown={handleKeyDown}
               />
             </div>
             <div className={styles.inputGroup}>
-              {/* <DefaultInputItem */}
-              {/*   name={PASSWORD_1} */}
-              {/*   value={formData.password_1} */}
-              {/*   placeholder={i18n.password_1} */}
-              {/*   error={formErrors.password_1} */}
-              {/*   handleChangeValue={handleChangeValue} */}
-              {/*   handleKeyDown={handleKeyDown} */}
-              {/*   type="password" */}
-              {/* /> */}
               <Input
                 name={PASSWORD_1}
                 error={formErrors[PASSWORD_1]}
@@ -138,15 +121,6 @@ const SignInForm: React.FC<InputCredentialProps> = ({
               />
             </div>
             <div className={styles.inputGroup}>
-              {/* <DefaultInputItem */}
-              {/*   name="password_2" */}
-              {/*   value={formData.password_2} */}
-              {/*   placeholder={i18n.password_2} */}
-              {/*   error={formErrors.password_2} */}
-              {/*   handleChangeValue={handleChangeValue} */}
-              {/*   handleKeyDown={handleKeyDown} */}
-              {/*   type="password" */}
-              {/* /> */}
               <Input
                 type="password"
                 name={PASSWORD_2}
@@ -154,6 +128,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
                 label={i18n.password_2}
                 value={formData[PASSWORD_2]}
                 handleChangeValue={handleChangeValue}
+                handleKeyDown={handleKeyDown}
               />
             </div>
           </DefaultModuleInputArea>
@@ -179,7 +154,6 @@ const SignInForm: React.FC<InputCredentialProps> = ({
               className={styles.signInBtn}
               noTransition
               handleClick={enhancedHandleClickNext}
-              noShadow
             >
               {i18n.next}
             </Button>
