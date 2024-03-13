@@ -149,8 +149,10 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
           </DefaultModuleInputArea>
           <DefaultModuleBtnRow className={styles.btnRow} noSidePadding>
             <Button
+              className={styles.btn}
+              rounded
               type="button"
-              variant="transparent_blue_2"
+              variant="transparent_blue_3"
               noTransition
               handleClick={handleClickSignIn}
               noShadow
@@ -159,8 +161,8 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
             </Button>
             <Button
               type="button"
-              variant="blue_2"
-              className={styles.nextBtn}
+              variant="blue_3"
+              className={styles.btn}
               noTransition
               handleClick={enhancedHandleClickNext}
               noShadow

@@ -177,7 +177,7 @@ const SignUp: React.FC<SignUpProps> = ({
           <DefaultModuleBtnRow className={styles.btnRow}>
             <Button
               type="button"
-              variant="transparent_blue_2"
+              variant="transparent_blue_3"
               noTransition
               handleClick={handleClickSignIn}
               noShadow
@@ -186,7 +186,7 @@ const SignUp: React.FC<SignUpProps> = ({
             </Button>
             <Button
               type="button"
-              variant="blue_2"
+              variant="blue_3"
               className={styles.createBtn}
               noTransition
               handleClick={handleClickSignUp}
@@ -198,7 +198,7 @@ const SignUp: React.FC<SignUpProps> = ({
           <DefaultModuleBtnRow className={styles.secondBtnRow}>
             <Button
               type="button"
-              variant="transparent_blue_2"
+              variant="transparent_blue_3"
               noTransition
               handleClick={handleClickPrev}
               noShadow

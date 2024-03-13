@@ -30,6 +30,11 @@
   }
 }
 
+.btn {
+  height: 40px;
+  border-radius: 20px;
+}
+
 @media screen and (min-width: $mid_display_min_width) {
   .main {
     padding: 0;
