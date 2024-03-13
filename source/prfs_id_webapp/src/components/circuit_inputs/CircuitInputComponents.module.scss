@@ -2,6 +2,9 @@
   font-weight: 500;
   color: var(--aqua-blue-50);
   cursor: pointer;
+  padding: 3px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--gray-70);
 
   &:hover {
     color: var(--aqua-blue-40);
