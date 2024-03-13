@@ -88,7 +88,6 @@
   justify-content: space-between;
   color: red;
   padding-top: 24px;
-  margin-top: auto;
 
   > a {
     display: inline-flex;
@@ -174,7 +173,7 @@
 @media screen and (min-width: $mid_display_min_width) {
   .wrapper {
     justify-content: center;
-    width: 450px;
+    width: 476px;
     height: auto;
   }
 
@@ -188,6 +187,10 @@
 
   .header {
     /* padding: 0 0px; */
+    &:not(.noSidePadding) {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
   }
 
   .form {
@@ -205,9 +208,11 @@
   }
 
   .btnRow {
+    margin-top: auto;
+
     &:not(.noSidePadding) {
-      padding-left: 24px;
-      padding-right: 24px;
+      padding-left: 40px;
+      padding-right: 40px;
     }
   }
 }

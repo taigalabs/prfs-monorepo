@@ -1,7 +1,7 @@
 @import "@/styles/layouts.module.scss";
 
 .list {
-  padding: 16px 0px;
+  padding: 24px 0px;
 }
 
 .sidePadding {
@@ -12,9 +12,11 @@
 .item {
   padding-top: 12px;
   padding-bottom: 12px;
+  position: relative;
 
-  &:hover {
-    background-color: var(--bright-blue-71);
+  .inner {
+    position: relative;
+    z-index: 1;
   }
 }
 

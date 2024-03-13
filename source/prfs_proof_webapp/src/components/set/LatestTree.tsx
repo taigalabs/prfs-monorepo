@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
-import { abbrev5and5 } from "@taigalabs/prfs-ts-utils";
+import { abbrevMandN } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./LatestTree.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
@@ -22,8 +22,8 @@ const LatestTree: React.FC<SetProps> = ({ set_id, nonce }) => {
   const elem = React.useMemo(() => {
     if (data?.payload?.prfs_tree) {
       const { tree_id, merkle_root } = data.payload.prfs_tree;
-      const treeId = abbrev5and5(tree_id);
-      const merkleRoot = abbrev5and5(merkle_root);
+      const treeId = abbrevMandN(tree_id, 5, 5);
+      const merkleRoot = abbrevMandN(merkle_root, 5, 5);
 
       return (
         <ul className={styles.list}>

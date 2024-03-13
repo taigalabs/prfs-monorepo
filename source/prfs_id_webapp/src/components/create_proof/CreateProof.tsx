@@ -9,7 +9,6 @@ import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
-import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 
 import styles from "./CreateProof.module.scss";
@@ -48,13 +47,7 @@ function useProofType(proofTypeId: string | undefined) {
   });
 }
 
-const CreateProof: React.FC<CreateProofProps> = ({
-  credential,
-  query,
-  setReceipt,
-  tutorial,
-  handleSkip,
-}) => {
+const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt, handleSkip }) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
@@ -168,7 +161,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
   const proofType = data?.payload?.prfs_proof_type;
   return proofType ? (
     <>
-      <QueryItem sidePadding>
+      <QueryItem>
         <QueryItemMeta>
           <QueryItemLeftCol>
             <TbNumbers />
@@ -241,7 +234,6 @@ export interface CreateProofProps {
   credential: PrfsIdCredential;
   query: CreateProofQuery;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
-  tutorial: TutorialArgs | undefined;
   handleSkip: (record: Record<string, any>) => void;
 }
 

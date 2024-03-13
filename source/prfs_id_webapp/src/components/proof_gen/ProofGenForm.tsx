@@ -36,6 +36,7 @@ import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalError } from "@/state/globalErrorReducer";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { abbrev7and5, abbrevMandN } from "@taigalabs/prfs-ts-utils";
 
 enum Status {
   InProgress,
@@ -259,22 +260,26 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     putSessionValueRequest,
   ]);
 
+  const abbrevId = React.useMemo(() => {
+    return abbrev7and5(credential.id);
+  }, [credential.id]);
+
   return proofGenArgs ? (
     <>
       <DefaultInnerPadding noSidePadding>
         {(status === Status.InProgress || createProofStatus === Status.InProgress) && (
           <div className={styles.overlay} />
         )}
-        <DefaultModuleHeader noTopPadding className={styles.sidePadding}>
+        <DefaultModuleHeader noTopPadding>
           <DefaultModuleTitle>
             <span className={styles.blueText}>{proofGenArgs.app_id}</span> wants you to submit
             information
           </DefaultModuleTitle>
         </DefaultModuleHeader>
         <div className={cn(styles.prfsId, styles.sidePadding)}>
-          <p>{credential.id}</p>
+          <p>{abbrevId}</p>
         </div>
-        <QueryItemList>{queryElems}</QueryItemList>
+        <QueryItemList sidePadding>{queryElems}</QueryItemList>
         <div className={cn(styles.dataWarning, styles.sidePadding)}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.app_id} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
