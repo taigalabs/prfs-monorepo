@@ -3,7 +3,6 @@ import cn from "classnames";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
-import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import {
   deriveProofKey,
   makePathIndices,
@@ -27,6 +26,7 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
 import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -139,7 +139,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
     return prfsSet ? (
       <span className={styles.inputLabel}>
-        <span>{i18n.member} - </span>
         <a
           className={styles.link}
           onClick={handleClick}
@@ -531,18 +530,16 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             </ConnectWallet>
           </FormInputBtnRow>
         </FormInputTitleRow>
-        <InputGroup>
-          <InputWrapper>
-            <input
-              className={styles.addressInput}
-              placeholder={i18n.element_of_a_group}
-              value={walletAddr}
-              readOnly
-            />
-          </InputWrapper>
-          {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
-          <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
-        </InputGroup>
+        <Input
+          inputClassName={styles.addrInput}
+          labelClassName={styles.addrInput}
+          name={""}
+          label={i18n.wallet}
+          value={walletAddr}
+          readOnly
+        />
+        {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
+        <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
         {value && <ComputedValue value={value} />}
       </FormInput>
       <FormInput>

@@ -5,11 +5,14 @@ import styles from "./Input.module.scss";
 
 const Input: React.FC<InputProps> = ({
   className,
+  inputClassName,
+  labelClassName,
   label,
   name,
   value,
   error,
   type,
+  readOnly,
   // placeholder,
   handleChangeValue,
   handleKeyDown,
@@ -30,7 +33,7 @@ const Input: React.FC<InputProps> = ({
         [styles.hasValue]: value.length > 0,
       })}
     >
-      <div className={styles.label}>
+      <div className={cn(styles.label, labelClassName)}>
         <label htmlFor={name}>{label}</label>
       </div>
       <fieldset className={styles.fieldset}>
@@ -41,12 +44,13 @@ const Input: React.FC<InputProps> = ({
       <input
         name={name}
         value={value}
-        className={styles.input}
+        className={cn(styles.input, inputClassName)}
         onFocus={handleFocus}
         onBlur={handleBlur}
         type={type}
         onChange={handleChangeValue}
         onKeyDown={handleKeyDown}
+        readOnly={readOnly}
       />
       {error && error.length && <p className={styles.error}>{error}</p>}
     </div>
@@ -57,12 +61,15 @@ export default Input;
 
 export interface InputProps {
   className?: string;
+  inputClassName?: string;
+  labelClassName?: string;
   name?: string;
   value: string;
   label: string;
-  handleChangeValue: React.ChangeEventHandler;
+  handleChangeValue?: React.ChangeEventHandler;
   handleKeyDown?: React.KeyboardEventHandler;
-  error: string | undefined;
+  error?: string | undefined;
   placeholder?: string;
   type?: HTMLInputTypeAttribute | undefined;
+  readOnly?: boolean;
 }
