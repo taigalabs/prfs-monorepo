@@ -520,24 +520,28 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       <FormInput>
         <FormInputTitleRow>
           <FormInputTitle>{labelElem}</FormInputTitle>
-          <FormInputBtnRow>
-            <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
-              <FormInputButton type="button">{i18n.fetch_addresses}</FormInputButton>
-            </CachedAddressDialog>
-            <span className={styles.or}> or </span>
-            <ConnectWallet handleChangeAddress={handleChangeAddress}>
-              <FormInputButton type="button">{i18n.connect}</FormInputButton>
-            </ConnectWallet>
-          </FormInputBtnRow>
         </FormInputTitleRow>
-        <Input
-          inputClassName={styles.addrInput}
-          labelClassName={styles.addrInput}
-          name={""}
-          label={i18n.wallet}
-          value={walletAddr}
-          readOnly
-        />
+        <div className={styles.addrInputWrapper}>
+          <Input
+            inputClassName={styles.addrInput}
+            labelClassName={styles.addrInput}
+            name={""}
+            label={i18n.wallet}
+            value={walletAddr}
+            readOnly
+          />
+          <div className={styles.btnRow}>
+            <FormInputBtnRow>
+              <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
+                <FormInputButton type="button">{i18n.fetch_addresses}</FormInputButton>
+              </CachedAddressDialog>
+              <span className={styles.or}> or </span>
+              <ConnectWallet handleChangeAddress={handleChangeAddress}>
+                <FormInputButton type="button">{i18n.connect}</FormInputButton>
+              </ConnectWallet>
+            </FormInputBtnRow>
+          </div>
+        </div>
         {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
         <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
         {value && <ComputedValue value={value} />}

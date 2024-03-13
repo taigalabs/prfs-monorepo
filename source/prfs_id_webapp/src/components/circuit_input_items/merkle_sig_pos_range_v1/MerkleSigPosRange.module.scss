@@ -18,6 +18,17 @@
   }
 }
 
+.addrInputWrapper {
+  position: relative;
+
+  .btnRow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
 .addrInput {
   padding: 12px 14px 32px;
   transition: none;
