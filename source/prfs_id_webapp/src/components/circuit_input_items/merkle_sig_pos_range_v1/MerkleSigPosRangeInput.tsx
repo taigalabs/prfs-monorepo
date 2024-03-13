@@ -147,7 +147,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         >
           <span>{prfsSet.label}</span>
           <span> ({treeId})</span>
-          <BiLinkExternal />
         </a>
       </span>
     ) : (
