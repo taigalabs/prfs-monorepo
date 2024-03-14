@@ -7,6 +7,8 @@ import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalab
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
+import { shyApi2 } from "@taigalabs/shy-api-js";
+import { SignInShyAccountRequest } from "@taigalabs/shy-entities/bindings/SignInShyAccountRequest";
 import {
   AppSignInData,
   makeColor,
@@ -20,7 +22,6 @@ import {
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
 import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -55,8 +56,8 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
   const dispatch = useAppDispatch();
   const { isInitialized, shyCredential } = useSignedInShyUser();
   const { mutateAsync: prfsSignInRequest } = useMutation({
-    mutationFn: (req: PrfsSignInRequest) => {
-      return prfsApi3({ type: "sign_in_prfs_account", ...req });
+    mutationFn: (req: SignInShyAccountRequest) => {
+      return shyApi2({ type: "sign_in_shy_account", ...req });
     },
   });
   const [signUpData, setSignUpData] = React.useState<LocalShyCredential | null>(null);

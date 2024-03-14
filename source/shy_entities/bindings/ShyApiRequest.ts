@@ -6,10 +6,14 @@ import type { GetShyPostsOfTopicRequest } from "./GetShyPostsOfTopicRequest";
 import type { GetShyTopicProofRequest } from "./GetShyTopicProofRequest";
 import type { GetShyTopicRequest } from "./GetShyTopicRequest";
 import type { GetShyTopicsRequest } from "./GetShyTopicsRequest";
+import type { SignInShyAccountRequest } from "./SignInShyAccountRequest";
+import type { SignUpShyAccountRequest } from "./SignUpShyAccountRequest";
 
 export type ShyApiRequest =
   | ({ type: "create_shy_topic" } & CreateShyTopicRequest)
   | ({ type: "create_shy_post" } & CreateShyPostRequest)
+  | ({ type: "sign_up_shy_account" } & SignUpShyAccountRequest)
+  | ({ type: "sign_in_shy_account" } & SignInShyAccountRequest)
   | ({ type: "get_shy_channels" } & GetShyChannelsRequest)
   | ({ type: "get_shy_channel" } & GetShyChannelsRequest)
   | ({ type: "get_shy_topics" } & GetShyTopicsRequest)
