@@ -283,12 +283,13 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
         <DefaultModuleBtnRow className={cn(styles.btnRow, styles.sidePadding)}>
-          <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
+          <Button variant="transparent_blue_3" noTransition handleClick={handleClickPrev} rounded>
             {i18n.go_back}
           </Button>
           <Button
             type="button"
-            variant="blue_2"
+            rounded
+            variant="blue_3"
             className={styles.submitBtn}
             contentClassName={styles.submitBtnContent}
             noTransition
