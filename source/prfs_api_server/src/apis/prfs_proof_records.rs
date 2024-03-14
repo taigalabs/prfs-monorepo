@@ -7,7 +7,6 @@ use prfs_entities::prfs_api::{
     CreatePrfsProofRecordRequest, CreatePrfsProofRecordResponse, GetPrfsProofRecordRequest,
     GetPrfsProofRecordResponse,
 };
-use prfs_id_server::error_codes::API_ERROR_CODE;
 use std::sync::Arc;
 
 // const LIMIT: i32 = 10;
@@ -21,7 +20,7 @@ pub async fn get_prfs_proof_record(
         Ok(r) => r,
         Err(err) => {
             let resp = ApiResponse::new_error(
-                &API_ERROR_CODE.UNKNOWN_ERROR,
+                &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
                 format!("Error getting proof record, err: {:?}", err),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));

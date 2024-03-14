@@ -8,9 +8,8 @@ use prfs_entities::prfs_api::{
     PrfsIdentitySignInRequest, PrfsIdentitySignInResponse, PrfsIdentitySignUpRequest,
     PrfsIdentitySignUpResponse,
 };
+use prfs_id_api_error_codes::PRFS_ID_API_ERROR_CODES;
 use std::sync::Arc;
-
-use crate::error_codes::API_ERROR_CODE;
 
 pub async fn sign_up_prfs_identity(
     State(state): State<Arc<ServerState>>,
@@ -25,7 +24,7 @@ pub async fn sign_up_prfs_identity(
 
     let identity_id = prfs::insert_prfs_identity(&mut tx, &prfs_identity)
         .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.ID_ALREADY_EXISTS, err))
+        .map_err(|err| ApiHandleError::from(&PRFS_ID_API_ERROR_CODES.ID_ALREADY_EXISTS, err))
         .unwrap();
 
     tx.commit().await.unwrap();
@@ -43,7 +42,7 @@ pub async fn sign_in_prfs_identity(
     let pool = &state.db2.pool;
     let prfs_identity = prfs::get_prfs_identity_by_id(pool, &input.identity_id)
         .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.CANNOT_FIND_ID, err))
+        .map_err(|err| ApiHandleError::from(&PRFS_ID_API_ERROR_CODES.CANNOT_FIND_ID, err))
         .unwrap();
 
     let resp = ApiResponse::new_success(PrfsIdentitySignInResponse { prfs_identity });

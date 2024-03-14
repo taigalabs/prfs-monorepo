@@ -1,11 +1,11 @@
 use std::fs;
 
-use crate::{error_codes::PRFS_ID_API_ERROR_CODES, paths::PATHS, PrfsApiErrorCodesError};
+use crate::{error_codes::PRFS_ID_API_ERROR_CODES, paths::PATHS, PrfsIdApiErrorCodesError};
 
-pub fn make_prfs_api_error_code_json_binding() -> Result<(), PrfsApiErrorCodesError> {
+pub fn make_prfs_id_api_error_code_json_binding() -> Result<(), PrfsIdApiErrorCodesError> {
     let json = serde_json::to_string_pretty(&PRFS_ID_API_ERROR_CODES.clone()).unwrap();
     println!(
-        "[prfs_api_error_codes] \
+        "[prfs_id_api_error_codes] \
         Successfully loaded error codes to generate json binding"
     );
 

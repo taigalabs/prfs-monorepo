@@ -3,4 +3,4 @@ pub mod paths;
 
 pub use error_codes::*;
 
-pub type PrfsApiErrorCodesError = Box<dyn std::error::Error + Send + Sync>;
+pub type PrfsIdApiErrorCodesError = Box<dyn std::error::Error + Send + Sync>;
