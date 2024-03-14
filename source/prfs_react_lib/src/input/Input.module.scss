@@ -1,3 +1,5 @@
+$legend_padding: 0 5px;
+
 .wrapper {
   position: relative;
   height: 100%;
@@ -17,7 +19,7 @@
       label {
         color: var(--blue-05);
         padding-left: 4px;
-        padding-right: 3px;
+        padding-right: 4px;
       }
     }
 
@@ -37,7 +39,7 @@
 
       label {
         padding-left: 4px;
-        padding-right: 3px;
+        padding-right: 4px;
       }
     }
 
@@ -105,7 +107,7 @@
     /* border: 1px solid yellow; */
 
     span {
-      padding: 0 4px;
+      padding: $legend_padding;
     }
   }
 }
