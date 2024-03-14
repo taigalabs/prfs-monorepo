@@ -56,13 +56,15 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
           };
         });
 
-        setFormErrors(oldVal => ({
-          ...oldVal,
-          [name]: "",
-        }));
+        if ((formErrors as any)[name]) {
+          setFormErrors(oldVals => ({
+            ...oldVals,
+            [name]: null,
+          }));
+        }
       }
     },
-    [formData, setFormData, setFormErrors],
+    [formData, setFormData, setFormErrors, formErrors],
   );
 
   const enhancedHandleClickNext = React.useCallback(async () => {

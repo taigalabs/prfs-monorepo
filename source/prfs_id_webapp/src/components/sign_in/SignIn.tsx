@@ -127,6 +127,7 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
+            setFormErrors={setFormErrors}
             handleSucceedSignIn={handleSucceedSignIn}
             handleClickCreateID={handleClickCreateID}
             handleClickStoredCredential={handleClickStoredCredential}
