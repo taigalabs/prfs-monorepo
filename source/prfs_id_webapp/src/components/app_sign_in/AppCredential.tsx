@@ -1,6 +1,6 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
-import { PrfsIdCredential, AppSignInQuery, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, AppSignInQuery } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./AppCredential.module.scss";
 import SignInInputs from "./SignInInputs";

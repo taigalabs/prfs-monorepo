@@ -16,7 +16,7 @@ const CommitmentItem: React.FC<CommitmentItemProps> = ({ name, hashedHex, val, t
   const i18n = React.useContext(i18nContext);
 
   return (
-    <QueryItem sidePadding>
+    <QueryItem>
       <QueryItemMeta>
         <QueryItemLeftCol>
           <MdNoteAdd />

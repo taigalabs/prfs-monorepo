@@ -38,11 +38,6 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
         if (d === AppSignInData.ID_POSEIDON) {
           const { hashed } = await makeAppSignInCm(credential.secret_key, appId);
           const { id, public_key } = await makeECCredential(hashed);
-          // const data: AppSignInResult = {
-          //   account_id: id,
-          //   public_key,
-          // };
-
           setReceipt(oldVal => ({
             ...oldVal,
             [name]: {
@@ -52,7 +47,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
           }));
 
           el.push(
-            <QueryItem sidePadding key={idx}>
+            <QueryItem key={idx}>
               <QueryItemMeta>
                 <QueryItemLeftCol>
                   <FaRegAddressCard />
