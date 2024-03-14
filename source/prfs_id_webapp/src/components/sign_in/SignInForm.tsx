@@ -21,6 +21,7 @@ import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import prfs_api_error_codes from "@taigalabs/prfs-api-error-codes";
 
 enum InputCredentialStatus {
   Loading,
@@ -77,8 +78,11 @@ const SignInForm: React.FC<InputCredentialProps> = ({
       password_2: formData[PASSWORD_2],
     });
 
-    const { payload, error } = await prfsSignInRequest({ account_id: credential.id });
-    console.log(11, payload, error);
+    const { error, code } = await prfsSignInRequest({ account_id: credential.id });
+    console.log(11, error);
+
+    if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
+    }
 
     return;
 

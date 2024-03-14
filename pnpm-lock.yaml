@@ -771,6 +771,9 @@ importers:
       '@tabler/icons-react':
         specifier: ^2.32.0
         version: 2.32.0(react@18.2.0)
+      '@taigalabs/prfs-api-error-codes':
+        specifier: '*'
+        version: link:../prfs_api_error_codes
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
@@ -1116,6 +1119,9 @@ importers:
       '@tabler/icons-react':
         specifier: ^2.32.0
         version: 2.32.0(react@18.2.0)
+      '@taigalabs/prfs-api-error-codes':
+        specifier: '*'
+        version: link:../prfs_api_error_codes
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js

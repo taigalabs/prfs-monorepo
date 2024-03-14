@@ -18,6 +18,7 @@
     "@reduxjs/toolkit": "2.0.1",
     "@tabler/icons-react": "^2.32.0",
     "@taigalabs/prfs-api-js": "*",
+    "@taigalabs/prfs-api-error-codes": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
