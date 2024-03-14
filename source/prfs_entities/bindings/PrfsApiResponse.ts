@@ -30,16 +30,16 @@ import type { GetPrfsSetElementsResponse } from "./GetPrfsSetElementsResponse";
 import type { GetPrfsSetsResponse } from "./GetPrfsSetsResponse";
 import type { GetPrfsTreeNodesResponse } from "./GetPrfsTreeNodesResponse";
 import type { ImportPrfsSetElementsResponse } from "./ImportPrfsSetElementsResponse";
-import type { PrfsIdentitySignUpResponse } from "./PrfsIdentitySignUpResponse";
-import type { PrfsSignInResponse } from "./PrfsSignInResponse";
+import type { SignInPrfsAccountResponse } from "./SignInPrfsAccountResponse";
+import type { SignUpPrfsAccountRequest } from "./SignUpPrfsAccountRequest";
 import type { SubmitPrfsPollResponseResponse } from "./SubmitPrfsPollResponseResponse";
 import type { UpdatePrfsTreeNodeResponse } from "./UpdatePrfsTreeNodeResponse";
 
 export type PrfsApiResponse =
   | ({ type: "GetPrfsCircuits" } & GetPrfsCircuitsResponse)
   | ({ type: "GetPrfsCircuitByCircuitId" } & GetPrfsCircuitByCircuitIdResponse)
-  | ({ type: "sign_in_prfs_account" } & PrfsSignInResponse)
-  | ({ type: "sign_up_prfs_account" } & PrfsIdentitySignUpResponse)
+  | ({ type: "sign_up_prfs_account" } & SignUpPrfsAccountRequest)
+  | ({ type: "sign_in_prfs_account" } & SignInPrfsAccountResponse)
   | ({ type: "GetPrfsCircuitDrivers" } & GetPrfsCircuitDriversResponse)
   | ({ type: "GetPrfsCircuitDriverByDriverId" } & GetPrfsCircuitDriverByDriverIdResponse)
   | ({ type: "GetPrfsCircuitTypes" } & GetPrfsCircuitTypesResponse)
