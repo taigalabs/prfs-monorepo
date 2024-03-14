@@ -4,7 +4,7 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
+// import { SignUpPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignUpPrfsIdentityRequest";
 import Modal from "@taigalabs/prfs-react-lib/src/modal/Modal";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
