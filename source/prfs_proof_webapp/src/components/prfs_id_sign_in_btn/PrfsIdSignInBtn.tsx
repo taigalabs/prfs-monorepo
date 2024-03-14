@@ -19,7 +19,7 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import { SignInPrfsAccountRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsAccountRequest";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -46,7 +46,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   const dispatch = useAppDispatch();
   const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
   const { mutateAsync: prfsSignInRequest } = useMutation({
-    mutationFn: (req: PrfsSignInRequest) => {
+    mutationFn: (req: SignInPrfsAccountRequest) => {
       return prfsApi3({ type: "sign_in_prfs_account", ...req });
     },
   });

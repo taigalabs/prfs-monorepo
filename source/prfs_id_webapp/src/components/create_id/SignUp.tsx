@@ -12,7 +12,7 @@ import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
+import { SignUpPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignUpPrfsIdentityRequest";
 import {
   PASSWORD_1,
   PrfsIdCredential,
@@ -54,9 +54,9 @@ const SignUp: React.FC<SignUpProps> = ({
   const [status, setStatus] = React.useState(IdCreationStatus.Standby);
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = React.useState(false);
-  const { mutateAsync: prfsIdentitySignUpRequest } = useMutation({
-    mutationFn: (req: PrfsIdentitySignUpRequest) => {
-      return idApi("sign_up_prfs_identity", req);
+  const { mutateAsync: signUpPrfsIdentity } = useMutation({
+    mutationFn: (req: SignUpPrfsIdentityRequest) => {
+      return idApi({ type: "sign_up_prfs_identity", ...req });
     },
   });
 
@@ -77,9 +77,10 @@ const SignUp: React.FC<SignUpProps> = ({
       try {
         setStatus(IdCreationStatus.InProgress);
         const avatar_color = makeColor(id);
-        const { error } = await prfsIdentitySignUpRequest({
+        const { error } = await signUpPrfsIdentity({
           identity_id: id,
           avatar_color,
+          public_key: credential.public_key,
         });
         setStatus(IdCreationStatus.Standby);
 
@@ -101,7 +102,7 @@ const SignUp: React.FC<SignUpProps> = ({
         );
       }
     }
-  }, [formData, router, prfsIdentitySignUpRequest, credential, handleSucceedCreateId, dispatch]);
+  }, [formData, router, signUpPrfsIdentity, credential, handleSucceedCreateId, dispatch]);
 
   const { id_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
@@ -224,7 +225,6 @@ const SignUp: React.FC<SignUpProps> = ({
               {i18n.sign_up}
             </Button>
           </DefaultModuleBtnRow>
-          {/* {errorMsg && <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>} */}
         </Fade>
       </div>
     </DefaultInnerPadding>

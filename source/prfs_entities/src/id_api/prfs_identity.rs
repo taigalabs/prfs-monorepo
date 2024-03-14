@@ -9,7 +9,6 @@ pub struct SignUpPrfsIdentityRequest {
     pub identity_id: String,
     pub public_key: String,
     pub avatar_color: String,
-    pub identity_type: PrfsIdentityType,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

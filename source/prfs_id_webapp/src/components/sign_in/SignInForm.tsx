@@ -10,8 +10,8 @@ import {
   makePrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import { idApi, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { SignInPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsIdentityRequest";
 import prfs_api_error_codes from "@taigalabs/prfs-api-error-codes";
 
 import styles from "./SignInForm.module.scss";
@@ -49,9 +49,9 @@ const SignInForm: React.FC<InputCredentialProps> = ({
   const [status, setStatus] = React.useState(InputCredentialStatus.Standby);
   const [title, setTitle] = React.useState(i18n.sign_in);
   const dispatch = useAppDispatch();
-  const { mutateAsync: prfsSignInRequest } = useMutation({
-    mutationFn: (req: PrfsSignInRequest) => {
-      return prfsApi3({ type: "sign_in_prfs_account", ...req });
+  const { mutateAsync: signInPrfsIdentity } = useMutation({
+    mutationFn: (req: SignInPrfsIdentityRequest) => {
+      return idApi({ type: "sign_in_prfs_identity", ...req });
     },
   });
 
@@ -117,7 +117,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
 
     console.log(33, credential);
 
-    const { code } = await prfsSignInRequest({ account_id: credential.id });
+    const { code } = await signInPrfsIdentity({ identity_id: credential.id });
     if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
       dispatch(
         setGlobalError({
@@ -131,7 +131,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
     persistPrfsIdCredentialEncrypted(credential);
     persistEphemeralPrfsIdCredential(credential);
     handleSucceedSignIn(credential);
-  }, [handleSucceedSignIn, formData, prfsSignInRequest, dispatch, setFormErrors]);
+  }, [handleSucceedSignIn, formData, signInPrfsIdentity, dispatch, setFormErrors]);
 
   const handleKeyDown = React.useCallback(
     async (e: React.KeyboardEvent) => {

@@ -6,7 +6,7 @@ use prfs_entities::id_api::{
     SignInPrfsIdentityRequest, SignInPrfsIdentityResponse, SignUpPrfsIdentityRequest,
     SignUpPrfsIdentityResponse,
 };
-use prfs_entities::id_entities::PrfsIdentity;
+use prfs_entities::id_entities::{PrfsIdentity, PrfsIdentityType};
 use prfs_id_api_error_codes::PRFS_ID_API_ERROR_CODES;
 use std::sync::Arc;
 
@@ -30,7 +30,7 @@ pub async fn sign_up_prfs_identity(
         identity_id: input.identity_id.to_string(),
         avatar_color: input.avatar_color.to_string(),
         public_key: input.public_key.to_string(),
-        identity_type: input.identity_type.clone(),
+        identity_type: PrfsIdentityType::SECP_256K1,
     };
 
     let identity_id = match prfs::insert_prfs_identity(&mut tx, &prfs_identity).await {
