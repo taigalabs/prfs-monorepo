@@ -13,7 +13,13 @@ import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
-import { PrfsIdCredential, makeColor } from "@taigalabs/prfs-id-sdk-web";
+import {
+  PASSWORD_1,
+  PrfsIdCredential,
+  makeColor,
+  ID,
+  PASSWORD_2,
+} from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SignUp.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -57,8 +63,8 @@ const SignUp: React.FC<SignUpProps> = ({
   }, [setShowPassword]);
 
   const handleClickCopyPassword = React.useCallback(() => {
-    const { email, password_1, password_2 } = formData;
-    const pw = `${email}${password_1}${password_2}`;
+    const { id, password_1, password_2 } = formData;
+    const pw = `${id}${password_1}${password_2}`;
     copy(pw);
   }, [formData]);
 
@@ -86,22 +92,22 @@ const SignUp: React.FC<SignUpProps> = ({
     }
   }, [formData, router, prfsIdentitySignUpRequest, credential, setErrorMsg, handleSucceedCreateId]);
 
-  const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
+  const { id_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
       return {
-        email_val: formData.email,
-        password_1_val: formData.password_1,
-        password_2_val: formData.password_2,
+        id_val: formData[ID],
+        password_1_val: formData[PASSWORD_1],
+        password_2_val: formData[PASSWORD_2],
         secret_key_val: credential.secret_key,
       };
     } else {
-      const email_val = `${formData.email.substring(0, 2)}${"*".repeat(formData.email.length - 2)}`;
-      const password_1_val = "*".repeat(formData.password_1.length);
-      const password_2_val = "*".repeat(formData.password_2.length);
+      const id_val = `${formData[ID].substring(0, 2)}${"*".repeat(formData[ID].length - 2)}`;
+      const password_1_val = "*".repeat(formData[PASSWORD_1].length);
+      const password_2_val = "*".repeat(formData[PASSWORD_2].length);
       const secret_key_val = "*".repeat(credential.secret_key.length);
 
       return {
-        email_val,
+        id_val,
         password_1_val,
         password_2_val,
         secret_key_val,
@@ -142,7 +148,7 @@ const SignUp: React.FC<SignUpProps> = ({
             <div className={styles.content}>
               <div className={styles.secretKey}>
                 <div className={styles.value}>
-                  <span>{email_val}</span>
+                  <span>{id_val}</span>
                   <span>{password_1_val}</span>
                   <span>{password_2_val}</span>
                 </div>
