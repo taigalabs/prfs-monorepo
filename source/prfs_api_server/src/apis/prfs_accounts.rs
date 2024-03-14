@@ -1,3 +1,4 @@
+use prfs_api_error_codes::PRFS_API_ERROR_CODES;
 use prfs_axum_lib::axum::extract::State;
 use prfs_axum_lib::axum::{http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
@@ -10,8 +11,6 @@ use prfs_entities::{
     id_api::{PrfsSignInRequest, PrfsSignInResponse, PrfsSignUpRequest, PrfsSignUpResponse},
 };
 use std::sync::Arc;
-
-use crate::error_codes::API_ERROR_CODES;
 
 pub async fn sign_up_prfs_account(
     State(state): State<Arc<ServerState>>,
@@ -30,7 +29,7 @@ pub async fn sign_up_prfs_account(
         .await
         .map_err(|err| {
             ApiHandleError::from(
-                &API_ERROR_CODES.USER_ALREADY_EXISTS,
+                &PRFS_API_ERROR_CODES.USER_ALREADY_EXISTS,
                 format!("account_id: {}, err: {}", input.account_id, err).into(),
             )
         })
@@ -53,7 +52,7 @@ pub async fn sign_in_prfs_account(
         .await
         .map_err(|_err| {
             prfs_axum_lib::ApiHandleError::from(
-                &API_ERROR_CODES.CANNOT_FIND_USER,
+                &PRFS_API_ERROR_CODES.CANNOT_FIND_USER,
                 input.account_id.into(),
             )
         })

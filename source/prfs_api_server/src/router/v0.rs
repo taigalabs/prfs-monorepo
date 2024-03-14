@@ -1,17 +1,7 @@
-use prfs_axum_lib::axum::{
-    extract::{MatchedPath, Request, State},
-    handler::HandlerWithoutStateExt,
-    http::{HeaderValue, Method, StatusCode},
-    routing::{get, post},
-    Json, Router,
-};
-use prfs_axum_lib::tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
-use prfs_circuits_circom::CircuitBuildListJson;
+use prfs_api_error_codes::error_codes::bindgen::make_prfs_api_error_code_json_binding;
+use prfs_axum_lib::axum::{routing::post, Router};
 use prfs_common_server_state::ServerState;
-use serde_json::{json, Value};
 use std::sync::Arc;
-use tracing::{info, info_span, Span};
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use crate::apis::{
     prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_indices,
@@ -20,6 +10,8 @@ use crate::apis::{
 };
 
 pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
+    make_prfs_api_error_code_json_binding().unwrap();
+
     let router = Router::new() //
         .route(
             "/sign_up_prfs_account",

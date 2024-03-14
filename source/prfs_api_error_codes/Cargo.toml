@@ -1,5 +1,5 @@
 [package]
-name = "prfs_id_session_api_error_codes"
+name = "prfs_api_error_codes"
 version = "0.1.0"
 edition = "2021"
 

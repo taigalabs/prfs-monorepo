@@ -33,6 +33,7 @@ git2 = "0.18.1"
 
 prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_db_driver = { path = "../prfs_db_driver" }
+prfs_api_error_codes = { path = "../prfs_api_error_codes" }
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
