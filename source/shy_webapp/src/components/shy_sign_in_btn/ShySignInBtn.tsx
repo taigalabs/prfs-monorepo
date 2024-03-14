@@ -90,7 +90,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           try {
             decrypted = decrypt(sk.secret, encrypted).toString();
           } catch (err) {
-            console.error(err);
+            console.error("Failed to decrypt, err: %s, msg: %s", err, encrypted);
             return;
           }
 
@@ -98,28 +98,16 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           try {
             proofGenSuccessPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
           } catch (err) {
-            console.error(err);
-            return;
-          }
-
-          const signInResult_ = proofGenSuccessPayload.receipt[SIGN_IN];
-          let signInResult: AppSignInResult;
-          try {
-            if (!signInResult_) {
-              dispatch(reportError({ errorObj: "", message: `Sign in result does not exist` }));
-              return;
-            }
-            signInResult = JSON.parse(signInResult_);
-          } catch (err) {
             dispatch(
               reportError({
                 errorObj: err,
-                message: `Cannot parse sign in result, json: ${signInResult_}`,
+                message: `Cannot parse sign in payload, msg: ${decrypted}`,
               }),
             );
             return;
           }
 
+          const signInResult = proofGenSuccessPayload.receipt[SIGN_IN];
           const { error, code } = await prfsSignInRequest({
             account_id: signInResult.account_id,
           });
