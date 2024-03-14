@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use super::TwitterAccValidation;
-use crate::entities::PrfsAccAtst;
+use crate::atst_entities::PrfsAccAtst;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]

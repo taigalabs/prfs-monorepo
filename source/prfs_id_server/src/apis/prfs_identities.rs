@@ -2,11 +2,11 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::entities::PrfsIdentity;
 use prfs_entities::id_api::{
     SignInPrfsIdentityRequest, SignInPrfsIdentityResponse, SignUpPrfsIdentityRequest,
     SignUpPrfsIdentityResponse,
 };
+use prfs_entities::id_entities::PrfsIdentity;
 use prfs_id_api_error_codes::PRFS_ID_API_ERROR_CODES;
 use std::sync::Arc;
 

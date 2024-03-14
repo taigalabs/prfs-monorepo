@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use super::PrfsAtstStatus;
+use super::prfs_attestation::PrfsAtstStatus;
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]

@@ -1,5 +1,5 @@
-use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use prfs_entities::entities::PrfsAccAtst;
+use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_entities::atst_entities::PrfsAccAtst;
 
 use crate::DbInterfaceError;
 
