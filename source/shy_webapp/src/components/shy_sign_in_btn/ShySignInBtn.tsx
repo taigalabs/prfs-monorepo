@@ -108,6 +108,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           }
 
           const signInResult = proofGenSuccessPayload.receipt[SIGN_IN];
+          console.log(123, signInResult);
           // const { error, code } = await prfsSignInRequest({
           //   account_id: signInResult.account_id,
           // });

@@ -26,6 +26,7 @@
     "@taigalabs/prfs-circuit-interface": "*",
     "@taigalabs/prfs-circuit-artifact-uri-resolver": "*",
     "@taigalabs/prfs-id-session-api-error-codes": "*",
+    "@taigalabs/prfs-id-api-error-codes": "*",
     "@taigalabs/prfs-env": "*",
     "@taigalabs/prfs-i18n": "*",
     "@taigalabs/prfs-crypto-deps-js": "*",

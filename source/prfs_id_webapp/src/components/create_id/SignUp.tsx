@@ -72,6 +72,7 @@ const SignUp: React.FC<SignUpProps> = ({
     setErrorMsg(null);
 
     if (credential) {
+      console.log(11, credential);
       const { id } = credential;
 
       try {

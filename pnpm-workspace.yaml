@@ -15,6 +15,7 @@ packages:
   - "source/prfs_env"
   - "source/prfs_react_lib"
   - "source/prfs_id_sdk_web"
+  - "soruce/prfs_id_api_error_codes"
   - "source/prfs_id_session_api_error_codes"
   - "source/prfs_proof_gen_js"
   - "source/prfs_ts_utils"
