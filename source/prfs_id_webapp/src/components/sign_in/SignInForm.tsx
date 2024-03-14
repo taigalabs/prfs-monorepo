@@ -90,6 +90,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
           message: `Cannot find the id. Have you signed up before? id: ${credential.id}`,
         }),
       );
+      return;
     }
 
     // console.log("credential", credential, formData);
