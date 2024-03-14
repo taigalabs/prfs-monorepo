@@ -16,16 +16,30 @@ pub async fn sign_up_prfs_identity(
     Json(input): Json<PrfsIdentitySignUpRequest>,
 ) -> (StatusCode, Json<ApiResponse<PrfsIdentitySignUpResponse>>) {
     let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+    let mut tx = match pool.begin().await {
+        Ok(t) => t,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &PRFS_ID_API_ERROR_CODES.UNKNOWN_ERROR,
+                format!("error starting db transaction: {}", err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
     let prfs_identity = PrfsIdentity {
         identity_id: input.identity_id.to_string(),
         avatar_color: input.avatar_color.to_string(),
     };
 
-    let identity_id = prfs::insert_prfs_identity(&mut tx, &prfs_identity)
-        .await
-        .map_err(|err| ApiHandleError::from(&PRFS_ID_API_ERROR_CODES.ID_ALREADY_EXISTS, err))
-        .unwrap();
+    let identity_id = match prfs::insert_prfs_identity(&mut tx, &prfs_identity).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_ID_API_ERROR_CODES.ID_ALREADY_EXISTS, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     tx.commit().await.unwrap();
 
@@ -40,10 +54,14 @@ pub async fn sign_in_prfs_identity(
     Json(input): Json<PrfsIdentitySignInRequest>,
 ) -> (StatusCode, Json<ApiResponse<PrfsIdentitySignInResponse>>) {
     let pool = &state.db2.pool;
-    let prfs_identity = prfs::get_prfs_identity_by_id(pool, &input.identity_id)
-        .await
-        .map_err(|err| ApiHandleError::from(&PRFS_ID_API_ERROR_CODES.CANNOT_FIND_ID, err))
-        .unwrap();
+    let prfs_identity = match prfs::get_prfs_identity_by_id(pool, &input.identity_id).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_ID_API_ERROR_CODES.CANNOT_FIND_ID, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let resp = ApiResponse::new_success(PrfsIdentitySignInResponse { prfs_identity });
     return (StatusCode::OK, Json(resp));
