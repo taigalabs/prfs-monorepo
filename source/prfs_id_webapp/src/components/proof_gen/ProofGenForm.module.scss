@@ -42,14 +42,16 @@
 
 .dataWarning {
   .title {
-    padding: 8px 0;
+    font-size: 16px;
     font-weight: 500;
+    color: var(--black-26);
   }
 
   .desc {
     padding: 10px 0 4px;
     line-height: 1.5;
-    font-size: 13px;
+    font-size: 15px;
+    color: var(--gray-34);
   }
 }
 
