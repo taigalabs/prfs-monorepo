@@ -22,6 +22,8 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 import prfs_api_error_codes from "@taigalabs/prfs-api-error-codes";
+import { useAppDispatch } from "@/state/hooks";
+import { setGlobalError } from "@/state/globalErrorReducer";
 
 enum InputCredentialStatus {
   Loading,
@@ -43,6 +45,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(InputCredentialStatus.Standby);
   const [title, setTitle] = React.useState(i18n.sign_in);
+  const dispatch = useAppDispatch();
   const { mutateAsync: prfsSignInRequest } = useMutation({
     mutationFn: (req: PrfsSignInRequest) => {
       return prfsApi3({ type: "sign_in_prfs_account", ...req });
@@ -79,9 +82,16 @@ const SignInForm: React.FC<InputCredentialProps> = ({
     });
 
     const { error, code } = await prfsSignInRequest({ account_id: credential.id });
-    console.log(11, error);
+
+    console.log(11, error, code);
 
     if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
+      console.log(123);
+      dispatch(
+        setGlobalError({
+          message: "Cannot find the id. Have you signed up before?",
+        }),
+      );
     }
 
     return;
@@ -91,7 +101,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
     persistPrfsIdCredentialEncrypted(credential);
     persistEphemeralPrfsIdCredential(credential);
     handleSucceedSignIn(credential);
-  }, [handleSucceedSignIn, formData, prfsSignInRequest]);
+  }, [handleSucceedSignIn, formData, prfsSignInRequest, dispatch]);
 
   const handleKeyDown = React.useCallback(
     async (e: React.KeyboardEvent) => {

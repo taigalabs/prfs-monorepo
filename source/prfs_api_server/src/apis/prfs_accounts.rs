@@ -25,15 +25,16 @@ pub async fn sign_up_prfs_account(
         policy_ids: JsonType::from(vec![]),
     };
 
-    let account_id = prfs::insert_prfs_account(&mut tx, &prfs_account)
-        .await
-        .map_err(|err| {
-            ApiHandleError::from(
-                &PRFS_API_ERROR_CODES.USER_ALREADY_EXISTS,
-                format!("account_id: {}, err: {}", input.account_id, err).into(),
-            )
-        })
-        .unwrap();
+    let account_id = match prfs::insert_prfs_account(&mut tx, &prfs_account).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+                format!("Error inserting proof account, err: {:?}", err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     tx.commit().await.unwrap();
 
@@ -48,15 +49,16 @@ pub async fn sign_in_prfs_account(
     Json(input): Json<PrfsSignInRequest>,
 ) -> (StatusCode, Json<ApiResponse<PrfsSignInResponse>>) {
     let pool = &state.db2.pool;
-    let prfs_account = prfs::get_prfs_account_by_account_id(pool, &input.account_id)
-        .await
-        .map_err(|_err| {
-            prfs_axum_lib::ApiHandleError::from(
+    let prfs_account = match prfs::get_prfs_account_by_account_id(pool, &input.account_id).await {
+        Ok(i) => i,
+        Err(_) => {
+            let resp = ApiResponse::new_error(
                 &PRFS_API_ERROR_CODES.CANNOT_FIND_USER,
-                input.account_id.into(),
-            )
-        })
-        .unwrap();
+                format!("account_id: {}", input.account_id),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let resp = ApiResponse::new_success(PrfsSignInResponse { prfs_account });
     return (StatusCode::OK, Json(resp));
