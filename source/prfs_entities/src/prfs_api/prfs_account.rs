@@ -1,30 +1,30 @@
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::entities::PrfsIdentity;
+use crate::entities::PrfsAccount;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct PrfsIdentitySignUpRequest {
-    pub identity_id: String,
+pub struct SignUpPrfsAccountRequest {
+    pub account_id: String,
     pub avatar_color: String,
+    pub public_key: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct PrfsIdentitySignUpResponse {
-    pub identity_id: String,
+pub struct SignUpPrfsAccountResponse {
+    pub account_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct PrfsIdentitySignInRequest {
-    pub identity_id: String,
+pub struct SignInPrfsAccountRequest {
+    pub account_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct PrfsIdentitySignInResponse {
-    pub prfs_identity: PrfsIdentity,
+pub struct SignInPrfsAccountResponse {
+    pub prfs_account: PrfsAccount,
 }

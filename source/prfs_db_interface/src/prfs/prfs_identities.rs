@@ -17,6 +17,8 @@ pub async fn get_prfs_identity_by_id(
     let prfs_identity = PrfsIdentity {
         identity_id: row.get("identity_id"),
         avatar_color: row.get("avatar_color"),
+        public_key: row.get("public_key"),
+        identity_type: row.get("identity_type"),
     };
 
     Ok(prfs_identity)
@@ -26,13 +28,17 @@ pub async fn insert_prfs_identity(
     tx: &mut Transaction<'_, Postgres>,
     prfs_identity: &PrfsIdentity,
 ) -> Result<String, DbInterfaceError> {
-    let query = "INSERT INTO prfs_identities \
-            (identity_id, avatar_color) \
-            VALUES ($1, $2) returning identity_id";
+    let query = r#"
+INSERT INTO prfs_identities
+(identity_id, avatar_color, public_key, identity_type)
+VALUES ($1, $2, $3, $4) returning identity_id
+"#;
 
     let row = sqlx::query(query)
         .bind(&prfs_identity.identity_id)
         .bind(&prfs_identity.avatar_color)
+        .bind(&prfs_identity.public_key)
+        .bind(&prfs_identity.identity_type)
         .fetch_one(&mut **tx)
         .await?;
 

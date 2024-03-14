@@ -45,7 +45,7 @@ export enum IdCreationStatus {
 const SignUp: React.FC<SignUpProps> = ({
   formData,
   handleClickPrev,
-  handleClickSignIn,
+  // handleClickSignIn,
   handleSucceedCreateId,
   credential,
 }) => {
@@ -53,7 +53,6 @@ const SignUp: React.FC<SignUpProps> = ({
   const router = useRouter();
   const [status, setStatus] = React.useState(IdCreationStatus.Standby);
   const dispatch = useAppDispatch();
-  // const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [showPassword, setShowPassword] = React.useState(false);
   const { mutateAsync: prfsIdentitySignUpRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignUpRequest) => {
