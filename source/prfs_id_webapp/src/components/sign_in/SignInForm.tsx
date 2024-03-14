@@ -2,7 +2,13 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
-import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import {
+  ID,
+  PASSWORD_1,
+  PASSWORD_2,
+  PrfsIdCredential,
+  makePrfsIdCredential,
+} from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SignInForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -29,10 +35,6 @@ enum InputCredentialStatus {
   Loading,
   Standby,
 }
-
-const EMAIL = "email";
-const PASSWORD_1 = "password_1";
-const PASSWORD_2 = "password_2";
 
 const SignInForm: React.FC<InputCredentialProps> = ({
   formData,
@@ -76,7 +78,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
 
   const enhancedHandleClickNext = React.useCallback(async () => {
     const credential = await makePrfsIdCredential({
-      email: formData[EMAIL],
+      id: formData[ID],
       password_1: formData[PASSWORD_1],
       password_2: formData[PASSWORD_2],
     });
@@ -123,10 +125,10 @@ const SignInForm: React.FC<InputCredentialProps> = ({
           <DefaultModuleInputArea className={styles.inputArea}>
             <div className={styles.inputGroup}>
               <Input
-                name={EMAIL}
-                error={formErrors.email}
-                label={i18n.email}
-                value={formData.email}
+                name={ID}
+                error={formErrors[ID]}
+                label={i18n.id}
+                value={formData[ID]}
                 handleChangeValue={handleChangeValue}
                 handleKeyDown={handleKeyDown}
               />

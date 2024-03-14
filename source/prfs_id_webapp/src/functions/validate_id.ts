@@ -1,6 +1,6 @@
 export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
-  email: "",
-  email_confirm: "",
+  id: "",
+  id_confirm: "",
   password_1: "",
   password_1_confirm: "",
   password_2: "",
@@ -8,8 +8,8 @@ export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
 });
 
 export const makeEmptyIDCreateFormErrors: () => IdCreateForm = () => ({
-  email: "",
-  email_confirm: "",
+  id: "",
+  id_confirm: "",
   password_1: "",
   password_1_confirm: "",
   password_2: "",
@@ -17,8 +17,8 @@ export const makeEmptyIDCreateFormErrors: () => IdCreateForm = () => ({
 });
 
 export interface IdCreateForm {
-  email: string;
-  email_confirm: string;
+  id: string;
+  id_confirm: string;
   password_1: string;
   password_1_confirm: string;
   password_2: string;
@@ -60,36 +60,36 @@ export function validateIdCreateForm(
   setFormErrors(() => makeEmptyIDCreateFormErrors());
   // console.log(22, formValues);
 
-  if (!formValues.email || formValues.email.length < 1) {
+  if (!formValues.id || formValues.id.length < 1) {
     setFormErrors(oldVals => ({
       ...oldVals,
-      email: "Email is not present",
+      id: "Id is not present",
     }));
     return false;
   }
 
-  if (!formValues.email_confirm || formValues.email_confirm.length < 1) {
+  if (!formValues.id_confirm || formValues.id_confirm.length < 1) {
     setFormErrors(oldVals => ({
       ...oldVals,
-      email_confirm: "Email confirm is not present",
-    }));
-
-    return false;
-  }
-
-  if (!validateEmail(formValues.email)) {
-    setFormErrors(oldVals => ({
-      ...oldVals,
-      email: "Email is invalid",
+      id_confirm: "Id confirm is not present",
     }));
 
     return false;
   }
 
-  if (formValues.email !== formValues.email_confirm) {
+  if (!validateEmail(formValues.id)) {
     setFormErrors(oldVals => ({
       ...oldVals,
-      email_confirm: "Emails are not identical",
+      id: "Id is invalid",
+    }));
+
+    return false;
+  }
+
+  if (formValues.id !== formValues.id_confirm) {
+    setFormErrors(oldVals => ({
+      ...oldVals,
+      id_confirm: "Ids are not identical",
     }));
 
     return false;

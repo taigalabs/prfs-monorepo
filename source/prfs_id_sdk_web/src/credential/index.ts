@@ -2,9 +2,13 @@ import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { makeECCredential, poseidon_2, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { makeEncryptKey } from "@taigalabs/prfs-crypto-js";
 
+export const ID = "id";
+export const PASSWORD_1 = "password_1";
+export const PASSWORD_2 = "password_2";
+
 export async function makePrfsIdCredential(args: MakeCredentialArgs): Promise<PrfsIdCredential> {
-  const { email, password_1, password_2 } = args;
-  const pw = `${email}${password_1}${password_2}`;
+  const { id: id_, password_1, password_2 } = args;
+  const pw = `${id_}${password_1}${password_2}`;
   const pwBytes = keccak256(toUtf8Bytes(pw), "bytes");
   const pwHash = await poseidon_2(pwBytes);
   const { public_key, secret_key, id } = await makeECCredential(pwHash);
@@ -42,7 +46,7 @@ function hslToHex(h: number, s: number, l: number) {
 }
 
 export interface MakeCredentialArgs {
-  email: string;
+  id: string;
   password_1: string;
   password_2: string;
 }
