@@ -31,10 +31,12 @@
   display: flex;
   max-width: none;
   flex-grow: 0;
+
+  // border: 1px solid blue;
 }
 
 .logo {
-  font-size: 44px;
+  font-size: 40px;
 
   > div {
     padding: 14px 5px 8px;
@@ -105,6 +107,8 @@
     flex-grow: 1;
     flex-shrink: 0;
     width: 45vw;
+    display: flex;
+    align-items: center;
   }
 
   .logoWrapper {
@@ -112,6 +116,12 @@
     justify-content: flex-end;
     align-items: center;
     flex-grow: 1;
+    height: 180px;
+  }
+
+  .logo {
+    /* height: 60px; */
+    /* font-size: 36px; */
   }
 
   .main {
@@ -124,6 +134,7 @@
 
   .mainInner {
     max-width: 400px;
+    height: 180px;
     /* border: 1px solid black; */
 
     .intro {
