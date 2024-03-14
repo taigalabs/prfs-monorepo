@@ -1,10 +1,12 @@
-import { makeECCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
+import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
+import { makeECCredential, poseidon_2, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { makeEncryptKey } from "@taigalabs/prfs-crypto-js";
 
 export async function makePrfsIdCredential(args: MakeCredentialArgs): Promise<PrfsIdCredential> {
   const { email, password_1, password_2 } = args;
   const pw = `${email}${password_1}${password_2}`;
-  const pwHash = await poseidon_2(pw);
+  const pwBytes = keccak256(toUtf8Bytes(pw), "bytes");
+  const pwHash = await poseidon_2(pwBytes);
   const { public_key, secret_key, id } = await makeECCredential(pwHash);
   const encryptKey = await makeEncryptKey(pw);
   const localEncryptKey = await makeEncryptKey(password_2);

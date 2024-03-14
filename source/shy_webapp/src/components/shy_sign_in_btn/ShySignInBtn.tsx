@@ -108,33 +108,33 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           }
 
           const signInResult = proofGenSuccessPayload.receipt[SIGN_IN];
-          const { error, code } = await prfsSignInRequest({
-            account_id: signInResult.account_id,
-          });
-          const avatar_color = makeColor(signInResult.account_id);
-          const credential: LocalShyCredential = {
-            account_id: signInResult.account_id,
-            public_key: signInResult.public_key,
-            avatar_color,
-          };
+          // const { error, code } = await prfsSignInRequest({
+          //   account_id: signInResult.account_id,
+          // });
+          // const avatar_color = makeColor(signInResult.account_id);
+          // const credential: LocalShyCredential = {
+          //   account_id: signInResult.account_id,
+          //   public_key: signInResult.public_key,
+          //   avatar_color,
+          // };
 
-          if (error) {
-            console.error(error);
-            if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
-              setSignUpData(credential);
-            }
-            return;
-          }
+          // persistShyCredential(credential);
+          // dispatch(signInShy(credential));
 
-          persistShyCredential(credential);
-          dispatch(signInShy(credential));
+          // if (error) {
+          //   console.error(error);
+          //   if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
+          //     router.push("/apb");
+          //     // setSignUpData(credential);
+          //   }
+          // }
         }
       }
       setStatus(Status.InProgress);
       fn().then();
       setStatus(Status.Standby);
     },
-    [router, dispatch, prfsSignInRequest, setSignUpData, searchParams, setStatus],
+    [router, dispatch, prfsSignInRequest, setSignUpData, searchParams, setStatus, router],
   );
 
   const handleClickSignOut = React.useCallback(() => {
@@ -161,7 +161,6 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
     )
   ) : (
     <>
-      {signUpData && <SignUpModal credential={signUpData} />}
       {!noSignInBtn && (
         <PrfsIdSignInButton
           className={styles.signInBtn}

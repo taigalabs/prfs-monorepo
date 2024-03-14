@@ -18,6 +18,9 @@ import {
 import { IdCreateForm } from "@/functions/validate_id";
 import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
 import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
 enum InputCredentialStatus {
   Loading,
@@ -39,6 +42,11 @@ const SignInForm: React.FC<InputCredentialProps> = ({
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(InputCredentialStatus.Standby);
   const [title, setTitle] = React.useState(i18n.sign_in);
+  const { mutateAsync: prfsSignInRequest } = useMutation({
+    mutationFn: (req: PrfsSignInRequest) => {
+      return prfsApi3({ type: "sign_in_prfs_account", ...req });
+    },
+  });
 
   React.useEffect(() => {
     const { hostname } = window.location;
@@ -68,12 +76,18 @@ const SignInForm: React.FC<InputCredentialProps> = ({
       password_1: formData[PASSWORD_1],
       password_2: formData[PASSWORD_2],
     });
+
+    const { payload, error } = await prfsSignInRequest({ account_id: credential.id });
+    console.log(11, payload, error);
+
+    return;
+
     // console.log("credential", credential, formData);
 
     persistPrfsIdCredentialEncrypted(credential);
     persistEphemeralPrfsIdCredential(credential);
     handleSucceedSignIn(credential);
-  }, [handleSucceedSignIn, formData]);
+  }, [handleSucceedSignIn, formData, prfsSignInRequest]);
 
   const handleKeyDown = React.useCallback(
     async (e: React.KeyboardEvent) => {

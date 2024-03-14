@@ -15,6 +15,7 @@ import { idApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import PrfsIdSessionErrorCodes from "@taigalabs/prfs-id-session-api-error-codes";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -36,7 +37,6 @@ import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalError } from "@/state/globalErrorReducer";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
-import { abbrev7and5, abbrevMandN } from "@taigalabs/prfs-ts-utils";
 
 enum Status {
   InProgress,
