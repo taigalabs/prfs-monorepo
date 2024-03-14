@@ -2,7 +2,13 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Link from "next/link";
 import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
-import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import {
+  ID,
+  PASSWORD_1,
+  PASSWORD_2,
+  PrfsIdCredential,
+  makePrfsIdCredential,
+} from "@taigalabs/prfs-id-sdk-web";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
 import styles from "./SignUpForm.module.scss";
@@ -19,11 +25,8 @@ import {
 } from "@/components/default_module/DefaultModule";
 import { IdCreateForm } from "@/functions/validate_id";
 
-const EMAIL = "email";
-const EMAIL_CONFIRM = "email_confirm";
-const PASSWORD_1 = "password_1";
+const ID_CONFIRM = "id_confirm";
 const PASSWORD_1_CONFIRM = "password_1_confirm";
-const PASSWORD_2 = "password_2";
 const PASSWORD_2_CONFIRM = "password_2_confirm";
 
 const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
@@ -55,7 +58,7 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
 
   const enhancedHandleClickNext = React.useCallback(async () => {
     const credential = await makePrfsIdCredential({
-      email: formData.email,
+      id: formData.id,
       password_1: formData.password_1,
       password_2: formData.password_2,
     });
@@ -78,18 +81,18 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
             <div className={styles.inputGroup}>
               <Input
                 className={styles.input}
-                name={EMAIL}
-                error={formErrors[EMAIL]}
-                label={i18n.email}
-                value={formData[EMAIL]}
+                name={ID}
+                error={formErrors[ID]}
+                label={i18n.email_or_id_or_wallet_addr}
+                value={formData[ID]}
                 type="text"
                 handleChangeValue={handleChangeValue}
               />
               <Input
-                name={EMAIL_CONFIRM}
-                error={formErrors[EMAIL_CONFIRM]}
+                name={ID_CONFIRM}
+                error={formErrors[ID_CONFIRM]}
                 label={i18n.confirm}
-                value={formData[EMAIL_CONFIRM]}
+                value={formData[ID_CONFIRM]}
                 type="text"
                 handleChangeValue={handleChangeValue}
               />

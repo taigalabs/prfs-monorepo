@@ -9,6 +9,10 @@ import {
   PrfsIdCredential,
   makePrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import prfs_api_error_codes from "@taigalabs/prfs-api-error-codes";
 
 import styles from "./SignInForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -24,10 +28,6 @@ import {
 import { IdCreateForm } from "@/functions/validate_id";
 import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
 import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
-import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
-import prfs_api_error_codes from "@taigalabs/prfs-api-error-codes";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalError } from "@/state/globalErrorReducer";
 
@@ -127,7 +127,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
               <Input
                 name={ID}
                 error={formErrors[ID]}
-                label={i18n.id}
+                label={i18n.email_or_id_or_wallet_addr}
                 value={formData[ID]}
                 handleChangeValue={handleChangeValue}
                 handleKeyDown={handleKeyDown}

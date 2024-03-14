@@ -58,7 +58,7 @@ export default {
     "You may be sharing sensitive info with this app or site. You can always check out what the request data is about.",
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
-  id: "Id",
+  email_or_id_or_wallet_addr: "Email or Id or Wallet address",
   fetching_data_failed: "Oops, fetching data has failed",
   already_made_proof:
     "You've already made the same proof. All good. Getting back to the app in seconds",
@@ -137,6 +137,7 @@ export default {
   latest_tree_id: "Latest tree id",
   type: "Type",
   public: "Public",
+  id: "Id",
   public_key: "Public key",
   hash_algorithm: "Hash algorithm",
   proof_instance_id: "Proof instance id",
