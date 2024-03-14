@@ -44,11 +44,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedCre
   );
 
   const handleGotoCreateIdSuccess = React.useCallback(() => {
-    const res = validateIdCreateForm(formData, setFormErrors);
-
-    if (res) {
-      setStep(CreateIDStep.SignUp);
-    }
+    setStep(CreateIDStep.SignUp);
   }, [formData, setFormErrors, setStep]);
 
   const handleGotoInputCredential = React.useCallback(() => {

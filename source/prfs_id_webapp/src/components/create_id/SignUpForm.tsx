@@ -23,7 +23,7 @@ import {
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
-import { IdCreateForm } from "@/functions/validate_id";
+import { IdCreateForm, validateIdCreateForm } from "@/functions/validate_id";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalError } from "@/state/globalErrorReducer";
 
@@ -68,25 +68,20 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
   );
 
   const enhancedHandleClickNext = React.useCallback(async () => {
-    if (!formData[ID] || !formData[PASSWORD_1] || !formData[PASSWORD_2]) {
-      dispatch(
-        setGlobalError({
-          message: `Some inputs are empty`,
-        }),
-      );
-      return;
+    const isValid = validateIdCreateForm(formData, setFormErrors);
+
+    if (isValid) {
+      const credential = await makePrfsIdCredential({
+        id: formData[ID]!,
+        password_1: formData[PASSWORD_1]!,
+        password_2: formData[PASSWORD_2]!,
+      });
+      console.log("credential", credential);
+
+      setCredential(credential);
+      handleClickNext();
     }
-
-    const credential = await makePrfsIdCredential({
-      id: formData[ID],
-      password_1: formData[PASSWORD_1],
-      password_2: formData[PASSWORD_2],
-    });
-    console.log("credential", credential);
-
-    setCredential(credential);
-    handleClickNext();
-  }, [handleClickNext, setCredential, dispatch]);
+  }, [handleClickNext, setCredential, dispatch, setFormErrors]);
 
   return (
     <DefaultInnerPadding>

@@ -50,7 +50,7 @@ const SignUp: React.FC<SignUpProps> = ({
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const [status, setStatus] = React.useState(IdCreationStatus.Standby);
-  const [errorMsg, setErrorMsg] = React.useState("");
+  const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [showPassword, setShowPassword] = React.useState(false);
   const { mutateAsync: prfsIdentitySignUpRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignUpRequest) => {
@@ -69,6 +69,8 @@ const SignUp: React.FC<SignUpProps> = ({
   }, [formData]);
 
   const handleClickSignUp = React.useCallback(async () => {
+    setErrorMsg(null);
+
     if (credential) {
       const { id } = credential;
 
@@ -127,7 +129,7 @@ const SignUp: React.FC<SignUpProps> = ({
       <DefaultModuleLogoArea />
       <div className={styles.wrapper}>
         <Fade>
-          <DefaultModuleHeader>
+          <DefaultModuleHeader noSidePadding>
             <DefaultModuleTitle>{i18n.create_an_identity}</DefaultModuleTitle>
             <DefaultModuleSubtitle>{i18n.check_your_credential}</DefaultModuleSubtitle>
           </DefaultModuleHeader>
@@ -182,41 +184,7 @@ const SignUp: React.FC<SignUpProps> = ({
               {i18n.what_is_id}
             </Link>
           </DefaultInputGuide>
-          <DefaultModuleBtnRow className={styles.btnRow}>
-            <Button
-              type="button"
-              variant="transparent_blue_3"
-              noTransition
-              handleClick={handleClickSignIn}
-              noShadow
-            >
-              {i18n.already_have_id}
-            </Button>
-            <Button
-              type="button"
-              variant="blue_3"
-              className={styles.createBtn}
-              noTransition
-              handleClick={handleClickSignUp}
-              noShadow
-            >
-              {i18n.sign_up}
-            </Button>
-          </DefaultModuleBtnRow>
-          <DefaultModuleBtnRow className={styles.secondBtnRow}>
-            <Button
-              type="button"
-              variant="transparent_blue_3"
-              noTransition
-              handleClick={handleClickPrev}
-              noShadow
-            >
-              {i18n.go_back}
-            </Button>
-            <div />
-          </DefaultModuleBtnRow>
-          <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>
-          <DefaultInputGuide className={styles.rightAlign}>
+          <DefaultInputGuide>
             <Link
               href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
               target="_blank"
@@ -224,6 +192,30 @@ const SignUp: React.FC<SignUpProps> = ({
               {i18n.what_happens_when_signing_up}
             </Link>
           </DefaultInputGuide>
+          <DefaultModuleBtnRow className={styles.btnRow} noSidePadding>
+            <Button
+              type="button"
+              variant="transparent_blue_3"
+              rounded
+              noTransition
+              handleClick={handleClickPrev}
+              noShadow
+            >
+              {i18n.go_back}
+            </Button>
+            <Button
+              type="button"
+              variant="blue_3"
+              className={styles.createBtn}
+              rounded
+              noTransition
+              handleClick={handleClickSignUp}
+              noShadow
+            >
+              {i18n.sign_up}
+            </Button>
+          </DefaultModuleBtnRow>
+          {errorMsg && <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>}
         </Fade>
       </div>
     </DefaultInnerPadding>
