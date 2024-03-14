@@ -52,7 +52,7 @@ const MemoInput: React.FC<RangeSelectProps> = ({
   return (
     <>
       <Input
-        name={"1"}
+        name={""}
         label={i18n.memo}
         value={value.nonceRaw || ""}
         handleChangeValue={handleChangeNonce}

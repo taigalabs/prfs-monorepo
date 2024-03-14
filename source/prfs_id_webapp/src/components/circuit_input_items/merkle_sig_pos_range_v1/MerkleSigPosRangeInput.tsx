@@ -34,11 +34,8 @@ import { i18nContext } from "@/i18n/context";
 import {
   FormError,
   FormInput,
-  FormInputBtnRow,
   FormInputTitle,
   FormInputTitleRow,
-  InputGroup,
-  InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
@@ -562,16 +559,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
         {value && <ComputedValue value={value} />}
       </FormInput>
-      {/* <FormInput> */}
-      {/*   <MemoInput */}
-      {/*     value={value} */}
-      {/*     presetVals={presetVals} */}
-      {/*     circuitTypeData={circuitTypeData} */}
-      {/*     setFormValues={setFormValues} */}
-      {/*     setFormErrors={setFormErrors} */}
-      {/*     error={error} */}
-      {/*   /> */}
-      {/* </FormInput> */}
     </>
   );
 };

@@ -26,8 +26,6 @@ const Input: React.FC<InputProps> = ({
     setIsFocused(false);
   }, [setIsFocused]);
 
-  console.log(22, handleChangeValue, name, disabled, readOnly);
-
   return (
     <div
       className={cn(styles.wrapper, className, {
