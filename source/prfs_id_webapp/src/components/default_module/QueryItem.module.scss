@@ -1,7 +1,7 @@
 @import "@/styles/layouts.module.scss";
 
 .list {
-  padding: 24px 0px;
+  padding: 24px $small_side_padding;
 }
 
 .sidePadding {
@@ -58,7 +58,7 @@
 
 @media screen and (min-width: $mid_display_min_width) {
   .list {
-    padding: 14px 0px 14px;
+    // padding: 14px 0px 14px;
   }
 
   .sidePadding {

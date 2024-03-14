@@ -26,6 +26,7 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
 import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
 import styles from "./MerkleSigPosRange.module.scss";
@@ -50,7 +51,6 @@ import {
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
-import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -548,14 +548,16 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             </ConnectWallet>
           </div>
         </div>
-        <MemoInput
-          value={value}
-          presetVals={presetVals}
-          circuitTypeData={circuitTypeData}
-          setFormValues={setFormValues}
-          setFormErrors={setFormErrors}
-          error={error}
-        />
+        <div className={styles.row}>
+          <MemoInput
+            value={value}
+            presetVals={presetVals}
+            circuitTypeData={circuitTypeData}
+            setFormValues={setFormValues}
+            setFormErrors={setFormErrors}
+            error={error}
+          />
+        </div>
         {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
         <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
         {value && <ComputedValue value={value} />}

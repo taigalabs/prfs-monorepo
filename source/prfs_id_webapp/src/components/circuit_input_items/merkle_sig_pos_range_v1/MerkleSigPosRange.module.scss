@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .computedValue {
   padding: 2px 6px;
   color: var(--gray-30);
@@ -33,4 +35,7 @@
   padding: 12px 14px 42px;
   transition: none;
   /* margin-bottom: 14px; */
+}
+
+.row {
 }
