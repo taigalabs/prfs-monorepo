@@ -1,3 +1,4 @@
+use prfs_api_error_codes::PRFS_API_ERROR_CODES;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
@@ -51,7 +52,16 @@ pub async fn create_prfs_proof_type(
     Json(input): Json<CreatePrfsProofTypeRequest>,
 ) -> (StatusCode, Json<ApiResponse<CreatePrfsProofTypeResponse>>) {
     let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+    let mut tx = match pool.begin().await {
+        Ok(t) => t,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+                format!("error starting db transaction: {}", err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let prfs_proof_type = PrfsProofType {
         proof_type_id: input.proof_type_id,
