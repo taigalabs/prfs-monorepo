@@ -1,3 +1,7 @@
+import { ID } from "@taigalabs/prfs-id-sdk-web";
+
+const MINIMUM_ID_LENGTH = 9;
+
 export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
   id: "",
   id_confirm: "",
@@ -17,24 +21,28 @@ export const makeEmptyIDCreateFormErrors: () => IdCreateForm = () => ({
 });
 
 export interface IdCreateForm {
-  id: string;
-  id_confirm: string;
-  password_1: string;
-  password_1_confirm: string;
-  password_2: string;
-  password_2_confirm: string;
+  id: string | null;
+  id_confirm: string | null;
+  password_1: string | null;
+  password_1_confirm: string | null;
+  password_2: string | null;
+  password_2_confirm: string | null;
 }
 
-function validateEmail(email: any) {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    );
-}
+// function validateEmail(email: any) {
+//   return String(email)
+//     .toLowerCase()
+//     .match(
+//       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+//     );
+// }
 
-function checkPassword(str: string): [boolean, string] {
-  if (str.length < 15) {
+function checkPassword(str: string | null): [boolean, string] {
+  if (!str) {
+    return [false, "not exist"];
+  }
+
+  if (str?.length < 15) {
     return [false, "too short"];
   } else if (str.search(/\d/) === -1) {
     return [false, "no digit"];
@@ -47,10 +55,6 @@ function checkPassword(str: string): [boolean, string] {
   } else {
     return [true, ""];
   }
-
-  // var re =
-  //   /^(?=\D\d)(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=[^-!@._*#%]*[-!@._*#%])[-A-Za-z0-9=!@._*#%]*$/;
-  // return re.test(str || "");
 }
 
 export function validateIdCreateForm(
@@ -58,8 +62,6 @@ export function validateIdCreateForm(
   setFormErrors: React.Dispatch<React.SetStateAction<IdCreateForm>>,
 ): boolean {
   setFormErrors(() => makeEmptyIDCreateFormErrors());
-  // console.log(22, formValues);
-
   if (!formValues.id || formValues.id.length < 1) {
     setFormErrors(oldVals => ({
       ...oldVals,
@@ -77,10 +79,10 @@ export function validateIdCreateForm(
     return false;
   }
 
-  if (!validateEmail(formValues.id)) {
+  if (formValues[ID]?.length < MINIMUM_ID_LENGTH) {
     setFormErrors(oldVals => ({
       ...oldVals,
-      id: "Id is invalid",
+      id: "Id should be 9 letter or longer",
     }));
 
     return false;

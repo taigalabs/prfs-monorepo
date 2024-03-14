@@ -27,35 +27,37 @@ const Input: React.FC<InputProps> = ({
   }, [setIsFocused]);
 
   return (
-    <div
-      className={cn(styles.wrapper, className, {
-        [styles.isError]: !!error,
-        [styles.isFocused]: isFocused,
-        [styles.hasValue]: value.length > 0,
-      })}
-    >
-      <div className={cn(styles.label, labelClassName)}>
-        <label htmlFor={name}>{label}</label>
+    <>
+      <div
+        className={cn(styles.wrapper, className, {
+          [styles.isError]: !!error,
+          [styles.isFocused]: isFocused,
+          [styles.hasValue]: value && value.length > 0,
+        })}
+      >
+        <div className={cn(styles.label, labelClassName)}>
+          <label htmlFor={name}>{label}</label>
+        </div>
+        <fieldset className={styles.fieldset}>
+          <legend>
+            <span>{label}</span>
+          </legend>
+        </fieldset>
+        <input
+          name={name}
+          value={value || ""}
+          className={cn(styles.input, inputClassName)}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          type={type}
+          onChange={handleChangeValue}
+          onKeyDown={handleKeyDown}
+          readOnly={readOnly}
+          disabled={disabled}
+        />
       </div>
-      <fieldset className={styles.fieldset}>
-        <legend>
-          <span>{label}</span>
-        </legend>
-      </fieldset>
-      <input
-        name={name}
-        value={value}
-        className={cn(styles.input, inputClassName)}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        type={type}
-        onChange={handleChangeValue}
-        onKeyDown={handleKeyDown}
-        readOnly={readOnly}
-        disabled={disabled}
-      />
-      {error && error.length && <p className={styles.error}>{error}</p>}
-    </div>
+      {error && <p className={styles.error}>{error}</p>}
+    </>
   );
 };
 
@@ -67,11 +69,11 @@ export interface InputProps {
   labelClassName?: string;
   disabled?: boolean;
   name?: string;
-  value: string;
+  value: string | null;
   label: string;
   handleChangeValue?: React.ChangeEventHandler;
   handleKeyDown?: React.KeyboardEventHandler;
-  error?: string | undefined;
+  error?: string | null;
   placeholder?: string;
   type?: HTMLInputTypeAttribute | undefined;
   readOnly?: boolean;

@@ -77,6 +77,15 @@ const SignInForm: React.FC<InputCredentialProps> = ({
   );
 
   const enhancedHandleClickNext = React.useCallback(async () => {
+    if (!formData[ID] || !formData[PASSWORD_1] || !formData[PASSWORD_2]) {
+      dispatch(
+        setGlobalError({
+          message: `Some inputs are empty`,
+        }),
+      );
+      return;
+    }
+
     const credential = await makePrfsIdCredential({
       id: formData[ID],
       password_1: formData[PASSWORD_1],

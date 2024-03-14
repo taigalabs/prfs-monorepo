@@ -5,8 +5,13 @@ $legend_padding: 0 5px;
   height: 100%;
 
   &.isError {
-    .input {
+    .fieldset {
       border-color: var(--red-50);
+    }
+
+    .input,
+    .label {
+      color: var(--red-50);
     }
   }
 
@@ -83,8 +88,9 @@ $legend_padding: 0 5px;
 }
 
 .error {
-  padding-top: 6px;
+  padding: 3px 14px 0;
   color: var(--red-50);
+  font-size: 12px;
 }
 
 .fieldset {

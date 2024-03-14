@@ -19,7 +19,7 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { prfs_api_error_codes, prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
 import styles from "./ShySignInBtn.module.scss";

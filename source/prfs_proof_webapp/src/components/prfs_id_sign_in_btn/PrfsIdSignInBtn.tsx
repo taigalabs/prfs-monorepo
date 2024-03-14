@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { KeyPair, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
+import prfs_api_error_codes from "@taigalabs/prfs-api-error-codes";
 import {
   AppSignInData,
   makeColor,

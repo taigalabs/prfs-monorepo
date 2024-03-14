@@ -63,6 +63,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedCre
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
+            setFormErrors={setFormErrors}
             handleClickSignIn={handleClickSignIn}
             handleClickNext={handleGotoCreateIdSuccess}
             setCredential={setCredential}

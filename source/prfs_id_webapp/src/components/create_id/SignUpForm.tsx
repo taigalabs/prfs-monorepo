@@ -24,6 +24,8 @@ import {
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
 import { IdCreateForm } from "@/functions/validate_id";
+import { useAppDispatch } from "@/state/hooks";
+import { setGlobalError } from "@/state/globalErrorReducer";
 
 const ID_CONFIRM = "id_confirm";
 const PASSWORD_1_CONFIRM = "password_1_confirm";
@@ -33,11 +35,13 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
   formData,
   setFormData,
   formErrors,
+  setFormErrors,
   handleClickSignIn,
   handleClickNext,
   setCredential,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const dispatch = useAppDispatch();
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,22 +55,36 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
             [name]: val,
           };
         });
+
+        setFormErrors(oldVal => ({
+          ...oldVal,
+          [name]: "",
+        }));
       }
     },
-    [formData, setFormData],
+    [formData, setFormData, setFormErrors],
   );
 
   const enhancedHandleClickNext = React.useCallback(async () => {
+    if (!formData[ID] || !formData[PASSWORD_1] || !formData[PASSWORD_2]) {
+      dispatch(
+        setGlobalError({
+          message: `Some inputs are empty`,
+        }),
+      );
+      return;
+    }
+
     const credential = await makePrfsIdCredential({
-      id: formData.id,
-      password_1: formData.password_1,
-      password_2: formData.password_2,
+      id: formData[ID],
+      password_1: formData[PASSWORD_1],
+      password_2: formData[PASSWORD_2],
     });
     console.log("credential", credential);
 
     setCredential(credential);
     handleClickNext();
-  }, [handleClickNext, setCredential]);
+  }, [handleClickNext, setCredential, dispatch]);
 
   return (
     <DefaultInnerPadding>
@@ -185,6 +203,7 @@ export interface InputCreateIdCredentialProps {
   formData: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   formErrors: IdCreateForm;
+  setFormErrors: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   handleClickNext: () => void;
   handleClickSignIn: () => void;
   setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;

@@ -101,9 +101,11 @@ const SignUp: React.FC<SignUpProps> = ({
         secret_key_val: credential.secret_key,
       };
     } else {
-      const id_val = `${formData[ID].substring(0, 2)}${"*".repeat(formData[ID].length - 2)}`;
-      const password_1_val = "*".repeat(formData[PASSWORD_1].length);
-      const password_2_val = "*".repeat(formData[PASSWORD_2].length);
+      const id_val = formData[ID]
+        ? `${formData[ID].substring(0, 2)}${"*".repeat(formData[ID].length - 2)}`
+        : "";
+      const password_1_val = formData[PASSWORD_1] ? "*".repeat(formData[PASSWORD_1].length) : "";
+      const password_2_val = formData[PASSWORD_2] ? "*".repeat(formData[PASSWORD_2].length) : "";
       const secret_key_val = "*".repeat(credential.secret_key.length);
 
       return {
