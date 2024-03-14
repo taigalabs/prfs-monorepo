@@ -81,23 +81,16 @@ const SignInForm: React.FC<InputCredentialProps> = ({
       password_2: formData[PASSWORD_2],
     });
 
-    const { error, code } = await prfsSignInRequest({ account_id: credential.id });
-
-    console.log(11, error, code);
-
+    const { code } = await prfsSignInRequest({ account_id: credential.id });
     if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
-      console.log(123);
       dispatch(
         setGlobalError({
-          message: "Cannot find the id. Have you signed up before?",
+          message: `Cannot find the id. Have you signed up before? id: ${credential.id}`,
         }),
       );
     }
 
-    return;
-
     // console.log("credential", credential, formData);
-
     persistPrfsIdCredentialEncrypted(credential);
     persistEphemeralPrfsIdCredential(credential);
     handleSucceedSignIn(credential);
