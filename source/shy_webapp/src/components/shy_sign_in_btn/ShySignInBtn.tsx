@@ -21,7 +21,7 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import shy_api_error_codes from "@taigalabs/shy-api-error-codes";
 
 import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -55,7 +55,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
   const [status, setStatus] = React.useState(Status.Standby);
   const dispatch = useAppDispatch();
   const { isInitialized, shyCredential } = useSignedInShyUser();
-  const { mutateAsync: prfsSignInRequest } = useMutation({
+  const { mutateAsync: signInShyAccount } = useMutation({
     mutationFn: (req: SignInShyAccountRequest) => {
       return shyApi2({ type: "sign_in_shy_account", ...req });
     },
@@ -110,10 +110,20 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
 
           const signInResult = proofGenSuccessPayload.receipt[SIGN_IN];
           console.log(123, signInResult);
-          // const { error, code } = await prfsSignInRequest({
-          //   account_id: signInResult.account_id,
-          // });
-          // const avatar_color = makeColor(signInResult.account_id);
+
+          const { error, code } = await signInShyAccount({
+            account_id: signInResult.account_id,
+          });
+
+          if (error) {
+            console.error(error);
+            if (code === shy_api_error_codes.CANNOT_FIND_USER.code) {
+              // router.push("/apb");
+              // setSignUpData(credential);
+            }
+          }
+
+          const avatar_color = makeColor(signInResult.account_id);
           // const credential: LocalShyCredential = {
           //   account_id: signInResult.account_id,
           //   public_key: signInResult.public_key,
@@ -122,21 +132,13 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
 
           // persistShyCredential(credential);
           // dispatch(signInShy(credential));
-
-          // if (error) {
-          //   console.error(error);
-          //   if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
-          //     router.push("/apb");
-          //     // setSignUpData(credential);
-          //   }
-          // }
         }
       }
       setStatus(Status.InProgress);
       fn().then();
       setStatus(Status.Standby);
     },
-    [router, dispatch, prfsSignInRequest, setSignUpData, searchParams, setStatus, router],
+    [router, dispatch, signInShyAccount, setSignUpData, searchParams, setStatus, router],
   );
 
   const handleClickSignOut = React.useCallback(() => {

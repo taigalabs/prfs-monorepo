@@ -201,13 +201,15 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && status === Status.Standby) {
-      const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
-        identity_id: credential.id,
-      });
-      if (error) {
-        setErrorMsg(error);
-        return;
-      }
+      // const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
+      //   identity_id: credential.id,
+      // });
+
+      // if (error) {
+      //   setErrorMsg(error);
+      //   return;
+      // }
+
       if (!receipt) {
         setErrorMsg("no proof gen receipt");
         return;

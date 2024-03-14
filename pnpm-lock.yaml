@@ -1784,6 +1784,9 @@ importers:
       '@taigalabs/prfs-ts-utils':
         specifier: '*'
         version: link:../prfs_ts_utils
+      '@taigalabs/shy-api-error-codes':
+        specifier: '*'
+        version: link:../shy_api_error_codes
       '@taigalabs/shy-api-js':
         specifier: '*'
         version: link:../shy_api_js

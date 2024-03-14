@@ -30,6 +30,7 @@
     "@taigalabs/prfs-id-sdk-web": "*",
     "@taigalabs/prfs-react-lib": "*",
     "@taigalabs/prfs-ts-utils": "*",
+    "@taigalabs/shy-api-error-codes": "*",
     "@taigalabs/shy-api-js": "*",
     "@taigalabs/shy-entities": "*",
     "@tiptap/extension-color": "2.2.4",
