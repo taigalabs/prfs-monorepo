@@ -33,6 +33,8 @@ import {
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
+import { useAppDispatch } from "@/state/hooks";
+import { setGlobalError } from "@/state/globalErrorReducer";
 
 export enum IdCreationStatus {
   Standby,
@@ -50,7 +52,8 @@ const SignUp: React.FC<SignUpProps> = ({
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const [status, setStatus] = React.useState(IdCreationStatus.Standby);
-  const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  // const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [showPassword, setShowPassword] = React.useState(false);
   const { mutateAsync: prfsIdentitySignUpRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignUpRequest) => {
@@ -69,10 +72,7 @@ const SignUp: React.FC<SignUpProps> = ({
   }, [formData]);
 
   const handleClickSignUp = React.useCallback(async () => {
-    setErrorMsg(null);
-
     if (credential) {
-      console.log(11, credential);
       const { id } = credential;
 
       try {
@@ -85,15 +85,24 @@ const SignUp: React.FC<SignUpProps> = ({
         setStatus(IdCreationStatus.Standby);
 
         if (error) {
-          setErrorMsg(error.toString());
+          dispatch(
+            setGlobalError({
+              message: error.toString(),
+            }),
+          );
+          return;
         } else {
           handleSucceedCreateId(credential);
         }
       } catch (err: any) {
-        setErrorMsg(err.toString());
+        dispatch(
+          setGlobalError({
+            message: err.toString(),
+          }),
+        );
       }
     }
-  }, [formData, router, prfsIdentitySignUpRequest, credential, setErrorMsg, handleSucceedCreateId]);
+  }, [formData, router, prfsIdentitySignUpRequest, credential, handleSucceedCreateId, dispatch]);
 
   const { id_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
@@ -216,7 +225,7 @@ const SignUp: React.FC<SignUpProps> = ({
               {i18n.sign_up}
             </Button>
           </DefaultModuleBtnRow>
-          {errorMsg && <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>}
+          {/* {errorMsg && <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>} */}
         </Fade>
       </div>
     </DefaultInnerPadding>
