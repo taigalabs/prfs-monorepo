@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 import styles from "./ProofTypeLeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { consolePaths } from "@/paths";
+import { consolePaths, paths } from "@/paths";
 import CreateProofTypePopover from "./CreateProofTypePopover";
 import {
   LeftBarItem,
@@ -38,7 +38,7 @@ const ProofTypeLeftbar: React.FC<AttestationLeftBarProps> = () => {
       </LeftBarTopMenu>
       <LeftBarMenu>
         <LeftBarItem>
-          <Link href={consolePaths.proof_types}>
+          <Link href={paths.proof_types}>
             <LeftBarItemButton isHighlighted={true}>
               <span>{i18n.all}</span>
             </LeftBarItemButton>

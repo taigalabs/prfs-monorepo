@@ -10,12 +10,12 @@ export const paths = {
   updates: "/updates",
   privacy: "/privacy",
   accounts: "/accounts",
-};
-
-export const consolePaths = {
-  accounts: "/accounts",
   proof_types: "/proof_types",
   sets: "/sets",
   sets__create: "/sets/create",
   sets__crypto_holders: "/sets/crypto_holders",
+};
+
+export const consolePaths = {
+  accounts: "/accounts",
 };

@@ -98,7 +98,7 @@ const CreateSet: React.FC<CreateSetProps> = () => {
         }
         if (payload) {
           setIsNavigating(true);
-          router.push(consolePaths.sets);
+          router.push(paths.sets);
         }
       } catch (err) {
         setCreateStatus(Status.Standby);

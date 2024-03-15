@@ -51,7 +51,7 @@ const SetElementDetail: React.FC<SetElementDetailProps> = ({ element_label, set_
   return setElement ? (
     <div className={styles.wrapper}>
       <AttestationDetailTopMenuRow>
-        <Link href={consolePaths.sets__crypto_holders}>
+        <Link href={paths.sets__crypto_holders}>
           <ButtonCircleContainer>
             <FaArrowLeft />
           </ButtonCircleContainer>
