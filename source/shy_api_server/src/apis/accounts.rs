@@ -30,7 +30,7 @@ pub async fn sign_up_shy_account(
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(
-                &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
+                &SHY_API_ERROR_CODES.SIGN_UP_FAIL,
                 format!("Error inserting proof account, err: {:?}", err),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));
