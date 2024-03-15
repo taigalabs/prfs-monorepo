@@ -1,3 +1,6 @@
+import { api, ApiResponse } from "@taigalabs/prfs-api-lib-js";
+import { PrfsAtstApiRequest } from "@taigalabs/prfs-entities/bindings/PrfsAtstApiRequest";
+import { PrfsAtstApiResponse } from "@taigalabs/prfs-entities/bindings/PrfsAtstApiResponse";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 import { AttestTwitterAccResponse } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccResponse";
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
@@ -16,7 +19,6 @@ import { GetCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings
 import { GetCryptoAssetSizeAtstResponse } from "@taigalabs/prfs-entities/bindings/GetCryptoAssetSizeAtstResponse";
 import { ComputeCryptoAssetSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetSizeTotalValuesRequest";
 import { ComputeCryptoAssetSizeTotalValuesResponse } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetSizeTotalValuesResponse";
-import { api, ApiResponse } from "@taigalabs/prfs-api-lib-js";
 
 type RequestName =
   | "attest_twitter_acc"
@@ -81,12 +83,25 @@ if (typeof process !== "undefined") {
   throw new Error("process is undefined");
 }
 
-export async function atstApi<T extends RequestName>(name: T, req: Req<T>): Promise<Resp<T>> {
-  return (await api(
+// export async function atstApi<T extends RequestName>(name: T, req: Req<T>): Promise<Resp<T>> {
+//   return (await api(
+//     {
+//       path: name,
+//       req,
+//     },
+//     endpoint,
+//   )) as Resp<T>;
+// }
+
+export async function atstApi<
+  T extends { type: PrfsAtstApiRequest["type"] },
+  R extends { type: T["type"] } & PrfsAtstApiResponse,
+>(req: T): Promise<ApiResponse<R>> {
+  return api<R>(
     {
-      path: name,
+      path: req.type,
       req,
     },
     endpoint,
-  )) as Resp<T>;
+  );
 }

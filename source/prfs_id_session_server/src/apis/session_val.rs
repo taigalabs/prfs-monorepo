@@ -3,7 +3,7 @@ use prfs_axum_lib::error::ApiHandleError;
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::entities::PrfsIdSession;
+use prfs_entities::id_session::PrfsIdSession;
 use prfs_entities::id_session_api::{
     GetPrfsIdSessionValueRequest, GetPrfsIdSessionValueResponse, PutPrfsIdSessionValueRequest,
     PutPrfsIdSessionValueResponse,

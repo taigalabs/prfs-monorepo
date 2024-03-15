@@ -31,7 +31,7 @@ pub enum PrfsAtstApiRequest {
 #[allow(non_camel_case_types)]
 #[serde(tag = "type")]
 #[ts(export)]
-pub enum PrfsIdApiResponse {
+pub enum PrfsAtstApiResponse {
     fetch_crypto_asset(FetchCryptoAssetResponse),
     create_crypto_asset_size_atst(CreateCryptoAssetSizeAtstResponse),
     get_crypto_asset_size_atst(GetCryptoAssetSizeAtstResponse),
