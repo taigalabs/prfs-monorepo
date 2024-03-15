@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   display: flex;
   align-items: center;
@@ -15,7 +17,7 @@
 
 @media screen and (max-width: 480px) {
   .wrapper {
-    min-width: 360px;
+    /* min-width: 360px; */
   }
 
   .body {

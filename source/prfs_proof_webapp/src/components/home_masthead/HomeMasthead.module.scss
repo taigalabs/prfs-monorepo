@@ -1,7 +1,7 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  min-width: 360px;
+  /* min-width: 360px; */
   padding: 14px 10px;
 
   &.isTutorial {
@@ -28,11 +28,6 @@
 }
 
 @media screen and (min-width: $big2_display_min_width) {
-  .wrapper {
-    /* min-width: 360px; */
-    /* padding: 14px 10px; */
-  }
-
   .bigScreen {
     display: flex;
     align-items: center;

@@ -2,8 +2,13 @@
 
 .wrapper {
   display: flex;
+  justify-content: center;
+}
+
+.inner {
   padding-top: 100px;
-  border: 1px solid black;
+  padding-left: 12px;
+  padding-right: 12px;
   width: 800px;
 }
 
