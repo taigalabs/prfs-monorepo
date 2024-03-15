@@ -3,10 +3,8 @@ import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { DateTimed } from "@taigalabs/shy-entities/bindings/DateTimed";
 import { ShyPostSyn1 } from "@taigalabs/shy-entities/bindings/ShyPostSyn1";
 import { Dayjs } from "dayjs";
-import Link from "next/link";
 
 import styles from "./PostRow.module.scss";
-import { paths } from "@/paths";
 import Post from "@/components/post/Post";
 
 const PostRow: React.FC<RowProps> = ({ post, channel, handleSucceedPost }) => {
