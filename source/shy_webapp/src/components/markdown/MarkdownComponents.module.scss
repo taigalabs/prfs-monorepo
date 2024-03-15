@@ -10,10 +10,11 @@
 
     &::before {
       content: "";
-      top: 0;
-      bottom: 0;
-      left: 0px;
-      right: 0px;
+      top: -1px;
+      bottom: -1px;
+      border-radius: 8px;
+      left: -5px;
+      right: -5px;
       padding: 10px;
       position: absolute;
       z-index: -1;
@@ -22,9 +23,14 @@
 
     &:hover {
       &::before {
-        background-color: red;
+        background-color: var(--blue-05);
+        opacity: 0.08;
       }
     }
+  }
+
+  p {
+    margin-bottom: 16px;
   }
 }
 

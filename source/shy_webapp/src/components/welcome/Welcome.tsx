@@ -16,6 +16,8 @@ import {
 import { useHandleScroll } from "@/hooks/scroll";
 import Loading from "@/components/loading/Loading";
 import Content from "./Welcome.mdx";
+import { urls } from "@/urls";
+import { paths, searchParamKeys } from "@/paths";
 
 const Welcome: React.FC<WelcomeProps> = ({}) => {
   const router = useRouter();
@@ -25,6 +27,13 @@ const Welcome: React.FC<WelcomeProps> = ({}) => {
   const { isInitialized, shyCredential } = useSignedInShyUser();
   const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
 
+  React.useEffect(() => {
+    if (isInitialized && !shyCredential) {
+      const href = encodeURI(window.location.href);
+      router.push(`${paths.account__sign_in}?${searchParamKeys.continue}=${href}`);
+    }
+  }, [isInitialized, router, shyCredential]);
+
   return isFontReady && shyCredential ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
       <GlobalHeader />
@@ -32,7 +41,7 @@ const Welcome: React.FC<WelcomeProps> = ({}) => {
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
           <div className={styles.wrapper}>
-            <Content attestationLink="power" />
+            <Content attestationLink={urls.createCryptoAssetAttestion} />
           </div>
         </InfiniteScrollMain>
       </InfiniteScrollInner>
