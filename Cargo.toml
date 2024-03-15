@@ -24,6 +24,7 @@ members = [
   "source/prfs_id_api_error_codes",
   "source/prfs_id_server",
   "source/prfs_atst_server",
+  "source/prfs_atst_api_error_codes",
   "source/prfs_asset_server",
   "source/prfs_circuits_circom",
   "source/prfs_driver_spartan_wasm",

@@ -22,6 +22,7 @@ packages:
   - "source/prfs_api_js"
   - "source/prfs_api_error_codes"
   - "source/prfs_api_server"
+  - "source/prfs_atst_api_error_codes"
   - "source/prfs_snap"
   - "source/prfs_proof_webapp"
   - "source/prfs_console_webapp"
