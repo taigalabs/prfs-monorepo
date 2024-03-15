@@ -139,7 +139,14 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
                 return;
               }
 
-              console.log(12123);
+              const credential: LocalShyCredential = {
+                account_id: signInResult.account_id,
+                public_key: signInResult.public_key,
+                avatar_color,
+              };
+
+              persistShyCredential(credential);
+              dispatch(signInShy(credential));
               router.push(paths.account__welcome);
             } else {
               dispatch(
@@ -150,16 +157,17 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
               );
               return;
             }
+          } else {
+            const credential: LocalShyCredential = {
+              account_id: signInResult.account_id,
+              public_key: signInResult.public_key,
+              avatar_color,
+            };
+
+            persistShyCredential(credential);
+            dispatch(signInShy(credential));
+            router.push(paths.__);
           }
-
-          // const credential: LocalShyCredential = {
-          //   account_id: signInResult.account_id,
-          //   public_key: signInResult.public_key,
-          //   avatar_color,
-          // };
-
-          // persistShyCredential(credential);
-          // dispatch(signInShy(credential));
         }
       }
       setStatus(Status.InProgress);
