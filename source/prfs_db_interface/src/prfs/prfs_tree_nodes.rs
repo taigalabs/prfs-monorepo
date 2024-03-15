@@ -27,7 +27,7 @@ pub async fn get_prfs_tree_nodes_by_pos(
     let query = format!("SELECT * from prfs_tree_nodes nodes {}", where_clause);
     // println!("query: {}", query);
 
-    let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
+    let rows = sqlx::query(&query).fetch_all(pool).await?;
 
     let nodes: Vec<PrfsTreeNode> = rows
         .iter()
@@ -74,7 +74,7 @@ pub async fn get_prfs_tree_leaf_indices(
     let query = format!("SELECT * from prfs_tree_nodes nodes {}", where_clause);
     // println!("query: {}", query);
 
-    let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
+    let rows = sqlx::query(&query).fetch_all(pool).await?;
 
     let nodes: Vec<PrfsTreeNode> = rows
         .iter()
@@ -121,8 +121,7 @@ LIMIT $3
         .bind(&offset)
         .bind(&page_size)
         .fetch_all(pool)
-        .await
-        .unwrap();
+        .await?;
 
     let nodes: Vec<PrfsTreeNode> = rows
         .iter()
@@ -194,11 +193,7 @@ pub async fn get_prfs_tree_root(
     let query = format!("SELECT * from prfs_tree_nodes where set_id=$1 and pos_h=31 and pos_w=0",);
     // println!("query: {}", query);
 
-    let row = sqlx::query(&query)
-        .bind(&set_id)
-        .fetch_one(pool)
-        .await
-        .unwrap();
+    let row = sqlx::query(&query).bind(&set_id).fetch_one(pool).await?;
 
     let pos_w = row.try_get("pos_w").expect("pos_w should exist");
     let pos_h = row.try_get("pos_h").expect("pos_h should exist");
@@ -245,7 +240,8 @@ INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, meta, set_id, tree_id)
     }
 
     let query = query_builder.build();
-    let result = query.execute(&mut **tx).await.unwrap();
+    // println!("query: {}", query.sql());
+    let result = query.execute(&mut **tx).await?;
 
     Ok(result.rows_affected())
 }
@@ -264,8 +260,7 @@ ORDER BY pos_w desc
     let row = sqlx::query(&query)
         .bind(&set_id)
         .fetch_optional(pool)
-        .await
-        .unwrap();
+        .await?;
 
     if let Some(r) = row {
         let pos_w: Decimal = r.get("pos_w");
@@ -292,8 +287,7 @@ VALUES ($1, $2, $3, $4, $5) returning pos_w"#;
         .bind(&node.val)
         .bind(&node.meta)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
     let pos_w: Decimal = row.get("pos_w");
 
@@ -337,11 +331,7 @@ DELETE FROM prfs_tree_nodes
 WHERE set_id=$1 AND pos_h!=0
 "#;
 
-    let result = sqlx::query(query)
-        .bind(&set_id)
-        .execute(&mut **tx)
-        .await
-        .unwrap();
+    let result = sqlx::query(query).bind(&set_id).execute(&mut **tx).await?;
 
     return Ok(result.rows_affected());
 }
@@ -355,11 +345,7 @@ DELETE FROM prfs_tree_nodes
 WHERE set_id=$1
 "#;
 
-    let result = sqlx::query(query)
-        .bind(&set_id)
-        .execute(&mut **tx)
-        .await
-        .unwrap();
+    let result = sqlx::query(query).bind(&set_id).execute(&mut **tx).await?;
 
     return Ok(result.rows_affected());
 }

@@ -107,6 +107,14 @@ pub async fn create_prfs_tree_by_prfs_set(
         leaf_nodes.push(n);
     }
 
+    if leaf_nodes.len() < 1 {
+        let resp = ApiResponse::new_error(
+            &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+            format!("No tree nodes to insert, leaf_nodes: {:?}", leaf_nodes,),
+        );
+        return (StatusCode::BAD_REQUEST, Json(resp));
+    }
+
     if let Err(err) = prfs::insert_prfs_tree_nodes(&mut tx, &leaf_nodes, false).await {
         let resp = ApiResponse::new_error(
             &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
