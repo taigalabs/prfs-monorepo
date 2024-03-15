@@ -1,6 +1,10 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
+  display: flex;
+  padding-top: 100px;
+  border: 1px solid black;
+  width: 800px;
 }
 
 @media screen and (min-width: $mid_display_min_width) {
