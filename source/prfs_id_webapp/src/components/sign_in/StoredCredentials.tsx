@@ -1,10 +1,10 @@
 import React from "react";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import { PASSWORD_2, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
-import { abbrevMandN } from "@taigalabs/prfs-ts-utils";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import { makeDecryptKey } from "@taigalabs/prfs-crypto-js";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
@@ -28,8 +28,6 @@ import {
   EphemeralPrfsIdCredential,
   persistEphemeralPrfsIdCredential,
 } from "@/storage/ephe_credential";
-
-const PASSWORD_2 = "password_2";
 
 export enum SignInStatus {
   Loading,
@@ -165,7 +163,7 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
     const elems = Object.values(storedCredentials).map(cred => {
       let id = "";
       if (cred.id.length > 14) {
-        id = abbrevMandN(cred.id, 7, 5);
+        id = abbrev7and5(cred.id);
       } else {
         id = cred.id;
       }
