@@ -16,6 +16,7 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import PrfsIdSessionErrorCodes from "@taigalabs/prfs-id-session-api-error-codes";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -35,7 +36,6 @@ import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
 import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 import { useAppDispatch } from "@/state/hooks";
-import { setGlobalError } from "@/state/globalErrorReducer";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 enum Status {

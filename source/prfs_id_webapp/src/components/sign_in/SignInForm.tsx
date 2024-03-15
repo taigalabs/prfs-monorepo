@@ -13,6 +13,7 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { idApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { SignInPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsIdentityRequest";
 import prfs_api_error_codes from "@taigalabs/prfs-api-error-codes";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./SignInForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -29,7 +30,6 @@ import { IdCreateForm } from "@/functions/validate_id";
 import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
 import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { useAppDispatch } from "@/state/hooks";
-import { setGlobalError } from "@/state/globalErrorReducer";
 
 enum InputCredentialStatus {
   Loading,

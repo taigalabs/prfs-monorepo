@@ -22,6 +22,7 @@ import {
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import shy_api_error_codes from "@taigalabs/shy-api-error-codes";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -35,7 +36,7 @@ import {
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
-import { reportError } from "@/state/errorReducer";
+import { setGlobal } from "next/dist/trace";
 
 const SIGN_IN = "SIGN_IN";
 
@@ -100,7 +101,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
             proofGenSuccessPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
           } catch (err) {
             dispatch(
-              reportError({
+              setGlobalError({
                 errorObj: err,
                 message: `Cannot parse sign in payload, msg: ${decrypted}`,
               }),
@@ -118,20 +119,23 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           if (error) {
             console.error(error);
             if (code === shy_api_error_codes.CANNOT_FIND_USER.code) {
-              // router.push("/apb");
+              router.push(paths.account__welcome);
               // setSignUpData(credential);
+            } else {
+              // dispatch();
+              return;
             }
           }
 
           const avatar_color = makeColor(signInResult.account_id);
-          // const credential: LocalShyCredential = {
-          //   account_id: signInResult.account_id,
-          //   public_key: signInResult.public_key,
-          //   avatar_color,
-          // };
+          const credential: LocalShyCredential = {
+            account_id: signInResult.account_id,
+            public_key: signInResult.public_key,
+            avatar_color,
+          };
 
-          // persistShyCredential(credential);
-          // dispatch(signInShy(credential));
+          persistShyCredential(credential);
+          dispatch(signInShy(credential));
         }
       }
       setStatus(Status.InProgress);

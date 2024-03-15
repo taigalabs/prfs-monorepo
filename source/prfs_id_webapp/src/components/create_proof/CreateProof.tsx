@@ -7,9 +7,10 @@ import cn from "classnames";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
+import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -22,11 +23,10 @@ import {
   QueryName,
 } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
-import { useAppDispatch, useAppSelector } from "@/state/hooks";
+import { useAppDispatch } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
 import { FormHandler } from "@/components/circuit_input_items/formTypes";
-import { setGlobalError } from "@/state/globalErrorReducer";
 
 enum Status {
   Standby,

@@ -10,6 +10,7 @@ import {
   makePrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./SignUpForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -25,7 +26,6 @@ import {
 } from "@/components/default_module/DefaultModule";
 import { IdCreateForm, validateIdCreateForm } from "@/functions/validate_id";
 import { useAppDispatch } from "@/state/hooks";
-import { setGlobalError } from "@/state/globalErrorReducer";
 
 const ID_CONFIRM = "id_confirm";
 const PASSWORD_1_CONFIRM = "password_1_confirm";

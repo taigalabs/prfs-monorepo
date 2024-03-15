@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createLogger } from "redux-logger";
+import { globalErrorReducer } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import userReducer from "./userReducer";
 import { globalMsgReducer } from "./globalMsgReducer";
 import tutorialReducer from "./tutorialReducer";
-import { globalErrorReducer } from "./globalErrorReducer";
 
 const logger = createLogger({
   level: {
