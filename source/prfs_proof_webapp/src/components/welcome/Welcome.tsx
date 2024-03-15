@@ -1,7 +1,9 @@
+"use client";
+
 import React from "react";
 import cn from "classnames";
 
-import styles from "./VerifyProofModule.module.scss";
+import styles from "./Welcome.module.scss";
 import { i18nContext } from "@/i18n/context";
 
 const Welcome: React.FC<WelcomeProps> = ({}) => {
