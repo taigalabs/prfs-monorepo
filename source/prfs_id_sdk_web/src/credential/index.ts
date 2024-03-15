@@ -10,10 +10,12 @@ export async function makePrfsIdCredential(args: MakeCredentialArgs): Promise<Pr
   const { id: id_, password_1, password_2 } = args;
   const pw = `${id_}${password_1}${password_2}`;
   const pwBytes = keccak256(toUtf8Bytes(pw), "bytes");
+  const pw2Bytes = keccak256(toUtf8Bytes(password_2), "bytes");
+
   const pwHash = await poseidon_2(pwBytes);
   const { public_key, secret_key, id } = await makeECCredential(pwHash);
-  const encryptKey = await makeEncryptKey(pw);
-  const localEncryptKey = await makeEncryptKey(password_2);
+  const encryptKey = await makeEncryptKey(pwBytes);
+  const localEncryptKey = await makeEncryptKey(pw2Bytes);
 
   return {
     secret_key,
