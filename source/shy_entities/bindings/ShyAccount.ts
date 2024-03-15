@@ -4,4 +4,5 @@ export interface ShyAccount {
   account_id: string;
   public_key: string;
   avatar_color: string;
+  policy_ids: string[];
 }

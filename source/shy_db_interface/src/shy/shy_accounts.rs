@@ -1,5 +1,4 @@
-use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use prfs_entities::entities::PrfsAccount;
+use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
 use shy_entities::entities::ShyAccount;
 
 use crate::ShyDbInterfaceError;
