@@ -1,6 +1,31 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
+  line-height: 1.5;
+  font-size: 16px;
+
+  a {
+    color: var(--blue-05);
+    position: relative;
+
+    &::before {
+      content: "";
+      top: 0;
+      bottom: 0;
+      left: 0px;
+      right: 0px;
+      padding: 10px;
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    &:hover {
+      &::before {
+        background-color: red;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: $big_display_min_width) {
