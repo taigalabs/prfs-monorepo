@@ -13,6 +13,7 @@ import type { SignUpShyAccountResponse } from "./SignUpShyAccountResponse";
 export type ShyApiResponse =
   | ({ type: "create_shy_topic" } & CreateShyTopicResponse)
   | ({ type: "create_shy_post" } & CreateShyPostResponse)
+  | ({ type: "create_shy_post_with_proof" } & CreateShyPostResponse)
   | ({ type: "sign_up_shy_account" } & SignUpShyAccountResponse)
   | ({ type: "sign_in_shy_account" } & SignInShyAccountResponse)
   | ({ type: "get_shy_channels" } & GetShyChannelsResponse)

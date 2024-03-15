@@ -17,8 +17,10 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import { useRouter } from "next/navigation";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { GetShyTopicProofRequest } from "@taigalabs/shy-entities/bindings/GetShyTopicProofRequest";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
+import { CreateShyPostWithProofRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostWithProofRequest";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 import styles from "./CreatePost.module.scss";
@@ -28,7 +30,6 @@ import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 const PROOF = "Proof";
 
@@ -50,6 +51,11 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const { mutateAsync: createShyPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
       return shyApi2({ type: "create_shy_post", ...req });
+    },
+  });
+  const { mutateAsync: createShyPostWithProof } = useMutation({
+    mutationFn: (req: CreateShyPostWithProofRequest) => {
+      return shyApi2({ type: "create_shy_post_with_proof", ...req });
     },
   });
 
@@ -187,13 +193,10 @@ const CreatePost: React.FC<CreatePostProps> = ({
               author_sig: receipt.proofActionSig,
               author_sig_msg: Array.from(receipt.proofActionSigMsg),
             });
-
-            console.log(23444);
-
             handleSucceedPost();
           }
         } else if (receipt.type === "prove_receipt") {
-          // const shy_topic_proof_id = rand256Hex();
+          const shy_topic_proof_id = rand256Hex();
           // const { payload, error } = await createShyTopic({
           //   title,
           //   topic_id: topicId,
