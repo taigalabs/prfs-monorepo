@@ -32,17 +32,13 @@ const Post: React.FC<PostContentProps> = ({
   }, [setIsReplyOpen]);
 
   const handleSucceedPostExtended = React.useCallback(() => {
-    console.log(111, handleSucceedPost);
     setIsReplyOpen(false);
 
     if (handleSucceedPost) {
-      console.log(123123);
       handleSucceedPost();
     }
     // router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
   }, [handleSucceedPost, setIsReplyOpen, router]);
-
-  console.log(22, handleSucceedPost, content);
 
   const publicKey = React.useMemo(() => {
     return author_public_key.substring(0, 8) || "";
