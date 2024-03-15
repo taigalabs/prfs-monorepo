@@ -15,6 +15,7 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import { useHandleScroll } from "@/hooks/scroll";
 import Loading from "@/components/loading/Loading";
+import Content from "./Welcome.mdx";
 
 const Welcome: React.FC<WelcomeProps> = ({}) => {
   const router = useRouter();
@@ -30,7 +31,9 @@ const Welcome: React.FC<WelcomeProps> = ({}) => {
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
-          <div className={styles.wrapper}>power</div>
+          <div className={styles.wrapper}>
+            <Content attestationLink="power" />
+          </div>
         </InfiniteScrollMain>
       </InfiniteScrollInner>
     </InfiniteScrollWrapper>
