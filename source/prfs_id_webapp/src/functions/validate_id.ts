@@ -1,6 +1,10 @@
+import { ID } from "@taigalabs/prfs-id-sdk-web";
+
+const MINIMUM_ID_LENGTH = 9;
+
 export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
-  email: "",
-  email_confirm: "",
+  id: "",
+  id_confirm: "",
   password_1: "",
   password_1_confirm: "",
   password_2: "",
@@ -8,8 +12,8 @@ export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
 });
 
 export const makeEmptyIDCreateFormErrors: () => IdCreateForm = () => ({
-  email: "",
-  email_confirm: "",
+  id: "",
+  id_confirm: "",
   password_1: "",
   password_1_confirm: "",
   password_2: "",
@@ -17,24 +21,28 @@ export const makeEmptyIDCreateFormErrors: () => IdCreateForm = () => ({
 });
 
 export interface IdCreateForm {
-  email: string;
-  email_confirm: string;
-  password_1: string;
-  password_1_confirm: string;
-  password_2: string;
-  password_2_confirm: string;
+  id: string | null;
+  id_confirm: string | null;
+  password_1: string | null;
+  password_1_confirm: string | null;
+  password_2: string | null;
+  password_2_confirm: string | null;
 }
 
-function validateEmail(email: any) {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    );
-}
+// function validateEmail(email: any) {
+//   return String(email)
+//     .toLowerCase()
+//     .match(
+//       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+//     );
+// }
 
-function checkPassword(str: string): [boolean, string] {
-  if (str.length < 15) {
+function checkPassword(str: string | null): [boolean, string] {
+  if (!str) {
+    return [false, "not exist"];
+  }
+
+  if (str?.length < 15) {
     return [false, "too short"];
   } else if (str.search(/\d/) === -1) {
     return [false, "no digit"];
@@ -47,10 +55,6 @@ function checkPassword(str: string): [boolean, string] {
   } else {
     return [true, ""];
   }
-
-  // var re =
-  //   /^(?=\D\d)(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=[^-!@._*#%]*[-!@._*#%])[-A-Za-z0-9=!@._*#%]*$/;
-  // return re.test(str || "");
 }
 
 export function validateIdCreateForm(
@@ -58,38 +62,36 @@ export function validateIdCreateForm(
   setFormErrors: React.Dispatch<React.SetStateAction<IdCreateForm>>,
 ): boolean {
   setFormErrors(() => makeEmptyIDCreateFormErrors());
-  // console.log(22, formValues);
-
-  if (!formValues.email || formValues.email.length < 1) {
+  if (!formValues.id || formValues.id.length < 1) {
     setFormErrors(oldVals => ({
       ...oldVals,
-      email: "Email is not present",
+      id: "Id is not present",
     }));
     return false;
   }
 
-  if (!formValues.email_confirm || formValues.email_confirm.length < 1) {
+  if (!formValues.id_confirm || formValues.id_confirm.length < 1) {
     setFormErrors(oldVals => ({
       ...oldVals,
-      email_confirm: "Email confirm is not present",
+      id_confirm: "Id confirm is not present",
     }));
 
     return false;
   }
 
-  if (!validateEmail(formValues.email)) {
+  if (formValues[ID]?.length < MINIMUM_ID_LENGTH) {
     setFormErrors(oldVals => ({
       ...oldVals,
-      email: "Email is invalid",
+      id: "Id should be 9 letter or longer",
     }));
 
     return false;
   }
 
-  if (formValues.email !== formValues.email_confirm) {
+  if (formValues.id !== formValues.id_confirm) {
     setFormErrors(oldVals => ({
       ...oldVals,
-      email_confirm: "Emails are not identical",
+      id_confirm: "Ids are not identical",
     }));
 
     return false;

@@ -3,14 +3,18 @@ import cn from "classnames";
 
 import styles from "./Input.module.scss";
 
-export const Input: React.FC<InputProps> = ({
+const Input: React.FC<InputProps> = ({
   className,
+  inputClassName,
+  labelClassName,
   label,
   name,
   value,
   error,
   type,
-  placeholder,
+  disabled,
+  readOnly,
+  // placeholder,
   handleChangeValue,
   handleKeyDown,
 }) => {
@@ -23,44 +27,54 @@ export const Input: React.FC<InputProps> = ({
   }, [setIsFocused]);
 
   return (
-    <div
-      className={cn(styles.wrapper, className, {
-        [styles.isError]: !!error,
-        [styles.isFocused]: isFocused,
-        [styles.hasValue]: value.length > 0,
-      })}
-    >
-      <div className={styles.label}>
-        <label htmlFor={name}>{label}</label>
+    <>
+      <div
+        className={cn(styles.wrapper, className, {
+          [styles.isError]: !!error,
+          [styles.isFocused]: isFocused,
+          [styles.hasValue]: value && value.length > 0,
+        })}
+      >
+        <div className={cn(styles.label, labelClassName)}>
+          <label htmlFor={name}>{label}</label>
+        </div>
+        <fieldset className={styles.fieldset}>
+          <legend>
+            <span>{label}</span>
+          </legend>
+        </fieldset>
+        <input
+          name={name}
+          value={value || ""}
+          className={cn(styles.input, inputClassName)}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          type={type}
+          onChange={handleChangeValue}
+          onKeyDown={handleKeyDown}
+          readOnly={readOnly}
+          disabled={disabled}
+        />
       </div>
-      <fieldset className={styles.fieldset}>
-        <legend>
-          <span>{label}</span>
-        </legend>
-      </fieldset>
-      <input
-        name={name}
-        value={value}
-        className={styles.input}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        type={type}
-        onChange={handleChangeValue}
-        onKeyDown={handleKeyDown}
-      />
-      {error && error.length && <p className={styles.error}>{error}</p>}
-    </div>
+      {error && <p className={styles.error}>{error}</p>}
+    </>
   );
 };
 
+export default Input;
+
 export interface InputProps {
   className?: string;
+  inputClassName?: string;
+  labelClassName?: string;
+  disabled?: boolean;
   name?: string;
-  value: string;
+  value: string | null;
   label: string;
-  handleChangeValue: React.ChangeEventHandler;
+  handleChangeValue?: React.ChangeEventHandler;
   handleKeyDown?: React.KeyboardEventHandler;
-  error: string | undefined;
+  error?: string | null;
   placeholder?: string;
   type?: HTMLInputTypeAttribute | undefined;
+  readOnly?: boolean;
 }

@@ -18,9 +18,8 @@ import {
 } from "@/components/masthead/Masthead";
 import VerifiedAccSearch from "@/components/verified_acc_search/VerifiedAccSearch";
 import { envs } from "@/envs";
-import AppLogo from "../app_logo/AppLogo";
-import { consolePaths, paths } from "@/paths";
-import { urls } from "@/urls";
+import AppLogo from "@/components/app_logo/AppLogo";
+import { paths } from "@/paths";
 import { PRFS_CONSOLE } from "@/app_id";
 
 const SetsMasthead: React.FC<AttestationsMastheadProps> = ({
@@ -34,14 +33,14 @@ const SetsMasthead: React.FC<AttestationsMastheadProps> = ({
       <div className={styles.leftBarBtn}>
         <AppLogo
           handleClickShowLeftBar={handleClickShowLeftBar}
-          url={consolePaths.sets}
+          url={paths.sets}
           label={i18n.sets}
         />
       </div>
       <div className={styles.leftBarDrawerBtn}>
         <AppLogo
           handleClickShowLeftBar={handleClickShowLeftBarDrawer}
-          url={consolePaths.sets}
+          url={paths.sets}
           label={i18n.sets}
         />
       </div>

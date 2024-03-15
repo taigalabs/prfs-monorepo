@@ -1,17 +1,18 @@
 import React from "react";
+import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import { PASSWORD_2, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
-import { abbrevMandN } from "@taigalabs/prfs-ts-utils";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import { makeDecryptKey } from "@taigalabs/prfs-crypto-js";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
 import styles from "./StoredCredentials.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   DefaultErrorMsg,
   DefaultInnerPadding,
-  DefaultInputItem,
   DefaultModuleBtnRow,
   DefaultModuleHeader,
   DefaultModuleSubtitle,
@@ -44,7 +45,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const [selectedCredentialId, setSelectedCredentialId] = React.useState<string | null>(null);
-  const [errorMsg, setErrorMsg] = React.useState("");
+  const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
 
@@ -162,7 +163,7 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
     const elems = Object.values(storedCredentials).map(cred => {
       let id = "";
       if (cred.id.length > 14) {
-        id = abbrevMandN(cred.id, 7, 5);
+        id = abbrev7and5(cred.id);
       } else {
         id = cred.id;
       }
@@ -176,39 +177,41 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
           role="button"
         >
           <div className={styles.item}>
-            <div className={styles.idRow}>
-              <p className={styles.prfsId}>{id}</p>
-              {cred.id === epheCredential?.credential.id && (
-                <div className={styles.signedIn}>
-                  <FaCheck />
-                  <span>{i18n.signed_in}</span>
+            <div className={styles.inner}>
+              <div className={styles.idRow}>
+                <p className={styles.prfsId}>{id}</p>
+                {cred.id === epheCredential?.credential.id && (
+                  <div className={styles.signedIn}>
+                    <FaCheck />
+                    <span>{i18n.signed_in}</span>
+                  </div>
+                )}
+              </div>
+              {cred.id === selectedCredentialId && (
+                <div className={styles.inputArea}>
+                  <Input
+                    className={styles.input}
+                    type="password"
+                    name={PASSWORD_2}
+                    error={formErrors[PASSWORD_2]}
+                    label={i18n.password_2}
+                    value={formData[PASSWORD_2]}
+                    handleChangeValue={handleChangeValue}
+                    handleKeyDown={handleKeyDown}
+                  />
+                  <Button
+                    className={styles.btn}
+                    variant="blue_3"
+                    type="button"
+                    noTransition
+                    handleClick={handleClickNextWithCredential}
+                  >
+                    {i18n.next}
+                  </Button>
+                  {errorMsg && <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>}
                 </div>
               )}
             </div>
-            {cred.id === selectedCredentialId && (
-              <div>
-                <DefaultInputItem
-                  className={styles.passwordInput}
-                  name="password_2"
-                  value={formData.password_2}
-                  placeholder={i18n.password_2}
-                  error={formErrors.password_2}
-                  handleChangeValue={handleChangeValue}
-                  handleKeyDown={handleKeyDown}
-                  type="password"
-                />
-                <Button
-                  variant="blue_2"
-                  type="button"
-                  noTransition
-                  noShadow
-                  handleClick={handleClickNextWithCredential}
-                >
-                  {i18n.next}
-                </Button>
-                <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>
-              </div>
-            )}
           </div>
         </li>
       );
@@ -217,7 +220,9 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
     elems.push(
       <li key="sign_in" className={styles.entry} onClick={handleClickUseAnotherId} role="button">
         <div className={styles.item}>
-          <p>{i18n.use_another_id}</p>
+          <div className={cn(styles.inner, styles.idRow)}>
+            <p className={styles.useAnotherId}>{i18n.use_another_id}</p>
+          </div>
         </div>
       </li>,
     );
@@ -239,17 +244,17 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
 
   return (
     <>
-      {/* <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel> */}
       <DefaultInnerPadding noSidePadding>
         <DefaultModuleHeader noTopPadding>
-          <DefaultModuleTitle>{i18n.choose_account}</DefaultModuleTitle>
+          <DefaultModuleTitle>{i18n.choose_your_idt_to_create_and_own_data}</DefaultModuleTitle>
           <DefaultModuleSubtitle>{subtitle}</DefaultModuleSubtitle>
         </DefaultModuleHeader>
         {content}
       </DefaultInnerPadding>
       <DefaultModuleBtnRow className={styles.btnRow}>
         <Button
-          variant="transparent_blue_2"
+          variant="transparent_blue_3"
+          rounded
           noTransition
           handleClick={handleClickForgetAllCredentials}
           type="button"

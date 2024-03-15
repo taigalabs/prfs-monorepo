@@ -19,6 +19,10 @@
     "code": "400000A1",
     "phrase": "Signature is invalid"
   },
+  "CANNOT_FIND_USER": {
+    "code": "400000C1",
+    "phrase": "Can't find a user"
+  },
   "RECORD_INSERT_FAIL": {
     "code": "40000B00",
     "phrase": "Unabled to insert the record"

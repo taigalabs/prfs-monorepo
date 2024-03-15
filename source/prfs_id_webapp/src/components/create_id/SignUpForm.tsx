@@ -2,14 +2,21 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Link from "next/link";
 import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
-import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import {
+  ID,
+  PASSWORD_1,
+  PASSWORD_2,
+  PrfsIdCredential,
+  makePrfsIdCredential,
+} from "@taigalabs/prfs-id-sdk-web";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./SignUpForm.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   DefaultInnerPadding,
   DefaultInputGuide,
-  DefaultInputItem,
   DefaultModuleBtnRow,
   DefaultModuleHeader,
   DefaultModuleInputArea,
@@ -17,17 +24,24 @@ import {
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
-import { IdCreateForm } from "@/functions/validate_id";
+import { IdCreateForm, validateIdCreateForm } from "@/functions/validate_id";
+import { useAppDispatch } from "@/state/hooks";
+
+const ID_CONFIRM = "id_confirm";
+const PASSWORD_1_CONFIRM = "password_1_confirm";
+const PASSWORD_2_CONFIRM = "password_2_confirm";
 
 const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
   formData,
   setFormData,
   formErrors,
+  setFormErrors,
   handleClickSignIn,
   handleClickNext,
   setCredential,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const dispatch = useAppDispatch();
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,46 +55,60 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
             [name]: val,
           };
         });
+
+        if ((formErrors as any)[name]) {
+          setFormErrors(oldVals => ({
+            ...oldVals,
+            [name]: null,
+          }));
+        }
       }
     },
-    [formData, setFormData],
+    [formData, setFormData, setFormErrors, formErrors],
   );
 
   const enhancedHandleClickNext = React.useCallback(async () => {
-    const credential = await makePrfsIdCredential({
-      email: formData.email,
-      password_1: formData.password_1,
-      password_2: formData.password_2,
-    });
-    console.log("credential", credential);
+    const isValid = validateIdCreateForm(formData, setFormErrors);
 
-    setCredential(credential);
-    handleClickNext();
-  }, [handleClickNext, setCredential]);
+    if (isValid) {
+      const credential = await makePrfsIdCredential({
+        id: formData[ID]!,
+        password_1: formData[PASSWORD_1]!,
+        password_2: formData[PASSWORD_2]!,
+      });
+      console.log("credential", credential);
+
+      setCredential(credential);
+      handleClickNext();
+    }
+  }, [handleClickNext, setCredential, dispatch, setFormErrors]);
 
   return (
     <DefaultInnerPadding>
       <div className={styles.main}>
         <DefaultModuleLogoArea />
         <Fade>
-          <DefaultModuleHeader>
+          <DefaultModuleHeader noSidePadding>
             <DefaultModuleTitle>{i18n.create_an_identity}</DefaultModuleTitle>
             <DefaultModuleSubtitle>{i18n.create_a_strong_password}</DefaultModuleSubtitle>
           </DefaultModuleHeader>
           <DefaultModuleInputArea>
             <div className={styles.inputGroup}>
-              <DefaultInputItem
-                name="email"
-                value={formData.email}
-                placeholder={i18n.email}
-                error={formErrors.email}
+              <Input
+                className={styles.input}
+                name={ID}
+                error={formErrors[ID]}
+                label={i18n.email_or_id_or_wallet_addr}
+                value={formData[ID]}
+                type="text"
                 handleChangeValue={handleChangeValue}
               />
-              <DefaultInputItem
-                name="email_confirm"
-                value={formData.email_confirm}
-                placeholder={i18n.confirm}
-                error={formErrors.email_confirm}
+              <Input
+                name={ID_CONFIRM}
+                error={formErrors[ID_CONFIRM]}
+                label={i18n.confirm}
+                value={formData[ID_CONFIRM]}
+                type="text"
                 handleChangeValue={handleChangeValue}
               />
             </div>
@@ -89,43 +117,43 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
                 href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
                 target="_blank"
               >
-                {i18n.why_we_ask_for_email}
+                {i18n.why_we_ask_for_id}
               </Link>
             </DefaultInputGuide>
             <div className={styles.inputGroup}>
-              <DefaultInputItem
-                name="password_1"
-                value={formData.password_1}
-                placeholder={i18n.password_1}
-                error={formErrors.password_1}
-                handleChangeValue={handleChangeValue}
+              <Input
+                name={PASSWORD_1}
+                error={formErrors[PASSWORD_1]}
+                label={i18n.password_1}
+                value={formData[PASSWORD_1]}
                 type="password"
+                handleChangeValue={handleChangeValue}
               />
-              <DefaultInputItem
-                name="password_1_confirm"
-                value={formData.password_1_confirm}
-                placeholder={i18n.confirm}
-                error={formErrors.password_1_confirm}
-                handleChangeValue={handleChangeValue}
+              <Input
+                name={PASSWORD_1_CONFIRM}
+                error={formErrors[PASSWORD_1_CONFIRM]}
+                label={i18n.confirm}
+                value={formData[PASSWORD_1_CONFIRM]}
                 type="password"
+                handleChangeValue={handleChangeValue}
               />
             </div>
             <div className={styles.inputGroup}>
-              <DefaultInputItem
-                name="password_2"
-                value={formData.password_2}
-                placeholder={i18n.password_2}
-                error={formErrors.password_2}
-                handleChangeValue={handleChangeValue}
+              <Input
+                name={PASSWORD_2}
+                error={formErrors[PASSWORD_2]}
+                label={i18n.password_2}
+                value={formData[PASSWORD_2]}
                 type="password"
+                handleChangeValue={handleChangeValue}
               />
-              <DefaultInputItem
-                name="password_2_confirm"
-                value={formData.password_2_confirm}
-                placeholder={i18n.confirm}
-                error={formErrors.password_2_confirm}
-                handleChangeValue={handleChangeValue}
+              <Input
+                name={PASSWORD_2_CONFIRM}
+                error={formErrors[PASSWORD_2_CONFIRM]}
+                label={i18n.confirm}
+                value={formData[PASSWORD_2_CONFIRM]}
                 type="password"
+                handleChangeValue={handleChangeValue}
               />
             </div>
             <DefaultInputGuide>
@@ -139,8 +167,10 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
           </DefaultModuleInputArea>
           <DefaultModuleBtnRow className={styles.btnRow} noSidePadding>
             <Button
+              className={styles.btn}
+              rounded
               type="button"
-              variant="transparent_blue_2"
+              variant="transparent_blue_3"
               noTransition
               handleClick={handleClickSignIn}
               noShadow
@@ -149,8 +179,8 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
             </Button>
             <Button
               type="button"
-              variant="blue_2"
-              className={styles.nextBtn}
+              variant="blue_3"
+              className={styles.btn}
               noTransition
               handleClick={enhancedHandleClickNext}
               noShadow
@@ -170,6 +200,7 @@ export interface InputCreateIdCredentialProps {
   formData: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   formErrors: IdCreateForm;
+  setFormErrors: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   handleClickNext: () => void;
   handleClickSignIn: () => void;
   setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;

@@ -7,6 +7,7 @@ function isTransparent(variant: Variant) {
   return (
     variant === "transparent_blue_1" ||
     variant === "transparent_blue_2" ||
+    variant === "transparent_blue_3" ||
     variant === "transparent_black_1" ||
     variant === "transparent_aqua_blue_1" ||
     variant === "transparent_aqua_blue_1_light"
@@ -25,6 +26,8 @@ const Button: React.FC<ButtonProps> = ({
   noShadow,
   contentClassName,
   smallPadding,
+  backdropClassName,
+  rounded,
 }) => {
   return (
     <button
@@ -34,9 +37,11 @@ const Button: React.FC<ButtonProps> = ({
         [styles.aqua_blue_1]: variant === "aqua_blue_1",
         [styles.blue_1]: variant === "blue_1",
         [styles.blue_2]: variant === "blue_2",
+        [styles.blue_3]: variant === "blue_3",
         [styles.light_blue_1]: variant === "light_blue_1",
         [styles.transparent_blue_1]: variant === "transparent_blue_1",
         [styles.transparent_blue_2]: variant === "transparent_blue_2",
+        [styles.transparent_blue_3]: variant === "transparent_blue_3",
         [styles.transparent_black_1]: variant === "transparent_black_1",
         [styles.transparent_aqua_blue_1]: variant === "transparent_aqua_blue_1",
         [styles.transparent_aqua_blue_1_light]: variant === "transparent_aqua_blue_1_light",
@@ -47,6 +52,7 @@ const Button: React.FC<ButtonProps> = ({
         [styles.no_transition]: noTransition,
         [styles.no_shadow]: noShadow,
         [styles.smallPadding]: smallPadding,
+        [styles.rounded]: !!rounded,
         [className || ""]: !!className,
       })}
       {...(name && { name })}
@@ -54,7 +60,11 @@ const Button: React.FC<ButtonProps> = ({
       disabled={!!disabled}
       type={type}
     >
-      <div className={styles.backdrop} />
+      <div
+        className={cn(styles.backdrop, backdropClassName, {
+          [styles.rounded]: !!rounded,
+        })}
+      />
       <div className={cn(styles.content, contentClassName)}>{children}</div>
     </button>
   );
@@ -72,7 +82,9 @@ export interface ButtonProps {
   noTransition?: boolean;
   smallPadding?: boolean;
   contentClassName?: string;
+  backdropClassName?: string;
   noShadow?: boolean;
+  rounded?: boolean;
   type?: "submit" | "reset" | "button" | undefined;
 }
 
@@ -80,9 +92,11 @@ export type Variant =
   | "aqua_blue_1"
   | "blue_1"
   | "blue_2"
+  | "blue_3"
   | "light_blue_1"
   | "transparent_blue_1"
   | "transparent_blue_2"
+  | "transparent_blue_3"
   | "transparent_black_1"
   | "transparent_aqua_blue_1"
   | "transparent_aqua_blue_1_light"

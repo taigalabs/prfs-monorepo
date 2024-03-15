@@ -7,6 +7,9 @@ import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalab
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
+import { shyApi2 } from "@taigalabs/shy-api-js";
+import { SignInShyAccountRequest } from "@taigalabs/shy-entities/bindings/SignInShyAccountRequest";
+import { SignUpShyAccountRequest } from "@taigalabs/shy-entities/bindings/SignUpShyAccountRequest";
 import {
   AppSignInData,
   makeColor,
@@ -19,8 +22,8 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { prfs_api_error_codes, prfsApi3 } from "@taigalabs/prfs-api-js";
-import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import shy_api_error_codes from "@taigalabs/shy-api-error-codes";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -34,7 +37,6 @@ import {
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
-import { reportError } from "@/state/errorReducer";
 
 const SIGN_IN = "SIGN_IN";
 
@@ -54,9 +56,14 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
   const [status, setStatus] = React.useState(Status.Standby);
   const dispatch = useAppDispatch();
   const { isInitialized, shyCredential } = useSignedInShyUser();
-  const { mutateAsync: prfsSignInRequest } = useMutation({
-    mutationFn: (req: PrfsSignInRequest) => {
-      return prfsApi3({ type: "sign_in_prfs_account", ...req });
+  const { mutateAsync: signInShyAccount } = useMutation({
+    mutationFn: (req: SignInShyAccountRequest) => {
+      return shyApi2({ type: "sign_in_shy_account", ...req });
+    },
+  });
+  const { mutateAsync: signUpShyAccount } = useMutation({
+    mutationFn: (req: SignUpShyAccountRequest) => {
+      return shyApi2({ type: "sign_up_shy_account", ...req });
     },
   });
   const [signUpData, setSignUpData] = React.useState<LocalShyCredential | null>(null);
@@ -90,7 +97,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           try {
             decrypted = decrypt(sk.secret, encrypted).toString();
           } catch (err) {
-            console.error(err);
+            console.error("Failed to decrypt, err: %s, msg: %s", err, encrypted);
             return;
           }
 
@@ -98,55 +105,85 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           try {
             proofGenSuccessPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
           } catch (err) {
-            console.error(err);
-            return;
-          }
-
-          const signInResult_ = proofGenSuccessPayload.receipt[SIGN_IN];
-          let signInResult: AppSignInResult;
-          try {
-            if (!signInResult_) {
-              dispatch(reportError({ errorObj: "", message: `Sign in result does not exist` }));
-              return;
-            }
-            signInResult = JSON.parse(signInResult_);
-          } catch (err) {
             dispatch(
-              reportError({
+              setGlobalError({
                 errorObj: err,
-                message: `Cannot parse sign in result, json: ${signInResult_}`,
+                message: `Cannot parse sign in payload, msg: ${decrypted}`,
               }),
             );
             return;
           }
 
-          const { error, code } = await prfsSignInRequest({
+          const signInResult: AppSignInResult = proofGenSuccessPayload.receipt[SIGN_IN];
+          const avatar_color = makeColor(signInResult.account_id);
+
+          const { error, code } = await signInShyAccount({
             account_id: signInResult.account_id,
           });
-          const avatar_color = makeColor(signInResult.account_id);
-          const credential: LocalShyCredential = {
-            account_id: signInResult.account_id,
-            public_key: signInResult.public_key,
-            avatar_color,
-          };
 
           if (error) {
-            console.error(error);
-            if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
-              setSignUpData(credential);
-            }
-            return;
-          }
+            if (code === shy_api_error_codes.CANNOT_FIND_USER.code) {
+              const { error } = await signUpShyAccount({
+                account_id: signInResult.account_id,
+                public_key: signInResult.public_key,
+                avatar_color,
+              });
 
-          persistShyCredential(credential);
-          dispatch(signInShy(credential));
+              if (error) {
+                dispatch(
+                  setGlobalError({
+                    errorObj: error,
+                    message: "Failed to sign up",
+                  }),
+                );
+                return;
+              }
+
+              const credential: LocalShyCredential = {
+                account_id: signInResult.account_id,
+                public_key: signInResult.public_key,
+                avatar_color,
+              };
+
+              persistShyCredential(credential);
+              dispatch(signInShy(credential));
+              router.push(paths.account__welcome);
+            } else {
+              dispatch(
+                setGlobalError({
+                  errorObj: error,
+                  message: "Failed to sign up",
+                }),
+              );
+              return;
+            }
+          } else {
+            const credential: LocalShyCredential = {
+              account_id: signInResult.account_id,
+              public_key: signInResult.public_key,
+              avatar_color,
+            };
+
+            persistShyCredential(credential);
+            dispatch(signInShy(credential));
+            router.push(paths.__);
+          }
         }
       }
       setStatus(Status.InProgress);
       fn().then();
       setStatus(Status.Standby);
     },
-    [router, dispatch, prfsSignInRequest, setSignUpData, searchParams, setStatus],
+    [
+      router,
+      dispatch,
+      signInShyAccount,
+      setSignUpData,
+      searchParams,
+      setStatus,
+      router,
+      signUpShyAccount,
+    ],
   );
 
   const handleClickSignOut = React.useCallback(() => {
@@ -173,11 +210,10 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
     )
   ) : (
     <>
-      {signUpData && <SignUpModal credential={signUpData} />}
       {!noSignInBtn && (
         <PrfsIdSignInButton
           className={styles.signInBtn}
-          label={i18n.sign_in_up_with_prfs_id}
+          label={i18n.sign_in_with_prfs_id}
           proofGenArgs={proofGenArgs}
           handleSucceedSignIn={handleSucceedSignIn}
           prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}

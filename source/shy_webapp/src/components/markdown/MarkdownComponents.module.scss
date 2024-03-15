@@ -1,0 +1,38 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  line-height: 1.5;
+  font-size: 16px;
+
+  a {
+    color: var(--blue-05);
+    position: relative;
+
+    &::before {
+      content: "";
+      top: -1px;
+      bottom: -1px;
+      border-radius: 8px;
+      left: -5px;
+      right: -5px;
+      padding: 10px;
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    &:hover {
+      &::before {
+        background-color: var(--blue-05);
+        opacity: 0.08;
+      }
+    }
+  }
+
+  p {
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (max-width: $big_display_min_width) {
+}

@@ -1,7 +1,6 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use prfs_entities::entities::{
-    PrfsCryptoAssetSizeAtst, PrfsSetElement, PrfsSetElementData, PrfsSetElementDataType,
-};
+use prfs_entities::atst_entities::PrfsCryptoAssetSizeAtst;
+use prfs_entities::entities::{PrfsSetElement, PrfsSetElementData, PrfsSetElementDataType};
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
 

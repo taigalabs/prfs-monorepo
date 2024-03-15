@@ -1,43 +1,38 @@
 @import "@/styles/layouts.module.scss";
 
 .list {
-  padding: 16px 16px 20px;
+  padding: 24px $small_side_padding;
 }
 
 .sidePadding {
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 .item {
   padding-top: 12px;
   padding-bottom: 12px;
+  position: relative;
 
-  &:hover {
-    background-color: var(--bright-blue-71);
+  .inner {
+    position: relative;
+    z-index: 1;
   }
 }
 
 .meta {
   display: flex;
-  font-size: 13px;
 }
 
 .leftCol {
   font-size: 20px;
   width: 32px;
   flex-shrink: 0;
-  padding-top: 6px;
-  padding-left: 4px;
 }
 
 .rightCol {
   word-break: break-all;
   color: var(--black-20);
-
-  > * {
-    padding-left: 6px;
-  }
 }
 
 .val {
@@ -46,6 +41,7 @@
 
 .name {
   font-weight: 500;
+  font-size: 16px;
 }
 
 .type {
@@ -62,11 +58,11 @@
 
 @media screen and (min-width: $mid_display_min_width) {
   .list {
-    padding: 14px 0px 14px;
+    // padding: 14px 0px 14px;
   }
 
   .sidePadding {
-    padding-left: 40px;
-    padding-right: 40px;
+    /* padding-left: 40px; */
+    /* padding-right: 40px; */
   }
 }

@@ -1,11 +1,10 @@
 import React from "react";
 import { redirect } from "next/navigation";
 
-import { consolePaths, paths } from "@/paths";
-import { urls } from "@/urls";
+import { paths } from "@/paths";
 
 const ConsolePage: React.FC = () => {
-  redirect(consolePaths.sets);
+  redirect(paths.sets);
 };
 
 export default ConsolePage;

@@ -1,11 +1,11 @@
 use std::fs;
 
 use crate::{
-    error_codes::PRFS_ID_SESSION_API_ERROR_CODES, paths::PATHS, IdSessionServerErrorCodesError,
+    error_codes::PRFS_ID_SESSION_API_ERROR_CODES, paths::PATHS, IdSessionApiErrorCodesError,
 };
 
-pub fn make_prfs_id_session_api_error_code_json_binding(
-) -> Result<(), IdSessionServerErrorCodesError> {
+pub fn make_prfs_id_session_api_error_code_json_binding() -> Result<(), IdSessionApiErrorCodesError>
+{
     let json = serde_json::to_string_pretty(&PRFS_ID_SESSION_API_ERROR_CODES.clone()).unwrap();
     println!(
         "[prfs_id_session_api_error_codes] \

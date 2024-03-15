@@ -3,8 +3,9 @@ import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
+// import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import { shyApi2 } from "@taigalabs/shy-api-js";
+import { SignUpShyAccountRequest } from "@taigalabs/shy-entities/bindings/SignUpShyAccountRequest";
 import Modal from "@taigalabs/prfs-react-lib/src/modal/Modal";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
@@ -23,8 +24,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ credential }) => {
   });
   const dispatch = useAppDispatch();
   const { mutateAsync: prfsSignUpRequest } = useMutation({
-    mutationFn: (req: PrfsSignUpRequest) => {
-      return prfsApi3({ type: "sign_up_prfs_account", ...req });
+    mutationFn: (req: SignUpShyAccountRequest) => {
+      return shyApi2({ type: "sign_up_shy_account", ...req });
     },
   });
   const handleClickSignUp = React.useCallback(async () => {

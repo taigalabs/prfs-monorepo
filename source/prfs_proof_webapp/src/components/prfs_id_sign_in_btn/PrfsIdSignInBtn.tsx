@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { KeyPair, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
+import prfs_api_error_codes from "@taigalabs/prfs-api-error-codes";
 import {
   AppSignInData,
   makeColor,
@@ -17,8 +18,8 @@ import {
   AppSignInResult,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { prfsApi3, prfs_api_error_codes } from "@taigalabs/prfs-api-js";
-import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import { SignInPrfsAccountRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsAccountRequest";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -29,7 +30,7 @@ import {
   persistPrfsProofCredential,
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
-import SignUpModal from "@/components/sign_up_modal/SignUpModal";
+// import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
 import { reportError } from "@/state/errorReducer";
 
@@ -45,7 +46,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   const dispatch = useAppDispatch();
   const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
   const { mutateAsync: prfsSignInRequest } = useMutation({
-    mutationFn: (req: PrfsSignInRequest) => {
+    mutationFn: (req: SignInPrfsAccountRequest) => {
       return prfsApi3({ type: "sign_in_prfs_account", ...req });
     },
   });
@@ -105,30 +106,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
           return;
         }
 
-        const signInResult_ = proofGenPayload.receipt[SIGN_IN];
-        let signInResult: AppSignInResult;
-        try {
-          if (!signInResult_) {
-            dispatch(
-              reportError({
-                errorObj: "",
-                message: `Sign in result does not exist`,
-              }),
-            );
-            return;
-          }
-
-          signInResult = JSON.parse(signInResult_);
-        } catch (err) {
-          dispatch(
-            reportError({
-              errorObj: err,
-              message: `Err parsing sign in result, json: ${signInResult_}`,
-            }),
-          );
-          return;
-        }
-
+        const signInResult: AppSignInResult = proofGenPayload.receipt[SIGN_IN];
         if (!signInResult.account_id || !signInResult.public_key) {
           dispatch(
             reportError({
@@ -191,7 +169,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
     )
   ) : (
     <>
-      {signUpData && <SignUpModal credential={signUpData} />}
+      {/* {signUpData && <SignUpModal credential={signUpData} />} */}
       <PrfsIdSignInButton
         className={cn(styles.signInBtn, className)}
         label={label}

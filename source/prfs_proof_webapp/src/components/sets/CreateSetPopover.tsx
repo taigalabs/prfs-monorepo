@@ -57,7 +57,7 @@ const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = () => {
       className={styles.createBtn}
       contentClassName={styles.addBtnContent}
     >
-      <a href={consolePaths.sets__create}>
+      <a href={paths.sets__create}>
         <HiPlus />
         <span>{i18n.create_set}</span>
       </a>

@@ -17,9 +17,15 @@ export const DefaultModuleHeader: React.FC<DefaultModuleInputAreaProps> = ({
   className,
   children,
   noTopPadding,
+  noSidePadding,
 }) => {
   return (
-    <div className={cn(styles.header, className, { [styles.noTopPadding]: noTopPadding })}>
+    <div
+      className={cn(styles.header, className, {
+        [styles.noTopPadding]: noTopPadding,
+        [styles.noSidePadding]: noSidePadding,
+      })}
+    >
       {children}
     </div>
   );
@@ -33,8 +39,11 @@ export const DefaultModuleSubtitle: React.FC<DefaultModuleInputAreaProps> = ({ c
   return <div className={styles.subtitle}>{children}</div>;
 };
 
-export const DefaultModuleInputArea: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
-  return <div className={styles.inputArea}>{children}</div>;
+export const DefaultModuleInputArea: React.FC<DefaultModuleInputAreaProps> = ({
+  children,
+  className,
+}) => {
+  return <div className={cn(styles.inputArea, className)}>{children}</div>;
 };
 
 export const DefaultModuleFooter: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {

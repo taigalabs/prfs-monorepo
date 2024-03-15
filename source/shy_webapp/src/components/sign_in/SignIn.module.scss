@@ -31,13 +31,15 @@
   display: flex;
   max-width: none;
   flex-grow: 0;
+
+  // border: 1px solid blue;
 }
 
 .logo {
-  font-size: 44px;
+  font-size: 40px;
 
   > div {
-    padding: 14px 5px 8px;
+    padding: 10px 5px 3px;
   }
 }
 
@@ -96,45 +98,6 @@
 
 @media screen and (min-width: $big_display_min_width) {
   .upper {
-    flex-direction: row;
-    width: 100%;
-    flex-grow: 1;
-  }
-
-  .logoPane {
-    flex-grow: 1;
-    flex-shrink: 0;
-    width: 45vw;
-  }
-
-  .logoWrapper {
-    display: flex;
-    justify-content: flex-end;
     align-items: center;
-    flex-grow: 1;
-  }
-
-  .main {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 55vw;
-  }
-
-  .mainInner {
-    max-width: 400px;
-    /* border: 1px solid black; */
-
-    .intro {
-      letter-spacing: 0.018em;
-      padding: 0 28px;
-    }
-
-    .guideline {
-      padding: 6px 28px 0;
-      font-size: 11px;
-      color: var(--gray-40);
-    }
   }
 }

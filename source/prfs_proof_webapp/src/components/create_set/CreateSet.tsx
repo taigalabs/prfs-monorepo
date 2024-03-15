@@ -2,7 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
-import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
@@ -98,7 +98,7 @@ const CreateSet: React.FC<CreateSetProps> = () => {
         }
         if (payload) {
           setIsNavigating(true);
-          router.push(consolePaths.sets);
+          router.push(paths.sets);
         }
       } catch (err) {
         setCreateStatus(Status.Standby);

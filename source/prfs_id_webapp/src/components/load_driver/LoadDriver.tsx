@@ -36,7 +36,6 @@ const LoadDriverResult: React.FC<LoadDriverResultProps> = ({ proofType, driverAr
       // href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
       >
         <span>{proofType.circuit_driver_id}</span>
-        <BiLinkExternal />
       </a>
       <span className={styles.diff}>
         ({diff}s, {artifactCount} files)

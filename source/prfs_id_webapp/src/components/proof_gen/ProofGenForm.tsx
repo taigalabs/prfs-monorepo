@@ -10,11 +10,13 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { JSONbigNative, encrypt } from "@taigalabs/prfs-crypto-js";
-import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
+import { SignInPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsIdentityRequest";
 import { idApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import PrfsIdSessionErrorCodes from "@taigalabs/prfs-id-session-api-error-codes";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -34,7 +36,6 @@ import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
 import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 import { useAppDispatch } from "@/state/hooks";
-import { setGlobalError } from "@/state/globalErrorReducer";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 enum Status {
@@ -53,11 +54,11 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [status, setStatus] = React.useState(Status.InProgress);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
-  const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
-    mutationFn: (req: PrfsIdentitySignInRequest) => {
-      return idApi("sign_in_prfs_identity", req);
-    },
-  });
+  // const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
+  //   mutationFn: (req: SignInPrfsIdentityRequest) => {
+  //     return idApi({ type: "sign_in_prfs_identity", ...req });
+  //   },
+  // });
   const { mutateAsync: putSessionValueRequest } = usePutSessionValue();
   const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>({});
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
@@ -100,9 +101,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         dispatch(setGlobalMsg({ message: i18n.already_made_proof, notDismissible: true }));
         setCreateProofStatus(Status.Standby);
 
-        // setTimeout(() => {
-        //   window.close();
-        // }, 2000);
+        setTimeout(() => {
+          window.close();
+        }, 2000);
       }
     },
     [proofGenArgs, putSessionValueRequest, setErrorMsg, setCreateProofStatus, receipt, dispatch],
@@ -120,10 +121,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   <CreateProof
                     key={query.name}
                     credential={credential}
-                    // setErrorDialogMsg={setErrorDialogMsg}
                     query={query}
                     setReceipt={setReceipt}
-                    tutorial={proofGenArgs.tutorial}
                     handleSkip={handleSkip}
                   />
                 );
@@ -202,13 +201,15 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && status === Status.Standby) {
-      const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
-        identity_id: credential.id,
-      });
-      if (error) {
-        setErrorMsg(error);
-        return;
-      }
+      // const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
+      //   identity_id: credential.id,
+      // });
+
+      // if (error) {
+      //   setErrorMsg(error);
+      //   return;
+      // }
+
       if (!receipt) {
         setErrorMsg("no proof gen receipt");
         return;
@@ -243,7 +244,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
         // For some reason, parent window sees the child as 'child', so child manually
         // closes itself
-        // window.close();
+        window.close();
       } catch (err: any) {
         console.error(err);
         setCreateProofStatus(Status.Standby);
@@ -259,33 +260,38 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     putSessionValueRequest,
   ]);
 
+  const abbrevId = React.useMemo(() => {
+    return abbrev7and5(credential.id);
+  }, [credential.id]);
+
   return proofGenArgs ? (
     <>
       <DefaultInnerPadding noSidePadding>
         {(status === Status.InProgress || createProofStatus === Status.InProgress) && (
           <div className={styles.overlay} />
         )}
-        <DefaultModuleHeader noTopPadding className={styles.sidePadding}>
+        <DefaultModuleHeader noTopPadding>
           <DefaultModuleTitle>
             <span className={styles.blueText}>{proofGenArgs.app_id}</span> wants you to submit
             information
           </DefaultModuleTitle>
         </DefaultModuleHeader>
         <div className={cn(styles.prfsId, styles.sidePadding)}>
-          <p>{credential.id}</p>
+          <p>{abbrevId}</p>
         </div>
-        <QueryItemList>{queryElems}</QueryItemList>
+        <QueryItemList sidePadding>{queryElems}</QueryItemList>
         <div className={cn(styles.dataWarning, styles.sidePadding)}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.app_id} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
         <DefaultModuleBtnRow className={cn(styles.btnRow, styles.sidePadding)}>
-          <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
+          <Button variant="transparent_blue_3" noTransition handleClick={handleClickPrev} rounded>
             {i18n.go_back}
           </Button>
           <Button
             type="button"
-            variant="blue_2"
+            rounded
+            variant="blue_3"
             className={styles.submitBtn}
             contentClassName={styles.submitBtnContent}
             noTransition

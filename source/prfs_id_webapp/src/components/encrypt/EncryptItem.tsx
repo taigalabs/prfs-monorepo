@@ -16,7 +16,7 @@ const EncryptItem: React.FC<EncryptItemProps> = ({ name, val, type, encrypted })
   const i18n = React.useContext(i18nContext);
 
   return (
-    <QueryItem sidePadding>
+    <QueryItem>
       <QueryItemMeta>
         <QueryItemLeftCol>
           <MdEnhancedEncryption />

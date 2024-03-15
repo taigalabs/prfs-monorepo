@@ -51,7 +51,7 @@
 
   > svg {
     font-size: 22px;
-    margin-right: 14px;
+    margin-right: 10px;
   }
 }
 
@@ -59,6 +59,7 @@
   display: grid;
   place-items: center;
   font-size: 22px;
+  padding-left: 6px;
 
   button {
     cursor: pointer;

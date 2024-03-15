@@ -103,7 +103,6 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
   ) : (
     <>
       <Loading>Loading</Loading>
-      <span className={styles.fontLoadText} />
     </>
   );
 };

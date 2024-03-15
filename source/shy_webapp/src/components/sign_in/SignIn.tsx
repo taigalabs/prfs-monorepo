@@ -33,23 +33,25 @@ const SignIn: React.FC<SignInProps> = () => {
   ) : (
     <div className={styles.wrapper}>
       <div className={styles.upper}>
-        <div className={styles.logoPane}>
-          <div className={styles.logoWrapper}>
-            <ShyLogo className={styles.logo} />
-          </div>
-        </div>
-        <div className={styles.main}>
-          <div className={styles.mainInner}>
-            <div className={styles.intro}>
-              <p>{i18n.more_honest_discussions}</p>
+        <div className={styles.inner}>
+          <div className={styles.logoPane}>
+            <div className={styles.logoWrapper}>
+              <ShyLogo className={styles.logo} />
             </div>
-            <ul className={styles.signInBtnRow}>
-              <li className={styles.signInBtnWrapper}>
-                <ShySignInBtn />
-              </li>
-            </ul>
-            <div className={styles.guideline}>
-              <SigningInGuideline />
+          </div>
+          <div className={styles.main}>
+            <div className={styles.mainInner}>
+              <div className={styles.intro}>
+                <p>{i18n.more_honest_discussions}</p>
+              </div>
+              <ul className={styles.signInBtnRow}>
+                <li className={styles.signInBtnWrapper}>
+                  <ShySignInBtn />
+                </li>
+              </ul>
+              <div className={styles.guideline}>
+                <SigningInGuideline />
+              </div>
             </div>
           </div>
         </div>

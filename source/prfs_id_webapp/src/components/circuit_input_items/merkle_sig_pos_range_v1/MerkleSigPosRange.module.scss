@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .computedValue {
   padding: 2px 6px;
   color: var(--gray-30);
@@ -5,7 +7,7 @@
 }
 
 .link {
-  color: var(--aqua-blue-40);
+  color: var(--blue-05);
   word-break: break-all;
 
   > svg {
@@ -16,4 +18,25 @@
   &:hover {
     text-decoration: underline;
   }
+}
+
+.addrInputWrapper {
+  position: relative;
+
+  .btnRow {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    width: 100%;
+  }
+}
+
+.addrInput {
+  padding: 12px 14px 42px;
+  transition: none;
+  /* margin-bottom: 14px; */
+}
+
+.row {
+  padding-top: 18px;
 }

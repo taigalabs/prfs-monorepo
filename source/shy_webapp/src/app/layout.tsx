@@ -5,6 +5,7 @@ import React from "react";
 import { Metadata } from "next/types";
 
 import TopProvider from "@/components/top_provider/TopProvider";
+import styles from "./layout.module.scss";
 
 export const metadata: Metadata = {
   robots: {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body suppressHydrationWarning={true}>
         <TopProvider>{children}</TopProvider>
+        <span className={styles.fontLoadText} />
       </body>
     </html>
   );

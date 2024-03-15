@@ -10,7 +10,7 @@ use prfs_entities::atst_api::{
     FetchCryptoAssetResponse, GetCryptoAssetSizeAtstRequest, GetCryptoAssetSizeAtstResponse,
     GetCryptoAssetSizeAtstsRequest, GetCryptoAssetSizeAtstsResponse,
 };
-use prfs_entities::entities::{PrfsAtstStatus, PrfsCryptoAssetSizeAtst};
+use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsCryptoAssetSizeAtst};
 use prfs_web_fetcher::destinations::coinbase::{self};
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;

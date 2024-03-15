@@ -12,13 +12,19 @@ import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
-import { PrfsIdCredential, makeColor } from "@taigalabs/prfs-id-sdk-web";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
+import { SignUpPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignUpPrfsIdentityRequest";
+import {
+  PASSWORD_1,
+  PrfsIdCredential,
+  makeColor,
+  ID,
+  PASSWORD_2,
+} from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SignUp.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
-  DefaultErrorMsg,
   DefaultInnerPadding,
   DefaultInputGuide,
   DefaultModuleBtnRow,
@@ -27,6 +33,7 @@ import {
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
+import { useAppDispatch } from "@/state/hooks";
 
 export enum IdCreationStatus {
   Standby,
@@ -37,18 +44,18 @@ export enum IdCreationStatus {
 const SignUp: React.FC<SignUpProps> = ({
   formData,
   handleClickPrev,
-  handleClickSignIn,
-  handleSucceedCreateId,
+  // handleClickSignIn,
+  handleSucceedSignIn,
   credential,
 }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const [status, setStatus] = React.useState(IdCreationStatus.Standby);
-  const [errorMsg, setErrorMsg] = React.useState("");
+  const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = React.useState(false);
-  const { mutateAsync: prfsIdentitySignUpRequest } = useMutation({
-    mutationFn: (req: PrfsIdentitySignUpRequest) => {
-      return idApi("sign_up_prfs_identity", req);
+  const { mutateAsync: signUpPrfsIdentity } = useMutation({
+    mutationFn: (req: SignUpPrfsIdentityRequest) => {
+      return idApi({ type: "sign_up_prfs_identity", ...req });
     },
   });
 
@@ -57,8 +64,8 @@ const SignUp: React.FC<SignUpProps> = ({
   }, [setShowPassword]);
 
   const handleClickCopyPassword = React.useCallback(() => {
-    const { email, password_1, password_2 } = formData;
-    const pw = `${email}${password_1}${password_2}`;
+    const { id, password_1, password_2 } = formData;
+    const pw = `${id}${password_1}${password_2}`;
     copy(pw);
   }, [formData]);
 
@@ -69,39 +76,52 @@ const SignUp: React.FC<SignUpProps> = ({
       try {
         setStatus(IdCreationStatus.InProgress);
         const avatar_color = makeColor(id);
-        const { error } = await prfsIdentitySignUpRequest({
+        const { error } = await signUpPrfsIdentity({
           identity_id: id,
           avatar_color,
+          public_key: credential.public_key,
         });
         setStatus(IdCreationStatus.Standby);
 
         if (error) {
-          setErrorMsg(error.toString());
+          dispatch(
+            setGlobalError({
+              message: error.toString(),
+            }),
+          );
+          return;
         } else {
-          handleSucceedCreateId(credential);
+          handleSucceedSignIn(credential);
         }
       } catch (err: any) {
-        setErrorMsg(err.toString());
+        dispatch(
+          setGlobalError({
+            message: err.toString(),
+          }),
+        );
+        return;
       }
     }
-  }, [formData, router, prfsIdentitySignUpRequest, credential, setErrorMsg, handleSucceedCreateId]);
+  }, [formData, router, signUpPrfsIdentity, credential, handleSucceedSignIn, dispatch]);
 
-  const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
+  const { id_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
       return {
-        email_val: formData.email,
-        password_1_val: formData.password_1,
-        password_2_val: formData.password_2,
+        id_val: formData[ID],
+        password_1_val: formData[PASSWORD_1],
+        password_2_val: formData[PASSWORD_2],
         secret_key_val: credential.secret_key,
       };
     } else {
-      const email_val = `${formData.email.substring(0, 2)}${"*".repeat(formData.email.length - 2)}`;
-      const password_1_val = "*".repeat(formData.password_1.length);
-      const password_2_val = "*".repeat(formData.password_2.length);
+      const id_val = formData[ID]
+        ? `${formData[ID].substring(0, 2)}${"*".repeat(formData[ID].length - 2)}`
+        : "";
+      const password_1_val = formData[PASSWORD_1] ? "*".repeat(formData[PASSWORD_1].length) : "";
+      const password_2_val = formData[PASSWORD_2] ? "*".repeat(formData[PASSWORD_2].length) : "";
       const secret_key_val = "*".repeat(credential.secret_key.length);
 
       return {
-        email_val,
+        id_val,
         password_1_val,
         password_2_val,
         secret_key_val,
@@ -119,7 +139,7 @@ const SignUp: React.FC<SignUpProps> = ({
       <DefaultModuleLogoArea />
       <div className={styles.wrapper}>
         <Fade>
-          <DefaultModuleHeader>
+          <DefaultModuleHeader noSidePadding>
             <DefaultModuleTitle>{i18n.create_an_identity}</DefaultModuleTitle>
             <DefaultModuleSubtitle>{i18n.check_your_credential}</DefaultModuleSubtitle>
           </DefaultModuleHeader>
@@ -142,7 +162,7 @@ const SignUp: React.FC<SignUpProps> = ({
             <div className={styles.content}>
               <div className={styles.secretKey}>
                 <div className={styles.value}>
-                  <span>{email_val}</span>
+                  <span>{id_val}</span>
                   <span>{password_1_val}</span>
                   <span>{password_2_val}</span>
                 </div>
@@ -174,41 +194,7 @@ const SignUp: React.FC<SignUpProps> = ({
               {i18n.what_is_id}
             </Link>
           </DefaultInputGuide>
-          <DefaultModuleBtnRow className={styles.btnRow}>
-            <Button
-              type="button"
-              variant="transparent_blue_2"
-              noTransition
-              handleClick={handleClickSignIn}
-              noShadow
-            >
-              {i18n.already_have_id}
-            </Button>
-            <Button
-              type="button"
-              variant="blue_2"
-              className={styles.createBtn}
-              noTransition
-              handleClick={handleClickSignUp}
-              noShadow
-            >
-              {i18n.sign_up}
-            </Button>
-          </DefaultModuleBtnRow>
-          <DefaultModuleBtnRow className={styles.secondBtnRow}>
-            <Button
-              type="button"
-              variant="transparent_blue_2"
-              noTransition
-              handleClick={handleClickPrev}
-              noShadow
-            >
-              {i18n.go_back}
-            </Button>
-            <div />
-          </DefaultModuleBtnRow>
-          <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>
-          <DefaultInputGuide className={styles.rightAlign}>
+          <DefaultInputGuide>
             <Link
               href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
               target="_blank"
@@ -216,6 +202,29 @@ const SignUp: React.FC<SignUpProps> = ({
               {i18n.what_happens_when_signing_up}
             </Link>
           </DefaultInputGuide>
+          <DefaultModuleBtnRow className={styles.btnRow} noSidePadding>
+            <Button
+              type="button"
+              variant="transparent_blue_3"
+              rounded
+              noTransition
+              handleClick={handleClickPrev}
+              noShadow
+            >
+              {i18n.go_back}
+            </Button>
+            <Button
+              type="button"
+              variant="blue_3"
+              className={styles.createBtn}
+              rounded
+              noTransition
+              handleClick={handleClickSignUp}
+              noShadow
+            >
+              {i18n.sign_up}
+            </Button>
+          </DefaultModuleBtnRow>
         </Fade>
       </div>
     </DefaultInnerPadding>
@@ -229,5 +238,5 @@ export interface SignUpProps {
   handleClickPrev: () => void;
   handleClickSignIn: () => void;
   credential: PrfsIdCredential;
-  handleSucceedCreateId: (credential: PrfsIdCredential) => void;
+  handleSucceedSignIn: (credential: PrfsIdCredential) => void;
 }

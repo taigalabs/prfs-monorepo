@@ -15,8 +15,8 @@
 
 .inputTitleRow {
   color: var(--black-27);
-  padding: 0 2px 3px;
-  font-size: 14px;
+  padding-bottom: 8px;
+  font-size: 15px;
 }
 
 .inputType {
@@ -33,7 +33,8 @@
 
 .btnRow {
   /* display: flex; */
-  font-size: 13px;
+  font-size: 14px;
+  padding-bottom: 6px;
 }
 
 .inputWrapper {

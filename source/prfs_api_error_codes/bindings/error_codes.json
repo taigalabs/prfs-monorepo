@@ -1,0 +1,22 @@
+{
+  "SUCCESS": {
+    "code": "20000000",
+    "phrase": "Success"
+  },
+  "UNKNOWN_ERROR": {
+    "code": "40000000",
+    "phrase": "Unknown error"
+  },
+  "CANNOT_FIND_USER": {
+    "code": "40000001",
+    "phrase": "Can't find a user"
+  },
+  "USER_ALREADY_EXISTS": {
+    "code": "40000002",
+    "phrase": "User already exists"
+  },
+  "NO_POLICY_ATTACHED": {
+    "code": "40000003",
+    "phrase": "User has no policy attached"
+  }
+}

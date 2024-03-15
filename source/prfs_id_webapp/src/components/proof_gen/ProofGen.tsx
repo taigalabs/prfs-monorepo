@@ -6,6 +6,9 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { bustEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+import { idApi } from "@taigalabs/prfs-api-js";
+import { SignInPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsIdentityRequest";
 
 import styles from "./ProofGen.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -20,9 +23,8 @@ import ProofGenForm from "./ProofGenForm";
 import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
-import TutorialPlaceholder from "@/components/tutorial_default/TutorialPlaceholder";
 import { signInPrfs } from "@/state/userReducer";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -42,6 +44,11 @@ const ProofGen: React.FC = () => {
   const dispatch = useAppDispatch();
   const [step, setStep] = React.useState(ProofGenStep.PrfsIdCredential);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
+  const { mutateAsync: signInPrfsIdentity } = useMutation({
+    mutationFn: (req: SignInPrfsIdentityRequest) => {
+      return idApi({ type: "sign_in_prfs_identity", ...req });
+    },
+  });
   const proofGenArgs = React.useMemo(() => {
     try {
       const args = parseProofGenSearchParams(searchParams as URLSearchParams);
@@ -69,24 +76,31 @@ const ProofGen: React.FC = () => {
     }
   }, [searchParams, setStatus, setErrorMsg, setStep, proofGenArgs, dispatch]);
 
-  const handleCloseErrorDialog = React.useCallback(() => {
-    window.close();
-  }, []);
-
   const handleClickPrev = React.useCallback(() => {
     bustEphemeralPrfsIdCredential(true);
     setStep(ProofGenStep.PrfsIdCredential);
   }, [setStep]);
 
   const handleSucceedSignIn = React.useCallback(
-    (credential: PrfsIdCredential) => {
+    async (credential: PrfsIdCredential) => {
       if (credential) {
+        const { error } = await signInPrfsIdentity({ identity_id: credential.id });
+        if (error) {
+          dispatch(
+            setGlobalError({
+              message: `Failed to sign in. Did you sign up? If yes, check out the passwords
+\ again. Id you created: ${credential.id}`,
+            }),
+          );
+          return;
+        }
+
         setCredential(credential);
         dispatch(signInPrfs(credential));
         setStep(ProofGenStep.Form);
       }
     },
-    [setCredential, setStep, dispatch],
+    [setCredential, setStep, dispatch, signInPrfsIdentity],
   );
 
   const content = React.useMemo(() => {
@@ -125,12 +139,10 @@ const ProofGen: React.FC = () => {
         ) : (
           content
         )}
-        <TutorialDefault tutorial={proofGenArgs?.tutorial} />
       </DefaultForm>
       <DefaultModuleFooter>
         <GlobalFooter />
       </DefaultModuleFooter>
-      <TutorialPlaceholder tutorial={proofGenArgs?.tutorial} />
     </DefaultModule>
   );
 };

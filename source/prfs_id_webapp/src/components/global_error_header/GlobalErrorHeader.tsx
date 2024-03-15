@@ -10,10 +10,10 @@ import {
 import { IoMdWarning } from "@react-icons/all-files/io/IoMdWarning";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
+import { removeGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./GlobalErrorHeader.module.scss";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { removeGlobalError } from "@/state/globalErrorReducer";
 
 const GlobalErrorHeader: React.FC<GlobalErrorDialogProps> = ({}) => {
   const error = useAppSelector(state => state.globalError.error);

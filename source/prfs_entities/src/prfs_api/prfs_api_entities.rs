@@ -1,8 +1,6 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::id_api::{PrfsSignInRequest, PrfsSignInResponse};
-
 use super::{
     AddPrfsIndexRequest, AddPrfsIndexResponse, CreatePrfsDynamicSetElementRequest,
     CreatePrfsDynamicSetElementResponse, CreatePrfsPollRequest, CreatePrfsPollResponse,
@@ -29,9 +27,9 @@ use super::{
     GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest, GetPrfsSetsResponse,
     GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesBySetIdRequest,
     GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse, ImportPrfsSetElementsRequest,
-    ImportPrfsSetElementsResponse, PrfsIdentitySignUpRequest, PrfsIdentitySignUpResponse,
-    SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse, UpdatePrfsTreeNodeRequest,
-    UpdatePrfsTreeNodeResponse,
+    ImportPrfsSetElementsResponse, SignInPrfsAccountRequest, SignInPrfsAccountResponse,
+    SignUpPrfsAccountRequest, SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse,
+    UpdatePrfsTreeNodeRequest, UpdatePrfsTreeNodeResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -41,8 +39,8 @@ use super::{
 pub enum PrfsApiRequest {
     GetPrfsCircuits(GetPrfsCircuitsRequest),
     GetPrfsCircuitByCircuitId(GetPrfsCircuitByCircuitIdRequest),
-    sign_in_prfs_account(PrfsSignInRequest),
-    sign_up_prfs_account(PrfsIdentitySignUpRequest),
+    sign_in_prfs_account(SignInPrfsAccountRequest),
+    sign_up_prfs_account(SignUpPrfsAccountRequest),
     GetPrfsCircuitDrivers(GetPrfsCircuitDriversRequest),
     GetPrfsCircuitDriverByDriverId(GetPrfsCircuitDriverByDriverIdRequest),
     GetPrfsCircuitTypes(GetPrfsCircuitTypesRequest),
@@ -86,8 +84,8 @@ pub enum PrfsApiRequest {
 pub enum PrfsApiResponse {
     GetPrfsCircuits(GetPrfsCircuitsResponse),
     GetPrfsCircuitByCircuitId(GetPrfsCircuitByCircuitIdResponse),
-    sign_in_prfs_account(PrfsSignInResponse),
-    sign_up_prfs_account(PrfsIdentitySignUpResponse),
+    sign_up_prfs_account(SignUpPrfsAccountRequest),
+    sign_in_prfs_account(SignInPrfsAccountResponse),
     GetPrfsCircuitDrivers(GetPrfsCircuitDriversResponse),
     GetPrfsCircuitDriverByDriverId(GetPrfsCircuitDriverByDriverIdResponse),
     GetPrfsCircuitTypes(GetPrfsCircuitTypesResponse),

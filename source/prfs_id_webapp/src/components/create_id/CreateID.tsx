@@ -9,7 +9,6 @@ import {
   IdCreateForm,
   makeEmptyIDCreateFormErrors,
   makeEmptyIdCreateForm,
-  validateIdCreateForm,
 } from "@/functions/validate_id";
 import SignUp from "./SignUp";
 import SignUpForm from "./SignUpForm";
@@ -19,7 +18,7 @@ enum CreateIDStep {
   SignUp,
 }
 
-const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedCreateId }) => {
+const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSignIn }) => {
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
@@ -44,11 +43,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedCre
   );
 
   const handleGotoCreateIdSuccess = React.useCallback(() => {
-    const res = validateIdCreateForm(formData, setFormErrors);
-
-    if (res) {
-      setStep(CreateIDStep.SignUp);
-    }
+    setStep(CreateIDStep.SignUp);
   }, [formData, setFormErrors, setStep]);
 
   const handleGotoInputCredential = React.useCallback(() => {
@@ -63,6 +58,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedCre
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
+            setFormErrors={setFormErrors}
             handleClickSignIn={handleClickSignIn}
             handleClickNext={handleGotoCreateIdSuccess}
             setCredential={setCredential}
@@ -77,7 +73,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedCre
               formData={formData}
               handleClickPrev={handleGotoInputCredential}
               handleClickSignIn={handleClickSignIn}
-              handleSucceedCreateId={handleSucceedCreateId}
+              handleSucceedSignIn={handleSucceedSignIn}
             />
           )
         );
@@ -94,5 +90,5 @@ export default CreateID;
 
 export interface CreateIDProps {
   handleClickSignIn: () => void;
-  handleSucceedCreateId: (credential: PrfsIdCredential) => void;
+  handleSucceedSignIn: (credential: PrfsIdCredential) => void;
 }

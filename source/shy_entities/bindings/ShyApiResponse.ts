@@ -7,10 +7,14 @@ import type { GetShyPostsOfTopicResponse } from "./GetShyPostsOfTopicResponse";
 import type { GetShyTopicProofResponse } from "./GetShyTopicProofResponse";
 import type { GetShyTopicResponse } from "./GetShyTopicResponse";
 import type { GetShyTopicsResponse } from "./GetShyTopicsResponse";
+import type { SignInShyAccountResponse } from "./SignInShyAccountResponse";
+import type { SignUpShyAccountResponse } from "./SignUpShyAccountResponse";
 
 export type ShyApiResponse =
   | ({ type: "create_shy_topic" } & CreateShyTopicResponse)
   | ({ type: "create_shy_post" } & CreateShyPostResponse)
+  | ({ type: "sign_up_shy_account" } & SignUpShyAccountResponse)
+  | ({ type: "sign_in_shy_account" } & SignInShyAccountResponse)
   | ({ type: "get_shy_channels" } & GetShyChannelsResponse)
   | ({ type: "get_shy_channel" } & GetShyChannelResponse)
   | ({ type: "get_shy_topics" } & GetShyTopicsResponse)

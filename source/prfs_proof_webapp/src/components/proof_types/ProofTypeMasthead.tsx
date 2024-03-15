@@ -19,7 +19,7 @@ import {
 import VerifiedAccSearch from "@/components/verified_acc_search/VerifiedAccSearch";
 import { envs } from "@/envs";
 import AppLogo from "@/components/app_logo/AppLogo";
-import { consolePaths, paths } from "@/paths";
+import { paths } from "@/paths";
 import { PRFS_PROOF } from "@/app_id";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
@@ -40,7 +40,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
       <div className={styles.leftBarDrawerBtn}>
         <AppLogo
           handleClickShowLeftBar={handleClickShowLeftBarDrawer}
-          url={consolePaths.proof_types}
+          url={paths.proof_types}
           label={i18n.proof_types}
         />
       </div>

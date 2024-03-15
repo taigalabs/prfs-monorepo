@@ -3,7 +3,6 @@ import cn from "classnames";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
-import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import {
   deriveProofKey,
   makePathIndices,
@@ -27,17 +26,16 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
 import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   FormError,
   FormInput,
-  FormInputBtnRow,
   FormInputTitle,
   FormInputTitleRow,
-  InputGroup,
-  InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
@@ -139,21 +137,26 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
     return prfsSet ? (
       <span className={styles.inputLabel}>
-        <span>{i18n.member} - </span>
+        <span>{prfsSet.label}</span>
         <a
           className={styles.link}
           onClick={handleClick}
           href={`${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/sets/${prfsSet.set_id}`}
         >
-          <span>{prfsSet.label}</span>
           <span> ({treeId})</span>
-          <BiLinkExternal />
         </a>
       </span>
     ) : (
       <span className={styles.inputLabel}>{i18n.loading}</span>
     );
   }, [prfsSet, prfsTree]);
+
+  const abbrevWalletAddr = React.useMemo(() => {
+    if (walletAddr.length > 10) {
+      return abbrev7and5(walletAddr);
+    }
+    return "";
+  }, [walletAddr]);
 
   React.useEffect(() => {
     setFormHandler(() => async (formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {
@@ -522,39 +525,39 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       <FormInput>
         <FormInputTitleRow>
           <FormInputTitle>{labelElem}</FormInputTitle>
-          <FormInputBtnRow>
+        </FormInputTitleRow>
+        <div className={styles.addrInputWrapper}>
+          <Input
+            inputClassName={styles.addrInput}
+            labelClassName={styles.addrInput}
+            name={""}
+            label={i18n.wallet}
+            value={abbrevWalletAddr}
+            readOnly
+          />
+          <div className={styles.btnRow}>
             <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
-              <FormInputButton type="button">{i18n.fetch_addresses}</FormInputButton>
+              <FormInputButton type="button">{i18n.cache}</FormInputButton>
             </CachedAddressDialog>
             <span className={styles.or}> or </span>
             <ConnectWallet handleChangeAddress={handleChangeAddress}>
               <FormInputButton type="button">{i18n.connect}</FormInputButton>
             </ConnectWallet>
-          </FormInputBtnRow>
-        </FormInputTitleRow>
-        <InputGroup>
-          <InputWrapper>
-            <input
-              className={styles.addressInput}
-              placeholder={i18n.element_of_a_group}
-              value={walletAddr}
-              readOnly
-            />
-          </InputWrapper>
-          {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
-          <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
-        </InputGroup>
+          </div>
+        </div>
+        <div className={styles.row}>
+          <MemoInput
+            value={value}
+            presetVals={presetVals}
+            circuitTypeData={circuitTypeData}
+            setFormValues={setFormValues}
+            setFormErrors={setFormErrors}
+            error={error}
+          />
+        </div>
+        {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
+        <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
         {value && <ComputedValue value={value} />}
-      </FormInput>
-      <FormInput>
-        <MemoInput
-          value={value}
-          presetVals={presetVals}
-          circuitTypeData={circuitTypeData}
-          setFormValues={setFormValues}
-          setFormErrors={setFormErrors}
-          error={error}
-        />
       </FormInput>
     </>
   );

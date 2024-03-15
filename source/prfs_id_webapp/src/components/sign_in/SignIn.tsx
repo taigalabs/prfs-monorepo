@@ -123,10 +123,12 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
       case SignInStep.SignInForm: {
         return (
           <SignInForm
+            appId={appId}
             errorMsg={errorMsg}
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
+            setFormErrors={setFormErrors}
             handleSucceedSignIn={handleSucceedSignIn}
             handleClickCreateID={handleClickCreateID}
             handleClickStoredCredential={handleClickStoredCredential}
@@ -137,7 +139,7 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
         return (
           <CreateID
             handleClickSignIn={handleClickSignIn}
-            handleSucceedCreateId={handleSucceedSignIn}
+            handleSucceedSignIn={handleSucceedSignIn}
           />
         );
       }

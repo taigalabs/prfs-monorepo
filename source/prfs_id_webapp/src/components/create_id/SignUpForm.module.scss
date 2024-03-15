@@ -5,6 +5,10 @@
 }
 
 .inputGroup {
+  > div:not(:first-child) {
+    margin-top: 16px;
+  }
+
   &:not(:first-child) {
     padding-top: 32px;
   }
@@ -24,6 +28,11 @@
   svg {
     margin-left: 3px;
   }
+}
+
+.btn {
+  height: 40px;
+  border-radius: 20px;
 }
 
 @media screen and (min-width: $mid_display_min_width) {

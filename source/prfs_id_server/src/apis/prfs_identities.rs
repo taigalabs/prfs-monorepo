@@ -1,36 +1,50 @@
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
-use prfs_axum_lib::ApiHandleError;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::entities::PrfsIdentity;
-use prfs_entities::prfs_api::{
-    PrfsIdentitySignInRequest, PrfsIdentitySignInResponse, PrfsIdentitySignUpRequest,
-    PrfsIdentitySignUpResponse,
+use prfs_entities::id_api::{
+    SignInPrfsIdentityRequest, SignInPrfsIdentityResponse, SignUpPrfsIdentityRequest,
+    SignUpPrfsIdentityResponse,
 };
+use prfs_entities::id_entities::{PrfsIdentity, PrfsIdentityType};
+use prfs_id_api_error_codes::PRFS_ID_API_ERROR_CODES;
 use std::sync::Arc;
-
-use crate::error_codes::API_ERROR_CODE;
 
 pub async fn sign_up_prfs_identity(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<PrfsIdentitySignUpRequest>,
-) -> (StatusCode, Json<ApiResponse<PrfsIdentitySignUpResponse>>) {
+    Json(input): Json<SignUpPrfsIdentityRequest>,
+) -> (StatusCode, Json<ApiResponse<SignUpPrfsIdentityResponse>>) {
     let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+    let mut tx = match pool.begin().await {
+        Ok(t) => t,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &PRFS_ID_API_ERROR_CODES.UNKNOWN_ERROR,
+                format!("error starting db transaction: {}", err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
     let prfs_identity = PrfsIdentity {
         identity_id: input.identity_id.to_string(),
         avatar_color: input.avatar_color.to_string(),
+        public_key: input.public_key.to_string(),
+        identity_type: PrfsIdentityType::SECP_256K1,
     };
 
-    let identity_id = prfs::insert_prfs_identity(&mut tx, &prfs_identity)
-        .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.ID_ALREADY_EXISTS, err))
-        .unwrap();
+    let identity_id = match prfs::insert_prfs_identity(&mut tx, &prfs_identity).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_ID_API_ERROR_CODES.ID_ALREADY_EXISTS, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(PrfsIdentitySignUpResponse {
+    let resp = ApiResponse::new_success(SignUpPrfsIdentityResponse {
         identity_id: identity_id.to_string(),
     });
     return (StatusCode::OK, Json(resp));
@@ -38,14 +52,18 @@ pub async fn sign_up_prfs_identity(
 
 pub async fn sign_in_prfs_identity(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<PrfsIdentitySignInRequest>,
-) -> (StatusCode, Json<ApiResponse<PrfsIdentitySignInResponse>>) {
+    Json(input): Json<SignInPrfsIdentityRequest>,
+) -> (StatusCode, Json<ApiResponse<SignInPrfsIdentityResponse>>) {
     let pool = &state.db2.pool;
-    let prfs_identity = prfs::get_prfs_identity_by_id(pool, &input.identity_id)
-        .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.CANNOT_FIND_ID, err))
-        .unwrap();
+    let prfs_identity = match prfs::get_prfs_identity_by_id(pool, &input.identity_id).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_ID_API_ERROR_CODES.CANNOT_FIND_ID, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
-    let resp = ApiResponse::new_success(PrfsIdentitySignInResponse { prfs_identity });
+    let resp = ApiResponse::new_success(SignInPrfsIdentityResponse { prfs_identity });
     return (StatusCode::OK, Json(resp));
 }

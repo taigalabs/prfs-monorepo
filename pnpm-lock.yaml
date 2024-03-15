@@ -36,6 +36,40 @@ importers:
         specifier: 2.7.1
         version: 2.7.1
 
+  source/prfs_api_error_codes:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@taigalabs/prfs-api-server':
+        specifier: '*'
+        version: link:../prfs_api_server
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-spartan-js':
+        specifier: '*'
+        version: link:../prfs_driver_spartan_js
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      '@taigalabs/shy-entities':
+        specifier: '*'
+        version: link:../shy_entities
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+    devDependencies:
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+
   source/prfs_api_js:
     dependencies:
       '@ethereumjs/util':
@@ -643,6 +677,40 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2
 
+  source/prfs_id_api_error_codes:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@taigalabs/prfs-api-server':
+        specifier: '*'
+        version: link:../prfs_api_server
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-spartan-js':
+        specifier: '*'
+        version: link:../prfs_driver_spartan_js
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      '@taigalabs/shy-entities':
+        specifier: '*'
+        version: link:../shy_entities
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+    devDependencies:
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+
   source/prfs_id_sdk_web:
     dependencies:
       '@ethereumjs/util':
@@ -737,6 +805,9 @@ importers:
       '@tabler/icons-react':
         specifier: ^2.32.0
         version: 2.32.0(react@18.2.0)
+      '@taigalabs/prfs-api-error-codes':
+        specifier: '*'
+        version: link:../prfs_api_error_codes
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
@@ -767,6 +838,9 @@ importers:
       '@taigalabs/prfs-i18n':
         specifier: '*'
         version: link:../prfs_i18n
+      '@taigalabs/prfs-id-api-error-codes':
+        specifier: '*'
+        version: link:../prfs_id_api_error_codes
       '@taigalabs/prfs-id-sdk-web':
         specifier: '*'
         version: link:../prfs_id_sdk_web
@@ -1082,6 +1156,9 @@ importers:
       '@tabler/icons-react':
         specifier: ^2.32.0
         version: 2.32.0(react@18.2.0)
+      '@taigalabs/prfs-api-error-codes':
+        specifier: '*'
+        version: link:../prfs_api_error_codes
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
@@ -1248,6 +1325,9 @@ importers:
       '@react-icons/all-files':
         specifier: ^4.1.0
         version: 4.1.0(react@18.2.0)
+      '@reduxjs/toolkit':
+        specifier: 2.0.1
+        version: 2.0.1(react-redux@9.0.4)(react@18.2.0)
       '@tabler/icons-react':
         specifier: ^2.32.0
         version: 2.32.0(react@18.2.0)
@@ -1707,6 +1787,9 @@ importers:
       '@taigalabs/prfs-ts-utils':
         specifier: '*'
         version: link:../prfs_ts_utils
+      '@taigalabs/shy-api-error-codes':
+        specifier: '*'
+        version: link:../shy_api_error_codes
       '@taigalabs/shy-api-js':
         specifier: '*'
         version: link:../shy_api_js

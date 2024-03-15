@@ -2,7 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
-import { Input } from "@taigalabs/prfs-react-lib/src/input/Input";
+import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";

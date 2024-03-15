@@ -7,15 +7,10 @@ import cn from "classnames";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import {
-  CreateProofQuery,
-  PrfsIdCredential,
-  ProofGenSuccessPayload,
-  TutorialArgs,
-} from "@taigalabs/prfs-id-sdk-web";
+import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
-import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -28,11 +23,10 @@ import {
   QueryName,
 } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
-import { useAppDispatch, useAppSelector } from "@/state/hooks";
+import { useAppDispatch } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
 import { FormHandler } from "@/components/circuit_input_items/formTypes";
-import { setGlobalError } from "@/state/globalErrorReducer";
 
 enum Status {
   Standby,
@@ -53,13 +47,7 @@ function useProofType(proofTypeId: string | undefined) {
   });
 }
 
-const CreateProof: React.FC<CreateProofProps> = ({
-  credential,
-  query,
-  setReceipt,
-  tutorial,
-  handleSkip,
-}) => {
+const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt, handleSkip }) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
@@ -68,7 +56,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
   const [formHandler, setFormHandler] = React.useState<FormHandler | null>(null);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
-  const tutorialStep = useAppSelector(state => state.tutorial.tutorialStep);
   const { data, error } = useProofType(query?.proofTypeId);
   const handleProofGenEvent = React.useCallback((ev: CreateProofEvent) => {
     const { payload } = ev;
@@ -173,7 +160,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
   const proofType = data?.payload?.prfs_proof_type;
   return proofType ? (
     <>
-      <QueryItem sidePadding>
+      <QueryItem>
         <QueryItemMeta>
           <QueryItemLeftCol>
             <TbNumbers />
@@ -185,7 +172,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
               <span>{query.name}</span>
               {createProofStatus === Status.InProgress && <span> (Creating...)</span>}
             </QueryName>
-            <div>{proofType.proof_type_id}</div>
+            <p className={styles.proofTypeId}>{proofType.proof_type_id}</p>
             <div className={styles.driverMsg}>
               <LoadDriver
                 proofType={proofType}
@@ -202,34 +189,28 @@ const CreateProof: React.FC<CreateProofProps> = ({
             )}
           </QueryItemRightCol>
         </QueryItemMeta>
-        <div className={styles.wrapper}>
-          <div className={styles.moduleWrapper}>
+        <div className={styles.inner}>
+          <div className={styles.rightCol}>
             {loadDriverStatus === LoadDriverStatus.InProgress && (
               <div className={styles.overlay}>
                 <Spinner size={24} color={colors.blue_12} />
               </div>
             )}
-            <TutorialStepper
-              tutorialId={tutorial ? tutorial.tutorialId : null}
-              step={tutorialStep}
-              steps={[2]}
-            >
-              <div className={styles.form}>
-                <CircuitInputs
-                  proofType={proofType}
-                  formValues={formValues}
-                  setFormValues={setFormValues}
-                  setFormHandler={setFormHandler}
-                  formErrors={formErrors}
-                  setFormErrors={setFormErrors}
-                  presetVals={query.presetVals}
-                  credential={credential}
-                  proofAction={query.proofAction}
-                  usePrfsRegistry={query.usePrfsRegistry}
-                  handleSkipCreateProof={handleSkipCreateProof}
-                />
-              </div>
-            </TutorialStepper>
+            <div className={styles.form}>
+              <CircuitInputs
+                proofType={proofType}
+                formValues={formValues}
+                setFormValues={setFormValues}
+                setFormHandler={setFormHandler}
+                formErrors={formErrors}
+                setFormErrors={setFormErrors}
+                presetVals={query.presetVals}
+                credential={credential}
+                proofAction={query.proofAction}
+                usePrfsRegistry={query.usePrfsRegistry}
+                handleSkipCreateProof={handleSkipCreateProof}
+              />
+            </div>
             {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
             {errorMsg && <div className={cn(styles.systemMsg, styles.red)}>{errorMsg}</div>}
           </div>
@@ -251,7 +232,6 @@ export interface CreateProofProps {
   credential: PrfsIdCredential;
   query: CreateProofQuery;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
-  tutorial: TutorialArgs | undefined;
   handleSkip: (record: Record<string, any>) => void;
 }
 

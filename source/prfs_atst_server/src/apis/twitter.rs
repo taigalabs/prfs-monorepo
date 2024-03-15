@@ -8,7 +8,7 @@ use prfs_entities::atst_api::{
     GetTwitterAccAtstResponse, GetTwitterAccAtstsRequest, GetTwitterAccAtstsResponse,
     ValidateTwitterAccRequest, ValidateTwitterAccResponse,
 };
-use prfs_entities::entities::{PrfsAccAtst, PrfsAtstStatus};
+use prfs_entities::atst_entities::{PrfsAccAtst, PrfsAtstStatus};
 use prfs_web_scraper::destinations::twitter;
 use std::sync::Arc;
 

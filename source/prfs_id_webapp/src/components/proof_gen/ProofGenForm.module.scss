@@ -30,37 +30,34 @@
 }
 
 .sidePadding {
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: $small_side_padding;
+  padding-right: $small_side_padding;
 }
 
 .prfsId {
-  padding: 20px 0 10px;
-  text-align: center;
-  font-size: 13px;
+  padding-top: 18px;
   color: var(--gray-30);
+  font-size: 16px;
 }
 
 .dataWarning {
   .title {
-    padding: 8px 0;
+    font-size: 16px;
     font-weight: 500;
+    color: var(--black-26);
   }
 
   .desc {
     padding: 10px 0 4px;
     line-height: 1.5;
-    font-size: 13px;
+    font-size: 15px;
+    color: var(--gray-34);
   }
 }
 
-.btnRow {
-  /* height: 36px; */
-}
-
 .submitBtn {
-  padding-left: 14px;
-  padding-right: 14px;
+  /* padding-left: 14px; */
+  /* padding-right: 14px; */
 }
 
 .submitBtnContent {
@@ -83,13 +80,13 @@
 @media screen and (min-width: $mid_display_min_width) {
   .btnRow {
     &.sidePadding {
-      padding-left: 40px;
-      padding-right: 40px;
+      padding-left: $small_side_padding;
+      padding-right: $small_side_padding;
     }
   }
 
   .sidePadding {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: $small_side_padding;
+    padding-right: $small_side_padding;
   }
 }
