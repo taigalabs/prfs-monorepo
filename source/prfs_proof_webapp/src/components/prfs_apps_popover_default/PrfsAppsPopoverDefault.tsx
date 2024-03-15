@@ -51,13 +51,13 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
       </PrfsAppsPopoverUl>
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi noPadding>
-          <a href={urls.console__sets} className={styles.item}>
+          <a href={urls.sets} className={styles.item}>
             <BiCodeCurly />
             <span>{i18n.sets}</span>
           </a>
         </PrfsAppsPopoverLi>
         <PrfsAppsPopoverLi noPadding>
-          <a href={urls.console__proof_types} className={styles.item}>
+          <a href={urls.proof_types} className={styles.item}>
             <Pi />
             <span>{i18n.proof_types}</span>
           </a>
