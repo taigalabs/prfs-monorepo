@@ -27,6 +27,7 @@ import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reduc
 import { GetShyTopicProofRequest } from "@taigalabs/shy-entities/bindings/GetShyTopicProofRequest";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { CreateShyPostWithProofRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostWithProofRequest";
+import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 import styles from "./CreatePost.module.scss";
@@ -36,7 +37,6 @@ import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
-import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 
 const PROOF = "Proof";
 
@@ -191,7 +191,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
           if (getShyTopicProofPayload?.shy_topic_proof) {
             const topicProof = getShyTopicProofPayload.shy_topic_proof;
 
-            const { payload: createShyPostPayload } = await createShyPost({
+            const { payload: _createShyPostPayload } = await createShyPost({
               topic_id: topicId,
               channel_id: channel.channel_id,
               shy_topic_proof_id: topicProof.shy_topic_proof_id,
