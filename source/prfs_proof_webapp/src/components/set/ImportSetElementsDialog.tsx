@@ -12,7 +12,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import styles from "./ImportSetElementsDialog.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInProofUser } from "@/hooks/user";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 import {
   DefaultModalBtnRow,
@@ -86,11 +86,10 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: importPrfsSetElementsRequest } = useMutation({
     mutationFn: (req: ImportPrfsSetElementsRequest) => {
-      // return prfsApi2("import_prfs_set_elements", req);
       return prfsApi3({ type: "import_prfs_set_elements", ...req });
     },
   });
-  const { prfsProofCredential } = useSignedInUser();
+  const { prfsProofCredential } = useSignedInProofUser();
   const [isOpen, setIsOpen] = React.useState(false);
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);

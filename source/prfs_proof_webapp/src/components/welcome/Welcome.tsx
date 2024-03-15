@@ -5,8 +5,11 @@ import cn from "classnames";
 
 import styles from "./Welcome.module.scss";
 import Content from "./Welcome.mdx";
+import { useSignedInProofUser } from "@/hooks/user";
 
 const Welcome: React.FC<WelcomeProps> = ({}) => {
+  const { isInitialized, prfsProofCredential } = useSignedInProofUser();
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.inner}>

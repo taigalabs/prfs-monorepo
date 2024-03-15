@@ -12,7 +12,7 @@ import { consolePaths } from "@/paths";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import SetLeftBar from "./SetLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInProofUser } from "@/hooks/user";
 import AppLogo from "@/components/app_logo/AppLogo";
 import SetsMasthead from "@/components/sets_masthead/SetsMasthead";
 import { urls } from "@/urls";
@@ -21,16 +21,16 @@ const Sets: React.FC<SetsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
-  const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
+  const { isInitialized, prfsProofCredential } = useSignedInProofUser();
   const router = useRouter();
 
   React.useEffect(() => {
-    if (isCredentialInitialized) {
+    if (isInitialized) {
       if (prfsProofCredential === null) {
         router.push(consolePaths.accounts);
       }
     }
-  }, [isCredentialInitialized, prfsProofCredential, router]);
+  }, [isInitialized, prfsProofCredential, router]);
 
   const handleClickShowLeftBar = React.useCallback(
     (open?: boolean) => {
@@ -54,7 +54,7 @@ const Sets: React.FC<SetsProps> = ({ children }) => {
     [setIsLeftBarDrawerVisible],
   );
 
-  if (!isCredentialInitialized) {
+  if (!isInitialized) {
     <div className={styles.loading}>Loading...</div>;
   }
 

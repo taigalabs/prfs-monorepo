@@ -31,8 +31,7 @@ import {
   persistPrfsProofCredential,
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
-// import SignUpModal from "@/components/sign_up_modal/SignUpModal";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInProofUser } from "@/hooks/user";
 import { reportError } from "@/state/errorReducer";
 import { paths } from "@/paths";
 
@@ -46,7 +45,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
 }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
+  const { isInitialized, prfsProofCredential } = useSignedInProofUser();
   const { mutateAsync: signInPrfsAccount } = useMutation({
     mutationFn: (req: SignInPrfsAccountRequest) => {
       return prfsApi3({ type: "sign_in_prfs_account", ...req });
@@ -201,7 +200,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         className={cn(styles.signInBtn, className)}
         label={label}
         proofGenArgs={proofGenArgs}
-        isLoading={!isCredentialInitialized}
+        isLoading={!isInitialized}
         handleSucceedSignIn={handleSucceedSignIn}
         prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
       />

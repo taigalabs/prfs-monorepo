@@ -7,12 +7,12 @@ import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreatePrfsTreeByPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsTreeByPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { rand256Hex } from "@taigalabs/prfs-crypto-js";
-import { abbrev7and5, abbrevMandN } from "@taigalabs/prfs-ts-utils";
+import { abbrevMandN } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./CreateTreeDialog.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInProofUser } from "@/hooks/user";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 import {
   DefaultModalBtnRow,
@@ -87,7 +87,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
       return prfsApi3({ type: "create_prfs_tree_by_prfs_set", ...req });
     },
   });
-  const { prfsProofCredential } = useSignedInUser();
+  const { prfsProofCredential } = useSignedInProofUser();
   const [isOpen, setIsOpen] = React.useState(false);
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);

@@ -8,23 +8,23 @@ import { useRouter } from "next/navigation";
 import styles from "./Accounts.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInProofUser } from "@/hooks/user";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 
 const Accounts: React.FC<AccountsProps> = ({ appId }) => {
   const i18n = React.useContext(i18nContext);
-  const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
+  const { isInitialized, prfsProofCredential } = useSignedInProofUser();
   const router = useRouter();
 
   React.useEffect(() => {
-    if (isCredentialInitialized) {
+    if (isInitialized) {
       if (prfsProofCredential !== null) {
         router.push(paths.__);
       }
     }
-  }, [isCredentialInitialized, prfsProofCredential, router]);
+  }, [isInitialized, prfsProofCredential, router]);
 
-  if (!isCredentialInitialized) {
+  if (!isInitialized) {
     <div>Loading...</div>;
   }
 
