@@ -52,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({
         <p>{i18n.this_might_take_minutes_or_longer}</p>
         <div className={styles.computeMsg}>{computeMsg}</div>
       </DefaultModalDesc>
-      <DefaultModalBtnRow>
+      <DefaultModalBtnRow className={styles.btnRow}>
         <Button
           variant="transparent_black_1"
           noTransition
