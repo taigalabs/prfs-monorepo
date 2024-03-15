@@ -139,7 +139,7 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
         return (
           <CreateID
             handleClickSignIn={handleClickSignIn}
-            handleSucceedCreateId={handleSucceedSignIn}
+            handleSucceedSignIn={handleSucceedSignIn}
           />
         );
       }

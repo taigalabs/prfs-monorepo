@@ -30,7 +30,7 @@ import {
   persistPrfsProofCredential,
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
-import SignUpModal from "@/components/sign_up_modal/SignUpModal";
+// import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
 import { reportError } from "@/state/errorReducer";
 
@@ -106,30 +106,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
           return;
         }
 
-        const signInResult_ = proofGenPayload.receipt[SIGN_IN];
-        let signInResult: AppSignInResult;
-        try {
-          if (!signInResult_) {
-            dispatch(
-              reportError({
-                errorObj: "",
-                message: `Sign in result does not exist`,
-              }),
-            );
-            return;
-          }
-
-          signInResult = JSON.parse(signInResult_);
-        } catch (err) {
-          dispatch(
-            reportError({
-              errorObj: err,
-              message: `Err parsing sign in result, json: ${signInResult_}`,
-            }),
-          );
-          return;
-        }
-
+        const signInResult: AppSignInResult = proofGenPayload.receipt[SIGN_IN];
         if (!signInResult.account_id || !signInResult.public_key) {
           dispatch(
             reportError({
@@ -192,7 +169,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
     )
   ) : (
     <>
-      {signUpData && <SignUpModal credential={signUpData} />}
+      {/* {signUpData && <SignUpModal credential={signUpData} />} */}
       <PrfsIdSignInButton
         className={cn(styles.signInBtn, className)}
         label={label}
