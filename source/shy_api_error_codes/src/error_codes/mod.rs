@@ -13,5 +13,6 @@ generate_api_error_codes! {
     (String::from("400000A0"), NOT_MACHING_SIG_MSG, "Signature might have been made on an invalid msg");
     (String::from("400000A1"), INVALID_SIG, "Signature is invalid");
     (String::from("400000C1"), CANNOT_FIND_USER, "Can't find a user");
+    (String::from("400000C2"), SIGN_UP_FAIL, "Sign up failed");
     (String::from("40000B00"), RECORD_INSERT_FAIL, "Unabled to insert the record");
 }

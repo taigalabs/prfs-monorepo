@@ -27,7 +27,7 @@ pub async fn insert_shy_account(
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_accounts
-(account_id, avatar_color, public_key, policy_ides)
+(account_id, avatar_color, public_key, policy_ids)
 VALUES ($1, $2, $3, $4) returning account_id
 "#;
 
