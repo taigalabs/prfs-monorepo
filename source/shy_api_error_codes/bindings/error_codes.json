@@ -23,6 +23,10 @@
     "code": "400000C1",
     "phrase": "Can't find a user"
   },
+  "SIGN_UP_FAIL": {
+    "code": "400000C2",
+    "phrase": "Sign up failed"
+  },
   "RECORD_INSERT_FAIL": {
     "code": "40000B00",
     "phrase": "Unabled to insert the record"

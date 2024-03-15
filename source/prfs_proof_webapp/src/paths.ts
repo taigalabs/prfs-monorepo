@@ -9,6 +9,7 @@ export const paths = {
   proofs: "/proofs",
   updates: "/updates",
   privacy: "/privacy",
+  account__welcome: "/account/welcome",
   accounts: "/accounts",
   proof_types: "/proof_types",
   sets: "/sets",
