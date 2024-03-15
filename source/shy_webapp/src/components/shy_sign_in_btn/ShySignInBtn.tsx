@@ -36,7 +36,6 @@ import {
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
-import { setGlobal } from "next/dist/trace";
 
 const SIGN_IN = "SIGN_IN";
 
@@ -122,7 +121,12 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
               router.push(paths.account__welcome);
               // setSignUpData(credential);
             } else {
-              // dispatch();
+              dispatch(
+                setGlobalError({
+                  errorObj: error,
+                  message: "Failed to sign up",
+                }),
+              );
               return;
             }
           }
