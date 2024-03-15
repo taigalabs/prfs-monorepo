@@ -109,14 +109,12 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           }
 
           const signInResult = proofGenSuccessPayload.receipt[SIGN_IN];
-          console.log(123, signInResult);
 
           const { error, code } = await signInShyAccount({
             account_id: signInResult.account_id,
           });
 
           if (error) {
-            console.error(error);
             if (code === shy_api_error_codes.CANNOT_FIND_USER.code) {
               router.push(paths.account__welcome);
               // setSignUpData(credential);
@@ -131,15 +129,15 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
             }
           }
 
-          const avatar_color = makeColor(signInResult.account_id);
-          const credential: LocalShyCredential = {
-            account_id: signInResult.account_id,
-            public_key: signInResult.public_key,
-            avatar_color,
-          };
+          // const avatar_color = makeColor(signInResult.account_id);
+          // const credential: LocalShyCredential = {
+          //   account_id: signInResult.account_id,
+          //   public_key: signInResult.public_key,
+          //   avatar_color,
+          // };
 
-          persistShyCredential(credential);
-          dispatch(signInShy(credential));
+          // persistShyCredential(credential);
+          // dispatch(signInShy(credential));
         }
       }
       setStatus(Status.InProgress);

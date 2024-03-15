@@ -7,4 +7,7 @@ pub struct ShyAccount {
     pub account_id: String,
     pub public_key: String,
     pub avatar_color: String,
+
+    #[ts(type = "string[]")]
+    pub policy_ids: sqlx::types::Json<Vec<String>>,
 }

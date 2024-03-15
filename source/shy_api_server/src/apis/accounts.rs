@@ -23,6 +23,7 @@ pub async fn sign_up_shy_account(
         account_id: input.account_id.to_string(),
         public_key: input.public_key.to_string(),
         avatar_color: input.avatar_color.to_string(),
+        policy_ids: JsonType(vec![]),
     };
 
     let account_id = match shy::insert_shy_account(&mut tx, &account).await {
