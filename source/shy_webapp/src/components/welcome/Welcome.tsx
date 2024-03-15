@@ -29,7 +29,9 @@ const Welcome: React.FC<WelcomeProps> = ({}) => {
       <GlobalHeader />
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
-        <InfiniteScrollMain>1</InfiniteScrollMain>
+        <InfiniteScrollMain>
+          <div className={styles.wrapper}>power</div>
+        </InfiniteScrollMain>
       </InfiniteScrollInner>
     </InfiniteScrollWrapper>
   ) : (
