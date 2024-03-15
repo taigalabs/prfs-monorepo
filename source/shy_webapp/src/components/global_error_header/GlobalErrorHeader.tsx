@@ -12,10 +12,10 @@ import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { removeGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
-import styles from "./GlobalErrorDialog.module.scss";
+import styles from "./GlobalErrorHeader.module.scss";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 
-const GlobalErrorDialog: React.FC<GlobalErrorDialogProps> = ({}) => {
+const GlobalErrorHeader: React.FC<GlobalErrorHeaderProps> = ({}) => {
   const error = useAppSelector(state => state.globalError.error);
   const dispatch = useAppDispatch();
   const handleClickClose = React.useCallback(() => {
@@ -41,6 +41,6 @@ const GlobalErrorDialog: React.FC<GlobalErrorDialogProps> = ({}) => {
   );
 };
 
-export default GlobalErrorDialog;
+export default GlobalErrorHeader;
 
-export interface GlobalErrorDialogProps {}
+export interface GlobalErrorHeaderProps {}
