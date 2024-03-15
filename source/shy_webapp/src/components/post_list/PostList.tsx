@@ -16,8 +16,7 @@ import {
   InfiniteScrollRowContainerOuter,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
-import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
-import TopicFooter from "../topic/TopicFooter";
+import TopicFooter from "@/components/topic/TopicFooter";
 
 const PostList: React.FC<PostListProps> = ({
   parentRef,
@@ -25,9 +24,10 @@ const PostList: React.FC<PostListProps> = ({
   topicId,
   className,
   subChannelId,
+  rerender,
+  nonce,
 }) => {
   const i18n = usePrfsI18N();
-  const { rerender, nonce } = useRerender();
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -133,7 +133,9 @@ const PostList: React.FC<PostListProps> = ({
                 ? hasNextPage
                   ? "Loading more..."
                   : "Nothing more to load"
-                : post && <PostRow post={post} now={now} channel={channel} rerender={rerender} />}
+                : post && (
+                    <PostRow post={post} now={now} channel={channel} handleSucceedPost={rerender} />
+                  )}
             </div>
           );
         })}
@@ -153,4 +155,6 @@ export interface PostListProps {
   channel: ShyChannel;
   parentRef: React.MutableRefObject<HTMLDivElement | null>;
   subChannelId: string;
+  rerender: React.DispatchWithoutAction;
+  nonce: number;
 }

@@ -5,6 +5,7 @@ import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 import styles from "./Topic.module.scss";
 import { useSignedInShyUser } from "@/hooks/user";
@@ -36,6 +37,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
       return shyApi2({ type: "get_shy_channel", channel_id: channelId });
     },
   });
+  const { rerender, nonce } = useRerender();
   const channel = channelData?.payload?.shy_channel;
 
   React.useEffect(() => {
@@ -56,12 +58,14 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
           {channel ? (
             <>
               <ChannelMeta channel={channel} noDesc noSubChannel small />
-              <TopicContent topicId={topicId} channel={channel} />
+              <TopicContent topicId={topicId} channel={channel} rerender={rerender} />
               <PostList
                 parentRef={parentRef}
                 channel={channel}
                 topicId={topicId}
                 subChannelId={subChannelId}
+                nonce={nonce}
+                rerender={rerender}
               />
               {/* <TopicFooter topicId={topicId} channel={channel} subChannelId={subChannelId} /> */}
             </>

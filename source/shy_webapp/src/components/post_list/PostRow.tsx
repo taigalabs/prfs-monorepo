@@ -9,7 +9,7 @@ import styles from "./PostRow.module.scss";
 import { paths } from "@/paths";
 import Post from "@/components/post/Post";
 
-const PostRow: React.FC<RowProps> = ({ post, channel, rerender }) => {
+const PostRow: React.FC<RowProps> = ({ post, channel, handleSucceedPost }) => {
   return (
     <Post
       topicId={post.inner.shy_post.topic_id}
@@ -18,7 +18,7 @@ const PostRow: React.FC<RowProps> = ({ post, channel, rerender }) => {
       content={post.inner.shy_post.content}
       proof_identity_input={post.inner.proof_identity_input}
       updated_at={post.updated_at}
-      rerender={rerender}
+      handleSucceedPost={handleSucceedPost}
     />
   );
 };
@@ -29,5 +29,5 @@ export interface RowProps {
   post: DateTimed<ShyPostSyn1>;
   now: Dayjs;
   channel: ShyChannel;
-  rerender: React.DispatchWithoutAction;
+  handleSucceedPost: React.DispatchWithoutAction;
 }
