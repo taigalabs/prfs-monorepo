@@ -27,6 +27,8 @@ import CreatePostEditorFooter from "./CreatePostEditorFooter";
 import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
+import { useAppDispatch } from "@/state/hooks";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 const PROOF = "Proof";
 
@@ -38,6 +40,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
 }) => {
   const i18n = usePrfsI18N();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [error, setError] = React.useState<string | null>(null);
   const { mutateAsync: getShyTopicProof } = useMutation({
     mutationFn: (req: GetShyTopicProofRequest) => {
@@ -189,8 +192,48 @@ const CreatePost: React.FC<CreatePostProps> = ({
 
             handleSucceedPost();
           }
+        } else if (receipt.type === "prove_receipt") {
+          // const shy_topic_proof_id = rand256Hex();
+          // const { payload, error } = await createShyTopic({
+          //   title,
+          //   topic_id: topicId,
+          //   content: html,
+          //   channel_id: channel.channel_id,
+          //   shy_topic_proof_id,
+          //   proof_identity_input: publicInputs.proofIdentityInput,
+          //   proof: Array.from(proveReceipt.proof.proofBytes),
+          //   public_inputs: proveReceipt.proof.publicInputSer,
+          //   author_public_key: publicInputs.proofPubKey,
+          //   serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
+          //   author_sig: proveReceipt.proofActionSig,
+          //   author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
+          //   sub_channel_id: subChannelId,
+          // });
+          // const { payload: getShyTopicProofPayload } = await getShyTopicProof({
+          //   public_key: receipt.proofPubKey,
+          // });
+          // const topicProof = getShyTopicProofPayload.shy_topic_proof;
+          // const { payload: createShyPostPayload } = await createShyPost({
+          //   topic_id: topicId,
+          //   channel_id: channel.channel_id,
+          //   shy_topic_proof_id: topicProof.shy_topic_proof_id,
+          //   author_public_key: topicProof.public_key,
+          //   post_id: postId,
+          //   content: html,
+          //   author_sig: receipt.proofActionSig,
+          //   author_sig_msg: Array.from(receipt.proofActionSigMsg),
+          // });
+          //
+          // if (error) {
+          //   throw new Error(`Failed to create a topic, err: ${error}`);
+          // }
         } else {
-          console.log;
+          dispatch(
+            setGlobalError({
+              message: `Unknown receipt type, receipt: ${(receipt as any).type}`,
+            }),
+          );
+          return;
         }
 
         if (error) {
@@ -202,7 +245,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
       ws.close();
       popup.close();
     },
-    [channel, topicId, setError, getShyTopicProof, router, handleSucceedPost],
+    [channel, topicId, setError, getShyTopicProof, router, handleSucceedPost, dispatch],
   );
 
   const footer = React.useMemo(() => {

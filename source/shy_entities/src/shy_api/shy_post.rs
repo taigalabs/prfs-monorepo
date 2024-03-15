@@ -33,6 +33,24 @@ pub struct CreateShyPostRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
+pub struct CreateShyPostWithProofRequest {
+    pub topic_id: String,
+    pub channel_id: String,
+    pub shy_topic_proof_id: String,
+    pub post_id: String,
+    pub content: String,
+    pub author_public_key: String,
+    pub author_sig: String,
+    pub author_sig_msg: Vec<u8>,
+    pub proof_identity_input: String,
+    pub proof: Vec<u8>,
+    pub public_inputs: String,
+    pub serial_no: String,
+    pub sub_channel_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
 pub struct CreateShyPostResponse {
     pub post_id: String,
 }
