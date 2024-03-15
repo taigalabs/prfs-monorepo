@@ -25,7 +25,6 @@ import {
 import styles from "./SignUp.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
-  DefaultErrorMsg,
   DefaultInnerPadding,
   DefaultInputGuide,
   DefaultModuleBtnRow,
@@ -46,7 +45,7 @@ const SignUp: React.FC<SignUpProps> = ({
   formData,
   handleClickPrev,
   // handleClickSignIn,
-  handleSucceedCreateId,
+  handleSucceedSignIn,
   credential,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -92,7 +91,7 @@ const SignUp: React.FC<SignUpProps> = ({
           );
           return;
         } else {
-          handleSucceedCreateId(credential);
+          handleSucceedSignIn(credential);
         }
       } catch (err: any) {
         dispatch(
@@ -103,7 +102,7 @@ const SignUp: React.FC<SignUpProps> = ({
         return;
       }
     }
-  }, [formData, router, signUpPrfsIdentity, credential, handleSucceedCreateId, dispatch]);
+  }, [formData, router, signUpPrfsIdentity, credential, handleSucceedSignIn, dispatch]);
 
   const { id_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
@@ -239,5 +238,5 @@ export interface SignUpProps {
   handleClickPrev: () => void;
   handleClickSignIn: () => void;
   credential: PrfsIdCredential;
-  handleSucceedCreateId: (credential: PrfsIdCredential) => void;
+  handleSucceedSignIn: (credential: PrfsIdCredential) => void;
 }

@@ -9,7 +9,7 @@ if (typeof process !== "undefined") {
   if (!process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT) {
     throw new Error("prfs api endpoint not defined");
   }
-  endpoint = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/api/v0`;
+  endpoint = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/id_api/v0`;
 } else {
   throw new Error("process is undefined");
 }
