@@ -1,19 +1,6 @@
+import { api, ApiResponse } from "@taigalabs/prfs-api-lib-js";
 import { PrfsIdSessionApiRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdSessionApiRequest";
 import { PrfsIdSessionApiResponse } from "@taigalabs/prfs-entities/bindings/PrfsIdSessionApiResponse";
-import { PutPrfsIdSessionValueResponse } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueResponse";
-import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
-import { GetPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsIdSessionValueRequest";
-import { GetPrfsIdSessionValueResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsIdSessionValueResponse";
-import { api, ApiResponse } from "@taigalabs/prfs-api-lib-js";
-
-type RequestTypes = PrfsIdSessionApiRequest["type"];
-
-type Resp<T extends RequestTypes> = //
-  T extends "put_prfs_id_session_value"
-    ? ApiResponse<PutPrfsIdSessionValueResponse>
-    : T extends "get_prfs_id_session_value"
-    ? ApiResponse<GetPrfsIdSessionValueResponse>
-    : any;
 
 let endpoint: string;
 if (typeof process !== "undefined") {
@@ -25,12 +12,15 @@ if (typeof process !== "undefined") {
   throw new Error("process is undefined");
 }
 
-export async function idSessionApi<T extends R["type"], R extends PrfsIdSessionApiRequest>(req: R) {
-  return (await api(
+export async function idSessionApi<
+  T extends { type: PrfsIdSessionApiRequest["type"] },
+  R extends { type: T["type"] } & PrfsIdSessionApiResponse,
+>(req: T): Promise<ApiResponse<R>> {
+  return api<R>(
     {
       path: req.type,
       req,
     },
     endpoint,
-  )) as Resp<T>;
+  );
 }
