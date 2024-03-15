@@ -117,7 +117,7 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
                 href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
                 target="_blank"
               >
-                {i18n.why_we_ask_for_email}
+                {i18n.why_we_ask_for_id}
               </Link>
             </DefaultInputGuide>
             <div className={styles.inputGroup}>

@@ -100,6 +100,7 @@ const SignUp: React.FC<SignUpProps> = ({
             message: err.toString(),
           }),
         );
+        return;
       }
     }
   }, [formData, router, signUpPrfsIdentity, credential, handleSucceedCreateId, dispatch]);
