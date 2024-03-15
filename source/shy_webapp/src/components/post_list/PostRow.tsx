@@ -7,7 +7,7 @@ import { Dayjs } from "dayjs";
 import styles from "./PostRow.module.scss";
 import Post from "@/components/post/Post";
 
-const PostRow: React.FC<RowProps> = ({ post, channel, handleSucceedPost }) => {
+const PostRow: React.FC<RowProps> = ({ post, channel, handleSucceedPost, subChannelId }) => {
   return (
     <Post
       topicId={post.inner.shy_post.topic_id}
@@ -17,6 +17,7 @@ const PostRow: React.FC<RowProps> = ({ post, channel, handleSucceedPost }) => {
       proof_identity_input={post.inner.proof_identity_input}
       updated_at={post.updated_at}
       handleSucceedPost={handleSucceedPost}
+      subChannelId={subChannelId}
     />
   );
 };
@@ -28,4 +29,5 @@ export interface RowProps {
   now: Dayjs;
   channel: ShyChannel;
   handleSucceedPost: React.DispatchWithoutAction;
+  subChannelId: string;
 }

@@ -17,6 +17,7 @@ const Post: React.FC<PostContentProps> = ({
   content,
   proof_identity_input,
   updated_at,
+  subChannelId,
   handleSucceedPost,
 }) => {
   const i18n = usePrfsI18N();
@@ -82,6 +83,7 @@ const Post: React.FC<PostContentProps> = ({
             channel={channel}
             topicId={topicId}
             handleSucceedPost={handleSucceedPostExtended}
+            subChannelId={subChannelId}
           />
         )}
       </PostInner>
@@ -99,4 +101,5 @@ export interface PostContentProps {
   channel: ShyChannel;
   topicId: string;
   handleSucceedPost: React.DispatchWithoutAction;
+  subChannelId: string;
 }

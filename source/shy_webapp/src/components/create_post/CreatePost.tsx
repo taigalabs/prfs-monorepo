@@ -9,7 +9,13 @@ import {
   makeProofGenSearchParams,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
+import {
+  JSONbigNative,
+  createRandomKeyPair,
+  decrypt,
+  makeRandInt,
+  rand256Hex,
+} from "@taigalabs/prfs-crypto-js";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { ShyPostProofAction } from "@taigalabs/shy-entities/bindings/ShyPostProofAction";
@@ -30,12 +36,14 @@ import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
+import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 
 const PROOF = "Proof";
 
 const CreatePost: React.FC<CreatePostProps> = ({
   handleClickCancel,
   channel,
+  subChannelId,
   topicId,
   handleSucceedPost,
 }) => {
@@ -197,6 +205,27 @@ const CreatePost: React.FC<CreatePostProps> = ({
           }
         } else if (receipt.type === "prove_receipt") {
           const shy_topic_proof_id = rand256Hex();
+          const receipt_ = receipt as ProveReceipt;
+          const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
+            receipt_.proof.publicInputSer,
+          );
+
+          const { payload, error } = await createShyPostWithProof({
+            topic_id: topicId,
+            channel_id: channel.channel_id,
+            shy_topic_proof_id,
+            author_public_key: receipt_.proof.proofKey,
+            post_id: postId,
+            content: html,
+            author_sig: receipt_.proofActionSig,
+            author_sig_msg: Array.from(receipt_.proofActionSigMsg),
+            proof_identity_input: publicInputs.proofIdentityInput,
+            proof: Array.from(receipt.proof.proofBytes),
+            public_inputs: receipt_.proof.publicInputSer,
+            serial_no: publicInputs.circuitPubInput.serialNo.toString(),
+            sub_channel_id: subChannelId,
+          });
+
           // const { payload, error } = await createShyTopic({
           //   title,
           //   topic_id: topicId,
@@ -248,7 +277,17 @@ const CreatePost: React.FC<CreatePostProps> = ({
       ws.close();
       popup.close();
     },
-    [channel, topicId, setError, getShyTopicProof, router, handleSucceedPost, dispatch],
+    [
+      channel,
+      topicId,
+      setError,
+      router,
+      handleSucceedPost,
+      dispatch,
+      getShyTopicProof,
+      createShyPostWithProof,
+      createShyPost,
+    ],
   );
 
   const footer = React.useMemo(() => {
@@ -280,5 +319,6 @@ export interface CreatePostProps {
   handleClickCancel: () => void;
   handleSucceedPost: () => void;
   topicId: string;
+  subChannelId: string;
   channel: ShyChannel;
 }

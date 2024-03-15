@@ -134,7 +134,13 @@ const PostList: React.FC<PostListProps> = ({
                   ? "Loading more..."
                   : "Nothing more to load"
                 : post && (
-                    <PostRow post={post} now={now} channel={channel} handleSucceedPost={rerender} />
+                    <PostRow
+                      post={post}
+                      now={now}
+                      channel={channel}
+                      handleSucceedPost={rerender}
+                      subChannelId={subChannelId}
+                    />
                   )}
             </div>
           );
