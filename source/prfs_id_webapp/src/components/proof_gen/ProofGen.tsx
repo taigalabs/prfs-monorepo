@@ -125,12 +125,10 @@ const ProofGen: React.FC = () => {
         ) : (
           content
         )}
-        <TutorialDefault tutorial={proofGenArgs?.tutorial} />
       </DefaultForm>
       <DefaultModuleFooter>
         <GlobalFooter />
       </DefaultModuleFooter>
-      <TutorialPlaceholder tutorial={proofGenArgs?.tutorial} />
     </DefaultModule>
   );
 };

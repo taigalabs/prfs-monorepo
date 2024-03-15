@@ -37,6 +37,7 @@ enum InputCredentialStatus {
 }
 
 const SignInForm: React.FC<InputCredentialProps> = ({
+  appId,
   formData,
   setFormData,
   formErrors,
@@ -47,7 +48,6 @@ const SignInForm: React.FC<InputCredentialProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(InputCredentialStatus.Standby);
-  const [title, setTitle] = React.useState(i18n.sign_in);
   const dispatch = useAppDispatch();
   const { mutateAsync: signInPrfsIdentity } = useMutation({
     mutationFn: (req: SignInPrfsIdentityRequest) => {
@@ -55,10 +55,9 @@ const SignInForm: React.FC<InputCredentialProps> = ({
     },
   });
 
-  React.useEffect(() => {
-    const { hostname } = window.location;
-    setTitle(`${i18n.sign_in} to ${hostname}`);
-  }, [setTitle]);
+  const title = React.useMemo(() => {
+    return `${i18n.sign_in} to ${appId}`;
+  }, [appId]);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,8 +114,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
       password_2: formData[PASSWORD_2],
     });
 
-    console.log(33, credential);
-
+    // console.log(33, credential);
     const { code } = await signInPrfsIdentity({ identity_id: credential.id });
     if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
       dispatch(
@@ -155,7 +153,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
           <DefaultModuleLogoArea />
           <DefaultModuleHeader noSidePadding>
             <DefaultModuleTitle>{title}</DefaultModuleTitle>
-            <DefaultModuleSubtitle>{i18n.use_your_prfs_identity}</DefaultModuleSubtitle>
+            <DefaultModuleSubtitle>{i18n.using_your_prfs_identity}</DefaultModuleSubtitle>
           </DefaultModuleHeader>
           <DefaultModuleInputArea className={styles.inputArea}>
             <div className={styles.inputGroup}>
@@ -225,6 +223,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
 export default SignInForm;
 
 export interface InputCredentialProps {
+  appId: string;
   errorMsg: string | null;
   formData: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;

@@ -123,6 +123,7 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
       case SignInStep.SignInForm: {
         return (
           <SignInForm
+            appId={appId}
             errorMsg={errorMsg}
             formData={formData}
             setFormData={setFormData}

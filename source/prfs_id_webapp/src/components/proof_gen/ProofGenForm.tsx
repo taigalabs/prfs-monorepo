@@ -54,11 +54,11 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [status, setStatus] = React.useState(Status.InProgress);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
-  const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
-    mutationFn: (req: SignInPrfsIdentityRequest) => {
-      return idApi({ type: "sign_in_prfs_identity", ...req });
-    },
-  });
+  // const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
+  //   mutationFn: (req: SignInPrfsIdentityRequest) => {
+  //     return idApi({ type: "sign_in_prfs_identity", ...req });
+  //   },
+  // });
   const { mutateAsync: putSessionValueRequest } = usePutSessionValue();
   const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>({});
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
