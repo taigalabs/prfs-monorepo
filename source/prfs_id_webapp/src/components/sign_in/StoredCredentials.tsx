@@ -3,10 +3,11 @@ import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { PASSWORD_2, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
-import { decrypt } from "@taigalabs/prfs-crypto-js";
+import { decrypt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import { makeDecryptKey } from "@taigalabs/prfs-crypto-js";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
+import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./StoredCredentials.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -94,8 +95,9 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     setErrorMsg("");
 
     if (credential && password_2) {
-      let decryptKey = await makeDecryptKey(password_2);
-      let msg = Buffer.from(credential.credential);
+      const pw2Bytes = keccak256(toUtf8Bytes(password_2), "bytes");
+      const decryptKey = await makeDecryptKey(pw2Bytes);
+      const msg = Buffer.from(credential.credential);
       let credentialStr;
       try {
         credentialStr = decrypt(decryptKey.secret, msg).toString();
