@@ -16,9 +16,7 @@ import { GetCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings
 import { GetCryptoAssetSizeAtstResponse } from "@taigalabs/prfs-entities/bindings/GetCryptoAssetSizeAtstResponse";
 import { ComputeCryptoAssetSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetSizeTotalValuesRequest";
 import { ComputeCryptoAssetSizeTotalValuesResponse } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetSizeTotalValuesResponse";
-
-import { api } from "../utils";
-import { ApiResponse } from "../types";
+import { api, ApiResponse } from "@taigalabs/prfs-api-lib-js";
 
 type RequestName =
   | "attest_twitter_acc"

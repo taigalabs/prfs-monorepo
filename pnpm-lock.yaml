@@ -75,6 +75,52 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
+      '@taigalabs/prfs-api-lib-js':
+        specifier: '*'
+        version: link:../prfs_api_lib_js
+      '@taigalabs/prfs-api-server':
+        specifier: '*'
+        version: link:../prfs_api_server
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-spartan-js':
+        specifier: '*'
+        version: link:../prfs_driver_spartan_js
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      '@taigalabs/shy-entities':
+        specifier: '*'
+        version: link:../shy_entities
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      json-bigint:
+        specifier: ^1.0.0
+        version: 1.0.0
+    devDependencies:
+      '@types/json-bigint':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      vite:
+        specifier: ^4.3.9
+        version: 4.3.9(@types/node@20.3.1)
+
+  source/prfs_api_lib_js:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
       '@taigalabs/prfs-api-server':
         specifier: '*'
         version: link:../prfs_api_server
@@ -1636,6 +1682,9 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
+      '@taigalabs/prfs-api-lib-js':
+        specifier: '*'
+        version: link:../prfs_api_lib_js
       '@taigalabs/prfs-api-server':
         specifier: '*'
         version: link:../prfs_api_server

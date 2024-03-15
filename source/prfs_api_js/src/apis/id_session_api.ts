@@ -4,9 +4,7 @@ import { PutPrfsIdSessionValueResponse } from "@taigalabs/prfs-entities/bindings
 import { PutPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/PutPrfsIdSessionValueRequest";
 import { GetPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsIdSessionValueRequest";
 import { GetPrfsIdSessionValueResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsIdSessionValueResponse";
-
-import { api } from "../utils";
-import { ApiResponse } from "../types";
+import { api, ApiResponse } from "@taigalabs/prfs-api-lib-js";
 
 type RequestTypes = PrfsIdSessionApiRequest["type"];
 

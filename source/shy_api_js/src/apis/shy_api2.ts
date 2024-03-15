@@ -1,8 +1,6 @@
+import { api, ApiResponse } from "@taigalabs/prfs-api-lib-js";
 import { ShyApiRequest } from "@taigalabs/shy-entities/bindings/ShyApiRequest";
 import { ShyApiResponse } from "@taigalabs/shy-entities/bindings/ShyApiResponse";
-
-import { api } from "../utils";
-import { ApiResponse } from "../types";
 
 let endpoint: string;
 if (typeof process !== "undefined") {

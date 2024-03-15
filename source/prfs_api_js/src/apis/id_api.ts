@@ -1,8 +1,6 @@
 import { PrfsIdApiRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdApiRequest";
 import { PrfsIdApiResponse } from "@taigalabs/prfs-entities/bindings/PrfsIdApiResponse";
-
-import { api } from "../utils";
-import { ApiResponse } from "../types";
+import { api, ApiResponse } from "@taigalabs/prfs-api-lib-js";
 
 let endpoint: string;
 if (typeof process !== "undefined") {

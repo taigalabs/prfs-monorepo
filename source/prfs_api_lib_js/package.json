@@ -1,5 +1,5 @@
 {
-  "name": "@taigalabs/shy-api-js",
+  "name": "@taigalabs/prfs-api-lib-js",
   "version": "0.0.1",
   "main": "./src/index.ts",
   "license": "MIT",
@@ -16,7 +16,6 @@
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
     "@taigalabs/prfs-crypto-js": "*",
-    "@taigalabs/prfs-api-lib-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@taigalabs/prfs-entities": "*",
