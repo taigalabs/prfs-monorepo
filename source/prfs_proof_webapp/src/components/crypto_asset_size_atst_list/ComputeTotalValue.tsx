@@ -82,7 +82,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
   const [isOpen, setIsOpen] = React.useState(false);
   const { mutateAsync: computeCryptoSizeTotalValuesRequest, isPending } = useMutation({
     mutationFn: (req: ComputeCryptoAssetSizeTotalValuesRequest) => {
-      return atstApi("compute_crypto_asset_size_total_values", req);
+      return atstApi({ type: "compute_crypto_asset_size_total_values", ...req });
     },
   });
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);

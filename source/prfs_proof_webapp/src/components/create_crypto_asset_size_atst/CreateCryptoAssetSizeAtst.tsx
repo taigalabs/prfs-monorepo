@@ -75,7 +75,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   });
   const { mutateAsync: fetchCryptoAssetRequest } = useMutation({
     mutationFn: (req: FetchCryptoAssetRequest) => {
-      return atstApi("fetch_crypto_asset", req);
+      return atstApi({ type: "fetch_crypto_asset", ...req });
     },
   });
   const { mutateAsync: addPrfsIndexRequest } = useMutation({
@@ -86,7 +86,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   });
   const { mutateAsync: createCryptoSizeAtstRequest } = useMutation({
     mutationFn: (req: CreateCryptoAssetSizeAtstRequest) => {
-      return atstApi("create_crypto_asset_size_atst", req);
+      return atstApi({ type: "create_crypto_asset_size_atst", ...req });
     },
   });
 

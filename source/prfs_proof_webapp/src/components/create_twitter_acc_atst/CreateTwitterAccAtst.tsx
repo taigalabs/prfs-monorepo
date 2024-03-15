@@ -89,12 +89,12 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   const [step, setStep] = React.useState(AttestationStep.INPUT_TWITTER_HANDLE);
   const { mutateAsync: validateTwitterAccRequest } = useMutation({
     mutationFn: (req: ValidateTwitterAccRequest) => {
-      return atstApi("validate_twitter_acc", req);
+      return atstApi({ type: "validate_twitter_acc", ...req });
     },
   });
   const { mutateAsync: attestTwitterAccRequest } = useMutation({
     mutationFn: (req: AttestTwitterAccRequest) => {
-      return atstApi("attest_twitter_acc", req);
+      return atstApi({ type: "attest_twitter_acc", ...req });
     },
   });
 

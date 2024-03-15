@@ -83,7 +83,7 @@ const CryptoAssetSizeAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce })
     useInfiniteQuery({
       queryKey: ["get_crypto_asset_size_atsts", nonce],
       queryFn: async ({ pageParam }) => {
-        return atstApi("get_crypto_asset_size_atsts", { offset: pageParam as number });
+        return atstApi({ type: "get_crypto_asset_size_atsts", offset: pageParam as number });
       },
       initialPageParam: 0,
       getNextPageParam: lastPage => {

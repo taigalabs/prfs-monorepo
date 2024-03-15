@@ -73,7 +73,7 @@ const Sets: React.FC<SetsProps> = ({ children }) => {
           <div className={styles.drawerLogoArea}>
             <AppLogo
               handleClickShowLeftBar={handleClickShowLeftBar}
-              url={urls.console__sets}
+              url={urls.sets}
               label={i18n.sets}
             />
           </div>
