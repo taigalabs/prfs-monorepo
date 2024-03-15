@@ -7,7 +7,6 @@ use crate::DbInterfaceError;
 
 pub async fn get_prfs_tree_nodes_by_pos(
     pool: &Pool<Postgres>,
-    // tree_id: &String,
     set_id: &String,
     pos: &Vec<NodePos>,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
@@ -147,50 +146,15 @@ LIMIT $3
     Ok(nodes)
 }
 
-// pub async fn get_prfs_tree_leaf_nodes_all_by_set_id(
-//     pool: &Pool<Postgres>,
-//     set_id: &String,
-// ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
-//     let query = r#"
-// SELECT * from prfs_tree_nodes nodes where set_id=$1 and pos_h=0
-// ORDER BY pos_w ASC
-// "#;
-
-//     // println!("query: {}", query);
-
-//     let rows = sqlx::query(&query)
-//         .bind(&set_id)
-//         .fetch_all(pool)
-//         .await
-//         .unwrap();
-
-//     let nodes: Vec<PrfsTreeNode> = rows
-//         .iter()
-//         .map(|n| {
-//             let pos_w = n.try_get("pos_w").expect("pos_w should exist");
-//             let pos_h = n.try_get("pos_h").expect("pos_h should exist");
-//             let val = n.try_get("val").expect("val should exist");
-//             let set_id = n.try_get("set_id").expect("set_id should exist");
-//             let meta = n.get("meta");
-
-//             PrfsTreeNode {
-//                 pos_w,
-//                 pos_h,
-//                 val,
-//                 meta,
-//                 set_id,
-//             }
-//         })
-//         .collect();
-
-//     Ok(nodes)
-// }
-
 pub async fn get_prfs_tree_root(
     pool: &Pool<Postgres>,
     set_id: &String,
 ) -> Result<PrfsTreeNode, DbInterfaceError> {
-    let query = format!("SELECT * from prfs_tree_nodes where set_id=$1 and pos_h=31 and pos_w=0",);
+    let query = r#"
+SELECT * 
+FROM prfs_tree_nodes 
+WHERE set_id=$1 AND pos_h=31 AND pos_w=0
+"#;
     // println!("query: {}", query);
 
     let row = sqlx::query(&query).bind(&set_id).fetch_one(pool).await?;
@@ -221,7 +185,8 @@ pub async fn insert_prfs_tree_nodes(
 ) -> Result<u64, DbInterfaceError> {
     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
         r#"
-INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, meta, set_id, tree_id)
+INSERT INTO prfs_tree_nodes 
+(pos_w, pos_h, val, meta, set_id, tree_id)
 "#,
     );
 
@@ -251,8 +216,9 @@ pub async fn get_largest_pos_w_tree_leaf_node(
     set_id: &String,
 ) -> Result<Option<Decimal>, DbInterfaceError> {
     let query = r#"
-SELECT * FROM prfs_tree_nodes
-where set_id=$1 and pos_h=0
+SELECT * 
+FROM prfs_tree_nodes
+WHERE set_id=$1 AND pos_h=0
 ORDER BY pos_w desc
 "#;
     // println!("query: {}", query);
@@ -278,7 +244,8 @@ pub async fn insert_prfs_tree_node(
     let query = r#"
 INSERT INTO prfs_tree_nodes
 (set_id, pos_w, pos_h, val, "meta")
-VALUES ($1, $2, $3, $4, $5) returning pos_w"#;
+VALUES ($1, $2, $3, $4, $5) 
+RETURNING pos_w"#;
 
     let row = sqlx::query(query)
         .bind(&node.set_id)
@@ -304,7 +271,7 @@ INSERT INTO prfs_tree_nodes
 VALUES ($1, $2, $3, $4, $5)
 ON CONFLICT (pos_w, pos_h, set_id) DO UPDATE SET val=excluded.val, meta=excluded.meta,
 updated_at = now()
-returning pos_w
+RETURNING pos_w
 "#;
 
     let row = sqlx::query(query)
