@@ -1,0 +1,18 @@
+{
+  "SUCCESS": {
+    "code": "20000000",
+    "phrase": "Success"
+  },
+  "UNKNOWN_ERROR": {
+    "code": "40000000",
+    "phrase": "Unknown error"
+  },
+  "CANNOT_FIND_ID": {
+    "code": "40000001",
+    "phrase": "Can't find id"
+  },
+  "ID_ALREADY_EXISTS": {
+    "code": "40000002",
+    "phrase": "Id already exists"
+  }
+}

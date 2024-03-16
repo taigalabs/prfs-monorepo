@@ -14,6 +14,7 @@ members = [
   "source/prfs_driver_interface",
   "source/prfs_tree_lib",
   "source/prfs_tree_server",
+  "source/prfs_tree_api_error_codes",
   "source/prfs_crypto",
   "source/prfs_crypto_js",
   "source/prfs_entities",

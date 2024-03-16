@@ -18,6 +18,7 @@ packages:
   - "source/prfs_id_sdk_web"
   - "source/prfs_id_session_api_error_codes"
   - "source/prfs_proof_gen_js"
+  - "source/prfs_tree_api_error_codes"
   - "source/prfs_ts_utils"
   - "source/prfs_api_js"
   - "source/prfs_api_lib_js"

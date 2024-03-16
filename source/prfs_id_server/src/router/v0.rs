@@ -7,7 +7,7 @@ use crate::apis::prfs_identities;
 
 pub const ID_API_V0: &'static str = "/id_api/v0";
 
-pub fn make_id_v0_router() -> Router<Arc<ServerState>> {
+pub fn make_id_api_v0_router() -> Router<Arc<ServerState>> {
     make_prfs_id_api_error_code_json_binding().unwrap();
 
     let router = Router::new() //
