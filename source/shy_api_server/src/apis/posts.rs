@@ -1,7 +1,9 @@
+use prfs_api_rs::api::create_prfs_proof_record;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_crypto::signature::verify_eth_sig;
+use prfs_entities::{CreatePrfsProofRecordRequest, PrfsProofRecord};
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
 use shy_entities::entities::{ShyPost, ShyTopicProof};
@@ -11,6 +13,8 @@ use shy_entities::shy_api::{
     GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse,
 };
 use std::sync::Arc;
+
+use crate::envs::ENVS;
 
 const LIMIT: i32 = 15;
 
@@ -147,6 +151,40 @@ pub async fn create_shy_post_with_proof(
         );
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
+
+    let proof_starts_with: [u8; 8] = match input.proof[0..8].try_into() {
+        Ok(p) => p,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
+                format!(
+                    "Cannot slice proof, proof len: {}, err: {}",
+                    input.proof.len(),
+                    err
+                ),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+    let create_prfs_proof_record_req = CreatePrfsProofRecordRequest {
+        proof_record: PrfsProofRecord {
+            public_key: input.author_public_key.to_string(),
+            proof_starts_with,
+        },
+    };
+
+    let _proof_record_resp = match create_prfs_proof_record(
+        &ENVS.prfs_api_server_endpoint,
+        &create_prfs_proof_record_req,
+    )
+    .await
+    {
+        Ok(r) => r,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let shy_topic_proof = ShyTopicProof {
         shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
