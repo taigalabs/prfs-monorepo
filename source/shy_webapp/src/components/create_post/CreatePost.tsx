@@ -37,6 +37,7 @@ import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
+import { verifyMessage } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 const PROOF = "Proof";
 
@@ -183,8 +184,9 @@ const CreatePost: React.FC<CreatePostProps> = ({
         }
 
         const receipt = proofGenPayload.receipt[PROOF] as GenericProveReceipt;
-
         if (receipt.type === "cached_prove_receipt") {
+          receipt.proofActionSigMsg;
+
           const { payload: getShyTopicProofPayload } = await getShyTopicProof({
             public_key: receipt.proofPubKey,
           });

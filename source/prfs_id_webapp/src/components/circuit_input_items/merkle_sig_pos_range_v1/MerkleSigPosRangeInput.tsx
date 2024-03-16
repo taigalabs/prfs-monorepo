@@ -47,6 +47,7 @@ import {
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
+import { useMerkleSigPosRangeFormHandler } from "./use_merkle_sig_pos_range_form_handler";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -157,69 +158,71 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     return "";
   }, [walletAddr]);
 
-  React.useEffect(() => {
-    setFormHandler(() => async (formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {
-      const val = formValues as MerkleSigPosRangeV1Inputs | undefined;
-      if (!val) {
-        setFormErrors(oldVal => ({
-          ...oldVal,
-          merkleProof: "Form is empty, something is wrong",
-        }));
-        return { isValid: false as const };
-      }
+  useMerkleSigPosRangeFormHandler({ setFormHandler, setFormErrors, credential, proofAction });
 
-      if (!val?.merkleProof) {
-        setFormErrors(oldVal => ({
-          ...oldVal,
-          merkleProof: "Merkle proof is empty",
-        }));
-        return { isValid: false as const };
-      }
+  // React.useEffect(() => {
+  //   setFormHandler(() => async (formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {
+  //     const val = formValues as MerkleSigPosRangeV1Inputs | undefined;
+  //     if (!val) {
+  //       setFormErrors(oldVal => ({
+  //         ...oldVal,
+  //         merkleProof: "Form is empty, something is wrong",
+  //       }));
+  //       return { isValid: false as const };
+  //     }
 
-      const { root, siblings, pathIndices } = val.merkleProof;
-      if (!root || !siblings || !pathIndices) {
-        setFormErrors(oldVal => ({
-          ...oldVal,
-          merkleProof: "Merkle path is not provided. Have you put address?",
-        }));
-        return { isValid: false as const };
-      }
+  //     if (!val?.merkleProof) {
+  //       setFormErrors(oldVal => ({
+  //         ...oldVal,
+  //         merkleProof: "Merkle proof is empty",
+  //       }));
+  //       return { isValid: false as const };
+  //     }
 
-      if (!val.nonceRaw || val.nonceRaw.length === 0) {
-        setFormErrors(oldVal => ({
-          ...oldVal,
-          nonceRaw: "Nonce raw is empty",
-        }));
-        return { isValid: false as const };
-      }
+  //     const { root, siblings, pathIndices } = val.merkleProof;
+  //     if (!root || !siblings || !pathIndices) {
+  //       setFormErrors(oldVal => ({
+  //         ...oldVal,
+  //         merkleProof: "Merkle path is not provided. Have you put address?",
+  //       }));
+  //       return { isValid: false as const };
+  //     }
 
-      const { pkHex, skHex } = await deriveProofKey(credential.secret_key, val.nonceRaw);
-      val.proofPubKey = pkHex;
+  //     if (!val.nonceRaw || val.nonceRaw.length === 0) {
+  //       setFormErrors(oldVal => ({
+  //         ...oldVal,
+  //         nonceRaw: "Nonce raw is empty",
+  //       }));
+  //       return { isValid: false as const };
+  //     }
 
-      const proofActionSigMsg = toUtf8Bytes(proofAction);
-      const wallet = new Wallet(skHex);
-      const sig = await wallet.signMessage(proofActionSigMsg);
+  //     const { pkHex, skHex } = await deriveProofKey(credential.secret_key, val.nonceRaw);
+  //     val.proofPubKey = pkHex;
 
-      // const recoveredAddr = walletUtils.verifyMessage(proofActionSigMsg, sig);
-      // const computedAddr = computeAddress(pkHex);
-      // console.log(
-      //   "proofAction: %o, sigMsg: %s, sig: %o, pkHex: %o, recoveredAddr: %o, computedAddr: %o",
-      //   proofAction,
-      //   proofActionSigMsg,
-      //   sig,
-      //   pkHex,
-      //   recoveredAddr,
-      //   computedAddr,
-      // );
+  //     const proofActionSigMsg = toUtf8Bytes(proofAction);
+  //     const wallet = new Wallet(skHex);
+  //     const sig = await wallet.signMessage(proofActionSigMsg);
 
-      return {
-        isValid: true,
-        proofAction,
-        proofActionSig: sig,
-        proofActionSigMsg: Array.from(proofActionSigMsg),
-      };
-    });
-  }, [setFormHandler, setFormErrors, proofAction]);
+  //     // const recoveredAddr = walletUtils.verifyMessage(proofActionSigMsg, sig);
+  //     // const computedAddr = computeAddress(pkHex);
+  //     // console.log(
+  //     //   "proofAction: %o, sigMsg: %s, sig: %o, pkHex: %o, recoveredAddr: %o, computedAddr: %o",
+  //     //   proofAction,
+  //     //   proofActionSigMsg,
+  //     //   sig,
+  //     //   pkHex,
+  //     //   recoveredAddr,
+  //     //   computedAddr,
+  //     // );
+
+  //     return {
+  //       isValid: true,
+  //       proofAction,
+  //       proofActionSig: sig,
+  //       proofActionSigMsg: Array.from(proofActionSigMsg),
+  //     };
+  //   });
+  // }, [setFormHandler, setFormErrors, proofAction]);
 
   React.useEffect(() => {
     async function fn() {
