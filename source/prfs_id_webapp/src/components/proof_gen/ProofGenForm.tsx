@@ -93,9 +93,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         dispatch(setGlobalMsg({ message: i18n.already_made_proof, notDismissible: true }));
         setCreateProofStatus(Status.Standby);
 
-        // setTimeout(() => {
-        //   window.close();
-        // }, 2000);
+        setTimeout(() => {
+          window.close();
+        }, 2000);
       }
     },
     [proofGenArgs, putSessionValueRequest, setErrorMsg, setCreateProofStatus, receipt, dispatch],
@@ -193,15 +193,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && status === Status.Standby) {
-      // const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
-      //   identity_id: credential.id,
-      // });
-
-      // if (error) {
-      //   setErrorMsg(error);
-      //   return;
-      // }
-
       if (!receipt) {
         setErrorMsg("no proof gen receipt");
         return;
@@ -236,13 +227,19 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
         // For some reason, parent window sees the child as 'child', so child manually
         // closes itself
-        // window.close();
+        window.close();
       } catch (err: any) {
-        console.error(err);
+        dispatch(
+          setGlobalError({
+            message: `Failed to generate proof, ${err.toSring()}`,
+            errorObj: err,
+          }),
+        );
         setCreateProofStatus(Status.Standby);
       }
     }
   }, [
+    dispatch,
     searchParams,
     proofGenArgs,
     credential,

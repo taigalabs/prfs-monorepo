@@ -175,6 +175,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }));
         return { isValid: false as const };
       }
+
       const { root, siblings, pathIndices } = val.merkleProof;
       if (!root || !siblings || !pathIndices) {
         setFormErrors(oldVal => ({
@@ -183,6 +184,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }));
         return { isValid: false as const };
       }
+
       if (!val.nonceRaw || val.nonceRaw.length === 0) {
         setFormErrors(oldVal => ({
           ...oldVal,
@@ -197,22 +199,21 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       const proofActionSigMsg = toUtf8Bytes(proofAction);
       const wallet = new Wallet(skHex);
       const sig = await wallet.signMessage(proofActionSigMsg);
-      const recoveredAddr = walletUtils.verifyMessage(proofActionSigMsg, sig);
-      const computedAddr = computeAddress(pkHex);
 
-      console.log(
-        "proofAction: %o, sigMsg: %s, sig: %o, pkHex: %o, recoveredAddr: %o, computedAddr: %o",
-        proofAction,
-        proofActionSigMsg,
-        sig,
-        pkHex,
-        recoveredAddr,
-        computedAddr,
-      );
+      // const recoveredAddr = walletUtils.verifyMessage(proofActionSigMsg, sig);
+      // const computedAddr = computeAddress(pkHex);
+      // console.log(
+      //   "proofAction: %o, sigMsg: %s, sig: %o, pkHex: %o, recoveredAddr: %o, computedAddr: %o",
+      //   proofAction,
+      //   proofActionSigMsg,
+      //   sig,
+      //   pkHex,
+      //   recoveredAddr,
+      //   computedAddr,
+      // );
 
       return {
         isValid: true,
-        // proofPubKey: pkHex,
         proofAction,
         proofActionSig: sig,
         proofActionSigMsg: Array.from(proofActionSigMsg),
