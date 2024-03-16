@@ -93,9 +93,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         dispatch(setGlobalMsg({ message: i18n.already_made_proof, notDismissible: true }));
         setCreateProofStatus(Status.Standby);
 
-        setTimeout(() => {
-          window.close();
-        }, 2000);
+        // setTimeout(() => {
+        //   window.close();
+        // }, 2000);
       }
     },
     [proofGenArgs, putSessionValueRequest, setErrorMsg, setCreateProofStatus, receipt, dispatch],
@@ -227,7 +227,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
         // For some reason, parent window sees the child as 'child', so child manually
         // closes itself
-        window.close();
+        // window.close();
       } catch (err: any) {
         dispatch(
           setGlobalError({

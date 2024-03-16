@@ -230,41 +230,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
             sub_channel_id: subChannelId,
           });
 
-          console.log(22, payload);
-
-          // const { payload, error } = await createShyTopic({
-          //   title,
-          //   topic_id: topicId,
-          //   content: html,
-          //   channel_id: channel.channel_id,
-          //   shy_topic_proof_id,
-          //   proof_identity_input: publicInputs.proofIdentityInput,
-          //   proof: Array.from(proveReceipt.proof.proofBytes),
-          //   public_inputs: proveReceipt.proof.publicInputSer,
-          //   author_public_key: publicInputs.proofPubKey,
-          //   serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
-          //   author_sig: proveReceipt.proofActionSig,
-          //   author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
-          //   sub_channel_id: subChannelId,
-          // });
-          // const { payload: getShyTopicProofPayload } = await getShyTopicProof({
-          //   public_key: receipt.proofPubKey,
-          // });
-          // const topicProof = getShyTopicProofPayload.shy_topic_proof;
-          // const { payload: createShyPostPayload } = await createShyPost({
-          //   topic_id: topicId,
-          //   channel_id: channel.channel_id,
-          //   shy_topic_proof_id: topicProof.shy_topic_proof_id,
-          //   author_public_key: topicProof.public_key,
-          //   post_id: postId,
-          //   content: html,
-          //   author_sig: receipt.proofActionSig,
-          //   author_sig_msg: Array.from(receipt.proofActionSigMsg),
-          // });
-          //
-          // if (error) {
-          //   throw new Error(`Failed to create a topic, err: ${error}`);
-          // }
+          handleSucceedPost();
         } else {
           dispatch(
             setGlobalError({
