@@ -27,12 +27,6 @@ pub async fn create_shy_topic(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let cli = &state.client;
-    let url = format!(
-        "{}/api/v0/create_prfs_proof_record",
-        &ENVS.prfs_api_server_endpoint
-    );
-
     let action = ShyTopicProofAction::create_shy_topic(CreateShyTopicAction {
         topic_id: input.topic_id.to_string(),
         channel_id: input.channel_id.to_string(),
@@ -59,9 +53,15 @@ pub async fn create_shy_topic(
     let data = CreatePrfsProofRecordRequest {
         proof_record: PrfsProofRecord {
             public_key: input.author_public_key.to_string(),
-            proof_starts_with: input.proof[0..10].to_vec(),
+            proof_starts_with: input.proof[0..8].to_vec(),
         },
     };
+
+    let cli = &state.client;
+    let url = format!(
+        "{}/api/v0/create_prfs_proof_record",
+        &ENVS.prfs_api_server_endpoint
+    );
     let res = match cli.post(url).json(&data).send().await {
         Ok(res) => res,
         Err(err) => {

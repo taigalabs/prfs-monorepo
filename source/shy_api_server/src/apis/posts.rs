@@ -166,6 +166,8 @@ pub async fn create_shy_post_with_proof(
         }
     };
 
+    println!("111, {}, {:?}", _proof_id, shy_topic_proof);
+
     let shy_post = ShyPost {
         post_id: input.post_id,
         topic_id: input.topic_id,
@@ -186,6 +188,7 @@ pub async fn create_shy_post_with_proof(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
+
     tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(CreateShyPostResponse { post_id });

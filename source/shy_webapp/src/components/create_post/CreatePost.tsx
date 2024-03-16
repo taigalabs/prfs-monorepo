@@ -214,7 +214,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
             receipt_.proof.publicInputSer,
           );
 
-          const { payload, error } = await createShyPostWithProof({
+          const { error } = await createShyPostWithProof({
             topic_id: topicId,
             channel_id: channel.channel_id,
             shy_topic_proof_id,
@@ -229,6 +229,9 @@ const CreatePost: React.FC<CreatePostProps> = ({
             serial_no: publicInputs.circuitPubInput.serialNo.toString(),
             sub_channel_id: subChannelId,
           });
+
+          if (error) {
+          }
 
           handleSucceedPost();
         } else {

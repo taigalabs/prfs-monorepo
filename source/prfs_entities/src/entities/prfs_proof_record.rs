@@ -5,5 +5,5 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct PrfsProofRecord {
     pub public_key: String,
-    pub proof_starts_with: Vec<u8>,
+    pub proof_starts_with: [u8; 8],
 }
