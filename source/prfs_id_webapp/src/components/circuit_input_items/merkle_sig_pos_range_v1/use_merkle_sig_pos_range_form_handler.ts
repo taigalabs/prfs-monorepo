@@ -27,7 +27,12 @@ import { Wallet, utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/eth
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
-import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
+import {
+  FormErrors,
+  FormHandler,
+  FormValues,
+  HandleSkipCreateProof,
+} from "@/components/circuit_input_items/formTypes";
 
 export function useMerkleSigPosRangeFormHandler({
   setFormHandler,
@@ -100,9 +105,69 @@ export function useMerkleSigPosRangeFormHandler({
   }, [setFormHandler, setFormErrors, proofAction]);
 }
 
-interface UseMerkleSigPosRangeFormHandlerArgs {
+export function useCachedProveReceiptCreator({
+  presetVals,
+  usePrfsRegistry,
+  credential,
+  handleSkipCreateProof,
+  proofAction,
+}: UseCachedProveReceiptCreatorArgs) {
+  const { mutateAsync: getPrfsProofRecord } = useMutation({
+    mutationFn: (req: GetPrfsProofRecordRequest) => {
+      return prfsApi3({ type: "get_prfs_proof_record", ...req });
+    },
+  });
+
+  React.useEffect(() => {
+    async function fn() {
+      if (presetVals?.nonceRaw && usePrfsRegistry) {
+        const { pkHex, skHex } = await deriveProofKey(credential.secret_key, presetVals.nonceRaw);
+        const { payload, error } = await getPrfsProofRecord({
+          public_key: pkHex,
+        });
+
+        if (error) {
+        }
+
+        if (payload) {
+          if (payload.proof_record) {
+            const proofActionSigMsg = toUtf8Bytes(proofAction);
+            const wallet = new Wallet(skHex);
+            const sig = await wallet.signMessage(proofActionSigMsg);
+
+            // console.log("proofAction: %o, str: %o", proofAction, proofActionSigMsg);
+            // console.log("sig: %s, skHex: %o, sigMsg: %o", sig, skHex, proofActionSigMsg);
+            // const addr = ethers.utils.verifyMessage(proofActionSigMsg, sig);
+            // const addr2 = computeAddress(pkHex);
+            // console.log("addr", addr, addr2);
+            // console.log("pkHex", pkHex);
+
+            handleSkipCreateProof({
+              type: "cached_prove_receipt",
+              proofAction,
+              proofActionSigMsg: Array.from(proofActionSigMsg),
+              proofActionSig: sig,
+              proofPubKey: pkHex,
+            });
+          }
+        }
+      }
+    }
+    fn().then();
+  }, [presetVals, proofAction, getPrfsProofRecord, usePrfsRegistry, handleSkipCreateProof]);
+}
+
+export interface UseMerkleSigPosRangeFormHandlerArgs {
   setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
   credential: PrfsIdCredential;
   proofAction: string;
+}
+
+export interface UseCachedProveReceiptCreatorArgs {
+  presetVals?: MerkleSigPosRangeV1PresetVals;
+  credential: PrfsIdCredential;
+  proofAction: string;
+  usePrfsRegistry?: boolean;
+  handleSkipCreateProof: HandleSkipCreateProof;
 }
