@@ -4,7 +4,11 @@ import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { makePathIndices, makeSiblingPath, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
-import { hexlify, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import {
+  computeAddress,
+  hexlify,
+  toUtf8Bytes,
+} from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
@@ -20,7 +24,7 @@ import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindin
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
-import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
+import { Wallet, utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
@@ -193,14 +197,24 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       const proofActionSigMsg = toUtf8Bytes(proofAction);
       const wallet = new Wallet(skHex);
       const sig = await wallet.signMessage(proofActionSigMsg);
+      const recoveredAddr = walletUtils.verifyMessage(proofActionSigMsg, sig);
+      const computedAddr = computeAddress(pkHex);
 
-      console.log("proofAction: %o, str: %o", proofAction, proofActionSigMsg);
+      console.log(
+        "proofAction: %o, sigMsg: %s, sig: %s, pkHex: %s, recoveredAddr: %s, computedAddr: %s",
+        proofAction,
+        proofActionSigMsg,
+        sig,
+        pkHex,
+        recoveredAddr,
+        computedAddr,
+      );
 
       return {
         isValid: true,
         proofPubKey: pkHex,
         proofAction,
-        proofActionSig: "0x" + sig,
+        proofActionSig: sig,
         proofActionSigMsg: Array.from(proofActionSigMsg),
       };
     });
