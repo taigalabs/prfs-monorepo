@@ -4,7 +4,7 @@ import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import {
-  deriveProofKey,
+  // deriveProofKey,
   makePathIndices,
   makeSiblingPath,
   poseidon_2_bigint_le,
@@ -14,7 +14,7 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import { PrfsIdCredential, makeWalletAtstCm } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, deriveProofKey, makeWalletAtstCm } from "@taigalabs/prfs-id-sdk-web";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
@@ -191,17 +191,19 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         }));
         return { isValid: false as const };
       }
-      const { skHex } = await deriveProofKey(val.nonceRaw);
-      val.proofKey = skHex;
+
+      const { pkHex, skHex } = await deriveProofKey(credential.secret_key, val.nonceRaw);
+      val.proofPubKey = skHex;
 
       const proofActionSigMsg = toUtf8Bytes(proofAction);
       const wallet = new Wallet(skHex);
       const sig = await wallet.signMessage(proofActionSigMsg);
 
-      // console.log("proofAction: %o, str: %o", proofAction, proofActionSigMsg);
+      console.log("proofAction: %o, str: %o", proofAction, proofActionSigMsg);
 
       return {
         isValid: true,
+        proofPubKey: pkHex,
         proofAction,
         proofActionSig: "0x" + sig,
         proofActionSigMsg: Array.from(proofActionSigMsg),
@@ -212,9 +214,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   React.useEffect(() => {
     async function fn() {
       if (presetVals?.nonceRaw && usePrfsRegistry) {
-        const { publicKey, skHex } = await deriveProofKey(presetVals.nonceRaw);
-        const pkHex = hexlify(publicKey);
-
+        const { pkHex, skHex } = await deriveProofKey(credential.secret_key, presetVals.nonceRaw);
         const { payload, error } = await getPrfsProofRecord({
           public_key: pkHex,
         });

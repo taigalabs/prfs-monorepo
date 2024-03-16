@@ -2,6 +2,7 @@ import { ProveArgs, ProveReceipt, ProveResult, VerifyArgs } from "@taigalabs/prf
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import {
   bytesToNumberLE,
+  hexToNumber,
   poseidon_2,
   poseidon_2_bigint_le,
   prfsSign,
@@ -13,6 +14,7 @@ import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/s
 import { snarkJsWitnessGen } from "@/utils/snarkjs";
 import { PrfsHandlers } from "@/types";
 import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
+import { bigIntToHex } from "@ethereumjs/util";
 
 export async function proveMembership(
   args: ProveArgs<MerkleSigPosRangeV1Inputs>,
@@ -32,7 +34,7 @@ export async function proveMembership(
     assetSizeGreaterEqThan,
     assetSizeLabel,
     nonceRaw,
-    proofKey,
+    proofPubKey,
   } = inputs;
 
   const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
@@ -43,20 +45,18 @@ export async function proveMembership(
   const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
   // console.log("sigposAndNonce", sigposAndNonceInt_);
 
-  const publicKey = secp.getPublicKey(proofKey.substring(2));
-  const proofPubKey = hexlify(publicKey);
-  const proofPubKey_ = bytesToNumberLE(publicKey);
-  const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
-  const proofPubKeyInt = bytesToNumberLE(proofPubKeyHash);
+  // const publicKey = secp.getPublicKey(proofKey.substring(2));
+  // const proofPubKey = hexlify(publicKey);
+  // const proofPubKey_ = bytesToNumberLE(publicKey);
+  // const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
+  // const proofPubKeyInt = bytesToNumberLE(proofPubKeyBytes);
+  const proofPubKeyInt = hexToNumber(proofPubKey);
+  // const proofPubKey = hexlify(proofPubKeyInt);
   // console.log("proofPubKeyInt", proofPubKeyInt);
 
   const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
   const serialNo = bytesToNumberLE(serialNoHash);
   // console.log("serialNo", serialNo);
-
-  // const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
-  // const proofActionResult = await prfsSign(proofKey, proofAction_);
-  // const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 
   eventListener({
     type: "CREATE_PROOF_EVENT",
@@ -125,7 +125,7 @@ export async function proveMembership(
     proof: {
       proofBytes,
       publicInputSer: publicInput.stringify(),
-      proofKey,
+      proofPubKey,
       // proofActionResult: proofActionResultHex,
     },
   };

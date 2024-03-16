@@ -58,7 +58,12 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
           {channel ? (
             <>
               <ChannelMeta channel={channel} noDesc noSubChannel small />
-              <TopicContent topicId={topicId} channel={channel} rerender={rerender} />
+              <TopicContent
+                topicId={topicId}
+                channel={channel}
+                rerender={rerender}
+                subChannelId={subChannelId}
+              />
               <PostList
                 parentRef={parentRef}
                 channel={channel}

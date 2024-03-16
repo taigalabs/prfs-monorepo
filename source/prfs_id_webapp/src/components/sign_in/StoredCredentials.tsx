@@ -248,7 +248,7 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
     <>
       <DefaultInnerPadding noSidePadding>
         <DefaultModuleHeader noTopPadding>
-          <DefaultModuleTitle>{i18n.choose_your_idt_to_create_and_own_data}</DefaultModuleTitle>
+          <DefaultModuleTitle>{i18n.choose_your_id_to_create_data}</DefaultModuleTitle>
           <DefaultModuleSubtitle>{subtitle}</DefaultModuleSubtitle>
         </DefaultModuleHeader>
         {content}

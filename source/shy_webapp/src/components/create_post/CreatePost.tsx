@@ -206,6 +206,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
         } else if (receipt.type === "prove_receipt") {
           const shy_topic_proof_id = rand256Hex();
           const receipt_ = receipt as ProveReceipt;
+          console.log(11, receipt_);
+
           const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
             receipt_.proof.publicInputSer,
           );
@@ -225,6 +227,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
             serial_no: publicInputs.circuitPubInput.serialNo.toString(),
             sub_channel_id: subChannelId,
           });
+
+          console.log(22, payload);
 
           // const { payload, error } = await createShyTopic({
           //   title,
@@ -287,6 +291,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
       getShyTopicProof,
       createShyPostWithProof,
       createShyPost,
+      subChannelId,
     ],
   );
 

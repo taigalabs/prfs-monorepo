@@ -316,7 +316,7 @@ export default {
   element_of_a_group: "Element of a group, e.g., address",
   choose_an_address: "Choose an address",
   choose_account: "Choose an account",
-  choose_your_idt_to_create_and_own_data: "Choose your ID to create and own your data",
+  choose_your_id_to_create_data: "Choose your ID to create data",
   choose_type: "Choose type",
   choose_proof_type: "Choose a proof type",
   console: "Console",
