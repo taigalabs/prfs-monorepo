@@ -50,7 +50,7 @@ export async function proveMembership(
   // const proofPubKey_ = bytesToNumberLE(publicKey);
   // const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
   // const proofPubKeyInt = bytesToNumberLE(proofPubKeyBytes);
-  const proofPubKeyInt = hexToNumber(proofPubKey);
+  const proofPubKeyInt = hexToNumber(proofPubKey.substring(2));
   // const proofPubKey = hexlify(proofPubKeyInt);
   // console.log("proofPubKeyInt", proofPubKeyInt);
 

@@ -42,7 +42,8 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
             const addr = decrypt(prfsIdCredential.secret_key, buf).toString();
             set.add(addr);
           } catch (err) {
-            console.error(err);
+            console.warn("prfs index wasn't decryptable, key: %s", key);
+            // console.error(err);
           }
         }
         return set;
