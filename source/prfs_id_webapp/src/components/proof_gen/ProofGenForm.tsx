@@ -231,7 +231,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       } catch (err: any) {
         dispatch(
           setGlobalError({
-            message: `Failed to generate proof, ${err.toSring()}`,
+            message: `Failed to generate proof, ${err.toString()}`,
             errorObj: err,
           }),
         );
