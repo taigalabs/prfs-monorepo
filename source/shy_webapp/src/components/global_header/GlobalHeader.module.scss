@@ -36,14 +36,18 @@ $header_height_big: 61px;
 }
 
 .leftGroup {
+  display: flex;
   height: 100%;
 }
 
 .logo {
   font-size: 20px;
-  > div {
-    /* padding-top: 10px; */
-  }
+}
+
+.gitHash {
+  font-size: 13px;
+  padding: 2px 4px;
+  color: var(--gray-40);
 }
 
 @media screen and (min-width: $big_display_min_width) {
