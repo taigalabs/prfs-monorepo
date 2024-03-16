@@ -1,3 +1,4 @@
+use prfs_api_rs::api::create_prfs_proof_record;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
@@ -50,33 +51,58 @@ pub async fn create_shy_topic(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
-    let data = CreatePrfsProofRecordRequest {
-        proof_record: PrfsProofRecord {
-            public_key: input.author_public_key.to_string(),
-            proof_starts_with: input.proof[0..8].to_vec(),
-        },
-    };
-
-    let cli = &state.client;
-    let url = format!(
-        "{}/api/v0/create_prfs_proof_record",
-        &ENVS.prfs_api_server_endpoint
-    );
-    let res = match cli.post(url).json(&data).send().await {
-        Ok(res) => res,
+    let proof_starts_with: [u8; 8] = match input.proof[0..8].try_into() {
+        Ok(p) => p,
         Err(err) => {
-            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.BAD_URL, err.to_string());
+            let resp = ApiResponse::new_error(
+                &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
+                format!(
+                    "Cannot slice proof, proof len: {}, err: {}",
+                    input.proof.len(),
+                    err
+                ),
+            );
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
 
-    let _res: ApiResponse<GetPrfsProofRecordResponse> = match res.json().await {
+    let data = CreatePrfsProofRecordRequest {
+        proof_record: PrfsProofRecord {
+            public_key: input.author_public_key.to_string(),
+            proof_starts_with,
+        },
+    };
+
+    let _proof_record_resp = match create_prfs_proof_record(&ENVS.prfs_api_server_endpoint, &data)
+        .await
+    {
         Ok(r) => r,
         Err(err) => {
             let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
+
+    // let cli = &state.client;
+    // let url = format!(
+    //     "{}/api/v0/create_prfs_proof_record",
+    //     &ENVS.prfs_api_server_endpoint
+    // );
+    // let res = match cli.post(url).json(&data).send().await {
+    //     Ok(res) => res,
+    //     Err(err) => {
+    //         let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.BAD_URL, err.to_string());
+    //         return (StatusCode::BAD_REQUEST, Json(resp));
+    //     }
+    // };
+
+    // let _res: ApiResponse<GetPrfsProofRecordResponse> = match res.json().await {
+    //     Ok(r) => r,
+    //     Err(err) => {
+    //         let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+    //         return (StatusCode::BAD_REQUEST, Json(resp));
+    //     }
+    // };
 
     let shy_topic_proof = ShyTopicProof {
         shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
