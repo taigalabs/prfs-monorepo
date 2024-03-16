@@ -1,0 +1,14 @@
+import { MarkdownWrapper } from "@/components/markdown/MarkdownComponents";
+
+Hi, {props.accountId}.
+
+Prfs helps create a proof locally on your machine.
+
+In order to get started, first attest to your data at <a 
+href={props.attestationLink}>Prfs attestation</a>.
+
+Or, go to <a href={"/"}>Home</a>.
+
+export default function Layout({ children }) {
+  return <MarkdownWrapper>{children}</MarkdownWrapper>;
+}

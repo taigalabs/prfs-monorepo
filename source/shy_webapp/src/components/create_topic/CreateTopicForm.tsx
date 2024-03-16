@@ -18,6 +18,7 @@ import {
   makeRandInt,
   rand256Hex,
 } from "@taigalabs/prfs-crypto-js";
+import { Wallet, utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyTopicRequest } from "@taigalabs/shy-entities/bindings/CreateShyTopicRequest";
@@ -200,6 +201,14 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
           proveReceipt.proof.publicInputSer,
         );
+
+        console.log("proveReceipt: %o", proveReceipt);
+
+        const recoveredAddr = walletUtils.verifyMessage(
+          proveReceipt.proofActionSigMsg,
+          proveReceipt.proofActionSig,
+        );
+        console.log("addr: %s", recoveredAddr);
 
         const shy_topic_proof_id = rand256Hex();
         const { payload, error } = await createShyTopic({

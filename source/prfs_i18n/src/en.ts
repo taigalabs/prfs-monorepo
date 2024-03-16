@@ -233,7 +233,7 @@ export default {
   sign_in_with_your_id: "Try signing in with your new identity",
   create_a_strong_password:
     "Create a strong password with a mix of upper/lower case lettters, numbers, and symbols. Each password has to be 15-character or longer. Your ID will be auto-generated based on your password",
-  why_we_ask_for_id: "Why we ask for Id?",
+  how_to_choose_right_id: "How to choose a right Id",
   how_is_the_password_generated: "How is the password generated",
   what_happens_when_signing_up: "What happens when signing up",
   what_is_id: "What is an ID",
@@ -316,7 +316,7 @@ export default {
   element_of_a_group: "Element of a group, e.g., address",
   choose_an_address: "Choose an address",
   choose_account: "Choose an account",
-  choose_your_idt_to_create_and_own_data: "Choose your ID to create and own your data",
+  choose_your_id_to_create_data: "Choose your ID to create data",
   choose_type: "Choose type",
   choose_proof_type: "Choose a proof type",
   console: "Console",

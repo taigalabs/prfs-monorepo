@@ -1,3 +1,4 @@
+use prfs_atst_api_error_codes::PRFS_ATST_API_ERROR_CODES;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::ApiHandleError;
@@ -12,8 +13,6 @@ use prfs_entities::atst_entities::{PrfsAccAtst, PrfsAtstStatus};
 use prfs_web_scraper::destinations::twitter;
 use std::sync::Arc;
 
-use crate::error_codes::API_ERROR_CODE;
-
 const LIMIT: i32 = 20;
 
 pub async fn validate_twitter_acc(
@@ -22,7 +21,9 @@ pub async fn validate_twitter_acc(
 ) -> (StatusCode, Json<ApiResponse<ValidateTwitterAccResponse>>) {
     let validation = twitter::scrape_tweet(&input.tweet_url, &input.twitter_handle)
         .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_VALIDATE_FAIL, err))
+        .map_err(|err| {
+            ApiHandleError::from(&PRFS_ATST_API_ERROR_CODES.TWITTER_ACC_VALIDATE_FAIL, err)
+        })
         .unwrap();
 
     let resp = ApiResponse::new_success(ValidateTwitterAccResponse {
@@ -53,7 +54,9 @@ pub async fn attest_twitter_acc(
 
     let acc_atst_id = prfs::insert_prfs_acc_atst(&mut tx, &prfs_acc_atst)
         .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))
+        .map_err(|err| {
+            ApiHandleError::from(&PRFS_ATST_API_ERROR_CODES.TWITTER_ACC_ATST_INSERT_FAIL, err)
+        })
         .unwrap();
 
     tx.commit().await.unwrap();
@@ -73,7 +76,9 @@ pub async fn get_twitter_acc_atsts(
 
     let rows = prfs::get_prfs_acc_atsts(&pool, input.offset, LIMIT)
         .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))
+        .map_err(|err| {
+            ApiHandleError::from(&PRFS_ATST_API_ERROR_CODES.TWITTER_ACC_ATST_INSERT_FAIL, err)
+        })
         .unwrap();
 
     let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
@@ -94,7 +99,9 @@ pub async fn get_twitter_acc_atst(
 
     let prfs_acc_atst = prfs::get_prfs_acc_atst(&pool, &input.acc_atst_id)
         .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))
+        .map_err(|err| {
+            ApiHandleError::from(&PRFS_ATST_API_ERROR_CODES.TWITTER_ACC_ATST_INSERT_FAIL, err)
+        })
         .unwrap();
 
     let resp = ApiResponse::new_success(GetTwitterAccAtstResponse { prfs_acc_atst });

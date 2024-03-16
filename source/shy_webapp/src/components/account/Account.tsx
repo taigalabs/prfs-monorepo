@@ -19,31 +19,7 @@ const Account: React.FC<AccountProps> = () => {
     [setIsLeftBarDrawerVisible],
   );
 
-  // const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
-  // React.useEffect(() => {
-  //   if (isCredentialInitialized) {
-  //     if (prfsProofCredential === null) {
-  //       router.push(paths.account__signin);
-  //     }
-  //   }
-  // }, [isCredentialInitialized, prfsProofCredential, router]);
-
-  return (
-    <div className={styles.wrapper}>
-      account
-      {/* <DefaultHeader> */}
-      {/*   <div className={styles.leftBarContainer}> */}
-      {/*     <LeftBar /> */}
-      {/*   </div> */}
-      {/*   <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}> */}
-      {/*     <LeftBar /> */}
-      {/*   </LeftBarDrawer> */}
-      {/* </DefaultHeader> */}
-      {/* <DefaultMain> */}
-      {/*   <TimelineFeeds channelId="default" /> */}
-      {/* </DefaultMain> */}
-    </div>
-  );
+  return <div className={styles.wrapper}>account</div>;
 };
 
 export default Account;

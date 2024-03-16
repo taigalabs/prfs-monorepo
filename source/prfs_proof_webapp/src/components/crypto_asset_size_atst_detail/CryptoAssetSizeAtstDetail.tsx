@@ -25,9 +25,7 @@ const CryptoAssetSizeAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ a
   const { isLoading, data, error } = useQuery({
     queryKey: ["get_asset_size_atst"],
     queryFn: async () => {
-      const { payload } = await atstApi("get_crypto_asset_size_atst", {
-        atst_id: atst_id,
-      });
+      const { payload } = await atstApi({ type: "get_crypto_asset_size_atst", atst_id: atst_id });
       return payload;
     },
   });

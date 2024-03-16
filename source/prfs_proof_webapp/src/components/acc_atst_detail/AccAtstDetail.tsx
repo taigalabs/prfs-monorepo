@@ -25,9 +25,7 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ atst_id }) => {
   const { isLoading, data, error } = useQuery({
     queryKey: ["get_twitter_acc_atst"],
     queryFn: async () => {
-      const { payload } = await atstApi("get_twitter_acc_atst", {
-        acc_atst_id: atst_id,
-      });
+      const { payload } = await atstApi({ type: "get_twitter_acc_atst", acc_atst_id: atst_id });
       return payload;
     },
   });

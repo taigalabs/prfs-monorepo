@@ -3,18 +3,17 @@ import cn from "classnames";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
+import { makePathIndices, makeSiblingPath, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
 import {
-  deriveProofKey,
-  makePathIndices,
-  makeSiblingPath,
-  poseidon_2_bigint_le,
-} from "@taigalabs/prfs-crypto-js";
-import { hexlify, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+  computeAddress,
+  hexlify,
+  toUtf8Bytes,
+} from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import { PrfsIdCredential, makeWalletAtstCm } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, deriveProofKey, makeWalletAtstCm } from "@taigalabs/prfs-id-sdk-web";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
@@ -25,7 +24,7 @@ import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindin
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
-import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
+import { Wallet, utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
@@ -48,6 +47,10 @@ import {
 import { envs } from "@/envs";
 import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
+import {
+  useCachedProveReceiptCreator,
+  useMerkleSigPosRangeFormHandler,
+} from "./use_merkle_sig_pos_range_form_handler";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -86,11 +89,11 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   const [walletAddr, setWalletAddr] = React.useState("");
   const [rangeOptionIdx, setRangeOptionIdx] = React.useState(-1);
 
-  const { mutateAsync: getPrfsProofRecord } = useMutation({
-    mutationFn: (req: GetPrfsProofRecordRequest) => {
-      return prfsApi3({ type: "get_prfs_proof_record", ...req });
-    },
-  });
+  // const { mutateAsync: getPrfsProofRecord } = useMutation({
+  //   mutationFn: (req: GetPrfsProofRecordRequest) => {
+  //     return prfsApi3({ type: "get_prfs_proof_record", ...req });
+  //   },
+  // });
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
@@ -158,96 +161,15 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     return "";
   }, [walletAddr]);
 
-  React.useEffect(() => {
-    setFormHandler(() => async (formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {
-      const val = formValues as MerkleSigPosRangeV1Inputs | undefined;
-      if (!val) {
-        setFormErrors(oldVal => ({
-          ...oldVal,
-          merkleProof: "Form is empty, something is wrong",
-        }));
-        return { isValid: false as const };
-      }
+  useMerkleSigPosRangeFormHandler({ setFormHandler, setFormErrors, credential, proofAction });
 
-      if (!val?.merkleProof) {
-        setFormErrors(oldVal => ({
-          ...oldVal,
-          merkleProof: "Merkle proof is empty",
-        }));
-        return { isValid: false as const };
-      }
-      const { root, siblings, pathIndices } = val.merkleProof;
-      if (!root || !siblings || !pathIndices) {
-        setFormErrors(oldVal => ({
-          ...oldVal,
-          merkleProof: "Merkle path is not provided. Have you put address?",
-        }));
-        return { isValid: false as const };
-      }
-      if (!val.nonceRaw || val.nonceRaw.length === 0) {
-        setFormErrors(oldVal => ({
-          ...oldVal,
-          nonceRaw: "Nonce raw is empty",
-        }));
-        return { isValid: false as const };
-      }
-      const { skHex } = await deriveProofKey(val.nonceRaw);
-      val.proofKey = skHex;
-
-      const proofActionSigMsg = toUtf8Bytes(proofAction);
-      const wallet = new Wallet(skHex);
-      const sig = await wallet.signMessage(proofActionSigMsg);
-
-      // console.log("proofAction: %o, str: %o", proofAction, proofActionSigMsg);
-
-      return {
-        isValid: true,
-        proofAction,
-        proofActionSig: "0x" + sig,
-        proofActionSigMsg: Array.from(proofActionSigMsg),
-      };
-    });
-  }, [setFormHandler, setFormErrors, proofAction]);
-
-  React.useEffect(() => {
-    async function fn() {
-      if (presetVals?.nonceRaw && usePrfsRegistry) {
-        const { publicKey, skHex } = await deriveProofKey(presetVals.nonceRaw);
-        const pkHex = hexlify(publicKey);
-
-        const { payload, error } = await getPrfsProofRecord({
-          public_key: pkHex,
-        });
-
-        if (error) {
-        }
-
-        if (payload) {
-          if (payload.proof_record) {
-            const proofActionSigMsg = toUtf8Bytes(proofAction);
-            const wallet = new Wallet(skHex);
-            const sig = await wallet.signMessage(proofActionSigMsg);
-
-            // console.log("proofAction: %o, str: %o", proofAction, proofActionSigMsg);
-            // console.log("sig: %s, skHex: %o, sigMsg: %o", sig, skHex, proofActionSigMsg);
-            // const addr = ethers.utils.verifyMessage(proofActionSigMsg, sig);
-            // const addr2 = computeAddress(pkHex);
-            // console.log("addr", addr, addr2);
-            // console.log("pkHex", pkHex);
-
-            handleSkipCreateProof({
-              type: "cached_prove_receipt",
-              proofAction,
-              proofActionSigMsg: Array.from(proofActionSigMsg),
-              proofActionSig: sig,
-              proofPubKey: pkHex,
-            });
-          }
-        }
-      }
-    }
-    fn().then();
-  }, [presetVals, proofAction, getPrfsProofRecord, usePrfsRegistry, handleSkipCreateProof]);
+  useCachedProveReceiptCreator({
+    presetVals,
+    usePrfsRegistry,
+    credential,
+    handleSkipCreateProof,
+    proofAction,
+  });
 
   React.useEffect(() => {
     async function fn() {

@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::entities::PrfsIdSession;
+use crate::id_session::PrfsIdSession;
 
 #[allow(non_camel_case_types)]
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

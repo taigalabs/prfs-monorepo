@@ -1,4 +1,4 @@
-import { CircuitDriver, DriverEventListener, ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
+import { CircuitDriver, DriverEventListener, ProveArgs, ProveResult, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { PrfsHandlers, BuildStatus, SpartanCircomDriverProperties } from "./types";
 export default class SpartanDriver implements CircuitDriver {
     handlers: PrfsHandlers;
@@ -8,6 +8,6 @@ export default class SpartanDriver implements CircuitDriver {
     private constructor();
     getArtifactCount(): number;
     getBuildStatus(): Promise<BuildStatus>;
-    prove(args: ProveArgs<any>): Promise<ProveReceipt>;
+    prove(args: ProveArgs<any>): Promise<ProveResult>;
     verify(args: VerifyArgs): Promise<boolean>;
 }

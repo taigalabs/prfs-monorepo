@@ -20,6 +20,7 @@ import {
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { SignInPrfsAccountRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsAccountRequest";
+import { SignUpPrfsAccountRequest } from "@taigalabs/prfs-entities/bindings/SignUpPrfsAccountRequest";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -30,9 +31,9 @@ import {
   persistPrfsProofCredential,
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
-// import SignUpModal from "@/components/sign_up_modal/SignUpModal";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInProofUser } from "@/hooks/user";
 import { reportError } from "@/state/errorReducer";
+import { paths } from "@/paths";
 
 const SIGN_IN = "SIGN_IN";
 
@@ -44,13 +45,18 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
 }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
-  const { mutateAsync: prfsSignInRequest } = useMutation({
+  const { isInitialized, prfsProofCredential } = useSignedInProofUser();
+  const { mutateAsync: signInPrfsAccount } = useMutation({
     mutationFn: (req: SignInPrfsAccountRequest) => {
       return prfsApi3({ type: "sign_in_prfs_account", ...req });
     },
   });
-  const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
+  const { mutateAsync: signUpPrfsAccount } = useMutation({
+    mutationFn: (req: SignUpPrfsAccountRequest) => {
+      return prfsApi3({ type: "sign_up_prfs_account", ...req });
+    },
+  });
+  // const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
   const [proofGenArgs, keyPair] = React.useMemo<[ProofGenArgs, KeyPair]>(() => {
     const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
@@ -117,7 +123,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
           return;
         }
 
-        const { error, code } = await prfsSignInRequest({
+        const { error, code } = await signInPrfsAccount({
           account_id: signInResult.account_id,
         });
         const avatar_color = makeColor(signInResult.account_id);
@@ -128,24 +134,44 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         };
 
         if (error) {
-          dispatch(
-            reportError({
-              errorObj: error,
-              message: `Error signing in, err: ${error.toString()}`,
-            }),
-          );
           if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
-            setSignUpData(credential);
+            // setSignUpData(credential);
+            const { error, code } = await signUpPrfsAccount({
+              account_id: signInResult.account_id,
+              avatar_color,
+              public_key: signInResult.public_key,
+            });
+
+            if (error) {
+              dispatch(
+                reportError({
+                  errorObj: error,
+                  message: `Error signing up, err: ${error.toString()}`,
+                }),
+              );
+              return;
+            }
+
+            persistPrfsProofCredential(credential);
+            dispatch(signInPrfs(credential));
+            router.push(paths.account__welcome);
+          } else {
+            dispatch(
+              reportError({
+                errorObj: error,
+                message: `Error signing in, err: ${error.toString()}`,
+              }),
+            );
+            return;
           }
           return;
         }
 
         persistPrfsProofCredential(credential);
-        // prfs account sign in
         dispatch(signInPrfs(credential));
       }
     },
-    [router, dispatch, prfsSignInRequest, setSignUpData, proofGenArgs, keyPair],
+    [router, dispatch, signInPrfsAccount, proofGenArgs, keyPair, signUpPrfsAccount],
   );
 
   const handleClickSignOut = React.useCallback(() => {
@@ -174,7 +200,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         className={cn(styles.signInBtn, className)}
         label={label}
         proofGenArgs={proofGenArgs}
-        isLoading={!isCredentialInitialized}
+        isLoading={!isInitialized}
         handleSucceedSignIn={handleSucceedSignIn}
         prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
       />

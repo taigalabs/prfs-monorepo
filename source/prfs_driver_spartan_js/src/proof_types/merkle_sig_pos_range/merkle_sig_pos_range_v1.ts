@@ -1,14 +1,8 @@
-import { ProveArgs, ProveReceipt, ProveResult, VerifyArgs } from "@taigalabs/prfs-driver-interface";
+import { ProveArgs, ProveResult, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import {
-  bytesToNumberLE,
-  poseidon_2,
-  poseidon_2_bigint_le,
-  prfsSign,
-  toUtf8Bytes,
-} from "@taigalabs/prfs-crypto-js";
-import { hexlify, keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
-import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
+import { bytesToNumberLE, poseidon_2_bigint_le, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
+import { BN } from "bn.js";
+import { SECP256K1_P } from "@/math/secp256k1";
 
 import { snarkJsWitnessGen } from "@/utils/snarkjs";
 import { PrfsHandlers } from "@/types";
@@ -32,31 +26,22 @@ export async function proveMembership(
     assetSizeGreaterEqThan,
     assetSizeLabel,
     nonceRaw,
-    proofKey,
+    proofPubKey,
   } = inputs;
 
-  const nonceRaw_ = keccak256(toUtf8Bytes(nonceRaw)).substring(2);
-  const nonceHash = await poseidon_2(nonceRaw_);
-  const nonceInt = bytesToNumberLE(nonceHash);
+  const nonceRawBytes = toUtf8Bytes(nonceRaw);
+  const nonceInt = BigInt(new BN(nonceRawBytes).mod(SECP256K1_P).toString());
 
   const sigposAndNonceInt_ = await poseidon_2_bigint_le([sigpos, nonceInt]);
   const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
   // console.log("sigposAndNonce", sigposAndNonceInt_);
 
-  const publicKey = secp.getPublicKey(proofKey.substring(2));
-  const proofPubKey = hexlify(publicKey);
-  const proofPubKey_ = bytesToNumberLE(publicKey);
-  const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
-  const proofPubKeyInt = bytesToNumberLE(proofPubKeyHash);
-  // console.log("proofPubKeyInt", proofPubKeyInt);
+  const proofPubKeyBytes = toUtf8Bytes(proofPubKey);
+  const proofPubKeyInt = BigInt(new BN(proofPubKeyBytes).mod(SECP256K1_P).toString());
 
   const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
   const serialNo = bytesToNumberLE(serialNoHash);
   // console.log("serialNo", serialNo);
-
-  // const proofAction_ = keccak256(toUtf8Bytes(proofAction)).substring(2);
-  // const proofActionResult = await prfsSign(proofKey, proofAction_);
-  // const proofActionResultHex = "0x" + proofActionResult.toCompactHex();
 
   eventListener({
     type: "CREATE_PROOF_EVENT",
@@ -125,8 +110,7 @@ export async function proveMembership(
     proof: {
       proofBytes,
       publicInputSer: publicInput.stringify(),
-      proofKey,
-      // proofActionResult: proofActionResultHex,
+      proofPubKey,
     },
   };
 }

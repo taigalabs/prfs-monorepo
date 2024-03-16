@@ -41,7 +41,10 @@ const Welcome: React.FC<WelcomeProps> = ({}) => {
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
           <div className={styles.wrapper}>
-            <Content attestationLink={urls.createCryptoAssetAttestion} />
+            <Content
+              attestationLink={urls.createCryptoAssetAttestion}
+              accountId={shyCredential.account_id}
+            />
           </div>
         </InfiniteScrollMain>
       </InfiniteScrollInner>

@@ -17,11 +17,11 @@ const EncryptView: React.FC<EncodeViewProps> = ({ query, credential, setReceipt 
       try {
         const { name, msg, type } = query;
         if (type === EncryptType.EC_SECP256K1) {
-          const encrypted = encrypt(credential.encrypt_key, Buffer.from(msg));
+          const encrypted = encrypt(credential.public_key, Buffer.from(msg));
           const encryptedHex = hexlify(encrypted);
           const b = Buffer.from(encryptedHex.substring(2), "hex");
-          // const c = decrypt(credential.secret_key, b);
-          console.log(123, credential.secret_key, b, msg);
+          const c = decrypt(credential.secret_key, b);
+          console.log(123, msg, credential.secret_key, b, c);
 
           setReceipt(oldVal => ({
             ...oldVal,

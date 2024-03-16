@@ -5,12 +5,12 @@ import { PrivateKey, PublicKey } from "@taigalabs/prfs-crypto-deps-js/eciesjs";
 import { initWasm, wasmSingleton } from "./wasm_wrapper/wasm";
 import { poseidon_2 } from "./poseidon";
 
-export async function makeEncryptKey(secret: string): Promise<PublicKey> {
+export async function makeEncryptKey(secret: Uint8Array): Promise<PublicKey> {
   const hash = await poseidon_2(secret);
   return PrivateKey.fromHex(hexlify(hash)).publicKey;
 }
 
-export async function makeDecryptKey(secret: string): Promise<PrivateKey> {
+export async function makeDecryptKey(secret: Uint8Array): Promise<PrivateKey> {
   const hash = await poseidon_2(secret);
   return PrivateKey.fromHex(hexlify(hash));
 }

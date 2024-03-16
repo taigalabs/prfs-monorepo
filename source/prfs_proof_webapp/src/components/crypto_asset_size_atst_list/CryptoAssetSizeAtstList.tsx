@@ -12,13 +12,13 @@ import {
   AttestationsTitle,
 } from "@/components/attestations/AttestationComponents";
 import { AttestationsTopMenu } from "@/components/sets/SetComponents";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInProofUser } from "@/hooks/user";
 import { isMasterAccountId } from "@/mock/mock_data";
 import ComputeTotalValueDialog from "./ComputeTotalValue";
 
 const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const { prfsProofCredential } = useSignedInUser();
+  const { prfsProofCredential } = useSignedInProofUser();
   const { nonce, rerender } = useRerender();
 
   return (

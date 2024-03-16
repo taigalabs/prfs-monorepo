@@ -28,7 +28,7 @@ export interface VerifyArgs {
 export interface Proof {
   proofBytes: Uint8Array | number[];
   publicInputSer: string;
-  proofKey: string;
+  proofPubKey: string;
 }
 
 export interface ProveResult {
@@ -42,7 +42,13 @@ export interface ProofActionPayload {
   proofActionSig: string;
 }
 
-export type ProveReceipt = { type: "prove_receipt" } & ProveResult & ProofActionPayload;
+// export type ProveReceipt = ProveResult & ProofActionPayload;
+
+export type ProveReceipt = {
+  type: "prove_receipt";
+  // proofPubKey: string;
+} & ProveResult &
+  ProofActionPayload;
 
 export type CachedProveReceipt = {
   type: "cached_prove_receipt";

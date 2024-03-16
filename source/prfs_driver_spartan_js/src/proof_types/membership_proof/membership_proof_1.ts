@@ -101,7 +101,7 @@ export async function proveMembership(
     proof: {
       proofBytes,
       publicInputSer: publicInput.serialize(),
-      proofKey: "",
+      proofPubKey: "",
     },
   };
 }

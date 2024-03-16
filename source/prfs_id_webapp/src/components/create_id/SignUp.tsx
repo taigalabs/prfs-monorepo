@@ -34,6 +34,7 @@ import {
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
 import { useAppDispatch } from "@/state/hooks";
+import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
 
 export enum IdCreationStatus {
   Standby,
@@ -44,7 +45,6 @@ export enum IdCreationStatus {
 const SignUp: React.FC<SignUpProps> = ({
   formData,
   handleClickPrev,
-  // handleClickSignIn,
   handleSucceedSignIn,
   credential,
 }) => {
@@ -91,6 +91,7 @@ const SignUp: React.FC<SignUpProps> = ({
           );
           return;
         } else {
+          persistPrfsIdCredentialEncrypted(credential);
           handleSucceedSignIn(credential);
         }
       } catch (err: any) {

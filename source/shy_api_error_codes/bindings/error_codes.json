@@ -23,8 +23,20 @@
     "code": "400000C1",
     "phrase": "Can't find a user"
   },
+  "SIGN_UP_FAIL": {
+    "code": "400000C2",
+    "phrase": "Sign up failed"
+  },
   "RECORD_INSERT_FAIL": {
     "code": "40000B00",
-    "phrase": "Unabled to insert the record"
+    "phrase": "Unable to insert the record"
+  },
+  "TOPIC_PROOF_RETRIEVAL_FAIL": {
+    "code": "40000B01",
+    "phrase": "Unable to retreive topic proof"
+  },
+  "PUBLIC_KEY_NOT_MACHING": {
+    "code": "40000C01",
+    "phrase": "Public key not matching"
   }
 }

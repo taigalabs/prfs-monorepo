@@ -17,7 +17,8 @@ const Post: React.FC<PostContentProps> = ({
   content,
   proof_identity_input,
   updated_at,
-  rerender,
+  subChannelId,
+  handleSucceedPost,
 }) => {
   const i18n = usePrfsI18N();
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
@@ -26,17 +27,19 @@ const Post: React.FC<PostContentProps> = ({
   const handleClickReply = React.useCallback(() => {
     setIsReplyOpen(true);
   }, [setIsReplyOpen]);
+
   const handleClickCancel = React.useCallback(() => {
     setIsReplyOpen(false);
   }, [setIsReplyOpen]);
-  const handleSucceedPost = React.useCallback(() => {
+
+  const handleSucceedPostExtended = React.useCallback(() => {
     setIsReplyOpen(false);
 
-    if (rerender) {
-      rerender();
+    if (handleSucceedPost) {
+      handleSucceedPost();
     }
     // router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
-  }, [rerender, setIsReplyOpen, router, rerender]);
+  }, [handleSucceedPost, setIsReplyOpen, router]);
 
   const publicKey = React.useMemo(() => {
     return author_public_key.substring(0, 8) || "";
@@ -79,7 +82,8 @@ const Post: React.FC<PostContentProps> = ({
             handleClickCancel={handleClickCancel}
             channel={channel}
             topicId={topicId}
-            handleSucceedPost={handleSucceedPost}
+            handleSucceedPost={handleSucceedPostExtended}
+            subChannelId={subChannelId}
           />
         )}
       </PostInner>
@@ -96,5 +100,6 @@ export interface PostContentProps {
   updated_at: string;
   channel: ShyChannel;
   topicId: string;
-  rerender?: React.DispatchWithoutAction;
+  handleSucceedPost: React.DispatchWithoutAction;
+  subChannelId: string;
 }

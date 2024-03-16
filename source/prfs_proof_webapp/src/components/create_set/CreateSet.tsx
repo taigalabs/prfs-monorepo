@@ -25,8 +25,8 @@ import {
   AttestationListItemDescTitle,
   AttestationListItemUnordered,
 } from "@/components/create_attestation/CreateAtstComponents";
-import { useSignedInUser } from "@/hooks/user";
-import { consolePaths, paths } from "@/paths";
+import { useSignedInProofUser } from "@/hooks/user";
+import { paths } from "@/paths";
 
 const SET_ID = "set_id";
 const LABEL = "label";
@@ -49,7 +49,7 @@ const CreateSet: React.FC<CreateSetProps> = () => {
       return prfsApi3({ type: "create_prfs_set", ...req });
     },
   });
-  const { prfsProofCredential } = useSignedInUser();
+  const { prfsProofCredential } = useSignedInProofUser();
 
   const handleChangeValue = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

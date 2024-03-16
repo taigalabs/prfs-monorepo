@@ -2,9 +2,9 @@ import React from "react";
 import cn from "classnames";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
-import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { PrfsIdCredential, WALLET_CM_STEM, makeWalletCacheKeyCm } from "@taigalabs/prfs-id-sdk-web";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import { PrfsIdCredential, makeWalletCacheKeyCm } from "@taigalabs/prfs-id-sdk-web";
 import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
@@ -14,7 +14,7 @@ import { useAppSelector } from "@/state/hooks";
 
 function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<string[] | null>(null);
-  const queryResult = useQuery({
+  const { data, error } = useQuery({
     queryKey: ["get_prfs_indices", walletCacheKeys],
     queryFn: async () => {
       if (walletCacheKeys) {
@@ -25,7 +25,6 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
   });
 
   const walletAddrs = React.useMemo<Set<string> | null>(() => {
-    const { data, error } = queryResult;
     if (data) {
       if (!data.payload) {
         return null;
@@ -41,7 +40,8 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
             const addr = decrypt(prfsIdCredential.secret_key, buf).toString();
             set.add(addr);
           } catch (err) {
-            console.error(err);
+            console.warn("prfs index wasn't decryptable, key: %s", key);
+            // console.error(err);
           }
         }
         return set;
@@ -49,7 +49,7 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
     }
 
     return null;
-  }, [queryResult]);
+  }, [data]);
 
   React.useEffect(() => {
     async function fn() {
@@ -81,7 +81,7 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
     if (walletAddrs) {
       const elems = [];
       for (const addr of walletAddrs) {
-        const address = abbrevAddr(addr);
+        const address = abbrev7and5(addr);
         const handleClick = () => {
           handleChangeAddress(addr);
         };

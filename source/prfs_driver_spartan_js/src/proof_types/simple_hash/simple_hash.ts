@@ -42,7 +42,7 @@ export async function proveSimpleHash(
     proof: {
       proofBytes,
       publicInputSer: publicInput.serialize(),
-      proofKey: "",
+      proofPubKey: "",
     },
   };
 }

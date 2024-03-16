@@ -10,7 +10,7 @@ import styles from "./TopicContent.module.scss";
 import Post from "@/components/post/Post";
 import Loading from "@/components/loading/Loading";
 
-const TopicContent: React.FC<PostContentProps> = ({ topicId, channel }) => {
+const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, subChannelId }) => {
   const i18n = usePrfsI18N();
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
     queryKey: ["get_shy_topic", topicId],
@@ -43,6 +43,8 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel }) => {
             content={topic.inner.shy_topic.content}
             proof_identity_input={topic.inner.proof_identity_input}
             updated_at={topic.updated_at}
+            handleSucceedPost={rerender}
+            subChannelId={subChannelId}
           />
         </>
       ) : (
@@ -59,4 +61,6 @@ export default TopicContent;
 export interface PostContentProps {
   topicId: string;
   channel: ShyChannel;
+  rerender: React.DispatchWithoutAction;
+  subChannelId: string;
 }

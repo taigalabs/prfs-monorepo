@@ -1,10 +1,12 @@
+pub mod bindgen;
+
 use prfs_axum_lib::generate_api_error_codes;
 use prfs_axum_lib::ApiHandleErrorCode;
 use serde::{Deserialize, Serialize};
 
 generate_api_error_codes! {
     PrfsAttestationApiErrorCodes,
-    API_ERROR_CODE,
+    PRFS_ATST_API_ERROR_CODES,
     (String::from("2000000"), SUCCESS, "Success");
     (String::from("4000000"), UNKNOWN_ERROR, "Unknown error");
     (String::from("4000001"), TWITTER_ACC_VALIDATE_FAIL, "Twitter account validation fail");

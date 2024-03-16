@@ -10,9 +10,6 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { JSONbigNative, encrypt } from "@taigalabs/prfs-crypto-js";
-import { SignInPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsIdentityRequest";
-import { idApi, prfsApi3 } from "@taigalabs/prfs-api-js";
-import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import PrfsIdSessionErrorCodes from "@taigalabs/prfs-id-session-api-error-codes";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
@@ -54,11 +51,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [status, setStatus] = React.useState(Status.InProgress);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
-  // const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
-  //   mutationFn: (req: SignInPrfsIdentityRequest) => {
-  //     return idApi({ type: "sign_in_prfs_identity", ...req });
-  //   },
-  // });
   const { mutateAsync: putSessionValueRequest } = usePutSessionValue();
   const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>({});
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
@@ -201,15 +193,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && status === Status.Standby) {
-      // const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
-      //   identity_id: credential.id,
-      // });
-
-      // if (error) {
-      //   setErrorMsg(error);
-      //   return;
-      // }
-
       if (!receipt) {
         setErrorMsg("no proof gen receipt");
         return;
@@ -246,11 +229,17 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         // closes itself
         window.close();
       } catch (err: any) {
-        console.error(err);
+        dispatch(
+          setGlobalError({
+            message: `Failed to generate proof, ${err.toSring()}`,
+            errorObj: err,
+          }),
+        );
         setCreateProofStatus(Status.Standby);
       }
     }
   }, [
+    dispatch,
     searchParams,
     proofGenArgs,
     credential,

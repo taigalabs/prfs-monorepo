@@ -3,6 +3,7 @@ import {
   DriverEventListener,
   ProveArgs,
   ProveReceipt,
+  ProveResult,
   VerifyArgs,
 } from "@taigalabs/prfs-driver-interface";
 import { MERKLE_SIG_POS_RANGE_V1, SIMPLE_HASH_V1 } from "@taigalabs/prfs-circuit-interface";
@@ -100,7 +101,7 @@ export default class SpartanDriver implements CircuitDriver {
   //   return await Tree.newInstance(depth, hash);
   // }
 
-  async prove(args: ProveArgs<any>): Promise<ProveReceipt> {
+  async prove(args: ProveArgs<any>): Promise<ProveResult> {
     try {
       switch (args.circuitTypeId) {
         case "simple_hash_v1": {

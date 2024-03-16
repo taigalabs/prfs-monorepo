@@ -8,7 +8,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./ComputeTotalValue.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInProofUser } from "@/hooks/user";
 import { LocalPrfsProofCredential } from "@/storage/local_storage";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 import {
@@ -78,11 +78,11 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
   credential,
   rerender,
 }) => {
-  const { prfsProofCredential } = useSignedInUser();
+  const { prfsProofCredential } = useSignedInProofUser();
   const [isOpen, setIsOpen] = React.useState(false);
   const { mutateAsync: computeCryptoSizeTotalValuesRequest, isPending } = useMutation({
     mutationFn: (req: ComputeCryptoAssetSizeTotalValuesRequest) => {
-      return atstApi("compute_crypto_asset_size_total_values", req);
+      return atstApi({ type: "compute_crypto_asset_size_total_values", ...req });
     },
   });
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);

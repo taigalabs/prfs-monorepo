@@ -13,24 +13,24 @@ import AttestationsMasthead from "@/components/attestations_masthead/Attestation
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import AttestationLeftBar from "./AttestationLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
-import { useSignedInUser } from "@/hooks/user";
+import { useSignedInProofUser } from "@/hooks/user";
 import { LeftBarContainer } from "@/components/left_bar/LeftBar";
-import AppLogo from "../app_logo/AppLogo";
+import AppLogo from "@/components/app_logo/AppLogo";
 
 const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
-  const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
+  const { isInitialized, prfsProofCredential } = useSignedInProofUser();
   const router = useRouter();
 
   React.useEffect(() => {
-    if (isCredentialInitialized) {
+    if (isInitialized) {
       if (prfsProofCredential === null) {
         router.push(paths.accounts);
       }
     }
-  }, [isCredentialInitialized, prfsProofCredential, router]);
+  }, [isInitialized, prfsProofCredential, router]);
 
   const handleClickShowLeftBar = React.useCallback(
     (open?: boolean) => {
@@ -54,7 +54,7 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
     [setIsLeftBarDrawerVisible],
   );
 
-  if (!isCredentialInitialized) {
+  if (!isInitialized) {
     <div className={styles.loading}>Loading...</div>;
   }
 

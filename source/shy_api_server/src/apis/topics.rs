@@ -1,3 +1,4 @@
+use prfs_api_rs::api::create_prfs_proof_record;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
@@ -27,12 +28,6 @@ pub async fn create_shy_topic(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let cli = &state.client;
-    let url = format!(
-        "{}/api/v0/create_prfs_proof_record",
-        &ENVS.prfs_api_server_endpoint
-    );
-
     let action = ShyTopicProofAction::create_shy_topic(CreateShyTopicAction {
         topic_id: input.topic_id.to_string(),
         channel_id: input.channel_id.to_string(),
@@ -56,21 +51,34 @@ pub async fn create_shy_topic(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
-    let data = CreatePrfsProofRecordRequest {
-        proof_record: PrfsProofRecord {
-            public_key: input.author_public_key.to_string(),
-            proof_starts_with: input.proof[0..10].to_vec(),
-        },
-    };
-    let res = match cli.post(url).json(&data).send().await {
-        Ok(res) => res,
+    let proof_starts_with: [u8; 8] = match input.proof[0..8].try_into() {
+        Ok(p) => p,
         Err(err) => {
-            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.BAD_URL, err.to_string());
+            let resp = ApiResponse::new_error(
+                &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
+                format!(
+                    "Cannot slice proof, proof len: {}, err: {}",
+                    input.proof.len(),
+                    err
+                ),
+            );
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
 
-    let _res: ApiResponse<GetPrfsProofRecordResponse> = match res.json().await {
+    let create_prfs_proof_record_req = CreatePrfsProofRecordRequest {
+        proof_record: PrfsProofRecord {
+            public_key: input.author_public_key.to_string(),
+            proof_starts_with,
+        },
+    };
+
+    let _proof_record_resp = match create_prfs_proof_record(
+        &ENVS.prfs_api_server_endpoint,
+        &create_prfs_proof_record_req,
+    )
+    .await
+    {
         Ok(r) => r,
         Err(err) => {
             let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
