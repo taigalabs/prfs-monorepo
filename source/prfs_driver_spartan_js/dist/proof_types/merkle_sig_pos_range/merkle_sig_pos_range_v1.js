@@ -1,7 +1,9 @@
-import { bytesToNumberLE, hexToNumber, poseidon_2, poseidon_2_bigint_le, toUtf8Bytes, } from "@taigalabs/prfs-crypto-js";
+import { bytesToNumberLE, poseidon_2, poseidon_2_bigint_le, toUtf8Bytes, } from "@taigalabs/prfs-crypto-js";
 import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { snarkJsWitnessGen } from "../../utils/snarkjs";
 import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
+import { BN } from "bn.js";
+import { SECP256K1_P } from "../../math/secp256k1";
 export async function proveMembership(args, handlers, wtnsGen, circuit) {
     const { inputs, eventListener } = args;
     console.log("inputs: %o", inputs);
@@ -17,7 +19,13 @@ export async function proveMembership(args, handlers, wtnsGen, circuit) {
     // const proofPubKey_ = bytesToNumberLE(publicKey);
     // const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
     // const proofPubKeyInt = bytesToNumberLE(proofPubKeyBytes);
-    const proofPubKeyInt = hexToNumber(proofPubKey.substring(2));
+    // const proofPubKeyInt = new BN(proofPubKey.substring(2));
+    const proofPubKeyBytes = toUtf8Bytes(proofPubKey);
+    const proofPubKeyInt = BigInt(new BN(proofPubKeyBytes).mod(SECP256K1_P).toString());
+    console.log(24, proofPubKeyInt);
+    // const proofPubKeyInt = BigInt(proofPubKeyInt_);
+    // console.log(2411, proofPubKeyInt);
+    // proofPu
     // const proofPubKey = hexlify(proofPubKeyInt);
     // console.log("proofPubKeyInt", proofPubKeyInt);
     const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);

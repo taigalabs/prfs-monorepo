@@ -14,7 +14,9 @@ import { secp256k1 as secp } from "@taigalabs/prfs-crypto-deps-js/noble_curves/s
 import { snarkJsWitnessGen } from "@/utils/snarkjs";
 import { PrfsHandlers } from "@/types";
 import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
-import { bigIntToHex } from "@ethereumjs/util";
+import { bigIntToHex, toBuffer } from "@ethereumjs/util";
+import { BN } from "bn.js";
+import { SECP256K1_P } from "@/math/secp256k1";
 
 export async function proveMembership(
   args: ProveArgs<MerkleSigPosRangeV1Inputs>,
@@ -50,7 +52,13 @@ export async function proveMembership(
   // const proofPubKey_ = bytesToNumberLE(publicKey);
   // const proofPubKeyHash = await poseidon_2_bigint_le([proofPubKey_, BigInt(0)]);
   // const proofPubKeyInt = bytesToNumberLE(proofPubKeyBytes);
-  const proofPubKeyInt = hexToNumber(proofPubKey.substring(2));
+  // const proofPubKeyInt = new BN(proofPubKey.substring(2));
+  const proofPubKeyBytes = toUtf8Bytes(proofPubKey);
+  const proofPubKeyInt = BigInt(new BN(proofPubKeyBytes).mod(SECP256K1_P).toString());
+  console.log(24, proofPubKeyInt);
+  // const proofPubKeyInt = BigInt(proofPubKeyInt_);
+  // console.log(2411, proofPubKeyInt);
+  // proofPu
   // const proofPubKey = hexlify(proofPubKeyInt);
   // console.log("proofPubKeyInt", proofPubKeyInt);
 

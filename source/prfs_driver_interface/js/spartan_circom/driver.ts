@@ -42,19 +42,20 @@ export interface ProofActionPayload {
   proofActionSig: string;
 }
 
-export type ProveReceipt = ProveResult & ProofActionPayload;
+// export type ProveReceipt = ProveResult & ProofActionPayload;
 
-export type NonCachedProveReceipt = {
-  type: "non_cached_prove_receipt";
-  proofPubKey: string;
-} & ProofActionPayload;
+export type ProveReceipt = {
+  type: "prove_receipt";
+  // proofPubKey: string;
+} & ProveResult &
+  ProofActionPayload;
 
 export type CachedProveReceipt = {
   type: "cached_prove_receipt";
   proofPubKey: string;
 } & ProofActionPayload;
 
-export type GenericProveReceipt = NonCachedProveReceipt | CachedProveReceipt;
+export type GenericProveReceipt = ProveReceipt | CachedProveReceipt;
 
 export interface VerifyReceipt {
   verifyResult: boolean;

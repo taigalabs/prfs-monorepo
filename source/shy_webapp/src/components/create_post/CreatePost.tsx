@@ -206,7 +206,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
         } else if (receipt.type === "prove_receipt") {
           const shy_topic_proof_id = rand256Hex();
           const receipt_ = receipt as ProveReceipt;
-          console.log(11, receipt_);
+          console.log("receipt", receipt_);
 
           const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
             receipt_.proof.publicInputSer,
@@ -216,7 +216,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
             topic_id: topicId,
             channel_id: channel.channel_id,
             shy_topic_proof_id,
-            author_public_key: receipt_.proof.proofKey,
+            author_public_key: receipt_.proof.proofPubKey,
             post_id: postId,
             content: html,
             author_sig: receipt_.proofActionSig,

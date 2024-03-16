@@ -192,7 +192,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       }
 
       const { pkHex, skHex } = await deriveProofKey(credential.secret_key, val.nonceRaw);
-      val.proofPubKey = skHex;
+      val.proofPubKey = pkHex;
 
       const proofActionSigMsg = toUtf8Bytes(proofAction);
       const wallet = new Wallet(skHex);
@@ -201,7 +201,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       const computedAddr = computeAddress(pkHex);
 
       console.log(
-        "proofAction: %o, sigMsg: %s, sig: %s, pkHex: %s, recoveredAddr: %s, computedAddr: %s",
+        "proofAction: %o, sigMsg: %s, sig: %o, pkHex: %o, recoveredAddr: %o, computedAddr: %o",
         proofAction,
         proofActionSigMsg,
         sig,
@@ -212,7 +212,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
       return {
         isValid: true,
-        proofPubKey: pkHex,
+        // proofPubKey: pkHex,
         proofAction,
         proofActionSig: sig,
         proofActionSigMsg: Array.from(proofActionSigMsg),

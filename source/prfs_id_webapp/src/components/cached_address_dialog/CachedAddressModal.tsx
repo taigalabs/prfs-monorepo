@@ -30,8 +30,6 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
         return null;
       }
 
-      console.log(11, data);
-
       const { prfs_indices } = data.payload;
       if (prfs_indices && prfsIdCredential) {
         const set = new Set<string>();
