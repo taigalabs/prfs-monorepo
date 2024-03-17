@@ -2,7 +2,7 @@
 import type { PrfsAtstStatus } from "./PrfsAtstStatus";
 import type { PrfsAtstType } from "./PrfsAtstType";
 
-export interface PrfsCryptoAssetSizeAtst {
+export interface PrfsAttestation {
   atst_id: string;
   atst_type: PrfsAtstType;
   label: string;

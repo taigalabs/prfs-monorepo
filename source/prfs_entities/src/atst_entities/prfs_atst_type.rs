@@ -7,5 +7,5 @@ use ts_rs::TS;
 #[sqlx(type_name = "VARCHAR")]
 #[ts(export)]
 pub enum PrfsAtstType {
-    crypto_size_1,
+    crypto_1,
 }

@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
-import { PrfsCryptoAssetSizeAtst } from "@taigalabs/prfs-entities/bindings/PrfsCryptoAssetSizeAtst";
+import { PrfsAttestation } from "@taigalabs/prfs-entities/bindings/PrfsAttestation";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -206,7 +206,7 @@ export interface TwitterAccAtstTableProps {
 }
 
 export interface AtstRowProps {
-  atst: PrfsCryptoAssetSizeAtst;
+  atst: PrfsAttestation;
   style: React.CSSProperties;
   router: AppRouterInstance;
 }

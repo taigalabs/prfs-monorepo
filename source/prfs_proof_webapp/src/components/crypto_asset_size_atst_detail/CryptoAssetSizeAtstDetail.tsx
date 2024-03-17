@@ -29,7 +29,7 @@ const CryptoAssetSizeAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ a
       return payload;
     },
   });
-  const atst = data?.prfs_crypto_asset_size_atst;
+  const atst = data?.prfs_attestation;
   const cryptoAssets = React.useMemo(() => {
     return atst && JSON.stringify(atst.meta);
   }, [atst?.meta]);
