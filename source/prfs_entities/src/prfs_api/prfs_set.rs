@@ -34,14 +34,6 @@ pub struct GetPrfsSetsResponse {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPrfsSetsBySetTypeRequest {
-    pub page_idx: i32,
-    pub page_size: i32,
-    // pub set_type: PrfsSetType,
-}
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
 pub struct CreatePrfsSetRequest {
     pub prfs_set_ins1: PrfsSetIns1,
 }
@@ -66,13 +58,6 @@ pub struct CreatePrfsDynamicSetElementResponse {
     #[ts(type = "number")]
     pub pos_w: Decimal,
 }
-
-// #[derive(Serialize, Deserialize, Debug, TS)]
-// #[ts(export)]
-// pub struct ComputePrfsSetMerkleRootRequest {
-//     pub set_id: String,
-//     pub account_id: String,
-// }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]

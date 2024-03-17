@@ -56,7 +56,7 @@ pub async fn start_listening_to_prfs_id_session_db_events(
             }
         } else {
             println!(
-                "Can't find the peer, she might have closed the connection, key: {},\
+                "Can't find the peer, she might have closed the connection, key: {}, \
                     peer map len: {}",
                 session_key,
                 peer_map_lock.len(),
