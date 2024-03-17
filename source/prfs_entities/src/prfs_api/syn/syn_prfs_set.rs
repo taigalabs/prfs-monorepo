@@ -1,4 +1,4 @@
-use crate::entities::{CircuitInputMeta, PrfsSetType, RawCircuitInputMeta};
+use crate::entities::{CircuitInputMeta, RawCircuitInputMeta};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
@@ -7,7 +7,7 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct PrfsSetIns1 {
     pub set_id: String,
-    pub set_type: PrfsSetType,
+    // pub set_type: PrfsSetType,
     pub label: String,
     pub author: String,
     pub desc: String,

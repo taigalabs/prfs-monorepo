@@ -7,7 +7,7 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct PrfsSet {
     pub set_id: String,
-    pub set_type: PrfsSetType,
+    // pub set_type: PrfsSetType,
     pub label: String,
     pub author: String,
     pub desc: String,
@@ -20,10 +20,10 @@ pub struct PrfsSet {
     pub created_at: DateTime<Utc>,
 }
 
-#[derive(TS, Clone, Debug, Serialize, Deserialize, sqlx::Type, EnumString, Display)]
-#[ts(export)]
-#[sqlx(type_name = "VARCHAR")]
-pub enum PrfsSetType {
-    Static,
-    Dynamic,
-}
+// #[derive(TS, Clone, Debug, Serialize, Deserialize, sqlx::Type, EnumString, Display)]
+// #[ts(export)]
+// #[sqlx(type_name = "VARCHAR")]
+// pub enum PrfsSetType {
+//     Static,
+//     Dynamic,
+// }

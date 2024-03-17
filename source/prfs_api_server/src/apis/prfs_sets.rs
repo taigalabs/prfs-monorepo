@@ -33,10 +33,9 @@ pub async fn get_prfs_sets_by_set_type(
     Json(input): Json<GetPrfsSetsBySetTypeRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsSetsResponse>>) {
     let pool = &state.db2.pool;
-    let prfs_sets =
-        prfs::get_prfs_sets_by_set_type(pool, input.set_type, input.page_idx, input.page_size)
-            .await
-            .unwrap();
+    let prfs_sets = prfs::get_prfs_sets_by_set_type(pool, input.page_idx, input.page_size)
+        .await
+        .unwrap();
 
     let resp = ApiResponse::new_success(GetPrfsSetsResponse {
         page_idx: input.page_idx,
