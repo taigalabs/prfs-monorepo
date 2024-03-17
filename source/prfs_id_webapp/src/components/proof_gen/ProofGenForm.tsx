@@ -40,7 +40,7 @@ enum Status {
   Standby,
 }
 
-const closeWindowAtTheEnd = false;
+const closeWindowAtTheEnd = true;
 
 const ProofGenForm: React.FC<ProofGenFormProps> = ({
   handleClickPrev,
