@@ -53,6 +53,7 @@ import {
   AttestationsHeaderRow,
   AttestationsTitle,
 } from "@/components/attestations/AttestationComponents";
+import { useAppDispatch } from "@/state/hooks";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -76,6 +77,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   const router = useRouter();
   const [formData, setFormData] = React.useState({ [TWITTER_HANDLE]: "", [TWEET_URL]: "" });
   const [claimCm, setClaimCm] = React.useState<string | null>(null);
+  const dispatch = useAppDispatch();
   const claimSecret = React.useMemo(() => {
     const handle = formData[TWITTER_HANDLE];
     return `PRFS_ATTESTATION_${handle}`;
@@ -199,31 +201,41 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return;
     }
 
+    if (!sessionStream) {
+      console.error("Failed to create a session");
+      return;
+    }
+
     const { ws, send, receive } = sessionStream;
     const session = await receive();
     if (!session) {
       console.error("Coultn' retreieve session");
+      ws.close();
       return;
     }
 
     try {
       if (session.error) {
         console.error(session.error);
+        ws.close();
         return;
       }
 
       if (!session.payload) {
         console.error("Session doesn't have a payload");
+        ws.close();
         return;
       }
 
       if (session.payload.type !== "put_prfs_id_session_value_result") {
         console.error("Wrong session payload type at this point, msg: %s", session.payload);
+        ws.close();
         return;
       }
 
       if (session.payload.value.length === 0) {
         console.error("Commitment is empty, session_key: %s", session_key);
+        ws.close();
         return;
       }
 
@@ -235,6 +247,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         payload = JSON.parse(decrypted);
       } catch (err) {
         console.error("cannot parse payload", err);
+        ws.close();
         return;
       }
 
@@ -244,13 +257,16 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         setStep(AttestationStep.POST_TWEET);
       } else {
         console.error("no commitment delivered");
+        ws.close();
         return;
       }
     } catch (err) {
       console.error(err);
+      ws.close();
       return;
     }
-  }, [formData, step, claimSecret, setClaimCm, setStep]);
+    ws.close();
+  }, [formData, step, claimSecret, setClaimCm, setStep, dispatch]);
 
   const handleClickValidate = React.useCallback(async () => {
     setValidation(null);
