@@ -61,6 +61,7 @@ pub async fn create_crypto_asset_size_atst(
         status: PrfsAtstStatus::Valid,
         total_value_usd: Decimal::from(0),
     };
+
     let atst_id = prfs::insert_prfs_crypto_asset_size_atst(&mut tx, &crypto_size_atst)
         .await
         .map_err(|err| {
