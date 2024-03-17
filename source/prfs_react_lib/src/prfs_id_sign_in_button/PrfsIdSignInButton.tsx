@@ -19,6 +19,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   label,
   proofGenArgs,
   handleSucceedSignIn,
+  handleSignInError,
   prfsIdEndpoint,
   isLoading,
 }) => {
@@ -40,12 +41,12 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
         value: null,
         ticket: "TICKET",
       });
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      handleSignInError(err.toString());
       return;
     }
     if (!sessionStream) {
-      console.error("Couldn't open a session");
+      handleSignInError("Couldn't open a session");
       return;
     }
 
@@ -54,16 +55,20 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     if (session) {
       try {
         if (session.error) {
-          console.error(session.error);
+          handleSignInError(session.error);
+          ws.close();
+          return;
         }
 
         if (session.payload) {
           if (session.payload.type !== "put_prfs_id_session_value_result") {
-            console.error("Wrong sesseion type at this point. Payload: %s", session.payload);
+            handleSignInError(`Wrong sesseion type at this point. Payload: ${session.payload}`);
+            ws.close();
             return;
           }
 
           if (session.payload.value.length === 0) {
+            ws.close();
             return;
           }
 
@@ -78,16 +83,21 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
           const closeSessionResp = await receive();
           if (!closeSessionResp) {
-            console.error("Could get the close sessionr response");
+            handleSignInError("Couldn't get the close session response");
+            ws.close();
+            return;
           }
+          ws.close();
         }
       } catch (err) {
-        console.error(err);
+        handleSignInError("Error handling session response");
+        ws.close();
+        return;
       }
     } else {
-      console.error(
-        "Session didn't get the response, something's wrong, session key: %s",
-        proofGenArgs.session_key,
+      handleSignInError(
+        `Session didn't get the response, something's wrong, session key: \
+${proofGenArgs.session_key}`,
       );
     }
 
@@ -123,5 +133,6 @@ export interface PrfsIdSignInButtonProps {
   proofGenArgs: ProofGenArgs;
   isLoading?: boolean;
   handleSucceedSignIn: (encrypted: Buffer) => void;
+  handleSignInError: (err: string) => void;
   prfsIdEndpoint: string;
 }

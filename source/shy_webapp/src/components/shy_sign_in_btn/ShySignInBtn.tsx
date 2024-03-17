@@ -34,7 +34,6 @@ import {
   persistShyCredential,
   removeLocalShyCredential,
 } from "@/storage/local_storage";
-import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
 
@@ -196,6 +195,17 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
     console.log("Failed init Prfs Proof credential!");
   }, []);
 
+  const handleSignInError = React.useCallback(
+    (err: string) => {
+      dispatch(
+        setGlobalError({
+          message: err,
+        }),
+      );
+    },
+    [dispatch],
+  );
+
   if (!isInitialized) {
     return <Spinner size={18} color="#5c5c5c" borderWidth={1} />;
   }
@@ -215,6 +225,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
           className={styles.signInBtn}
           label={i18n.sign_in_with_prfs_id}
           proofGenArgs={proofGenArgs}
+          handleSignInError={handleSignInError}
           handleSucceedSignIn={handleSucceedSignIn}
           prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
           isLoading={status === Status.InProgress}
