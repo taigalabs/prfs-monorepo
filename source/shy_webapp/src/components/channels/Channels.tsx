@@ -20,6 +20,7 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import ChannelMenu from "./ChannelMenu";
+import Loading from "@/components/loading/Loading";
 
 const Channels: React.FC<ChannelsProps> = ({}) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
@@ -90,9 +91,9 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
         <InfiniteScrollMain>
           <ChannelMenu />
           {status === "pending" ? (
-            <div className={styles.loading}>
+            <Loading centerAlign>
               <Spinner />
-            </div>
+            </Loading>
           ) : (
             <>
               <InfiniteScrollRowContainerOuter
