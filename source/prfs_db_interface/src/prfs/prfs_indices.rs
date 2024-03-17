@@ -80,8 +80,6 @@ ORDER BY updated_at DESC
         })
         .collect();
 
-    println!("rows: {:?}", ret);
-
     return Ok(ret);
 }
 

@@ -352,15 +352,17 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           <AttestationFormBtnRow>
             <div className={styles.createBtnRow}>
               <Button
-                variant="transparent_blue_2"
+                variant="transparent_blue_3"
                 noTransition
+                rounded
                 handleClick={handleClickStartOver}
                 type="button"
               >
                 {i18n.start_over}
               </Button>
               <Button
-                variant="blue_2"
+                variant="blue_3"
+                rounded
                 noTransition
                 className={styles.createBtn}
                 handleClick={handleClickCreate}
