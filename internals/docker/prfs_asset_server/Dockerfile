@@ -1,4 +1,4 @@
-FROM rust:1.74
+FROM rust:1.76
 
 EXPOSE 4010
 
