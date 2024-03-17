@@ -14,7 +14,7 @@ pub async fn update_prfs_tree_by_new_atst(
 ) {
     let pool = &state.clone().db2.pool;
 
-    get_prfs_sets_by_topic(input.atst_type);
+    let _ = prfs::get_prfs_sets_by_topic(input.atst_type).await;
     let prfs_circuit_drivers = prfs::get_prfs_circuit_drivers(&pool).await;
 
     let resp = ApiResponse::new_success(UpdatePrfsTreeByNewAtstResponse {
