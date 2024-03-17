@@ -15,7 +15,7 @@ import {
   InfiniteScrollRowContainerInner,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
-import DiamondPlaceholder from "../diamond_placeholder/DiamondPlaceholder";
+import DiamondPlaceholder from "@/components/diamond_placeholder/DiamondPlaceholder";
 
 const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, placeholder }) => {
   const i18n = usePrfsI18N();
