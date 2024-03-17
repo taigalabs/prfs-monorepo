@@ -6,7 +6,14 @@ import {
   openPopup,
   ProofGenArgs,
   makeProofGenSearchParams,
+  createSessionKey,
+  AppSignInType,
+  QueryType,
+  AppSignInData,
+  ProofGenSuccessPayload,
+  AppSignInResult,
 } from "@taigalabs/prfs-id-sdk-web";
+import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import Button from "../button/Button";
@@ -14,10 +21,12 @@ import { i18nContext } from "../i18n/i18nContext";
 import Overlay from "../overlay/Overlay";
 import Spinner from "../spinner/Spinner";
 
+const SIGN_IN = "SIGN_IN";
+
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
   label,
-  proofGenArgs,
+  // proofGenArgs,
   handleSucceedSignIn,
   handleSignInError,
   prfsIdEndpoint,
@@ -26,6 +35,27 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const i18n = React.useContext(i18nContext);
 
   const handleClickSignIn = React.useCallback(async () => {
+    // const [sk, proofGenArgs] = React.useMemo<[PrivateKey, ProofGenArgs]>(() => {
+    const { sk, pkHex } = createRandomKeyPair();
+    const session_key = createSessionKey();
+    const proofGenArgs: ProofGenArgs = {
+      nonce: makeRandInt(1000000),
+      app_id: "shy_webapp",
+      queries: [
+        {
+          name: SIGN_IN,
+          type: AppSignInType.EC_SECP256K1,
+          queryType: QueryType.APP_SIGN_IN,
+          appSignInData: [AppSignInData.ID_POSEIDON],
+        },
+      ],
+      public_key: pkHex,
+      session_key,
+    };
+
+    // return [sk, proofGenArgs];
+    // }, []);
+
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.proof_gen}${searchParams}`;
 
@@ -72,22 +102,39 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
             return;
           }
 
-          const buf = Buffer.from(session.payload.value);
-          handleSucceedSignIn(buf);
+          const encrypted = Buffer.from(session.payload.value);
+          let decrypted: string;
+          try {
+            decrypted = decrypt(sk.secret, encrypted).toString();
+          } catch (err) {
+            handleSignInError(`Failed to decrypt, err: ${err}, msg: ${encrypted}`);
+            ws.close();
+            return;
+          }
+
+          let proofGenSuccessPayload: ProofGenSuccessPayload;
+          try {
+            proofGenSuccessPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+          } catch (err) {
+            handleSignInError(`Cannot parse sign in payload, msg: ${decrypted}`);
+            ws.close();
+            return;
+          }
+
+          const signInResult: AppSignInResult = proofGenSuccessPayload.receipt[SIGN_IN];
 
           send({
             type: "close_prfs_id_session",
             key: proofGenArgs.session_key,
             ticket: "TICKET",
           });
-
-          const closeSessionResp = await receive();
-          if (!closeSessionResp) {
-            handleSignInError("Couldn't get the close session response");
-            ws.close();
-            return;
-          }
           ws.close();
+
+          if (signInResult) {
+            handleSucceedSignIn(signInResult);
+          } else {
+            handleSignInError(`appSignInResult is void, session_key: ${session_key}`);
+          }
         }
       } catch (err) {
         handleSignInError("Error handling session response");
@@ -102,7 +149,7 @@ ${proofGenArgs.session_key}`,
     }
 
     ws.close();
-  }, [proofGenArgs, prfsIdEndpoint, handleSucceedSignIn]);
+  }, [prfsIdEndpoint, handleSucceedSignIn]);
 
   return (
     <Button
@@ -130,9 +177,10 @@ export default PrfsIdSignInButton;
 export interface PrfsIdSignInButtonProps {
   className?: string;
   label?: string;
-  proofGenArgs: ProofGenArgs;
+  appId: String;
+  // proofGenArgs: ProofGenArgs;
   isLoading?: boolean;
-  handleSucceedSignIn: (encrypted: Buffer) => void;
+  handleSucceedSignIn: (signInResult: AppSignInResult) => void;
   handleSignInError: (err: string) => void;
   prfsIdEndpoint: string;
 }

@@ -36,8 +36,9 @@ import {
 } from "@/storage/local_storage";
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
+import { SHY_APP_ID } from "@/app_id";
 
-const SIGN_IN = "SIGN_IN";
+// const SIGN_IN = "SIGN_IN";
 
 enum Status {
   InProgress,
@@ -66,54 +67,54 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
     },
   });
   const [signUpData, setSignUpData] = React.useState<LocalShyCredential | null>(null);
-  const [sk, proofGenArgs] = React.useMemo<[PrivateKey, ProofGenArgs]>(() => {
-    const { sk, pkHex } = createRandomKeyPair();
-    const session_key = createSessionKey();
-    const proofGenArgs: ProofGenArgs = {
-      nonce: makeRandInt(1000000),
-      app_id: "shy_webapp",
-      queries: [
-        {
-          name: SIGN_IN,
-          type: AppSignInType.EC_SECP256K1,
-          queryType: QueryType.APP_SIGN_IN,
-          appSignInData: [AppSignInData.ID_POSEIDON],
-        },
-      ],
-      public_key: pkHex,
-      session_key,
-    };
+  // const [sk, proofGenArgs] = React.useMemo<[PrivateKey, ProofGenArgs]>(() => {
+  //   const { sk, pkHex } = createRandomKeyPair();
+  //   const session_key = createSessionKey();
+  //   const proofGenArgs: ProofGenArgs = {
+  //     nonce: makeRandInt(1000000),
+  //     app_id: "shy_webapp",
+  //     queries: [
+  //       {
+  //         name: SIGN_IN,
+  //         type: AppSignInType.EC_SECP256K1,
+  //         queryType: QueryType.APP_SIGN_IN,
+  //         appSignInData: [AppSignInData.ID_POSEIDON],
+  //       },
+  //     ],
+  //     public_key: pkHex,
+  //     session_key,
+  //   };
 
-    return [sk, proofGenArgs];
-  }, []);
+  //   return [sk, proofGenArgs];
+  // }, []);
   const searchParams = useSearchParams();
 
   const handleSucceedSignIn = React.useCallback(
-    async (encrypted: Buffer) => {
+    async (signInResult: AppSignInResult) => {
       async function fn() {
-        if (sk && encrypted.length > 0) {
-          let decrypted: string;
-          try {
-            decrypted = decrypt(sk.secret, encrypted).toString();
-          } catch (err) {
-            console.error("Failed to decrypt, err: %s, msg: %s", err, encrypted);
-            return;
-          }
+        if (signInResult) {
+          // let decrypted: string;
+          // try {
+          //   decrypted = decrypt(sk.secret, encrypted).toString();
+          // } catch (err) {
+          //   console.error("Failed to decrypt, err: %s, msg: %s", err, encrypted);
+          //   return;
+          // }
 
-          let proofGenSuccessPayload: ProofGenSuccessPayload;
-          try {
-            proofGenSuccessPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-          } catch (err) {
-            dispatch(
-              setGlobalError({
-                errorObj: err,
-                message: `Cannot parse sign in payload, msg: ${decrypted}`,
-              }),
-            );
-            return;
-          }
+          // let proofGenSuccessPayload: ProofGenSuccessPayload;
+          // try {
+          //   proofGenSuccessPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+          // } catch (err) {
+          //   dispatch(
+          //     setGlobalError({
+          //       errorObj: err,
+          //       message: `Cannot parse sign in payload, msg: ${decrypted}`,
+          //     }),
+          //   );
+          //   return;
+          // }
 
-          const signInResult: AppSignInResult = proofGenSuccessPayload.receipt[SIGN_IN];
+          // const signInResult: AppSignInResult = proofGenSuccessPayload.receipt[SIGN_IN];
           const avatar_color = makeColor(signInResult.account_id);
 
           const { error, code } = await signInShyAccount({
@@ -224,7 +225,8 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({
         <PrfsIdSignInButton
           className={styles.signInBtn}
           label={i18n.sign_in_with_prfs_id}
-          proofGenArgs={proofGenArgs}
+          appId={SHY_APP_ID}
+          // proofGenArgs={proofGenArgs}
           handleSignInError={handleSignInError}
           handleSucceedSignIn={handleSucceedSignIn}
           prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
