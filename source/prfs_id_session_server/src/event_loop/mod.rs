@@ -12,7 +12,7 @@ use crate::IdSessionServerError;
 
 pub const PRFS_ID_SESSION_CHAN: &str = "prfs_id_session_chan";
 
-pub async fn start_listening_to_prfs_id_session_events(
+pub async fn start_listening_to_prfs_id_session_db_events(
     server_state: Arc<ServerState>,
 ) -> Result<(), IdSessionServerError> {
     println!("Start_listening to prfs id session events");
@@ -23,10 +23,8 @@ pub async fn start_listening_to_prfs_id_session_events(
 
     loop {
         let notification = listener.recv().await?;
-        // println!("prfs id session channel ev: {notification:?}");
-
         let session_key: String = serde_json::from_str(notification.payload()).unwrap();
-        println!("prfs id session channel ev key: {}", session_key);
+        println!("prfs_id_session db event, key: {}", session_key);
 
         let peer_map_lock = server_state.peer_map.lock().await;
         if let Some(tx) = peer_map_lock.get(&session_key) {

@@ -77,19 +77,16 @@ async fn serve_websocket(websocket: WebSocket, state: Arc<ServerState>) {
             }
             Message::Close(msg) => {
                 // No need to send a reply: tungstenite takes care of this for you.
-                if let Some(msg) = &msg {
-                    println!(
-                        "Received close message with code {} and message: {}",
-                        msg.code, msg.reason
-                    );
+                if let Some(_msg) = &msg {
+                    println!("Received close message peer, key: {}", key,);
                 } else {
-                    println!("Received close message");
+                    println!("Received close message without msg, key: {}", key);
                 }
 
                 handle_close_session_by_system(tx.clone(), &key, state.clone()).await;
                 let mut peer_map = state.peer_map.lock().await;
                 peer_map.remove(&key);
-                println!("Current peer_map size: {}", peer_map.len());
+                // println!("Current peer_map size: {}", peer_map.len());
             } // Message::Frame(_msg) => {
               //     unreachable!();
               // }
@@ -169,7 +166,7 @@ async fn handle_close_session_by_system(
     let pool = &state.db2.pool;
     let mut trx = pool.begin().await.unwrap();
 
-    let _key = prfs::delete_prfs_session_without_dicket(&mut trx, &key)
+    let _key = prfs::delete_prfs_session_without_ticket(&mut trx, &key)
         .await
         .unwrap();
 

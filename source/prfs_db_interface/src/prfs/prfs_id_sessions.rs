@@ -81,7 +81,7 @@ RETURNING key
     return Ok(());
 }
 
-pub async fn delete_prfs_session_without_dicket(
+pub async fn delete_prfs_session_without_ticket(
     tx: &mut Transaction<'_, Postgres>,
     key: &String,
 ) -> Result<(), DbInterfaceError> {
