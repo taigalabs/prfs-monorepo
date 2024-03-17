@@ -15,23 +15,17 @@ FROM prfs_sets
 WHERE set_id=$1
 "#;
 
-    let row = sqlx::query(&query)
-        .bind(&set_id)
-        .fetch_one(pool)
-        .await
-        .unwrap();
+    let row = sqlx::query(&query).bind(&set_id).fetch_one(pool).await?;
 
-    let set_id: String = row.try_get("set_id").expect("invalid set_id");
-    let label: String = row.try_get("label").expect("invalid label");
-    let author: String = row.try_get("author").expect("invalid author");
-    let desc: String = row.try_get("desc").expect("invalid desc");
-    let hash_algorithm: String = row
-        .try_get("hash_algorithm")
-        .expect("invalid hash_algorithm");
-    let cardinality: i64 = row.try_get("cardinality").expect("invalid cardinality");
-    let created_at: DateTime<Utc> = row.try_get("created_at").expect("invalid created_at");
-    let element_type: String = row.try_get("element_type").expect("invalid element_type");
-    let set_type: PrfsSetType = row.try_get("set_type").expect("invalid set_type");
+    let set_id: String = row.try_get("set_id")?;
+    let label: String = row.try_get("label")?;
+    let author: String = row.try_get("author")?;
+    let desc: String = row.try_get("desc")?;
+    let hash_algorithm: String = row.try_get("hash_algorithm")?;
+    let cardinality: i64 = row.try_get("cardinality")?;
+    let created_at: DateTime<Utc> = row.try_get("created_at")?;
+    let element_type: String = row.try_get("element_type")?;
+    let set_type: PrfsSetType = row.try_get("set_type")?;
 
     let s = PrfsSet {
         set_id,
@@ -67,29 +61,22 @@ OFFSET $2
         .bind(page_size)
         .bind(offset)
         .fetch_all(pool)
-        .await
-        .unwrap();
+        .await?;
 
     let prfs_sets: Vec<PrfsSet> = rows
         .iter()
         .map(|r| {
-            let set_id: String = r.try_get("set_id").expect("invalid set_id");
-            let label: String = r.try_get("label").expect("invalid label");
-            let author: String = r.try_get("author").expect("invalid author");
-            let desc: String = r.try_get("desc").expect("invalid desc");
-            let hash_algorithm: String =
-                r.try_get("hash_algorithm").expect("invalid hash_algorithm");
-            let cardinality: i64 = r.try_get("cardinality").expect("invalid cardinality");
-            let set_type: PrfsSetType = r.try_get("set_type").expect("invalid set_type");
-            let created_at: DateTime<Utc> = r.try_get("created_at").expect("invalid created_at");
-            let element_type: String = r.try_get("element_type").expect("invalid element_type");
-            // let merkle_root: String = r.try_get("merkle_root").expect("invalid merkle_root");
-            // let elliptic_curve: String =
-            //     r.try_get("elliptic_curve").expect("invalid element_curve");
-            // let finite_field: String = r.try_get("finite_field").expect("invalid finite_field");
-            // let tree_depth: i16 = r.get("tree_depth");
+            let set_id: String = r.try_get("set_id")?;
+            let label: String = r.try_get("label")?;
+            let author: String = r.try_get("author")?;
+            let desc: String = r.try_get("desc")?;
+            let hash_algorithm: String = r.try_get("hash_algorithm")?;
+            let cardinality: i64 = r.try_get("cardinality")?;
+            let set_type: PrfsSetType = r.try_get("set_type")?;
+            let created_at: DateTime<Utc> = r.try_get("created_at")?;
+            let element_type: String = r.try_get("element_type")?;
 
-            PrfsSet {
+            Ok(PrfsSet {
                 set_id,
                 label,
                 author,
@@ -99,9 +86,9 @@ OFFSET $2
                 created_at,
                 element_type,
                 set_type,
-            }
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
 
     Ok(prfs_sets)
 }
@@ -128,24 +115,22 @@ OFFSET $3
         .bind(page_size)
         .bind(offset)
         .fetch_all(pool)
-        .await
-        .unwrap();
+        .await?;
 
     let prfs_sets: Vec<PrfsSet> = rows
         .iter()
         .map(|r| {
-            let set_id: String = r.try_get("set_id").expect("invalid set_id");
-            let label: String = r.try_get("label").expect("invalid label");
-            let author: String = r.try_get("author").expect("invalid author");
-            let desc: String = r.try_get("desc").expect("invalid desc");
-            let hash_algorithm: String =
-                r.try_get("hash_algorithm").expect("invalid hash_algorithm");
-            let cardinality: i64 = r.try_get("cardinality").expect("invalid cardinality");
-            let created_at: DateTime<Utc> = r.try_get("created_at").expect("invalid created_at");
-            let element_type: String = r.try_get("element_type").expect("invalid element_type");
-            let set_type: PrfsSetType = r.try_get("set_type").expect("invalid set_type");
+            let set_id: String = r.try_get("set_id")?;
+            let label: String = r.try_get("label")?;
+            let author: String = r.try_get("author")?;
+            let desc: String = r.try_get("desc")?;
+            let hash_algorithm: String = r.try_get("hash_algorithm")?;
+            let cardinality: i64 = r.try_get("cardinality")?;
+            let created_at: DateTime<Utc> = r.try_get("created_at")?;
+            let element_type: String = r.try_get("element_type")?;
+            let set_type: PrfsSetType = r.try_get("set_type")?;
 
-            PrfsSet {
+            Ok(PrfsSet {
                 set_id,
                 label,
                 author,
@@ -154,14 +139,10 @@ OFFSET $3
                 cardinality,
                 created_at,
                 element_type,
-                // tree_depth,
-                // merkle_root,
-                // elliptic_curve,
-                // finite_field,
                 set_type,
-            }
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
 
     Ok(prfs_sets)
 }
@@ -218,15 +199,10 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         .bind(&prfs_set.hash_algorithm)
         .bind(&prfs_set.cardinality)
         .bind(&prfs_set.element_type)
-        // .bind(&prfs_set.merkle_root)
-        // .bind(&prfs_set.elliptic_curve)
-        // .bind(&prfs_set.finite_field)
-        // .bind(&prfs_set.tree_depth)
         .fetch_one(&mut **tx)
-        .await
-        .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
+        .await?;
 
-    let set_id: String = row.try_get("set_id").unwrap();
+    let set_id: String = row.try_get("set_id")?;
 
     Ok(set_id)
 }
@@ -253,15 +229,10 @@ RETURNING set_id
         .bind(&prfs_set.hash_algorithm)
         .bind(&prfs_set.cardinality)
         .bind(&prfs_set.element_type)
-        // .bind(&prfs_set.merkle_root)
-        // .bind(&prfs_set.elliptic_curve)
-        // .bind(&prfs_set.finite_field)
-        // .bind(&prfs_set.tree_depth)
         .fetch_one(&mut **tx)
-        .await
-        .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
+        .await?;
 
-    let set_id: String = row.try_get("set_id").unwrap();
+    let set_id: String = row.try_get("set_id")?;
 
     Ok(set_id)
 }
