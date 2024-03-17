@@ -11,7 +11,7 @@ use prfs_entities::atst_api::{
     FetchCryptoAssetResponse, GetCryptoAssetSizeAtstRequest, GetCryptoAssetSizeAtstResponse,
     GetCryptoAssetSizeAtstsRequest, GetCryptoAssetSizeAtstsResponse,
 };
-use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsCryptoAssetSizeAtst};
+use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_web_fetcher::destinations::coinbase::{self};
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
@@ -52,7 +52,7 @@ pub async fn create_crypto_asset_size_atst(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let crypto_size_atst = PrfsCryptoAssetSizeAtst {
+    let prfs_attestation = PrfsAttestation {
         atst_id: input.atst_id,
         atst_type: input.atst_type,
         label: input.label.to_string(),
@@ -62,7 +62,7 @@ pub async fn create_crypto_asset_size_atst(
         value: Decimal::from(0),
     };
 
-    let atst_id = match prfs::insert_prfs_crypto_asset_size_atst(&mut tx, &crypto_size_atst).await {
+    let atst_id = match prfs::insert_prfs_crypto_asset_size_atst(&mut tx, &prfs_attestation).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(
@@ -130,21 +130,17 @@ pub async fn get_crypto_asset_size_atst(
 ) {
     let pool = &state.db2.pool;
 
-    let prfs_crypto_asset_size_atst =
-        match prfs::get_prfs_crypto_asset_size_atst(&pool, &input.atst_id).await {
-            Ok(a) => a,
-            Err(err) => {
-                let resp = ApiResponse::new_error(
-                    &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                    err.to_string(),
-                );
-                return (StatusCode::BAD_REQUEST, Json(resp));
-            }
-        };
+    let prfs_attestation = match prfs::get_prfs_crypto_asset_size_atst(&pool, &input.atst_id).await
+    {
+        Ok(a) => a,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
-    let resp = ApiResponse::new_success(GetCryptoAssetSizeAtstResponse {
-        prfs_crypto_asset_size_atst,
-    });
+    let resp = ApiResponse::new_success(GetCryptoAssetSizeAtstResponse { prfs_attestation });
     return (StatusCode::OK, Json(resp));
 }
 

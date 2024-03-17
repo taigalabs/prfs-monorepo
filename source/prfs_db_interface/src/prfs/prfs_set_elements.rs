@@ -1,5 +1,5 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use prfs_entities::atst_entities::PrfsCryptoAssetSizeAtst;
+use prfs_entities::atst_entities::PrfsAttestation;
 use prfs_entities::entities::{PrfsSetElement, PrfsSetElementData, PrfsSetElementDataType};
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
@@ -8,7 +8,7 @@ use crate::DbInterfaceError;
 
 pub async fn insert_asset_atsts_as_prfs_set_elements(
     tx: &mut Transaction<'_, Postgres>,
-    atsts: Vec<PrfsCryptoAssetSizeAtst>,
+    atsts: Vec<PrfsAttestation>,
     set_id: &String,
 ) -> Result<u64, DbInterfaceError> {
     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(

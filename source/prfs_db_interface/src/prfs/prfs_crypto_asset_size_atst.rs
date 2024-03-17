@@ -1,11 +1,11 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use prfs_entities::atst_entities::PrfsCryptoAssetSizeAtst;
+use prfs_entities::atst_entities::PrfsAttestation;
 
 use crate::DbInterfaceError;
 
 pub async fn insert_prfs_crypto_asset_size_atst(
     tx: &mut Transaction<'_, Postgres>,
-    crypto_size_atst: &PrfsCryptoAssetSizeAtst,
+    prfs_attestation: &PrfsAttestation,
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_crypto_asset_size_atsts
@@ -20,13 +20,13 @@ now(), excluded.value, excluded.status
 RETURNING atst_id"#;
 
     let row = sqlx::query(query)
-        .bind(&crypto_size_atst.atst_id)
-        .bind(&crypto_size_atst.atst_type)
-        .bind(&crypto_size_atst.label)
-        .bind(&crypto_size_atst.cm)
-        .bind(&crypto_size_atst.meta)
-        .bind(&crypto_size_atst.value)
-        .bind(&crypto_size_atst.status)
+        .bind(&prfs_attestation.atst_id)
+        .bind(&prfs_attestation.atst_type)
+        .bind(&prfs_attestation.label)
+        .bind(&prfs_attestation.cm)
+        .bind(&prfs_attestation.meta)
+        .bind(&prfs_attestation.value)
+        .bind(&prfs_attestation.status)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -39,10 +39,10 @@ pub async fn get_prfs_crypto_asset_size_atsts(
     pool: &Pool<Postgres>,
     offset: i32,
     limit: i32,
-) -> Result<Vec<PrfsCryptoAssetSizeAtst>, DbInterfaceError> {
+) -> Result<Vec<PrfsAttestation>, DbInterfaceError> {
     let query = r#"
 SELECT *
-FROM prfs_crypto_asset_size_atsts
+FROM prfs_attestations
 LIMIT $1
 OFFSET $2
 "#;
@@ -55,7 +55,7 @@ OFFSET $2
 
     let atsts = rows
         .iter()
-        .map(|row| PrfsCryptoAssetSizeAtst {
+        .map(|row| PrfsAttestation {
             atst_id: row.get("atst_id"),
             atst_type: row.get("atst_type"),
             cm: row.get("cm"),
@@ -72,16 +72,16 @@ OFFSET $2
 pub async fn get_prfs_crypto_asset_size_atst(
     pool: &Pool<Postgres>,
     atst_id: &String,
-) -> Result<PrfsCryptoAssetSizeAtst, DbInterfaceError> {
+) -> Result<PrfsAttestation, DbInterfaceError> {
     let query = r#"
 SELECT *
-FROM prfs_crypto_asset_size_atsts
+FROM prfs_attestations
 WHERE atst_id=$1
 "#;
 
     let row = sqlx::query(query).bind(&atst_id).fetch_one(pool).await?;
 
-    let atst = PrfsCryptoAssetSizeAtst {
+    let atst = PrfsAttestation {
         atst_id: row.get("atst_id"),
         atst_type: row.get("atst_type"),
         cm: row.get("cm"),
