@@ -364,18 +364,16 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 variant="blue_3"
                 rounded
                 noTransition
-                className={styles.createBtn}
+                contentClassName={styles.createBtn}
                 handleClick={handleClickCreate}
                 noShadow
                 type="button"
                 disabled={!isSigValid || createStatus === Status.InProgress}
               >
-                <div className={styles.content}>
-                  <span>{i18n.create}</span>
-                  {createStatus === Status.InProgress && (
-                    <Spinner size={14} borderWidth={2} color={colors.white_100} />
-                  )}
-                </div>
+                <span>{i18n.create}</span>
+                {createStatus === Status.InProgress && (
+                  <Spinner size={14} borderWidth={2} color={colors.white_100} />
+                )}
               </Button>
             </div>
             {createMsg && <div className={cn(styles.createBtnRow, styles.error)}>{createMsg}</div>}

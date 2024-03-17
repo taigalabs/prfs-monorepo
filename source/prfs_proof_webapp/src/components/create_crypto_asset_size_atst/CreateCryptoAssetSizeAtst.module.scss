@@ -117,7 +117,7 @@
 
 .createBtn {
   display: flex;
-  svg {
+  > span + div {
     margin-left: 3px;
   }
 }
