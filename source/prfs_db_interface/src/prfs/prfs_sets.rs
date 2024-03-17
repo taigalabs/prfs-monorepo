@@ -26,6 +26,7 @@ WHERE set_id=$1
     let created_at: DateTime<Utc> = row.try_get("created_at")?;
     let element_type: String = row.try_get("element_type")?;
     let set_type: PrfsSetType = row.try_get("set_type")?;
+    let topic: String = row.try_get("topic")?;
 
     let s = PrfsSet {
         set_id,
@@ -37,6 +38,7 @@ WHERE set_id=$1
         created_at,
         element_type,
         set_type,
+        topic,
     };
 
     Ok(s)
@@ -75,6 +77,7 @@ OFFSET $2
             let set_type: PrfsSetType = r.try_get("set_type")?;
             let created_at: DateTime<Utc> = r.try_get("created_at")?;
             let element_type: String = r.try_get("element_type")?;
+            let topic: String = r.try_get("topic")?;
 
             Ok(PrfsSet {
                 set_id,
@@ -86,6 +89,51 @@ OFFSET $2
                 created_at,
                 element_type,
                 set_type,
+                topic,
+            })
+        })
+        .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
+
+    Ok(prfs_sets)
+}
+
+pub async fn get_prfs_sets_by_topic(
+    pool: &Pool<Postgres>,
+    topic: &String,
+) -> Result<Vec<PrfsSet>, DbInterfaceError> {
+    let query = r#"
+SELECT * 
+FROM prfs_sets
+WHERE topic=$1
+"#;
+
+    let rows = sqlx::query(&query).bind(&topic).fetch_all(pool).await?;
+
+    let prfs_sets: Vec<PrfsSet> = rows
+        .iter()
+        .map(|r| {
+            let set_id: String = r.try_get("set_id")?;
+            let label: String = r.try_get("label")?;
+            let author: String = r.try_get("author")?;
+            let desc: String = r.try_get("desc")?;
+            let hash_algorithm: String = r.try_get("hash_algorithm")?;
+            let cardinality: i64 = r.try_get("cardinality")?;
+            let set_type: PrfsSetType = r.try_get("set_type")?;
+            let created_at: DateTime<Utc> = r.try_get("created_at")?;
+            let element_type: String = r.try_get("element_type")?;
+            let topic: String = r.try_get("topic")?;
+
+            Ok(PrfsSet {
+                set_id,
+                label,
+                author,
+                desc,
+                hash_algorithm,
+                cardinality,
+                created_at,
+                element_type,
+                set_type,
+                topic,
             })
         })
         .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
@@ -129,6 +177,7 @@ OFFSET $3
             let created_at: DateTime<Utc> = r.try_get("created_at")?;
             let element_type: String = r.try_get("element_type")?;
             let set_type: PrfsSetType = r.try_get("set_type")?;
+            let topic: String = r.try_get("topic")?;
 
             Ok(PrfsSet {
                 set_id,
@@ -140,6 +189,7 @@ OFFSET $3
                 created_at,
                 element_type,
                 set_type,
+                topic,
             })
         })
         .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
@@ -154,8 +204,8 @@ pub async fn insert_prfs_set_ins1(
     let query = r#"
 INSERT INTO prfs_sets 
 (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
-merkle_root, element_type, finite_field, elliptic_curve, tree_depth) 
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
+merkle_root, element_type, finite_field, elliptic_curve, tree_depth, topic) 
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
 RETURNING set_id"#;
 
     let row = sqlx::query(&query)
@@ -171,6 +221,7 @@ RETURNING set_id"#;
         .bind(&prfs_set.finite_field)
         .bind(&prfs_set.elliptic_curve)
         .bind(&prfs_set.tree_depth)
+        .bind(&prfs_set.topic)
         .fetch_one(&mut **tx)
         .await
         .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
@@ -186,8 +237,8 @@ pub async fn insert_prfs_set(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
-element_type)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+element_type, topic)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
 "#;
 
     let row = sqlx::query(&query)
@@ -199,6 +250,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         .bind(&prfs_set.hash_algorithm)
         .bind(&prfs_set.cardinality)
         .bind(&prfs_set.element_type)
+        .bind(&prfs_set.topic)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -213,8 +265,8 @@ pub async fn upsert_prfs_set(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
-element_type) 
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
+element_type, topic) 
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
 ON CONFLICT (set_id) 
 DO UPDATE SET (cardinality,updated_at) = (excluded.cardinality, now())
 RETURNING set_id
@@ -229,6 +281,7 @@ RETURNING set_id
         .bind(&prfs_set.hash_algorithm)
         .bind(&prfs_set.cardinality)
         .bind(&prfs_set.element_type)
+        .bind(&prfs_set.topic)
         .fetch_one(&mut **tx)
         .await?;
 

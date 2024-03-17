@@ -8,15 +8,14 @@ use ts_rs::TS;
 pub struct PrfsSet {
     pub set_id: String,
     pub set_type: PrfsSetType,
-
     pub label: String,
     pub author: String,
     pub desc: String,
     pub hash_algorithm: String,
-
     pub cardinality: i64,
     pub element_type: String,
-    // pub merkle_root: String,
+    pub topic: String,
+
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }

@@ -18,4 +18,5 @@ pub struct PrfsSetIns1 {
     pub element_type: String,
     pub finite_field: String,
     pub elliptic_curve: String,
+    pub topic: String,
 }

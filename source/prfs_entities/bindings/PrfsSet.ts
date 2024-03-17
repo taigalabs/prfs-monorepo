@@ -10,5 +10,6 @@ export interface PrfsSet {
   hash_algorithm: string;
   cardinality: bigint;
   element_type: string;
+  topic: string;
   created_at: string;
 }

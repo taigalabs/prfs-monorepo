@@ -14,4 +14,5 @@ export interface PrfsSetIns1 {
   element_type: string;
   finite_field: string;
   elliptic_curve: string;
+  topic: string;
 }
