@@ -3,7 +3,7 @@ use prfs_common_server_state::ServerState;
 // use shy_api_error_codes::bindgen::make_shy_api_error_code_json_binding;
 use std::sync::Arc;
 
-// use crate::apis::{accounts, channels, posts, topic_proofs, topics};
+use crate::apis::update;
 
 pub const TREE_API_V0: &'static str = "/tree_api/v0";
 
@@ -13,7 +13,7 @@ pub fn make_tree_api_v0_router() -> Router<Arc<ServerState>> {
 
     let router = Router::new().route(
         "/update_prfs_tree_by_new_atst",
-        post(topics::create_shy_topic),
+        post(update::update_prfs_tree_by_new_atst),
     );
     // .route("/create_shy_post", post(posts::create_shy_post))
 
