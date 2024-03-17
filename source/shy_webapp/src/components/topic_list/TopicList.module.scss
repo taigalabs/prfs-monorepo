@@ -1,11 +1,11 @@
 @import "@/styles/layouts.module.scss";
 
 .row {
-  height: 100px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  /* height: 100px; */
+  /* width: 100%; */
+  /* position: absolute; */
+  /* top: 0; */
+  /* left: 0; */
 }
 
 .emptyBoard {
@@ -13,6 +13,15 @@
   display: grid;
   place-items: center;
   color: var(--gray-50);
+}
+
+.endOfList {
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  color: var(--gray-70);
 }
 
 @media screen and (min-width: $big_display_min_width) {

@@ -17,6 +17,7 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
 import TopicFooter from "@/components/topic/TopicFooter";
+import DiamondPlaceholder from "../diamond_placeholder/DiamondPlaceholder";
 
 const PostList: React.FC<PostListProps> = ({
   parentRef,
@@ -111,13 +112,7 @@ const PostList: React.FC<PostListProps> = ({
           transform: `translateY(${items[0]?.start ?? 0}px)`,
         }}
       >
-        {status === "success" && items.length === 0 && (
-          <div className={styles.emptyBoard}>
-            <GiDiamonds />
-            <GiDiamonds />
-            <GiDiamonds />
-          </div>
-        )}
+        {status === "success" && items.length === 0 && <DiamondPlaceholder />}
         {items.map(virtualRow => {
           const isLoaderRow = virtualRow.index > allRows.length - 1;
           const post = allRows[virtualRow.index];
