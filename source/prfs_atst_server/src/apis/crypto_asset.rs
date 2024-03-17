@@ -55,11 +55,11 @@ pub async fn create_crypto_asset_size_atst(
     let crypto_size_atst = PrfsCryptoAssetSizeAtst {
         atst_id: input.atst_id,
         atst_type: input.atst_type,
-        wallet_addr: input.wallet_addr.to_string(),
+        label: input.label.to_string(),
         cm: input.cm,
-        crypto_assets: JsonType::from(input.crypto_assets),
+        meta: JsonType::from(input.meta),
         status: PrfsAtstStatus::Valid,
-        total_value_usd: Decimal::from(0),
+        value: Decimal::from(0),
     };
 
     let atst_id = prfs::insert_prfs_crypto_asset_size_atst(&mut tx, &crypto_size_atst)
@@ -162,9 +162,9 @@ pub async fn compute_crypto_asset_size_total_values(
     let mut tx = pool.begin().await.unwrap();
     let mut count = 0;
     for mut atst in atsts {
-        if let Some(c) = atst.crypto_assets.get(0) {
+        if let Some(c) = atst.meta.get(0) {
             let v = c.amount * usd / denom;
-            atst.total_value_usd = v;
+            atst.value = v;
             prfs::insert_prfs_crypto_asset_size_atst(&mut tx, &atst)
                 .await
                 .map_err(|err| {

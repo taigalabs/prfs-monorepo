@@ -18,7 +18,7 @@ INSERT INTO prfs_set_elements
     );
 
     query_builder.push_values(atsts.iter().enumerate(), |mut b, (idx, atst)| {
-        let total_val = atst.total_value_usd.floor();
+        let total_val = atst.value.floor();
         let data = sqlx::types::Json::from(vec![
             PrfsSetElementData {
                 label: "cm".to_string(),
@@ -32,7 +32,7 @@ INSERT INTO prfs_set_elements
             },
         ]);
 
-        b.push_bind(atst.wallet_addr.to_string())
+        b.push_bind(atst.value.to_string())
             .push_bind(data)
             .push_bind("crypto_asset_size_atsts")
             .push_bind(set_id)

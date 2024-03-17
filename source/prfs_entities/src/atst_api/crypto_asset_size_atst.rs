@@ -2,7 +2,7 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::atst_entities::PrfsCryptoAssetSizeAtst;
+use crate::{atst_entities::PrfsCryptoAssetSizeAtst, PrfsAtstType};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -90,12 +90,11 @@ pub struct CoinbaseExchangeRates {
 #[ts(export)]
 pub struct CreateCryptoAssetSizeAtstRequest {
     pub atst_id: String,
-    pub atst_type: String,
-    pub wallet_addr: String,
-    // pub wallet_prfs_idx: String,
+    pub atst_type: PrfsAtstType,
+    pub label: String,
     pub serial_no: String,
     pub cm: String,
-    pub crypto_assets: Vec<CryptoAsset>,
+    pub meta: Vec<CryptoAsset>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
