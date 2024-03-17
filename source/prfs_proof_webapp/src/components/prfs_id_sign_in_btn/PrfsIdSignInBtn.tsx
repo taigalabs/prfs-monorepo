@@ -14,12 +14,12 @@ import {
   ProofGenArgs,
   AppSignInType,
   QueryType,
-  ProofGenSuccessPayload,
   AppSignInResult,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { SignInPrfsAccountRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsAccountRequest";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { SignUpPrfsAccountRequest } from "@taigalabs/prfs-entities/bindings/SignUpPrfsAccountRequest";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
@@ -32,8 +32,8 @@ import {
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
 import { useSignedInProofUser } from "@/hooks/user";
-import { reportError } from "@/state/errorReducer";
 import { paths } from "@/paths";
+import { PRFS_PROOF_APP_ID } from "@/app_id";
 
 const SIGN_IN = "SIGN_IN";
 
@@ -56,122 +56,66 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
       return prfsApi3({ type: "sign_up_prfs_account", ...req });
     },
   });
-  // const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
-  const [proofGenArgs, keyPair] = React.useMemo<[ProofGenArgs, KeyPair]>(() => {
-    const { sk, pkHex } = createRandomKeyPair();
-    const session_key = createSessionKey();
-    const proofGenArgs: ProofGenArgs = {
-      nonce: makeRandInt(1000000),
-      app_id: "prfs_proof",
-      queries: [
-        {
-          name: SIGN_IN,
-          type: AppSignInType.EC_SECP256K1,
-          queryType: QueryType.APP_SIGN_IN,
-          appSignInData: [AppSignInData.ID_POSEIDON],
-        },
-      ],
-      public_key: pkHex,
-      session_key,
-    };
-
-    return [proofGenArgs, { sk, pkHex }];
-  }, [appId]);
 
   const handleSucceedSignIn = React.useCallback(
-    async (encrypted: Buffer) => {
-      if (proofGenArgs) {
-        if (encrypted.length === 0) {
-          console.error("encrypted buffer is empty, session_key: %s", proofGenArgs.session_key);
-          return;
-        }
+    async (signInResult: AppSignInResult) => {
+      if (!signInResult.account_id || !signInResult.public_key) {
+        dispatch(
+          setGlobalError({
+            errorObj: "",
+            message: `Invalid sign in result, result: ${signInResult}`,
+          }),
+        );
+        return;
+      }
 
-        let decrypted: string;
-        try {
-          decrypted = decrypt(keyPair.sk.secret, encrypted).toString();
-        } catch (err: any) {
-          dispatch(
-            reportError({
-              errorObj: err,
-              message: `Error decrypting sign in data, err: ${err.toString()}`,
-            }),
-          );
-          return;
-        }
+      const { error, code } = await signInPrfsAccount({
+        account_id: signInResult.account_id,
+      });
+      const avatar_color = makeColor(signInResult.account_id);
+      const credential: LocalPrfsProofCredential = {
+        account_id: signInResult.account_id,
+        public_key: signInResult.public_key,
+        avatar_color,
+      };
 
-        let proofGenPayload: ProofGenSuccessPayload;
-        try {
-          proofGenPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-        } catch (err: any) {
-          dispatch(
-            reportError({
-              errorObj: err,
-              message: `Error parsing signInSuccess payload, err: ${err.toString()}`,
-            }),
-          );
-          return;
-        }
+      if (error) {
+        if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
+          const { error, code } = await signUpPrfsAccount({
+            account_id: signInResult.account_id,
+            avatar_color,
+            public_key: signInResult.public_key,
+          });
 
-        const signInResult: AppSignInResult = proofGenPayload.receipt[SIGN_IN];
-        if (!signInResult.account_id || !signInResult.public_key) {
-          dispatch(
-            reportError({
-              errorObj: "",
-              message: `Invalid sign in result, result: ${signInResult}`,
-            }),
-          );
-          return;
-        }
-
-        const { error, code } = await signInPrfsAccount({
-          account_id: signInResult.account_id,
-        });
-        const avatar_color = makeColor(signInResult.account_id);
-        const credential: LocalPrfsProofCredential = {
-          account_id: signInResult.account_id,
-          public_key: signInResult.public_key,
-          avatar_color,
-        };
-
-        if (error) {
-          if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
-            // setSignUpData(credential);
-            const { error, code } = await signUpPrfsAccount({
-              account_id: signInResult.account_id,
-              avatar_color,
-              public_key: signInResult.public_key,
-            });
-
-            if (error) {
-              dispatch(
-                reportError({
-                  errorObj: error,
-                  message: `Error signing up, err: ${error.toString()}`,
-                }),
-              );
-              return;
-            }
-
-            persistPrfsProofCredential(credential);
-            dispatch(signInPrfs(credential));
-            router.push(paths.account__welcome);
-          } else {
+          if (error) {
             dispatch(
-              reportError({
+              setGlobalError({
                 errorObj: error,
-                message: `Error signing in, err: ${error.toString()}`,
+                message: `Error signing up, err: ${error.toString()}`,
               }),
             );
             return;
           }
+
+          persistPrfsProofCredential(credential);
+          dispatch(signInPrfs(credential));
+          router.push(paths.account__welcome);
+        } else {
+          dispatch(
+            setGlobalError({
+              errorObj: error,
+              message: `Error signing in, err: ${error.toString()}`,
+            }),
+          );
           return;
         }
-
-        persistPrfsProofCredential(credential);
-        dispatch(signInPrfs(credential));
+        return;
       }
+
+      persistPrfsProofCredential(credential);
+      dispatch(signInPrfs(credential));
     },
-    [router, dispatch, signInPrfsAccount, proofGenArgs, keyPair, signUpPrfsAccount],
+    [router, dispatch, signInPrfsAccount, signUpPrfsAccount],
   );
 
   const handleClickSignOut = React.useCallback(() => {
@@ -182,6 +126,17 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   const handleInitFail = React.useCallback(() => {
     console.log("Failed init Prfs Proof credential!");
   }, []);
+
+  const handleSignInError = React.useCallback(
+    (err: string) => {
+      dispatch(
+        setGlobalError({
+          message: err,
+        }),
+      );
+    },
+    [dispatch],
+  );
 
   return prfsProofCredential ? (
     noCredential ? (
@@ -195,12 +150,12 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
     )
   ) : (
     <>
-      {/* {signUpData && <SignUpModal credential={signUpData} />} */}
       <PrfsIdSignInButton
         className={cn(styles.signInBtn, className)}
         label={label}
-        proofGenArgs={proofGenArgs}
+        appId={appId}
         isLoading={!isInitialized}
+        handleSignInError={handleSignInError}
         handleSucceedSignIn={handleSucceedSignIn}
         prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
       />

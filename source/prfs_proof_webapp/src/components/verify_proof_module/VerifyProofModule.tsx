@@ -78,21 +78,29 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
         return;
       }
 
+      if (!sessionStream) {
+        console.error("failed to create session");
+        return;
+      }
       const { ws, send, receive } = sessionStream;
       const session = await receive();
       if (!session) {
         console.error("Coudln't get the session, session_key: %s", session_key);
+        ws.close();
         return;
       }
 
       try {
         if (session.error) {
           console.error(session.error);
+          ws.close();
+          return;
         }
 
         if (session.payload) {
           if (session.payload.type !== "put_prfs_id_session_value_result") {
             console.error("Wrong session payload type at this point, msg: %s", session.payload);
+            ws.close();
             return;
           }
 
@@ -102,6 +110,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
             decrypted = decrypt(sk.secret, buf).toString();
           } catch (err) {
             console.error("cannot decrypt payload", err);
+            ws.close();
             return;
           }
 
@@ -110,6 +119,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
             payload = JSON.parse(decrypted) as VerifyProofResultPayload;
           } catch (err) {
             console.error("cannot parse payload", err);
+            ws.close();
             return;
           }
 
@@ -123,6 +133,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
         }
       } catch (err) {
         console.error(err);
+        ws.close();
       }
     } catch (err) {
       console.error(err);

@@ -25,74 +25,71 @@ pub async fn open_prfs_id_session(
 }
 
 async fn serve_websocket(websocket: WebSocket, state: Arc<ServerState>) {
-    // let websocket = websocket.await?;
     let (tx, mut rx) = websocket.split();
     let tx = Arc::new(Mutex::new(tx));
     let mut key = String::from("");
 
-    while let Some(message) = rx.next().await {
-        match message.unwrap() {
-            Message::Text(msg) => {
-                // println!("Received text message: {msg}");
-                let prfs_id_session_msg: PrfsIdSessionMsg = match serde_json::from_str(&msg) {
-                    Ok(m) => m,
-                    Err(err) => {
-                        let resp = PrfsIdSessionResponse {
-                            error: Some(err.to_string()),
-                            payload: None,
-                        };
-                        let resp = serde_json::to_string(&resp).unwrap();
-                        let mut tx_lock = tx.lock().await;
-                        tx_lock.send(Message::Text(resp)).await.unwrap();
-                        return;
+    while let Some(maybe_message) = rx.next().await {
+        match maybe_message {
+            Ok(ref message) => match message {
+                Message::Text(msg) => {
+                    // println!("Received text message: {msg}");
+                    let prfs_id_session_msg: PrfsIdSessionMsg = match serde_json::from_str(&msg) {
+                        Ok(m) => m,
+                        Err(err) => {
+                            let resp = PrfsIdSessionResponse {
+                                error: Some(err.to_string()),
+                                payload: None,
+                            };
+                            let resp = serde_json::to_string(&resp).unwrap();
+                            let mut tx_lock = tx.lock().await;
+                            tx_lock.send(Message::Text(resp)).await.unwrap();
+                            return;
 
-                        // return Ok(());
-                    }
-                };
+                            // return Ok(());
+                        }
+                    };
 
-                match prfs_id_session_msg {
-                    PrfsIdSessionMsg::OpenPrfsIdSession(payload) => {
-                        key = payload.key.to_string();
-                        handle_open_session(tx.clone(), payload, state.clone()).await;
-                    }
-                    PrfsIdSessionMsg::ClosePrfsIdSession(payload) => {
-                        handle_close_session_by_user(tx.clone(), payload, state.clone()).await;
-                    }
-                };
-            }
-            Message::Binary(msg) => {
-                println!("Received binary message: {msg:02X?}");
-                let mut tx_lock = tx.lock().await;
-                tx_lock
-                    .send(Message::Binary(b"Thank you, come again.".to_vec()))
-                    .await
-                    .unwrap();
-            }
-            Message::Ping(msg) => {
-                // No need to send a reply: tungstenite takes care of this for you.
-                println!("Received ping message: {msg:02X?}");
-            }
-            Message::Pong(msg) => {
-                println!("Received pong message: {msg:02X?}");
-            }
-            Message::Close(msg) => {
-                // No need to send a reply: tungstenite takes care of this for you.
-                if let Some(msg) = &msg {
-                    println!(
-                        "Received close message with code {} and message: {}",
-                        msg.code, msg.reason
-                    );
-                } else {
-                    println!("Received close message");
+                    match prfs_id_session_msg {
+                        PrfsIdSessionMsg::OpenPrfsIdSession(payload) => {
+                            key = payload.key.to_string();
+                            handle_open_session(tx.clone(), payload, state.clone()).await;
+                        }
+                        PrfsIdSessionMsg::ClosePrfsIdSession(payload) => {
+                            handle_close_session_by_user(tx.clone(), payload, state.clone()).await;
+                        }
+                    };
                 }
+                Message::Binary(msg) => {
+                    println!("Received binary message: {msg:02X?}");
+                    let mut tx_lock = tx.lock().await;
+                    tx_lock
+                        .send(Message::Binary(b"Thank you, come again.".to_vec()))
+                        .await
+                        .unwrap();
+                }
+                Message::Ping(msg) => {
+                    println!("Received ping message: {msg:02X?}");
+                }
+                Message::Pong(msg) => {
+                    println!("Received pong message: {msg:02X?}");
+                }
+                Message::Close(msg) => {
+                    if let Some(_msg) = &msg {
+                        println!("Received close message peer, key: {}", key,);
+                    } else {
+                        println!("Received close message without msg, key: {}", key);
+                    }
 
-                handle_close_session_by_system(tx.clone(), &key, state.clone()).await;
-                let mut peer_map = state.peer_map.lock().await;
-                peer_map.remove(&key);
-                println!("Current peer_map size: {}", peer_map.len());
-            } // Message::Frame(_msg) => {
-              //     unreachable!();
-              // }
+                    handle_close_session_by_system(tx.clone(), &key, state.clone()).await;
+                    let mut peer_map = state.peer_map.lock().await;
+                    peer_map.remove(&key);
+                    // println!("Current peer_map size: {}", peer_map.len());
+                }
+            },
+            Err(err) => {
+                tracing::error!("Failed to parse the message, err: {:?}", err);
+            }
         }
     }
 }
@@ -111,6 +108,7 @@ async fn handle_open_session(
         value: val,
         ticket: msg.ticket,
     };
+    println!("open session: {:?}", session);
 
     let key = prfs::upsert_prfs_id_session(&mut trx, &session)
         .await
@@ -146,6 +144,8 @@ async fn handle_close_session_by_user(
         .await
         .unwrap();
 
+    println!("close session, key: {}", _key);
+
     trx.commit().await.unwrap();
 
     let resp = PrfsIdSessionResponse {
@@ -169,7 +169,7 @@ async fn handle_close_session_by_system(
     let pool = &state.db2.pool;
     let mut trx = pool.begin().await.unwrap();
 
-    let _key = prfs::delete_prfs_session_without_dicket(&mut trx, &key)
+    let _key = prfs::delete_prfs_session_without_ticket(&mut trx, &key)
         .await
         .unwrap();
 

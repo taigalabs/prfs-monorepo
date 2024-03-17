@@ -11,8 +11,9 @@ use prfs_axum_lib::tower_http::{
     trace::TraceLayer,
 };
 use prfs_common_server_state::ServerState;
-use prfs_id_server::router::v0::{make_id_v0_router, ID_API_V0};
+use prfs_id_server::router::v0::{make_id_api_v0_router, ID_API_V0};
 use prfs_id_session_server::router::v0::{make_id_session_v0_router, ID_SESSION_API_V0};
+use prfs_tree_server::router::v0::{make_tree_api_v0_router, TREE_API_V0};
 use shy_api_server::router::v0::{make_shy_v0_router, SHY_API_V0};
 use std::sync::Arc;
 use tracing::{info, Span};
@@ -27,7 +28,8 @@ pub fn route(state: Arc<ServerState>) -> Router {
         .route("/", get(handle_server_status))
         .nest(API_V0, make_api_v0_router())
         .nest(ATST_API_V0, make_atst_v0_router())
-        .nest(ID_API_V0, make_id_v0_router())
+        .nest(TREE_API_V0, make_tree_api_v0_router())
+        .nest(ID_API_V0, make_id_api_v0_router())
         .nest(ID_SESSION_API_V0, make_id_session_v0_router())
         .nest(SHY_API_V0, make_shy_v0_router())
         .with_state(state)

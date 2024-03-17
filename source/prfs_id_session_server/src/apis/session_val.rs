@@ -47,6 +47,7 @@ pub async fn put_prfs_id_session_value(
         ticket: input.ticket,
     };
 
+    println!("put session, key: {}", session.key);
     let key = match prfs::upsert_prfs_id_session(&mut tx, &session).await {
         Ok(k) => k,
         Err(err) => {

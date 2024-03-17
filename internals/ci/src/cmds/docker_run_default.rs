@@ -21,7 +21,7 @@ fn run_docker(_extra_args: Vec<&str>) {
     let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
 
     let status = Command::new(deps::DOCKER)
-        .env("BUILDKIT_PROGRESS", "plain")
+        // .env("BUILDKIT_PROGRESS", "plain")
         .args([
             "compose",
             "-f",

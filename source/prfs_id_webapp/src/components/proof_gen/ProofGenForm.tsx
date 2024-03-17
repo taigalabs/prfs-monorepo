@@ -40,6 +40,8 @@ enum Status {
   Standby,
 }
 
+const closeWindowAtTheEnd = true;
+
 const ProofGenForm: React.FC<ProofGenFormProps> = ({
   handleClickPrev,
   proofGenArgs,
@@ -93,9 +95,11 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         dispatch(setGlobalMsg({ message: i18n.already_made_proof, notDismissible: true }));
         setCreateProofStatus(Status.Standby);
 
-        setTimeout(() => {
-          window.close();
-        }, 2000);
+        if (closeWindowAtTheEnd) {
+          setTimeout(() => {
+            window.close();
+          }, 2000);
+        }
       }
     },
     [proofGenArgs, putSessionValueRequest, setErrorMsg, setCreateProofStatus, receipt, dispatch],
@@ -227,11 +231,13 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
         // For some reason, parent window sees the child as 'child', so child manually
         // closes itself
-        window.close();
+        if (closeWindowAtTheEnd) {
+          window.close();
+        }
       } catch (err: any) {
         dispatch(
           setGlobalError({
-            message: `Failed to generate proof, ${err.toSring()}`,
+            message: `Failed to generate proof, ${err.toString()}`,
             errorObj: err,
           }),
         );

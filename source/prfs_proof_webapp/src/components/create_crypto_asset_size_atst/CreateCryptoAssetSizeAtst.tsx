@@ -69,7 +69,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const [step, setStep] = React.useState(AttestationStep.INPUT_WALLET_ADDR);
   const { mutateAsync: getLeastRecentPrfsIndex } = useMutation({
     mutationFn: (req: GetLeastRecentPrfsIndexRequest) => {
-      // return prfsApi2("get_least_recent_prfs_index", { prfs_indices: req.prfs_indices });
       return prfsApi3({ type: "get_least_recent_prfs_index", prfs_indices: req.prfs_indices });
     },
   });
@@ -80,7 +79,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   });
   const { mutateAsync: addPrfsIndexRequest } = useMutation({
     mutationFn: (req: AddPrfsIndexRequest) => {
-      // return prfsApi2("add_prfs_index", req);
       return prfsApi3({ type: "add_prfs_index", ...req });
     },
   });

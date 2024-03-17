@@ -45,6 +45,6 @@ hyper-tls = "0.6"
 hyper-util = { version = "0.1", features = ["full"] }
 
 prfs_db_interface = { path = "../prfs_db_interface" }
-prfs_tree_maker = { path = "../prfs_tree_maker" }
+prfs_tree_lib = { path = "../prfs_tree_lib" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 prfs_entities = { path = "../prfs_entities" }

@@ -24,7 +24,7 @@ pub fn set_up_logger() -> Result<WorkerGuard, TreeMakerError> {
 
     layers.push(console_log_layer);
 
-    let file_appender = tracing_appender::rolling::daily(&PATHS.log_files, "tree_maker.log");
+    let file_appender = tracing_appender::rolling::daily(&PATHS.log_files, "tree_lib.log");
 
     let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);
 

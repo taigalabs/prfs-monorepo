@@ -1,7 +1,7 @@
 use chrono::Utc;
 use clap::{command, Arg};
 use colored::Colorize;
-use prfs_tree_maker::{envs::ENVS, logger, TreeMakerError};
+use prfs_tree_lib::{envs::ENVS, logger, TreeMakerError};
 
 #[tokio::main]
 async fn main() {

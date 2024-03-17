@@ -10,6 +10,7 @@ import {
   AttestationsMainInner,
 } from "@/components/attestations/AttestationComponents";
 import CryptoAssetSizeAtstList from "@/components/crypto_asset_size_atst_list/CryptoAssetSizeAtstList";
+import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
 
 const CryptoSizePage = () => {
   return (

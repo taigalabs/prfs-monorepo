@@ -20,7 +20,7 @@ import VerifiedAccSearch from "@/components/verified_acc_search/VerifiedAccSearc
 import { envs } from "@/envs";
 import AppLogo from "@/components/app_logo/AppLogo";
 import { paths } from "@/paths";
-import { PRFS_PROOF } from "@/app_id";
+import { PRFS_PROOF_APP_ID } from "@/app_id";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   handleClickShowLeftBar,
@@ -62,7 +62,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
             <PrfsAppsPopoverDefault />
           </MastheadRightGroupMenu>
           <MastheadRightGroupMenu className={cn(styles.signInBtn)}>
-            <PrfsIdSignInBtn appId={PRFS_PROOF} />
+            <PrfsIdSignInBtn appId={PRFS_PROOF_APP_ID} />
           </MastheadRightGroupMenu>
         </MastheadRightGroup>
       </MastheadMain>
