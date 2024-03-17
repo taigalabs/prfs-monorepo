@@ -17,17 +17,15 @@ export async function createSession({
   key,
   value,
   ticket,
-}: CreateSessionArgs): Promise<PrfsIdSessionStream> {
+}: CreateSessionArgs): Promise<PrfsIdSessionStream | null> {
   const callbackQueue: { resolve: (data: PrfsIdSessionResponse) => void; reject: () => void }[] =
     [];
   const dataQueue: PrfsIdSessionResponse[] = [];
+  const ws = new WebSocket(`${endpoint}/open_prfs_id_session`);
 
-  const prom = new Promise<PrfsIdSessionStream>((resolve, _reject) => {
-    const ws = new WebSocket(`${endpoint}/open_prfs_id_session`);
-
+  const prom = new Promise<Omit<PrfsIdSessionStream, "ws">>((resolve, _reject) => {
     async function receive() {
       if (dataQueue.length !== 0) {
-        // We have a message ready.
         return Promise.resolve(dataQueue.shift());
       }
 
@@ -46,7 +44,6 @@ export async function createSession({
     ws.onopen = () => {
       console.log("Prfs id session established!, key: %s", key);
       resolve({
-        ws,
         receive,
         send,
       });
@@ -70,24 +67,30 @@ export async function createSession({
     };
   });
 
-  const { ws, send, receive } = await prom;
-  send({
-    type: "open_prfs_id_session",
-    key,
-    value,
-    ticket,
-  });
+  try {
+    const { send, receive } = await prom;
+    send({
+      type: "open_prfs_id_session",
+      key,
+      value,
+      ticket,
+    });
 
-  const openSessionResp = await receive();
-  if (openSessionResp?.error) {
-    return Promise.reject(null);
+    const openSessionResp = await receive();
+    if (openSessionResp?.error) {
+      ws.close();
+      return null;
+    }
+
+    return {
+      ws,
+      send,
+      receive,
+    };
+  } catch (err) {
+    ws.close();
+    return null;
   }
-
-  return {
-    ws,
-    send,
-    receive,
-  };
 }
 
 export interface PrfsIdSessionStream {

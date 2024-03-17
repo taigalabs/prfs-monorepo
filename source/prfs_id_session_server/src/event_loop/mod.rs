@@ -15,7 +15,7 @@ pub const PRFS_ID_SESSION_CHAN: &str = "prfs_id_session_chan";
 pub async fn start_listening_to_prfs_id_session_db_events(
     server_state: Arc<ServerState>,
 ) -> Result<(), IdSessionServerError> {
-    println!("Start_listening to prfs id session events");
+    tracing::info!("Start_listening to prfs id session events");
     let pool = &server_state.db2.pool;
 
     let mut listener = PgListener::connect_with(&pool).await.unwrap();
@@ -24,9 +24,13 @@ pub async fn start_listening_to_prfs_id_session_db_events(
     loop {
         let notification = listener.recv().await?;
         let session_key: String = serde_json::from_str(notification.payload()).unwrap();
-        println!("prfs_id_session db event, key: {}", session_key);
-
         let peer_map_lock = server_state.peer_map.lock().await;
+        println!(
+            "prfs_id_session db event, key: {}, peer map keys: {:?}",
+            session_key,
+            peer_map_lock.keys(),
+        );
+
         if let Some(tx) = peer_map_lock.get(&session_key) {
             if let Ok(session_result) = prfs::get_prfs_id_session(&pool, &session_key).await {
                 if let Some(s) = session_result {
@@ -42,6 +46,7 @@ pub async fn start_listening_to_prfs_id_session_db_events(
                     let resp = serde_json::to_string(&resp).unwrap();
                     let mut tx_lock = tx.lock().await;
 
+                    println!("Sending session resp to peer, key: {}", session_key);
                     if let Err(err) = tx_lock.send(Message::Text(resp)).await {
                         println!("Failed to send a response, err: {:?}", err);
                     }

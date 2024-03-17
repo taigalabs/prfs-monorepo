@@ -62,11 +62,11 @@ RETURNING key
     Ok(key)
 }
 
-pub async fn delete_prfs_session(
+pub async fn delete_prfs_session<'a>(
     tx: &mut Transaction<'_, Postgres>,
-    key: &String,
+    key: &'a String,
     _ticket: &String,
-) -> Result<(), DbInterfaceError> {
+) -> Result<&'a String, DbInterfaceError> {
     let query = r#"
 DELETE FROM prfs_id_sessions 
 WHERE key=$1
@@ -78,7 +78,7 @@ RETURNING key
         .fetch_optional(&mut **tx)
         .await?;
 
-    return Ok(());
+    return Ok(key);
 }
 
 pub async fn delete_prfs_session_without_ticket(
