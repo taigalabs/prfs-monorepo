@@ -26,8 +26,8 @@ import {
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   const i18n = React.useContext(i18nContext);
   const walletAddr = React.useMemo(() => {
-    return abbrevAddr(atst.wallet_addr);
-  }, [atst.wallet_addr]);
+    return abbrevAddr(atst.label);
+  }, [atst.label]);
   const cm = React.useMemo(() => {
     return `${atst.cm.substring(0, 12)}...`;
   }, [atst.cm]);
@@ -35,8 +35,8 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
     router.push(`${paths.attestations__crypto_asset_size}/${atst.atst_id}`);
   }, [atst.atst_id, router]);
   const cryptoAssets = React.useMemo(() => {
-    if (typeof atst.crypto_assets === "object") {
-      return `${JSON.stringify(atst.crypto_assets).substring(0, 20)}...`;
+    if (typeof atst.meta === "object") {
+      return `${JSON.stringify(atst.meta).substring(0, 20)}...`;
     } else {
       return "";
     }
@@ -44,9 +44,9 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   const handleClickCryptoAssets = React.useCallback(
     (ev: React.MouseEvent) => {
       ev.stopPropagation();
-      window.open(`https://etherscan.io/address/${atst.wallet_addr.toLowerCase()}`, "_blank");
+      window.open(`https://etherscan.io/address/${atst.label.toLowerCase()}`, "_blank");
     },
-    [atst.wallet_addr],
+    [atst.label],
   );
 
   return (
@@ -58,7 +58,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
         {cm}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.totalValue, styles.w1024)}>
-        {Number(atst.total_value_usd)}
+        {Number(atst.value)}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480, styles.cell)}>
         <a target="_blank" onClick={handleClickCryptoAssets}>

@@ -202,10 +202,10 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           const { payload, error } = await createCryptoSizeAtstRequest({
             atst_id,
             atst_type: "crypto_size_1",
-            wallet_addr,
+            label: wallet_addr,
             serial_no: "empty",
             cm: claimCm,
-            crypto_assets: cryptoAssets,
+            meta: cryptoAssets,
           });
           setCreateStatus(Status.Standby);
 

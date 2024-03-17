@@ -31,11 +31,11 @@ const CryptoAssetSizeAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ a
   });
   const atst = data?.prfs_crypto_asset_size_atst;
   const cryptoAssets = React.useMemo(() => {
-    return atst && JSON.stringify(atst.crypto_assets);
-  }, [atst?.crypto_assets]);
+    return atst && JSON.stringify(atst.meta);
+  }, [atst?.meta]);
   const etherScanUrl = React.useMemo(() => {
-    return atst && `https://etherscan.io/address/${atst.wallet_addr.toLowerCase()}`;
-  }, [atst?.wallet_addr]);
+    return atst && `https://etherscan.io/address/${atst.label.toLowerCase()}`;
+  }, [atst?.label]);
 
   if (isLoading) {
     <div>Loading...</div>;
@@ -61,7 +61,7 @@ const CryptoAssetSizeAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ a
         </AttestationDetailTopMenuRow>
         <div className={styles.avatarRow}>
           <div className={styles.rightCol}>
-            <div className={styles.walletAddr}>{atst.wallet_addr}</div>
+            <div className={styles.walletAddr}>{atst.label}</div>
           </div>
         </div>
         <AttestationDetailSection className={styles.metaRow}>
