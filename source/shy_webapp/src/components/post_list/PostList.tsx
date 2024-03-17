@@ -6,7 +6,6 @@ import { shyApi2 } from "@taigalabs/shy-api-js";
 import dayjs from "dayjs";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
-import { GiDiamonds } from "@react-icons/all-files/gi/GiDiamonds";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 import styles from "./PostList.module.scss";
@@ -17,7 +16,7 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
 import TopicFooter from "@/components/topic/TopicFooter";
-import DiamondPlaceholder from "../diamond_placeholder/DiamondPlaceholder";
+import DiamondPlaceholder from "@/components/diamond_placeholder/DiamondPlaceholder";
 
 const PostList: React.FC<PostListProps> = ({
   parentRef,
