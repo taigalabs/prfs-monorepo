@@ -9,28 +9,17 @@ lazy_static! {
 #[allow(non_snake_case)]
 #[derive(Debug)]
 pub struct Paths {
-    pub workspace_dir: PathBuf,
-    pub manifest_dir: PathBuf,
     pub bindings: PathBuf,
 }
 
 impl Paths {
     pub fn new() -> Paths {
         let ws_root = std::env::var("PRFS_WORKSPACE_ROOT").unwrap();
-        let manifest_dir = PathBuf::from(ws_root);
-        let workspace_dir = manifest_dir
-            .parent()
-            .unwrap()
-            .parent()
-            .unwrap()
-            .to_path_buf();
-        let bindings = manifest_dir.join("bindings");
+        let ws_path = PathBuf::from(ws_root);
 
-        let p = Paths {
-            workspace_dir,
-            manifest_dir,
-            bindings,
-        };
+        let bindings = ws_path.join("source/prfs_api_error_codes/bindings");
+
+        let p = Paths { bindings };
 
         println!(
             "{} paths, pkg: {}, Paths: {:#?}",
