@@ -21,6 +21,7 @@ walkdir = "2"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
+project_root = { path = "../project_root" }
 prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_db_driver = { path = "../prfs_db_driver" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
