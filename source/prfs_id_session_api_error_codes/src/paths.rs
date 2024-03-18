@@ -1,5 +1,6 @@
 use colored::Colorize;
 use lazy_static::lazy_static;
+use project_root::get_project_root;
 use std::path::PathBuf;
 
 lazy_static! {
@@ -9,27 +10,15 @@ lazy_static! {
 #[allow(non_snake_case)]
 #[derive(Debug)]
 pub struct Paths {
-    pub workspace_dir: PathBuf,
-    pub manifest_dir: PathBuf,
     pub bindings: PathBuf,
 }
 
 impl Paths {
     pub fn new() -> Paths {
-        let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let workspace_dir = manifest_dir
-            .parent()
-            .unwrap()
-            .parent()
-            .unwrap()
-            .to_path_buf();
-        let bindings = manifest_dir.join("bindings");
+        let project_root = get_project_root();
+        let bindings = project_root.join("source/prfs_id_session_api_error_codes/bindings");
 
-        let p = Paths {
-            workspace_dir,
-            manifest_dir,
-            bindings,
-        };
+        let p = Paths { bindings };
 
         println!(
             "{} paths, pkg: {}, Paths: {:#?}",

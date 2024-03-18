@@ -1,5 +1,6 @@
 use colored::Colorize;
 use lazy_static::lazy_static;
+use project_root::get_project_root;
 use std::path::{Path, PathBuf};
 
 lazy_static! {
@@ -8,7 +9,6 @@ lazy_static! {
 
 #[derive(Debug)]
 pub struct Paths {
-    pub __: PathBuf,
     pub assets: PathBuf,
     pub assets_circuits: PathBuf,
     pub ws_prfs_driver_spartan_js: PathBuf,
@@ -16,16 +16,12 @@ pub struct Paths {
 
 impl Paths {
     pub fn new() -> Paths {
-        let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let assets = manifest_dir.join("assets");
-
-        let assets_circuits = manifest_dir.join("assets/circuits");
-
-        let workspace = workspace_dir();
-        let ws_prfs_driver_spartan_js = workspace.join("source/prfs_driver_spartan_js");
+        let project_root = get_project_root();
+        let assets = project_root.join("source/prfs_asset_server/assets");
+        let assets_circuits = assets.join("assets/circuits");
+        let ws_prfs_driver_spartan_js = project_root.join("source/prfs_driver_spartan_js");
 
         let p = Paths {
-            __: manifest_dir,
             assets,
             assets_circuits,
             ws_prfs_driver_spartan_js,
@@ -40,16 +36,4 @@ impl Paths {
 
         p
     }
-}
-
-fn workspace_dir() -> PathBuf {
-    let output = std::process::Command::new(env!("CARGO"))
-        .arg("locate-project")
-        .arg("--workspace")
-        .arg("--message-format=plain")
-        .output()
-        .unwrap()
-        .stdout;
-    let cargo_path = Path::new(std::str::from_utf8(&output).unwrap().trim());
-    cargo_path.parent().unwrap().to_path_buf()
 }

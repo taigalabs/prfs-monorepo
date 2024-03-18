@@ -61,10 +61,10 @@ async fn put_objects(client: &Client) -> Result<(), aws_sdk_s3::Error> {
         let file_path = entry.path();
 
         if !file_path.is_dir() {
-            let key = file_path.strip_prefix(&PATHS.__).unwrap().to_str().unwrap();
-            println!("file_path: {:?}, key: {:?}", file_path, key);
+            // let key = file_path.strip_prefix(&PATHS.__).unwrap().to_str().unwrap();
+            // println!("file_path: {:?}, key: {:?}", file_path, key);
 
-            upload_object(client, PRFS_BUCKET, file_path, key).await?;
+            // upload_object(client, PRFS_BUCKET, file_path, key).await?;
         }
     }
 
