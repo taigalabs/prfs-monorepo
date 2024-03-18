@@ -157,9 +157,6 @@ fn main() {
         Some(("docker_run_api_server", sub_matches)) => {
             cmds::docker_run_api_server::run(sub_matches);
         }
-        Some(("docker_run_asset_server", sub_matches)) => {
-            cmds::docker_run_asset_server::run(sub_matches);
-        }
         Some((docker_run_default::CMD_NAME, sub_matches)) => {
             docker_run_default::run(sub_matches);
         }

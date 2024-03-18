@@ -28,7 +28,6 @@ pub mod start_shy_webapp;
 // docker
 pub mod docker_down_all;
 pub mod docker_run_api_server;
-pub mod docker_run_asset_server;
 pub mod docker_run_default;
 pub mod docker_run_postgres;
 pub mod docker_run_prfs_console_webapp;
