@@ -1,6 +1,5 @@
 services:
   prfs_api_server:
-    command: tail -F anything
     build:
       context: ../../../
       dockerfile: ./internals/docker/prfs_api_server/Dockerfile
@@ -11,13 +10,12 @@ services:
     ports:
       - "4000:4000"
 
-  prfs_api_server_local:
-    command: tail -F anything
+  prfs_api_server_debug:
     build:
       context: ../../../
       dockerfile: ./internals/docker/prfs_api_server/Dockerfile
       args:
-        CI_CMD: start_prfs_api_server_local
+        CI_CMD: dev_prfs_api_server
         RUST_VERSION: 1.76
         GIT_COMMIT_HASH: ${GIT_COMMIT_HASH}
     ports:

@@ -29,7 +29,7 @@ pub mod start_shy_webapp;
 pub mod docker_down_all;
 pub mod docker_run_api_server;
 pub mod docker_run_default;
-pub mod docker_run_default_local;
+pub mod docker_run_default_debug;
 pub mod docker_run_postgres;
 pub mod docker_run_prfs_proof_webapp;
 

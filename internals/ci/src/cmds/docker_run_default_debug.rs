@@ -3,10 +3,11 @@ use std::process::Command;
 
 use crate::{
     deps::{self, JS_ENGINE},
+    envs::get_envs,
     paths::PATHS,
 };
 
-pub const CMD_NAME: &str = "docker_run_default_local";
+pub const CMD_NAME: &str = "docker_run_default_debug";
 
 pub fn run(matches: &ArgMatches) {
     let extra_args = match matches.get_many::<String>("extra_args") {
@@ -19,6 +20,7 @@ pub fn run(matches: &ArgMatches) {
 
 fn run_docker(_extra_args: Vec<&str>) {
     let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
+    let envs = get_envs();
 
     let status = Command::new(deps::DOCKER)
         // .env("BUILDKIT_PROGRESS", "plain")
@@ -30,9 +32,9 @@ fn run_docker(_extra_args: Vec<&str>) {
             "--detach",
             "--build",
             "--no-deps",
-            "prfs_api_server_local",
+            "prfs_api_server_debug",
         ])
-        .env("GIT_COMMIT_HASH", "123")
+        .envs(envs)
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
