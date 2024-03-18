@@ -73,7 +73,12 @@ impl InfuraFetcher {
             .body(Full::from(get_block_height.to_string()))?;
         let res = client.request(req).await.unwrap();
         let data = res.collect().await.unwrap().aggregate();
-        let block_height: InfuraResponse<String> = serde_json::from_reader(data.reader()).unwrap();
+
+        let data_reader = data.reader();
+        let block_height: InfuraResponse<String> = match serde_json::from_reader(data_reader) {
+            Ok(h) => h,
+            Err(err) => return Err(format!("block_height parsed fail, err: {:?}", err).into()),
+        };
 
         if let Some(err) = block_height.error {
             return Err(format!("Failed to get block height, err: {:?}", err).into());

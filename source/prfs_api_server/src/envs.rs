@@ -21,7 +21,6 @@ pub struct Envs {
     #[serde(default = "default_prfs_api_private_key")]
     pub prfs_api_private_key: String,
 
-    #[serde(default = "default_infura_api_key")]
     pub infura_api_key: String,
 }
 
@@ -56,8 +55,4 @@ fn default_postgres_pw() -> String {
 
 fn default_prfs_api_private_key() -> String {
     "63e64e77016fd8a1adeb1a88b77171517b1c2acfa8f7885d581252ce031db47c".to_string()
-}
-
-fn default_infura_api_key() -> String {
-    "infura".to_string()
 }
