@@ -15,10 +15,7 @@ pub fn get_envs() -> HashMap<&'static str, String> {
 
     let envs = HashMap::from([
         ("GIT_COMMIT_HASH", git_hash),
-        (
-            "PRFS_WORKSPACE_ROOT",
-            PATHS.ws_root.to_str().unwrap().to_string(),
-        ),
+        ("PROJECT_ROOT", PATHS.ws_root.to_str().unwrap().to_string()),
     ]);
 
     envs
