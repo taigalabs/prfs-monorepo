@@ -22,6 +22,7 @@ fn run_app(extra_args: Vec<&str>) {
     let status = Command::new(deps::CARGO)
         .current_dir(&PATHS.prfs_api_server)
         .args(["run", "-p", "prfs_api_server", "--release"])
+        .env("GIT_COMMIT_HASH", "aaa")
         .status()
         .expect(&format!("{} command failed to start", deps::CARGO));
 

@@ -17,7 +17,7 @@ impl Envs {
     pub fn new() -> Envs {
         let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let dotenv_path = manifest_dir.join(".env");
-        println!("Prfs web fetcher dotenv_path: {:?}", manifest_dir);
+        println!("Prfs web fetcher dotenv_path: {:?}", dotenv_path);
 
         dotenvy::from_path(dotenv_path).unwrap();
 
