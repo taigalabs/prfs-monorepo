@@ -1,10 +1,12 @@
-ARG RUST_VERSION
+ARG rust_version
 
-FROM rust:${RUST_VERSION}
+FROM rust:${rust_version}
 
-ARG CI_CMD
+ARG ci_cmd
+ENV CI_CMD=$ci_cmd
 
-ENV GIT_COMMIT_HASH=${GIT_COMMIT_HASH}
+ARG git_commit_hash
+ENV GIT_COMMIT_HASH=${git_commit_hash}
 
 EXPOSE 4000
 
@@ -21,4 +23,4 @@ RUN apt-get -qq update \
   && apt install -y chromium \
   && apt install libssl-dev
 
-CMD ["./ci", $CI_CMD]
+CMD ["sh", "-c", "./ci ${CI_CMD}"]
