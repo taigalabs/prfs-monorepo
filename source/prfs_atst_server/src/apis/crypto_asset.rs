@@ -65,7 +65,7 @@ pub async fn create_crypto_asset_size_atst(
         value: Decimal::from(0),
     };
 
-    let atst_id = match prfs::insert_prfs_crypto_asset_size_atst(&mut tx, &prfs_attestation).await {
+    let atst_id = match prfs::insert_prfs_attestation(&mut tx, &prfs_attestation).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(
@@ -192,7 +192,7 @@ pub async fn compute_crypto_asset_size_total_values(
         if let Some(c) = atst.meta.get(0) {
             let v = c.amount * usd / denom;
             atst.value = v;
-            prfs::insert_prfs_crypto_asset_size_atst(&mut tx, &atst)
+            prfs::insert_prfs_attestation(&mut tx, &atst)
                 .await
                 .map_err(|err| {
                     ApiHandleError::from(&PRFS_ATST_API_ERROR_CODES.CRYPTO_SIZE_UPSERT_FAIL, err)
