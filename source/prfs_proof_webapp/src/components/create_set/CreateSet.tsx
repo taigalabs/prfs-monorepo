@@ -78,7 +78,7 @@ const CreateSet: React.FC<CreateSetProps> = () => {
         const { payload, error } = await createPrfsSetRequest({
           prfs_set_ins1: {
             set_id,
-            set_type: "Dynamic",
+            // set_type: "Dynamic",
             label,
             author: prfsProofCredential.account_id,
             desc,

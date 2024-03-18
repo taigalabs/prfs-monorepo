@@ -201,11 +201,11 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           const wallet_addr = formData[WALLET_ADDR];
           const { payload, error } = await createCryptoSizeAtstRequest({
             atst_id,
-            atst_type: "crypto_size_1",
-            wallet_addr,
+            atst_type: "crypto_1",
+            label: wallet_addr,
             serial_no: "empty",
             cm: claimCm,
-            crypto_assets: cryptoAssets,
+            meta: cryptoAssets,
           });
           setCreateStatus(Status.Standby);
 
@@ -352,28 +352,28 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           <AttestationFormBtnRow>
             <div className={styles.createBtnRow}>
               <Button
-                variant="transparent_blue_2"
+                variant="transparent_blue_3"
                 noTransition
+                rounded
                 handleClick={handleClickStartOver}
                 type="button"
               >
                 {i18n.start_over}
               </Button>
               <Button
-                variant="blue_2"
+                variant="blue_3"
+                rounded
                 noTransition
-                className={styles.createBtn}
+                contentClassName={styles.createBtn}
                 handleClick={handleClickCreate}
                 noShadow
                 type="button"
                 disabled={!isSigValid || createStatus === Status.InProgress}
               >
-                <div className={styles.content}>
-                  <span>{i18n.create}</span>
-                  {createStatus === Status.InProgress && (
-                    <Spinner size={14} borderWidth={2} color={colors.white_100} />
-                  )}
-                </div>
+                <span>{i18n.create}</span>
+                {createStatus === Status.InProgress && (
+                  <Spinner size={14} borderWidth={2} color={colors.white_100} />
+                )}
               </Button>
             </div>
             {createMsg && <div className={cn(styles.createBtnRow, styles.error)}>{createMsg}</div>}

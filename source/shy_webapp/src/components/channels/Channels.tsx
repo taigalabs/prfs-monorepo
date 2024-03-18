@@ -112,11 +112,7 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
                     const row = allRows[virtualRow.index];
 
                     return (
-                      <InfiniteScrollRowWrapper
-                        style={{
-                          height: `${virtualRow.size}px`,
-                          transform: `translateY(${virtualRow.start}px)`,
-                        }}
+                      <div
                         className={styles.row}
                         key={virtualRow.index}
                         data-index={virtualRow.index}
@@ -127,7 +123,7 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
                         ) : (
                           row && <ChannelRow channel={row} />
                         )}
-                      </InfiniteScrollRowWrapper>
+                      </div>
                     );
                   })}
                 </InfiniteScrollRowContainerInner>

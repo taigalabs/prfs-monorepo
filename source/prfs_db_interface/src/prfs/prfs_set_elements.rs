@@ -1,5 +1,5 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use prfs_entities::atst_entities::PrfsCryptoAssetSizeAtst;
+use prfs_entities::atst_entities::PrfsAttestation;
 use prfs_entities::entities::{PrfsSetElement, PrfsSetElementData, PrfsSetElementDataType};
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
@@ -8,7 +8,7 @@ use crate::DbInterfaceError;
 
 pub async fn insert_asset_atsts_as_prfs_set_elements(
     tx: &mut Transaction<'_, Postgres>,
-    atsts: Vec<PrfsCryptoAssetSizeAtst>,
+    atsts: Vec<PrfsAttestation>,
     set_id: &String,
 ) -> Result<u64, DbInterfaceError> {
     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
@@ -18,7 +18,7 @@ INSERT INTO prfs_set_elements
     );
 
     query_builder.push_values(atsts.iter().enumerate(), |mut b, (idx, atst)| {
-        let total_val = atst.total_value_usd.floor();
+        let total_val = atst.value.floor();
         let data = sqlx::types::Json::from(vec![
             PrfsSetElementData {
                 label: "cm".to_string(),
@@ -32,7 +32,7 @@ INSERT INTO prfs_set_elements
             },
         ]);
 
-        b.push_bind(atst.wallet_addr.to_string())
+        b.push_bind(atst.value.to_string())
             .push_bind(data)
             .push_bind("crypto_asset_size_atsts")
             .push_bind(set_id)

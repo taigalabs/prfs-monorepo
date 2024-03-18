@@ -1,5 +1,6 @@
 use colored::Colorize;
 use lazy_static::lazy_static;
+use project_root::get_project_root;
 use std::path::PathBuf;
 
 lazy_static! {
@@ -8,7 +9,6 @@ lazy_static! {
 
 #[derive(Debug)]
 pub struct Paths {
-    pub manifest_dir: PathBuf,
     pub log_files: PathBuf,
     pub data: PathBuf,
     pub data_sets: PathBuf,
@@ -17,14 +17,14 @@ pub struct Paths {
 
 impl Paths {
     pub fn new() -> Paths {
-        let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let log_files = manifest_dir.join("log_files");
-        let data = manifest_dir.join("data");
-        let data_scans = manifest_dir.join("data/scans");
-        let data_sets = manifest_dir.join("data/sets");
+        let project_root = get_project_root();
+        let package_root = project_root.join("source/prfs_tree_lib");
+        let log_files = package_root.join("log_files");
+        let data = package_root.join("data");
+        let data_scans = package_root.join("data/scans");
+        let data_sets = package_root.join("data/sets");
 
         let p = Paths {
-            manifest_dir,
             log_files,
             data,
             data_scans,

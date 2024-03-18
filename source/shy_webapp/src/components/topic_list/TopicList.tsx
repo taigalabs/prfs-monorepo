@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import { GiDiamonds } from "@react-icons/all-files/gi/GiDiamonds";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { shyApi2 } from "@taigalabs/shy-api-js";
@@ -12,9 +13,9 @@ import TopicRow from "./TopicRow";
 import {
   InfiniteScrollRowContainerOuter,
   InfiniteScrollRowContainerInner,
-  InfiniteScrollRowWrapper,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
+import DiamondPlaceholder from "@/components/diamond_placeholder/DiamondPlaceholder";
 
 const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, placeholder }) => {
   const i18n = usePrfsI18N();
@@ -103,11 +104,7 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, 
           const isLoaderRow = virtualRow.index > allRows.length - 1;
           const topic = allRows[virtualRow.index];
           return (
-            <InfiniteScrollRowWrapper
-              style={{
-                height: `${virtualRow.size}px`,
-                transform: `translateY(${virtualRow.start}px)`,
-              }}
+            <div
               className={styles.row}
               key={virtualRow.index}
               data-index={virtualRow.index}
@@ -118,9 +115,10 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, 
                   ? "Loading more..."
                   : "Nothing more to load"
                 : topic && <TopicRow topic={topic} now={now} channelId={channelId} />}
-            </InfiniteScrollRowWrapper>
+            </div>
           );
         })}
+        {status === "success" && items.length > 0 && <DiamondPlaceholder />}
       </InfiniteScrollRowContainerInner>
     </InfiniteScrollRowContainerOuter>
   );

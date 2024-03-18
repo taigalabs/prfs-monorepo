@@ -52,17 +52,21 @@ pub struct Paths {
 #[allow(non_snake_case)]
 impl Paths {
     pub fn new() -> Paths {
-        let ws_root = std::env::current_dir().unwrap();
+        let ws_root =
+            std::env::var("PROJECT_ROOT").expect("PRFS WORKSPACE ROOT should be provided");
+        let ws_root = PathBuf::from(ws_root);
 
-        {
-            let ci_file_path = ws_root.join("ci");
-            if !ci_file_path.exists() {
-                panic!(
-                    "Wrong current dir, ci does not exist, path: {:?}",
-                    ci_file_path,
-                );
-            }
-        }
+        // let ws_root = std::env::current_dir().unwrap();
+
+        // {
+        //     let ci_file_path = ws_root.join("ci");
+        //     if !ci_file_path.exists() {
+        //         panic!(
+        //             "Wrong current dir, ci does not exist, path: {:?}",
+        //             ci_file_path,
+        //         );
+        //     }
+        // }
 
         let internals_ci = ws_root.join("internals/ci");
         let internals__tmux = ws_root.join("internals/tmux");

@@ -3,6 +3,7 @@ use std::process::Command;
 
 use crate::{
     deps::{self},
+    envs::get_envs,
     paths::PATHS,
 };
 
@@ -19,9 +20,11 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_app(extra_args: Vec<&str>) {
+    let envs = get_envs();
     let status = Command::new(deps::CARGO)
         .current_dir(&PATHS.prfs_api_server)
         .args(["run", "-p", "prfs_api_server", "--release"])
+        .envs(envs)
         .status()
         .expect(&format!("{} command failed to start", deps::CARGO));
 

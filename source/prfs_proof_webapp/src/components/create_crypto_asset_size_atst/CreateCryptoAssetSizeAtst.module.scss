@@ -93,22 +93,6 @@
   }
 }
 
-.createBtn {
-  /* padding-left: 24px; */
-  /* padding-right: 24px; */
-
-  .content {
-    display: flex;
-    min-width: 60px;
-    justify-content: center;
-    align-items: center;
-
-    > span + * {
-      margin-left: 3px;
-    }
-  }
-}
-
 .input {
   height: 40px;
 }
@@ -128,6 +112,13 @@
   div {
     border-width: 2px;
     border-top-color: inherit;
+  }
+}
+
+.createBtn {
+  display: flex;
+  > span + div {
+    margin-left: 3px;
   }
 }
 

@@ -1,4 +1,12 @@
-FROM rust:1.74
+ARG rust_version
+
+FROM rust:${rust_version}
+
+ARG ci_cmd
+ENV CI_CMD=$ci_cmd
+
+ARG git_commit_hash
+ENV GIT_COMMIT_HASH=${git_commit_hash}
 
 EXPOSE 4000
 
@@ -7,16 +15,12 @@ WORKDIR /usr/prfs-monorepo
 COPY . .
 
 # Install nodejs 18
-RUN apt-get -qq update
-RUN apt-get -qq upgrade --yes
-RUN apt-get -qq install curl --yes
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
-RUN apt-get -qq install nodejs --yes
+RUN apt-get -qq update \
+  && apt-get -qq upgrade --yes \
+  && apt-get -qq install curl --yes \
+  && curl -sL https://deb.nodesource.com/setup_18.x | bash - \
+  && apt-get -qq install nodejs --yes \
+  && apt install -y chromium \
+  && apt install libssl-dev
 
-# Install Chromium
-RUN apt install -y chromium
-
-# Install libssl
-RUN apt install libssl-dev
-
-CMD ["./ci", "start_prfs_api_server"]
+CMD ["sh", "-c", "./ci ${CI_CMD}"]

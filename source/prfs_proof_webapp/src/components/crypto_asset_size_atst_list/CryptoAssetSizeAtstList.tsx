@@ -36,7 +36,6 @@ const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
             )}
           </AttestationsTopMenu>
         </AttestationsHeaderRow>
-        {/* <AttestationsHeaderRow></AttestationsHeaderRow> */}
       </AttestationsHeader>
       <div>
         <CryptoSizeAtstTable nonce={nonce} />

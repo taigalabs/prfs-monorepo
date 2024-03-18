@@ -1,10 +1,14 @@
 [workspace]
 members = [
+  # Project
+  "source/project_root",
+
   # externals
   "externals/secq256k1",
   "externals/poseidon",
   "externals/Spartan-secq",
   "externals/circuit_reader",
+
 
   # prfs lib
   "source/prfs_db_driver",

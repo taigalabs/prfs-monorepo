@@ -89,10 +89,6 @@ pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
         .route("/create_prfs_set", post(prfs_sets::create_prfs_set))
         .route("/get_prfs_sets", post(prfs_sets::get_prfs_sets))
         .route(
-            "/get_prfs_sets_by_set_type",
-            post(prfs_sets::get_prfs_sets_by_set_type),
-        )
-        .route(
             "/get_prfs_set_by_set_id",
             post(prfs_sets::get_prfs_set_by_set_id),
         )

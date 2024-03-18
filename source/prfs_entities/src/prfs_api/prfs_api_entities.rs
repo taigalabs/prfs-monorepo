@@ -24,12 +24,11 @@ use super::{
     GetPrfsProofTypeByProofTypeIdResponse, GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
     GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse, GetPrfsSetElementRequest,
     GetPrfsSetElementResponse, GetPrfsSetElementsRequest, GetPrfsSetElementsResponse,
-    GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest, GetPrfsSetsResponse,
-    GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesBySetIdRequest,
-    GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse, ImportPrfsSetElementsRequest,
-    ImportPrfsSetElementsResponse, SignInPrfsAccountRequest, SignInPrfsAccountResponse,
-    SignUpPrfsAccountRequest, SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse,
-    UpdatePrfsTreeNodeRequest, UpdatePrfsTreeNodeResponse,
+    GetPrfsSetsRequest, GetPrfsSetsResponse, GetPrfsTreeLeafIndicesRequest,
+    GetPrfsTreeLeafNodesBySetIdRequest, GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse,
+    ImportPrfsSetElementsRequest, ImportPrfsSetElementsResponse, SignInPrfsAccountRequest,
+    SignInPrfsAccountResponse, SignUpPrfsAccountRequest, SubmitPrfsPollResponseRequest,
+    SubmitPrfsPollResponseResponse, UpdatePrfsTreeNodeRequest, UpdatePrfsTreeNodeResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -61,7 +60,6 @@ pub enum PrfsApiRequest {
     CreatePrfsProofType(CreatePrfsProofTypeRequest),
     get_prfs_set_by_set_id(GetPrfsSetBySetIdRequest),
     GetPrfsSets(GetPrfsSetsRequest),
-    GetPrfsSetsBySetType(GetPrfsSetsBySetTypeRequest),
     create_prfs_set(CreatePrfsSetRequest),
     CreatePrfsDynamicSetElement(CreatePrfsDynamicSetElementRequest),
     create_prfs_tree_by_prfs_set(CreatePrfsTreeByPrfsSetRequest),
@@ -106,7 +104,6 @@ pub enum PrfsApiResponse {
     CreatePrfsProofType(CreatePrfsProofTypeResponse),
     get_prfs_set_by_set_id(GetPrfsSetBySetIdResponse),
     GetPrfsSets(GetPrfsSetsResponse),
-    GetPrfsSetsBySetType(GetPrfsSetsResponse),
     create_prfs_set(CreatePrfsSetResponse),
     CreatePrfsDynamicSetElement(CreatePrfsDynamicSetElementResponse),
     create_prfs_tree_by_prfs_set(CreatePrfsTreeByPrfsSetResponse),
