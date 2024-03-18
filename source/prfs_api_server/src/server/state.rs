@@ -1,11 +1,10 @@
 use chrono::{DateTime, Utc};
 use colored::Colorize;
 use ethers_signers::LocalWallet;
-// use git2::Repository;
 use prfs_axum_lib::reqwest::Client;
 use prfs_common_server_state::ServerState;
 use prfs_db_driver::database2::Database2;
-use prfs_web_fetcher::destinations::infura::InfuraFetcher;
+use prfs_web_fetcher::destinations::infura::{InfuraFetcher, InfuraFetcherOpt};
 use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::Mutex;
@@ -14,7 +13,6 @@ use crate::{envs::ENVS, paths::PATHS, ApiServerError};
 
 pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
     let commit_hash = std::env::var("GIT_COMMIT_HASH").unwrap();
-    println!("123: {:?}", commit_hash);
 
     let db2 = {
         let pg_endpoint = &ENVS.postgres_endpoint;
@@ -27,7 +25,9 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
         db2
     };
 
-    let infura_fetcher = InfuraFetcher::new();
+    let infura_fetcher = InfuraFetcher::new(InfuraFetcherOpt {
+        infura_api_key: ENVS.infura_api_key.to_string(),
+    });
     let wallet = ENVS.prfs_api_private_key.parse::<LocalWallet>()?;
     let launch_time: DateTime<Utc> = Utc::now();
 

@@ -16,7 +16,8 @@ pub struct Paths {
 
 impl Paths {
     pub fn new() -> Paths {
-        let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        let ws_root = std::env::var("PRFS_WORKSPACE_ROOT").unwrap();
+        let manifest_dir = PathBuf::from(ws_root);
         let workspace_dir = manifest_dir
             .parent()
             .unwrap()

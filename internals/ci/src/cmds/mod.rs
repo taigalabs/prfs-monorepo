@@ -17,7 +17,6 @@ pub mod dev_snap;
 
 // prod mode
 pub mod start_prfs_api_server;
-pub mod start_prfs_api_server_local;
 pub mod start_prfs_asset_server;
 pub mod start_prfs_console_webapp;
 pub mod start_prfs_docs_website;

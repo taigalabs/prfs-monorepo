@@ -15,7 +15,6 @@ use serde::Deserialize;
 use serde::Serialize;
 use serde_json::json;
 
-use crate::envs::ENVS;
 use crate::WebFetcherError;
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -36,10 +35,15 @@ pub struct InfuraFetcher {
     pub api_key: String,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+pub struct InfuraFetcherOpt {
+    pub infura_api_key: String,
+}
+
 impl InfuraFetcher {
-    pub fn new() -> InfuraFetcher {
+    pub fn new(opt: InfuraFetcherOpt) -> InfuraFetcher {
         InfuraFetcher {
-            api_key: ENVS.infura_api_key.to_string(),
+            api_key: opt.infura_api_key.to_string(),
         }
     }
 

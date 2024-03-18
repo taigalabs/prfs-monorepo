@@ -1,5 +1,6 @@
 services:
   prfs_api_server:
+    command: tail -F anything
     build:
       context: ../../../
       dockerfile: ./internals/docker/prfs_api_server/Dockerfile
@@ -9,7 +10,9 @@ services:
         GIT_COMMIT_HASH: ${GIT_COMMIT_HASH}
     ports:
       - "4000:4000"
+
   prfs_api_server_local:
+    command: tail -F anything
     build:
       context: ../../../
       dockerfile: ./internals/docker/prfs_api_server/Dockerfile

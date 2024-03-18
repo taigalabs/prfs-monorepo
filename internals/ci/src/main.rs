@@ -2,6 +2,7 @@ mod build_cmd;
 mod build_handle;
 mod cmds;
 mod deps;
+mod envs;
 mod paths;
 mod utils;
 
@@ -11,10 +12,9 @@ use crate::{
         build_prfs_crypto_js, dev_prfs_api_server, dev_prfs_asset_server, dev_prfs_console_webapp,
         dev_prfs_docs_website, dev_prfs_id_webapp, dev_prfs_poll_webapp, dev_prfs_proof_webapp,
         dev_shy_webapp, docker_run_default, docker_run_default_local, docker_run_prfs_proof_webapp,
-        seed_prfs_api_data, seed_shy_api_data, start_prfs_api_server, start_prfs_api_server_local,
-        start_prfs_asset_server, start_prfs_console_webapp, start_prfs_docs_website,
-        start_prfs_id_webapp, start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp,
-        vercel_deploy,
+        seed_prfs_api_data, seed_shy_api_data, start_prfs_api_server, start_prfs_asset_server,
+        start_prfs_console_webapp, start_prfs_docs_website, start_prfs_id_webapp,
+        start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp, vercel_deploy,
     },
 };
 use chrono::prelude::*;
@@ -46,7 +46,6 @@ fn main() {
         .subcommand(command!("dev_snap"))
         // prod mode
         .subcommand(command!(start_prfs_api_server::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!(start_prfs_api_server_local::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_asset_server::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_console_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_proof_webapp::CMD_NAME).arg(Arg::new("extra_args")))
@@ -124,9 +123,6 @@ fn main() {
         // prod mode
         Some((start_prfs_api_server::CMD_NAME, sub_matches)) => {
             start_prfs_api_server::run(sub_matches);
-        }
-        Some((start_prfs_api_server_local::CMD_NAME, sub_matches)) => {
-            start_prfs_api_server_local::run(sub_matches);
         }
         Some((start_prfs_asset_server::CMD_NAME, sub_matches)) => {
             start_prfs_asset_server::run(sub_matches);
