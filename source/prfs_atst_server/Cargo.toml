@@ -6,8 +6,6 @@ edition = "2021"
 
 [dependencies]
 colored = "2.0"
-ethers-signers = "2.0.10"
-ethers-core = "2.0.10"
 tokio = { version = "1", features = ["full"] }
 tokio-stream = "0.1"
 tokio-postgres = "0.7"
@@ -17,7 +15,6 @@ serde_json = "1.0"
 serde_urlencoded = "0.7"
 log = "0.4"
 chrono = "0.4"
-hex = "0.4.3"
 dotenvy = "0.15"
 envy = "0.4"
 rust_decimal = { version = "1.29", features = ["db-postgres"] }
@@ -25,9 +22,6 @@ rust_decimal_macros = "1.29"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
 tracing-appender = "0.2"
-csv = "1.2.2"
-git2 = "0.18.1"
-url = "2.5.0"
 
 prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_api_rs = { path = "../prfs_api_rs" }
