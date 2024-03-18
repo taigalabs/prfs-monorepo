@@ -32,6 +32,7 @@ fn run_docker(_extra_args: Vec<&str>) {
             "--no-deps",
             "prfs_api_server",
         ])
+        .env("GIT_COMMIT_HASH", "123")
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 

@@ -3,5 +3,19 @@ services:
     build:
       context: ../../../
       dockerfile: ./internals/docker/prfs_api_server/Dockerfile
+      args:
+        CI_CMD: start_prfs_api_server
+        RUST_VERSION: 1.76
+        GIT_COMMIT_HASH: ${GIT_COMMIT_HASH}
+    ports:
+      - "4000:4000"
+  prfs_api_server_local:
+    build:
+      context: ../../../
+      dockerfile: ./internals/docker/prfs_api_server/Dockerfile
+      args:
+        CI_CMD: start_prfs_api_server_local
+        RUST_VERSION: 1.76
+        GIT_COMMIT_HASH: ${GIT_COMMIT_HASH}
     ports:
       - "4000:4000"

@@ -15,7 +15,7 @@ pub struct ServerState {
     pub db2: Database2,
     pub wallet: Wallet<SigningKey>,
     pub launch_time: DateTime<Utc>,
-    pub commit_hash: Oid,
+    pub commit_hash: String,
     // prfs_atst_server
     pub infura_fetcher: InfuraFetcher,
     // prfs_id_session_server

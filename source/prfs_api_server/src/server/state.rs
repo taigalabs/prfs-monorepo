@@ -13,17 +13,20 @@ use tokio::sync::Mutex;
 use crate::{envs::ENVS, paths::PATHS, ApiServerError};
 
 pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
-    let repo = match Repository::open(&PATHS.workspace_dir) {
-        Ok(repo) => repo,
-        Err(e) => panic!("failed to init: {}", e),
-    };
+    // let repo = match Repository::open(&PATHS.workspace_dir) {
+    //     Ok(repo) => repo,
+    //     Err(e) => panic!("failed to init: {}", e),
+    // };
 
-    let commit_hash = {
-        let mut revwalk = repo.revwalk().unwrap();
-        revwalk.push_head()?;
-        let commit_hash = revwalk.next().unwrap().unwrap();
-        commit_hash
-    };
+    // let commit_hash = {
+    //     let mut revwalk = repo.revwalk().unwrap();
+    //     revwalk.push_head()?;
+    //     let commit_hash = revwalk.next().unwrap().unwrap();
+    //     commit_hash
+    // };
+    //
+    let commit_hash = std::env::var("GIT_COMMIT_HASH").unwrap_or("aaa".to_string());
+    println!("123 : {:?}", commit_hash);
 
     let db2 = {
         let pg_endpoint = &ENVS.postgres_endpoint;
