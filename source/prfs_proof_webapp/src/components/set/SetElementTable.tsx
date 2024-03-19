@@ -28,12 +28,7 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
     }
   }, [row.label]);
   const data = React.useMemo(() => {
-    const d = JSON.stringify(row.data);
-    if (d.length > 16) {
-      return d.substring(0, 16) + "...";
-    } else {
-      return d;
-    }
+    return JSON.stringify(row.data);
   }, [row.data]);
   const handleClick = React.useCallback(() => {
     router.push(`${paths.sets}/${row.set_id}/${row.label}`);

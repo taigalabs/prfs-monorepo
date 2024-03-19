@@ -41,7 +41,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
 
   const cryptoAssets = React.useMemo(() => {
     if (typeof atst.meta === "object") {
-      return `${JSON.stringify(atst.meta).substring(0, 20)}...`;
+      return JSON.stringify(atst.meta);
     } else {
       return "";
     }
