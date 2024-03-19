@@ -7,6 +7,7 @@ import { verifyMessage } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import { useSignMessage } from "@taigalabs/prfs-crypto-deps-js/wagmi";
+import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./SignatureItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -23,21 +24,13 @@ import {
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
 import {
-  AttestationStep,
   CM,
   CryptoAssetSizeAtstFormData,
   SIGNATURE,
   WALLET_ADDR,
 } from "./create_crypto_asset_size_atst";
-import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
-const SignatureItem: React.FC<SigantureItemProps> = ({
-  // step,
-  formData,
-  setFormData,
-  // claimCm,
-  setIsSigValid,
-}) => {
+const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, setIsSigValid }) => {
   const i18n = React.useContext(i18nContext);
   const { signMessageAsync } = useSignMessage();
   const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
@@ -179,8 +172,6 @@ const SignatureItem: React.FC<SigantureItemProps> = ({
 export default SignatureItem;
 
 export interface SigantureItemProps {
-  // step: AttestationStep;
-  // claimCm: string | null;
   formData: CryptoAssetSizeAtstFormData;
   setFormData: React.Dispatch<React.SetStateAction<CryptoAssetSizeAtstFormData>>;
   setIsSigValid: React.Dispatch<React.SetStateAction<boolean>>;

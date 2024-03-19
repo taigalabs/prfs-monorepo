@@ -36,7 +36,6 @@ import {
 } from "@/components/create_attestation/CreateAtstComponents";
 import { paths } from "@/paths";
 import {
-  AttestationStep,
   CryptoAssetSizeAtstFormData,
   SIGNATURE,
   CM,
@@ -76,14 +75,12 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     [SIGNATURE]: "",
     [CM]: "",
   });
-  // const [claimCm, setClaimCm] = React.useState<string | null>(null);
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<Record<string, string> | null>(null);
   const [fetchAssetStatus, setFetchAssetStatus] = React.useState<Status>(Status.Standby);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [fetchAssetMsg, setFetchAssetMsg] = React.useState<React.ReactNode>(null);
   const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
   const [cryptoAssets, setCryptoAssets] = React.useState<CryptoAsset[] | null>(null);
-  // const [step, setStep] = React.useState(AttestationStep.INPUT_WALLET_ADDR);
   const { mutateAsync: getLeastRecentPrfsIndex } = useMutation({
     mutationFn: (req: GetLeastRecentPrfsIndexRequest) => {
       return prfsApi3({ type: "get_least_recent_prfs_index", prfs_indices: req.prfs_indices });
@@ -194,8 +191,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
 
   const handleClickCreate = React.useCallback(async () => {
     if (
-      // cryptoAssets &&
-      // cryptoAssets.length > 0 &&
       isFormFilled(formData) &&
       createStatus === Status.Standby &&
       walletCacheKeys &&
@@ -236,7 +231,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
             label: wallet_addr,
             serial_no: "empty",
             cm,
-            // meta: cryptoAssets,
           });
           setCreateStatus(Status.Standby);
 
@@ -356,16 +350,12 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
               </AttestationListRightCol>
             </AttestationListItem>
             <ClaimSecretItem
-              // claimCm={claimCm}
-              // setClaimCm={setClaimCm}
               formData={formData}
               handleChangeCm={handleChangeCm}
               setWalletCacheKeys={setWalletCacheKeys}
               setWalletAddrEnc={setWalletAddrEnc}
-              // setStep={setStep}
             />
             <SignatureItem
-              // claimCm={claimCm}
               formData={formData}
               setFormData={setFormData}
               setIsSigValid={setIsSigValid}

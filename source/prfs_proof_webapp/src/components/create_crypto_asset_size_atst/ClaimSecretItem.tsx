@@ -35,7 +35,7 @@ import {
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
 import {
-  AttestationStep,
+  // AttestationStep,
   CM,
   CryptoAssetSizeAtstFormData,
   ENCRYPT_WALLET_ADDR,
@@ -43,15 +43,10 @@ import {
 } from "./create_crypto_asset_size_atst";
 
 const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
-  // step,
-  // claimCm,
-  // setClaimCm,
   formData,
   handleChangeCm,
-  // setClaimCm,
   setWalletCacheKeys,
   setWalletAddrEnc,
-  // setStep,
 }) => {
   const i18n = React.useContext(i18nContext);
   const claimSecret = React.useMemo(() => {
@@ -164,7 +159,6 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         handleChangeCm(cm.commitment);
         setWalletCacheKeys(walletCacheKeys);
         setWalletAddrEnc(walletAddrEncrypted.encrypted);
-        // setStep(AttestationStep.POST_TWEET);
       } else {
         console.error("no commitment delivered");
         return;
@@ -202,11 +196,8 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
 export default ClaimSecretItem;
 
 export interface ClaimSecretItemProps {
-  // step: AttestationStep;
-  // claimCm: string | null;
   handleChangeCm: (cm: string) => void;
   formData: CryptoAssetSizeAtstFormData;
   setWalletCacheKeys: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
   setWalletAddrEnc: React.Dispatch<React.SetStateAction<string | null>>;
-  // setStep: React.Dispatch<React.SetStateAction<AttestationStep>>;
 }
