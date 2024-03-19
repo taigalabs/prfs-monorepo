@@ -2,7 +2,7 @@ use prfs_api_rs::api::create_prfs_proof_record;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
-use prfs_crypto::signature::verify_eth_sig;
+use prfs_crypto::signature::verify_eth_sig_by_pk;
 use prfs_db_driver::sqlx;
 use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordResponse};
@@ -43,7 +43,7 @@ pub async fn create_shy_topic(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
-    if let Err(err) = verify_eth_sig(&input.author_sig, &msg, &input.author_public_key) {
+    if let Err(err) = verify_eth_sig_by_pk(&input.author_sig, &msg, &input.author_public_key) {
         let resp = ApiResponse::new_error(
             &SHY_API_ERROR_CODES.INVALID_SIG,
             format!("sig: {}, err: {}", input.author_sig, err),

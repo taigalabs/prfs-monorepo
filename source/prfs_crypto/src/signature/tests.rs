@@ -1,4 +1,4 @@
-use super::verify_eth_sig;
+use super::signature::verify_eth_sig_by_pk;
 
 #[tokio::test]
 async fn test_verify_eth_sig_1() {
@@ -42,7 +42,7 @@ async fn test_verify_eth_sig_1() {
     let sig_hex = format!("0x{}", hex::encode(sig_bytes));
     println!("sig_hex: {}", sig_hex);
 
-    let addr2 = verify_eth_sig(&sig_hex, &msg, &vk_hex).unwrap();
+    let addr2 = verify_eth_sig_by_pk(&sig_hex, &msg, &vk_hex).unwrap();
     println!("addr: {}", addr2);
 }
 
@@ -61,7 +61,7 @@ async fn test_verify_eth_sig_2() {
         133, 136, 227, 132, 183, 60, 47, 112, 62, 34, 125,
     ];
     let vk_hex = "0x02f4068680af14b83162804307b55e45519133e3b23fcaed4e1013dc26c6473c78";
-    let addr2 = verify_eth_sig(&sig_hex, &msg, &vk_hex).unwrap();
+    let addr2 = verify_eth_sig_by_pk(&sig_hex, &msg, &vk_hex).unwrap();
     println!("addr: {}", addr2);
 }
 
@@ -81,6 +81,6 @@ async fn test_verify_eth_sig_3() {
         133, 136, 227, 132, 183, 60, 47, 112, 62, 34, 125,
     ];
     let pubkey = "0xa1631ba251a818e6a4d90ca9b7230ff574e5ede0e9d7b22f5b3136364683b61a";
-    let addr2 = verify_eth_sig(&sig_hex, &msg, &pubkey).unwrap();
+    let addr2 = verify_eth_sig_by_pk(&sig_hex, &msg, &pubkey).unwrap();
     println!("addr: {}", addr2);
 }

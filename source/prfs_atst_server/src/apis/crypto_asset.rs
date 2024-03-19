@@ -4,7 +4,7 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::ApiHandleError;
 use prfs_common_server_state::ServerState;
-use prfs_crypto::signature::verify_eth_sig;
+use prfs_crypto::signature::verify_eth_sig_by_addr;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api::{
@@ -56,13 +56,15 @@ pub async fn create_crypto_asset_size_atst(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    // if let Err(err) = verify_eth_sig(&input.sig, &input.cm.to_by, &input.label) {
-    //     let resp = ApiResponse::new_error(
-    //         &PRFS_ATST_API_ERROR_CODES.INVALID_SIG,
-    //         format!("sig: {}, err: {}", input.sig, err),
-    //     );
-    //     return (StatusCode::BAD_REQUEST, Json(resp));
-    // }
+    println!("power: {:?}", input);
+
+    if let Err(err) = verify_eth_sig_by_addr(&input.sig, &input.cm_msg, &input.label) {
+        let resp = ApiResponse::new_error(
+            &PRFS_ATST_API_ERROR_CODES.INVALID_SIG,
+            format!("sig: {}, err: {}", input.sig, err),
+        );
+        return (StatusCode::BAD_REQUEST, Json(resp));
+    }
 
     let prfs_attestation = PrfsAttestation {
         atst_id: input.atst_id,

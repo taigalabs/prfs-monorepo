@@ -19,6 +19,7 @@ import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIn
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 import { verifyMessage } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
+import { Wallet, utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 
 import styles from "./CreateCryptoAssetSizeAtst.module.scss";
 import {
@@ -44,6 +45,7 @@ import {
 import SignatureItem from "./SignatureItem";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
+import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 
 enum Status {
   Standby,
@@ -200,16 +202,17 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
         const wallet_addr = formData[WALLET_ADDR];
         const cm = formData[CM];
 
-        const isSigValid = await verifyMessage({
-          address: wallet_addr as any,
-          message: cm,
-          signature: sig as any,
-        });
+        // const isSigValid = await verifyMessage({
+        //   address: wallet_addr as any,
+        //   message: cm,
+        //   signature: sig as any,
+        // });
+        const cm_msg = toUtf8Bytes(cm);
+        const recoveredAddr = walletUtils.verifyMessage(cm_msg, sig);
 
-        if (!isSigValid) {
+        if (recoveredAddr !== wallet_addr) {
           setError(<span>Signature is not valid</span>);
         }
-        const cm_msg = toUtf8Bytes(cm);
 
         // For now, we don't obfuscate attestation id
         const atst_id = `ETH_${formData[WALLET_ADDR]}`;
@@ -327,7 +330,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                   <div className={styles.btnRow}>
                     <button type="button" onClick={handleClickFetchAsset} className={styles.btn}>
                       <HoverableText disabled={formData.wallet_addr.length === 0}>
-                        {i18n.how_much_do_i_have}
+                        {i18n.what_do_i_have}
                       </HoverableText>
                     </button>
                     <div className={styles.msg}>
@@ -397,7 +400,11 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 )}
               </Button>
             </div>
-            {error && <div className={cn(styles.createBtnRow, styles.error)}>{error}</div>}
+            {error && (
+              <ErrorBox className={cn(styles.error)} rounded>
+                {error}
+              </ErrorBox>
+            )}
           </AttestationFormBtnRow>
         </form>
       </div>
