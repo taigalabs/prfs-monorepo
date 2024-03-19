@@ -72,7 +72,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
               if (error) {
                 dispatch(
                   setGlobalError({
-                    errorObj: error,
+                    // errorObj: error,
                     message: "Failed to sign up",
                   }),
                 );
@@ -91,7 +91,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
             } else {
               dispatch(
                 setGlobalError({
-                  errorObj: error,
+                  // errorObj: error,
                   message: "Failed to sign up",
                 }),
               );

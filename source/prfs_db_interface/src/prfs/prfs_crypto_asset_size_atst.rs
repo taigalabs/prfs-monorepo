@@ -35,7 +35,7 @@ RETURNING atst_id"#;
     return Ok(atst_id);
 }
 
-pub async fn get_prfs_crypto_asset_size_atsts(
+pub async fn get_prfs_attestations(
     pool: &Pool<Postgres>,
     offset: i32,
     limit: i32,
@@ -45,6 +45,7 @@ SELECT *
 FROM prfs_attestations
 LIMIT $1
 OFFSET $2
+ORDER BY created_at
 "#;
 
     let rows = sqlx::query(query)

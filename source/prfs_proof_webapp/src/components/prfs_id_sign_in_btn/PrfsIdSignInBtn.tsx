@@ -62,7 +62,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
       if (!signInResult.account_id || !signInResult.public_key) {
         dispatch(
           setGlobalError({
-            errorObj: "",
             message: `Invalid sign in result, result: ${signInResult}`,
           }),
         );
@@ -90,7 +89,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
           if (error) {
             dispatch(
               setGlobalError({
-                errorObj: error,
+                // errorObj: error,
                 message: `Error signing up, err: ${error.toString()}`,
               }),
             );
@@ -103,7 +102,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         } else {
           dispatch(
             setGlobalError({
-              errorObj: error,
+              // errorObj: error,
               message: `Error signing in, err: ${error.toString()}`,
             }),
           );

@@ -84,7 +84,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           setCreateProofStatus(Status.Standby);
           dispatch(
             setGlobalError({
-              errorObj: "",
               message: "Session may be old. Re-try after closing the window",
               shouldCloseWindow: true,
             }),
@@ -238,7 +237,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         dispatch(
           setGlobalError({
             message: `Failed to generate proof, ${err.toString()}`,
-            errorObj: err,
+            // errorObj: err,
           }),
         );
         setCreateProofStatus(Status.Standby);

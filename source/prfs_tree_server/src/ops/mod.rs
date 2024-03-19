@@ -12,22 +12,12 @@ const LIMIT: i32 = 20;
 pub async fn _import_prfs_attestations_to_prfs_set(
     pool: &Pool<Postgres>,
     tx: &mut Transaction<'_, Postgres>,
-    // src_type: &String,
-    // src_id: &String,
     topic: &String,
     dest_set_id: &String,
 ) -> Result<(String, u64), PrfsTreeServerError> {
-    // if src_type != PRFS_ATTESTATION {
-    //     return Err("Currently only PRFS_ATTESTATION is importable".into());
-    // }
-
-    // if src_id != CRYPTO_ASSET_SIZE_ATSTS {
-    //     return Err("Currently only CRYPTO_ASSET_SIZE_ATSTS is importable".into());
-    // }
-
     let rows_deleted = prfs::delete_prfs_set_elements(tx, &dest_set_id).await?;
 
-    let atsts = prfs::get_prfs_crypto_asset_size_atsts(&pool, 0, 50000).await?;
+    let atsts = prfs::get_prfs_attestations(&pool, 0, 50000).await?;
 
     if atsts.len() > 65536 {
         return Err("Currently we can produce upto 65536 items".into());

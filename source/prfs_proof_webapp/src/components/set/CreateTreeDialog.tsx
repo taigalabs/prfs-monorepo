@@ -7,7 +7,7 @@ import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreatePrfsTreeByPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsTreeByPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { rand256Hex } from "@taigalabs/prfs-crypto-js";
-import { abbrevMandN } from "@taigalabs/prfs-ts-utils";
+import { abbrev7and5, abbrevMandN } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./CreateTreeDialog.module.scss";
 import common from "@/styles/common.module.scss";
@@ -127,7 +127,7 @@ const CreateTreeDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender
                 </div>
                 <div>
                   <span className={styles.title}>{i18n.tree_id}</span>
-                  <span>{abbrevMandN(payload.tree_id, 5, 5)}</span>
+                  <span>{abbrev7and5(payload.tree_id)}</span>
                 </div>
               </div>
             </>,
