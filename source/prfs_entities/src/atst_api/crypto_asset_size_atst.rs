@@ -94,6 +94,8 @@ pub struct CreateCryptoAssetSizeAtstRequest {
     pub label: String,
     pub serial_no: String,
     pub cm: String,
+    pub cm_msg: Vec<u8>,
+    pub sig: String,
     // pub meta: Vec<CryptoAsset>,
 }
 

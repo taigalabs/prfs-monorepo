@@ -7,4 +7,6 @@ export interface CreateCryptoAssetSizeAtstRequest {
   label: string;
   serial_no: string;
   cm: string;
+  cm_msg: Array<number>;
+  sig: string;
 }

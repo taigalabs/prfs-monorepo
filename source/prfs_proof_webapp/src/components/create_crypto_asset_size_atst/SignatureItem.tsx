@@ -8,6 +8,7 @@ import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import { useSignMessage } from "@taigalabs/prfs-crypto-deps-js/wagmi";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
+// import { Wallet, utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 
 import styles from "./SignatureItem.module.scss";
 import common from "@/styles/common.module.scss";

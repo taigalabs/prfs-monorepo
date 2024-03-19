@@ -18,6 +18,7 @@ import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/binding
 import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 import { verifyMessage } from "@taigalabs/prfs-crypto-deps-js/viem";
+import { toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CreateCryptoAssetSizeAtst.module.scss";
 import {
@@ -208,6 +209,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
         if (!isSigValid) {
           setError(<span>Signature is not valid</span>);
         }
+        const cm_msg = toUtf8Bytes(cm);
 
         // For now, we don't obfuscate attestation id
         const atst_id = `ETH_${formData[WALLET_ADDR]}`;
@@ -243,6 +245,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
             label: wallet_addr,
             serial_no: "empty",
             cm,
+            cm_msg,
+            sig,
           });
           setCreateStatus(Status.Standby);
 

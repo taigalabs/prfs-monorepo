@@ -11,5 +11,6 @@ generate_api_error_codes! {
     (String::from("4000000"), UNKNOWN_ERROR, "Unknown error");
     (String::from("4000001"), TWITTER_ACC_VALIDATE_FAIL, "Twitter account validation fail");
     (String::from("4000002"), TWITTER_ACC_ATST_INSERT_FAIL, "Twitter account attestation insert fail");
+    (String::from("4000A00"), INVALID_SIG, "Signature is invalid");
     (String::from("4000003"), CRYPTO_SIZE_UPSERT_FAIL, "Crypto size upsert fail");
 }
