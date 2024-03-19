@@ -56,8 +56,6 @@ pub async fn create_crypto_asset_size_atst(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    println!("power: {:?}", input);
-
     if let Err(err) = verify_eth_sig_by_addr(&input.sig, &input.cm_msg, &input.label) {
         let resp = ApiResponse::new_error(
             &PRFS_ATST_API_ERROR_CODES.INVALID_SIG,
@@ -66,12 +64,23 @@ pub async fn create_crypto_asset_size_atst(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
+    let crypto_assets = match state.infura_fetcher.fetch_asset(&input.label).await {
+        Ok(a) => a.crypto_assets,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &PRFS_ATST_API_ERROR_CODES.FETCH_CRYPTO_ASSET_FAIL,
+                err.to_string(),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
     let prfs_attestation = PrfsAttestation {
         atst_id: input.atst_id,
         atst_type: input.atst_type.clone(),
         label: input.label.to_string(),
         cm: input.cm,
-        meta: JsonType::from(vec![]),
+        meta: JsonType::from(crypto_assets),
         status: PrfsAtstStatus::Valid,
         value: Decimal::from(0),
     };
