@@ -16,6 +16,7 @@ import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoAssetSizeAtstRequest";
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
+import hoverableTextStyles from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText.module.scss";
 
 import styles from "./CreateCryptoAssetSizeAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -297,7 +298,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                   />
                   <div className={styles.btnRow}>
                     <button type="button">
-                      <span>{i18n.fetch_asset}</span>
+                      <span className={hoverableTextStyles.hoverableText}>{i18n.fetch_asset}</span>
                       {fetchAssetStatus === Status.InProgress && (
                         <Spinner size={14} color={colors.gray_32} borderWidth={2} />
                       )}

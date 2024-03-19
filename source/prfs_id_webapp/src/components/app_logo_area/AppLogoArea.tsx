@@ -6,9 +6,9 @@ import styles from "./AppLogoArea.module.scss";
 
 export const AppLogoArea: React.FC<AppLogoAreaProps> = ({ className, subLabel }) => {
   return (
-    <div className={styles.wrapper}>
+    <div className={cn(styles.wrapper, className)}>
       <ImageLogo className={styles.imageLogo} />
-      {subLabel && <span>ID</span>}
+      {subLabel && <span>{subLabel}</span>}
     </div>
   );
 };
