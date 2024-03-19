@@ -9,11 +9,13 @@ use prfs_entities::tree_api::{
 use prfs_tree_api_error_codes::PRFS_TREE_API_ERROR_CODES;
 use std::sync::Arc;
 
+use crate::ops::_import_prfs_attestations_to_prfs_set;
+
 const LIMIT: i32 = 20;
 const PRFS_ATTESTATION: &str = "prfs_attestation";
 const CRYPTO_ASSET_SIZE_ATSTS: &str = "crypto_asset_size_atsts";
 
-pub async fn import_prfs_set_elements(
+pub async fn import_prfs_attestations_to_prfs_set(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<ImportPrfsSetElementsRequest>,
 ) -> (StatusCode, Json<ApiResponse<ImportPrfsSetElementsResponse>>) {
@@ -21,56 +23,40 @@ pub async fn import_prfs_set_elements(
     let mut tx = match pool.begin().await {
         Ok(t) => t,
         Err(err) => {
-            let resp = ApiResponse::new_error(
-                &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!("error starting db transaction: {}", err),
-            );
+            let resp =
+                ApiResponse::new_error(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
 
-    if input.src_type != PRFS_ATTESTATION {
-        let resp = ApiResponse::new_error(
-            &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-            "Currently only PRFS_ATTESTATION is importable".into(),
-        );
-        return (StatusCode::BAD_REQUEST, Json(resp));
-    }
+    let (set_id, rows_affected) = match _import_prfs_attestations_to_prfs_set(
+        &pool,
+        &mut tx,
+        &input.src_type,
+        &input.src_id,
+        &input.dest_set_id,
+    )
+    .await
+    {
+        Ok(r) => r,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
-    if input.src_id != CRYPTO_ASSET_SIZE_ATSTS {
-        let resp = ApiResponse::new_error(
-            &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-            "Currently only CRYPTO_ASSET_SIZE_ATSTS is importable".into(),
-        );
-        return (StatusCode::BAD_REQUEST, Json(resp));
-    }
-
-    prfs::delete_prfs_set_elements(&mut tx, &input.dest_set_id)
-        .await
-        .unwrap();
-
-    let atsts = prfs::get_prfs_crypto_asset_size_atsts(&pool, 0, 50000)
-        .await
-        .map_err(|err| ApiHandleError::from(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err))
-        .unwrap();
-
-    if atsts.len() > 65536 {
-        let resp = ApiResponse::new_error(
-            &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-            "Currently we can produce upto 65536 items".into(),
-        );
-        return (StatusCode::BAD_REQUEST, Json(resp));
-    }
-
-    let rows_affected =
-        prfs::insert_asset_atsts_as_prfs_set_elements(&mut tx, atsts, &input.dest_set_id)
-            .await
-            .map_err(|err| ApiHandleError::from(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err))
-            .unwrap();
-    tx.commit().await.unwrap();
+    match tx.commit().await {
+        Ok(_) => (),
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let resp = ApiResponse::new_success(ImportPrfsSetElementsResponse {
-        set_id: input.dest_set_id.to_string(),
+        set_id,
         rows_affected,
     });
     return (StatusCode::OK, Json(resp));

@@ -25,10 +25,9 @@ pub fn make_tree_api_v0_router() -> Router<Arc<ServerState>> {
             post(prfs_set_elements::get_prfs_set_element),
         )
         .route(
-            "/import_prfs_set_elements",
-            post(prfs_set_elements::import_prfs_set_elements),
+            "/import_prfs_attestations_to_prfs_set",
+            post(prfs_set_elements::import_prfs_attestations_to_prfs_set),
         );
-    // .route("/create_shy_post", post(posts::create_shy_post))
 
     router
 }
