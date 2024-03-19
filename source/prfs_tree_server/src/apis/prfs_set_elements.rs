@@ -16,8 +16,6 @@ use std::sync::Arc;
 use crate::ops::_import_prfs_attestations_to_prfs_set;
 
 const LIMIT: i32 = 20;
-// const PRFS_ATTESTATION: &str = "prfs_attestation";
-// const CRYPTO_ASSET_SIZE_ATSTS: &str = "crypto_asset_size_atsts";
 
 pub async fn import_prfs_attestations_to_prfs_set(
     State(state): State<Arc<ServerState>>,
@@ -28,6 +26,7 @@ pub async fn import_prfs_attestations_to_prfs_set(
 ) {
     let pool = &state.db2.pool;
     let mut tx = bail_out_tx!(pool, &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR);
+    println!("123");
 
     let (set_id, rows_affected) = match _import_prfs_attestations_to_prfs_set(
         &pool,
@@ -44,6 +43,7 @@ pub async fn import_prfs_attestations_to_prfs_set(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
+    println!("1233");
 
     bail_out_tx_commit!(tx, &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR);
     let resp = ApiResponse::new_success(ImportPrfsAttestationsToPrfsSetResponse {

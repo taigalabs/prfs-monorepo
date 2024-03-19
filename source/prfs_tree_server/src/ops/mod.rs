@@ -25,19 +25,16 @@ pub async fn _import_prfs_attestations_to_prfs_set(
     //     return Err("Currently only CRYPTO_ASSET_SIZE_ATSTS is importable".into());
     // }
 
-    prfs::delete_prfs_set_elements(tx, &dest_set_id).await?;
+    let rows_deleted = prfs::delete_prfs_set_elements(tx, &dest_set_id).await?;
 
-    let atsts = prfs::get_prfs_crypto_asset_size_atsts(&pool, 0, 50000)
-        .await
-        .map_err(|err| ApiHandleError::from(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err))?;
+    let atsts = prfs::get_prfs_crypto_asset_size_atsts(&pool, 0, 50000).await?;
 
     if atsts.len() > 65536 {
         return Err("Currently we can produce upto 65536 items".into());
     }
 
-    let rows_affected = prfs::insert_asset_atsts_as_prfs_set_elements(tx, atsts, &dest_set_id)
-        .await
-        .map_err(|err| ApiHandleError::from(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err))?;
+    let rows_affected =
+        prfs::insert_asset_atsts_as_prfs_set_elements(tx, atsts, &dest_set_id).await?;
 
     return Ok((dest_set_id.to_string(), rows_affected));
 }
