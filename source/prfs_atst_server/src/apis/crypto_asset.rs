@@ -162,12 +162,12 @@ pub async fn compute_crypto_asset_size_total_values(
     Json<ApiResponse<ComputeCryptoAssetSizeTotalValuesResponse>>,
 ) {
     let pool = &state.db2.pool;
-    if MASTER_ACCOUNT_IDS.contains(&input.account_id.as_ref()) {
+    if !MASTER_ACCOUNT_IDS.contains(&input.account_id.as_ref()) {
         return (
             StatusCode::BAD_REQUEST,
             Json(ApiResponse::new_error(
                 &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                "Account is not master".into(),
+                format!("Account is not master, id: {}", input.account_id),
             )),
         );
     }

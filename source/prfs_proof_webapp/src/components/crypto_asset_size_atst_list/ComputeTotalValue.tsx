@@ -47,7 +47,7 @@ const Modal: React.FC<ModalProps> = ({
         <p>{i18n.this_might_take_minutes_or_longer}</p>
         <div className={styles.computeMsg}>{computeMsg}</div>
       </DefaultModalDesc>
-      <ErrorBox rounded>{error}</ErrorBox>
+      {error && <ErrorBox rounded>{error}</ErrorBox>}
       <DefaultModalBtnRow>
         <Button
           variant="transparent_black_1"
