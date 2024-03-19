@@ -12,11 +12,12 @@
 }
 
 .modalDesc {
-  padding: 24px 0;
+  padding: 24px 0 14px;
   color: var(--gray-20);
 }
 
 .modalBtnRow {
   display: flex;
   justify-content: space-between;
+  padding-top: 14px;
 }

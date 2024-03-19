@@ -167,12 +167,24 @@ pub async fn compute_crypto_asset_size_total_values(
             StatusCode::BAD_REQUEST,
             Json(ApiResponse::new_error(
                 &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                "".into(),
+                "Account is not master".into(),
             )),
         );
     }
 
-    let exchange_rates = coinbase::get_exchange_rates("ETH").await.unwrap();
+    let exchange_rates = match coinbase::get_exchange_rates("ETH").await {
+        Ok(r) => r,
+        Err(err) => {
+            return (
+                StatusCode::BAD_REQUEST,
+                Json(ApiResponse::new_error(
+                    &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
+                    err.to_string(),
+                )),
+            );
+        }
+    };
+
     let atsts = match prfs::get_prfs_crypto_asset_size_atsts(&pool, 0, 50000).await {
         Ok(a) => a,
         Err(err) => {

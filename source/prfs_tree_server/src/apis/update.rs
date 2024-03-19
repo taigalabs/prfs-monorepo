@@ -24,7 +24,12 @@ pub async fn update_prfs_tree_by_new_atst(
         }
     };
 
-    println!("sets: {:?}", prfs_sets);
+    for set in prfs_sets {
+
+        // set.topic
+    }
+
+    // println!("sets: {:?}", prfs_sets);
     // let prfs_circuit_drivers = prfs::get_prfs_circuit_drivers(&pool).await;
 
     let resp = ApiResponse::new_success(UpdatePrfsTreeByNewAtstResponse {
