@@ -81,7 +81,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         return;
       }
 
-      if (title.length > 80) {
+      if (title.length > 100) {
         setError("Title needs to be shorter");
         return;
       }
