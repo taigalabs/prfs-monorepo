@@ -17,9 +17,9 @@ import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindi
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
+import { verifyMessage } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./CreateCryptoAssetSizeAtst.module.scss";
-import { i18nContext } from "@/i18n/context";
 import {
   AttestationsHeader,
   AttestationsHeaderRow,
@@ -28,7 +28,6 @@ import {
 import {
   AttestationFormBtnRow,
   AttestationListItem,
-  AttestationListItemBtn,
   AttestationListItemDesc,
   AttestationListItemDescTitle,
   AttestationListItemNo,
@@ -41,7 +40,6 @@ import {
   CM,
   WALLET_ADDR,
 } from "./create_crypto_asset_size_atst";
-import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import SignatureItem from "./SignatureItem";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
@@ -51,7 +49,7 @@ enum Status {
   InProgress,
 }
 
-function isFormFilled(formData: CryptoAssetSizeAtstFormData) {
+function checkIfFormIsFilled(formData: CryptoAssetSizeAtstFormData) {
   if (formData[WALLET_ADDR].length < 1) {
     return false;
   }
@@ -61,6 +59,7 @@ function isFormFilled(formData: CryptoAssetSizeAtstFormData) {
   if (formData[SIGNATURE].length < 1) {
     return false;
   }
+
   return true;
 }
 
@@ -79,7 +78,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   const [fetchAssetStatus, setFetchAssetStatus] = React.useState<Status>(Status.Standby);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [fetchAssetMsg, setFetchAssetMsg] = React.useState<React.ReactNode>(null);
-  const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
+  const [error, setError] = React.useState<React.ReactNode>(null);
   const [cryptoAssets, setCryptoAssets] = React.useState<CryptoAsset[] | null>(null);
   const { mutateAsync: getLeastRecentPrfsIndex } = useMutation({
     mutationFn: (req: GetLeastRecentPrfsIndexRequest) => {
@@ -189,17 +188,30 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     [setFormData],
   );
 
+  const isFormFilled = React.useMemo(() => {
+    return checkIfFormIsFilled(formData);
+  }, [formData]);
+
   const handleClickCreate = React.useCallback(async () => {
-    if (
-      isFormFilled(formData) &&
-      createStatus === Status.Standby &&
-      walletCacheKeys &&
-      walletAddrEnc
-    ) {
+    if (isFormFilled && createStatus === Status.Standby && walletCacheKeys && walletAddrEnc) {
       try {
+        const sig = formData[SIGNATURE];
+        const wallet_addr = formData[WALLET_ADDR];
+        const cm = formData[CM];
+
+        const isSigValid = await verifyMessage({
+          address: wallet_addr as any,
+          message: cm,
+          signature: sig as any,
+        });
+
+        if (!isSigValid) {
+          setError(<span>Signature is not valid</span>);
+        }
+
         // For now, we don't obfuscate attestation id
         const atst_id = `ETH_${formData[WALLET_ADDR]}`;
-        setCreateMsg(null);
+        setError(null);
 
         if (atst_id) {
           setCreateStatus(Status.InProgress);
@@ -209,7 +221,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           });
 
           if (indexError) {
-            setCreateMsg(<span>{indexError.toString()}</span>);
+            setError(<span>{indexError.toString()}</span>);
             setCreateStatus(Status.Standby);
             return;
           }
@@ -218,7 +230,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           if (indexPayload) {
             prfs_index = indexPayload.prfs_index;
           } else {
-            setCreateMsg(<span>Wallet cache key is invalid. Something's wrong</span>);
+            setError(<span>Wallet cache key is invalid. Something's wrong</span>);
             setCreateStatus(Status.Standby);
             return;
           }
@@ -235,7 +247,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           setCreateStatus(Status.Standby);
 
           if (error) {
-            setCreateMsg(<span>{error.toString()}</span>);
+            setError(<span>{error.toString()}</span>);
             setCreateStatus(Status.Standby);
             return;
           }
@@ -252,7 +264,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           });
         }
       } catch (err: any) {
-        setCreateMsg(<span>{err.toString()}</span>);
+        setError(<span>{err.toString()}</span>);
         setCreateStatus(Status.Standby);
       }
     }
@@ -260,9 +272,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     formData,
     cryptoAssets,
     setIsNavigating,
-    // claimCm,
     createCryptoSizeAtstRequest,
-    setCreateMsg,
+    setError,
     setCreateStatus,
     getLeastRecentPrfsIndex,
     router,
@@ -270,14 +281,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     addPrfsIndexRequest,
     walletAddrEnc,
   ]);
-
-  // React.useEffect(() => {
-  //   if (formData[WALLET_ADDR]?.length > 0) {
-  //     setStep(AttestationStep.GENERATE_CLAIM);
-  //   } else {
-  //     setStep(AttestationStep.INPUT_WALLET_ADDR);
-  //   }
-  // }, [setStep, cryptoAssets, formData]);
 
   return isNavigating ? (
     <div className={styles.sidePadding}>{i18n.not_available}...</div>
@@ -354,15 +357,13 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
               handleChangeCm={handleChangeCm}
               setWalletCacheKeys={setWalletCacheKeys}
               setWalletAddrEnc={setWalletAddrEnc}
+              walletCacheKeys={walletCacheKeys}
+              walletAddrEnc={walletAddrEnc}
             />
             <SignatureItem
               formData={formData}
               setFormData={setFormData}
               setIsSigValid={setIsSigValid}
-            />
-            <EncryptedWalletAddrItem
-              walletCacheKeys={walletCacheKeys}
-              walletAddrEnc={walletAddrEnc}
             />
           </ol>
           <AttestationFormBtnRow>
@@ -384,7 +385,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 handleClick={handleClickCreate}
                 noShadow
                 type="button"
-                disabled={!isSigValid || createStatus === Status.InProgress}
+                disabled={!isFormFilled || createStatus === Status.InProgress}
               >
                 <span>{i18n.create}</span>
                 {createStatus === Status.InProgress && (
@@ -392,7 +393,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                 )}
               </Button>
             </div>
-            {createMsg && <div className={cn(styles.createBtnRow, styles.error)}>{createMsg}</div>}
+            {error && <div className={cn(styles.createBtnRow, styles.error)}>{error}</div>}
           </AttestationFormBtnRow>
         </form>
       </div>

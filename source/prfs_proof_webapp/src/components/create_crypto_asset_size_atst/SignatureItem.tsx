@@ -16,7 +16,6 @@ import {
   AttestationContentBox,
   AttestationContentBoxBtnArea,
   AttestationListItem,
-  AttestationListItemBtn,
   AttestationListItemDesc,
   AttestationListItemDescTitle,
   AttestationListItemNo,
@@ -156,9 +155,9 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
                 />
               </div>
               <div className={styles.btnRow}>
-                <AttestationListItemBtn type="button" handleClick={handleClickValidate}>
-                  <span>{i18n.validate}</span>
-                </AttestationListItemBtn>
+                <button type="button" onClick={handleClickValidate}>
+                  <HoverableText>{i18n.validate}</HoverableText>
+                </button>
                 <div className={styles.msg}>{validationMsg}</div>
               </div>
             </div>

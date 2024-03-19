@@ -1,3 +1,10 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  padding-top: 24px;
+  color: var(--gray-20);
+}
+
 .content {
   font-size: 13px;
 }
@@ -20,4 +27,7 @@
   &:not(:first-child) {
     padding-left: 4px;
   }
+}
+
+@media screen and (min-width: $big_display_min_width) {
 }

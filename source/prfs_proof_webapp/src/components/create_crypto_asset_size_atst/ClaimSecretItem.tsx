@@ -35,16 +35,18 @@ import {
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
 import {
-  // AttestationStep,
   CM,
   CryptoAssetSizeAtstFormData,
   ENCRYPT_WALLET_ADDR,
   WALLET_ADDR,
 } from "./create_crypto_asset_size_atst";
+import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 
 const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   formData,
   handleChangeCm,
+  walletCacheKeys,
+  walletAddrEnc,
   setWalletCacheKeys,
   setWalletAddrEnc,
 }) => {
@@ -188,6 +190,12 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
           </AttestationListItemBtn>
           <p className={cn(styles.value, common.alignItemCenter)}>{formData[CM]}</p>
         </div>
+        {walletCacheKeys && (
+          <EncryptedWalletAddrItem
+            walletCacheKeys={walletCacheKeys}
+            walletAddrEnc={walletAddrEnc}
+          />
+        )}
       </AttestationListRightCol>
     </AttestationListItem>
   );
@@ -200,4 +208,6 @@ export interface ClaimSecretItemProps {
   formData: CryptoAssetSizeAtstFormData;
   setWalletCacheKeys: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
   setWalletAddrEnc: React.Dispatch<React.SetStateAction<string | null>>;
+  walletCacheKeys: Record<string, string> | null;
+  walletAddrEnc: string | null;
 }
