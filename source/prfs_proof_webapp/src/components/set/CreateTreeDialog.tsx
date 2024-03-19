@@ -62,7 +62,7 @@ const Modal: React.FC<ModalProps> = ({
           {i18n.close}
         </Button>
         <Button
-          variant="blue_2"
+          variant="blue_3"
           noTransition
           className={styles.importBtn}
           handleClick={handleClickOk}
