@@ -9,7 +9,6 @@ import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 
 import styles from "./ComputeTotalValue.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useSignedInProofUser } from "@/hooks/user";
 import { LocalPrfsProofCredential } from "@/storage/local_storage";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 import {

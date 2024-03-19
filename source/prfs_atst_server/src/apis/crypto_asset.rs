@@ -21,7 +21,7 @@ use std::str::FromStr;
 use std::sync::Arc;
 
 use crate::envs::ENVS;
-use crate::mock::MASTER_ACCOUNT_ID;
+use crate::mock::MASTER_ACCOUNT_IDS;
 
 const LIMIT: i32 = 20;
 
@@ -162,7 +162,7 @@ pub async fn compute_crypto_asset_size_total_values(
     Json<ApiResponse<ComputeCryptoAssetSizeTotalValuesResponse>>,
 ) {
     let pool = &state.db2.pool;
-    if input.account_id != MASTER_ACCOUNT_ID {
+    if MASTER_ACCOUNT_IDS.contains(&input.account_id.as_ref()) {
         return (
             StatusCode::BAD_REQUEST,
             Json(ApiResponse::new_error(
