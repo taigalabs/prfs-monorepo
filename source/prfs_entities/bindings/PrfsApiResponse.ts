@@ -60,7 +60,6 @@ export type PrfsApiResponse =
   | ({ type: "CreatePrfsProofType" } & CreatePrfsProofTypeResponse)
   | ({ type: "get_prfs_set_by_set_id" } & GetPrfsSetBySetIdResponse)
   | ({ type: "GetPrfsSets" } & GetPrfsSetsResponse)
-  | ({ type: "GetPrfsSetsBySetType" } & GetPrfsSetsResponse)
   | ({ type: "create_prfs_set" } & CreatePrfsSetResponse)
   | ({ type: "CreatePrfsDynamicSetElement" } & CreatePrfsDynamicSetElementResponse)
   | ({ type: "create_prfs_tree_by_prfs_set" } & CreatePrfsTreeByPrfsSetResponse)

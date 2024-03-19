@@ -42,7 +42,17 @@ pub async fn get_least_recent_prfs_index(
 
     // Trial 2: Get the oldest slot
     if free_idx.len() == 0 {
-        free_idx = prfs_indices.get(0).unwrap().key2.to_string();
+        let _free_idx = match prfs_indices.get(0) {
+            Some(i) => i,
+            None => {
+                let resp = ApiResponse::new_error(
+                    &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+                    "free_index does not exist".to_string(),
+                );
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
+        free_idx = _free_idx.key2.to_string();
     }
 
     let resp = ApiResponse::new_success(GetLeastRecentPrfsIndexResponse {

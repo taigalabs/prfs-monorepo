@@ -26,15 +26,17 @@ WHERE key in (
     // println!("sql: {:?}", sql);
 
     let query = query_builder.build();
-    let rows = query.fetch_all(pool).await.unwrap();
+    let rows = query.fetch_all(pool).await?;
     let ret = rows
         .iter()
-        .map(|row| PrfsIndex {
-            key: row.get("key"),
-            value: row.get("value"),
-            serial_no: row.get("serial_no"),
+        .map(|row| {
+            Ok(PrfsIndex {
+                key: row.try_get("key")?,
+                value: row.try_get("value")?,
+                serial_no: row.try_get("serial_no")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsIndex>, DbInterfaceError>>()?;
 
     return Ok(ret);
 }
@@ -68,17 +70,19 @@ ORDER BY updated_at DESC
     // println!("sql: {:?}", sql);
 
     let query = query_builder.build();
-    let rows = query.fetch_all(pool).await.unwrap();
+    let rows = query.fetch_all(pool).await?;
     let ret = rows
         .iter()
-        .map(|row| DatedPrfsIndex {
-            key: row.get("key"),
-            value: row.get("value"),
-            serial_no: row.get("serial_no"),
-            updated_at: row.get("updated_at"),
-            key2: row.get("key2"),
+        .map(|row| {
+            Ok(DatedPrfsIndex {
+                key: row.try_get("key")?,
+                value: row.try_get("value")?,
+                serial_no: row.try_get("serial_no")?,
+                updated_at: row.try_get("updated_at")?,
+                key2: row.try_get("key2")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<DatedPrfsIndex>, DbInterfaceError>>()?;
 
     return Ok(ret);
 }
@@ -107,7 +111,7 @@ RETURNING key"#;
         .fetch_one(&mut **tx)
         .await?;
 
-    let key: String = row.get("key");
+    let key: String = row.try_get("key")?;
 
     return Ok(key);
 }

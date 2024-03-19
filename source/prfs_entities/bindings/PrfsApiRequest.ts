@@ -27,7 +27,6 @@ import type { GetPrfsProofTypesRequest } from "./GetPrfsProofTypesRequest";
 import type { GetPrfsSetBySetIdRequest } from "./GetPrfsSetBySetIdRequest";
 import type { GetPrfsSetElementRequest } from "./GetPrfsSetElementRequest";
 import type { GetPrfsSetElementsRequest } from "./GetPrfsSetElementsRequest";
-import type { GetPrfsSetsBySetTypeRequest } from "./GetPrfsSetsBySetTypeRequest";
 import type { GetPrfsSetsRequest } from "./GetPrfsSetsRequest";
 import type { GetPrfsTreeLeafIndicesRequest } from "./GetPrfsTreeLeafIndicesRequest";
 import type { GetPrfsTreeLeafNodesBySetIdRequest } from "./GetPrfsTreeLeafNodesBySetIdRequest";
@@ -63,7 +62,6 @@ export type PrfsApiRequest =
   | ({ type: "CreatePrfsProofType" } & CreatePrfsProofTypeRequest)
   | ({ type: "get_prfs_set_by_set_id" } & GetPrfsSetBySetIdRequest)
   | ({ type: "GetPrfsSets" } & GetPrfsSetsRequest)
-  | ({ type: "GetPrfsSetsBySetType" } & GetPrfsSetsBySetTypeRequest)
   | ({ type: "create_prfs_set" } & CreatePrfsSetRequest)
   | ({ type: "CreatePrfsDynamicSetElement" } & CreatePrfsDynamicSetElementRequest)
   | ({ type: "create_prfs_tree_by_prfs_set" } & CreatePrfsTreeByPrfsSetRequest)

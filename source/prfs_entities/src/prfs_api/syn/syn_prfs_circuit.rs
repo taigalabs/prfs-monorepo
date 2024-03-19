@@ -9,9 +9,7 @@ use crate::entities::{CircuitInputMeta, RawCircuitInputMeta};
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PrfsCircuitSyn1 {
-    #[ts(type = "string")]
-    pub circuit_id: Uuid,
-
+    pub circuit_id: String,
     pub circuit_type_id: String,
     pub label: String,
     pub desc: String,
