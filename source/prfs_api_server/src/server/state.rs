@@ -12,7 +12,8 @@ use tokio::sync::Mutex;
 use crate::{envs::ENVS, paths::PATHS, ApiServerError};
 
 pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
-    let commit_hash = std::env::var("GIT_COMMIT_HASH").unwrap();
+    let commit_hash =
+        std::env::var("GIT_COMMIT_HASH").unwrap_or("GIT_COMMIT_HASH not provided".to_string());
 
     let db2 = {
         let pg_endpoint = &ENVS.postgres_endpoint;
