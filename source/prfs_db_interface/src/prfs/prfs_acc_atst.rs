@@ -23,18 +23,20 @@ OFFSET $2
 
     let atsts = rows
         .iter()
-        .map(|row| PrfsAccAtst {
-            acc_atst_id: row.get("acc_atst_id"),
-            atst_type: row.get("atst_type"),
-            dest: row.get("dest"),
-            account_id: row.get("account_id"),
-            cm: row.get("cm"),
-            username: row.get("username"),
-            avatar_url: row.get("avatar_url"),
-            document_url: row.get("document_url"),
-            status: row.get("status"),
+        .map(|row| {
+            Ok(PrfsAccAtst {
+                acc_atst_id: row.try_get("acc_atst_id")?,
+                atst_type: row.try_get("atst_type")?,
+                dest: row.try_get("dest")?,
+                account_id: row.try_get("account_id")?,
+                cm: row.try_get("cm")?,
+                username: row.try_get("username")?,
+                avatar_url: row.try_get("avatar_url")?,
+                document_url: row.try_get("document_url")?,
+                status: row.try_get("status")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsAccAtst>, DbInterfaceError>>()?;
 
     Ok(atsts)
 }
@@ -55,15 +57,15 @@ WHERE acc_atst_id=$1
         .await?;
 
     let atst = PrfsAccAtst {
-        acc_atst_id: row.get("acc_atst_id"),
-        atst_type: row.get("atst_type"),
-        dest: row.get("dest"),
-        account_id: row.get("account_id"),
-        cm: row.get("cm"),
-        username: row.get("username"),
-        avatar_url: row.get("avatar_url"),
-        document_url: row.get("document_url"),
-        status: row.get("status"),
+        acc_atst_id: row.try_get("acc_atst_id")?,
+        atst_type: row.try_get("atst_type")?,
+        dest: row.try_get("dest")?,
+        account_id: row.try_get("account_id")?,
+        cm: row.try_get("cm")?,
+        username: row.try_get("username")?,
+        avatar_url: row.try_get("avatar_url")?,
+        document_url: row.try_get("document_url")?,
+        status: row.try_get("status")?,
     };
 
     Ok(atst)
@@ -98,7 +100,7 @@ RETURNING acc_atst_id"#;
         .fetch_one(&mut **tx)
         .await?;
 
-    let acc_atst_id: String = row.get("acc_atst_id");
+    let acc_atst_id: String = row.try_get("acc_atst_id")?;
 
     return Ok(acc_atst_id);
 }

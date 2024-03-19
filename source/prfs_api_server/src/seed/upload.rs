@@ -76,7 +76,9 @@ async fn upload_circuit_drivers(db: &Database2) {
         .unwrap();
 
     for circuit_driver in circuit_drivers.values() {
-        let circuit_driver_id = prfs::insert_prfs_circuit_driver(&mut tx, circuit_driver).await;
+        let circuit_driver_id = prfs::insert_prfs_circuit_driver(&mut tx, circuit_driver)
+            .await
+            .unwrap();
         println!("Inserted circuit_driver, id: {}", circuit_driver_id);
     }
 
