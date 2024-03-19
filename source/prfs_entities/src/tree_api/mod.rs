@@ -1,16 +1,7 @@
-use serde::{Deserialize, Serialize};
-use ts_rs::TS;
+mod prfs_set_elements;
+mod prfs_tree;
+mod prfs_tree_api_entities;
 
-use crate::PrfsAtstType;
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
-pub struct UpdatePrfsTreeByNewAtstRequest {
-    pub atst_type: PrfsAtstType,
-}
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
-pub struct UpdatePrfsTreeByNewAtstResponse {
-    pub prfs_set_ids: Vec<String>,
-}
+pub use prfs_set_elements::*;
+pub use prfs_tree_api_entities::*;
+pub use prfs_tree::*;

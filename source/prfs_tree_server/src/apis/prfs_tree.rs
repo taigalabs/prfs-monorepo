@@ -25,7 +25,6 @@ pub async fn update_prfs_tree_by_new_atst(
     };
 
     for set in prfs_sets {
-
         // set.topic
     }
 

@@ -14,13 +14,14 @@ import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reduc
 
 import styles from "./SignUpForm.module.scss";
 import { i18nContext } from "@/i18n/context";
+import AppLogoArea from "@/components/app_logo_area/AppLogoArea";
 import {
   DefaultInnerPadding,
   DefaultInputGuide,
   DefaultModuleBtnRow,
   DefaultModuleHeader,
   DefaultModuleInputArea,
-  DefaultModuleLogoArea,
+  // DefaultModuleLogoArea,
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
@@ -86,7 +87,7 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
   return (
     <DefaultInnerPadding>
       <div className={styles.main}>
-        <DefaultModuleLogoArea />
+        <AppLogoArea subLabel="ID" />
         <Fade>
           <DefaultModuleHeader noSidePadding>
             <DefaultModuleTitle>{i18n.create_an_identity}</DefaultModuleTitle>

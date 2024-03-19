@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { makePathIndices, makeSiblingPath, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
@@ -85,7 +85,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
-      return prfsApi3({ type: "get_prfs_set_element", ...req });
+      return treeApi({ type: "get_prfs_set_element", ...req });
     },
   });
 

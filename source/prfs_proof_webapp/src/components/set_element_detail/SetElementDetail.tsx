@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 import { FaArrowLeft } from "@react-icons/all-files/fa/FaArrowLeft";
 import ButtonCircleContainer from "@taigalabs/prfs-react-lib/src/button_circle_container/ButtonCircleContainer";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import Link from "next/link";
@@ -25,7 +25,7 @@ const SetElementDetail: React.FC<SetElementDetailProps> = ({ element_label, set_
   const { isLoading, data, error } = useQuery({
     queryKey: ["get_prfs_set_element", element_label],
     queryFn: async () => {
-      return prfsApi3({
+      return treeApi({
         type: "get_prfs_set_element",
         label: element_label,
         set_id,

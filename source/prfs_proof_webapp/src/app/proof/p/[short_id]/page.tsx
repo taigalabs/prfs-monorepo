@@ -1,6 +1,6 @@
 import React from "react";
 import { redirect } from "next/navigation";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
 
 import { paths } from "@/paths";
 import { getI18N } from "@/i18n/get_i18n";

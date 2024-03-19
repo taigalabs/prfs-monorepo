@@ -25,11 +25,8 @@ import type { GetPrfsProofRecordResponse } from "./GetPrfsProofRecordResponse";
 import type { GetPrfsProofTypeByProofTypeIdResponse } from "./GetPrfsProofTypeByProofTypeIdResponse";
 import type { GetPrfsProofTypesResponse } from "./GetPrfsProofTypesResponse";
 import type { GetPrfsSetBySetIdResponse } from "./GetPrfsSetBySetIdResponse";
-import type { GetPrfsSetElementResponse } from "./GetPrfsSetElementResponse";
-import type { GetPrfsSetElementsResponse } from "./GetPrfsSetElementsResponse";
 import type { GetPrfsSetsResponse } from "./GetPrfsSetsResponse";
 import type { GetPrfsTreeNodesResponse } from "./GetPrfsTreeNodesResponse";
-import type { ImportPrfsSetElementsResponse } from "./ImportPrfsSetElementsResponse";
 import type { SignInPrfsAccountResponse } from "./SignInPrfsAccountResponse";
 import type { SignUpPrfsAccountRequest } from "./SignUpPrfsAccountRequest";
 import type { SubmitPrfsPollResponseResponse } from "./SubmitPrfsPollResponseResponse";
@@ -63,9 +60,6 @@ export type PrfsApiResponse =
   | ({ type: "create_prfs_set" } & CreatePrfsSetResponse)
   | ({ type: "CreatePrfsDynamicSetElement" } & CreatePrfsDynamicSetElementResponse)
   | ({ type: "create_prfs_tree_by_prfs_set" } & CreatePrfsTreeByPrfsSetResponse)
-  | ({ type: "import_prfs_set_elements" } & ImportPrfsSetElementsResponse)
-  | ({ type: "get_prfs_set_elements" } & GetPrfsSetElementsResponse)
-  | ({ type: "get_prfs_set_element" } & GetPrfsSetElementResponse)
   | ({ type: "get_prfs_tree_nodes_by_pos" } & GetPrfsTreeNodesResponse)
   | ({ type: "GetPrfsTreeLeafNodesBySetId" } & GetPrfsTreeNodesResponse)
   | ({ type: "get_prfs_tree_leaf_indices" } & GetPrfsTreeNodesResponse)
