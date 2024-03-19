@@ -5,9 +5,9 @@ import { PrfsTreeApiResponse } from "@taigalabs/prfs-entities/bindings/PrfsTreeA
 let endpoint: string;
 if (typeof process !== "undefined") {
   if (!process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT) {
-    throw new Error("atst api endpoint not defined");
+    throw new Error("tree api endpoint not defined");
   }
-  endpoint = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/atst_api/v0`;
+  endpoint = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/tree_api/v0`;
 } else {
   throw new Error("process is undefined");
 }
