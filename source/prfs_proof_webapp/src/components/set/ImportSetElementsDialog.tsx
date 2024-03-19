@@ -6,7 +6,7 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaFileImport } from "@react-icons/all-files/fa/FaFileImport";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
-import { ImportPrfsSetElementsRequest } from "@taigalabs/prfs-entities/bindings/ImportPrfsSetElementsRequest";
+import { ImportPrfsAttestationsToPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/ImportPrfsAttestationsToPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./ImportSetElementsDialog.module.scss";
@@ -85,8 +85,8 @@ const Modal: React.FC<ModalProps> = ({
 const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender }) => {
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: importPrfsSetElementsRequest } = useMutation({
-    mutationFn: (req: ImportPrfsSetElementsRequest) => {
-      return treeApi({ type: "import_prfs_set_elements", ...req });
+    mutationFn: (req: ImportPrfsAttestationsToPrfsSetRequest) => {
+      return treeApi({ type: "import_prfs_attestations_to_prfs_set", ...req });
     },
   });
   const { prfsProofCredential } = useSignedInProofUser();
@@ -98,8 +98,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
       setComputeStatus(CommonStatus.InProgress);
       try {
         const { payload, error } = await importPrfsSetElementsRequest({
-          src_type: PRFS_ATTESTATION,
-          src_id: CRYPTO_ASSET_SIZE_ATSTS,
+          topic: "crypto_1",
           dest_set_id: CRYPTO_HOLDERS_SET_ID,
         });
 

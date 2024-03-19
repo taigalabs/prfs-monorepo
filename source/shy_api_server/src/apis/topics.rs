@@ -24,7 +24,6 @@ pub async fn create_shy_topic(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<CreateShyTopicRequest>,
 ) -> (StatusCode, Json<ApiResponse<CreateShyTopicResponse>>) {
-    let state = state.clone();
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 

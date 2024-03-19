@@ -5,15 +5,16 @@ use crate::entities::PrfsSetElement;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct ImportPrfsSetElementsRequest {
-    pub src_type: String,
-    pub src_id: String,
+pub struct ImportPrfsAttestationsToPrfsSetRequest {
+    // pub src_type: String,
+    // pub src_id: String,
+    pub topic: String,
     pub dest_set_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct ImportPrfsSetElementsResponse {
+pub struct ImportPrfsAttestationsToPrfsSetResponse {
     pub set_id: String,
     pub rows_affected: u64,
 }
