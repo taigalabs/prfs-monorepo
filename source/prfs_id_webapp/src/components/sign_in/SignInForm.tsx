@@ -22,7 +22,6 @@ import {
   DefaultModuleBtnRow,
   DefaultModuleHeader,
   DefaultModuleInputArea,
-  DefaultModuleLogoArea,
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
@@ -30,6 +29,7 @@ import { IdCreateForm } from "@/functions/validate_id";
 import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
 import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { useAppDispatch } from "@/state/hooks";
+import AppLogoArea from "@/components/app_logo_area/AppLogoArea";
 
 enum InputCredentialStatus {
   Loading,
@@ -150,7 +150,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
       )}
       <DefaultInnerPadding>
         <div className={styles.main}>
-          <DefaultModuleLogoArea />
+          <AppLogoArea subLabel="ID" />
           <DefaultModuleHeader noSidePadding>
             <DefaultModuleTitle>{title}</DefaultModuleTitle>
             <DefaultModuleSubtitle>{i18n.using_your_prfs_identity}</DefaultModuleSubtitle>
