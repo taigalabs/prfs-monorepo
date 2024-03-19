@@ -284,8 +284,8 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                       <button className={styles.inputBtn} type="button">
                         <HoverableText>{i18n.connect}</HoverableText>
                       </button>
-                      <span> or paste your wallet address</span>
                     </ConnectWallet>
+                    <span> or paste your wallet address</span>
                   </div>
                   <Input
                     className={styles.input}
@@ -300,11 +300,13 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                       <HoverableText disabled={formData.wallet_addr.length === 0}>
                         {i18n.how_much_do_i_have}
                       </HoverableText>
+                    </button>
+                    <div className={styles.msg}>
                       {fetchAssetStatus === Status.InProgress && (
                         <Spinner size={14} color={colors.gray_32} borderWidth={2} />
                       )}
-                    </button>
-                    <div className={styles.msg}>{fetchAssetMsg}</div>
+                      {fetchAssetMsg}
+                    </div>
                   </div>
                   {cryptoAssets?.length && (
                     <div className={styles.cryptoAsset}>
