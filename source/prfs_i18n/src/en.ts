@@ -248,6 +248,7 @@ export default {
   some_functionalities_are_available_only_with_user_signed_in:
     "Some functionalities are availble only with the user signed in. Join today.",
   not_available: "Not available",
+  navigating: "Navigating",
   url: "URL",
   document_url: "Document URL",
   document: "Document",

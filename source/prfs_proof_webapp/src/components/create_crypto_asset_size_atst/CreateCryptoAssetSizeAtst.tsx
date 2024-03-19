@@ -44,6 +44,7 @@ import {
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import SignatureItem from "./SignatureItem";
 import ClaimSecretItem from "./ClaimSecretItem";
+import { useI18N } from "@/i18n/use_i18n";
 
 enum Status {
   Standby,
@@ -51,7 +52,7 @@ enum Status {
 }
 
 const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = () => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = useI18N();
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [isSigValid, setIsSigValid] = React.useState(false);
   const [walletAddrEnc, setWalletAddrEnc] = React.useState<string | null>(null);
@@ -249,17 +250,15 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   ]);
 
   React.useEffect(() => {
-    if (cryptoAssets && cryptoAssets.length > 0) {
-      if (cryptoAssets[0].amount !== undefined) {
-        setStep(AttestationStep.GENERATE_CLAIM);
-      }
+    if (formData[WALLET_ADDR]?.length) {
+      setStep(AttestationStep.GENERATE_CLAIM);
     } else {
       setStep(AttestationStep.INPUT_WALLET_ADDR);
     }
-  }, [setStep, cryptoAssets]);
+  }, [setStep, cryptoAssets, formData]);
 
   return isNavigating ? (
-    <div className={styles.sidePadding}>Navigating...</div>
+    <div className={styles.sidePadding}>{i18n.not_available}...</div>
   ) : (
     <>
       <AttestationsHeader>
@@ -307,7 +306,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                     </button>
                     <div className={styles.msg}>{fetchAssetMsg}</div>
                   </div>
-                  {cryptoAssets && cryptoAssets.length > 0 && (
+                  {cryptoAssets?.length && (
                     <div className={styles.cryptoAsset}>
                       <div className={styles.item}>
                         <p className={styles.label}>{i18n.wallet_address}:</p>
