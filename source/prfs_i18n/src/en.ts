@@ -123,6 +123,7 @@ export default {
   value: "Value",
   validate: "Validate",
   fetch_asset: "Fetch asset",
+  how_much_do_i_have: "How much do I have?",
   meta: "Meta",
   learn: "Learn",
   see_more: "See more",

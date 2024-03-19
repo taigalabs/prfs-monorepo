@@ -16,7 +16,7 @@ import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoAssetSizeAtstRequest";
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
-import hoverableTextStyles from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText.module.scss";
+import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./CreateCryptoAssetSizeAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -283,7 +283,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                   <div className={styles.inputBtnRow}>
                     <ConnectWallet handleChangeAddress={handleChangeAddress}>
                       <button className={styles.inputBtn} type="button">
-                        {i18n.connect}
+                        <HoverableText>{i18n.connect}</HoverableText>
                       </button>
                       <span> or paste your wallet address</span>
                     </ConnectWallet>
@@ -297,8 +297,10 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
                     handleChangeValue={handleChangeWalletAddr}
                   />
                   <div className={styles.btnRow}>
-                    <button type="button">
-                      <span className={hoverableTextStyles.hoverableText}>{i18n.fetch_asset}</span>
+                    <button type="button" onClick={handleClickFetchAsset} className={styles.btn}>
+                      <HoverableText disabled={formData.wallet_addr.length === 0}>
+                        {i18n.how_much_do_i_have}
+                      </HoverableText>
                       {fetchAssetStatus === Status.InProgress && (
                         <Spinner size={14} color={colors.gray_32} borderWidth={2} />
                       )}

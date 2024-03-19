@@ -11,14 +11,20 @@
     right: -5px;
     padding: 10px;
     position: absolute;
-    z-index: -1;
+    /* z-index: -1; */
     pointer-events: none;
   }
 
-  &:hover {
-    &::before {
-      background-color: var(--blue-05);
-      opacity: 0.08;
+  &.disabled {
+    opacity: 0.8;
+  }
+
+  &:not(.disabled) {
+    &:hover {
+      &::before {
+        background-color: var(--blue-05);
+        opacity: 0.08;
+      }
     }
   }
 }
