@@ -7,16 +7,24 @@
     "code": "40000000",
     "phrase": "Unknown error"
   },
-  "CANNOT_FIND_USER": {
+  "TWITTER_ACC_VALIDATE_FAIL": {
     "code": "40000001",
-    "phrase": "Can't find a user"
+    "phrase": "Twitter account validation fail"
   },
-  "USER_ALREADY_EXISTS": {
+  "TWITTER_ACC_ATST_INSERT_FAIL": {
     "code": "40000002",
-    "phrase": "User already exists"
+    "phrase": "Twitter account attestation insert fail"
   },
-  "NO_POLICY_ATTACHED": {
+  "INVALID_SIG": {
+    "code": "40000A00",
+    "phrase": "Signature is invalid"
+  },
+  "FETCH_CRYPTO_ASSET_FAIL": {
+    "code": "40000B00",
+    "phrase": "Fetch crypto asset fail"
+  },
+  "CRYPTO_SIZE_UPSERT_FAIL": {
     "code": "40000003",
-    "phrase": "User has no policy attached"
+    "phrase": "Crypto size upsert fail"
   }
 }

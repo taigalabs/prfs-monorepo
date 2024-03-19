@@ -1,3 +1,4 @@
+use prfs_atst_api_error_codes::bindgen::make_prfs_atst_api_error_code_json_binding;
 use prfs_axum_lib::axum::{
     extract::{MatchedPath, Request, State},
     handler::HandlerWithoutStateExt,
@@ -8,6 +9,7 @@ use prfs_axum_lib::axum::{
 use prfs_axum_lib::tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
 use prfs_circuits_circom::CircuitBuildListJson;
 use prfs_common_server_state::ServerState;
+use prfs_tree_lib::envs::Envs;
 use serde_json::{json, Value};
 use std::sync::Arc;
 use tracing::{info, info_span, Span};
@@ -18,6 +20,11 @@ use crate::apis::{crypto_asset, twitter};
 pub const ATST_API_V0: &'static str = "/atst_api/v0";
 
 pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
+    make_prfs_atst_api_error_code_json_binding().unwrap();
+
+    // Try to instantiate
+    Envs::new();
+
     let router = Router::new() //
         .route(
             "/fetch_crypto_asset",

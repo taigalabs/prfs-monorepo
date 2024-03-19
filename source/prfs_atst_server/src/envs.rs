@@ -25,13 +25,13 @@ pub struct Envs {
 
 impl Envs {
     pub fn new() -> Envs {
-        let env_path = PATHS.package_root.join(".env");
+        // let env_path = PATHS.package_root.join(".env");
 
-        dotenvy::from_path(&env_path).expect(&format!(
-            "{}, Failed to locate .env, path: {:?}",
-            env!("CARGO_PKG_NAME"),
-            env_path
-        ));
+        // dotenvy::from_path(&env_path).expect(&format!(
+        //     "{}, Failed to locate .env, path: {:?}",
+        //     env!("CARGO_PKG_NAME"),
+        //     env_path
+        // ));
 
         match envy::from_env::<Envs>() {
             Ok(envs) => {
