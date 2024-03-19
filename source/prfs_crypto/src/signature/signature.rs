@@ -1,3 +1,4 @@
+use ethers_core::abi::Address;
 use ethers_core::types::Signature;
 use ethers_core::utils::keccak256;
 use k256::ecdsa::VerifyingKey;
@@ -52,9 +53,10 @@ pub fn verify_eth_sig_by_addr<S: AsRef<str>>(
     addr: S,
 ) -> Result<String, PrfsCryptoError> {
     let sig_deserialized = Signature::from_str(&sig.as_ref()[2..])?;
+
     let addr1 = sig_deserialized.recover(msg)?;
-    let addr1 = addr1.to_string().to_lowercase();
-    let addr = addr.as_ref().to_string().to_lowercase();
+    let addr1 = serde_json::to_string_pretty(&addr1)?.to_lowercase();
+    let addr = format!("{:?}", addr.as_ref().to_string().to_lowercase());
 
     println!("addr1: {}, addr: {}", addr1, addr);
 
