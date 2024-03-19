@@ -78,7 +78,6 @@ const CreateSet: React.FC<CreateSetProps> = () => {
         const { payload, error } = await createPrfsSetRequest({
           prfs_set_ins1: {
             set_id,
-            // set_type: "Dynamic",
             label,
             author: prfsProofCredential.account_id,
             desc,
@@ -89,6 +88,7 @@ const CreateSet: React.FC<CreateSetProps> = () => {
             tree_depth: 32,
             finite_field: "Z_(2^256-2^32-977)",
             elliptic_curve: "Secp256k1",
+            topic: "crypto_1",
           },
         });
         setCreateStatus(Status.Standby);

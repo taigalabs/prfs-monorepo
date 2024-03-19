@@ -245,7 +245,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
             label: wallet_addr,
             serial_no: "empty",
             cm,
-            cm_msg,
+            cm_msg: Array.from(cm_msg),
             sig,
           });
           setCreateStatus(Status.Standby);
