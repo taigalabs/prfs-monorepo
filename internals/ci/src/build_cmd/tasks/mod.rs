@@ -1,4 +1,5 @@
 pub mod build_js_dependencies;
+pub mod build_prfs_api_server_task;
 pub mod build_prfs_crypto_js;
 pub mod build_prfs_driver_spartan_js;
 pub mod build_prfs_driver_spartan_wasm;

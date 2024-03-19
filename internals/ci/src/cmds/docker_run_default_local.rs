@@ -19,11 +19,10 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_docker(_extra_args: Vec<&str>) {
-    // let status = Command::new(deps::SH)
-    //     // .env("BUILDKIT_PROGRESS", "plain")
-    //     .args(["ci", "build_prfs_api_server"])
-    //     .status()
-    //     .expect(&format!("{} command failed to start", JS_ENGINE));
+    let status = Command::new(deps::CARGO)
+        .args(["build", "--release", "-p", "prfs_api_server"])
+        .status()
+        .expect(&format!("{} command failed to start", JS_ENGINE));
 
     return;
 

@@ -9,13 +9,13 @@ mod utils;
 use crate::{
     build_handle::BuildHandle,
     cmds::{
-        build_prfs_crypto_js, dev_prfs_api_server, dev_prfs_asset_server, dev_prfs_console_webapp,
-        dev_prfs_docs_website, dev_prfs_id_webapp, dev_prfs_poll_webapp, dev_prfs_proof_webapp,
-        dev_shy_webapp, docker_run_default, docker_run_default_debug, docker_run_default_local,
-        docker_run_prfs_proof_webapp, seed_prfs_api_data, seed_shy_api_data, start_prfs_api_server,
-        start_prfs_asset_server, start_prfs_console_webapp, start_prfs_docs_website,
-        start_prfs_id_webapp, start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp,
-        vercel_deploy,
+        build_prfs_api_server, build_prfs_crypto_js, dev_prfs_api_server, dev_prfs_asset_server,
+        dev_prfs_console_webapp, dev_prfs_docs_website, dev_prfs_id_webapp, dev_prfs_poll_webapp,
+        dev_prfs_proof_webapp, dev_shy_webapp, docker_run_default, docker_run_default_debug,
+        docker_run_default_local, docker_run_prfs_proof_webapp, seed_prfs_api_data,
+        seed_shy_api_data, start_prfs_api_server, start_prfs_asset_server,
+        start_prfs_console_webapp, start_prfs_docs_website, start_prfs_id_webapp,
+        start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp, vercel_deploy,
     },
 };
 use chrono::prelude::*;
@@ -34,6 +34,7 @@ fn main() {
         .subcommand(command!("build"))
         .subcommand(command!("build_prfs_driver_spartan_js"))
         .subcommand(command!(build_prfs_crypto_js::CMD_NAME))
+        .subcommand(command!(build_prfs_api_server::CMD_NAME))
         .subcommand(command!("build_circuits"))
         // dev mode
         .subcommand(command!(dev_prfs_console_webapp::CMD_NAME).arg(Arg::new("extra_args")))
@@ -87,6 +88,9 @@ fn main() {
         }
         Some(("build_prfs_driver_spartan_js", sub_matches)) => {
             cmds::build_prfs_driver_spartan_js::run(sub_matches, &timestamp);
+        }
+        Some((build_prfs_api_server::CMD_NAME, sub_matches)) => {
+            cmds::build_prfs_api_server::run(sub_matches, &timestamp);
         }
         Some((build_prfs_crypto_js::CMD_NAME, sub_matches)) => {
             cmds::build_prfs_crypto_js::run(sub_matches, &timestamp);
