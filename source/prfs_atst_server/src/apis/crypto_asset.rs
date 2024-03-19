@@ -204,12 +204,16 @@ pub async fn compute_crypto_asset_size_total_values(
         if let Some(c) = atst.meta.get(0) {
             let v = c.amount * usd / denom;
             atst.value = v;
-            prfs::insert_prfs_attestation(&mut tx, &atst)
-                .await
-                .map_err(|err| {
-                    ApiHandleError::from(&PRFS_ATST_API_ERROR_CODES.CRYPTO_SIZE_UPSERT_FAIL, err)
-                })
-                .unwrap();
+            match prfs::insert_prfs_attestation(&mut tx, &atst).await {
+                Ok(_) => {}
+                Err(err) => {
+                    let resp = ApiResponse::new_error(
+                        &PRFS_ATST_API_ERROR_CODES.CRYPTO_SIZE_UPSERT_FAIL,
+                        err.to_string(),
+                    );
+                    return (StatusCode::BAD_REQUEST, Json(resp));
+                }
+            }
 
             count += 1;
         }
