@@ -3,6 +3,8 @@ use prfs_entities::entities::PrfsProofInstance;
 use prfs_entities::prfs_api::PrfsProofInstanceSyn1;
 use rust_decimal::Decimal;
 
+use crate::DbInterfaceError;
+
 pub async fn get_prfs_proof_instance_syn1_by_instance_id(
     pool: &Pool<Postgres>,
     proof_instance_id: &uuid::Uuid,
@@ -83,14 +85,16 @@ pub async fn get_prfs_proof_instances_syn1(
     pool: &Pool<Postgres>,
     page_idx: i32,
     page_size: i32,
-) -> (Vec<PrfsProofInstanceSyn1>, f32) {
+) -> Result<(Vec<PrfsProofInstanceSyn1>, f32), DbInterfaceError> {
     let table_row_count: f32 = {
         let query = r#"
-SELECT reltuples AS estimate FROM pg_class where relname = 'prfs_proof_instances';
+SELECT reltuples AS estimate 
+FROM pg_class 
+WHERE relname = 'prfs_proof_instances'
 "#;
-        let row = sqlx::query(query).fetch_one(pool).await.unwrap();
+        let row = sqlx::query(query).fetch_one(pool).await?;
 
-        row.get("estimate")
+        row.try_get("estimate")?
     };
 
     let query = r#"
@@ -112,79 +116,87 @@ LIMIT $2
         .bind(page_idx * page_size)
         .bind(&page_size)
         .fetch_all(pool)
-        .await
-        .unwrap();
+        .await?;
 
-    let prfs_proof_instances: Vec<PrfsProofInstanceSyn1> = rows
+    let prfs_proof_instances = rows
         .iter()
-        .map(|row| PrfsProofInstanceSyn1 {
-            proof_instance_id: row.get("proof_instance_id"),
-            proof_type_id: row.get("proof_type_id"),
-            prfs_ack_sig: row.get("prfs_ack_sig"),
-            proof: row.get("proof"),
-            short_id: row.get("short_id"),
-            expression: row.get("expression"),
-            img_url: row.get("img_url"),
-            img_caption: row.get("img_caption"),
-            circuit_id: row.get("circuit_id"),
-            circuit_driver_id: row.get("circuit_driver_id"),
-            proof_type_desc: row.get("proof_type_desc"),
-            proof_type_label: row.get("proof_type_label"),
-            public_inputs_meta: row.get("public_inputs_meta"),
-            public_inputs: row.get("public_inputs"),
-            created_at: row.get("created_at"),
-            circuit_type_id: row.get("circuit_type_id"),
-            proof_type_author: row.get("proof_type_author"),
-            circuit_desc: row.get("circuit_desc"),
-            circuit_author: row.get("circuit_author"),
-            proof_type_created_at: row.get("proof_type_created_at"),
+        .map(|row| {
+            Ok(PrfsProofInstanceSyn1 {
+                proof_instance_id: row.get("proof_instance_id"),
+                proof_type_id: row.get("proof_type_id"),
+                prfs_ack_sig: row.get("prfs_ack_sig"),
+                proof: row.get("proof"),
+                short_id: row.get("short_id"),
+                expression: row.get("expression"),
+                img_url: row.get("img_url"),
+                img_caption: row.get("img_caption"),
+                circuit_id: row.get("circuit_id"),
+                circuit_driver_id: row.get("circuit_driver_id"),
+                proof_type_desc: row.get("proof_type_desc"),
+                proof_type_label: row.get("proof_type_label"),
+                public_inputs_meta: row.get("public_inputs_meta"),
+                public_inputs: row.get("public_inputs"),
+                created_at: row.get("created_at"),
+                circuit_type_id: row.get("circuit_type_id"),
+                proof_type_author: row.get("proof_type_author"),
+                circuit_desc: row.get("circuit_desc"),
+                circuit_author: row.get("circuit_author"),
+                proof_type_created_at: row.get("proof_type_created_at"),
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsProofInstanceSyn1>, DbInterfaceError>>()?;
 
-    return (prfs_proof_instances, table_row_count);
+    return Ok((prfs_proof_instances, table_row_count));
 }
 
 pub async fn get_prfs_proof_instances(
     pool: &Pool<Postgres>,
     limit: Option<u32>,
-) -> Vec<PrfsProofInstance> {
-    let query = "SELECT * from prfs_proof_instances limit $1";
+) -> Result<Vec<PrfsProofInstance>, DbInterfaceError> {
+    let query = r#"
+SELECT * 
+FROM prfs_proof_instances 
+LIMIT $1
+"#;
 
     // println!("query: {}", query);
 
     let limit = Decimal::from(20);
 
-    let rows = sqlx::query(query)
-        .bind(&limit)
-        .fetch_all(pool)
-        .await
-        .unwrap();
+    let rows = sqlx::query(query).bind(&limit).fetch_all(pool).await?;
 
-    let prfs_proof_instances: Vec<PrfsProofInstance> = rows
+    let prfs_proof_instances = rows
         .iter()
-        .map(|row| PrfsProofInstance {
-            proof_instance_id: row.get("proof_instance_id"),
-            proof_type_id: row.get("proof_type_id"),
-            prfs_ack_sig: row.get("prfs_ack_sig"),
-            short_id: row.get("short_id"),
-            proof: vec![],
-            public_inputs: row.get("public_inputs"),
-            created_at: row.get("created_at"),
+        .map(|row| {
+            Ok(PrfsProofInstance {
+                proof_instance_id: row.try_get("proof_instance_id")?,
+                proof_type_id: row.try_get("proof_type_id")?,
+                prfs_ack_sig: row.try_get("prfs_ack_sig")?,
+                short_id: row.try_get("short_id")?,
+                proof: vec![],
+                public_inputs: row.try_get("public_inputs")?,
+                created_at: row.try_get("created_at")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsProofInstance>, DbInterfaceError>>()?;
 
-    return prfs_proof_instances;
+    return Ok(prfs_proof_instances);
 }
 
 pub async fn insert_prfs_proof_instances(
     tx: &mut Transaction<'_, Postgres>,
     proof_instances: &Vec<PrfsProofInstance>,
-) -> String {
-    let query = "INSERT INTO prfs_proof_instances \
-            (proof_instance_id, proof_type_id, proof, public_inputs, short_id, prfs_ack_sig)
-            VALUES ($1, $2, $3, $4, $5, $6) returning proof_instance_id";
+) -> Result<String, DbInterfaceError> {
+    let query = r#"
+INSERT INTO prfs_proof_instances
+(proof_instance_id, proof_type_id, proof, public_inputs, short_id, prfs_ack_sig)
+VALUES ($1, $2, $3, $4, $5, $6) 
+RETURNING proof_instance_id
+"#;
 
-    let proof_instance = proof_instances.get(0).unwrap();
+    let proof_instance = proof_instances
+        .get(0)
+        .ok_or("proof instance should exist")?;
 
     let row = sqlx::query(query)
         .bind(&proof_instance.proof_instance_id)
@@ -194,12 +206,8 @@ pub async fn insert_prfs_proof_instances(
         .bind(&proof_instance.short_id)
         .bind(&proof_instance.prfs_ack_sig)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
-    let proof_instance_id: String = row.get("proof_instance_id");
-
-    println!("proof_instance_id: {}", proof_instance_id);
-
-    proof_instance_id
+    let proof_instance_id: String = row.try_get("proof_instance_id")?;
+    Ok(proof_instance_id)
 }

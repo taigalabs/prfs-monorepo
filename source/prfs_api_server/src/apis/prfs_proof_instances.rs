@@ -19,7 +19,14 @@ pub async fn get_prfs_proof_instances(
 ) -> (StatusCode, Json<ApiResponse<GetPrfsProofInstancesResponse>>) {
     let pool = &state.db2.pool;
     let (prfs_proof_instances_syn1, table_row_count) =
-        prfs::get_prfs_proof_instances_syn1(pool, input.page_idx, input.page_size).await;
+        match prfs::get_prfs_proof_instances_syn1(pool, input.page_idx, input.page_size).await {
+            Ok(r) => r,
+            Err(err) => {
+                let resp =
+                    ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
 
     let resp = ApiResponse::new_success(GetPrfsProofInstancesResponse {
         page_idx: input.page_idx,
@@ -94,12 +101,13 @@ pub async fn create_prfs_proof_instance(
         input.proof_instance_id, partial_proof,
     );
 
-    let prfs_ack_sig = state
-        .wallet
-        .sign_message(ack_msg)
-        .await
-        .unwrap()
-        .to_string();
+    let prfs_ack_sig = match state.wallet.sign_message(ack_msg).await {
+        Ok(s) => s.to_string(),
+        Err(err) => {
+            let resp = ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let prfs_proof_instance = PrfsProofInstance {
         proof_instance_id: input.proof_instance_id.to_string(),
@@ -112,7 +120,14 @@ pub async fn create_prfs_proof_instance(
     };
 
     let proof_instance_id =
-        prfs::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
+        match prfs::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await {
+            Ok(i) => i,
+            Err(err) => {
+                let resp =
+                    ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
 
     tx.commit().await.unwrap();
 

@@ -67,7 +67,13 @@ pub async fn get_prfs_indices(
 ) -> (StatusCode, Json<ApiResponse<GetPrfsIndicesResponse>>) {
     let pool = &state.db2.pool;
 
-    let prfs_indices = prfs::get_prfs_indices(pool, &input.keys).await.unwrap();
+    let prfs_indices = match prfs::get_prfs_indices(pool, &input.keys).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let mut map = HashMap::new();
     for idx in prfs_indices {
@@ -83,12 +89,23 @@ pub async fn add_prfs_index(
     Json(input): Json<AddPrfsIndexRequest>,
 ) -> (StatusCode, Json<ApiResponse<AddPrfsIndexResponse>>) {
     let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+    let mut tx = match pool.begin().await {
+        Ok(t) => t,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let _wallet_prfs_idx =
-        prfs::upsert_prfs_index(&mut tx, &input.key, &input.value, &input.serial_no)
-            .await
-            .unwrap();
+        match prfs::upsert_prfs_index(&mut tx, &input.key, &input.value, &input.serial_no).await {
+            Ok(i) => i,
+            Err(err) => {
+                let resp =
+                    ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
 
     tx.commit().await.unwrap();
 
