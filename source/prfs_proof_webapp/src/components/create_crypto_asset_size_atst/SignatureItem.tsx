@@ -24,17 +24,18 @@ import {
 } from "@/components/create_attestation/CreateAtstComponents";
 import {
   AttestationStep,
-  CLAIM,
+  CM,
   CryptoAssetSizeAtstFormData,
   SIGNATURE,
   WALLET_ADDR,
 } from "./create_crypto_asset_size_atst";
+import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 const SignatureItem: React.FC<SigantureItemProps> = ({
-  step,
+  // step,
   formData,
   setFormData,
-  claimCm,
+  // claimCm,
   setIsSigValid,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -46,12 +47,13 @@ const SignatureItem: React.FC<SigantureItemProps> = ({
     setIsSigValid(false);
     const sig = formData[SIGNATURE];
     const wallet_addr = formData[WALLET_ADDR];
+    const cm = formData[CM];
 
-    if (claimCm && sig.length > 0 && wallet_addr.length > 0) {
+    if (cm && sig.length > 0 && wallet_addr.length > 0) {
       try {
         const valid = await verifyMessage({
           address: wallet_addr as any,
-          message: claimCm,
+          message: cm,
           signature: sig as any,
         });
 
@@ -77,7 +79,7 @@ const SignatureItem: React.FC<SigantureItemProps> = ({
         );
       }
     }
-  }, [formData[SIGNATURE], formData[WALLET_ADDR], setIsSigValid, setValidationMsg, claimCm]);
+  }, [formData, setIsSigValid, setValidationMsg]);
 
   const handleChangeSig = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,8 +96,9 @@ const SignatureItem: React.FC<SigantureItemProps> = ({
   );
 
   const handleClickSign = React.useCallback(async () => {
-    if (claimCm) {
-      const sig = await signMessageAsync({ message: claimCm });
+    const cm = formData[CM];
+    if (cm) {
+      const sig = await signMessageAsync({ message: cm });
 
       if (sig) {
         setFormData(oldVal => ({
@@ -104,20 +107,24 @@ const SignatureItem: React.FC<SigantureItemProps> = ({
         }));
       }
     }
-  }, [claimCm, setFormData]);
+  }, [setFormData, formData]);
 
   const handleClickCopy = React.useCallback(() => {
-    if (claimCm) {
-      navigator.clipboard.writeText(claimCm);
+    const cm = formData[CM];
+    if (cm) {
+      navigator.clipboard.writeText(cm);
       setIsCopyTooltipVisible(true);
 
       setTimeout(() => {
         setIsCopyTooltipVisible(false);
       }, 3000);
     }
-  }, [claimCm, setIsCopyTooltipVisible]);
+  }, [formData, setIsCopyTooltipVisible]);
+
+  const cm = formData[CM];
+
   return (
-    <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}>
+    <AttestationListItem isDisabled={false}>
       <AttestationListItemOverlay />
       <AttestationListItemNo>3</AttestationListItemNo>
       <AttestationListRightCol>
@@ -127,10 +134,10 @@ const SignatureItem: React.FC<SigantureItemProps> = ({
           </AttestationListItemDescTitle>
         </AttestationListItemDesc>
         <div>
-          {claimCm && (
+          {cm && (
             <div className={styles.section}>
               <AttestationContentBox>
-                <p className={common.alignItemCenter}>{claimCm}</p>
+                <p className={common.alignItemCenter}>{cm}</p>
                 <AttestationContentBoxBtnArea>
                   <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
                     <button type="button" onClick={handleClickCopy}>
@@ -142,7 +149,7 @@ const SignatureItem: React.FC<SigantureItemProps> = ({
               <div className={styles.signBox}>
                 <div className={styles.inputBtnRow}>
                   <button className={styles.inputBtn} type="button" onClick={handleClickSign}>
-                    {i18n.sign}
+                    <HoverableText>{i18n.sign}</HoverableText>
                   </button>
                   <span> or paste signature over the above message</span>
                 </div>
@@ -172,8 +179,8 @@ const SignatureItem: React.FC<SigantureItemProps> = ({
 export default SignatureItem;
 
 export interface SigantureItemProps {
-  step: AttestationStep;
-  claimCm: string | null;
+  // step: AttestationStep;
+  // claimCm: string | null;
   formData: CryptoAssetSizeAtstFormData;
   setFormData: React.Dispatch<React.SetStateAction<CryptoAssetSizeAtstFormData>>;
   setIsSigValid: React.Dispatch<React.SetStateAction<boolean>>;

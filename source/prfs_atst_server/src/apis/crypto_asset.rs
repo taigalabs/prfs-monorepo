@@ -60,7 +60,7 @@ pub async fn create_crypto_asset_size_atst(
         atst_type: input.atst_type.clone(),
         label: input.label.to_string(),
         cm: input.cm,
-        meta: JsonType::from(input.meta),
+        meta: JsonType::from(vec![]),
         status: PrfsAtstStatus::Valid,
         value: Decimal::from(0),
     };

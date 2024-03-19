@@ -16,7 +16,7 @@ import {
 import { AttestationStep } from "./create_crypto_asset_size_atst";
 
 const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
-  step,
+  // step,
   walletCacheKeys,
   walletAddrEnc,
 }) => {
@@ -39,9 +39,9 @@ const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
   }, [walletCacheKeys]);
 
   return (
-    <AttestationListItem isDisabled={step < AttestationStep.POST_TWEET}>
+    <AttestationListItem isDisabled={false}>
       <AttestationListItemOverlay />
-      <AttestationListItemNo>4</AttestationListItemNo>
+      <AttestationListItemNo>{null}</AttestationListItemNo>
       <AttestationListRightCol>
         <AttestationListItemDesc>
           <AttestationListItemDescTitle>
@@ -72,7 +72,7 @@ const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
 export default EncryptedWalletAddrItem;
 
 export interface EncryptedWalletAddrItemProps {
-  step: AttestationStep;
+  // step: AttestationStep;
   walletCacheKeys: Record<string, string> | null;
   walletAddrEnc: string | null;
 }
