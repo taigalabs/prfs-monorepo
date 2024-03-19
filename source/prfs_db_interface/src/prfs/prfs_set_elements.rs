@@ -1,6 +1,7 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::atst_entities::PrfsAttestation;
 use prfs_entities::entities::{PrfsSetElement, PrfsSetElementData, PrfsSetElementDataType};
+use prfs_entities::PrfsSetElementStatus;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
 
@@ -36,10 +37,10 @@ INSERT INTO prfs_set_elements
 
         b.push_bind(&atst.label)
             .push_bind(data)
-            .push_bind("crypto_asset_size_atsts")
+            .push_bind(atst.atst_type.to_string())
             .push_bind(set_id)
             .push_bind(Decimal::from_u64(idx as u64))
-            .push_bind("NotRegistered");
+            .push_bind(PrfsSetElementStatus::NotRegistered);
     });
 
     query_builder.push(
