@@ -9,6 +9,7 @@ lazy_static! {
 
 #[derive(Debug)]
 pub struct Paths {
+    pub package_root: PathBuf,
     pub log_files: PathBuf,
     pub data: PathBuf,
     pub data_sets: PathBuf,
@@ -18,6 +19,7 @@ pub struct Paths {
 impl Paths {
     pub fn new() -> Paths {
         let project_root = get_project_root();
+
         let package_root = project_root.join("source/prfs_tree_lib");
         let log_files = package_root.join("log_files");
         let data = package_root.join("data");
@@ -25,6 +27,7 @@ impl Paths {
         let data_sets = package_root.join("data/sets");
 
         let p = Paths {
+            package_root,
             log_files,
             data,
             data_scans,
