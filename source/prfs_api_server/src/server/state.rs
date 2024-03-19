@@ -1,7 +1,6 @@
 use chrono::{DateTime, Utc};
 use colored::Colorize;
 use ethers_signers::LocalWallet;
-use prfs_axum_lib::reqwest::Client;
 use prfs_common_server_state::ServerState;
 use prfs_db_driver::database2::Database2;
 use prfs_web_fetcher::destinations::infura::{InfuraFetcher, InfuraFetcherOpt};
@@ -31,8 +30,6 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
     });
     let wallet = ENVS.prfs_api_private_key.parse::<LocalWallet>()?;
     let launch_time: DateTime<Utc> = Utc::now();
-
-    // let client = Client::new();
 
     println!(
         "{} server state, wallet: {:?}, commit_hash: {}, launch_time: {}",
