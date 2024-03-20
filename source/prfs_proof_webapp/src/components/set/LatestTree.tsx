@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { abbrev7and5, abbrevMandN } from "@taigalabs/prfs-ts-utils";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
@@ -13,7 +13,7 @@ const LatestTree: React.FC<SetProps> = ({ set_id, nonce }) => {
   const { isFetching, data, error } = useQuery({
     queryKey: ["get_latest_tree_by_set_id", set_id, nonce],
     queryFn: async () => {
-      return prfsApi3({
+      return treeApi({
         type: "get_latest_prfs_tree_by_set_id",
         set_id,
       });

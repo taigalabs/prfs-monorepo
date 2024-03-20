@@ -21,6 +21,7 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
+import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -131,7 +132,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       <span className={styles.inputLabel}>
         <span>{prfsSet.label}</span>
         <a className={styles.link} onClick={handleClick} href={url}>
-          <span> ({treeId})</span>
+          <HoverableText> ({treeId})</HoverableText>
         </a>
       </span>
     ) : (
