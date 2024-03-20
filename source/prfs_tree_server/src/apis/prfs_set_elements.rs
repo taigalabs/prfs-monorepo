@@ -42,7 +42,6 @@ pub async fn import_prfs_attestations_to_prfs_set(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
-    println!("1233");
 
     bail_out_tx_commit!(tx, &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR);
     let resp = ApiResponse::new_success(ImportPrfsAttestationsToPrfsSetResponse {

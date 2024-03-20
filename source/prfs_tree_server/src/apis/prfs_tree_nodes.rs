@@ -1,6 +1,6 @@
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
-use prfs_axum_lib::bail_out_tx;
 use prfs_axum_lib::resp::ApiResponse;
+use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit};
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
@@ -91,7 +91,7 @@ pub async fn update_prfs_tree_node(
 
     let resp = ApiResponse::new_success(UpdatePrfsTreeNodeResponse { pos_w });
 
-    tx.commit().await.unwrap();
+    bail_out_tx_commit!(tx, &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR);
 
     return (StatusCode::OK, Json(resp));
 }
