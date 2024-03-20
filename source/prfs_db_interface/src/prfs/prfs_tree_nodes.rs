@@ -11,25 +11,28 @@ pub async fn get_prfs_tree_nodes_by_pos(
     set_id: &String,
     pos: &Vec<NodePos>,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
-    let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
-        r#"
-SELECT *
-FROM prfs_tree_nodes
-WHERE (pos_w, pos_h) in
-    "#,
-    );
+    //     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
+    //         r#"
+    // SELECT *
+    // FROM prfs_tree_nodes
+    // WHERE set_id=
+    //     "#,
+    //     );
 
-    // query_builder.push_tuples(pos, |mut b, p| {
-    //     b.push_bind(p.pos_w).push_bind(p.pos_h);
-    // });
+    //     query_builder.push_bind(&set_id);
+    //     query_builder.push(" AND (pos_w, pos_h) in ");
 
-    // query_builder.push("AND set_id=$1");
+    //     query_builder.push_tuples(pos, |mut b, p| {
+    //         b.push_bind(p.pos_w).push_bind(p.pos_h);
+    //     });
 
-    // let query = query_builder.build().bind(&set_id);
-    // let q = query.sql();
-    // println!("q: {}", q);
+    //     // query_builder.push("AND set_id=$1");
 
-    // let rows = query.fetch_all(pool).await?;
+    //     let query = query_builder.build();
+    //     let q = query.sql();
+    //     println!("q: {}", q);
+
+    //     let rows = query.bind(&set_id).fetch_all(pool).await?;
 
     let whre: Vec<String> = pos
         .iter()
