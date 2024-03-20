@@ -40,7 +40,7 @@ enum Status {
   Standby,
 }
 
-const closeWindowAtTheEnd = true;
+const debug__keepWindowAtTheEnd = true;
 
 const ProofGenForm: React.FC<ProofGenFormProps> = ({
   handleClickPrev,
@@ -94,7 +94,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         dispatch(setGlobalMsg({ message: i18n.already_made_proof, notDismissible: true }));
         setCreateProofStatus(Status.Standby);
 
-        if (closeWindowAtTheEnd) {
+        if (!debug__keepWindowAtTheEnd) {
           setTimeout(() => {
             window.close();
           }, 2000);
@@ -230,7 +230,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
         // For some reason, parent window sees the child as 'child', so child manually
         // closes itself
-        if (closeWindowAtTheEnd) {
+        if (!debug__keepWindowAtTheEnd) {
           window.close();
         }
       } catch (err: any) {

@@ -375,6 +375,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           }
         }
 
+        console.log(222, siblings);
+
         const merkleProof: SpartanMerkleProof = {
           root: BigInt(prfsTree.merkle_root),
           siblings: siblings as bigint[],
