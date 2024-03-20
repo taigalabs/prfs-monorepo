@@ -6,7 +6,6 @@ use std::sync::Arc;
 use crate::apis::{
     prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_indices,
     prfs_polls, prfs_proof_instances, prfs_proof_records, prfs_proof_types, prfs_sets,
-    prfs_tree_nodes, prfs_trees,
 };
 
 pub fn make_api_v0_router() -> Router<Arc<ServerState>> {

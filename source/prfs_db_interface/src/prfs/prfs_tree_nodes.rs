@@ -1,6 +1,6 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsTreeNode;
-use prfs_entities::prfs_api::NodePos;
+use prfs_entities::tree_api::NodePos;
 use rust_decimal::Decimal;
 
 use crate::DbInterfaceError;

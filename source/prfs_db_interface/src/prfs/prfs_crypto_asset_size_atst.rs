@@ -70,7 +70,7 @@ ORDER BY created_at
     Ok(atsts)
 }
 
-pub async fn get_prfs_crypto_asset_size_atst(
+pub async fn get_prfs_attestation(
     pool: &Pool<Postgres>,
     atst_id: &String,
 ) -> Result<PrfsAttestation, DbInterfaceError> {

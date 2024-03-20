@@ -130,7 +130,7 @@ pub async fn get_crypto_asset_size_atsts(
 ) {
     let pool = &state.db2.pool;
 
-    let rows = match prfs::get_prfs_crypto_asset_size_atsts(&pool, input.offset, LIMIT).await {
+    let rows = match prfs::get_prfs_attestations(&pool, input.offset, LIMIT).await {
         Ok(r) => r,
         Err(err) => {
             let resp = ApiResponse::new_error(
@@ -160,8 +160,7 @@ pub async fn get_crypto_asset_size_atst(
 ) {
     let pool = &state.db2.pool;
 
-    let prfs_attestation = match prfs::get_prfs_crypto_asset_size_atst(&pool, &input.atst_id).await
-    {
+    let prfs_attestation = match prfs::get_prfs_attestation(&pool, &input.atst_id).await {
         Ok(a) => a,
         Err(err) => {
             let resp =
@@ -205,7 +204,7 @@ pub async fn compute_crypto_asset_size_total_values(
         }
     };
 
-    let atsts = match prfs::get_prfs_crypto_asset_size_atsts(&pool, 0, 50000).await {
+    let atsts = match prfs::get_prfs_attestations(&pool, 0, 50000).await {
         Ok(a) => a,
         Err(err) => {
             let resp =
