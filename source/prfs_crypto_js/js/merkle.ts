@@ -28,7 +28,7 @@ export function makeSiblingPath(depth: number, leafIdx: number): number[] {
   return siblingIndices;
 }
 
-export function computeRoot(leaf: number, root: number, siblings: number[]) {}
+export function computeRoot(leaf: number, siblings: number[], pathIndices: number[]) {}
 
 function getSiblingIdx(idx: number): number {
   if (idx % 2 == 0) {
