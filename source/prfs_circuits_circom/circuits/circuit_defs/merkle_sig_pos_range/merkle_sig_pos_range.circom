@@ -38,13 +38,13 @@ template MerkleSigPosRange(nLevels) {
     component poseidon2 = Poseidon();
     poseidon2.inputs[0] <== sigpos;
     poseidon2.inputs[1] <== assetSize;
-    log("leaf", leaf, "computed", poseidon2.out);
+    // log("leaf", leaf, "computed", poseidon2.out);
     leaf === poseidon2.out;
 
     component poseidon3 = Poseidon();
     poseidon3.inputs[0] <== sigpos;
     poseidon3.inputs[1] <== nonce;
-    log("sigposAndNonce", poseidon3.out);
+    // log("sigposAndNonce", poseidon3.out);
 
     component poseidon4 = Poseidon();
     poseidon4.inputs[0] <== poseidon3.out;
@@ -60,6 +60,6 @@ template MerkleSigPosRange(nLevels) {
         merkleProof.siblings[i] <== siblings[i];
     }
 
-    log("root", root, "merkleProof root", merkleProof.root);
-    // root === merkleProof.root;
+    //log("root", root, "merkleProof root", merkleProof.root);
+    root === merkleProof.root;
 }

@@ -16,7 +16,7 @@ pub async fn get_prfs_tree_nodes_by_pos(
     Json(input): Json<GetPrfsTreeNodesByPosRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsTreeNodesResponse>>) {
     let pool = &state.db2.pool;
-    let prfs_tree_nodes = match prfs::get_prfs_tree_nodes_by_pos(pool, &input.set_id, &input.pos)
+    let prfs_tree_nodes = match prfs::get_prfs_tree_nodes_by_pos(pool, &input.tree_id, &input.pos)
         .await
     {
         Ok(n) => n,

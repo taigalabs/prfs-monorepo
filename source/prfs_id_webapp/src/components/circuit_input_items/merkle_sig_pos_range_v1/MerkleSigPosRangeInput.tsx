@@ -354,7 +354,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
         const siblingNodesData = await getPrfsTreeNodesByPosRequest({
-          set_id,
+          tree_id: prfsTree.tree_id,
           pos: siblingPos,
         });
 
@@ -372,8 +372,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             siblings[idx] = BigInt(0);
           }
         }
-
-        console.log(222, siblings);
 
         const merkleProof: SpartanMerkleProof = {
           root: BigInt(prfsTree.merkle_root),

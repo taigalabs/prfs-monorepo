@@ -241,7 +241,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
         // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
         const siblingNodesData = await getPrfsTreeNodesByPosRequest({
-          set_id,
+          tree_id: prfsTree.tree_id,
           pos: siblingPos,
         });
 

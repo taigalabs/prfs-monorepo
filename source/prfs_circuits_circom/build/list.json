@@ -13,7 +13,7 @@
     {
       "circuit_type_id": "merkle_sig_pos_range_v1",
       "r1cs_src_path": "merkle_sig_pos_range_v1/merkle_sig_pos_range_v1.r1cs",
-      "file_hash": "c5d494023e7c597f3cb4f9897a45ce86da0169ecc21c5ebb4601d1cf7c1e7c4f"
+      "file_hash": "b92d4961a02b5f7b4b134d36f741e6391024ffa68c41caccaf6ab4b1ac026fb9"
     }
   ]
 }

@@ -8,49 +8,27 @@ use crate::DbInterfaceError;
 
 pub async fn get_prfs_tree_nodes_by_pos(
     pool: &Pool<Postgres>,
-    set_id: &String,
+    tree_id: &String,
     pos: &Vec<NodePos>,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
-    //     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
-    //         r#"
-    // SELECT *
-    // FROM prfs_tree_nodes
-    // WHERE set_id=
-    //     "#,
-    //     );
-
-    //     query_builder.push_bind(&set_id);
-    //     query_builder.push(" AND (pos_w, pos_h) in ");
-
-    //     query_builder.push_tuples(pos, |mut b, p| {
-    //         b.push_bind(p.pos_w).push_bind(p.pos_h);
-    //     });
-
-    //     // query_builder.push("AND set_id=$1");
-
-    //     let query = query_builder.build();
-    //     let q = query.sql();
-    //     println!("q: {}", q);
-
-    //     let rows = query.bind(&set_id).fetch_all(pool).await?;
-
-    let whre: Vec<String> = pos
-        .iter()
-        .map(|mp| format!("(pos_w = {} and pos_h = {})", mp.pos_w, mp.pos_h))
-        .collect();
-
-    let whre = whre.join(" OR ");
-
-    let where_clause = format!(
-        "where set_id = '{}' AND ({}) ORDER BY pos_h",
-        set_id.to_string(),
-        whre,
+    let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
+        r#"
+SELECT *
+FROM prfs_tree_nodes
+WHERE tree_id=
+"#,
     );
 
-    let query = format!("SELECT * from prfs_tree_nodes nodes {}", where_clause);
-    println!("query: {}", query);
+    query_builder.push_bind(&tree_id);
+    query_builder.push(" AND (pos_w, pos_h) in ");
+    query_builder.push_tuples(pos, |mut b, p| {
+        b.push_bind(p.pos_w).push_bind(p.pos_h);
+    });
 
-    let rows = sqlx::query(&query).fetch_all(pool).await?;
+    query_builder.push(" ORDER BY pos_h ASC");
+
+    let query = query_builder.build();
+    let rows = query.bind(&tree_id).fetch_all(pool).await?;
 
     let nodes = rows
         .iter()
@@ -130,7 +108,8 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
     page_size: i32,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
     let query = r#"
-SELECT * from prfs_tree_nodes nodes where set_id=$1 and pos_h=0 
+SELECT * from prfs_tree_nodes nodes 
+WHERE set_id=$1 AND pos_h=0 
 ORDER BY pos_w ASC
 OFFSET $2
 LIMIT $3
@@ -293,8 +272,8 @@ pub async fn update_prfs_tree_node(
 INSERT INTO prfs_tree_nodes
 (set_id, pos_w, pos_h, val, "meta")
 VALUES ($1, $2, $3, $4, $5)
-ON CONFLICT (pos_w, pos_h, set_id) DO UPDATE SET val=excluded.val, meta=excluded.meta,
-updated_at = now()
+ON CONFLICT (pos_w, pos_h, set_id) 
+DO UPDATE SET val=excluded.val, meta=excluded.meta, updated_at = now()
 RETURNING pos_w
 "#;
 

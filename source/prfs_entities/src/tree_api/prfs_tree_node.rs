@@ -15,7 +15,7 @@ pub struct NodePos {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsTreeNodesByPosRequest {
-    pub set_id: String,
+    pub tree_id: String,
     pub pos: Vec<NodePos>,
 }
 
