@@ -6,8 +6,6 @@ import type { CreatePrfsProofInstanceResponse } from "./CreatePrfsProofInstanceR
 import type { CreatePrfsProofRecordResponse } from "./CreatePrfsProofRecordResponse";
 import type { CreatePrfsProofTypeResponse } from "./CreatePrfsProofTypeResponse";
 import type { CreatePrfsSetResponse } from "./CreatePrfsSetResponse";
-import type { CreatePrfsTreeByPrfsSetResponse } from "./CreatePrfsTreeByPrfsSetResponse";
-import type { GetLatestPrfsTreeBySetIdResponse } from "./GetLatestPrfsTreeBySetIdResponse";
 import type { GetLeastRecentPrfsIndexResponse } from "./GetLeastRecentPrfsIndexResponse";
 import type { GetPrfsCircuitByCircuitIdResponse } from "./GetPrfsCircuitByCircuitIdResponse";
 import type { GetPrfsCircuitDriverByDriverIdResponse } from "./GetPrfsCircuitDriverByDriverIdResponse";
@@ -26,11 +24,9 @@ import type { GetPrfsProofTypeByProofTypeIdResponse } from "./GetPrfsProofTypeBy
 import type { GetPrfsProofTypesResponse } from "./GetPrfsProofTypesResponse";
 import type { GetPrfsSetBySetIdResponse } from "./GetPrfsSetBySetIdResponse";
 import type { GetPrfsSetsResponse } from "./GetPrfsSetsResponse";
-import type { GetPrfsTreeNodesResponse } from "./GetPrfsTreeNodesResponse";
 import type { SignInPrfsAccountResponse } from "./SignInPrfsAccountResponse";
 import type { SignUpPrfsAccountRequest } from "./SignUpPrfsAccountRequest";
 import type { SubmitPrfsPollResponseResponse } from "./SubmitPrfsPollResponseResponse";
-import type { UpdatePrfsTreeNodeResponse } from "./UpdatePrfsTreeNodeResponse";
 
 export type PrfsApiResponse =
   | ({ type: "GetPrfsCircuits" } & GetPrfsCircuitsResponse)
@@ -59,11 +55,5 @@ export type PrfsApiResponse =
   | ({ type: "GetPrfsSets" } & GetPrfsSetsResponse)
   | ({ type: "create_prfs_set" } & CreatePrfsSetResponse)
   | ({ type: "CreatePrfsDynamicSetElement" } & CreatePrfsDynamicSetElementResponse)
-  | ({ type: "create_prfs_tree_by_prfs_set" } & CreatePrfsTreeByPrfsSetResponse)
-  | ({ type: "get_prfs_tree_nodes_by_pos" } & GetPrfsTreeNodesResponse)
-  | ({ type: "GetPrfsTreeLeafNodesBySetId" } & GetPrfsTreeNodesResponse)
-  | ({ type: "get_prfs_tree_leaf_indices" } & GetPrfsTreeNodesResponse)
-  | ({ type: "UpdatePrfsTreeNode" } & UpdatePrfsTreeNodeResponse)
-  | ({ type: "get_latest_prfs_tree_by_set_id" } & GetLatestPrfsTreeBySetIdResponse)
   | ({ type: "create_prfs_proof_record" } & CreatePrfsProofRecordResponse)
   | ({ type: "get_prfs_proof_record" } & GetPrfsProofRecordResponse);

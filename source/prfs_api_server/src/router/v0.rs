@@ -67,29 +67,29 @@ pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
             post(prfs_proof_instances::get_prfs_proof_instance_by_short_id),
         )
         // .route(
-        //     "/get_prfs_set_elements",
-        //     post(prfs_set_elements::get_prfs_set_elements),
+        //     "/get_prfs_tree_nodes_by_pos",
+        //     post(prfs_tree_nodes::get_prfs_tree_nodes_by_pos),
         // )
         // .route(
-        //     "/get_prfs_set_element",
-        //     post(prfs_set_elements::get_prfs_set_element),
+        //     "/get_prfs_tree_leaf_nodes_by_set_id",
+        //     post(prfs_tree_nodes::get_prfs_tree_leaf_nodes_by_set_id),
         // )
         // .route(
-        //     "/import_prfs_set_elements",
-        //     post(prfs_set_elements::import_prfs_set_elements),
+        //     "/get_prfs_tree_leaf_indices",
+        //     post(prfs_tree_nodes::get_prfs_tree_leaf_indices),
         // )
-        .route(
-            "/get_prfs_tree_nodes_by_pos",
-            post(prfs_tree_nodes::get_prfs_tree_nodes_by_pos),
-        )
-        .route(
-            "/get_prfs_tree_leaf_nodes_by_set_id",
-            post(prfs_tree_nodes::get_prfs_tree_leaf_nodes_by_set_id),
-        )
-        .route(
-            "/get_prfs_tree_leaf_indices",
-            post(prfs_tree_nodes::get_prfs_tree_leaf_indices),
-        )
+        // .route(
+        //     "/update_prfs_tree_node",
+        //     post(prfs_tree_nodes::update_prfs_tree_node),
+        // )
+        // .route(
+        //     "/create_prfs_tree_by_prfs_set",
+        //     post(prfs_trees::create_prfs_tree_by_prfs_set),
+        // )
+        // .route(
+        //     "/get_latest_prfs_tree_by_set_id",
+        //     post(prfs_trees::get_latest_prfs_tree_by_set_id),
+        // )
         .route("/create_prfs_set", post(prfs_sets::create_prfs_set))
         .route("/get_prfs_sets", post(prfs_sets::get_prfs_sets))
         .route(
@@ -99,10 +99,6 @@ pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
         .route(
             "/create_prfs_proof_type",
             post(prfs_proof_types::create_prfs_proof_type),
-        )
-        .route(
-            "/update_prfs_tree_node",
-            post(prfs_tree_nodes::update_prfs_tree_node),
         )
         .route("/get_prfs_polls", post(prfs_polls::get_prfs_polls))
         .route(
@@ -118,14 +114,6 @@ pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
             post(prfs_polls::submit_prfs_poll_response),
         )
         .route("/create_prfs_poll", post(prfs_polls::create_prfs_poll))
-        .route(
-            "/create_prfs_tree_by_prfs_set",
-            post(prfs_trees::create_prfs_tree_by_prfs_set),
-        )
-        .route(
-            "/get_latest_prfs_tree_by_set_id",
-            post(prfs_trees::get_latest_prfs_tree_by_set_id),
-        )
         .route(
             "/get_least_recent_prfs_index",
             post(prfs_indices::get_least_recent_prfs_index),

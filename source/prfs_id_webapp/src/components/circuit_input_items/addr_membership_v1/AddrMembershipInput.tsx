@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
@@ -52,7 +52,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
 
   const { mutateAsync: GetPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
-      return prfsApi3({ type: "get_prfs_tree_leaf_indices", ...req });
+      return treeApi({ type: "get_prfs_tree_leaf_indices", ...req });
     },
   });
 
@@ -64,14 +64,14 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
 
   const { mutateAsync: getPrfsTreeNodesByPosRequest } = useMutation({
     mutationFn: (req: GetPrfsTreeNodesByPosRequest) => {
-      return prfsApi3({ type: "get_prfs_tree_nodes_by_pos", ...req });
+      return treeApi({ type: "get_prfs_tree_nodes_by_pos", ...req });
     },
   });
 
   const { isPending: isGetLatestPrfsTreePending, mutateAsync: getLatestPrfsTreeBySetId } =
     useMutation({
       mutationFn: (req: GetLatestPrfsTreeBySetIdRequest) => {
-        return prfsApi3({ type: "get_latest_prfs_tree_by_set_id", ...req });
+        return treeApi({ type: "get_latest_prfs_tree_by_set_id", ...req });
       },
     });
 
