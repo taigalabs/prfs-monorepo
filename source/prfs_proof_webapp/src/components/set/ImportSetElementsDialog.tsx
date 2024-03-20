@@ -5,7 +5,7 @@ import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaFileImport } from "@react-icons/all-files/fa/FaFileImport";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
+import { treeApi } from "@taigalabs/prfs-api-js";
 import { ImportPrfsAttestationsToPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/ImportPrfsAttestationsToPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
@@ -23,8 +23,6 @@ import {
 import { CommonStatus } from "@/components/common_status/CommonStatus";
 import { isMasterAccountId } from "@/mock/mock_data";
 
-const PRFS_ATTESTATION = "prfs_attestation";
-const CRYPTO_ASSET_SIZE_ATSTS = "crypto_asset_size_atsts";
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 const CRYPTO_1 = "crypto_1";
 
