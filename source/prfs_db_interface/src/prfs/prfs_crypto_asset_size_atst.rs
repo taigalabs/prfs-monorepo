@@ -43,9 +43,9 @@ pub async fn get_prfs_attestations(
     let query = r#"
 SELECT *
 FROM prfs_attestations
+ORDER BY created_at
 LIMIT $1
 OFFSET $2
-ORDER BY created_at
 "#;
 
     let rows = sqlx::query(query)
