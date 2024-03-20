@@ -1,4 +1,3 @@
-use prfs_api_error_codes::PRFS_API_ERROR_CODES;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::bail_out_tx;
 use prfs_axum_lib::resp::ApiResponse;
@@ -33,7 +32,7 @@ pub async fn create_prfs_tree_by_prfs_set(
         Ok(t) => t,
         Err(err) => {
             let resp = ApiResponse::new_error(
-                &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+                &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
                 format!("error starting db transaction: {}", err),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));
@@ -44,7 +43,7 @@ pub async fn create_prfs_tree_by_prfs_set(
         Ok(s) => s,
         Err(err) => {
             let resp = ApiResponse::new_error(
-                &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+                &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
                 format!(
                     "Error getting prfs set, set_id: {}, err: {}",
                     input.set_id, err
@@ -58,7 +57,7 @@ pub async fn create_prfs_tree_by_prfs_set(
         Ok(e) => e,
         Err(err) => {
             let resp = ApiResponse::new_error(
-                &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+                &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
                 format!(
                     "Error getting prfs set elements, set_id: {}, err: {}",
                     set.set_id, err
@@ -73,7 +72,7 @@ pub async fn create_prfs_tree_by_prfs_set(
         Ok(l) => l,
         Err(err) => {
             let resp = ApiResponse::new_error(
-                &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+                &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
                 format!(
                     "Error creating leaves, set_id: {}, err: {}",
                     set.set_id, err
@@ -88,7 +87,7 @@ pub async fn create_prfs_tree_by_prfs_set(
             Ok(v) => v,
             Err(err) => {
                 let resp = ApiResponse::new_error(
-                    &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+                    &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
                     format!(
                         "Error converting byets to string, val: {:?}, err: {}",
                         leaf, err
@@ -112,7 +111,7 @@ pub async fn create_prfs_tree_by_prfs_set(
 
     if leaf_nodes.len() < 1 {
         let resp = ApiResponse::new_error(
-            &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+            &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
             format!("No tree nodes to insert, leaf_nodes: {:?}", leaf_nodes,),
         );
         return (StatusCode::BAD_REQUEST, Json(resp));
@@ -120,7 +119,7 @@ pub async fn create_prfs_tree_by_prfs_set(
 
     if let Err(err) = prfs::insert_prfs_tree_nodes(&mut tx, &leaf_nodes, false).await {
         let resp = ApiResponse::new_error(
-            &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+            &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
             format!(
                 "Error inserting prfs tree nodes, leaf_nodes: {:?}, err: {}",
                 leaf_nodes, err
@@ -137,7 +136,7 @@ pub async fn create_prfs_tree_by_prfs_set(
             Ok(p) => p,
             Err(err) => {
                 let resp = ApiResponse::new_error(
-                    &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+                    &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
                     format!("Error calculating parent nodes, err: {}", err),
                 );
                 return (StatusCode::BAD_REQUEST, Json(resp));
@@ -164,7 +163,7 @@ pub async fn create_prfs_tree_by_prfs_set(
         children = parents;
         if let Err(err) = prfs::insert_prfs_tree_nodes(&mut tx, &parent_nodes, false).await {
             let resp = ApiResponse::new_error(
-                &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+                &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
                 format!("Error inserting tree nodes, err: {}", err),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));
@@ -177,7 +176,7 @@ pub async fn create_prfs_tree_by_prfs_set(
 
     if let Err(err) = prfs::upsert_prfs_set(&mut tx, &set).await {
         let resp = ApiResponse::new_error(
-            &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+            &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
             format!("Error upserting prfs set, err: {}", err),
         );
         return (StatusCode::BAD_REQUEST, Json(resp));
@@ -194,7 +193,7 @@ pub async fn create_prfs_tree_by_prfs_set(
     };
     if let Err(err) = prfs::insert_prfs_tree(&mut tx, &tree).await {
         let resp = ApiResponse::new_error(
-            &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
+            &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
             format!("Error inserting prfs tree, err: {}", err),
         );
         return (StatusCode::BAD_REQUEST, Json(resp));

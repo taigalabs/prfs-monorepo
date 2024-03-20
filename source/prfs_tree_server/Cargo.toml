@@ -28,7 +28,6 @@ tracing-appender = "0.2"
 project_root = { path = "../project_root" }
 prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_db_driver = { path = "../prfs_db_driver" }
-prfs_api_error_codes = { path = "../prfs_api_error_codes" }
 prfs_tree_api_error_codes = { path = "../prfs_tree_api_error_codes" }
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_lib = { path = "../prfs_tree_lib" }
