@@ -28,6 +28,8 @@ export function makeSiblingPath(depth: number, leafIdx: number): number[] {
   return siblingIndices;
 }
 
+export function computeRoot(leaf: number, root: number, siblings: number[]) {}
+
 function getSiblingIdx(idx: number): number {
   if (idx % 2 == 0) {
     return idx + 1;
