@@ -48,8 +48,8 @@ describe("merkle", () => {
 
     console.log(22);
 
-    async function hash() {
-      // await poseidon_2_bigint_le();
+    async function hash(arg1: bigint, arg2: bigint) {
+      return await poseidon_2_bigint_le([arg1, arg2]);
     }
 
     // const root = await computeRoot(leaf, siblings, pathIndices, hash);

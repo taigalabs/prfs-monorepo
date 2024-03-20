@@ -29,11 +29,13 @@ export function makeSiblingPath(depth: number, leafIdx: number): number[] {
 }
 
 export function computeRoot(
-  leaf: number,
-  siblings: number[],
+  leaf: bigint,
+  siblings: bigint[],
   pathIndices: number[],
-  hash: (arg1: number, arg2: number) => Promise<number>,
-) {}
+  hash: (arg1: bigint, arg2: bigint) => Promise<bigint>,
+) {
+  return 0n;
+}
 
 function getSiblingIdx(idx: number): number {
   if (idx % 2 == 0) {
