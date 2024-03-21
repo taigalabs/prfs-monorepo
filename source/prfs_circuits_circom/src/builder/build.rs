@@ -1,6 +1,7 @@
 use chrono::{DateTime, Utc};
 use colored::Colorize;
-use prfs_crypto::sha256;
+use prfs_crypto::hex;
+use prfs_crypto::sha2::{Digest, Sha256};
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, path::PathBuf, process::Command};
 
@@ -21,7 +22,10 @@ pub fn run() {
         create_circuit_json(&mut circuit);
 
         let b = std::fs::read(&r1cs_src_path).unwrap();
-        let digest = sha256::digest(&b);
+        let mut hasher = Sha256::new();
+        hasher.update(&b);
+        let digest = hex::encode(hasher.finalize());
+
         circuit_list.push(CircuitBuild {
             circuit_type_id: circuit.circuit_type_id.to_string(),
             r1cs_src_path: r1cs_src_path

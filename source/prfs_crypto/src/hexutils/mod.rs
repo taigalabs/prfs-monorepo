@@ -1,5 +1,6 @@
-use crate::PrfsCryptoError;
 use primitive_types::U256;
+
+use crate::PrfsCryptoError;
 
 pub fn convert_hex_into_32bytes(val: &str) -> Result<[u8; 32], PrfsCryptoError> {
     // let leaf_decimal = U256::from_str_radix(&val, 16)?;

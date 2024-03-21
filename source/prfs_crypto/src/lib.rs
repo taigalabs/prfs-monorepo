@@ -5,12 +5,11 @@ pub use hex;
 pub use k256;
 pub use primitive_types;
 pub use rand;
-pub use sha256;
+pub use sha2;
 
 pub mod hexutils;
 pub mod merkletree;
 pub mod poseidon;
-// pub mod signature;
 
 #[cfg(test)]
 mod tests;
