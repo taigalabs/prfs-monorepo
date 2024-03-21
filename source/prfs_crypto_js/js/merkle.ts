@@ -32,8 +32,17 @@ export function computeRoot(
   leaf: bigint,
   siblings: bigint[],
   pathIndices: number[],
-  hash: (arg1: bigint, arg2: bigint) => Promise<bigint>,
+  hash: (arg1: bigint, arg2: bigint) => Promise<Uint8Array>,
 ) {
+  let curr: Uint8Array;
+  for (const [idx, path] of pathIndices.entries()) {
+    console.log(11, siblings[idx], path);
+    if (idx) {
+      // curr siblings[]
+    } else {
+    }
+  }
+
   return 0n;
 }
 

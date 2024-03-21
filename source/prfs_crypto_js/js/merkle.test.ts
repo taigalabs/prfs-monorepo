@@ -46,13 +46,11 @@ describe("merkle", () => {
     const leaf = 102498427863254023081333814438884825891078623819961206520538795054519983665318n;
     const root_ = 0;
 
-    console.log(22);
-
     async function hash(arg1: bigint, arg2: bigint) {
       return await poseidon_2_bigint_le([arg1, arg2]);
     }
 
-    // const root = await computeRoot(leaf, siblings, pathIndices, hash);
+    const root = await computeRoot(leaf, siblings, pathIndices, hash);
 
     // assert()
   });
