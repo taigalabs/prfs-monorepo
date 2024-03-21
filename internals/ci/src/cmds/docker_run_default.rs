@@ -25,8 +25,6 @@ fn run_docker(_extra_args: Vec<&str>) {
     //     .status()
     //     .expect(&format!("{} command failed to start", JS_ENGINE));
 
-    // return;
-
     let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
     let envs = get_envs();
 
