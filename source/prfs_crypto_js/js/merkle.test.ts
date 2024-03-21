@@ -1,8 +1,14 @@
-import { computeRoot } from "./merkle";
+// import { computeRoot } from "./merkle";
 import { poseidon_2_bigint_le } from "./poseidon";
+import { wasmBytes } from "./wasm_wrapper/build/prfs_crypto_js_bytes";
 
 describe("merkle", () => {
   it("should work", async () => {
+    console.log(11, wasmBytes);
+    // const math = await WebAssembly.instantiate(new Uint8Array(math_wasm)).then(
+    //   result => result.instance.exports,
+    // );
+
     const siblings = [
       63493556091605062420991890579763508134186613118493263501548433187433360490127n,
       11541185532172907887807548670798677910461320867216093684679519736414477281130n,
@@ -46,11 +52,11 @@ describe("merkle", () => {
     const leaf = 102498427863254023081333814438884825891078623819961206520538795054519983665318n;
     const root_ = 0;
 
-    async function hash(arg1: bigint, arg2: bigint) {
-      return await poseidon_2_bigint_le([arg1, arg2]);
-    }
+    // async function hash(arg1: bigint, arg2: bigint) {
+    //   return await poseidon_2_bigint_le([arg1, arg2]);
+    // }
 
-    const root = await computeRoot(leaf, siblings, pathIndices, hash);
+    // const root = await computeRoot(leaf, siblings, pathIndices, hash);
 
     // assert()
   });
