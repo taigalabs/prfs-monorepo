@@ -1,5 +1,5 @@
 [package]
-name = "prfs_crypto"
+name = "prfs_web3_rs"
 version = "0.1.0"
 edition = "2021"
 
@@ -17,7 +17,10 @@ hex = "0.4.3"
 ff = "0.13"
 group = "0.13"
 rand = "0.8"
+ethers-core = "2.0"
+ethers-signers = "2.0"
 k256 = { version = "0.13.3", features = ["ecdsa-core", "arithmetic"] }
+tokio = { version = "1", features = ["full"] }
 
 poseidon = { path = "../../externals/poseidon" }
 secq256k1 = { path = "../../externals/secq256k1" }

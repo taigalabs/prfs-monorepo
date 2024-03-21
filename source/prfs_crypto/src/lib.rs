@@ -1,5 +1,4 @@
 pub use crypto_bigint;
-pub use ethers_signers;
 pub use ff;
 pub use group;
 pub use hex;
@@ -11,7 +10,7 @@ pub use sha256;
 pub mod hexutils;
 pub mod merkletree;
 pub mod poseidon;
-pub mod signature;
+// pub mod signature;
 
 #[cfg(test)]
 mod tests;

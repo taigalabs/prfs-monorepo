@@ -4,7 +4,6 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::ApiHandleError;
 use prfs_common_server_state::ServerState;
-use prfs_crypto::signature::verify_eth_sig_by_addr;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api::{
@@ -15,6 +14,7 @@ use prfs_entities::atst_api::{
 };
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_entities::{UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest};
+use prfs_web3_rs::signature::verify_eth_sig_by_addr;
 use prfs_web_fetcher::destinations::coinbase::{self};
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
