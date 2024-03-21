@@ -43,7 +43,7 @@ export function computeRoot(
     }
   }
 
-  return 0n;
+  return new Uint8Array();
 }
 
 function getSiblingIdx(idx: number): number {
