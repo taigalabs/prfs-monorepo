@@ -4,6 +4,7 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::ApiHandleError;
 use prfs_common_server_state::ServerState;
+use prfs_crypto::signature::verify_eth_sig_by_addr;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api::{
@@ -21,7 +22,7 @@ use std::str::FromStr;
 use std::sync::Arc;
 
 use crate::envs::ENVS;
-use crate::mock::MASTER_ACCOUNT_ID;
+use crate::mock::MASTER_ACCOUNT_IDS;
 
 const LIMIT: i32 = 20;
 
@@ -55,17 +56,36 @@ pub async fn create_crypto_asset_size_atst(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
+    if let Err(err) = verify_eth_sig_by_addr(&input.sig, &input.cm_msg, &input.label) {
+        let resp = ApiResponse::new_error(
+            &PRFS_ATST_API_ERROR_CODES.INVALID_SIG,
+            format!("sig: {}, err: {}", input.sig, err),
+        );
+        return (StatusCode::BAD_REQUEST, Json(resp));
+    }
+
+    let crypto_assets = match state.infura_fetcher.fetch_asset(&input.label).await {
+        Ok(a) => a.crypto_assets,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &PRFS_ATST_API_ERROR_CODES.FETCH_CRYPTO_ASSET_FAIL,
+                err.to_string(),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
     let prfs_attestation = PrfsAttestation {
         atst_id: input.atst_id,
         atst_type: input.atst_type.clone(),
         label: input.label.to_string(),
         cm: input.cm,
-        meta: JsonType::from(input.meta),
+        meta: JsonType::from(crypto_assets),
         status: PrfsAtstStatus::Valid,
         value: Decimal::from(0),
     };
 
-    let atst_id = match prfs::insert_prfs_crypto_asset_size_atst(&mut tx, &prfs_attestation).await {
+    let atst_id = match prfs::insert_prfs_attestation(&mut tx, &prfs_attestation).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(
@@ -110,7 +130,7 @@ pub async fn get_crypto_asset_size_atsts(
 ) {
     let pool = &state.db2.pool;
 
-    let rows = match prfs::get_prfs_crypto_asset_size_atsts(&pool, input.offset, LIMIT).await {
+    let rows = match prfs::get_prfs_attestations(&pool, input.offset, LIMIT).await {
         Ok(r) => r,
         Err(err) => {
             let resp = ApiResponse::new_error(
@@ -140,8 +160,7 @@ pub async fn get_crypto_asset_size_atst(
 ) {
     let pool = &state.db2.pool;
 
-    let prfs_attestation = match prfs::get_prfs_crypto_asset_size_atst(&pool, &input.atst_id).await
-    {
+    let prfs_attestation = match prfs::get_prfs_attestation(&pool, &input.atst_id).await {
         Ok(a) => a,
         Err(err) => {
             let resp =
@@ -162,18 +181,30 @@ pub async fn compute_crypto_asset_size_total_values(
     Json<ApiResponse<ComputeCryptoAssetSizeTotalValuesResponse>>,
 ) {
     let pool = &state.db2.pool;
-    if input.account_id != MASTER_ACCOUNT_ID {
+    if !MASTER_ACCOUNT_IDS.contains(&input.account_id.as_ref()) {
         return (
             StatusCode::BAD_REQUEST,
             Json(ApiResponse::new_error(
                 &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                "".into(),
+                format!("Account is not master, id: {}", input.account_id),
             )),
         );
     }
 
-    let exchange_rates = coinbase::get_exchange_rates("ETH").await.unwrap();
-    let atsts = match prfs::get_prfs_crypto_asset_size_atsts(&pool, 0, 50000).await {
+    let exchange_rates = match coinbase::get_exchange_rates("ETH").await {
+        Ok(r) => r,
+        Err(err) => {
+            return (
+                StatusCode::BAD_REQUEST,
+                Json(ApiResponse::new_error(
+                    &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
+                    err.to_string(),
+                )),
+            );
+        }
+    };
+
+    let atsts = match prfs::get_prfs_attestations(&pool, 0, 50000).await {
         Ok(a) => a,
         Err(err) => {
             let resp =
@@ -192,12 +223,16 @@ pub async fn compute_crypto_asset_size_total_values(
         if let Some(c) = atst.meta.get(0) {
             let v = c.amount * usd / denom;
             atst.value = v;
-            prfs::insert_prfs_crypto_asset_size_atst(&mut tx, &atst)
-                .await
-                .map_err(|err| {
-                    ApiHandleError::from(&PRFS_ATST_API_ERROR_CODES.CRYPTO_SIZE_UPSERT_FAIL, err)
-                })
-                .unwrap();
+            match prfs::insert_prfs_attestation(&mut tx, &atst).await {
+                Ok(_) => {}
+                Err(err) => {
+                    let resp = ApiResponse::new_error(
+                        &PRFS_ATST_API_ERROR_CODES.CRYPTO_SIZE_UPSERT_FAIL,
+                        err.to_string(),
+                    );
+                    return (StatusCode::BAD_REQUEST, Json(resp));
+                }
+            }
 
             count += 1;
         }

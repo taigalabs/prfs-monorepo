@@ -6,8 +6,6 @@ import type { CreatePrfsProofInstanceRequest } from "./CreatePrfsProofInstanceRe
 import type { CreatePrfsProofRecordRequest } from "./CreatePrfsProofRecordRequest";
 import type { CreatePrfsProofTypeRequest } from "./CreatePrfsProofTypeRequest";
 import type { CreatePrfsSetRequest } from "./CreatePrfsSetRequest";
-import type { CreatePrfsTreeByPrfsSetRequest } from "./CreatePrfsTreeByPrfsSetRequest";
-import type { GetLatestPrfsTreeBySetIdRequest } from "./GetLatestPrfsTreeBySetIdRequest";
 import type { GetLeastRecentPrfsIndexRequest } from "./GetLeastRecentPrfsIndexRequest";
 import type { GetPrfsCircuitByCircuitIdRequest } from "./GetPrfsCircuitByCircuitIdRequest";
 import type { GetPrfsCircuitDriverByDriverIdRequest } from "./GetPrfsCircuitDriverByDriverIdRequest";
@@ -25,18 +23,10 @@ import type { GetPrfsProofRecordRequest } from "./GetPrfsProofRecordRequest";
 import type { GetPrfsProofTypeByProofTypeIdRequest } from "./GetPrfsProofTypeByProofTypeIdRequest";
 import type { GetPrfsProofTypesRequest } from "./GetPrfsProofTypesRequest";
 import type { GetPrfsSetBySetIdRequest } from "./GetPrfsSetBySetIdRequest";
-import type { GetPrfsSetElementRequest } from "./GetPrfsSetElementRequest";
-import type { GetPrfsSetElementsRequest } from "./GetPrfsSetElementsRequest";
-import type { GetPrfsSetsBySetTypeRequest } from "./GetPrfsSetsBySetTypeRequest";
 import type { GetPrfsSetsRequest } from "./GetPrfsSetsRequest";
-import type { GetPrfsTreeLeafIndicesRequest } from "./GetPrfsTreeLeafIndicesRequest";
-import type { GetPrfsTreeLeafNodesBySetIdRequest } from "./GetPrfsTreeLeafNodesBySetIdRequest";
-import type { GetPrfsTreeNodesByPosRequest } from "./GetPrfsTreeNodesByPosRequest";
-import type { ImportPrfsSetElementsRequest } from "./ImportPrfsSetElementsRequest";
 import type { SignInPrfsAccountRequest } from "./SignInPrfsAccountRequest";
 import type { SignUpPrfsAccountRequest } from "./SignUpPrfsAccountRequest";
 import type { SubmitPrfsPollResponseRequest } from "./SubmitPrfsPollResponseRequest";
-import type { UpdatePrfsTreeNodeRequest } from "./UpdatePrfsTreeNodeRequest";
 
 export type PrfsApiRequest =
   | ({ type: "GetPrfsCircuits" } & GetPrfsCircuitsRequest)
@@ -63,17 +53,7 @@ export type PrfsApiRequest =
   | ({ type: "CreatePrfsProofType" } & CreatePrfsProofTypeRequest)
   | ({ type: "get_prfs_set_by_set_id" } & GetPrfsSetBySetIdRequest)
   | ({ type: "GetPrfsSets" } & GetPrfsSetsRequest)
-  | ({ type: "GetPrfsSetsBySetType" } & GetPrfsSetsBySetTypeRequest)
   | ({ type: "create_prfs_set" } & CreatePrfsSetRequest)
   | ({ type: "CreatePrfsDynamicSetElement" } & CreatePrfsDynamicSetElementRequest)
-  | ({ type: "create_prfs_tree_by_prfs_set" } & CreatePrfsTreeByPrfsSetRequest)
-  | ({ type: "import_prfs_set_elements" } & ImportPrfsSetElementsRequest)
-  | ({ type: "get_prfs_set_elements" } & GetPrfsSetElementsRequest)
-  | ({ type: "get_prfs_set_element" } & GetPrfsSetElementRequest)
-  | ({ type: "get_prfs_tree_nodes_by_pos" } & GetPrfsTreeNodesByPosRequest)
-  | ({ type: "GetPrfsTreeLeafNodesBySetId" } & GetPrfsTreeLeafNodesBySetIdRequest)
-  | ({ type: "get_prfs_tree_leaf_indices" } & GetPrfsTreeLeafIndicesRequest)
-  | ({ type: "UpdatePrfsTreeNode" } & UpdatePrfsTreeNodeRequest)
-  | ({ type: "get_latest_prfs_tree_by_set_id" } & GetLatestPrfsTreeBySetIdRequest)
   | ({ type: "create_prfs_proof_record" } & CreatePrfsProofRecordRequest)
   | ({ type: "get_prfs_proof_record" } & GetPrfsProofRecordRequest);

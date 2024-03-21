@@ -38,7 +38,7 @@ template MerkleSigPosRange(nLevels) {
     component poseidon2 = Poseidon();
     poseidon2.inputs[0] <== sigpos;
     poseidon2.inputs[1] <== assetSize;
-    //log("leaf", leaf, "computed", poseidon2.out);
+    // log("leaf", leaf, "computed", poseidon2.out);
     leaf === poseidon2.out;
 
     component poseidon3 = Poseidon();

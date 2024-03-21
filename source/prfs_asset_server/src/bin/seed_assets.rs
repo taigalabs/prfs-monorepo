@@ -7,7 +7,11 @@ use aws_sdk_s3::{
 };
 use colored::Colorize;
 use dotenvy::dotenv;
-use prfs_asset_server::{envs::ENVS, local, paths::PATHS};
+use prfs_asset_server::{
+    envs::{Envs, ENVS},
+    local,
+    paths::PATHS,
+};
 use walkdir::WalkDir;
 
 const PRFS_BUCKET: &str = "prfs-asset-2";
@@ -21,7 +25,7 @@ async fn main() -> Result<(), aws_sdk_s3::Error> {
         std::env::current_dir(),
     );
 
-    dotenv().unwrap();
+    Envs::new();
 
     local::setup_local_assets();
 

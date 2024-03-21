@@ -4,15 +4,6 @@ import cn from "classnames";
 
 import styles from "./DefaultModule.module.scss";
 
-export const DefaultModuleLogoArea: React.FC = () => {
-  return (
-    <div className={styles.logoArea}>
-      <ImageLogo width={46} />
-      <span>ID</span>
-    </div>
-  );
-};
-
 export const DefaultModuleHeader: React.FC<DefaultModuleInputAreaProps> = ({
   className,
   children,

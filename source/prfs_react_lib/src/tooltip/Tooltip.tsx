@@ -13,6 +13,7 @@ import {
   FloatingPortal,
   useHover,
   Placement,
+  safePolygon,
 } from "@floating-ui/react";
 
 import styles from "./Tooltip.module.scss";
@@ -39,7 +40,12 @@ const Tooltip: React.FC<TooltipProps> = ({
       shift(),
     ],
   });
-  const hover = useHover(context, { move: false });
+  const hover = useHover(context, {
+    move: true,
+    handleClose: safePolygon({
+      requireIntent: false,
+    }),
+  });
   const focus = useFocus(context);
   const dismiss = useDismiss(context);
   const role = useRole(context, { role: "tooltip" });

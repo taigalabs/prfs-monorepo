@@ -32,3 +32,41 @@ macro_rules! generate_api_error_codes {
         }
     }
 }
+
+#[macro_export]
+macro_rules! bail_out_tx {
+    (
+        $pool: expr,
+        $error: expr
+    ) => {
+        match $pool.begin().await {
+            Ok(t) => t,
+            Err(err) => {
+                let resp = ApiResponse::new_error(
+                    $error,
+                    format!("Failed to acquire tx, err: {}", err.to_string()),
+                );
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
+    };
+}
+
+#[macro_export]
+macro_rules! bail_out_tx_commit {
+    (
+        $tx: expr,
+        $error: expr
+    ) => {
+        match $tx.commit().await {
+            Ok(_) => (),
+            Err(err) => {
+                let resp = ApiResponse::new_error(
+                    $error,
+                    format!("Failed to tx commit, err: {}", err.to_string()),
+                );
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
+    };
+}

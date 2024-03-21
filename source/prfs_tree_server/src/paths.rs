@@ -11,13 +11,18 @@ lazy_static! {
 #[derive(Debug)]
 pub struct Paths {
     pub project_root: PathBuf,
+    pub package_root: PathBuf,
 }
 
 impl Paths {
     pub fn new() -> Paths {
         let project_root = get_project_root();
+        let package_root = project_root.join("source/prfs_tree_server");
 
-        let p = Paths { project_root };
+        let p = Paths {
+            project_root,
+            package_root,
+        };
 
         println!(
             "{} paths, pkg: {}, Paths: {:#?}",

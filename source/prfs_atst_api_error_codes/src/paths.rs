@@ -10,15 +10,21 @@ lazy_static! {
 #[allow(non_snake_case)]
 #[derive(Debug)]
 pub struct Paths {
+    pub package_root: PathBuf,
     pub bindings: PathBuf,
 }
 
 impl Paths {
     pub fn new() -> Paths {
         let project_root = get_project_root();
-        let bindings = project_root.join("source/prfs_atst_api_error_codes/bindings");
+        let package_root = project_root.join("source/prfs_atst_api_error_codes");
 
-        let p = Paths { bindings };
+        let bindings = package_root.join("bindings");
+
+        let p = Paths {
+            package_root,
+            bindings,
+        };
 
         println!(
             "{} paths, pkg: {}, Paths: {:#?}",

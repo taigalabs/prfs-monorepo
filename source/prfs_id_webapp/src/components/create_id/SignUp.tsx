@@ -29,12 +29,12 @@ import {
   DefaultInputGuide,
   DefaultModuleBtnRow,
   DefaultModuleHeader,
-  DefaultModuleLogoArea,
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
 import { useAppDispatch } from "@/state/hooks";
 import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
+import AppLogoArea from "../app_logo_area/AppLogoArea";
 
 export enum IdCreationStatus {
   Standby,
@@ -137,7 +137,7 @@ const SignUp: React.FC<SignUpProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <DefaultModuleLogoArea />
+      <AppLogoArea subLabel="ID" />
       <div className={styles.wrapper}>
         <Fade>
           <DefaultModuleHeader noSidePadding>

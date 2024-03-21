@@ -1,6 +1,7 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::atst_entities::PrfsAttestation;
 use prfs_entities::entities::{PrfsSetElement, PrfsSetElementData, PrfsSetElementDataType};
+use prfs_entities::PrfsSetElementStatus;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
 
@@ -14,9 +15,11 @@ pub async fn insert_asset_atsts_as_prfs_set_elements(
     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
         r#"
 INSERT INTO prfs_set_elements 
-(label, data, ref, set_id, element_idx, status) "#,
+(label, data, ref, set_id, element_idx, status)
+"#,
     );
 
+    println!("atsts: {:?}", atsts);
     query_builder.push_values(atsts.iter().enumerate(), |mut b, (idx, atst)| {
         let total_val = atst.value.floor();
         let data = sqlx::types::Json::from(vec![
@@ -32,22 +35,17 @@ INSERT INTO prfs_set_elements
             },
         ]);
 
-        b.push_bind(atst.value.to_string())
+        b.push_bind(&atst.label)
             .push_bind(data)
-            .push_bind("crypto_asset_size_atsts")
+            .push_bind(atst.atst_type.to_string())
             .push_bind(set_id)
             .push_bind(Decimal::from_u64(idx as u64))
-            .push_bind("NotRegistered");
+            .push_bind(PrfsSetElementStatus::NotRegistered);
     });
 
     query_builder.push(
         r#"
-ON CONFLICT (label, set_id) DO UPDATE SET (
-label, set_id, ref, data, status, updated_at
-) = (
-excluded.label, excluded.set_id, excluded.ref, excluded.data, excluded.status,
-now()
-)
+ON CONFLICT DO NOTHING
     "#,
     );
 
@@ -55,6 +53,12 @@ now()
     let res = query.execute(&mut **tx).await?;
     return Ok(res.rows_affected());
 }
+
+// (label, set_id) DO UPDATE SET (
+// label, set_id, ref, data, status, updated_at
+// ) = (
+// excluded.label, excluded.set_id, excluded.ref, excluded.data, excluded.status,
+// now()
 
 pub async fn insert_prfs_set_element(
     tx: &mut Transaction<'_, Postgres>,
@@ -160,11 +164,7 @@ DELETE FROM prfs_set_elements
 WHERE set_id=$1
 "#;
 
-    let result = sqlx::query(query)
-        .bind(&set_id)
-        .execute(&mut **tx)
-        .await
-        .unwrap();
+    let result = sqlx::query(query).bind(&set_id).execute(&mut **tx).await?;
 
     return Ok(result.rows_affected());
 }

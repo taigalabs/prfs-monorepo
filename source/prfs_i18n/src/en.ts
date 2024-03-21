@@ -123,6 +123,7 @@ export default {
   value: "Value",
   validate: "Validate",
   fetch_asset: "Fetch asset",
+  what_do_i_have: "What do I have?",
   meta: "Meta",
   learn: "Learn",
   see_more: "See more",
@@ -247,6 +248,7 @@ export default {
   some_functionalities_are_available_only_with_user_signed_in:
     "Some functionalities are availble only with the user signed in. Join today.",
   not_available: "Not available",
+  navigating: "Navigating",
   url: "URL",
   document_url: "Document URL",
   document: "Document",
@@ -286,6 +288,7 @@ export default {
   compute: "Compute",
   reload: "Reload",
   reloading: "Reloading",
+  prfs_attestations: "Prfs attestations",
   compute_total_asset_value_in_usd: "Compute total asset value in USD",
   import_prfs_set_elements_from_prfs_attestations:
     "Import Prfs set elements from Prfs attestations",

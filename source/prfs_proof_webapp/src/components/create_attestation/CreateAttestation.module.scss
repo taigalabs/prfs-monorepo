@@ -2,6 +2,8 @@
 
 .wrapper {
   width: auto;
+  max-width: 680px;
+  flex-grow: 1;
 }
 
 @media screen and (min-width: $big_display_min_width) {

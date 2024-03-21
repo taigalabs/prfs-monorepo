@@ -1,0 +1,33 @@
+.hoverableText {
+  color: var(--blue-05);
+  font-weight: 500;
+  position: relative;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    top: -1px;
+    bottom: -1px;
+    border-radius: 8px;
+    left: -5px;
+    right: -5px;
+    padding: 10px;
+    position: absolute;
+    /* z-index: -1; */
+    pointer-events: none;
+  }
+
+  &.disabled {
+    cursor: default;
+    opacity: 0.8;
+  }
+
+  &:not(.disabled) {
+    &:hover {
+      &::before {
+        background-color: var(--blue-05);
+        opacity: 0.08;
+      }
+    }
+  }
+}

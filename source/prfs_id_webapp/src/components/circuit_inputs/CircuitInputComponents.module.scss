@@ -9,4 +9,8 @@
   &:hover {
     background-color: var(--bright-blue-60);
   }
+
+  &:focus {
+    background-color: var(--bright-blue-50);
+  }
 }

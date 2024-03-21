@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
+import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { makePathIndices, makeSiblingPath, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
@@ -21,6 +21,7 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
+import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./MerkleSigPosRange.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -85,20 +86,20 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
-      return prfsApi3({ type: "get_prfs_set_element", ...req });
+      return treeApi({ type: "get_prfs_set_element", ...req });
     },
   });
 
   const { isPending: isGetLatestPrfsTreePending, mutateAsync: getLatestPrfsTreeBySetId } =
     useMutation({
       mutationFn: (req: GetLatestPrfsTreeBySetIdRequest) => {
-        return prfsApi3({ type: "get_latest_prfs_tree_by_set_id", ...req });
+        return treeApi({ type: "get_latest_prfs_tree_by_set_id", ...req });
       },
     });
 
   const { mutateAsync: getPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
-      return prfsApi3({ type: "get_prfs_tree_leaf_indices", ...req });
+      return treeApi({ type: "get_prfs_tree_leaf_indices", ...req });
     },
   });
 
@@ -110,16 +111,17 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
   const { mutateAsync: getPrfsTreeNodesByPosRequest } = useMutation({
     mutationFn: (req: GetPrfsTreeNodesByPosRequest) => {
-      return prfsApi3({ type: "get_prfs_tree_nodes_by_pos", ...req });
+      return treeApi({ type: "get_prfs_tree_nodes_by_pos", ...req });
     },
   });
 
   const labelElem = React.useMemo(() => {
+    const url = `${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/sets/${prfsSet?.set_id}`;
+
     function handleClick(ev: React.MouseEvent) {
       ev.preventDefault();
 
       if (prfsSet) {
-        const url = `${envs.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}/sets/${prfsSet.set_id}`;
         window.parent.window.open(url);
       }
     }
@@ -129,12 +131,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     return prfsSet ? (
       <span className={styles.inputLabel}>
         <span>{prfsSet.label}</span>
-        <a
-          className={styles.link}
-          onClick={handleClick}
-          href={`${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/sets/${prfsSet.set_id}`}
-        >
-          <span> ({treeId})</span>
+        <a className={styles.link} onClick={handleClick} href={url}>
+          <HoverableText> ({treeId})</HoverableText>
         </a>
       </span>
     ) : (
@@ -356,7 +354,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
         const siblingNodesData = await getPrfsTreeNodesByPosRequest({
-          set_id,
+          tree_id: prfsTree.tree_id,
           pos: siblingPos,
         });
 

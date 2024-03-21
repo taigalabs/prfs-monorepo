@@ -1,6 +1,7 @@
 // build
 pub mod build;
 pub mod build_circuits;
+pub mod build_prfs_api_server;
 pub mod build_prfs_crypto_js;
 pub mod build_prfs_driver_spartan_js;
 
@@ -30,6 +31,7 @@ pub mod docker_down_all;
 pub mod docker_run_api_server;
 pub mod docker_run_default;
 pub mod docker_run_default_debug;
+pub mod docker_run_default_local;
 pub mod docker_run_postgres;
 pub mod docker_run_prfs_proof_webapp;
 

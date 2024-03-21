@@ -3,12 +3,12 @@ use prfs_entities::atst_entities::PrfsAttestation;
 
 use crate::DbInterfaceError;
 
-pub async fn insert_prfs_crypto_asset_size_atst(
+pub async fn insert_prfs_attestation(
     tx: &mut Transaction<'_, Postgres>,
     prfs_attestation: &PrfsAttestation,
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
-INSERT INTO prfs_crypto_asset_size_atsts
+INSERT INTO prfs_attestations
 (atst_id, atst_type, label, cm, meta, value, status)
 VALUES ($1, $2, $3, $4, $5, $6, $7)
 ON CONFLICT (atst_id) DO UPDATE SET (
@@ -35,7 +35,7 @@ RETURNING atst_id"#;
     return Ok(atst_id);
 }
 
-pub async fn get_prfs_crypto_asset_size_atsts(
+pub async fn get_prfs_attestations(
     pool: &Pool<Postgres>,
     offset: i32,
     limit: i32,
@@ -43,6 +43,7 @@ pub async fn get_prfs_crypto_asset_size_atsts(
     let query = r#"
 SELECT *
 FROM prfs_attestations
+ORDER BY created_at
 LIMIT $1
 OFFSET $2
 "#;
@@ -69,7 +70,7 @@ OFFSET $2
     Ok(atsts)
 }
 
-pub async fn get_prfs_crypto_asset_size_atst(
+pub async fn get_prfs_attestation(
     pool: &Pool<Postgres>,
     atst_id: &String,
 ) -> Result<PrfsAttestation, DbInterfaceError> {

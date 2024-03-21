@@ -1,3 +1,4 @@
+use prfs_api_error_codes::PRFS_API_ERROR_CODES;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
@@ -13,7 +14,13 @@ pub async fn get_prfs_circuit_types(
     Json(input): Json<GetPrfsCircuitTypesRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsCircuitTypesResponse>>) {
     let pool = &state.db2.pool;
-    let prfs_circuit_types = prfs::get_prfs_circuit_types(&pool).await;
+    let prfs_circuit_types = match prfs::get_prfs_circuit_types(&pool).await {
+        Ok(t) => t,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let resp = ApiResponse::new_success(GetPrfsCircuitTypesResponse {
         page_idx: input.page_idx,
@@ -31,7 +38,14 @@ pub async fn get_prfs_circuit_type_by_circuit_type_id(
 ) {
     let pool = &state.db2.pool;
     let prfs_circuit_type =
-        prfs::get_prfs_circuit_type_by_circuit_type_id(&pool, &input.circuit_type_id).await;
+        match prfs::get_prfs_circuit_type_by_circuit_type_id(&pool, &input.circuit_type_id).await {
+            Ok(t) => t,
+            Err(err) => {
+                let resp =
+                    ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
 
     let resp =
         ApiResponse::new_success(GetPrfsCircuitTypeByCircuitTypeIdResponse { prfs_circuit_type });

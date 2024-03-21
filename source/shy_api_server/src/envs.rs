@@ -3,6 +3,8 @@ use dotenvy::dotenv;
 use lazy_static::lazy_static;
 use serde::Deserialize;
 
+use crate::paths::PATHS;
+
 lazy_static! {
     pub static ref ENVS: Envs = Envs::new();
 }
@@ -24,7 +26,13 @@ pub struct Envs {
 
 impl Envs {
     pub fn new() -> Envs {
-        dotenv().unwrap();
+        // let env_path = PATHS.package_root.join(".env");
+
+        // dotenvy::from_path(&env_path).expect(&format!(
+        //     "{}, Failed to locate .env, path: {:?}",
+        //     env!("CARGO_PKG_NAME"),
+        //     env_path
+        // ));
 
         match envy::from_env::<Envs>() {
             Ok(envs) => {

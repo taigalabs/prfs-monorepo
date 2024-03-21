@@ -3,7 +3,6 @@ import cn from "classnames";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { atstApi } from "@taigalabs/prfs-api-js";
-import { i18nContext } from "@/i18n/context";
 import { PrfsAttestation } from "@taigalabs/prfs-entities/bindings/PrfsAttestation";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
@@ -22,25 +21,32 @@ import {
   AttestationTableNoRecord,
   AttestationLoading,
 } from "@/components/attestations_table/AttestationsTable";
+import { useI18N } from "@/i18n/use_i18n";
 
-const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
-  const i18n = React.useContext(i18nContext);
+const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating }) => {
+  const i18n = useI18N();
+
   const walletAddr = React.useMemo(() => {
     return abbrevAddr(atst.label);
   }, [atst.label]);
+
   const cm = React.useMemo(() => {
     return `${atst.cm.substring(0, 12)}...`;
   }, [atst.cm]);
-  const handleClick = React.useCallback(() => {
+
+  const handleClickRow = React.useCallback(() => {
+    setIsNavigating(true);
     router.push(`${paths.attestations__crypto_asset_size}/${atst.atst_id}`);
-  }, [atst.atst_id, router]);
+  }, [atst.atst_id, router, setIsNavigating]);
+
   const cryptoAssets = React.useMemo(() => {
     if (typeof atst.meta === "object") {
-      return `${JSON.stringify(atst.meta).substring(0, 20)}...`;
+      return JSON.stringify(atst.meta);
     } else {
       return "";
     }
   }, [atst.cm]);
+
   const handleClickCryptoAssets = React.useCallback(
     (ev: React.MouseEvent) => {
       ev.stopPropagation();
@@ -50,7 +56,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   );
 
   return (
-    <AttestationTableRow style={style} handleClick={handleClick}>
+    <AttestationTableRow style={style} handleClick={handleClickRow}>
       <AttestationTableCell className={cn(styles.walletAddr, styles.cell)}>
         <span>{walletAddr}</span>
       </AttestationTableCell>
@@ -77,8 +83,10 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
 };
 
 const CryptoAssetSizeAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = useI18N();
   const router = useRouter();
+  const [isNavigating, setIsNavigating] = React.useState(false);
+
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["get_crypto_asset_size_atsts", nonce],
@@ -128,8 +136,10 @@ const CryptoAssetSizeAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce })
 
   return (
     <div className={styles.wrapper}>
-      {status === "pending" ? (
-        <AttestationLoading>Loading...</AttestationLoading>
+      {isNavigating ? (
+        <AttestationLoading>{i18n.navigating}...</AttestationLoading>
+      ) : status === "pending" ? (
+        <AttestationLoading>{i18n.loading}...</AttestationLoading>
       ) : status === "error" ? (
         <AttestationLoading>Error: {(error as Error).message}</AttestationLoading>
       ) : (
@@ -180,6 +190,7 @@ const CryptoAssetSizeAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce })
                     key={virtualRow.index}
                     atst={row}
                     router={router}
+                    setIsNavigating={setIsNavigating}
                     style={{
                       position: "absolute",
                       top: 0,
@@ -209,4 +220,5 @@ export interface AtstRowProps {
   atst: PrfsAttestation;
   style: React.CSSProperties;
   router: AppRouterInstance;
+  setIsNavigating: React.Dispatch<React.SetStateAction<boolean>>;
 }

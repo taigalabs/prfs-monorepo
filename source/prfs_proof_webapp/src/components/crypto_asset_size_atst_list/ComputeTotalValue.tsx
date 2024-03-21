@@ -5,10 +5,10 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { ComputeCryptoAssetSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetSizeTotalValuesRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 
 import styles from "./ComputeTotalValue.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useSignedInProofUser } from "@/hooks/user";
 import { LocalPrfsProofCredential } from "@/storage/local_storage";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
 import {
@@ -24,6 +24,7 @@ const Modal: React.FC<ModalProps> = ({
   handleClickCalculate,
   computeStatus,
   computeMsg,
+  error,
 }) => {
   const i18n = React.useContext(i18nContext);
   const handleClickClose = React.useCallback(() => {
@@ -46,6 +47,7 @@ const Modal: React.FC<ModalProps> = ({
         <p>{i18n.this_might_take_minutes_or_longer}</p>
         <div className={styles.computeMsg}>{computeMsg}</div>
       </DefaultModalDesc>
+      {error && <ErrorBox rounded>{error}</ErrorBox>}
       <DefaultModalBtnRow>
         <Button
           variant="transparent_black_1"
@@ -78,8 +80,8 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
   credential,
   rerender,
 }) => {
-  const { prfsProofCredential } = useSignedInProofUser();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
   const { mutateAsync: computeCryptoSizeTotalValuesRequest, isPending } = useMutation({
     mutationFn: (req: ComputeCryptoAssetSizeTotalValuesRequest) => {
       return atstApi({ type: "compute_crypto_asset_size_total_values", ...req });
@@ -88,34 +90,42 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickCalculate = React.useCallback(async () => {
-    if (prfsProofCredential) {
-      setComputeStatus(CommonStatus.InProgress);
-      try {
-        const { payload } = await computeCryptoSizeTotalValuesRequest({
-          account_id: prfsProofCredential.account_id,
-        });
+    setError(null);
 
-        if (payload) {
-          setComputeStatus(CommonStatus.Done);
-          setComputeMsg(
-            <>
-              <p>
-                <b>Computed, row count: {payload.updated_row_count.toString()}</b>
-              </p>
-            </>,
-          );
-          rerender();
-        }
-      } catch (err) {
-        setComputeStatus(CommonStatus.Standby);
-      }
+    if (!credential) {
+      setError("Credential does exist");
     }
+
+    setComputeStatus(CommonStatus.InProgress);
+    const { payload, error } = await computeCryptoSizeTotalValuesRequest({
+      account_id: credential.account_id,
+    });
+
+    if (error) {
+      setError(error.toString());
+      setComputeStatus(CommonStatus.Standby);
+      return;
+    }
+
+    if (payload) {
+      setComputeStatus(CommonStatus.Done);
+      setComputeMsg(
+        <>
+          <p>
+            <b>Computed, row count: {payload.updated_row_count.toString()}</b>
+          </p>
+        </>,
+      );
+      rerender();
+    }
+    setComputeStatus(CommonStatus.Standby);
   }, [
-    prfsProofCredential,
+    credential,
     computeCryptoSizeTotalValuesRequest,
     setComputeMsg,
     setComputeStatus,
     rerender,
+    setError,
   ]);
 
   const createBase = React.useCallback(() => {
@@ -141,6 +151,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
           handleClickCalculate={handleClickCalculate}
           computeStatus={computeStatus}
           computeMsg={computeMsg}
+          error={error}
         />
       </DialogDefault>
     </>
@@ -159,4 +170,5 @@ export interface ModalProps {
   handleClickCalculate: () => {};
   computeStatus: CommonStatus;
   computeMsg: React.ReactNode;
+  error: string | null;
 }

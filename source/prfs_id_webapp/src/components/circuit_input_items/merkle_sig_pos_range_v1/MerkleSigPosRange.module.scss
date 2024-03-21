@@ -6,20 +6,6 @@
   font-size: 13px;
 }
 
-.link {
-  color: var(--blue-05);
-  word-break: break-all;
-
-  > svg {
-    margin-left: 1px;
-    vertical-align: middle;
-  }
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
 .addrInputWrapper {
   position: relative;
 

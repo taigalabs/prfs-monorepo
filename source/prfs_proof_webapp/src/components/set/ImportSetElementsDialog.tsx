@@ -5,8 +5,8 @@ import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaFileImport } from "@react-icons/all-files/fa/FaFileImport";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { ImportPrfsSetElementsRequest } from "@taigalabs/prfs-entities/bindings/ImportPrfsSetElementsRequest";
+import { treeApi } from "@taigalabs/prfs-api-js";
+import { ImportPrfsAttestationsToPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/ImportPrfsAttestationsToPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./ImportSetElementsDialog.module.scss";
@@ -23,9 +23,8 @@ import {
 import { CommonStatus } from "@/components/common_status/CommonStatus";
 import { isMasterAccountId } from "@/mock/mock_data";
 
-const PRFS_ATTESTATION = "prfs_attestation";
-const CRYPTO_ASSET_SIZE_ATSTS = "crypto_asset_size_atsts";
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
+const CRYPTO_1 = "crypto_1";
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
@@ -85,8 +84,8 @@ const Modal: React.FC<ModalProps> = ({
 const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender }) => {
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: importPrfsSetElementsRequest } = useMutation({
-    mutationFn: (req: ImportPrfsSetElementsRequest) => {
-      return prfsApi3({ type: "import_prfs_set_elements", ...req });
+    mutationFn: (req: ImportPrfsAttestationsToPrfsSetRequest) => {
+      return treeApi({ type: "import_prfs_attestations_to_prfs_set", ...req });
     },
   });
   const { prfsProofCredential } = useSignedInProofUser();
@@ -98,8 +97,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
       setComputeStatus(CommonStatus.InProgress);
       try {
         const { payload, error } = await importPrfsSetElementsRequest({
-          src_type: PRFS_ATTESTATION,
-          src_id: CRYPTO_ASSET_SIZE_ATSTS,
+          topic: CRYPTO_1,
           dest_set_id: CRYPTO_HOLDERS_SET_ID,
         });
 
@@ -157,7 +155,9 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
       >
         <div className={styles.btnContent}>
           <FaFileImport />
-          <span>{i18n.import_from} crypto_size_attestations</span>
+          <span>
+            {i18n.import_from} {i18n.prfs_attestations} (type: {CRYPTO_1})
+          </span>
         </div>
       </Button>
     );

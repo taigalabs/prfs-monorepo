@@ -1,10 +1,12 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsCircuitDriver;
 
+use crate::DbInterfaceError;
+
 pub async fn get_prfs_circuit_driver_by_circuit_driver_id(
     pool: &Pool<Postgres>,
     circuit_driver_id: &String,
-) -> PrfsCircuitDriver {
+) -> Result<PrfsCircuitDriver, DbInterfaceError> {
     let query = r#"
 SELECT * 
 FROM prfs_circuit_drivers
@@ -15,25 +17,26 @@ WHERE circuit_driver_id=$1"#;
     let row = sqlx::query(query)
         .bind(&circuit_driver_id)
         .fetch_one(pool)
-        .await
-        .unwrap();
+        .await?;
 
     let prfs_circuit_driver = PrfsCircuitDriver {
-        circuit_driver_id: row.get("circuit_driver_id"),
-        label: row.get("label"),
-        driver_repository_url: row.get("driver_repository_url"),
-        version: row.get("version"),
-        author: row.get("author"),
-        desc: row.get("desc"),
-        circuit_type_ids: row.get("circuit_type_ids"),
-        driver_properties_meta: row.get("driver_properties_meta"),
-        created_at: row.get("created_at"),
+        circuit_driver_id: row.try_get("circuit_driver_id")?,
+        label: row.try_get("label")?,
+        driver_repository_url: row.try_get("driver_repository_url")?,
+        version: row.try_get("version")?,
+        author: row.try_get("author")?,
+        desc: row.try_get("desc")?,
+        circuit_type_ids: row.try_get("circuit_type_ids")?,
+        driver_properties_meta: row.try_get("driver_properties_meta")?,
+        created_at: row.try_get("created_at")?,
     };
 
-    return prfs_circuit_driver;
+    return Ok(prfs_circuit_driver);
 }
 
-pub async fn get_prfs_circuit_drivers(pool: &Pool<Postgres>) -> Vec<PrfsCircuitDriver> {
+pub async fn get_prfs_circuit_drivers(
+    pool: &Pool<Postgres>,
+) -> Result<Vec<PrfsCircuitDriver>, DbInterfaceError> {
     let query = r#"
 SELECT * 
 FROM prfs_circuit_drivers
@@ -43,33 +46,36 @@ FROM prfs_circuit_drivers
 
     let rows = sqlx::query(query).fetch_all(pool).await.unwrap();
 
-    let prfs_circuit_drivers: Vec<PrfsCircuitDriver> = rows
+    let prfs_circuit_drivers = rows
         .iter()
-        .map(|row| PrfsCircuitDriver {
-            circuit_driver_id: row.get("circuit_driver_id"),
-            label: row.get("label"),
-            driver_repository_url: row.get("driver_repository_url"),
-            version: row.get("version"),
-            author: row.get("author"),
-            desc: row.get("desc"),
-            circuit_type_ids: row.get("circuit_type_ids"),
-            driver_properties_meta: row.get("driver_properties_meta"),
-            created_at: row.get("created_at"),
+        .map(|row| {
+            Ok(PrfsCircuitDriver {
+                circuit_driver_id: row.try_get("circuit_driver_id")?,
+                label: row.try_get("label")?,
+                driver_repository_url: row.try_get("driver_repository_url")?,
+                version: row.try_get("version")?,
+                author: row.try_get("author")?,
+                desc: row.try_get("desc")?,
+                circuit_type_ids: row.try_get("circuit_type_ids")?,
+                driver_properties_meta: row.try_get("driver_properties_meta")?,
+                created_at: row.try_get("created_at")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsCircuitDriver>, DbInterfaceError>>()?;
 
-    return prfs_circuit_drivers;
+    return Ok(prfs_circuit_drivers);
 }
 
 pub async fn insert_prfs_circuit_driver(
     tx: &mut Transaction<'_, Postgres>,
     circuit_driver: &PrfsCircuitDriver,
-) -> String {
+) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_circuit_drivers
 (circuit_driver_id, driver_repository_url, version, author, "desc", circuit_type_ids,
 driver_properties_meta, label)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning circuit_driver_id"#;
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
+RETURNING circuit_driver_id"#;
 
     let row = sqlx::query(query)
         .bind(&circuit_driver.circuit_driver_id)
@@ -81,10 +87,9 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning circuit_driver_id"#;
         .bind(&circuit_driver.driver_properties_meta)
         .bind(&circuit_driver.label)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
-    let circuit_driver_id: String = row.get("circuit_driver_id");
+    let circuit_driver_id: String = row.try_get("circuit_driver_id")?;
 
-    circuit_driver_id
+    Ok(circuit_driver_id)
 }
