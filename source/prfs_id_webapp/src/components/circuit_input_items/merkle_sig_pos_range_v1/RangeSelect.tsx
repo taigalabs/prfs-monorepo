@@ -32,17 +32,9 @@ const RangeSelect: React.FC<RangeSelectProps> = ({ circuitTypeData, rangeOptionI
   return (
     circuitTypeData.range_data && (
       <div className={styles.wrapper}>
-        {/* <p className={styles.selectLabel}> */}
-        {/*   {circuitTypeData.range_data.label} ({i18n.automatic}) */}
-        {/* </p> */}
         <Select name="" value={rangeOptionIdx} label={circuitTypeData.range_data.label}>
           {optionElems}
         </Select>
-        {/* <InputWrapper> */}
-        {/*   <select className={styles.select} value={Math.max(rangeOptionIdx, 0)} onChange={noop}> */}
-        {/*     {optionElems} */}
-        {/*   </select> */}
-        {/* </InputWrapper> */}
       </div>
     )
   );
