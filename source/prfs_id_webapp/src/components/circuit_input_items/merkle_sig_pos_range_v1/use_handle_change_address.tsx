@@ -113,7 +113,7 @@ export function useHandleChangeAddress({
             ...oldVal,
             merkleProof: elem,
           }));
-          throw new Error("no payload from prfs set element");
+          return;
         }
 
         const data = getPrfsSetElementPayload.prfs_set_element
@@ -234,9 +234,10 @@ export function useHandleChangeAddress({
           pathIndices,
         };
 
-        computeRoot(leafVal, siblings as bigint[], pathIndices);
+        const root = await computeRoot(leafVal, siblings as bigint[], pathIndices);
+        console.log("root", root, merkleProof);
 
-        // return;
+        return;
 
         // Range setup
         let optionIdx = -1;
