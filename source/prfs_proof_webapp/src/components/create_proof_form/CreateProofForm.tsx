@@ -22,7 +22,7 @@ import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const proofTypeIdRef = React.useRef<string | null>(null);
-  const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
+  const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt | null>(null);
   const searchParams = useSearchParams();
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -36,7 +36,7 @@ const CreateProofForm: React.FC = () => {
 
       if (proofTypeId) {
         if (proofTypeIdRef.current && proofTypeIdRef.current !== proofTypeId) {
-          setProveReceipt(undefined);
+          setProveReceipt(null);
         }
         proofTypeIdRef.current = proofTypeId;
 
@@ -62,6 +62,10 @@ const CreateProofForm: React.FC = () => {
     [setProveReceipt],
   );
 
+  const handleClickStartOver = React.useCallback(() => {
+    setProveReceipt(null);
+  }, [setProveReceipt]);
+
   return (
     <>
       <ProofTypeSelectedMasthead
@@ -77,7 +81,11 @@ const CreateProofForm: React.FC = () => {
           <div className={styles.formWrapper}>
             {proveReceipt ? (
               <Fade>
-                <PostCreateMenu proveReceipt={proveReceipt} proofType={proofType} />
+                <PostCreateMenu
+                  proveReceipt={proveReceipt}
+                  proofType={proofType}
+                  handleClickStartOver={handleClickStartOver}
+                />
               </Fade>
             ) : (
               <Fade>

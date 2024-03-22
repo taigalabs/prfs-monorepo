@@ -59,15 +59,12 @@ FROM (values
     separated.push_unseparated(") ");
     separated.push_unseparated(
         r#"
-v(key) LEFT JOIN
-prfs_indices
+v(key)
+LEFT JOIN prfs_indices
 USING (key)
 ORDER BY updated_at DESC
 "#,
     );
-
-    // let sql = query_builder.sql();
-    // println!("sql: {:?}", sql);
 
     let query = query_builder.build();
     let rows = query.fetch_all(pool).await?;
