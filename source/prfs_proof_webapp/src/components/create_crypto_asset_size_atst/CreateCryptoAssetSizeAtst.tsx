@@ -17,9 +17,8 @@ import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindi
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
-import { verifyMessage } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
-import { Wallet, utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
+import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 
 import styles from "./CreateCryptoAssetSizeAtst.module.scss";
 import {
@@ -202,11 +201,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
         const wallet_addr = formData[WALLET_ADDR];
         const cm = formData[CM];
 
-        // const isSigValid = await verifyMessage({
-        //   address: wallet_addr as any,
-        //   message: cm,
-        //   signature: sig as any,
-        // });
         const cm_msg = toUtf8Bytes(cm);
         const recoveredAddr = walletUtils.verifyMessage(cm_msg, sig);
 
