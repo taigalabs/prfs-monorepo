@@ -5,7 +5,6 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
 import styles from "./MemoInput.module.scss";
-import { FormError } from "@/components/form_input/FormInput";
 import { useI18N } from "@/i18n/context";
 import { FormErrors, FormValues } from "@/components/circuit_input_items/formTypes";
 
@@ -50,17 +49,14 @@ const MemoInput: React.FC<RangeSelectProps> = ({
   );
 
   return (
-    <>
-      <Input
-        name={""}
-        label={i18n.memo}
-        value={value.nonceRaw || ""}
-        handleChangeValue={handleChangeNonce}
-        disabled={isPresetVals}
-        error={error?.nonceRaw}
-      />
-      {/* {error?.nonceRaw && <FormError>{error.nonceRaw}</FormError>} */}
-    </>
+    <Input
+      name={""}
+      label={i18n.memo}
+      value={value.nonceRaw || ""}
+      handleChangeValue={handleChangeNonce}
+      disabled={isPresetVals}
+      error={error?.nonceRaw}
+    />
   );
 };
 
