@@ -11,8 +11,6 @@ serde_json = "1.0"
 log = "0.4"
 chrono = { verison = "0.4", features = ["serde"] }
 tokio = { version = "1", features = ["full"] }
-tokio-stream = "0.1"
-tokio-postgres = { version = "0.7", features = ["with-chrono-0_4"]}
 futures-util = "0.3.26"
 colored = "2.0"
 tracing = "0.1"
