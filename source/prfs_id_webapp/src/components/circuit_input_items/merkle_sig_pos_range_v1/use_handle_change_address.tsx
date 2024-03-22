@@ -237,8 +237,6 @@ export function useHandleChangeAddress({
         const root = await computeRoot(leafVal, siblings as bigint[], pathIndices);
         console.log("root", root, merkleProof);
 
-        return;
-
         // Range setup
         let optionIdx = -1;
         for (const [idx, option] of range_data.options.entries()) {

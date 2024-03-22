@@ -1,24 +1,18 @@
-import React, { HTMLInputTypeAttribute } from "react";
-import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
+import React from "react";
 import cn from "classnames";
 
-import styles from "./Input.module.scss";
+import styles from "./Select.module.scss";
+import { Fieldset, InputError, InputWrapper, Label } from "../input/InputComponent";
 
-const Input: React.FC<InputProps> = ({
+const Select: React.FC<SelectProps> = ({
   className,
-  inputClassName,
-  labelClassName,
   label,
-  name,
-  value,
+  labelClassName,
   error,
-  type,
-  disabled,
-  readOnly,
+  optionIdx,
+  name,
   hasError,
-  // placeholder,
-  handleChangeValue,
-  handleKeyDown,
+  children,
 }) => {
   const [isFocused, setIsFocused] = React.useState(false);
   const handleFocus = React.useCallback(() => {
@@ -28,61 +22,38 @@ const Input: React.FC<InputProps> = ({
     setIsFocused(false);
   }, [setIsFocused]);
 
+  console.log(344, optionIdx);
+
   return (
     <>
-      <div
-        className={cn(styles.wrapper, className, {
-          [styles.isError]: !!error || hasError,
-          [styles.isFocused]: isFocused,
-          [styles.hasValue]: value && value.length > 0,
-        })}
+      <InputWrapper
+        className={className}
+        isError={!!error || !!hasError}
+        isFocused={isFocused}
+        hasValue={optionIdx > -1}
       >
-        <div className={cn(styles.label, labelClassName)}>
-          <label htmlFor={name}>{label}</label>
-        </div>
-        <fieldset className={styles.fieldset}>
-          <legend>
-            <span>{label}</span>
-          </legend>
-        </fieldset>
-        <input
-          name={name}
-          value={value || ""}
-          className={cn(styles.input, inputClassName)}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          type={type}
-          onChange={handleChangeValue}
-          onKeyDown={handleKeyDown}
-          readOnly={readOnly}
-          disabled={disabled}
-        />
-      </div>
-      {error && (
-        <p className={styles.error}>
-          <IoMdAlert />
-          {error}
-        </p>
-      )}
+        <Label className={labelClassName} name={name}>
+          {label}
+        </Label>
+        <Fieldset>{label}</Fieldset>
+        <select className={styles.select} onFocus={handleFocus} onBlur={handleBlur}>
+          {children}
+        </select>
+      </InputWrapper>
+      {error && <InputError>{error}</InputError>}
     </>
   );
 };
 
-export default Input;
+export default Select;
 
-export interface InputProps {
+export interface SelectProps {
   className?: string;
-  inputClassName?: string;
   labelClassName?: string;
-  disabled?: boolean;
-  name?: string;
-  value: string | null;
-  label: string;
-  handleChangeValue?: React.ChangeEventHandler;
-  handleKeyDown?: React.KeyboardEventHandler;
+  optionIdx: number;
+  children: React.ReactNode;
   error?: React.ReactNode;
-  placeholder?: string;
-  type?: HTMLInputTypeAttribute | undefined;
-  readOnly?: boolean;
   hasError?: boolean;
+  label: string;
+  name: string;
 }
