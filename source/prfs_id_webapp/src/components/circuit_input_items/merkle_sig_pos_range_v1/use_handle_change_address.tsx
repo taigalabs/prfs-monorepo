@@ -1,13 +1,16 @@
 import React from "react";
 import cn from "classnames";
-import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
+import { treeApi } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
-import { makePathIndices, makeSiblingPath, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
+import {
+  computeRoot,
+  makePathIndices,
+  makeSiblingPath,
+  poseidon_2_bigint_le,
+} from "@taigalabs/prfs-crypto-js";
 import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
-import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
 import { PrfsIdCredential, makeWalletAtstCm } from "@taigalabs/prfs-id-sdk-web";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
@@ -16,36 +19,11 @@ import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetP
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
 import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
-import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
-import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
-import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
-import Input from "@taigalabs/prfs-react-lib/src/input/Input";
-import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./MerkleSigPosRange.module.scss";
-import { i18nContext } from "@/i18n/context";
-import {
-  FormError,
-  FormInput,
-  FormInputTitle,
-  FormInputTitleRow,
-} from "@/components/form_input/FormInput";
-import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
-import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import {
-  FormErrors,
-  FormHandler,
-  FormValues,
-  HandleSkipCreateProof,
-} from "@/components/circuit_input_items/formTypes";
+import { FormErrors } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
-import RangeSelect from "./RangeSelect";
-import MemoInput from "./MemoInput";
-import {
-  useCachedProveReceiptCreator,
-  useMerkleSigPosRangeFormHandler,
-} from "./use_merkle_sig_pos_range_form_handler";
 
 export function useHandleChangeAddress({
   credential,
@@ -122,15 +100,13 @@ export function useHandleChangeAddress({
           }
 
           const elem = (
-            <div>
-              <span>
-                This address doesn't exist in {prfsSet.label}. Choose a different one or{" "}
-                <button type="button" onClick={handleClick} className={styles.link}>
-                  add yours
-                </button>{" "}
-                to the set
-              </span>
-            </div>
+            <span>
+              This address doesn't exist in {prfsSet.label}. Choose a different one or{" "}
+              <button type="button" onClick={handleClick} className={styles.link}>
+                add yours
+              </button>{" "}
+              to the set
+            </span>
           );
 
           setFormErrors(oldVal => ({
@@ -257,6 +233,10 @@ export function useHandleChangeAddress({
           siblings: siblings as bigint[],
           pathIndices,
         };
+
+        computeRoot(leafVal, siblings as bigint[], pathIndices);
+
+        // return;
 
         // Range setup
         let optionIdx = -1;

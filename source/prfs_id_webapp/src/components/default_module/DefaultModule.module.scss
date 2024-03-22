@@ -21,6 +21,9 @@
   padding-right: 0;
 }
 
+.topLogoRow {
+}
+
 .topLabel {
   color: var(--gray-34);
   font-size: 16px;
@@ -123,13 +126,13 @@
 
   .error {
     padding-top: 6px;
-    color: var(--red-50);
+    color: var(--red-43);
   }
 }
 
 .inputItem.isError {
   .input {
-    border-color: var(--red-50);
+    border-color: var(--red-43);
   }
 }
 
@@ -155,7 +158,7 @@
 }
 
 .error {
-  color: var(--red-50);
+  color: var(--red-43);
   padding: 8px 0;
   word-break: break-all;
 }

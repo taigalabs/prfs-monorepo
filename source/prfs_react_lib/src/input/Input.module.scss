@@ -6,11 +6,11 @@ $legend_padding: 0 5px;
 
   &.isError {
     .fieldset {
-      border-color: var(--red-50);
+      border-color: var(--red-43);
     }
 
     .label {
-      color: var(--red-50);
+      color: var(--red-43);
     }
   }
 
@@ -87,9 +87,15 @@ $legend_padding: 0 5px;
 }
 
 .error {
-  padding: 3px 14px 0;
-  color: var(--red-50);
-  font-size: 12px;
+  color: var(--red-43);
+  font-size: 13px;
+  padding: 5px 3px 0;
+  line-height: 16px;
+
+  > svg {
+    vertical-align: middle;
+    margin-right: 2px;
+  }
 }
 
 .fieldset {

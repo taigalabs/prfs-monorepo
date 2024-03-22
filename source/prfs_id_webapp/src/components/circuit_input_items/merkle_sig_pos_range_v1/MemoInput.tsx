@@ -57,8 +57,9 @@ const MemoInput: React.FC<RangeSelectProps> = ({
         value={value.nonceRaw || ""}
         handleChangeValue={handleChangeNonce}
         disabled={isPresetVals}
+        error={error?.nonceRaw}
       />
-      {error?.nonceRaw && <FormError>{error.nonceRaw}</FormError>}
+      {/* {error?.nonceRaw && <FormError>{error.nonceRaw}</FormError>} */}
     </>
   );
 };

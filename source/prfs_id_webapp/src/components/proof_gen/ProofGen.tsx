@@ -18,6 +18,7 @@ import {
   DefaultForm,
   DefaultModuleFooter,
   DefaultTopLabel,
+  DefaultTopLogoRow,
 } from "@/components/default_module/DefaultModule";
 import SignIn from "@/components/sign_in/SignIn";
 import ProofGenForm from "./ProofGenForm";
@@ -131,7 +132,7 @@ const ProofGen: React.FC = () => {
   return (
     <DefaultModule>
       <DefaultForm>
-        <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
+        <DefaultTopLogoRow>123</DefaultTopLogoRow>
         {status === Status.Loading ? (
           <Overlay fixed>
             <Spinner color="#1b62c0" />

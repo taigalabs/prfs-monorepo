@@ -1,4 +1,5 @@
 import React, { HTMLInputTypeAttribute } from "react";
+import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
 import cn from "classnames";
 
 import styles from "./Input.module.scss";
@@ -14,6 +15,7 @@ const Input: React.FC<InputProps> = ({
   type,
   disabled,
   readOnly,
+  hasError,
   // placeholder,
   handleChangeValue,
   handleKeyDown,
@@ -30,7 +32,7 @@ const Input: React.FC<InputProps> = ({
     <>
       <div
         className={cn(styles.wrapper, className, {
-          [styles.isError]: !!error,
+          [styles.isError]: !!error || hasError,
           [styles.isFocused]: isFocused,
           [styles.hasValue]: value && value.length > 0,
         })}
@@ -56,7 +58,12 @@ const Input: React.FC<InputProps> = ({
           disabled={disabled}
         />
       </div>
-      {error && <p className={styles.error}>{error}</p>}
+      {error && (
+        <p className={styles.error}>
+          <IoMdAlert />
+          {error}
+        </p>
+      )}
     </>
   );
 };
@@ -73,8 +80,9 @@ export interface InputProps {
   label: string;
   handleChangeValue?: React.ChangeEventHandler;
   handleKeyDown?: React.KeyboardEventHandler;
-  error?: string | null;
+  error?: React.ReactNode;
   placeholder?: string;
   type?: HTMLInputTypeAttribute | undefined;
   readOnly?: boolean;
+  hasError?: boolean;
 }

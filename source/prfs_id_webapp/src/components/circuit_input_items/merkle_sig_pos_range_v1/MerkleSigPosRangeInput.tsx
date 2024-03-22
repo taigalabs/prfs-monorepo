@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
 import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
@@ -198,6 +199,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             label={i18n.wallet}
             value={abbrevWalletAddr}
             readOnly
+            hasError={!!error?.merkleProof}
           />
           <div className={styles.btnRow}>
             <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
@@ -209,6 +211,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             </ConnectWallet>
           </div>
         </div>
+        {error?.merkleProof && (
+          <FormError>
+            <IoMdAlert />
+            {error.merkleProof}
+          </FormError>
+        )}
         <div className={styles.row}>
           <MemoInput
             value={value}
@@ -218,8 +226,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             setFormErrors={setFormErrors}
             error={error}
           />
+          {error?.nonceRaw && <FormError>{error.merkleProof}</FormError>}
         </div>
-        {error?.merkleProof && <FormError>{error.merkleProof}</FormError>}
         <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
         {value && <ComputedValue value={value} />}
       </FormInput>

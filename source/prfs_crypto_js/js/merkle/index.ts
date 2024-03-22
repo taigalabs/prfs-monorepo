@@ -28,12 +28,7 @@ export function makeSiblingPath(depth: number, leafIdx: number): number[] {
   return siblingIndices;
 }
 
-export function computeRoot(
-  leaf: bigint,
-  siblings: bigint[],
-  pathIndices: number[],
-  hash: (arg1: bigint, arg2: bigint) => Promise<Uint8Array>,
-) {
+export async function computeRoot(leaf: bigint, siblings: bigint[], pathIndices: number[]) {
   let curr: Uint8Array;
   for (const [idx, path] of pathIndices.entries()) {
     console.log(11, siblings[idx], path);

@@ -76,4 +76,10 @@
   font-size: 13px;
   padding: 5px 3px 0;
   color: var(--red-50);
+  line-height: 16px;
+
+  > svg {
+    vertical-align: middle;
+    margin-right: 2px;
+  }
 }
