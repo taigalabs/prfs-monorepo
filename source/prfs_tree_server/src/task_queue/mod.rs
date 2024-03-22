@@ -9,7 +9,9 @@ pub struct TaskQueue {
 impl TaskQueue {
     fn fetch_tasks(&self) {}
 
-    pub fn wake(&self) {
+    pub fn add_task(&self) {}
+
+    pub fn schedule(&self) {
         // tokio::spawn()
     }
 
