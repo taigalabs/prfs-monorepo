@@ -96,3 +96,15 @@ $legend_padding: 0 5px;
     }
   }
 }
+
+.error {
+  color: var(--red-43);
+  font-size: 13px;
+  padding: 5px 3px 0;
+  line-height: 16px;
+
+  > svg {
+    vertical-align: middle;
+    margin-right: 2px;
+  }
+}

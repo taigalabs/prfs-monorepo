@@ -1,4 +1,5 @@
 import React from "react";
+import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
 import cn from "classnames";
 
 import styles from "./InputComponent.module.scss";
@@ -41,6 +42,15 @@ export const Fieldset: React.FC<FieldsetProps> = ({ children }) => {
   );
 };
 
+export const InputError: React.FC<FieldsetProps> = ({ children }) => {
+  return (
+    <p className={styles.error}>
+      <IoMdAlert />
+      {children}
+    </p>
+  );
+};
+
 export interface InputWrapperProps {
   children: React.ReactNode;
   className?: string;
@@ -53,7 +63,6 @@ export interface LabelProps {
   children: React.ReactNode;
   className?: string;
   name: string | undefined;
-  // label: string;
 }
 
 export interface FieldsetProps {

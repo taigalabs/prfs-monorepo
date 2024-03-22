@@ -1,9 +1,8 @@
 import React, { HTMLInputTypeAttribute } from "react";
-import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
 import cn from "classnames";
 
 import styles from "./Input.module.scss";
-import { Fieldset, InputWrapper, Label } from "./InputComponent";
+import { Fieldset, InputError, InputWrapper, Label } from "./InputComponent";
 
 const Input: React.FC<InputProps> = ({
   className,
@@ -30,13 +29,6 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <>
-      {/* <div */}
-      {/*   className={cn(styles.wrapper, className, { */}
-      {/*     [styles.isError]: !!error || hasError, */}
-      {/*     [styles.isFocused]: isFocused, */}
-      {/*     [styles.hasValue]: value && value.length > 0, */}
-      {/*   })} */}
-      {/* > */}
       <InputWrapper
         className={className}
         isError={!!error || !!hasError}
@@ -46,15 +38,7 @@ const Input: React.FC<InputProps> = ({
         <Label className={labelClassName} name={name}>
           {label}
         </Label>
-        {/* <div className={cn(styles.label, labelClassName)}> */}
-        {/*   <label htmlFor={name}>{label}</label> */}
-        {/* </div> */}
         <Fieldset>{label}</Fieldset>
-        {/* <fieldset className={styles.fieldset}> */}
-        {/*   <legend> */}
-        {/*     <span>{label}</span> */}
-        {/*   </legend> */}
-        {/* </fieldset> */}
         <input
           name={name}
           value={value || ""}
@@ -67,14 +51,8 @@ const Input: React.FC<InputProps> = ({
           readOnly={readOnly}
           disabled={disabled}
         />
-        {/* </div> */}
       </InputWrapper>
-      {error && (
-        <p className={styles.error}>
-          <IoMdAlert />
-          {error}
-        </p>
-      )}
+      {error && <InputError>{error}</InputError>}
     </>
   );
 };
