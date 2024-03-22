@@ -235,7 +235,16 @@ export function useHandleChangeAddress({
         };
 
         const root = await computeRoot(leafVal, siblings as bigint[], pathIndices);
-        console.log("root", root, merkleProof);
+        // console.log("root", root, prfsTree.merkle_root);
+        if (BigInt(prfsTree.merkle_root) !== root) {
+          setFormErrors((prevVals: any) => {
+            return {
+              ...prevVals,
+              merkleProof: `Root does not match, computed: ${root}, given: ${prfsTree.merkle_root}`,
+            };
+          });
+          return;
+        }
 
         // Range setup
         let optionIdx = -1;
