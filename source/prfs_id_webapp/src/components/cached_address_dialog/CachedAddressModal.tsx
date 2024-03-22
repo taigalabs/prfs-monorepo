@@ -34,6 +34,7 @@ function useCachedAddresses(prfsIdCredential: PrfsIdCredential | null) {
       if (prfs_indices && prfsIdCredential) {
         const set = new Set<string>();
         for (let key in prfs_indices) {
+          console.log(11, prfs_indices);
           try {
             const prfsIndex = prfs_indices[key];
             const buf = Buffer.from(prfsIndex.substring(2), "hex");
