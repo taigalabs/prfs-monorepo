@@ -150,7 +150,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
       )}
       <DefaultInnerPadding>
         <div className={styles.main}>
-          <AppLogoArea subLabel="ID" />
+          {/* <AppLogoArea subLabel="ID" /> */}
           <DefaultModuleHeader noSidePadding>
             <DefaultModuleTitle>{title}</DefaultModuleTitle>
             <DefaultModuleSubtitle>{i18n.using_your_prfs_identity}</DefaultModuleSubtitle>
