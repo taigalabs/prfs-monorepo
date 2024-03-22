@@ -22,6 +22,7 @@ import { paths } from "@/paths";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { useAppSelector } from "@/state/hooks";
+import Loading from "../loading/Loading";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -29,7 +30,11 @@ const JSONbigNative = JSONBig({
   storeAsString: true,
 });
 
-const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType }) => {
+const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
+  proveReceipt,
+  proofType,
+  handleClickStartOver,
+}) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -81,7 +86,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
   return (
     <div className={styles.wrapper}>
       {isCreatePrfsProofInstanceSuccess ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
         <>
           <div className={styles.header}>
@@ -106,16 +111,16 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
           <div className={styles.postCreateBtnGroup}>
             <ul>
               <li>
-                <a href={paths.__}>
-                  <Button variant="transparent_blue_1">{i18n.start_over}</Button>
-                </a>
+                <Button variant="transparent_blue_3" handleClick={handleClickStartOver}>
+                  {i18n.start_over}
+                </Button>
               </li>
             </ul>
             <ul>
               <li>
                 <TutorialStepper tutorialId={tutorialId} step={step} steps={[4]}>
                   <Button
-                    variant="blue_1"
+                    variant="blue_3"
                     handleClick={handleClickUpload}
                     className={cn(styles.uploadBtn, {
                       [styles.inProgress]: isCreatePrfsProofInstancePending,
@@ -161,4 +166,5 @@ export default PostCreateMenu;
 export interface PostCreateMenuProps {
   proofType: PrfsProofType;
   proveReceipt: ProveReceipt;
+  handleClickStartOver: () => void;
 }

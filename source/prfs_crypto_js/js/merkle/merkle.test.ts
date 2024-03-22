@@ -1,14 +1,5 @@
-// import { computeRoot } from "./merkle";
-import { poseidon_2_bigint_le } from "./poseidon";
-import { wasmBytes } from "./wasm_wrapper/build/prfs_crypto_js_bytes";
-
 describe("merkle", () => {
   it("should work", async () => {
-    console.log(11, wasmBytes);
-    // const math = await WebAssembly.instantiate(new Uint8Array(math_wasm)).then(
-    //   result => result.instance.exports,
-    // );
-
     const siblings = [
       63493556091605062420991890579763508134186613118493263501548433187433360490127n,
       11541185532172907887807548670798677910461320867216093684679519736414477281130n,

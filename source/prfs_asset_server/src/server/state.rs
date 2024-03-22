@@ -1,5 +1,6 @@
 use prfs_circuits_circom::CircuitBuildListJson;
-use prfs_crypto::sha256;
+use prfs_crypto::hex;
+use prfs_crypto::sha2::{Digest, Sha256};
 use prfs_db_driver::sqlx::types::chrono::Utc;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
@@ -43,7 +44,9 @@ fn check_circuits(circuits_build_path: &PathBuf, list_json: &CircuitBuildListJso
     for circuit in &list_json.circuits {
         let path = circuits_build_path.join(&circuit.r1cs_src_path);
         let fd = std::fs::read(&path).unwrap();
-        let digest = sha256::digest(&fd);
+        let mut hasher = Sha256::new();
+        hasher.update(&fd);
+        let digest = hex::encode(hasher.finalize());
 
         assert_eq!(
             circuit.file_hash, digest,

@@ -10,6 +10,7 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { idApi } from "@taigalabs/prfs-api-js";
 import { SignInPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsIdentityRequest";
 import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
+import PLogo from "@taigalabs/prfs-react-lib/src/logo/PLogo";
 
 import styles from "./ProofGen.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -18,6 +19,7 @@ import {
   DefaultForm,
   DefaultModuleFooter,
   DefaultTopLabel,
+  DefaultTopLogoRow,
 } from "@/components/default_module/DefaultModule";
 import SignIn from "@/components/sign_in/SignIn";
 import ProofGenForm from "./ProofGenForm";
@@ -131,7 +133,9 @@ const ProofGen: React.FC = () => {
   return (
     <DefaultModule>
       <DefaultForm>
-        <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
+        <DefaultTopLogoRow>
+          <PLogo />
+        </DefaultTopLogoRow>
         {status === Status.Loading ? (
           <Overlay fixed>
             <Spinner color="#1b62c0" />

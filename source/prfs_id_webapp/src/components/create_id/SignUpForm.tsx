@@ -21,7 +21,6 @@ import {
   DefaultModuleBtnRow,
   DefaultModuleHeader,
   DefaultModuleInputArea,
-  // DefaultModuleLogoArea,
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
@@ -87,7 +86,7 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
   return (
     <DefaultInnerPadding>
       <div className={styles.main}>
-        <AppLogoArea subLabel="ID" />
+        {/* <AppLogoArea subLabel="ID" /> */}
         <Fade>
           <DefaultModuleHeader noSidePadding>
             <DefaultModuleTitle>{i18n.create_an_identity}</DefaultModuleTitle>

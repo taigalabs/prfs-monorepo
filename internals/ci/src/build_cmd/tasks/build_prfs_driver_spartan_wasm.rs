@@ -121,7 +121,7 @@ fn embed_wasm(build_handle: &BuildHandle) {
         .join(",");
 
     let contents = format!(
-        "export const wasmBytes = new Uint8Array([{}]);",
+        "module.exports.wasmBytes = new Uint8Array([{}]);",
         wasm_bytes_str,
     );
 

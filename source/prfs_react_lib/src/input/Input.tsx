@@ -2,6 +2,7 @@ import React, { HTMLInputTypeAttribute } from "react";
 import cn from "classnames";
 
 import styles from "./Input.module.scss";
+import { Fieldset, InputError, InputWrapper, Label } from "./InputComponent";
 
 const Input: React.FC<InputProps> = ({
   className,
@@ -14,7 +15,7 @@ const Input: React.FC<InputProps> = ({
   type,
   disabled,
   readOnly,
-  // placeholder,
+  hasError,
   handleChangeValue,
   handleKeyDown,
 }) => {
@@ -28,21 +29,16 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <>
-      <div
-        className={cn(styles.wrapper, className, {
-          [styles.isError]: !!error,
-          [styles.isFocused]: isFocused,
-          [styles.hasValue]: value && value.length > 0,
-        })}
+      <InputWrapper
+        className={className}
+        isError={!!error || !!hasError}
+        isFocused={isFocused}
+        hasValue={!!value && value.length > 0}
       >
-        <div className={cn(styles.label, labelClassName)}>
-          <label htmlFor={name}>{label}</label>
-        </div>
-        <fieldset className={styles.fieldset}>
-          <legend>
-            <span>{label}</span>
-          </legend>
-        </fieldset>
+        <Label className={labelClassName} name={name}>
+          {label}
+        </Label>
+        <Fieldset>{label}</Fieldset>
         <input
           name={name}
           value={value || ""}
@@ -55,8 +51,8 @@ const Input: React.FC<InputProps> = ({
           readOnly={readOnly}
           disabled={disabled}
         />
-      </div>
-      {error && <p className={styles.error}>{error}</p>}
+      </InputWrapper>
+      {error && <InputError>{error}</InputError>}
     </>
   );
 };
@@ -73,8 +69,9 @@ export interface InputProps {
   label: string;
   handleChangeValue?: React.ChangeEventHandler;
   handleKeyDown?: React.KeyboardEventHandler;
-  error?: string | null;
+  error?: React.ReactNode;
   placeholder?: string;
   type?: HTMLInputTypeAttribute | undefined;
   readOnly?: boolean;
+  hasError?: boolean;
 }

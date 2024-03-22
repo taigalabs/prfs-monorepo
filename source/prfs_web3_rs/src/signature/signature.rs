@@ -5,13 +5,13 @@ use k256::ecdsa::VerifyingKey;
 use primitive_types::H160;
 use std::str::FromStr;
 
-use crate::PrfsCryptoError;
+use crate::PrfsWeb3RsError;
 
 pub fn verify_eth_sig_by_pk<S: AsRef<str>>(
     sig: S,
     msg: &[u8],
     public_key: S,
-) -> Result<H160, PrfsCryptoError> {
+) -> Result<H160, PrfsWeb3RsError> {
     println!("sig: {}, public_key: {}", sig.as_ref(), public_key.as_ref());
 
     let sig_deserialized = Signature::from_str(&sig.as_ref()[2..])?;
@@ -51,7 +51,7 @@ pub fn verify_eth_sig_by_addr<S: AsRef<str>>(
     sig: S,
     msg: &[u8],
     addr: S,
-) -> Result<String, PrfsCryptoError> {
+) -> Result<String, PrfsWeb3RsError> {
     let sig_deserialized = Signature::from_str(&sig.as_ref()[2..])?;
 
     let addr1 = sig_deserialized.recover(msg)?;

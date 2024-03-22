@@ -118,6 +118,10 @@ export const DefaultTopLabel: React.FC<DefaultModuleInputAreaProps> = ({ childre
   return <div className={styles.topLabel}>{children}</div>;
 };
 
+export const DefaultTopLogoRow: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
+  return <div className={styles.topLogoRow}>{children}</div>;
+};
+
 export const DefaultModule: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
   return <div className={styles.wrapper}>{children}</div>;
 };

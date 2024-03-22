@@ -1,11 +1,10 @@
 import React from "react";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
+import Select from "@taigalabs/prfs-react-lib/src/select/Select";
 
 import styles from "./RangeSelect.module.scss";
 import { InputWrapper } from "@/components/form_input/FormInput";
 import { useI18N } from "@/i18n/context";
-
-const noop = () => {};
 
 const RangeSelect: React.FC<RangeSelectProps> = ({ circuitTypeData, rangeOptionIdx }) => {
   const i18n = useI18N();
@@ -33,14 +32,9 @@ const RangeSelect: React.FC<RangeSelectProps> = ({ circuitTypeData, rangeOptionI
   return (
     circuitTypeData.range_data && (
       <div className={styles.wrapper}>
-        <p className={styles.selectLabel}>
-          {circuitTypeData.range_data.label} ({i18n.automatic})
-        </p>
-        <InputWrapper>
-          <select className={styles.select} value={Math.max(rangeOptionIdx, 0)} onChange={noop}>
-            {optionElems}
-          </select>
-        </InputWrapper>
+        <Select name="" value={rangeOptionIdx} label={circuitTypeData.range_data.label}>
+          {optionElems}
+        </Select>
       </div>
     )
   );

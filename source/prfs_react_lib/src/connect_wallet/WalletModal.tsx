@@ -89,8 +89,6 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
           address={address}
           connector={connector}
           handleChangeAddress={handleChangeAddress}
-          // handleClickDisconnect={handleClickDisconnect}
-          // handleClickClose={handleClickClose}
         />
       ) : (
         connectorsElem

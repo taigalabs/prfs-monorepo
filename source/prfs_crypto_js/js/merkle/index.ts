@@ -1,3 +1,6 @@
+import { bigIntToLeBytes, bytesLeToBigInt } from "../bigint";
+import { poseidon_2, poseidon_2_bigint_le } from "../poseidon";
+
 export function makePathIndices(depth: number, leafIdx: number): number[] {
   let pathIndices: number[] = [];
   let currIdx = leafIdx;
@@ -28,22 +31,28 @@ export function makeSiblingPath(depth: number, leafIdx: number): number[] {
   return siblingIndices;
 }
 
-export function computeRoot(
-  leaf: bigint,
-  siblings: bigint[],
-  pathIndices: number[],
-  hash: (arg1: bigint, arg2: bigint) => Promise<Uint8Array>,
-) {
-  let curr: Uint8Array;
+export async function computeRoot(leaf: bigint, siblings: bigint[], pathIndices: number[]) {
+  let leaf_ = bigIntToLeBytes(leaf, 32);
+  let curr = leaf_;
   for (const [idx, path] of pathIndices.entries()) {
-    console.log(11, siblings[idx], path);
-    if (idx) {
-      // curr siblings[]
+    const sibling = siblings[idx];
+    const sibling_ = bigIntToLeBytes(sibling, 32);
+    if (path === 0) {
+      const args = new Uint8Array(64);
+      args.set(curr, 0);
+      args.set(sibling_, 32);
+      curr = await poseidon_2(args);
+    } else if (path === 1) {
+      const args = new Uint8Array(64);
+      args.set(sibling_, 0);
+      args.set(curr, 32);
+      curr = await poseidon_2(args);
     } else {
+      throw new Error("Invalid path index!");
     }
   }
 
-  return 0n;
+  return bytesLeToBigInt(curr);
 }
 
 function getSiblingIdx(idx: number): number {

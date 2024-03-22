@@ -1,6 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { MdNoteAdd } from "@react-icons/all-files/md/MdNoteAdd";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import { CommitmentType } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CommitmentItem.module.scss";
@@ -15,6 +16,14 @@ import {
 const CommitmentItem: React.FC<CommitmentItemProps> = ({ name, hashedHex, val, type }) => {
   const i18n = React.useContext(i18nContext);
 
+  const hex = React.useMemo(() => {
+    if (hashedHex?.length > 14) {
+      return abbrev7and5(hashedHex);
+    } else {
+      return "";
+    }
+  }, [hashedHex]);
+
   return (
     <QueryItem>
       <QueryItemMeta>
@@ -27,7 +36,7 @@ const CommitmentItem: React.FC<CommitmentItemProps> = ({ name, hashedHex, val, t
           <div className={styles.type}>({type})</div>
           <div className={styles.hashed}>
             <span className={styles.label}>{i18n.commitment}: </span>
-            <span>{hashedHex}</span>
+            <span>{hex}</span>
           </div>
         </QueryItemRightCol>
       </QueryItemMeta>

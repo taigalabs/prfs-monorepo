@@ -37,6 +37,7 @@ members = [
   "source/prfs_driver_spartan_wasm",
   "source/prfs_axum_lib",
   "source/prfs_id_session_api_error_codes",
+  "source/prfs_web3_rs",
 
   # internals
   "internals/ci",

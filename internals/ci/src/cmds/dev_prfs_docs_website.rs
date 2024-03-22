@@ -6,7 +6,7 @@ use crate::{
     paths::PATHS,
 };
 
-pub const CMD_NAME: &str = "dev_prfs_docs_wesite";
+pub const CMD_NAME: &str = "dev_prfs_docs_website";
 
 pub fn run(matches: &ArgMatches) {
     let extra_args = match matches.get_many::<String>("extra_args") {

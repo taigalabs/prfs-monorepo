@@ -1,6 +1,7 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsIndex;
 use prfs_entities::prfs_api::DatedPrfsIndex;
+use shy_entities::sqlx::Execute;
 
 use crate::DbInterfaceError;
 
@@ -59,17 +60,16 @@ FROM (values
     separated.push_unseparated(") ");
     separated.push_unseparated(
         r#"
-v(key) LEFT JOIN
-prfs_indices
+v(key)
+LEFT JOIN prfs_indices
 USING (key)
-ORDER BY updated_at DESC
+ORDER BY updated_at ASC
 "#,
     );
 
-    // let sql = query_builder.sql();
-    // println!("sql: {:?}", sql);
-
     let query = query_builder.build();
+    println!("q: {}", query.sql());
+
     let rows = query.fetch_all(pool).await?;
     let ret = rows
         .iter()

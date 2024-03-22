@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./EncryptedWalletAddrItem.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -16,7 +17,7 @@ const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
       for (const key in walletCacheKeys) {
         elems.push(
           <p key={walletCacheKeys[key]} className={styles.cacheKey}>
-            {walletCacheKeys[key].substring(0, 8)}...
+            {abbrev7and5(walletCacheKeys[key])},
           </p>,
         );
       }
