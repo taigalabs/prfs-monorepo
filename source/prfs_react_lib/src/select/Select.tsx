@@ -4,12 +4,14 @@ import cn from "classnames";
 import styles from "./Select.module.scss";
 import { Fieldset, InputError, InputWrapper, Label } from "../input/InputComponent";
 
+const noop = () => {};
+
 const Select: React.FC<SelectProps> = ({
   className,
   label,
   labelClassName,
   error,
-  optionIdx,
+  value,
   name,
   hasError,
   children,
@@ -22,21 +24,25 @@ const Select: React.FC<SelectProps> = ({
     setIsFocused(false);
   }, [setIsFocused]);
 
-  console.log(344, optionIdx);
-
   return (
     <>
       <InputWrapper
         className={className}
         isError={!!error || !!hasError}
         isFocused={isFocused}
-        hasValue={optionIdx > -1}
+        hasValue={value > -1}
       >
         <Label className={labelClassName} name={name}>
           {label}
         </Label>
         <Fieldset>{label}</Fieldset>
-        <select className={styles.select} onFocus={handleFocus} onBlur={handleBlur}>
+        <select
+          className={styles.select}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          value={value}
+          onChange={noop}
+        >
           {children}
         </select>
       </InputWrapper>
@@ -50,7 +56,7 @@ export default Select;
 export interface SelectProps {
   className?: string;
   labelClassName?: string;
-  optionIdx: number;
+  value: number;
   children: React.ReactNode;
   error?: React.ReactNode;
   hasError?: boolean;

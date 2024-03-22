@@ -6,8 +6,6 @@ import styles from "./RangeSelect.module.scss";
 import { InputWrapper } from "@/components/form_input/FormInput";
 import { useI18N } from "@/i18n/context";
 
-const noop = () => {};
-
 const RangeSelect: React.FC<RangeSelectProps> = ({ circuitTypeData, rangeOptionIdx }) => {
   const i18n = useI18N();
 
@@ -37,7 +35,7 @@ const RangeSelect: React.FC<RangeSelectProps> = ({ circuitTypeData, rangeOptionI
         {/* <p className={styles.selectLabel}> */}
         {/*   {circuitTypeData.range_data.label} ({i18n.automatic}) */}
         {/* </p> */}
-        <Select name="" optionIdx={rangeOptionIdx} label={circuitTypeData.range_data.label}>
+        <Select name="" value={rangeOptionIdx} label={circuitTypeData.range_data.label}>
           {optionElems}
         </Select>
         {/* <InputWrapper> */}
