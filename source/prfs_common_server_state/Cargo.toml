@@ -25,3 +25,4 @@ prfs_db_driver = { path = "../prfs_db_driver" }
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_web_fetcher = { path = "../prfs_web_fetcher" }
 prfs_axum_lib = { path = "../prfs_axum_lib" }
+prfs_tree_server_task_queue = { path = "../prfs_tree_server_task_queue" }

@@ -3,6 +3,7 @@ use colored::Colorize;
 use ethers_signers::LocalWallet;
 use prfs_common_server_state::ServerState;
 use prfs_db_driver::database2::Database2;
+use prfs_tree_server_task_queue::TreeServerTaskQueue;
 use prfs_web_fetcher::destinations::infura::{InfuraFetcher, InfuraFetcherOpt};
 use std::collections::HashMap;
 use std::sync::Arc;
@@ -31,6 +32,8 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
     let wallet = ENVS.prfs_api_private_key.parse::<LocalWallet>()?;
     let launch_time: DateTime<Utc> = Utc::now();
 
+    let tree_server_task_queue = TreeServerTaskQueue::init();
+
     println!(
         "{} server state, wallet: {:?}, commit_hash: {}, launch_time: {}",
         "Initialized".green(),
@@ -46,6 +49,6 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
         commit_hash,
         infura_fetcher,
         peer_map: Arc::new(Mutex::new(HashMap::new())),
-        // client,
+        tree_server_task_queue,
     })
 }

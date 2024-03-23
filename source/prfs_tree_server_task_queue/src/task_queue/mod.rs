@@ -5,20 +5,20 @@ use tokio::sync::{
     Mutex,
 };
 
-pub struct TaskQueue {
+pub struct TreeServerTaskQueue {
     task_map: HashMap<String, String>,
     tx: Arc<Sender<String>>,
     rx: Arc<Mutex<Receiver<String>>>,
 }
 
-impl TaskQueue {
-    pub fn init() -> TaskQueue {
+impl TreeServerTaskQueue {
+    pub fn init() -> TreeServerTaskQueue {
         let (tx, rx) = {
             let (tx, rx) = mpsc::channel(100);
             (Arc::new(tx), Arc::new(Mutex::new(rx)))
         };
 
-        TaskQueue {
+        TreeServerTaskQueue {
             task_map: HashMap::new(),
             tx,
             rx,
