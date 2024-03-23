@@ -222,50 +222,10 @@ pub async fn update_prfs_tree_by_new_atst(
     StatusCode,
     Json<ApiResponse<UpdatePrfsTreeByNewAtstResponse>>,
 ) {
-    println!("update!!");
-
     state
         .tree_server_task_queue
         .add_task(&input.atst_type)
         .await;
-
-    println!("33");
-
-    // let pool = &state.db2.pool;
-
-    // let prfs_sets = match prfs::get_prfs_sets_by_topic(pool, &input.atst_type.to_string()).await {
-    //     Ok(s) => s,
-    //     Err(err) => {
-    //         let resp =
-    //             ApiResponse::new_error(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
-    //         return (StatusCode::BAD_REQUEST, Json(resp));
-    //     }
-    // };
-
-    // let mut tx = bail_out_tx!(pool, &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR);
-
-    // for set in prfs_sets {
-    //     match _import_prfs_attestations_to_prfs_set(
-    //         &pool,
-    //         &mut tx,
-    //         &input.atst_type.to_string(),
-    //         &set.set_id,
-    //     )
-    //     .await
-    //     {
-    //         Ok(_) => (),
-    //         Err(err) => {
-    //             let resp = ApiResponse::new_error(
-    //                 &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-    //                 err.to_string(),
-    //             );
-    //             return (StatusCode::BAD_REQUEST, Json(resp));
-    //         }
-    //     }
-    // }
-
-    // // println!("sets: {:?}", prfs_sets);
-    // // let prfs_circuit_drivers = prfs::get_prfs_circuit_drivers(&pool).await;
 
     let resp = ApiResponse::new_success(UpdatePrfsTreeByNewAtstResponse {
         atst_type: input.atst_type,
