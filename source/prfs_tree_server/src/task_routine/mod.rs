@@ -75,7 +75,14 @@ async fn do_update_prfs_tree_by_new_atst_task(
         for set in prfs_sets {
             println!("set: {:?}", set);
 
-            // _import_prfs_attestations_to_prfs_set(&pool, &mut tx, &atst_type, &set.set_id).await?;
+            let (dest_set_id, import_count) =
+                _import_prfs_attestations_to_prfs_set(&pool, &mut tx, &atst_type, &set.set_id)
+                    .await?;
+
+            println!(
+                "dest_set_id: {}, import_count: {}",
+                dest_set_id, import_count
+            );
 
             let u = U256::random(&mut OsRng);
             let tree_id = format!("0x{}", u.to_string());
@@ -93,6 +100,41 @@ async fn do_update_prfs_tree_by_new_atst_task(
 
         tx.commit().await?;
     }
+
+    Ok(())
+}
+
+async fn do_update_prfs_tree_by_new_atst_task2(
+    state: &Arc<ServerState>,
+    atst_types: &Vec<&PrfsAtstType>,
+) -> Result<(), PrfsTreeServerError> {
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await?;
+
+    let atst_type = PrfsAtstType::crypto_1;
+    let set_id = String::from("crypto_holders");
+
+    let (dest_set_id, import_count) =
+        _import_prfs_attestations_to_prfs_set(&pool, &mut tx, &atst_type, &set_id).await?;
+
+    println!(
+        "dest_set_id: {}, import_count: {}",
+        dest_set_id, import_count
+    );
+
+    let u = U256::random(&mut OsRng);
+    let tree_id = format!("0x{}", u.to_string());
+
+    let tree_label = format!("{}__tree__{}", &set_id, &tree_id);
+    let (tree_id, leaves_count) =
+        _create_prfs_tree_by_prfs_set(&pool, &mut tx, &set_id, &tree_label, &tree_id).await?;
+
+    println!(
+        "Created a new tree, tree_id: {}, leaves_count: {}",
+        tree_id, leaves_count
+    );
+
+    tx.commit().await?;
 
     Ok(())
 }
