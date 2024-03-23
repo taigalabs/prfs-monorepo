@@ -46,67 +46,35 @@ pub async fn _create_prfs_tree_by_prfs_set(
     tree_label: &String,
     tree_id: &String,
 ) -> Result<(String, u64), PrfsTreeServerError> {
-    let mut set = prfs::get_prfs_set_by_set_id(&pool, &set_id).await?;
-    //     {
-    //     Ok(s) => s,
-    //     Err(err) => {
-    //         let resp = ApiResponse::new_error(
-    //             &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-    //             format!(
-    //                 "Error getting prfs set, set_id: {}, err: {}",
-    //                 input.set_id, err
-    //             ),
-    //         );
-    //         return (StatusCode::BAD_REQUEST, Json(resp));
-    //     }
-    // };
+    let mut set = prfs::get_prfs_set_by_set_id(&pool, &set_id)
+        .await
+        .map_err(|err| format!("Error getting prfs set, set_id: {}, err: {}", set_id, err))?;
 
-    let set_elements = prfs::get_prfs_set_elements(&pool, &set.set_id, 0, 50000).await?;
-    // {
-    //     Ok(e) => e,
-    //     Err(err) => {
-    //         let resp = ApiResponse::new_error(
-    //             &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-    //             format!(
-    //                 "Error getting prfs set elements, set_id: {}, err: {}",
-    //                 set.set_id, err
-    //             ),
-    //         );
-    //         return (StatusCode::BAD_REQUEST, Json(resp));
-    //     }
-    // };
+    let set_elements = prfs::get_prfs_set_elements(&pool, &set.set_id, 0, 50000)
+        .await
+        .map_err(|err| {
+            format!(
+                "Error getting prfs set elements, set_id: {}, err: {}",
+                set_id, err
+            )
+        })?;
 
     let mut count = 0;
-    let leaves = tree::create_leaves(&set_elements)?;
-    // {
-    //     Ok(l) => l,
-    //     Err(err) => {
-    //         let resp = ApiResponse::new_error(
-    //             &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-    //             format!(
-    //                 "Error creating leaves, set_id: {}, err: {}",
-    //                 set.set_id, err
-    //             ),
-    //         );
-    //         return (StatusCode::BAD_REQUEST, Json(resp));
-    //     }
-    // };
+    let leaves = tree::create_leaves(&set_elements).map_err(|err| {
+        format!(
+            "Error creating leaves, set_id: {}, err: {}",
+            set.set_id, err
+        )
+    })?;
+
     let mut leaf_nodes = vec![];
     for (idx, leaf) in leaves.iter().enumerate() {
-        let val = prfs_crypto::convert_32bytes_le_into_decimal_string(&leaf)?;
-        //     {
-        //     Ok(v) => v,
-        //     Err(err) => {
-        //         let resp = ApiResponse::new_error(
-        //             &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-        //             format!(
-        //                 "Error converting byets to string, val: {:?}, err: {}",
-        //                 leaf, err
-        //             ),
-        //         );
-        //         return (StatusCode::BAD_REQUEST, Json(resp));
-        //     }
-        // };
+        let val = prfs_crypto::convert_32bytes_le_into_decimal_string(&leaf).map_err(|err| {
+            format!(
+                "Error converting byets to string, val: {:?}, err: {}",
+                leaf, err
+            )
+        })?;
 
         let n = PrfsTreeNode {
             pos_w: set_elements[idx].element_idx,
@@ -137,18 +105,8 @@ pub async fn _create_prfs_tree_by_prfs_set(
     let mut children = leaves;
     let mut parent_nodes = vec![];
     for d in 0..TREE_DEPTH {
-        let parents = tree::calc_parent_nodes(&children)?;
-        // {
-        //     Ok(p) => p,
-        //     Err(err) => {
-        //         let resp = ApiResponse::new_error(
-        //             &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-        //             format!("Error calculating parent nodes, err: {}", err),
-        //         );
-        //         return (StatusCode::BAD_REQUEST, Json(resp));
-        //     }
-        // };
-        // println!("d: {}, parents: {:?}", d, parents);
+        let parents = tree::calc_parent_nodes(&children)
+            .map_err(|err| format!("Error calculating parent nodes, err: {}", err))?;
 
         parent_nodes = vec![];
         for (idx, p) in parents.iter().enumerate() {
@@ -167,28 +125,18 @@ pub async fn _create_prfs_tree_by_prfs_set(
         }
 
         children = parents;
-        prfs::insert_prfs_tree_nodes(&mut tx, &parent_nodes, false).await?;
-        // {
-        //     let resp = ApiResponse::new_error(
-        //         &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-        //         format!("Error inserting tree nodes, err: {}", err),
-        //     );
-        //     return (StatusCode::BAD_REQUEST, Json(resp));
-        // }
+        prfs::insert_prfs_tree_nodes(&mut tx, &parent_nodes, false)
+            .await
+            .map_err(|err| format!("Error inserting tree nodes, err: {}", err))?;
         count += parent_nodes.len();
     }
 
     let merkle_root = parent_nodes[0].val.to_string();
     set.cardinality = count as i64;
 
-    prfs::upsert_prfs_set(&mut tx, &set).await?;
-    // {
-    //     let resp = ApiResponse::new_error(
-    //         &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-    //         format!("Error upserting prfs set, err: {}", err),
-    //     );
-    //     return (StatusCode::BAD_REQUEST, Json(resp));
-    // }
+    prfs::upsert_prfs_set(&mut tx, &set)
+        .await
+        .map_err(|err| format!("Error upserting prfs set, err: {}", err))?;
 
     let tree = PrfsTree {
         label: tree_label.to_string(),
@@ -200,14 +148,9 @@ pub async fn _create_prfs_tree_by_prfs_set(
         elliptic_curve: ELLIPTIC_CURVE.to_string(),
     };
 
-    prfs::insert_prfs_tree(&mut tx, &tree).await?;
-    // {
-    //     let resp = ApiResponse::new_error(
-    //         &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR,
-    //         format!("Error inserting prfs tree, err: {}", err),
-    //     );
-    //     return (StatusCode::BAD_REQUEST, Json(resp));
-    // }
+    prfs::insert_prfs_tree(&mut tx, &tree)
+        .await
+        .map_err(|err| format!("Error inserting prfs tree, err: {}", err))?;
 
     Ok((tree.tree_id.to_string(), leaves_count))
 }

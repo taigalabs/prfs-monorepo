@@ -20,13 +20,6 @@ pub async fn make_tree_api_v0_router(state: &Arc<ServerState>) -> Router<Arc<Ser
         routine.start_routine().await;
     });
 
-    // let added = state
-    //     .tree_server_task_queue
-    //     .add_task(&PrfsAtstType::crypto_1)
-    //     .await;
-
-    // println!("added: {}", added);
-
     let router = Router::new()
         .route(
             "/update_prfs_tree_by_new_atst",
