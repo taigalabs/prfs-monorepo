@@ -9,7 +9,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 
-use crate::{envs::ENVS, paths::PATHS, ApiServerError};
+use crate::{envs::ENVS, ApiServerError};
 
 pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
     let commit_hash =

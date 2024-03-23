@@ -1,3 +1,4 @@
+use prfs_entities::PrfsAtstType;
 use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::{
@@ -6,7 +7,7 @@ use tokio::sync::{
 };
 
 pub struct TreeServerTaskQueue {
-    task_map: HashMap<String, String>,
+    task_map: Arc<Mutex<HashMap<String, String>>>,
     tx: Arc<Sender<String>>,
     rx: Arc<Mutex<Receiver<String>>>,
 }
@@ -18,16 +19,18 @@ impl TreeServerTaskQueue {
             (Arc::new(tx), Arc::new(Mutex::new(rx)))
         };
 
-        TreeServerTaskQueue {
-            task_map: HashMap::new(),
-            tx,
-            rx,
-        }
+        let task_map = Arc::new(Mutex::new(HashMap::new()));
+
+        TreeServerTaskQueue { task_map, tx, rx }
     }
 
     fn fetch_tasks(&self) {}
 
-    pub fn add_task(&self) {}
+    pub async fn add_task(&self, atst_type: PrfsAtstType) {
+        let task_map = self.task_map.clone();
+        let mut task_map_lock = task_map.lock().await;
+        task_map_lock.insert("po".into(), "".into());
+    }
 
     fn wake(&self) {
         // tokio::spawn()

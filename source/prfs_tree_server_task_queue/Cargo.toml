@@ -31,5 +31,5 @@ project_root = { path = "../project_root" }
 # prfs_tree_lib = { path = "../prfs_tree_lib" }
 # prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 # prfs_crypto = { path = "../prfs_crypto" }
-# prfs_entities = { path = "../prfs_entities" }
+prfs_entities = { path = "../prfs_entities" }
 # prfs_web_fetcher = { path = "../prfs_web_fetcher" }
