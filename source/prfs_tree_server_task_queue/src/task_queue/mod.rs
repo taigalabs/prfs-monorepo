@@ -6,10 +6,12 @@ use tokio::sync::{
     Mutex,
 };
 
+use crate::PrfsTreeServerTaskQueueError;
+
 pub struct TreeServerTaskQueue {
-    task_map: Arc<Mutex<HashMap<String, String>>>,
-    tx: Arc<Sender<String>>,
-    rx: Arc<Mutex<Receiver<String>>>,
+    task_map: Arc<Mutex<HashMap<PrfsAtstType, bool>>>,
+    tx: Arc<Sender<usize>>,
+    rx: Arc<Mutex<Receiver<usize>>>,
 }
 
 impl TreeServerTaskQueue {
@@ -24,16 +26,20 @@ impl TreeServerTaskQueue {
         TreeServerTaskQueue { task_map, tx, rx }
     }
 
-    fn fetch_tasks(&self) {}
-
     pub async fn add_task(&self, atst_type: PrfsAtstType) {
         let task_map = self.task_map.clone();
         let mut task_map_lock = task_map.lock().await;
-        task_map_lock.insert("po".into(), "".into());
-    }
 
-    fn wake(&self) {
-        // tokio::spawn()
+        if !task_map_lock.contains_key(&atst_type) {
+            task_map_lock.insert(atst_type, true);
+
+            let tx = self.tx.clone();
+            tokio::spawn(async move {
+                if let Err(err) = tx.send(1).await {
+                    println!("Failed to insert in task queue, err: {}", err);
+                }
+            });
+        }
     }
 
     pub async fn start_routine(&self) {
