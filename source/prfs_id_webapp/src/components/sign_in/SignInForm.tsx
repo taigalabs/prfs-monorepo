@@ -114,8 +114,8 @@ const SignInForm: React.FC<InputCredentialProps> = ({
       password_2: formData[PASSWORD_2],
     });
 
-    // console.log(33, credential);
-    const { code } = await signInPrfsIdentity({ identity_id: credential.id });
+    const { code, error } = await signInPrfsIdentity({ identity_id: credential.id });
+    console.log(123, code, error);
     if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
       dispatch(
         setGlobalError({
