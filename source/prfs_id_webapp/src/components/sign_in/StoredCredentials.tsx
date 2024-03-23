@@ -29,6 +29,7 @@ import {
   EphemeralPrfsIdCredential,
   persistEphemeralPrfsIdCredential,
 } from "@/storage/ephe_credential";
+import { useSignInPrfsIdentity } from "@/requests";
 
 export enum SignInStatus {
   Loading,
@@ -49,6 +50,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
+  const { mutateAsync: signInPrfsIdentity } = useSignInPrfsIdentity();
 
   React.useEffect(() => {
     if (Object.keys(storedCredentials).length < 1) {
@@ -78,6 +80,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
       const dataset = e.currentTarget.dataset;
       if (dataset.id) {
         if (epheCredential?.credential.id === dataset.id) {
+          // TODO
           handleSucceedSignIn(epheCredential.credential);
         } else {
           setSelectedCredentialId(dataset.id);
@@ -88,6 +91,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   );
 
   const handleClickNextWithCredential = React.useCallback(async () => {
+    console.log(123123);
     const credential = Object.values(storedCredentials).find(
       cred => cred.id === selectedCredentialId,
     );
@@ -146,10 +150,16 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
         return;
       }
 
+      const { code, error } = await signInPrfsIdentity({
+        identity_id: credential.id,
+      });
+
+      console.log(22);
+
       persistEphemeralPrfsIdCredential(credentialObj);
       handleSucceedSignIn(credentialObj);
     }
-  }, [handleSucceedSignIn, formData, selectedCredentialId, setErrorMsg]);
+  }, [handleSucceedSignIn, formData, selectedCredentialId, setErrorMsg, signInPrfsIdentity]);
 
   const handleKeyDown = React.useCallback(
     async (e: React.KeyboardEvent) => {

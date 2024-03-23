@@ -30,6 +30,7 @@ import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
 import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { useAppDispatch } from "@/state/hooks";
 import AppLogoArea from "@/components/app_logo_area/AppLogoArea";
+import { useSignInPrfsIdentity } from "@/requests";
 
 enum InputCredentialStatus {
   Loading,
@@ -49,11 +50,12 @@ const SignInForm: React.FC<InputCredentialProps> = ({
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(InputCredentialStatus.Standby);
   const dispatch = useAppDispatch();
-  const { mutateAsync: signInPrfsIdentity } = useMutation({
-    mutationFn: (req: SignInPrfsIdentityRequest) => {
-      return idApi({ type: "sign_in_prfs_identity", ...req });
-    },
-  });
+  const { mutateAsync: signInPrfsIdentity } = useSignInPrfsIdentity();
+  // useMutation({
+  //   mutationFn: (req: SignInPrfsIdentityRequest) => {
+  //     return idApi({ type: "sign_in_prfs_identity", ...req });
+  //   },
+  // });
 
   const title = React.useMemo(() => {
     return `${i18n.sign_in} to ${appId}`;
