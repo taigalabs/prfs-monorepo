@@ -142,7 +142,7 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
 
         for i in (0..children.len()).step_by(2) {
             if i % 2000 == 0 {
-                println!("calc_parent_nodes, child idx: {}", i);
+                // println!("calc_parent_nodes, child idx: {}", i);
             }
 
             // println!("i: {}", i);

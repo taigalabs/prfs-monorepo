@@ -45,7 +45,7 @@ pub async fn _create_prfs_tree_by_prfs_set(
     set_id: &String,
     tree_label: &String,
     tree_id: &String,
-) -> Result<(), PrfsTreeServerError> {
+) -> Result<(String, u64), PrfsTreeServerError> {
     let mut set = prfs::get_prfs_set_by_set_id(&pool, &set_id).await?;
     //     {
     //     Ok(s) => s,
@@ -133,6 +133,7 @@ pub async fn _create_prfs_tree_by_prfs_set(
     }
     count += leaves.len();
 
+    let leaves_count: u64 = leaves.len().try_into()?;
     let mut children = leaves;
     let mut parent_nodes = vec![];
     for d in 0..TREE_DEPTH {
@@ -208,5 +209,5 @@ pub async fn _create_prfs_tree_by_prfs_set(
     //     return (StatusCode::BAD_REQUEST, Json(resp));
     // }
 
-    Ok(())
+    Ok((tree.tree_id.to_string(), leaves_count))
 }

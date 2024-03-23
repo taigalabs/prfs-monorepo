@@ -1,7 +1,10 @@
 use colored::Colorize;
+use ethers_core::{k256::U256, rand::rngs::OsRng};
 use prfs_admin::mock::MASTER_ACCOUNT_IDS;
 use prfs_api_rs::api;
 use prfs_common_server_state::ServerState;
+use prfs_crypto::hex;
+use prfs_crypto::{crypto_bigint::Random, hexutils};
 use prfs_db_interface::prfs;
 use prfs_entities::{ComputeCryptoAssetSizeTotalValuesRequest, PrfsAtstType};
 use std::sync::Arc;
@@ -68,7 +71,18 @@ async fn do_update_prfs_tree_by_new_atst_task(
 
         for set in prfs_sets {
             _import_prfs_attestations_to_prfs_set(&pool, &mut tx, &atst_type, &set.set_id).await?;
-            // _create_prfs_tree_by_prfs_set(&pool, &mut tx, &set.set_id, tree_label, tree_id)
+
+            let u = U256::random(&mut OsRng);
+            let tree_id = hex::encode(u.to_string());
+            let tree_label = format!("{}__tree__{}", &set.set_id, &tree_id);
+            let (tree_id, leaves_count) =
+                _create_prfs_tree_by_prfs_set(&pool, &mut tx, &set.set_id, &tree_label, &tree_id)
+                    .await?;
+
+            println!(
+                "Created a new tree, tree_id: {}, leaves_count: {}",
+                tree_id, leaves_count
+            );
         }
 
         tx.commit().await?;
