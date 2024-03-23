@@ -11,7 +11,7 @@ impl TaskQueue {
 
     pub fn add_task(&self) {}
 
-    pub fn schedule(&self) {
+    fn wake(&self) {
         // tokio::spawn()
     }
 
