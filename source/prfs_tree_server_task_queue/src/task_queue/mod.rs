@@ -10,9 +10,9 @@ use tokio::sync::{
 use crate::PrfsTreeServerTaskQueueError;
 
 pub struct TreeServerTaskQueue {
-    task_map: Arc<Mutex<HashMap<PrfsAtstType, bool>>>,
-    tx: Arc<Sender<usize>>,
-    rx: Arc<Mutex<Receiver<usize>>>,
+    pub task_map: Arc<Mutex<HashMap<PrfsAtstType, bool>>>,
+    pub tx: Arc<Sender<usize>>,
+    pub rx: Arc<Mutex<Receiver<usize>>>,
 }
 
 impl TreeServerTaskQueue {
@@ -23,7 +23,6 @@ impl TreeServerTaskQueue {
         };
 
         let task_map = Arc::new(Mutex::new(HashMap::new()));
-
         TreeServerTaskQueue { task_map, tx, rx }
     }
 
@@ -36,7 +35,7 @@ impl TreeServerTaskQueue {
 
             let tx = self.tx.clone();
             tokio::spawn(async move {
-                tokio::time::sleep(Duration::from_secs(5)).await;
+                tokio::time::sleep(Duration::from_secs(2)).await;
                 if let Err(err) = tx.send(1).await {
                     println!("Failed to insert in task queue, err: {}", err);
                 }
@@ -44,17 +43,17 @@ impl TreeServerTaskQueue {
         }
     }
 
-    pub async fn start_routine(&self) {
-        let rx = self.rx.clone();
+    // pub async fn start_routine(&self) {
+    //     let rx = self.rx.clone();
 
-        tokio::spawn(async move {
-            let mut rx_lock = rx.lock().await;
+    //     tokio::spawn(async move {
+    //         let mut rx_lock = rx.lock().await;
 
-            while let Some(r) = rx_lock.recv().await {
-                println!("r: {}", r);
-            }
-        })
-        .await
-        .unwrap();
-    }
+    //         while let Some(r) = rx_lock.recv().await {
+    //             println!("r: {}", r);
+    //         }
+    //     })
+    //     .await
+    //     .unwrap();
+    // }
 }

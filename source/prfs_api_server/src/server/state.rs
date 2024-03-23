@@ -32,7 +32,7 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
     let wallet = ENVS.prfs_api_private_key.parse::<LocalWallet>()?;
     let launch_time: DateTime<Utc> = Utc::now();
 
-    let tree_server_task_queue = TreeServerTaskQueue::init();
+    let tree_server_task_queue = Arc::new(TreeServerTaskQueue::init());
 
     println!(
         "{} server state, wallet: {:?}, commit_hash: {}, launch_time: {}",

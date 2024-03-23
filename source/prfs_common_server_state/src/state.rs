@@ -23,7 +23,7 @@ pub struct ServerState {
     pub peer_map: PeerMap,
 
     // prfs_tree_server
-    pub tree_server_task_queue: TreeServerTaskQueue,
+    pub tree_server_task_queue: Arc<TreeServerTaskQueue>,
 }
 
 pub type PeerMap = Arc<Mutex<HashMap<String, Arc<Mutex<SplitSink<WebSocket, Message>>>>>>;

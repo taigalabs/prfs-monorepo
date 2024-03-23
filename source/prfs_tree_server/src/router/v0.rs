@@ -3,15 +3,21 @@ use prfs_common_server_state::ServerState;
 use prfs_tree_api_error_codes::bindgen::make_prfs_tree_api_error_code_json_binding;
 use std::sync::Arc;
 
-use crate::apis::{prfs_set_elements, prfs_tree_nodes, prfs_trees};
+use crate::{
+    apis::{prfs_set_elements, prfs_tree_nodes, prfs_trees},
+    task_routine::TaskRoutine,
+};
 
 pub const TREE_API_V0: &'static str = "/tree_api/v0";
 
-pub async fn make_tree_api_v0_router() -> Router<Arc<ServerState>> {
+pub async fn make_tree_api_v0_router(state: &Arc<ServerState>) -> Router<Arc<ServerState>> {
     // Adding a side effect until this server runs standalone
     make_prfs_tree_api_error_code_json_binding().unwrap();
-    // let q = TaskQueue::init();
-    // q.start_routine().await;
+
+    let routine = TaskRoutine::init(state.tree_server_task_queue.clone());
+    tokio::spawn(async move {
+        routine.start_routine().await;
+    });
 
     let router = Router::new()
         .route(
