@@ -13,7 +13,7 @@ pub struct UpdatePrfsTreeByNewAtstRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct UpdatePrfsTreeByNewAtstResponse {
-    pub prfs_set_ids: Vec<String>,
+    pub atst_type: PrfsAtstType,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

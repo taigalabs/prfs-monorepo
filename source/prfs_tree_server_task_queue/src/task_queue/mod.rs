@@ -1,6 +1,7 @@
 use prfs_entities::PrfsAtstType;
 use std::collections::HashMap;
 use std::sync::Arc;
+use std::time::Duration;
 use tokio::sync::{
     mpsc::{self, Receiver, Sender},
     Mutex,
@@ -26,15 +27,16 @@ impl TreeServerTaskQueue {
         TreeServerTaskQueue { task_map, tx, rx }
     }
 
-    pub async fn add_task(&self, atst_type: PrfsAtstType) {
+    pub async fn add_task(&self, atst_type: &PrfsAtstType) {
         let task_map = self.task_map.clone();
         let mut task_map_lock = task_map.lock().await;
 
         if !task_map_lock.contains_key(&atst_type) {
-            task_map_lock.insert(atst_type, true);
+            task_map_lock.insert(atst_type.clone(), true);
 
             let tx = self.tx.clone();
             tokio::spawn(async move {
+                tokio::time::sleep(Duration::from_secs(5)).await;
                 if let Err(err) = tx.send(1).await {
                     println!("Failed to insert in task queue, err: {}", err);
                 }
@@ -48,10 +50,9 @@ impl TreeServerTaskQueue {
         tokio::spawn(async move {
             let mut rx_lock = rx.lock().await;
 
-            while let Some(r) = rx_lock.recv().await {}
-            // let rc = Rc::new(());
-            // task::yield_now().await;
-            // use_rc(rc.clone());
+            while let Some(r) = rx_lock.recv().await {
+                println!("r: {}", r);
+            }
         })
         .await
         .unwrap();

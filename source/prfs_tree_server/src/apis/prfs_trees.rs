@@ -222,7 +222,10 @@ pub async fn update_prfs_tree_by_new_atst(
     StatusCode,
     Json<ApiResponse<UpdatePrfsTreeByNewAtstResponse>>,
 ) {
-    state.tree_server_task_queue.add_task(input.atst_type);
+    state
+        .tree_server_task_queue
+        .add_task(&input.atst_type)
+        .await;
     // let pool = &state.db2.pool;
 
     // let prfs_sets = match prfs::get_prfs_sets_by_topic(pool, &input.atst_type.to_string()).await {
@@ -260,7 +263,7 @@ pub async fn update_prfs_tree_by_new_atst(
     // // let prfs_circuit_drivers = prfs::get_prfs_circuit_drivers(&pool).await;
 
     let resp = ApiResponse::new_success(UpdatePrfsTreeByNewAtstResponse {
-        prfs_set_ids: vec![],
+        atst_type: input.atst_type,
     });
     return (StatusCode::OK, Json(resp));
 }
