@@ -23,13 +23,13 @@ use crate::apis::server_status::handle_server_status;
 
 const API_V0: &str = "/api/v0/";
 
-pub fn route(state: Arc<ServerState>) -> Router {
+pub async fn route(state: Arc<ServerState>) -> Router {
     Router::new()
         .route("/", get(handle_server_status))
         .route("/status", get(handle_server_status))
         .nest(API_V0, make_api_v0_router())
         .nest(ATST_API_V0, make_atst_v0_router())
-        .nest(TREE_API_V0, make_tree_api_v0_router())
+        .nest(TREE_API_V0, make_tree_api_v0_router().await)
         .nest(ID_API_V0, make_id_api_v0_router())
         .nest(ID_SESSION_API_V0, make_id_session_v0_router())
         .nest(SHY_API_V0, make_shy_v0_router())

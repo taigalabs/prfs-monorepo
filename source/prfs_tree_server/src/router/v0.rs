@@ -7,9 +7,11 @@ use crate::apis::{prfs_set_elements, prfs_tree_nodes, prfs_trees};
 
 pub const TREE_API_V0: &'static str = "/tree_api/v0";
 
-pub fn make_tree_api_v0_router() -> Router<Arc<ServerState>> {
+pub async fn make_tree_api_v0_router() -> Router<Arc<ServerState>> {
     // Adding a side effect until this server runs standalone
     make_prfs_tree_api_error_code_json_binding().unwrap();
+    // let q = TaskQueue::init();
+    // q.start_routine().await;
 
     let router = Router::new()
         .route(

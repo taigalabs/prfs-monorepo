@@ -20,8 +20,6 @@ pub struct ServerState {
 
     // prfs_id_session_server
     pub peer_map: PeerMap,
-    // shy api server
-    // pub client: Client,
 }
 
 pub type PeerMap = Arc<Mutex<HashMap<String, Arc<Mutex<SplitSink<WebSocket, Message>>>>>>;
