@@ -31,11 +31,14 @@ impl TreeServerTaskQueue {
         let mut task_map_lock = task_map.lock().await;
 
         if !task_map_lock.contains_key(&atst_type) {
+            println!("inserting!");
             task_map_lock.insert(atst_type.clone(), true);
 
             let tx = self.tx.clone();
             tokio::spawn(async move {
-                tokio::time::sleep(Duration::from_secs(2)).await;
+                // tokio::time::sleep(Duration::from_secs(2)).await;
+
+                println!("registering task!");
                 if let Err(err) = tx.send(1).await {
                     println!("Failed to insert in task queue, err: {}", err);
                 }

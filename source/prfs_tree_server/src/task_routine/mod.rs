@@ -29,7 +29,7 @@ impl TaskRoutine {
         let mut rx_lock = rx.lock().await;
 
         while let Some(r) = rx_lock.recv().await {
-            println!("123123 r: {}", r);
+            println!("receiving task, r: {}", r);
         }
     }
 }
