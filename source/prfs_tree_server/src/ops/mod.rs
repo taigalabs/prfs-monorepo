@@ -1,12 +1,14 @@
+use prfs_admin::mock::MASTER_ACCOUNT_IDS;
+use prfs_api_rs::api;
 use prfs_axum_lib::{bail_out_tx, resp::ApiResponse, ApiHandleError};
 use prfs_common_server_state::ServerState;
 use prfs_db_driver::sqlx::{Acquire, Pool, Postgres, Transaction};
 use prfs_db_interface::prfs;
-use prfs_entities::PrfsAtstType;
+use prfs_entities::{ComputeCryptoAssetSizeTotalValuesRequest, PrfsAtstType};
 use prfs_tree_api_error_codes::PRFS_TREE_API_ERROR_CODES;
 use std::sync::Arc;
 
-use crate::PrfsTreeServerError;
+use crate::{envs::ENVS, PrfsTreeServerError};
 
 const LIMIT: i32 = 20;
 
@@ -37,6 +39,15 @@ pub async fn do_update_prfs_tree_by_new_atst_task(
     let pool = &state.db2.pool;
 
     for atst_type in atst_types {
+        let resp = api::compute_crypto_asset_size_total_values(
+            &ENVS.prfs_api_server_endpoint,
+            &ComputeCryptoAssetSizeTotalValuesRequest {
+                account_id: MASTER_ACCOUNT_IDS[0].to_string(),
+            },
+        )
+        .await?;
+        println!("compute crypto asset size payload: {:?}", resp.payload);
+
         let prfs_sets = prfs::get_prfs_sets_by_topic(pool, &atst_type.to_string()).await?;
         let mut tx = pool.begin().await?;
 

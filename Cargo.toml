@@ -11,6 +11,7 @@ members = [
 
 
   # prfs lib
+  "source/prfs_admin",
   "source/prfs_db_driver",
   "source/prfs_db_interface",
   "source/prfs_circuit_interface",

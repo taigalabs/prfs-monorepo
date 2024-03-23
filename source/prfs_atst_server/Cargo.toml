@@ -21,6 +21,7 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
 tracing-appender = "0.2"
 
+prfs_admin = { path = "../prfs_admin" }
 prfs_axum_lib = { path = "../prfs_axum_lib" }
 prfs_api_rs = { path = "../prfs_api_rs" }
 prfs_web3_rs = { path = "../prfs_web3_rs" }
