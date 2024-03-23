@@ -76,7 +76,8 @@ async fn do_update_prfs_tree_by_new_atst_task(
             _import_prfs_attestations_to_prfs_set(&pool, &mut tx, &atst_type, &set.set_id).await?;
 
             let u = U256::random(&mut OsRng);
-            let tree_id = hex::encode(u.to_string());
+            let tree_id = format!("0x{}", u.to_string());
+
             let tree_label = format!("{}__tree__{}", &set.set_id, &tree_id);
             let (tree_id, leaves_count) =
                 _create_prfs_tree_by_prfs_set(&pool, &mut tx, &set.set_id, &tree_label, &tree_id)
