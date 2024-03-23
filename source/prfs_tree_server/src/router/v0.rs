@@ -1,5 +1,6 @@
 use prfs_axum_lib::axum::{routing::post, Router};
 use prfs_common_server_state::ServerState;
+use prfs_entities::PrfsAtstType;
 use prfs_tree_api_error_codes::bindgen::make_prfs_tree_api_error_code_json_binding;
 use std::sync::Arc;
 
@@ -14,10 +15,20 @@ pub async fn make_tree_api_v0_router(state: &Arc<ServerState>) -> Router<Arc<Ser
     // Adding a side effect until this server runs standalone
     make_prfs_tree_api_error_code_json_binding().unwrap();
 
-    let routine = TaskRoutine::init(state.tree_server_task_queue.clone());
+    let routine = Arc::new(TaskRoutine::init(state.tree_server_task_queue.clone()));
+    // let routine_clone = routine.clone();
     tokio::spawn(async move {
+        println!("start routine!");
         routine.start_routine().await;
+        println!("exit spwaned task");
     });
+
+    let added = state
+        .tree_server_task_queue
+        .add_task(&PrfsAtstType::crypto_1)
+        .await;
+
+    println!("added: {}", added);
 
     let router = Router::new()
         .route(

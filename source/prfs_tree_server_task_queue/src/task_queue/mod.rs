@@ -26,7 +26,8 @@ impl TreeServerTaskQueue {
         TreeServerTaskQueue { task_map, tx, rx }
     }
 
-    pub async fn add_task(&self, atst_type: &PrfsAtstType) {
+    pub async fn add_task(&self, atst_type: &PrfsAtstType) -> bool {
+        println!("add_task()");
         let task_map = self.task_map.clone();
         let mut task_map_lock = task_map.lock().await;
 
@@ -36,27 +37,17 @@ impl TreeServerTaskQueue {
 
             let tx = self.tx.clone();
             tokio::spawn(async move {
-                // tokio::time::sleep(Duration::from_secs(2)).await;
+                tokio::time::sleep(Duration::from_secs(2)).await;
 
                 println!("registering task!");
                 if let Err(err) = tx.send(1).await {
                     println!("Failed to insert in task queue, err: {}", err);
                 }
             });
+
+            return true;
+        } else {
+            return false;
         }
     }
-
-    // pub async fn start_routine(&self) {
-    //     let rx = self.rx.clone();
-
-    //     tokio::spawn(async move {
-    //         let mut rx_lock = rx.lock().await;
-
-    //         while let Some(r) = rx_lock.recv().await {
-    //             println!("r: {}", r);
-    //         }
-    //     })
-    //     .await
-    //     .unwrap();
-    // }
 }

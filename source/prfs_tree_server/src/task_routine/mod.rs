@@ -10,26 +10,18 @@ use tokio::sync::{
 
 pub struct TaskRoutine {
     pub task_queue: Arc<TreeServerTaskQueue>,
-    pub tx: Arc<Sender<usize>>,
-    pub rx: Arc<Mutex<Receiver<usize>>>,
 }
 
 impl TaskRoutine {
     pub fn init(task_queue: Arc<TreeServerTaskQueue>) -> TaskRoutine {
-        let (tx, rx) = {
-            let (tx, rx) = mpsc::channel(100);
-            (Arc::new(tx), Arc::new(Mutex::new(rx)))
-        };
-
-        TaskRoutine { task_queue, tx, rx }
+        TaskRoutine { task_queue }
     }
 
     pub async fn start_routine(&self) {
-        let rx = self.rx.clone();
-        let mut rx_lock = rx.lock().await;
-
-        while let Some(r) = rx_lock.recv().await {
+        let mut rx = self.task_queue.rx.lock().await;
+        while let Some(r) = rx.recv().await {
             println!("receiving task, r: {}", r);
         }
+        println!("exit start_routine()");
     }
 }
