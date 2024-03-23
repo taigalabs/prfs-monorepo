@@ -13,7 +13,7 @@ use prfs_entities::atst_api::{
     GetCryptoAssetSizeAtstsRequest, GetCryptoAssetSizeAtstsResponse,
 };
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
-use prfs_entities::{UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest};
+use prfs_entities::{PrfsAtstType, UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest};
 use prfs_web3_rs::signature::verify_eth_sig_by_addr;
 use prfs_web_fetcher::destinations::coinbase::{self};
 use rust_decimal::prelude::FromPrimitive;
@@ -130,7 +130,14 @@ pub async fn get_crypto_asset_size_atsts(
 ) {
     let pool = &state.db2.pool;
 
-    let rows = match prfs::get_prfs_attestations(&pool, input.offset, LIMIT).await {
+    let rows = match prfs::get_prfs_attestations(
+        &pool,
+        &PrfsAtstType::crypto_1,
+        input.offset,
+        LIMIT,
+    )
+    .await
+    {
         Ok(r) => r,
         Err(err) => {
             let resp = ApiResponse::new_error(
@@ -204,7 +211,7 @@ pub async fn compute_crypto_asset_size_total_values(
         }
     };
 
-    let atsts = match prfs::get_prfs_attestations(&pool, 0, 50000).await {
+    let atsts = match prfs::get_prfs_attestations(&pool, &PrfsAtstType::crypto_1, 0, 50000).await {
         Ok(a) => a,
         Err(err) => {
             let resp =

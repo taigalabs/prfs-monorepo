@@ -1,14 +1,14 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::entities::PrfsSetElement;
+use crate::{entities::PrfsSetElement, PrfsAtstType};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct ImportPrfsAttestationsToPrfsSetRequest {
     // pub src_type: String,
     // pub src_id: String,
-    pub topic: String,
+    pub topic: PrfsAtstType,
     pub dest_set_id: String,
 }
 
