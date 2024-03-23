@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod tests;
+
 use colored::Colorize;
 use ethers_core::{k256::U256, rand::rngs::OsRng};
 use prfs_admin::mock::MASTER_ACCOUNT_IDS;
