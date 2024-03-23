@@ -9,18 +9,16 @@ use std::sync::Arc;
 use crate::PrfsTreeServerError;
 
 const LIMIT: i32 = 20;
-// const PRFS_ATTESTATION: &str = "prfs_attestation";
-// const CRYPTO_ASSET_SIZE_ATSTS: &str = "crypto_asset_size_atsts";
 
 pub async fn _import_prfs_attestations_to_prfs_set(
     pool: &Pool<Postgres>,
     tx: &mut Transaction<'_, Postgres>,
-    topic: &String,
+    atst_type: &PrfsAtstType,
     dest_set_id: &String,
 ) -> Result<(String, u64), PrfsTreeServerError> {
-    let rows_deleted = prfs::delete_prfs_set_elements(tx, &dest_set_id).await?;
+    let _rows_deleted = prfs::delete_prfs_set_elements(tx, &dest_set_id).await?;
 
-    let atsts = prfs::get_prfs_attestations(&pool, 0, 50000).await?;
+    let atsts = prfs::get_prfs_attestations(&pool, &atst_type, 0, 50000).await?;
 
     if atsts.len() > 65536 {
         return Err("Currently we can produce upto 65536 items".into());
@@ -43,13 +41,7 @@ pub async fn do_update_prfs_tree_by_new_atst_task(
         let mut tx = pool.begin().await?;
 
         for set in prfs_sets {
-            _import_prfs_attestations_to_prfs_set(
-                &pool,
-                &mut tx,
-                &atst_type.to_string(),
-                &set.set_id,
-            )
-            .await?;
+            _import_prfs_attestations_to_prfs_set(&pool, &mut tx, &atst_type, &set.set_id).await?;
         }
     }
 
