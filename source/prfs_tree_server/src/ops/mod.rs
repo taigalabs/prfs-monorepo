@@ -1,7 +1,10 @@
-use prfs_axum_lib::{resp::ApiResponse, ApiHandleError};
-use prfs_db_driver::sqlx::{Pool, Postgres, Transaction};
+use prfs_axum_lib::{bail_out_tx, resp::ApiResponse, ApiHandleError};
+use prfs_common_server_state::ServerState;
+use prfs_db_driver::sqlx::{Acquire, Pool, Postgres, Transaction};
 use prfs_db_interface::prfs;
+use prfs_entities::PrfsAtstType;
 use prfs_tree_api_error_codes::PRFS_TREE_API_ERROR_CODES;
+use std::sync::Arc;
 
 use crate::PrfsTreeServerError;
 
@@ -27,4 +30,28 @@ pub async fn _import_prfs_attestations_to_prfs_set(
         prfs::insert_asset_atsts_as_prfs_set_elements(tx, atsts, &dest_set_id).await?;
 
     return Ok((dest_set_id.to_string(), rows_affected));
+}
+
+pub async fn do_update_prfs_tree_by_new_atst_task(
+    state: &Arc<ServerState>,
+    atst_types: Vec<&PrfsAtstType>,
+) -> Result<(), PrfsTreeServerError> {
+    let pool = &state.db2.pool;
+
+    for atst_type in atst_types {
+        let prfs_sets = prfs::get_prfs_sets_by_topic(pool, &atst_type.to_string()).await?;
+        let mut tx = pool.begin().await?;
+
+        for set in prfs_sets {
+            _import_prfs_attestations_to_prfs_set(
+                &pool,
+                &mut tx,
+                &atst_type.to_string(),
+                &set.set_id,
+            )
+            .await?;
+        }
+    }
+
+    Ok(())
 }

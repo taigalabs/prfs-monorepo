@@ -15,20 +15,17 @@ pub async fn make_tree_api_v0_router(state: &Arc<ServerState>) -> Router<Arc<Ser
     // Adding a side effect until this server runs standalone
     make_prfs_tree_api_error_code_json_binding().unwrap();
 
-    let routine = Arc::new(TaskRoutine::init(state.tree_server_task_queue.clone()));
-    // let routine_clone = routine.clone();
+    let routine = Arc::new(TaskRoutine::init(state.clone()));
     tokio::spawn(async move {
-        println!("start routine!");
         routine.start_routine().await;
-        println!("exit spwaned task");
     });
 
-    let added = state
-        .tree_server_task_queue
-        .add_task(&PrfsAtstType::crypto_1)
-        .await;
+    // let added = state
+    //     .tree_server_task_queue
+    //     .add_task(&PrfsAtstType::crypto_1)
+    //     .await;
 
-    println!("added: {}", added);
+    // println!("added: {}", added);
 
     let router = Router::new()
         .route(
