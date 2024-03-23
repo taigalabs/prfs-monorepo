@@ -1,5 +1,5 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use prfs_entities::atst_entities::PrfsAttestation;
+use prfs_entities::{atst_entities::PrfsAttestation, PrfsAtstType};
 
 use crate::DbInterfaceError;
 
@@ -37,18 +37,21 @@ RETURNING atst_id"#;
 
 pub async fn get_prfs_attestations(
     pool: &Pool<Postgres>,
+    atst_type: &PrfsAtstType,
     offset: i32,
     limit: i32,
 ) -> Result<Vec<PrfsAttestation>, DbInterfaceError> {
     let query = r#"
 SELECT *
 FROM prfs_attestations
+WHERE atst_type=$1
 ORDER BY created_at
-LIMIT $1
-OFFSET $2
+LIMIT $2
+OFFSET $3
 "#;
 
     let rows = sqlx::query(query)
+        .bind(atst_type)
         .bind(limit)
         .bind(offset)
         .fetch_all(pool)

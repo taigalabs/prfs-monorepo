@@ -8,8 +8,6 @@ edition = "2021"
 [dependencies]
 colored = "2.0"
 tokio = { version = "1", features = ["full"] }
-tokio-stream = "0.1"
-tokio-postgres = "0.7.7"
 lazy_static = "1.4"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
@@ -31,9 +29,7 @@ tower-http = { version = "0.5", features = ["fs", "trace", "cors"] }
 tokio-tungstenite = "0.21"
 
 http-body-util = "0.1"
-hyper_014 = { package = "hyper", version = "0.14" }
 hyper = { version = "1.1", features = ["full"] }
-hyper-tls-05 = { package = "hyper-tls", version = "0.5.0" }
 hyper-tls = "0.6"
 hyper-util = { version = "0.1", features = ["full"] }
 

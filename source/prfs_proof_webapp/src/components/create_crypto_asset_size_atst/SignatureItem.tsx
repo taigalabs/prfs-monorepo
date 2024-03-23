@@ -36,6 +36,10 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
   const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
   const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
 
+  const isDisabled = React.useMemo(() => {
+    return formData[WALLET_ADDR]?.length < 1 || formData[CM]?.length < 1;
+  }, [formData]);
+
   const handleClickValidate = React.useCallback(async () => {
     setIsSigValid(false);
     const sig = formData[SIGNATURE];
@@ -117,7 +121,7 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
   const cm = formData[CM];
 
   return (
-    <AttestationListItem isDisabled={false}>
+    <AttestationListItem isDisabled={isDisabled}>
       <AttestationListItemOverlay />
       <AttestationListItemNo>3</AttestationListItemNo>
       <AttestationListRightCol>

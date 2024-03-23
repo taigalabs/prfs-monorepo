@@ -68,7 +68,7 @@ ORDER BY updated_at ASC
     );
 
     let query = query_builder.build();
-    println!("q: {}", query.sql());
+    // println!("q: {}", query.sql());
 
     let rows = query.fetch_all(pool).await?;
     let ret = rows

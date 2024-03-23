@@ -10,6 +10,7 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { useRouter } from "next/navigation";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
+import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
@@ -44,7 +45,6 @@ import {
 import SignatureItem from "./SignatureItem";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
-import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 
 enum Status {
   Standby,

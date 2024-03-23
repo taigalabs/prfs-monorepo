@@ -18,13 +18,16 @@ pub async fn run_server() {
 
     let server_state_clone = server_state.clone();
     let _ = tokio::join!(
-        serve(using_serve_dir_with_handler_as_service(server_state), PORT),
+        serve(
+            using_serve_dir_with_handler_as_service(server_state).await,
+            PORT
+        ),
         start_listening_to_prfs_id_session_db_events(server_state_clone)
     );
 }
 
-fn using_serve_dir_with_handler_as_service(server_state: Arc<ServerState>) -> Router {
-    router2::route(server_state)
+async fn using_serve_dir_with_handler_as_service(server_state: Arc<ServerState>) -> Router {
+    router2::route(server_state).await
 }
 
 async fn serve(app: Router, port: u16) {

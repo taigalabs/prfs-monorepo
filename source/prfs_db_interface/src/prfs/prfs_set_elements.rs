@@ -19,7 +19,6 @@ INSERT INTO prfs_set_elements
 "#,
     );
 
-    println!("atsts: {:?}", atsts);
     query_builder.push_values(atsts.iter().enumerate(), |mut b, (idx, atst)| {
         let total_val = atst.value.floor();
         let data = sqlx::types::Json::from(vec![
