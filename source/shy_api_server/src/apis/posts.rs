@@ -73,6 +73,18 @@ pub async fn create_shy_post(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
+    let mut topic = match shy::get_shy_topic__tx(&mut tx, &input.topic_id).await {
+        Ok(t) => t,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &SHY_API_ERROR_CODES.TOPIC_PROOF_RETRIEVAL_FAIL,
+                err.to_string(),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+    topic.inner.total_reply_count += 1;
+
     let action = ShyPostProofAction::create_shy_post(CreateShyPostAction {
         topic_id: input.topic_id.to_string(),
         post_id: input.post_id.to_string(),
@@ -116,6 +128,18 @@ pub async fn create_shy_post(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
+
+    match shy::insert_shy_topic(&mut tx, &topic.inner).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
+                format!("Can't insert shy post, err: {}", err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
     tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(CreateShyPostResponse { post_id });
