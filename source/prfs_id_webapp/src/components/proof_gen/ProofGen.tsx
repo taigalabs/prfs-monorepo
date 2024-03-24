@@ -133,6 +133,10 @@ const ProofGen: React.FC = () => {
   return (
     <DefaultModule>
       <DefaultForm>
+        <DefaultTopLabel>
+          <PLogo width={20} />
+          <span>{i18n.create_data_with_prfs_id}</span>
+        </DefaultTopLabel>
         <DefaultTopLogoRow>
           <PLogo />
         </DefaultTopLogoRow>
