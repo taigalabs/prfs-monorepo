@@ -1,5 +1,6 @@
 export default {
   close: "Close",
+  done: "Done",
   close_and_return: "Close and return",
   close_window: "Close window",
   account_verification: "Account Verification",

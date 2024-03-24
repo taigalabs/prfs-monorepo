@@ -69,8 +69,8 @@ async fn do_update_prfs_tree_by_new_atst_task(
             },
         )
         .await?;
-        // println!("compute crypto asset size payload: {:?}", resp.payload);
-        //
+        println!("compute crypto asset size payload: {:?}", resp.payload);
+
         let prfs_sets = prfs::get_prfs_sets_by_topic(pool, &atst_type.to_string()).await?;
 
         for set in prfs_sets {

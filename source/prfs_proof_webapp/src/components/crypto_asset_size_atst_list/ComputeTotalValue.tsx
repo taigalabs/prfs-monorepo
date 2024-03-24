@@ -67,7 +67,7 @@ const Modal: React.FC<ModalProps> = ({
           disabled={computeStatus === CommonStatus.InProgress}
         >
           <div className={styles.btnContent}>
-            <span>{computeStatus === CommonStatus.Done ? i18n.close : i18n.compute}</span>
+            <span>{computeStatus === CommonStatus.Done ? i18n.done : i18n.compute}</span>
             {computeStatus === CommonStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>
@@ -118,7 +118,6 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
       );
       rerender();
     }
-    setComputeStatus(CommonStatus.Standby);
   }, [
     credential,
     computeCryptoSizeTotalValuesRequest,

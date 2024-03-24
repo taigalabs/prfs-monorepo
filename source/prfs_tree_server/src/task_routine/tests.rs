@@ -15,9 +15,5 @@ mod tests {
         do_update_prfs_tree_by_new_atst_task(&server_state, &atst_types)
             .await
             .unwrap();
-
-        // do_update_prfs_tree_by_new_atst_task2(&server_state, &atst_types)
-        //     .await
-        //     .unwrap();
     }
 }
