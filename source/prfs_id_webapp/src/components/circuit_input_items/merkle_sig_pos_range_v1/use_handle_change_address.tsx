@@ -161,7 +161,7 @@ export function useHandleChangeAddress({
         console.log("leafBytes: %o, args: %s, leafVal: %s, ", leafBytes, args, leafVal);
 
         const { payload, error } = await getPrfsTreeLeafIndices({
-          set_id,
+          tree_id: prfsTree.tree_id,
           leaf_vals: [leafVal.toString()],
         });
 

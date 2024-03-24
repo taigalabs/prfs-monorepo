@@ -25,8 +25,8 @@ const SIGN_IN = "SIGN_IN";
 
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
+  appId,
   label,
-  // proofGenArgs,
   handleSucceedSignIn,
   handleSignInError,
   prfsIdEndpoint,
@@ -35,12 +35,11 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const i18n = React.useContext(i18nContext);
 
   const handleClickSignIn = React.useCallback(async () => {
-    // const [sk, proofGenArgs] = React.useMemo<[PrivateKey, ProofGenArgs]>(() => {
     const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
-      app_id: "shy_webapp",
+      app_id: appId,
       queries: [
         {
           name: SIGN_IN,
@@ -52,9 +51,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       public_key: pkHex,
       session_key,
     };
-
-    // return [sk, proofGenArgs];
-    // }, []);
 
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.proof_gen}${searchParams}`;
@@ -177,8 +173,7 @@ export default PrfsIdSignInButton;
 export interface PrfsIdSignInButtonProps {
   className?: string;
   label?: string;
-  appId: String;
-  // proofGenArgs: ProofGenArgs;
+  appId: string;
   isLoading?: boolean;
   handleSucceedSignIn: (signInResult: AppSignInResult) => void;
   handleSignInError: (err: string) => void;

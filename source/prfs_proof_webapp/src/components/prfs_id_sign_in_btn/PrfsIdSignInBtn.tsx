@@ -33,9 +33,8 @@ import {
 } from "@/storage/local_storage";
 import { useSignedInProofUser } from "@/hooks/user";
 import { paths } from "@/paths";
-import { PRFS_PROOF_APP_ID } from "@/app_id";
 
-const SIGN_IN = "SIGN_IN";
+// const SIGN_IN = "SIGN_IN";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   className,

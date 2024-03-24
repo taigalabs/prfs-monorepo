@@ -12,14 +12,15 @@ const ELLIPTIC_CURVE: &str = "Secp256k1";
 const LIMIT: i32 = 20;
 
 pub async fn _import_prfs_attestations_to_prfs_set(
-    pool: &Pool<Postgres>,
+    // pool: &Pool<Postgres>,
     tx: &mut Transaction<'_, Postgres>,
     atst_type: &PrfsAtstType,
     dest_set_id: &String,
 ) -> Result<(String, u64), PrfsTreeServerError> {
     let _rows_deleted = prfs::delete_prfs_set_elements(tx, &dest_set_id).await?;
 
-    let atsts = prfs::get_prfs_attestations(&pool, &atst_type, 0, 50000).await?;
+    let atsts = prfs::get_prfs_attestations__tx(tx, &atst_type, 0, 50000).await?;
+    println!("22, atsts: {:?}", atsts);
 
     if atsts.len() > 65536 {
         return Err("Currently we can produce upto 65536 items".into());
@@ -32,17 +33,21 @@ pub async fn _import_prfs_attestations_to_prfs_set(
 }
 
 pub async fn _create_prfs_tree_by_prfs_set(
-    pool: &Pool<Postgres>,
     mut tx: &mut Transaction<'_, Postgres>,
     set_id: &String,
     tree_label: &String,
     tree_id: &String,
-) -> Result<(String, u64), PrfsTreeServerError> {
-    let mut set = prfs::get_prfs_set_by_set_id(&pool, &set_id)
+) -> Result<(PrfsTree, i64), PrfsTreeServerError> {
+    println!(
+        "set_id: {}, tree_label: {}, tree_id: {}",
+        set_id, tree_label, tree_id
+    );
+
+    let mut set = prfs::get_prfs_set_by_set_id__tx(tx, &set_id)
         .await
         .map_err(|err| format!("Error getting prfs set, set_id: {}, err: {}", set_id, err))?;
 
-    let set_elements = prfs::get_prfs_set_elements(&pool, &set.set_id, 0, 50000)
+    let set_elements = prfs::get_prfs_set_elements__tx(tx, &set.set_id, 0, 50000)
         .await
         .map_err(|err| {
             format!(
@@ -52,6 +57,7 @@ pub async fn _create_prfs_tree_by_prfs_set(
         })?;
 
     let mut count = 0;
+    // println!("set_elements: {:?}", set_elements);
     let leaves = tree::create_leaves(&set_elements).map_err(|err| {
         format!(
             "Error creating leaves, set_id: {}, err: {}",
@@ -93,7 +99,6 @@ pub async fn _create_prfs_tree_by_prfs_set(
     }
     count += leaves.len();
 
-    let leaves_count: u64 = leaves.len().try_into()?;
     let mut children = leaves;
     let mut parent_nodes = vec![];
     for d in 0..TREE_DEPTH {
@@ -144,5 +149,5 @@ pub async fn _create_prfs_tree_by_prfs_set(
         .await
         .map_err(|err| format!("Error inserting prfs tree, err: {}", err))?;
 
-    Ok((tree.tree_id.to_string(), leaves_count))
+    Ok((tree, set.cardinality))
 }

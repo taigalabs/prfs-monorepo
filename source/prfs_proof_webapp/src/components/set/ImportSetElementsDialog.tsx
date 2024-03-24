@@ -63,7 +63,7 @@ const Modal: React.FC<ModalProps> = ({
           {i18n.close}
         </Button>
         <Button
-          variant="blue_2"
+          variant="blue_3"
           noTransition
           className={styles.importBtn}
           handleClick={handleClickOk}
@@ -72,7 +72,7 @@ const Modal: React.FC<ModalProps> = ({
           disabled={computeStatus === CommonStatus.InProgress}
         >
           <div className={styles.importBtnContent}>
-            <span>{computeStatus === CommonStatus.Done ? i18n.close : i18n.import}</span>
+            <span>{computeStatus === CommonStatus.Done ? i18n.done : i18n.import}</span>
             {computeStatus === CommonStatus.InProgress && <Spinner size={14} borderWidth={2} />}
           </div>
         </Button>

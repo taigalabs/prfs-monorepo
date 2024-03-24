@@ -22,7 +22,7 @@
 }
 
 .topLogoRow {
-  padding: 18px 16px 0px;
+  padding: 24px 16px 0px;
 }
 
 .topLabel {
@@ -31,6 +31,12 @@
   font-weight: 400;
   padding: 10px 16px;
   border-bottom: 1px solid var(--gray-82);
+  display: flex;
+  align-items: center;
+
+  > span {
+    margin-left: 3px;
+  }
 }
 
 .form {

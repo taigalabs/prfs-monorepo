@@ -29,6 +29,7 @@ prfs_crypto = { path = "../prfs_crypto" }
 prfs_db_driver = { path = "../prfs_db_driver" }
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_atst_api_error_codes = { path = "../prfs_atst_api_error_codes" }
+prfs_atst_api_ops = { path = "../prfs_atst_api_ops" }
 prfs_tree_lib = { path = "../prfs_tree_lib" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 prfs_entities = { path = "../prfs_entities" }

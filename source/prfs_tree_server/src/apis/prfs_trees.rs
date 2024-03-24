@@ -23,14 +23,9 @@ pub async fn create_prfs_tree_by_prfs_set(
     let pool = &state.db2.pool;
     let mut tx = bail_out_tx!(pool, &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR);
 
-    if let Err(err) = _create_prfs_tree_by_prfs_set(
-        pool,
-        &mut tx,
-        &input.set_id,
-        &input.tree_label,
-        &input.tree_id,
-    )
-    .await
+    if let Err(err) =
+        _create_prfs_tree_by_prfs_set(&mut tx, &input.set_id, &input.tree_label, &input.tree_id)
+            .await
     {
         let resp =
             ApiResponse::new_error(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());

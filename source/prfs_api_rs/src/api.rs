@@ -72,35 +72,35 @@ pub async fn update_prfs_tree_by_new_atst(
     Ok(api_response)
 }
 
-pub async fn compute_crypto_asset_size_total_values(
-    prfs_api_server_endpoint: &String,
-    data: &ComputeCryptoAssetSizeTotalValuesRequest,
-) -> Result<ApiResponse<ComputeCryptoAssetSizeTotalValuesResponse>, PrfsApiError> {
-    let cli = Client::new();
+// pub async fn compute_crypto_asset_size_total_values(
+//     prfs_api_server_endpoint: &String,
+//     data: &ComputeCryptoAssetSizeTotalValuesRequest,
+// ) -> Result<ApiResponse<ComputeCryptoAssetSizeTotalValuesResponse>, PrfsApiError> {
+//     let cli = Client::new();
 
-    let url = format!(
-        "{}/atst_api/v0/compute_crypto_asset_size_total_values",
-        prfs_api_server_endpoint,
-    );
+//     let url = format!(
+//         "{}/atst_api/v0/compute_crypto_asset_size_total_values",
+//         prfs_api_server_endpoint,
+//     );
 
-    let res = match cli.post(url).json(&data).send().await {
-        Ok(res) => res,
-        Err(err) => {
-            return Err(format!("create prfs proof record fail, err; {}", err).into());
-        }
-    };
+//     let res = match cli.post(url).json(&data).send().await {
+//         Ok(res) => res,
+//         Err(err) => {
+//             return Err(format!("create prfs proof record fail, err; {}", err).into());
+//         }
+//     };
 
-    let api_response: ApiResponse<ComputeCryptoAssetSizeTotalValuesResponse> =
-        match res.json().await {
-            Ok(r) => r,
-            Err(err) => {
-                return Err(format!(
-                    "Cannot parse create prfs proof record response, err; {}",
-                    err
-                )
-                .into());
-            }
-        };
+//     let api_response: ApiResponse<ComputeCryptoAssetSizeTotalValuesResponse> =
+//         match res.json().await {
+//             Ok(r) => r,
+//             Err(err) => {
+//                 return Err(format!(
+//                     "Cannot parse create prfs proof record response, err; {}",
+//                     err
+//                 )
+//                 .into());
+//             }
+//         };
 
-    Ok(api_response)
-}
+//     Ok(api_response)
+// }

@@ -27,7 +27,7 @@ const ProofTypes: React.FC<ProofTypesProps> = ({ children }) => {
   React.useEffect(() => {
     if (isInitialized) {
       if (prfsProofCredential === null) {
-        router.push(paths.accounts);
+        router.push(paths.account);
       }
     }
   }, [isInitialized, prfsProofCredential, router]);

@@ -62,7 +62,7 @@ pub async fn get_prfs_tree_leaf_indices(
 ) -> (StatusCode, Json<ApiResponse<GetPrfsTreeNodesResponse>>) {
     let pool = &state.db2.pool;
     let prfs_tree_nodes =
-        match prfs::get_prfs_tree_leaf_indices(pool, &input.set_id, &input.leaf_vals).await {
+        match prfs::get_prfs_tree_leaf_indices(pool, &input.tree_id, &input.leaf_vals).await {
             Ok(n) => n,
             Err(err) => {
                 let resp = ApiResponse::new_error(

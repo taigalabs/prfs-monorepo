@@ -6,11 +6,8 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { bustEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
-import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { idApi } from "@taigalabs/prfs-api-js";
-import { SignInPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsIdentityRequest";
 import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
-import PLogo from "@taigalabs/prfs-react-lib/src/logo/PLogo";
+import PLogo from "@taigalabs/prfs-react-lib/src/prfs_logo/PLogo";
 
 import styles from "./ProofGen.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -27,6 +24,8 @@ import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import { signInPrfs } from "@/state/userReducer";
+import { useGetPrfsIdApp, useSignInPrfsIdentity } from "@/requests";
+import AppLogo from "@taigalabs/prfs-react-lib/src/app_logo/AppLogo";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -46,11 +45,8 @@ const ProofGen: React.FC = () => {
   const dispatch = useAppDispatch();
   const [step, setStep] = React.useState(ProofGenStep.PrfsIdCredential);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
-  const { mutateAsync: signInPrfsIdentity } = useMutation({
-    mutationFn: (req: SignInPrfsIdentityRequest) => {
-      return idApi({ type: "sign_in_prfs_identity", ...req });
-    },
-  });
+  const { mutateAsync: signInPrfsIdentity } = useSignInPrfsIdentity();
+
   const proofGenArgs = React.useMemo(() => {
     try {
       const args = parseProofGenSearchParams(searchParams as URLSearchParams);
@@ -59,6 +55,8 @@ const ProofGen: React.FC = () => {
       return null;
     }
   }, [searchParams]);
+
+  const { data: getPrfsIdAppData } = useGetPrfsIdApp(proofGenArgs?.app_id);
 
   React.useEffect(() => {
     if (proofGenArgs) {
@@ -133,15 +131,23 @@ const ProofGen: React.FC = () => {
   return (
     <DefaultModule>
       <DefaultForm>
-        <DefaultTopLogoRow>
-          <PLogo />
-        </DefaultTopLogoRow>
+        <DefaultTopLabel>
+          <PLogo width={20} />
+          <span>{i18n.create_data_with_prfs_id}</span>
+        </DefaultTopLabel>
         {status === Status.Loading ? (
           <Overlay fixed>
             <Spinner color="#1b62c0" />
           </Overlay>
         ) : (
-          content
+          <>
+            <DefaultTopLogoRow>
+              {getPrfsIdAppData?.payload && (
+                <AppLogo imgUrl={getPrfsIdAppData.payload.prfs_id_app.img_url} />
+              )}
+            </DefaultTopLogoRow>
+            {content}
+          </>
         )}
       </DefaultForm>
       <DefaultModuleFooter>

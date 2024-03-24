@@ -200,7 +200,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
 
       try {
         const { payload, error } = await GetPrfsTreeLeafIndices({
-          set_id,
+          tree_id: prfsTree.tree_id,
           leaf_vals: [addr],
         });
 

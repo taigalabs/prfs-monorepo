@@ -1,12 +1,8 @@
 import React from "react";
-import Logo from "@taigalabs/prfs-react-lib/src/logo/Logo";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
-import Link from "next/link";
-import ActiveLink from "@taigalabs/prfs-react-lib/src/active_link/ActiveLink";
 
 import styles from "./RightBar.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
 
 const SearchBar = () => {
   const i18n = React.useContext(i18nContext);
@@ -20,8 +16,6 @@ const SearchBar = () => {
 };
 
 const RightBar: React.FC = () => {
-  const i18n = React.useContext(i18nContext);
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.searchBarContainer}>

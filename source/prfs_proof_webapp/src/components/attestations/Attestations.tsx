@@ -16,7 +16,7 @@ import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInProofUser } from "@/hooks/user";
 import { LeftBarContainer } from "@/components/left_bar/LeftBar";
 import AppLogo from "@/components/app_logo/AppLogo";
-import GlobalErrorDialog from "../global_error_dialog/GlobalErrorDialog";
+import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
 
 const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
@@ -28,7 +28,7 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   React.useEffect(() => {
     if (isInitialized) {
       if (prfsProofCredential === null) {
-        router.push(paths.accounts);
+        router.push(paths.account);
       }
     }
   }, [isInitialized, prfsProofCredential, router]);

@@ -2,7 +2,6 @@ use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction}
 use prfs_entities::entities::PrfsTreeNode;
 use prfs_entities::tree_api::NodePos;
 use rust_decimal::Decimal;
-use shy_entities::sqlx::Execute;
 
 use crate::DbInterfaceError;
 
@@ -28,7 +27,7 @@ WHERE tree_id=
     query_builder.push(" ORDER BY pos_h ASC");
 
     let query = query_builder.build();
-    let rows = query.bind(&tree_id).fetch_all(pool).await?;
+    let rows = query.fetch_all(pool).await?;
 
     let nodes = rows
         .iter()
@@ -56,47 +55,46 @@ WHERE tree_id=
 
 pub async fn get_prfs_tree_leaf_indices(
     pool: &Pool<Postgres>,
-    set_id: &String,
+    tree_id: &String,
     leaf_vals: &Vec<String>,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
-    let mut leaf_clause = vec![];
-
-    for val in leaf_vals {
-        let l = format!("val = '{}'", val.to_lowercase());
-        leaf_clause.push(l);
-    }
-
-    let where_clause = format!(
-        "where set_id = '{}' AND pos_h = 0 AND {}",
-        set_id.to_string(),
-        leaf_clause.join(" or ")
+    let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
+        r#"
+SELECT *
+FROM prfs_tree_nodes
+WHERE tree_id=
+"#,
     );
 
-    let query = format!("SELECT * from prfs_tree_nodes nodes {}", where_clause);
-    // println!("query: {}", query);
+    query_builder.push_bind(&tree_id);
+    query_builder.push(" AND pos_h = 0 AND (val) in ");
+    query_builder.push_tuples(leaf_vals, |mut b, leaf| {
+        b.push_bind(leaf);
+    });
 
-    let rows = sqlx::query(&query).fetch_all(pool).await?;
+    let query = query_builder.build();
+    let rows = query.fetch_all(pool).await?;
 
-    let nodes: Vec<PrfsTreeNode> = rows
+    let nodes = rows
         .iter()
         .map(|n| {
-            let tree_id = n.try_get("tree_id").expect("tree_id should exist");
-            let set_id = n.try_get("set_id").expect("set_id should exist");
-            let pos_w = n.try_get("pos_w").expect("pos_w should exist");
-            let pos_h = n.try_get("pos_h").expect("pos_h should exist");
-            let val = n.try_get("val").expect("val should exist");
-            let meta = n.get("meta");
+            let tree_id = n.try_get("tree_id")?;
+            let set_id = n.try_get("set_id")?;
+            let pos_w = n.try_get("pos_w")?;
+            let pos_h = n.try_get("pos_h")?;
+            let val = n.try_get("val")?;
+            let meta = n.try_get("meta")?;
 
-            PrfsTreeNode {
+            Ok(PrfsTreeNode {
                 tree_id,
                 set_id,
                 pos_w,
                 pos_h,
                 meta,
                 val,
-            }
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsTreeNode>, DbInterfaceError>>()?;
 
     Ok(nodes)
 }

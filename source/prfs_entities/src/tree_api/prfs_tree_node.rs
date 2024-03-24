@@ -36,7 +36,7 @@ pub struct GetPrfsTreeLeafNodesBySetIdRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsTreeLeafIndicesRequest {
-    pub set_id: String,
+    pub tree_id: String,
     pub leaf_vals: Vec<String>,
 }
 

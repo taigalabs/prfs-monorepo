@@ -3,7 +3,7 @@ use prfs_common_server_state::ServerState;
 use prfs_id_api_error_codes::bindgen::make_prfs_id_api_error_code_json_binding;
 use std::sync::Arc;
 
-use crate::apis::prfs_identities;
+use crate::apis::{prfs_id_apps, prfs_identities};
 
 pub const ID_API_V0: &'static str = "/id_api/v0";
 
@@ -11,6 +11,7 @@ pub fn make_id_api_v0_router() -> Router<Arc<ServerState>> {
     make_prfs_id_api_error_code_json_binding().unwrap();
 
     let router = Router::new() //
+        .route("/get_prfs_id_app", post(prfs_id_apps::get_prfs_id_app))
         .route(
             "/sign_up_prfs_identity",
             post(prfs_identities::sign_up_prfs_identity),
