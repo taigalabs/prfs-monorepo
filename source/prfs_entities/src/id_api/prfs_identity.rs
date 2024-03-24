@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::id_entities::{PrfsIdentity, PrfsIdentityType};
+use crate::id_entities::PrfsIdentity;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
