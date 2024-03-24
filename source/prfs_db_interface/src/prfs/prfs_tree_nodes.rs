@@ -73,30 +73,30 @@ pub async fn get_prfs_tree_leaf_indices(
     );
 
     let query = format!("SELECT * from prfs_tree_nodes nodes {}", where_clause);
-    // println!("query: {}", query);
+    println!("query: {}", query);
 
     let rows = sqlx::query(&query).fetch_all(pool).await?;
 
-    let nodes: Vec<PrfsTreeNode> = rows
+    let nodes = rows
         .iter()
         .map(|n| {
-            let tree_id = n.try_get("tree_id").expect("tree_id should exist");
-            let set_id = n.try_get("set_id").expect("set_id should exist");
-            let pos_w = n.try_get("pos_w").expect("pos_w should exist");
-            let pos_h = n.try_get("pos_h").expect("pos_h should exist");
-            let val = n.try_get("val").expect("val should exist");
-            let meta = n.get("meta");
+            let tree_id = n.try_get("tree_id")?;
+            let set_id = n.try_get("set_id")?;
+            let pos_w = n.try_get("pos_w")?;
+            let pos_h = n.try_get("pos_h")?;
+            let val = n.try_get("val")?;
+            let meta = n.try_get("meta")?;
 
-            PrfsTreeNode {
+            Ok(PrfsTreeNode {
                 tree_id,
                 set_id,
                 pos_w,
                 pos_h,
                 meta,
                 val,
-            }
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsTreeNode>, DbInterfaceError>>()?;
 
     Ok(nodes)
 }
