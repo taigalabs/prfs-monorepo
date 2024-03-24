@@ -44,15 +44,13 @@ pub async fn compute_crypto_asset_size_total_values(
     for atst in atsts.iter_mut() {
         if let Some(c) = atst.meta.get(0) {
             let v = c.amount * usd / denom;
-            atst.value = Decimal::from(10);
-            println!("atst: {:?}", atst);
-
+            atst.value = v;
+            // println!("atst: {:?}", atst);
             count += 1;
         }
     }
 
-    let rows_updated = prfs::insert_prfs_attestations(&mut tx, &atsts).await?;
-    println!("rows_updated: {}", rows_updated);
+    let _rows_updated = prfs::insert_prfs_attestations(&mut tx, &atsts).await?;
 
     return Ok(ComputeCryptoAssetSizeTotalValuesResponse {
         exchange_rates: exchange_rates.data,

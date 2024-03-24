@@ -68,15 +68,9 @@ async fn do_update_prfs_tree_by_new_atst_task(
     for atst_type in atst_types {
         let compute_resp =
             atst_api_ops::compute_crypto_asset_size_total_values(&pool, &mut tx).await?;
-        println!("compute crypto asset size payload: {:?}", compute_resp);
-
-        let atsts1 = prfs::get_prfs_attestations__tx(&mut tx, &atst_type, 0, 50000).await?;
-        for atst in atsts1 {
-            println!("atst1: {:?}", atst);
-        }
+        println!("Compute crypto asset size payload: {:?}", compute_resp);
 
         let prfs_sets = prfs::get_prfs_sets_by_topic__tx(&mut tx, &atst_type.to_string()).await?;
-
         for set in prfs_sets {
             let (dest_set_id, import_count) =
                 _import_prfs_attestations_to_prfs_set(&mut tx, &atst_type, &set.set_id).await?;

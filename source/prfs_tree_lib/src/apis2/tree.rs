@@ -28,7 +28,9 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
                     // let leaf_decimal = primitive_types::U256::from_str_radix(&val, 16)?;
                     // println!("leaf decimal {}", leaf_decimal);
 
-                    let bytes = convert_hex_into_32bytes(&val).unwrap();
+                    let bytes = convert_hex_into_32bytes(&val).map_err(|err| {
+                        format!("Failed to convert cm, cm: {:?}, err: {}", val, err)
+                    })?;
                     // println!("cm: {:?}, bytes: {:?}", val, bytes);
                     args[idx] = bytes;
                 }
@@ -36,14 +38,21 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
                     // let int128 = d.val.parse::<u128>().unwrap();
                     // let u = U256::from_u128(int128);
                     // let bytes = u.to_be_bytes();
-                    let bytes = convert_dec_into_32bytes(&d.val).unwrap();
+                    let bytes = convert_dec_into_32bytes(&d.val).map_err(|err| {
+                        format!("Failed to convert int, val: {}, err: {}", &d.val, err)
+                    })?;
                     args[idx] = bytes;
                 }
             };
         }
 
-        let val = poseidon_2(&args[0], &args[1]).unwrap();
-        println!("d.val: {:?}, val: {:?}", data, val);
+        let val = poseidon_2(&args[0], &args[1]).map_err(|err| {
+            format!(
+                "Failed to run poseidon to compute leaf, args: {:?}, err: {}",
+                args, err
+            )
+        })?;
+        // println!("d.val: {:?}, val: {:?}", data, val);
         // let int = convert_32bytes_le_into_decimal_string(&val).unwrap();
         // let val2 = U256::from_be_bytes(val);
         // println!(

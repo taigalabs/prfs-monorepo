@@ -3,18 +3,18 @@ use primitive_types::U256;
 use crate::PrfsCryptoError;
 
 pub fn convert_hex_into_32bytes(val: &str) -> Result<[u8; 32], PrfsCryptoError> {
-    // let leaf_decimal = U256::from_str_radix(&val, 16)?;
-    // let mut b = [0u8; 32];
-    // leaf_decimal.to_little_endian(&mut b);
-    //
-    let b = hex::decode(&val).expect("Valid hex string should be provided");
-    let bytes: [u8; 32] = b.try_into().expect("hex string is of wrong size");
+    let b = hex::decode(&val)
+        .map_err(|err| format!("Valid hex string should be provided, err: {}", err))?;
+
+    let bytes: [u8; 32] = b
+        .try_into()
+        .map_err(|err| format!("hex string is of wrong size, err: {:?}", err))?;
 
     Ok(bytes)
 }
 
 pub fn convert_dec_into_32bytes(var: &str) -> Result<[u8; 32], PrfsCryptoError> {
-    let u = U256::from_dec_str(var).unwrap();
+    let u = U256::from_dec_str(var)?;
     let mut buf = [0u8; 32];
     u.to_little_endian(&mut buf);
 
