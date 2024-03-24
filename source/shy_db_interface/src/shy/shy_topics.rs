@@ -128,6 +128,11 @@ INSERT INTO shy_topics
 (topic_id, channel_id, title, author_public_key, total_reply_count, content, shy_topic_proof_id, 
 author_sig, participant_identity_inputs, sub_channel_id, total_like_count)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+ON CONFLICT (topic_id) DO UPDATE SET (
+total_reply_count, title, content, updated_at
+) = (
+excluded.total_reply_count, excluded.title, excluded.content, now()
+)
 RETURNING topic_id
 "#;
 
