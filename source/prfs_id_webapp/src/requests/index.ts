@@ -9,3 +9,11 @@ export function useSignInPrfsIdentity() {
     },
   });
 }
+
+export function useGetPrfsIdApp() {
+  return useMutation({
+    mutationFn: (req: SignInPrfsIdentityRequest) => {
+      return idApi({ type: "sign_in_prfs_identity", ...req });
+    },
+  });
+}

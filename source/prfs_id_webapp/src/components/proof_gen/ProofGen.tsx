@@ -27,6 +27,7 @@ import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import { signInPrfs } from "@/state/userReducer";
+import { useSignInPrfsIdentity } from "@/requests";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -46,11 +47,8 @@ const ProofGen: React.FC = () => {
   const dispatch = useAppDispatch();
   const [step, setStep] = React.useState(ProofGenStep.PrfsIdCredential);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
-  const { mutateAsync: signInPrfsIdentity } = useMutation({
-    mutationFn: (req: SignInPrfsIdentityRequest) => {
-      return idApi({ type: "sign_in_prfs_identity", ...req });
-    },
-  });
+  const { mutateAsync: signInPrfsIdentity } = useSignInPrfsIdentity();
+
   const proofGenArgs = React.useMemo(() => {
     try {
       const args = parseProofGenSearchParams(searchParams as URLSearchParams);
@@ -137,15 +135,17 @@ const ProofGen: React.FC = () => {
           <PLogo width={20} />
           <span>{i18n.create_data_with_prfs_id}</span>
         </DefaultTopLabel>
-        <DefaultTopLogoRow>
-          <PLogo />
-        </DefaultTopLogoRow>
         {status === Status.Loading ? (
           <Overlay fixed>
             <Spinner color="#1b62c0" />
           </Overlay>
         ) : (
-          content
+          <>
+            <DefaultTopLogoRow>
+              <PLogo />
+            </DefaultTopLogoRow>
+            {content}
+          </>
         )}
       </DefaultForm>
       <DefaultModuleFooter>
