@@ -220,57 +220,6 @@ pub(crate) async fn compute_crypto_asset_size_total_values(
         compute_value_resp.updated_row_count
     );
 
-    // let exchange_rates = match coinbase::get_exchange_rates("ETH").await {
-    //     Ok(r) => r,
-    //     Err(err) => {
-    //         return (
-    //             StatusCode::BAD_REQUEST,
-    //             Json(ApiResponse::new_error(
-    //                 &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-    //                 err.to_string(),
-    //             )),
-    //         );
-    //     }
-    // };
-
-    // let atsts = match prfs::get_prfs_attestations(&pool, &PrfsAtstType::crypto_1, 0, 50000).await {
-    //     Ok(a) => a,
-    //     Err(err) => {
-    //         let resp =
-    //             ApiResponse::new_error(&PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
-    //         return (StatusCode::BAD_REQUEST, Json(resp));
-    //     }
-    // };
-
-    // let denom = Decimal::from_u128(1_000_000_000_000_000_000).unwrap();
-    // let usd: &str = exchange_rates.data.rates.USD.as_ref();
-    // let usd = Decimal::from_str(usd).unwrap();
-
-    // let mut tx = pool.begin().await.unwrap();
-    // let mut count = 0;
-    // for mut atst in atsts {
-    //     if let Some(c) = atst.meta.get(0) {
-    //         let v = c.amount * usd / denom;
-    //         atst.value = v;
-    //         match prfs::insert_prfs_attestation(&mut tx, &atst).await {
-    //             Ok(_) => {}
-    //             Err(err) => {
-    //                 let resp = ApiResponse::new_error(
-    //                     &PRFS_ATST_API_ERROR_CODES.CRYPTO_SIZE_UPSERT_FAIL,
-    //                     err.to_string(),
-    //                 );
-    //                 return (StatusCode::BAD_REQUEST, Json(resp));
-    //             }
-    //         }
-
-    //         count += 1;
-    //     }
-    // }
-    // println!(
-    //     "Computed crypto size total values, releasing tx, count: {}",
-    //     count
-    // );
-
     bail_out_tx_commit!(tx, &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let resp = ApiResponse::new_success(compute_value_resp);

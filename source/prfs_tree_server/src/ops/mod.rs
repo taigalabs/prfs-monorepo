@@ -99,7 +99,6 @@ pub async fn _create_prfs_tree_by_prfs_set(
     }
     count += leaves.len();
 
-    let leaves_count: u64 = leaves.len().try_into()?;
     let mut children = leaves;
     let mut parent_nodes = vec![];
     for d in 0..TREE_DEPTH {

@@ -5,6 +5,7 @@ use colored::Colorize;
 use ethers_core::{k256::U256, rand::rngs::OsRng};
 use prfs_admin::mock::MASTER_ACCOUNT_IDS;
 use prfs_api_rs::api;
+use prfs_atst_api_ops::ops as atst_api_ops;
 use prfs_common_server_state::ServerState;
 use prfs_crypto::hex;
 use prfs_crypto::{crypto_bigint::Random, hexutils};
@@ -62,14 +63,9 @@ async fn do_update_prfs_tree_by_new_atst_task(
 
     let mut tree_ids = vec![];
     for atst_type in atst_types {
-        let resp = api::compute_crypto_asset_size_total_values(
-            &ENVS.prfs_api_server_endpoint,
-            &ComputeCryptoAssetSizeTotalValuesRequest {
-                account_id: MASTER_ACCOUNT_IDS[0].to_string(),
-            },
-        )
-        .await?;
-        println!("compute crypto asset size payload: {:?}", resp.payload);
+        let compute_resp =
+            atst_api_ops::compute_crypto_asset_size_total_values(&pool, &mut tx).await?;
+        println!("compute crypto asset size payload: {:?}", compute_resp);
 
         let prfs_sets = prfs::get_prfs_sets_by_topic(pool, &atst_type.to_string()).await?;
 
@@ -91,10 +87,6 @@ async fn do_update_prfs_tree_by_new_atst_task(
                 _create_prfs_tree_by_prfs_set(&pool, &mut tx, &set.set_id, &tree_label, &tree_id)
                     .await?;
 
-            // println!(
-            //     "Created a new tree, tree_id: {}, leaves_count: {}",
-            //     tree_id, leaves_count
-            // );
             tree_ids.push(tree.tree_id);
         }
     }
