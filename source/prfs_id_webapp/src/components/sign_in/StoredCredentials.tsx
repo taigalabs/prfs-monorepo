@@ -91,7 +91,6 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   );
 
   const handleClickNextWithCredential = React.useCallback(async () => {
-    console.log(123123);
     const credential = Object.values(storedCredentials).find(
       cred => cred.id === selectedCredentialId,
     );

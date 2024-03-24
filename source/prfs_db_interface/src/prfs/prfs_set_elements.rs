@@ -53,12 +53,6 @@ ON CONFLICT DO NOTHING
     return Ok(res.rows_affected());
 }
 
-// (label, set_id) DO UPDATE SET (
-// label, set_id, ref, data, status, updated_at
-// ) = (
-// excluded.label, excluded.set_id, excluded.ref, excluded.data, excluded.status,
-// now()
-
 pub async fn insert_prfs_set_element(
     tx: &mut Transaction<'_, Postgres>,
     set_element: &PrfsSetElement,
