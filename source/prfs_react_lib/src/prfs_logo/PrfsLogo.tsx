@@ -3,10 +3,10 @@
 import React from "react";
 import classNames from "classnames";
 
-import styles from "./Logo.module.scss";
+import styles from "./PrfsLogo.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
 
-const Logo: React.FC<LogoProps> = ({ variant, appName, beta }) => {
+const PrfsLogo: React.FC<LogoProps> = ({ variant, appName, beta }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -25,7 +25,7 @@ const Logo: React.FC<LogoProps> = ({ variant, appName, beta }) => {
   );
 };
 
-export default Logo;
+export default PrfsLogo;
 
 export interface LogoProps {
   variant: "simple" | "big";

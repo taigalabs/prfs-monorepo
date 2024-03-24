@@ -10,7 +10,7 @@ export const paths = {
   updates: "/updates",
   privacy: "/privacy",
   account__welcome: "/account/welcome",
-  accounts: "/accounts",
+  account: "/account",
   proof_types: "/proof_types",
   sets: "/sets",
   sets__create: "/sets/create",
