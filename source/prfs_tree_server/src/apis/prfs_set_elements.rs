@@ -28,7 +28,6 @@ pub async fn import_prfs_attestations_to_prfs_set(
     let mut tx = bail_out_tx!(pool, &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let (set_id, rows_affected) = match _import_prfs_attestations_to_prfs_set(
-        &pool,
         &mut tx,
         &input.topic,
         &input.dest_set_id,

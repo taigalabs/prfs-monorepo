@@ -9,8 +9,11 @@ use prfs_atst_api_ops::ops as atst_api_ops;
 use prfs_common_server_state::ServerState;
 use prfs_crypto::hex;
 use prfs_crypto::{crypto_bigint::Random, hexutils};
+use prfs_db_driver::sqlx::Executor;
 use prfs_db_interface::prfs;
-use prfs_entities::{ComputeCryptoAssetSizeTotalValuesRequest, PrfsAtstType};
+use prfs_entities::{ComputeCryptoAssetSizeTotalValuesRequest, PrfsAtstType, PrfsAttestation};
+use rust_decimal::Decimal;
+use serde_json::json;
 use std::sync::Arc;
 use tokio::sync::{
     mpsc::{self, Receiver, Sender},
@@ -67,12 +70,16 @@ async fn do_update_prfs_tree_by_new_atst_task(
             atst_api_ops::compute_crypto_asset_size_total_values(&pool, &mut tx).await?;
         println!("compute crypto asset size payload: {:?}", compute_resp);
 
-        let prfs_sets = prfs::get_prfs_sets_by_topic(pool, &atst_type.to_string()).await?;
+        let atsts1 = prfs::get_prfs_attestations__tx(&mut tx, &atst_type, 0, 50000).await?;
+        for atst in atsts1 {
+            println!("atst1: {:?}", atst);
+        }
+
+        let prfs_sets = prfs::get_prfs_sets_by_topic__tx(&mut tx, &atst_type.to_string()).await?;
 
         for set in prfs_sets {
             let (dest_set_id, import_count) =
-                _import_prfs_attestations_to_prfs_set(&pool, &mut tx, &atst_type, &set.set_id)
-                    .await?;
+                _import_prfs_attestations_to_prfs_set(&mut tx, &atst_type, &set.set_id).await?;
 
             println!(
                 "dest_set_id: {}, import_count: {}",
@@ -84,8 +91,7 @@ async fn do_update_prfs_tree_by_new_atst_task(
 
             let tree_label = format!("{}__tree__{}", &set.set_id, &tree_id);
             let (tree, _leaves_count) =
-                _create_prfs_tree_by_prfs_set(&pool, &mut tx, &set.set_id, &tree_label, &tree_id)
-                    .await?;
+                _create_prfs_tree_by_prfs_set(&mut tx, &set.set_id, &tree_label, &tree_id).await?;
 
             tree_ids.push(tree.tree_id);
         }

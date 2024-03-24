@@ -1,7 +1,12 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
 use prfs_entities::{atst_entities::PrfsAttestation, PrfsAtstType};
+use shy_entities::sqlx::QueryBuilder;
 
 use crate::DbInterfaceError;
+
+use super::queries::get_prfs_attestations_query;
+
+const BIND_LIMIT: usize = 65535;
 
 pub async fn insert_prfs_attestation(
     tx: &mut Transaction<'_, Postgres>,
@@ -35,26 +40,89 @@ RETURNING atst_id"#;
     return Ok(atst_id);
 }
 
+pub async fn insert_prfs_attestations(
+    tx: &mut Transaction<'_, Postgres>,
+    prfs_attestations: &Vec<PrfsAttestation>,
+) -> Result<u64, DbInterfaceError> {
+    let mut query_builder: QueryBuilder<_> = QueryBuilder::new(
+        r#"INSERT INTO prfs_attestations(atst_id, atst_type, label, cm, meta, value, status) "#,
+    );
+
+    query_builder.push_values(
+        prfs_attestations.iter().take(BIND_LIMIT / 4),
+        |mut b, atst| {
+            b.push_bind(&atst.atst_id)
+                .push_bind(&atst.atst_type)
+                .push_bind(&atst.label)
+                .push_bind(&atst.cm)
+                .push_bind(&atst.meta)
+                .push_bind(&atst.value)
+                .push_bind(&atst.status);
+        },
+    );
+
+    query_builder.push(
+        r#"
+ON CONFLICT (atst_id) DO UPDATE SET (
+atst_type, label, cm, meta, updated_at, value, status
+) = (
+excluded.atst_type, excluded.label, excluded.cm, excluded.meta,
+now(), excluded.value, excluded.status
+)
+    "#,
+    );
+
+    let query = query_builder.build();
+    let rows = query.execute(&mut **tx).await?;
+
+    return Ok(rows.rows_affected());
+}
+
 pub async fn get_prfs_attestations(
     pool: &Pool<Postgres>,
     atst_type: &PrfsAtstType,
     offset: i32,
     limit: i32,
 ) -> Result<Vec<PrfsAttestation>, DbInterfaceError> {
-    let query = r#"
-SELECT *
-FROM prfs_attestations
-WHERE atst_type=$1
-ORDER BY created_at
-LIMIT $2
-OFFSET $3
-"#;
+    let query = get_prfs_attestations_query();
 
     let rows = sqlx::query(query)
         .bind(atst_type)
         .bind(limit)
         .bind(offset)
         .fetch_all(pool)
+        .await?;
+
+    let atsts = rows
+        .iter()
+        .map(|row| PrfsAttestation {
+            atst_id: row.get("atst_id"),
+            atst_type: row.get("atst_type"),
+            cm: row.get("cm"),
+            label: row.get("label"),
+            value: row.get("value"),
+            meta: row.get("meta"),
+            status: row.get("status"),
+        })
+        .collect();
+
+    Ok(atsts)
+}
+
+#[allow(non_snake_case)]
+pub async fn get_prfs_attestations__tx(
+    tx: &mut Transaction<'_, Postgres>,
+    atst_type: &PrfsAtstType,
+    offset: i32,
+    limit: i32,
+) -> Result<Vec<PrfsAttestation>, DbInterfaceError> {
+    let query = get_prfs_attestations_query();
+
+    let rows = sqlx::query(query)
+        .bind(atst_type)
+        .bind(limit)
+        .bind(offset)
+        .fetch_all(&mut **tx)
         .await?;
 
     let atsts = rows

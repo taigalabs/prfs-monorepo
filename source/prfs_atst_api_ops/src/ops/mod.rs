@@ -34,25 +34,25 @@ pub async fn compute_crypto_asset_size_total_values(
     mut tx: &mut Transaction<'_, Postgres>,
 ) -> Result<ComputeCryptoAssetSizeTotalValuesResponse, AtstApiOpsError> {
     let exchange_rates = coinbase::get_exchange_rates("ETH").await?;
-    let atsts = prfs::get_prfs_attestations(&pool, &PrfsAtstType::crypto_1, 0, 50000).await?;
+    let mut atsts = prfs::get_prfs_attestations(&pool, &PrfsAtstType::crypto_1, 0, 50000).await?;
 
     let denom = Decimal::from_u128(1_000_000_000_000_000_000).unwrap();
     let usd: &str = exchange_rates.data.rates.USD.as_ref();
     let usd = Decimal::from_str(usd).unwrap();
 
     let mut count = 0;
-    for mut atst in atsts {
+    for atst in atsts.iter_mut() {
         if let Some(c) = atst.meta.get(0) {
             let v = c.amount * usd / denom;
-            atst.value = v;
+            atst.value = Decimal::from(10);
             println!("atst: {:?}", atst);
-            prfs::insert_prfs_attestation(&mut tx, &atst)
-                .await
-                .map_err(|err| format!("crypto size upsert fail, err: {}", err))?;
 
             count += 1;
         }
     }
+
+    let rows_updated = prfs::insert_prfs_attestations(&mut tx, &atsts).await?;
+    println!("rows_updated: {}", rows_updated);
 
     return Ok(ComputeCryptoAssetSizeTotalValuesResponse {
         exchange_rates: exchange_rates.data,

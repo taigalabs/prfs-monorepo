@@ -3,17 +3,14 @@ use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
 use prfs_entities::entities::PrfsSet;
 use prfs_entities::prfs_api::PrfsSetIns1;
 
+use super::queries::{get_prfs_set_by_set_id_query, get_prfs_sets_by_topic_query};
 use crate::DbInterfaceError;
 
 pub async fn get_prfs_set_by_set_id(
     pool: &Pool<Postgres>,
     set_id: &String,
 ) -> Result<PrfsSet, DbInterfaceError> {
-    let query = r#"
-SELECT * 
-FROM prfs_sets 
-WHERE set_id=$1
-"#;
+    let query = get_prfs_set_by_set_id_query();
 
     let row = sqlx::query(&query).bind(&set_id).fetch_one(pool).await?;
 
@@ -25,7 +22,6 @@ WHERE set_id=$1
     let cardinality: i64 = row.try_get("cardinality")?;
     let created_at: DateTime<Utc> = row.try_get("created_at")?;
     let element_type: String = row.try_get("element_type")?;
-    // let set_type: PrfsSetType = row.try_get("set_type")?;
     let topic: String = row.try_get("topic")?;
 
     let s = PrfsSet {
@@ -37,7 +33,43 @@ WHERE set_id=$1
         cardinality,
         created_at,
         element_type,
-        // set_type,
+        topic,
+    };
+
+    Ok(s)
+}
+
+#[allow(non_snake_case)]
+pub async fn get_prfs_set_by_set_id__tx(
+    tx: &mut Transaction<'_, Postgres>,
+    set_id: &String,
+) -> Result<PrfsSet, DbInterfaceError> {
+    let query = get_prfs_set_by_set_id_query();
+
+    let row = sqlx::query(&query)
+        .bind(&set_id)
+        .fetch_one(&mut **tx)
+        .await?;
+
+    let set_id: String = row.try_get("set_id")?;
+    let label: String = row.try_get("label")?;
+    let author: String = row.try_get("author")?;
+    let desc: String = row.try_get("desc")?;
+    let hash_algorithm: String = row.try_get("hash_algorithm")?;
+    let cardinality: i64 = row.try_get("cardinality")?;
+    let created_at: DateTime<Utc> = row.try_get("created_at")?;
+    let element_type: String = row.try_get("element_type")?;
+    let topic: String = row.try_get("topic")?;
+
+    let s = PrfsSet {
+        set_id,
+        label,
+        author,
+        desc,
+        hash_algorithm,
+        cardinality,
+        created_at,
+        element_type,
         topic,
     };
 
@@ -101,11 +133,7 @@ pub async fn get_prfs_sets_by_topic(
     pool: &Pool<Postgres>,
     topic: &String,
 ) -> Result<Vec<PrfsSet>, DbInterfaceError> {
-    let query = r#"
-SELECT * 
-FROM prfs_sets
-WHERE topic=$1
-"#;
+    let query = get_prfs_sets_by_topic_query();
 
     let rows = sqlx::query(&query).bind(&topic).fetch_all(pool).await?;
 
@@ -140,9 +168,51 @@ WHERE topic=$1
     Ok(prfs_sets)
 }
 
+#[allow(non_snake_case)]
+pub async fn get_prfs_sets_by_topic__tx(
+    tx: &mut Transaction<'_, Postgres>,
+    topic: &String,
+) -> Result<Vec<PrfsSet>, DbInterfaceError> {
+    let query = get_prfs_sets_by_topic_query();
+
+    let rows = sqlx::query(&query)
+        .bind(&topic)
+        .fetch_all(&mut **tx)
+        .await?;
+
+    let prfs_sets: Vec<PrfsSet> = rows
+        .iter()
+        .map(|r| {
+            let set_id: String = r.try_get("set_id")?;
+            let label: String = r.try_get("label")?;
+            let author: String = r.try_get("author")?;
+            let desc: String = r.try_get("desc")?;
+            let hash_algorithm: String = r.try_get("hash_algorithm")?;
+            let cardinality: i64 = r.try_get("cardinality")?;
+            let created_at: DateTime<Utc> = r.try_get("created_at")?;
+            let element_type: String = r.try_get("element_type")?;
+            let topic: String = r.try_get("topic")?;
+
+            Ok(PrfsSet {
+                set_id,
+                label,
+                author,
+                desc,
+                hash_algorithm,
+                cardinality,
+                created_at,
+                element_type,
+                // set_type,
+                topic,
+            })
+        })
+        .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
+
+    Ok(prfs_sets)
+}
+
 pub async fn get_prfs_sets_by_set_type(
     pool: &Pool<Postgres>,
-    // set_type: PrfsSetType,
     page_idx: i32,
     page_size: i32,
 ) -> Result<Vec<PrfsSet>, DbInterfaceError> {

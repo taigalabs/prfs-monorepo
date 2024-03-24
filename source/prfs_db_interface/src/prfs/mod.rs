@@ -20,6 +20,7 @@ mod prfs_set_elements;
 mod prfs_sets;
 mod prfs_tree_nodes;
 mod prfs_trees;
+pub(crate) mod queries;
 
 pub use eth_accounts::*;
 pub use prfs_acc_atsts::*;

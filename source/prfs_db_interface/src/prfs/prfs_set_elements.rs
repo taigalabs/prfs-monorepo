@@ -5,6 +5,7 @@ use prfs_entities::PrfsSetElementStatus;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
 
+use super::queries::get_prfs_set_elements_query;
 use crate::DbInterfaceError;
 
 pub async fn insert_asset_atsts_as_prfs_set_elements(
@@ -91,20 +92,44 @@ pub async fn get_prfs_set_elements(
     offset: i32,
     limit: i32,
 ) -> Result<Vec<PrfsSetElement>, DbInterfaceError> {
-    let query = r#"
-SELECT *
-FROM prfs_set_elements
-WHERE set_id=$1
-ORDER BY element_idx ASC
-LIMIT $2
-OFFSET $3
-"#;
+    let query = get_prfs_set_elements_query();
 
     let rows = sqlx::query(query)
         .bind(set_id)
         .bind(limit)
         .bind(offset)
         .fetch_all(pool)
+        .await?;
+
+    let atsts = rows
+        .iter()
+        .map(|row| PrfsSetElement {
+            label: row.get("label"),
+            data: row.get("data"),
+            r#ref: row.get("ref"),
+            status: row.get("status"),
+            element_idx: row.get("element_idx"),
+            set_id: row.get("set_id"),
+        })
+        .collect();
+
+    Ok(atsts)
+}
+
+#[allow(non_snake_case)]
+pub async fn get_prfs_set_elements__tx(
+    tx: &mut Transaction<'_, Postgres>,
+    set_id: &String,
+    offset: i32,
+    limit: i32,
+) -> Result<Vec<PrfsSetElement>, DbInterfaceError> {
+    let query = get_prfs_set_elements_query();
+
+    let rows = sqlx::query(query)
+        .bind(set_id)
+        .bind(limit)
+        .bind(offset)
+        .fetch_all(&mut **tx)
         .await?;
 
     let atsts = rows
