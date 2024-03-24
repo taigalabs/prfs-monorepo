@@ -106,7 +106,6 @@ OFFSET $2
             let desc: String = r.try_get("desc")?;
             let hash_algorithm: String = r.try_get("hash_algorithm")?;
             let cardinality: i64 = r.try_get("cardinality")?;
-            // let set_type: PrfsSetType = r.try_get("set_type")?;
             let created_at: DateTime<Utc> = r.try_get("created_at")?;
             let element_type: String = r.try_get("element_type")?;
             let topic: String = r.try_get("topic")?;
@@ -120,7 +119,6 @@ OFFSET $2
                 cardinality,
                 created_at,
                 element_type,
-                // set_type,
                 topic,
             })
         })
@@ -159,7 +157,6 @@ pub async fn get_prfs_sets_by_topic(
                 cardinality,
                 created_at,
                 element_type,
-                // set_type,
                 topic,
             })
         })
@@ -202,7 +199,6 @@ pub async fn get_prfs_sets_by_topic__tx(
                 cardinality,
                 created_at,
                 element_type,
-                // set_type,
                 topic,
             })
         })
@@ -211,58 +207,58 @@ pub async fn get_prfs_sets_by_topic__tx(
     Ok(prfs_sets)
 }
 
-pub async fn get_prfs_sets_by_set_type(
-    pool: &Pool<Postgres>,
-    page_idx: i32,
-    page_size: i32,
-) -> Result<Vec<PrfsSet>, DbInterfaceError> {
-    let query = r#"
-SELECT * 
-FROM prfs_sets
-ORDER BY created_at
-LIMIT $2
-OFFSET $3
-"#;
+// pub async fn get_prfs_sets_by_set_type(
+//     pool: &Pool<Postgres>,
+//     page_idx: i32,
+//     page_size: i32,
+// ) -> Result<Vec<PrfsSet>, DbInterfaceError> {
+//     let query = r#"
+// SELECT *
+// FROM prfs_sets
+// ORDER BY created_at
+// LIMIT $2
+// OFFSET $3
+// "#;
 
-    let offset = page_idx * page_size;
+//     let offset = page_idx * page_size;
 
-    let rows = sqlx::query(&query)
-        .bind(page_size)
-        .bind(offset)
-        .fetch_all(pool)
-        .await?;
+//     let rows = sqlx::query(&query)
+//         .bind(page_size)
+//         .bind(offset)
+//         .fetch_all(pool)
+//         .await?;
 
-    let prfs_sets: Vec<PrfsSet> = rows
-        .iter()
-        .map(|r| {
-            let set_id: String = r.try_get("set_id")?;
-            let label: String = r.try_get("label")?;
-            let author: String = r.try_get("author")?;
-            let desc: String = r.try_get("desc")?;
-            let hash_algorithm: String = r.try_get("hash_algorithm")?;
-            let cardinality: i64 = r.try_get("cardinality")?;
-            let created_at: DateTime<Utc> = r.try_get("created_at")?;
-            let element_type: String = r.try_get("element_type")?;
-            // let set_type: PrfsSetType = r.try_get("set_type")?;
-            let topic: String = r.try_get("topic")?;
+//     let prfs_sets: Vec<PrfsSet> = rows
+//         .iter()
+//         .map(|r| {
+//             let set_id: String = r.try_get("set_id")?;
+//             let label: String = r.try_get("label")?;
+//             let author: String = r.try_get("author")?;
+//             let desc: String = r.try_get("desc")?;
+//             let hash_algorithm: String = r.try_get("hash_algorithm")?;
+//             let cardinality: i64 = r.try_get("cardinality")?;
+//             let created_at: DateTime<Utc> = r.try_get("created_at")?;
+//             let element_type: String = r.try_get("element_type")?;
+//             // let set_type: PrfsSetType = r.try_get("set_type")?;
+//             let topic: String = r.try_get("topic")?;
 
-            Ok(PrfsSet {
-                set_id,
-                label,
-                author,
-                desc,
-                hash_algorithm,
-                cardinality,
-                created_at,
-                element_type,
-                // set_type,
-                topic,
-            })
-        })
-        .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
+//             Ok(PrfsSet {
+//                 set_id,
+//                 label,
+//                 author,
+//                 desc,
+//                 hash_algorithm,
+//                 cardinality,
+//                 created_at,
+//                 element_type,
+//                 // set_type,
+//                 topic,
+//             })
+//         })
+//         .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
 
-    Ok(prfs_sets)
-}
+//     Ok(prfs_sets)
+// }
 
 pub async fn insert_prfs_set_ins1(
     tx: &mut Transaction<'_, Postgres>,
@@ -277,7 +273,6 @@ RETURNING set_id"#;
 
     let row = sqlx::query(&query)
         .bind(&prfs_set.set_id)
-        // .bind(&prfs_set.set_type)
         .bind(&prfs_set.label)
         .bind(&prfs_set.author)
         .bind(&prfs_set.desc)
@@ -310,7 +305,6 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
 
     let row = sqlx::query(&query)
         .bind(&prfs_set.set_id)
-        // .bind(&prfs_set.set_type)
         .bind(&prfs_set.label)
         .bind(&prfs_set.author)
         .bind(&prfs_set.desc)
@@ -341,7 +335,6 @@ RETURNING set_id
 
     let row = sqlx::query(&query)
         .bind(&prfs_set.set_id)
-        // .bind(&prfs_set.set_type)
         .bind(&prfs_set.label)
         .bind(&prfs_set.author)
         .bind(&prfs_set.desc)

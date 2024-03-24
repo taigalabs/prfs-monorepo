@@ -2,7 +2,6 @@ use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction}
 use prfs_entities::entities::PrfsTreeNode;
 use prfs_entities::tree_api::NodePos;
 use rust_decimal::Decimal;
-use shy_entities::sqlx::Execute;
 
 use crate::DbInterfaceError;
 
@@ -73,25 +72,8 @@ WHERE tree_id=
         b.push_bind(leaf);
     });
 
-    // let mut leaf_clause = vec![];
-
-    // for val in leaf_vals {
-    //     let l = format!("val = '{}'", val.to_lowercase());
-    //     leaf_clause.push(l);
-    // }
-
-    // let where_clause = format!(
-    //     "where set_id = '{}' AND pos_h = 0 AND {}",
-    //     set_id.to_string(),
-    //     leaf_clause.join(" or ")
-    // );
-
-    // let query = format!("SELECT * from prfs_tree_nodes nodes {}", where_clause);
-    // println!("query: {}", query);
-
     let query = query_builder.build();
     let rows = query.fetch_all(pool).await?;
-    // let rows = sqlx::query(&query).fetch_all(pool).await?;
 
     let nodes = rows
         .iter()
