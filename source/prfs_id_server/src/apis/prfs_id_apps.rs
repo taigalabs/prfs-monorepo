@@ -7,16 +7,17 @@ use prfs_entities::id_api::{
     SignUpPrfsIdentityResponse,
 };
 use prfs_entities::id_entities::{PrfsIdentity, PrfsIdentityType};
+use prfs_entities::{GetPrfsIdAppRequest, GetPrfsIdAppResponse};
 use prfs_id_api_error_codes::PRFS_ID_API_ERROR_CODES;
 use std::sync::Arc;
 
 pub async fn get_prfs_id_app(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<SignUpPrfsIdentityRequest>,
-) -> (StatusCode, Json<ApiResponse<SignUpPrfsIdentityResponse>>) {
+    Json(input): Json<GetPrfsIdAppRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsIdAppResponse>>) {
     let pool = &state.db2.pool;
 
-    let identity_id = match prfs::insert_prfs_identity(&mut tx, &prfs_identity).await {
+    let prfs_id_app = match prfs::get_prfs_id_app(&pool, &input.app_id).await {
         Ok(i) => i,
         Err(err) => {
             let resp =
@@ -25,10 +26,6 @@ pub async fn get_prfs_id_app(
         }
     };
 
-    tx.commit().await.unwrap();
-
-    let resp = ApiResponse::new_success(SignUpPrfsIdentityResponse {
-        identity_id: identity_id.to_string(),
-    });
+    let resp = ApiResponse::new_success(GetPrfsIdAppResponse { prfs_id_app });
     return (StatusCode::OK, Json(resp));
 }
