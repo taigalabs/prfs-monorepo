@@ -13,7 +13,11 @@ pub fn get_envs() -> HashMap<&'static str, String> {
                 .output()
                 .expect("git should exist");
 
-            String::from_utf8(out.stdout).unwrap()
+            let out = String::from_utf8(out.stdout).unwrap();
+            out.strip_suffix("\r\n")
+                .or(out.strip_suffix("\n"))
+                .unwrap()
+                .to_string()
         }
     };
 
