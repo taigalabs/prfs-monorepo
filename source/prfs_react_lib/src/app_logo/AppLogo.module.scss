@@ -1,0 +1,10 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+
+  img {
+    width: 56px;
+    // height: 46px;
+    object-fit: contain;
+  }
+}

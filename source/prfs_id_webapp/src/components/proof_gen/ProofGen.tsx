@@ -28,6 +28,7 @@ import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import { signInPrfs } from "@/state/userReducer";
 import { useGetPrfsIdApp, useSignInPrfsIdentity } from "@/requests";
+import AppLogo from "@taigalabs/prfs-react-lib/src/app_logo/AppLogo";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -144,7 +145,9 @@ const ProofGen: React.FC = () => {
         ) : (
           <>
             <DefaultTopLogoRow>
-              <PLogo />
+              {getPrfsIdAppData?.payload && (
+                <AppLogo imgUrl={getPrfsIdAppData.payload.prfs_id_app.img_url} />
+              )}
             </DefaultTopLogoRow>
             {content}
           </>
