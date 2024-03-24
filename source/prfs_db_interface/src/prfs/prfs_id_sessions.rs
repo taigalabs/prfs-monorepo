@@ -12,24 +12,17 @@ SELECT * FROM prfs_id_sessions
 WHERE key=$1
 "#;
 
-    let row_result = sqlx::query(query).bind(&key).fetch_optional(pool).await;
+    let row = sqlx::query(query).bind(&key).fetch_optional(pool).await?;
 
-    match row_result {
-        Ok(row) => {
-            if let Some(r) = row {
-                let ret = PrfsIdSession {
-                    key: r.get("key"),
-                    value: r.get("value"),
-                    ticket: r.get("ticket"),
-                };
-                return Ok(Some(ret));
-            } else {
-                return Err(format!("Prfs id session does not exist, key: {}", key).into());
-            }
-        }
-        Err(err) => {
-            return Err(err.into());
-        }
+    if let Some(r) = row {
+        let ret = PrfsIdSession {
+            key: r.try_get("key")?,
+            value: r.try_get("value")?,
+            ticket: r.try_get("ticket")?,
+        };
+        return Ok(Some(ret));
+    } else {
+        return Err(format!("Prfs id session does not exist, key: {}", key).into());
     }
 }
 
@@ -54,10 +47,9 @@ RETURNING key
         .bind(&session.value)
         .bind(&session.ticket)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
-    let key: String = row.get("key");
+    let key: String = row.try_get("key")?;
 
     Ok(key)
 }
