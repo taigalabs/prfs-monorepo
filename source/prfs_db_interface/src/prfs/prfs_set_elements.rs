@@ -44,7 +44,9 @@ INSERT INTO prfs_set_elements
 
     query_builder.push(
         r#"
-ON CONFLICT DO NOTHING
+ON CONFLICT (set_id, "label") DO UPDATE SET (
+data, ref, element_idx, status
+) = (excluded.data, excluded.ref, excluded.element_idx, excluded.status)
     "#,
     );
 
@@ -93,6 +95,7 @@ pub async fn get_prfs_set_elements(
 SELECT *
 FROM prfs_set_elements
 WHERE set_id=$1
+ORDER BY element_idx ASC
 LIMIT $2
 OFFSET $3
 "#;

@@ -118,7 +118,6 @@ WHERE topic=$1
             let desc: String = r.try_get("desc")?;
             let hash_algorithm: String = r.try_get("hash_algorithm")?;
             let cardinality: i64 = r.try_get("cardinality")?;
-            // let set_type: PrfsSetType = r.try_get("set_type")?;
             let created_at: DateTime<Utc> = r.try_get("created_at")?;
             let element_type: String = r.try_get("element_type")?;
             let topic: String = r.try_get("topic")?;

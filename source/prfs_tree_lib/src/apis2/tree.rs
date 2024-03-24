@@ -42,8 +42,8 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
             };
         }
 
-        // println!("args: {:?}, elem: {:?}", args, elem);
         let val = poseidon_2(&args[0], &args[1]).unwrap();
+        println!("d.val: {:?}, val: {:?}", data, val);
         // let int = convert_32bytes_le_into_decimal_string(&val).unwrap();
         // let val2 = U256::from_be_bytes(val);
         // println!(

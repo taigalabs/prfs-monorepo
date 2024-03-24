@@ -45,6 +45,7 @@ pub async fn compute_crypto_asset_size_total_values(
         if let Some(c) = atst.meta.get(0) {
             let v = c.amount * usd / denom;
             atst.value = v;
+            println!("atst: {:?}", atst);
             prfs::insert_prfs_attestation(&mut tx, &atst)
                 .await
                 .map_err(|err| format!("crypto size upsert fail, err: {}", err))?;
