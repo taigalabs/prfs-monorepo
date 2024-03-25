@@ -1,5 +1,7 @@
 export const paths = {
   __: "/",
+  prfs: "/prfs",
+  prfs__success: "/prfs/success",
   create: "/create",
   attestations: "/attestations",
   attestations__create__twitter: "/attestations/create/twitter",

@@ -54,6 +54,7 @@ import {
   AttestationsTitle,
 } from "@/components/attestations/AttestationComponents";
 import { useAppDispatch } from "@/state/hooks";
+import { urls } from "@/urls";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -180,6 +181,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       ],
       public_key: pkHex,
       session_key,
+      success_url: urls.prfs__success,
     };
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;

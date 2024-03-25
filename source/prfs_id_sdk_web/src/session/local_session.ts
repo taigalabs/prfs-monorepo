@@ -3,6 +3,7 @@ export const PRFS_LOCAL_SESSION_KEY = "prfs_local_session_key";
 export async function createLocalSession({
   key,
   value,
+  type,
 }: // ticket,
 CreateLocalSessionArgs): Promise<null> {
   window.localStorage.setItem(PRFS_LOCAL_SESSION_KEY, value);
@@ -77,5 +78,5 @@ CreateLocalSessionArgs): Promise<null> {
 export interface CreateLocalSessionArgs {
   key: string;
   value: string;
-  // ticket: string;
+  type: number;
 }

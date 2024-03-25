@@ -38,6 +38,7 @@ import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
 import { verifyMessage } from "@taigalabs/prfs-crypto-deps-js/viem";
+import { urls } from "@/urls";
 
 const PROOF = "Proof";
 
@@ -114,6 +115,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
         ],
         public_key: pkHex,
         session_key,
+        success_url: urls.prfs__success,
       };
 
       const searchParams = makeProofGenSearchParams(proofGenArgs);

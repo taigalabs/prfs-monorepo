@@ -35,6 +35,7 @@ import TextEditor from "@/components/text_editor/TextEditor";
 import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import CreateTopicFooter from "./CreateTopicFooter";
+import { urls } from "@/urls";
 
 const PROOF = "Proof";
 
@@ -127,6 +128,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         ],
         public_key: pkHex,
         session_key,
+        success_url: urls.prfs__success,
       };
 
       const searchParams = makeProofGenSearchParams(proofGenArgs);

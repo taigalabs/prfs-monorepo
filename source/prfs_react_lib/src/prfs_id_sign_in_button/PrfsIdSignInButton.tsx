@@ -31,6 +31,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   handleSignInError,
   prfsIdEndpoint,
   isLoading,
+  successUrl,
 }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -50,6 +51,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       ],
       public_key: pkHex,
       session_key,
+      success_url: successUrl,
     };
 
     const searchParams = makeProofGenSearchParams(proofGenArgs);
@@ -178,4 +180,5 @@ export interface PrfsIdSignInButtonProps {
   handleSucceedSignIn: (signInResult: AppSignInResult) => void;
   handleSignInError: (err: string) => void;
   prfsIdEndpoint: string;
+  successUrl: string;
 }

@@ -41,6 +41,7 @@ import {
   WALLET_ADDR,
 } from "./create_crypto_asset_size_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
+import { urls } from "@/urls";
 
 const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   formData,
@@ -81,6 +82,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
       ],
       public_key: pkHex,
       session_key,
+      success_url: urls.prfs__success,
     };
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;

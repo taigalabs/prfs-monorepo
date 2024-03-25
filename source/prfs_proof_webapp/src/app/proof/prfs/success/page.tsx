@@ -12,7 +12,7 @@ import HomeMasthead from "@/components/home_masthead/HomeMasthead";
 import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
 import PrfsInterface from "@/components/prfs_interface/PrfsInterface";
 
-const PrfsPage = () => {
+const PrfsSuccessPage = () => {
   return (
     <DefaultLayout>
       <GlobalErrorDialog />
@@ -31,4 +31,4 @@ const PrfsPage = () => {
   );
 };
 
-export default PrfsPage;
+export default PrfsSuccessPage;

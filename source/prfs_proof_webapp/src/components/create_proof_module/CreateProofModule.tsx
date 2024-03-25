@@ -23,6 +23,8 @@ import { i18nContext } from "@/i18n/context";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useAppSelector } from "@/state/hooks";
+import { PrfsSessionType } from "@/prfs_session_type";
+import { urls } from "@/urls";
 
 const PROOF = "Proof";
 
@@ -56,6 +58,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         },
       ],
       public_key: pkHex,
+      success_url: urls.prfs__success,
       session_key,
     };
 
@@ -88,8 +91,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
     await createLocalSession({
       key: proofGenArgs.session_key,
-      value: null,
-      ticket: "TICKET",
+      value: JSON.stringify(proofGenArgs),
+      type: PrfsSessionType.CREATE_PROOF,
     });
 
     if (!sessionStream) {
