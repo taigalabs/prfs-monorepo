@@ -8,6 +8,7 @@ import {
   API_PATH,
   ProofGenSuccessPayload,
   QueryType,
+  createLocalSession,
   createSession,
   createSessionKey,
   openPopup,
@@ -84,6 +85,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       console.error(err);
       return;
     }
+
+    await createLocalSession({
+      key: proofGenArgs.session_key,
+      value: null,
+      ticket: "TICKET",
+    });
 
     if (!sessionStream) {
       console.error("Couldn't open a session");
