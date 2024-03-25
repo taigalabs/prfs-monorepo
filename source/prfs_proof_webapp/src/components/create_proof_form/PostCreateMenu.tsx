@@ -58,28 +58,30 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && proofType) {
-      const { proof } = proveReceipt;
-      const { proofBytes, publicInputSer } = proof;
-      const public_inputs = JSONbigNative.parse(publicInputSer);
-      const proof_instance_id = uuidv4();
+      return;
 
-      try {
-        const { payload } = await createPrfsProofInstance({
-          proof_instance_id,
-          account_id: null,
-          proof_type_id: proofType.proof_type_id,
-          proof: Array.from(proofBytes),
-          public_inputs,
-        });
-        const params = searchParams.toString();
+      // const { proof } = proveReceipt;
+      // const { proofBytes, publicInputSer } = proof;
+      // const public_inputs = JSONbigNative.parse(publicInputSer);
+      // const proof_instance_id = uuidv4();
 
-        if (payload) {
-          router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
-        }
-      } catch (err: any) {
-        console.error(err);
-        return;
-      }
+      // try {
+      //   const { payload } = await createPrfsProofInstance({
+      //     proof_instance_id,
+      //     account_id: null,
+      //     proof_type_id: proofType.proof_type_id,
+      //     proof: Array.from(proofBytes),
+      //     public_inputs,
+      //   });
+      //   const params = searchParams.toString();
+
+      //   if (payload) {
+      //     router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
+      //   }
+      // } catch (err: any) {
+      //   console.error(err);
+      //   return;
+      // }
     }
   }, [proveReceipt, searchParams]);
 
@@ -125,7 +127,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
                     className={cn(styles.uploadBtn, {
                       [styles.inProgress]: isCreatePrfsProofInstancePending,
                     })}
-                    disabled={isCreatePrfsProofInstancePending}
+                    // disabled={isCreatePrfsProofInstancePending}
+                    disabled={true}
                   >
                     {isCreatePrfsProofInstancePending && (
                       <Spinner color={colors.bright_gray_33} size={20} />

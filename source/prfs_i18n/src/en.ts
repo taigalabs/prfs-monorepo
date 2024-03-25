@@ -197,6 +197,7 @@ export default {
   crypto_asset_size_attestations: "Crypto asset size attestations",
   x_twitter: "X (Twitter)",
   all: "All",
+  uploading_proof: "Uploading proof",
   telegram: "Telegram",
   discord: "Discord",
   driver_version: "Driver version",
