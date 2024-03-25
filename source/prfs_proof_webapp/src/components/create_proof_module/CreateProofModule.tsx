@@ -8,7 +8,7 @@ import {
   API_PATH,
   ProofGenSuccessPayload,
   QueryType,
-  createLocalSession,
+  createSession2,
   createSession,
   createSessionKey,
   openPopup,
@@ -89,7 +89,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       return;
     }
 
-    await createLocalSession({
+    await createSession2({
       key: proofGenArgs.session_key,
       value: JSON.stringify(proofGenArgs),
       type: PrfsSessionType.CREATE_PROOF,

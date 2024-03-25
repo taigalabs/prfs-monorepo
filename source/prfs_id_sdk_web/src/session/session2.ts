@@ -1,14 +1,10 @@
 export const PRFS_LOCAL_SESSION_KEY = "prfs_local_session_key";
 
-export async function createLocalSession({
-  key,
-  value,
-  type,
-}: // ticket,
-CreateLocalSessionArgs): Promise<null> {
+export async function createSession2({ key, value, type }: CreateSession2Args): Promise<null> {
   window.localStorage.setItem(PRFS_LOCAL_SESSION_KEY, value);
 
   return null;
+
   // const callbackQueue: { resolve: (data: PrfsIdSessionResponse) => void; reject: () => void }[] =
   //   [];
   // const dataQueue: PrfsIdSessionResponse[] = [];
@@ -75,7 +71,7 @@ CreateLocalSessionArgs): Promise<null> {
   // }
 }
 
-export interface CreateLocalSessionArgs {
+export interface CreateSession2Args {
   key: string;
   value: string;
   type: number;

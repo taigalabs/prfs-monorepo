@@ -1,4 +1,4 @@
-export * from "./local_session";
+export * from "./session2";
 export * from "./session_key";
 
 import { PrfsIdSessionMsg } from "@taigalabs/prfs-entities/bindings/PrfsIdSessionMsg";
