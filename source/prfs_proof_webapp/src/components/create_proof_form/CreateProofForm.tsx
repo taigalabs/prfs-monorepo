@@ -12,7 +12,7 @@ import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/b
 
 import styles from "./CreateProofForm.module.scss";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
-import PostCreateMenu from "./PostCreateMenu";
+import CreateProofResult from "@/components/create_proof_result/CreateProofResult";
 import ProofTypeSelectedMasthead from "@/components/proof_type_selected_masthead/ProofTypeSelectedMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import TutorialDefault from "@/components/tutorial/TutorialDefault";
@@ -81,7 +81,7 @@ const CreateProofForm: React.FC = () => {
           <div className={styles.formWrapper}>
             {proveReceipt ? (
               <Fade>
-                <PostCreateMenu
+                <CreateProofResult
                   proveReceipt={proveReceipt}
                   proofType={proofType}
                   handleClickStartOver={handleClickStartOver}

@@ -5,7 +5,6 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useRouter, useSearchParams } from "next/navigation";
-import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
@@ -16,13 +15,13 @@ import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
-import styles from "./PostCreateMenu.module.scss";
+import styles from "./CreateProofResult.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { useAppSelector } from "@/state/hooks";
-import Loading from "../loading/Loading";
+import Loading from "@/components/loading/Loading";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -30,7 +29,7 @@ const JSONbigNative = JSONBig({
   storeAsString: true,
 });
 
-const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
+const CreateProofResult: React.FC<CreateProofResultProps> = ({
   proveReceipt,
   proofType,
   handleClickStartOver,
@@ -164,9 +163,9 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   );
 };
 
-export default PostCreateMenu;
+export default CreateProofResult;
 
-export interface PostCreateMenuProps {
+export interface CreateProofResultProps {
   proofType: PrfsProofType;
   proveReceipt: ProveReceipt;
   handleClickStartOver: () => void;
