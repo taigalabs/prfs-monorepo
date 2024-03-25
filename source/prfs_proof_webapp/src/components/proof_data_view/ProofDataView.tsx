@@ -2,13 +2,11 @@ import React from "react";
 import cn from "classnames";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
-import JSONBig from "json-bigint";
+import { JSONbigNative } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./ProofDataView.module.scss";
 import { i18nContext } from "@/i18n/context";
 import ProofRawDialog from "./ProofRawDialog";
-
-const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
 const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, isCard }) => {
   const i18n = React.useContext(i18nContext);

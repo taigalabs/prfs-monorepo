@@ -1296,9 +1296,6 @@ importers:
       dompurify:
         specifier: ^3.0.6
         version: 3.0.6
-      json-bigint:
-        specifier: ^1.0.0
-        version: 1.0.0
       marked:
         specifier: ^9.1.5
         version: 9.1.5
@@ -1345,9 +1342,6 @@ importers:
       '@types/dompurify':
         specifier: ^3.0.4
         version: 3.0.4
-      '@types/json-bigint':
-        specifier: ^1.0.1
-        version: 1.0.1
       '@types/mdx':
         specifier: ^2.0.8
         version: 2.0.8

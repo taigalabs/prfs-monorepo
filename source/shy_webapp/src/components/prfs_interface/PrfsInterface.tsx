@@ -4,10 +4,16 @@ import cn from "classnames";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useRouter, useSearchParams } from "next/navigation";
-import { JSONbigNative } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+// import JSONBig from "json-bigint";
 
 import styles from "./PostCreateMenu.module.scss";
+
+// const JSONbigNative = JSONBig({
+//   useNativeBigInt: true,
+//   alwaysParseAsBig: true,
+//   storeAsString: true,
+// });
 
 const PrfsInterface: React.FC<PrfsInterfaceProps> = ({}) => {
   // const searchParams = useSearchParams();

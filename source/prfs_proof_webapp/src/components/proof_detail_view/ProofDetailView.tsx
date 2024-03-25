@@ -3,7 +3,7 @@
 import React from "react";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import cn from "classnames";
-import JSONBig from "json-bigint";
+import { JSONbigNative } from "@taigalabs/prfs-crypto-js";
 import ProofBanner from "@taigalabs/prfs-react-lib/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-lib/src/social_share_popover/SocialSharePopover";
 import SaveProofPopover from "@taigalabs/prfs-react-lib/src/save_proof_popover/SaveProofPopover";
@@ -26,12 +26,6 @@ import LeftPadding from "@/components/left_padding/LeftPadding";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import { useAppSelector } from "@/state/hooks";
-
-const JSONbigNative = JSONBig({
-  useNativeBigInt: true,
-  alwaysParseAsBig: true,
-  storeAsString: true,
-});
 
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) => {
   const i18n = React.useContext(i18nContext);

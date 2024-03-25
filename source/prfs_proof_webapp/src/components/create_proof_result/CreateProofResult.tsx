@@ -9,11 +9,11 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
-import JSONBig from "json-bigint";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import { JSONbigNative } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CreateProofResult.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -23,11 +23,11 @@ import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { useAppSelector } from "@/state/hooks";
 import Loading from "@/components/loading/Loading";
 
-const JSONbigNative = JSONBig({
-  useNativeBigInt: true,
-  alwaysParseAsBig: true,
-  storeAsString: true,
-});
+// const JSONbigNative = JSONBig({
+//   useNativeBigInt: true,
+//   alwaysParseAsBig: true,
+//   storeAsString: true,
+// });
 
 const CreateProofResult: React.FC<CreateProofResultProps> = ({
   proveReceipt,
