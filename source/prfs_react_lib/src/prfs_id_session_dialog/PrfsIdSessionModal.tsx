@@ -3,6 +3,7 @@ import cn from "classnames";
 
 import styles from "./PrfsIdSessionModal.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
+import Button from "../button/Button";
 
 const PrfsIdSessionModal: React.FC<ModalProps> = ({ setIsOpen }) => {
   const i18n = React.useContext(i18nContext);
@@ -11,8 +12,13 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({ setIsOpen }) => {
     <div className={styles.wrapper}>
       <div className={styles.main}>
         <p className={styles.appId}>{i18n.id}</p>
+        <div>
+          <Button variant="blue_3">{i18n.submit_data}</Button>
+        </div>
       </div>
-      <div className={styles.btnRow}>power</div>
+      <div className={styles.btnRow}>
+        <Button variant="transparent_black_1">{i18n.abort}</Button>
+      </div>
     </div>
   );
 };
