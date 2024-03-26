@@ -11,9 +11,6 @@ import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 import { Proof } from "@taigalabs/prfs-driver-interface";
-import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
-import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 
 import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -21,24 +18,19 @@ import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { envs } from "@/envs";
 import ProofTypeSelectedMasthead from "@/components/proof_type_selected_masthead/ProofTypeSelectedMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
-import TutorialDefault from "@/components/tutorial/TutorialDefault";
 import LeftPadding from "@/components/left_padding/LeftPadding";
-import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
-import { useAppSelector } from "@/state/hooks";
 
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) => {
   const i18n = React.useContext(i18nContext);
-  const step = useAppSelector(state => state.tutorial.tutorialStep);
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
+  const handleSelectProofType = useSelectProofType();
+
   const { mutateAsync: getPrfsProofInstanceByInstanceIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofInstanceByInstanceIdRequest) => {
-      // return prfsApi2("get_prfs_proof_instance_by_instance_id", req);
       return prfsApi3({ type: "get_prfs_proof_instance_by_instance_id", ...req });
     },
   });
-  const handleSelectProofType = useSelectProofType();
-  const { tutorialId } = useTutorial();
 
   React.useEffect(() => {
     async function fn() {
@@ -124,36 +116,22 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
           <div className={styles.rightPadding} />
         </div>
       </div>
-      <div className={cn(styles.main, { [styles.isTutorial]: !!tutorialId })}>
+      <div className={cn(styles.main)}>
         <LeftPadding />
         <div className={styles.content}>
           <div className={styles.meta}>
             <div className={styles.bannerContainer}>
-              <TutorialStepper tutorialId={tutorialId} step={step} steps={[5]}>
-                <ProofBanner
-                  proofInstance={proofInstance}
-                  webappProofEndpoint={envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}
-                />
-              </TutorialStepper>
+              <ProofBanner
+                proofInstance={proofInstance}
+                webappProofEndpoint={envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}
+              />
             </div>
-            <div className={styles.proofDetailContainer}>
-              {/* <ProofTypeMeta */}
-              {/*   proofTypeDesc={proofInstance.proof_type_desc} */}
-              {/*   proofTypeId={proofInstance.proof_type_id} */}
-              {/*   imgUrl={proofInstance.img_url} */}
-              {/*   proofTypeLabel={proofInstance.proof_type_label} */}
-              {/*   proofTypeAuthor={proofInstance.proof_type_author} */}
-              {/*   circuitTypeId={proofInstance.circuit_type_id} */}
-              {/*   circuitDriverId={proofInstance.circuit_driver_id} */}
-              {/*   proofTypeCreatedAt={proofInstance.proof_type_created_at} */}
-              {/* /> */}
-            </div>
+            <div className={styles.proofDetailContainer}></div>
           </div>
           <div className={styles.proofDataContainer}>
             <ProofDataView proof={proof} />
           </div>
         </div>
-        <TutorialDefault noTop />
       </div>
     </>
   );

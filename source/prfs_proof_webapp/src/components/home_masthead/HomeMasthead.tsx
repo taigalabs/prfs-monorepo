@@ -2,7 +2,6 @@
 
 import React from "react";
 import cn from "classnames";
-import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./HomeMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -18,10 +17,9 @@ import { PRFS_PROOF_APP_ID } from "@/app_id";
 
 const HomeMasthead: React.FC<HomeMastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const { tutorialId } = useTutorial();
 
   return (
-    <MastheadWrapper className={cn(styles.wrapper, { [styles.isTutorial]: !!tutorialId })}>
+    <MastheadWrapper className={cn(styles.wrapper)}>
       <MastheadRightGroup className={styles.rightGroup}>
         <MastheadRightGroupMenu className={cn(styles.menu, styles.underline, styles.tutorialBtn)}>
           <a href={urls.tutorial}>

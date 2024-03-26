@@ -1,4 +1,3 @@
-import { TutorialArgs } from "../tutorial";
 import { createQueryString } from "../search_params";
 
 export function makeVerifyProofSearchParams(args: VerifyProofArgs): string {
@@ -42,10 +41,6 @@ export function parseVerifyProofSearchParams(searchParams: URLSearchParams): Ver
     session_key,
   };
 
-  if (tutorial) {
-    args.tutorial = JSON.parse(decodeURIComponent(tutorial));
-  }
-
   return args;
 }
 
@@ -55,7 +50,6 @@ export interface VerifyProofArgs {
   proof_type_id: string;
   public_key: string;
   session_key: string;
-  tutorial?: TutorialArgs;
 }
 
 export interface VerifyProofResultPayload {

@@ -14,10 +14,7 @@ import {
   DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
 import { useAppDispatch } from "@/state/hooks";
-import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
-import TutorialPlaceholder from "@/components/tutorial_default/TutorialPlaceholder";
 import VerifyProofForm from "./VerifyProofForm";
 
 export enum Status {
@@ -42,7 +39,7 @@ const VerifyProof: React.FC = () => {
 
   React.useEffect(() => {
     if (verifyProofArgs) {
-      const { public_key, app_id, tutorial, proof_type_id } = verifyProofArgs;
+      const { public_key, app_id, proof_type_id } = verifyProofArgs;
 
       if (!public_key) {
         setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
@@ -52,10 +49,6 @@ const VerifyProof: React.FC = () => {
         setErrorMsg("Invalid URL. 'proof_type_id' is missing. Closing the window");
       } else {
         setStatus(Status.Standby);
-      }
-
-      if (tutorial) {
-        dispatch(goToStep(tutorial.step));
       }
     }
   }, [setStatus, setErrorMsg, verifyProofArgs, dispatch]);
@@ -71,12 +64,10 @@ const VerifyProof: React.FC = () => {
         ) : (
           <VerifyProofForm verifyProofArgs={verifyProofArgs} />
         )}
-        <TutorialDefault tutorial={verifyProofArgs?.tutorial} />
       </DefaultForm>
       <DefaultModuleFooter>
         <GlobalFooter />
       </DefaultModuleFooter>
-      <TutorialPlaceholder tutorial={verifyProofArgs?.tutorial} />
     </DefaultModule>
   );
 };

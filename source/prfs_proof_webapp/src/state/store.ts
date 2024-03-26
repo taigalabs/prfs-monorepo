@@ -3,8 +3,7 @@ import { createLogger } from "redux-logger";
 import { globalErrorReducer } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import { userReducer } from "./userReducer";
-import { tutorialReducer } from "./tutorialReducer";
-// import { errorReducer } from "./errorReducer";
+// import { tutorialReducer } from "./tutorialReducer";
 
 const logger = createLogger({
   level: {
@@ -16,7 +15,7 @@ const logger = createLogger({
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    tutorial: tutorialReducer,
+    // tutorial: tutorialReducer,
     globalError: globalErrorReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger) as any,

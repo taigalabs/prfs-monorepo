@@ -1,7 +1,6 @@
 import { CachedProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 import { createQueryString } from "../search_params";
-import { TutorialArgs } from "../tutorial";
 import { CommitmentQuery } from "../queries/commitment";
 import { CreateProofQuery } from "../queries/create_proof";
 import { EncryptQuery } from "../queries/encrypt";
@@ -20,7 +19,6 @@ export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofG
   const nonce = searchParams.get("nonce");
   const queries = searchParams.get("queries");
   const session_key = searchParams.get("session_key");
-  const tutorial = searchParams.get("tutorial");
 
   if (!app_id) {
     throw new Error("app id missing");
@@ -50,9 +48,6 @@ export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofG
     queries: JSON.parse(decodeURIComponent(queries)),
   };
 
-  if (tutorial) {
-    args.tutorial = JSON.parse(decodeURIComponent(tutorial));
-  }
   return args;
 }
 
@@ -62,7 +57,6 @@ export interface ProofGenArgs {
   queries: ProofGenQuery[];
   public_key: string;
   session_key: string;
-  tutorial?: TutorialArgs;
 }
 
 export interface ProofGenSuccessPayload {

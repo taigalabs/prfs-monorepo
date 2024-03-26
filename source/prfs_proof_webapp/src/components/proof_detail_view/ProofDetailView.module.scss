@@ -123,16 +123,6 @@
   max-width: 370px;
 }
 
-.isTutorial {
-  .proofDetail {
-    margin-left: 32px;
-  }
-
-  .verifyProofFormWrapper {
-    width: 330px;
-  }
-}
-
 .isLoading {
   padding: 0 30px;
 }
@@ -197,12 +187,6 @@
 
     > div {
       max-width: 630px;
-    }
-  }
-
-  .isTutorial {
-    .proofDetail {
-      margin-left: 0px;
     }
   }
 }

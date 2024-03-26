@@ -21,7 +21,6 @@ import {
 import SignIn from "@/components/sign_in/SignIn";
 import ProofGenForm from "./ProofGenForm";
 import { useAppDispatch } from "@/state/hooks";
-import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import { signInPrfs } from "@/state/userReducer";
 import { useGetPrfsIdApp, useSignInPrfsIdentity } from "@/requests";
@@ -60,7 +59,7 @@ const ProofGen: React.FC = () => {
 
   React.useEffect(() => {
     if (proofGenArgs) {
-      const { public_key, app_id, tutorial } = proofGenArgs;
+      const { public_key, app_id } = proofGenArgs;
 
       if (!public_key) {
         setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
@@ -68,10 +67,6 @@ const ProofGen: React.FC = () => {
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
         setStatus(Status.Standby);
-      }
-
-      if (tutorial) {
-        dispatch(goToStep(tutorial.step));
       }
     }
   }, [searchParams, setStatus, setErrorMsg, setStep, proofGenArgs, dispatch]);

@@ -4,7 +4,6 @@ import { globalErrorReducer } from "@taigalabs/prfs-react-lib/src/global_error_r
 
 import userReducer from "./userReducer";
 import { globalMsgReducer } from "./globalMsgReducer";
-import tutorialReducer from "./tutorialReducer";
 
 const logger = createLogger({
   level: {
@@ -16,7 +15,6 @@ const logger = createLogger({
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    tutorial: tutorialReducer,
     globalError: globalErrorReducer,
     globalMsg: globalMsgReducer,
   },

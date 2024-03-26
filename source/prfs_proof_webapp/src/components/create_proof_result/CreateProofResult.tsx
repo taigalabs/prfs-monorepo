@@ -11,23 +11,13 @@ import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedI
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
-import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
-import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
-import { JSONbigNative } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CreateProofResult.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
-import { useAppSelector } from "@/state/hooks";
 import Loading from "@/components/loading/Loading";
-
-// const JSONbigNative = JSONBig({
-//   useNativeBigInt: true,
-//   alwaysParseAsBig: true,
-//   storeAsString: true,
-// });
 
 const CreateProofResult: React.FC<CreateProofResultProps> = ({
   proveReceipt,
@@ -38,8 +28,6 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(false);
-  const step = useAppSelector(state => state.tutorial.tutorialStep);
-  const { tutorialId } = useTutorial();
 
   const {
     mutateAsync: createPrfsProofInstance,
@@ -119,33 +107,29 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
             </ul>
             <ul>
               <li>
-                <TutorialStepper tutorialId={tutorialId} step={step} steps={[4]}>
-                  <Button
-                    variant="blue_3"
-                    handleClick={handleClickUpload}
-                    className={cn(styles.uploadBtn, {
-                      [styles.inProgress]: isCreatePrfsProofInstancePending,
-                    })}
-                    // disabled={isCreatePrfsProofInstancePending}
-                    disabled={true}
-                  >
-                    {isCreatePrfsProofInstancePending && (
-                      <Spinner color={colors.bright_gray_33} size={20} />
-                    )}
-                    <span>{i18n.upload}</span>
-                  </Button>
-                </TutorialStepper>
+                <Button
+                  variant="blue_3"
+                  handleClick={handleClickUpload}
+                  className={cn(styles.uploadBtn, {
+                    [styles.inProgress]: isCreatePrfsProofInstancePending,
+                  })}
+                  // disabled={isCreatePrfsProofInstancePending}
+                  disabled={true}
+                >
+                  {isCreatePrfsProofInstancePending && (
+                    <Spinner color={colors.bright_gray_33} size={20} />
+                  )}
+                  <span>{i18n.upload}</span>
+                </Button>
               </li>
             </ul>
           </div>
           <div className={cn(styles.verifyProofFormRow, { [styles.isVerifyOpen]: isVerifyOpen })}>
             <div>
-              <TutorialStepper tutorialId={tutorialId} step={step} steps={[3]}>
-                <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
-                  <span>{i18n.verify}</span>
-                  <IoIosArrowDown />
-                </button>
-              </TutorialStepper>
+              <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
+                <span>{i18n.verify}</span>
+                <IoIosArrowDown />
+              </button>
             </div>
             <div className={styles.verifyProofFormWrapper}>
               <ProofDataView proof={proveReceipt.proof} isCard />
