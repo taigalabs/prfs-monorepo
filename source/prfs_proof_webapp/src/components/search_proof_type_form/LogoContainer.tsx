@@ -18,6 +18,7 @@ const LogoContainer: React.FC<LogoContainerProps> = ({ proofTypeChosen }) => {
         <br className={styles.lineBreak} />
         <span className={styles.proofs}>proofs</span>
       </div>
+      <div>Prfs is a generic interface</div>
     </div>
   );
 };
