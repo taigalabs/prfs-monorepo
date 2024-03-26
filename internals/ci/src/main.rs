@@ -4,7 +4,6 @@ mod cmds;
 mod deps;
 mod envs;
 mod paths;
-mod utils;
 
 use crate::{
     build_handle::BuildHandle,
