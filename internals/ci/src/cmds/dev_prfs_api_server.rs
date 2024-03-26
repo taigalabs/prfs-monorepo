@@ -13,7 +13,6 @@ fn run_app() {
     let envs = get_envs();
 
     let status = Command::new(deps::CARGO)
-        .current_dir(&PATHS.prfs_api_server)
         .args(["run", "-p", "prfs_api_server"])
         .envs(envs)
         .status()
