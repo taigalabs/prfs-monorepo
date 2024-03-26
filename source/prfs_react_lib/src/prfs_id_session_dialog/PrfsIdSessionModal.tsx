@@ -1,6 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import { FaLock } from "@react-icons/all-files/fa/FaLock";
 
 import styles from "./PrfsIdSessionModal.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
@@ -28,9 +29,14 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({ actionLabel, setIsOpen, sess
           <span className={styles.actionLabel}>{sessionKeyAbbrev}</span>
         </p>
         <p className={styles.guide}>{i18n.prfs_id_session_modal_guide}</p>
-        <div>
+        <div className={styles.btnContainer}>
           <Button variant="blue_3" className={styles.submitBtn} rounded>
-            {i18n.submit}
+            <p className={styles.submitBtnContent}>
+              <span className={styles.lock}>
+                <FaLock />
+              </span>
+              {i18n.submit}
+            </p>
           </Button>
         </div>
       </div>
