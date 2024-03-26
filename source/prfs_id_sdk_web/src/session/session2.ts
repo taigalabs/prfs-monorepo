@@ -1,9 +1,12 @@
+import { OpenPrfsIdSession2Response } from "@taigalabs/prfs-entities/bindings/OpenPrfsIdSession2Response";
+import { ApiResponse } from "@taigalabs/prfs-api-js";
+
 export const PRFS_LOCAL_SESSION_KEY = "prfs_local_session_key";
 
-export async function createSession2({ key, value, type }: CreateSession2Args): Promise<null> {
+export async function createSession2({ key, value, type, openPrfsIdSession }: CreateSession2Args) {
   window.localStorage.setItem(PRFS_LOCAL_SESSION_KEY, value);
 
-  return null;
+  return await openPrfsIdSession();
 
   // const callbackQueue: { resolve: (data: PrfsIdSessionResponse) => void; reject: () => void }[] =
   //   [];
@@ -75,4 +78,5 @@ export interface CreateSession2Args {
   key: string;
   value: string;
   type: number;
+  openPrfsIdSession: () => Promise<ApiResponse<OpenPrfsIdSession2Response>>;
 }

@@ -13,6 +13,7 @@ use crate::{
 #[ts(export)]
 pub enum PrfsIdSessionApiRequest {
     open_prfs_id_session(OpenPrfsIdSession2Request),
+    open_prfs_id_session2(OpenPrfsIdSession2Request),
     close_prfs_id_session(ClosePrfsIdSessionRequest),
     put_prfs_id_session_value(PutPrfsIdSessionValueRequest),
     get_prfs_id_session_value(GetPrfsIdSessionValueRequest),
@@ -24,6 +25,7 @@ pub enum PrfsIdSessionApiRequest {
 #[ts(export)]
 pub enum PrfsIdSessionApiResponse {
     open_prfs_id_session(OpenPrfsIdSession2Response),
+    open_prfs_id_session2(OpenPrfsIdSession2Request),
     close_prfs_id_session(ClosePrfsIdSessionResponse),
     put_prfs_id_session_value(PutPrfsIdSessionValueResponse),
     get_prfs_id_session_value(GetPrfsIdSessionValueResponse),

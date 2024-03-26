@@ -17,6 +17,7 @@ import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypt
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import { useOpenPrfsIdSession } from "@taigalabs/prfs-react-lib/src/requests";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -42,6 +43,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const step = useAppSelector(state => state.tutorial.tutorialStep);
   const [status, setStatus] = React.useState(Status.Standby);
   const { tutorialId } = useTutorial();
+  const { mutateAsync: openPrfsIdSession } = useOpenPrfsIdSession();
 
   const handleClickCreateProof = React.useCallback(async () => {
     const session_key = createSessionKey();
@@ -77,83 +79,92 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       console.error("Popup couldn't be open");
       return;
     }
-    let sessionStream;
-    try {
-      sessionStream = await createSession({
-        key: proofGenArgs.session_key,
-        value: null,
-        ticket: "TICKET",
-      });
-    } catch (err) {
-      console.error(err);
-      return;
-    }
+    // let sessionStream;
+    // try {
+    //   sessionStream = await createSession({
+    //     key: proofGenArgs.session_key,
+    //     value: null,
+    //     ticket: "TICKET",
+    //   });
+    // } catch (err) {
+    //   console.error(err);
+    //   return;
+    // }
 
-    await createSession2({
+    const { payload, error } = await createSession2({
       key: proofGenArgs.session_key,
       value: JSON.stringify(proofGenArgs),
       type: PrfsSessionType.CREATE_PROOF,
+      openPrfsIdSession: () => {
+        return openPrfsIdSession({
+          key: proofGenArgs.session_key,
+          value: null,
+          ticket: "TICKET",
+        });
+      },
     });
 
-    if (!sessionStream) {
-      console.error("Couldn't open a session");
-      return;
-    }
+    console.log(11, payload);
 
-    const { ws, send, receive } = sessionStream;
-    const session = await receive();
-    if (!session) {
-      console.error("Coultn' retreieve session");
-      return;
-    }
+    // if (!sessionStream) {
+    //   console.error("Couldn't open a session");
+    //   return;
+    // }
 
-    try {
-      if (session.error) {
-        console.error(session.error);
-        return;
-      }
+    // const { ws, send, receive } = sessionStream;
+    // const session = await receive();
+    // if (!session) {
+    //   console.error("Coultn' retreieve session");
+    //   return;
+    // }
 
-      if (!session.payload) {
-        console.error("Session doesn't have a payload");
-        return;
-      }
+    // try {
+    //   if (session.error) {
+    //     console.error(session.error);
+    //     return;
+    //   }
 
-      if (session.payload.type !== "put_prfs_id_session_value_result") {
-        console.error("Wrong session payload type at this point, msg: %s", session.payload);
-        return;
-      }
+    //   if (!session.payload) {
+    //     console.error("Session doesn't have a payload");
+    //     return;
+    //   }
 
-      const buf = Buffer.from(session.payload.value);
-      let decrypted: string;
-      try {
-        decrypted = decrypt(sk.secret, buf).toString();
-      } catch (err) {
-        console.error("cannot decrypt payload", err);
-        return;
-      }
+    //   if (session.payload.type !== "put_prfs_id_session_value_result") {
+    //     console.error("Wrong session payload type at this point, msg: %s", session.payload);
+    //     return;
+    //   }
 
-      let payload: ProofGenSuccessPayload;
-      try {
-        payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-      } catch (err) {
-        console.error("cannot parse payload", err);
-        return;
-      }
+    //   const buf = Buffer.from(session.payload.value);
+    //   let decrypted: string;
+    //   try {
+    //     decrypted = decrypt(sk.secret, buf).toString();
+    //   } catch (err) {
+    //     console.error("cannot decrypt payload", err);
+    //     return;
+    //   }
 
-      const proof = payload.receipt[PROOF] as ProveReceipt;
-      if (proof) {
-        handleCreateProofResult(proof);
-      } else {
-        console.error("no proof delivered");
-        return;
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    //   let payload: ProofGenSuccessPayload;
+    //   try {
+    //     payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+    //   } catch (err) {
+    //     console.error("cannot parse payload", err);
+    //     return;
+    //   }
 
-    ws.close();
-    popup.close();
-  }, [proofType, handleCreateProofResult, setSystemMsg, status]);
+    //   const proof = payload.receipt[PROOF] as ProveReceipt;
+    //   if (proof) {
+    //     handleCreateProofResult(proof);
+    //   } else {
+    //     console.error("no proof delivered");
+    //     return;
+    //   }
+    // } catch (err) {
+    //   console.error(err);
+    // }
+
+    // ws.close();
+    // popup.close();
+  }, [proofType, handleCreateProofResult, setSystemMsg, status, openPrfsIdSession]);
 
   return (
     <div className={styles.wrapper}>
