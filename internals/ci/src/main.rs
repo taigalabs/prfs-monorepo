@@ -1,8 +1,8 @@
 mod build_cmd;
 mod build_handle;
 mod cmds;
+mod create_envs;
 mod deps;
-mod envs;
 mod paths;
 
 use crate::{

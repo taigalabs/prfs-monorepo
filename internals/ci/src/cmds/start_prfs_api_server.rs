@@ -2,8 +2,8 @@ use clap::ArgMatches;
 use std::process::Command;
 
 use crate::{
+    create_envs::create_envs,
     deps::{self},
-    envs::get_envs,
     paths::PATHS,
 };
 
@@ -20,7 +20,8 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_app(extra_args: Vec<&str>) {
-    let envs = get_envs();
+    let envs = create_envs();
+
     let status = Command::new(deps::CARGO)
         .current_dir(&PATHS.prfs_api_server)
         .args(["run", "-p", "prfs_api_server", "--release"])

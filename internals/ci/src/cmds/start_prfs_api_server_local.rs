@@ -2,8 +2,8 @@ use clap::ArgMatches;
 use std::{path::PathBuf, process::Command};
 
 use crate::{
+    create_envs::create_envs,
     deps::{self},
-    envs::get_envs,
     paths::PATHS,
 };
 
@@ -26,7 +26,7 @@ fn run_app(_extra_args: Vec<&str>) {
         panic!("prfs_api_server bin does not exist");
     }
 
-    let envs = get_envs();
+    let envs = create_envs();
     let status = Command::new(prfs_api_server_bin)
         .current_dir(&PATHS.ws_root)
         .envs(envs)
