@@ -13,6 +13,7 @@ import { GetPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/
 
 const PrfsIdSessionModal: React.FC<ModalProps> = ({ actionLabel, setIsOpen, sessionKey }) => {
   const i18n = React.useContext(i18nContext);
+  const [error, setError] = React.useState<React.ReactNode | null>(null);
   const { mutateAsync: getPrfsIdSessionValue } = useMutation({
     mutationFn: (req: GetPrfsIdSessionValueRequest) => {
       return idSessionApi({ type: "get_prfs_id_session_value", ...req });
@@ -29,6 +30,14 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({ actionLabel, setIsOpen, sess
 
   const handleClickSubmit = React.useCallback(async () => {
     const { payload, error } = await getPrfsIdSessionValue({ key: sessionKey });
+
+    if (error) {
+      return;
+    }
+
+    if (!payload?.session?.value) {
+      return;
+    }
     console.log(11, payload, error);
   }, [getPrfsIdSessionValue]);
 
@@ -65,7 +74,7 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({ actionLabel, setIsOpen, sess
       </div>
       <div className={styles.btnRow}>
         <Button variant="transparent_black_1" handleClick={handleClickClose}>
-          <p className={styles.btnContent}>
+          <p className={cn(styles.btnContent, styles.abortBtn)}>
             <IoCloseSharp />
             <span>{i18n.abort}</span>
           </p>

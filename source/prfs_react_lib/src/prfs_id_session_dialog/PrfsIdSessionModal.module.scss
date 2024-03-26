@@ -28,10 +28,6 @@
   font-weight: 500;
 }
 
-.btnRow {
-  padding-top: 14px;
-}
-
 .btnContainer {
   padding-top: 18px;
 }
@@ -40,6 +36,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.btnRow {
+  padding-top: 18px;
+}
+
+.abortBtn {
+  svg {
+    font-size: 18px;
+    margin-right: 3px;
+  }
 }
 
 .lock {
