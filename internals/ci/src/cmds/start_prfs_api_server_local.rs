@@ -1,5 +1,5 @@
 use clap::ArgMatches;
-use std::process::Command;
+use std::{path::PathBuf, process::Command};
 
 use crate::{
     deps::{self},
@@ -19,11 +19,16 @@ pub fn run(matches: &ArgMatches) {
     run_app(extra_args);
 }
 
-fn run_app(extra_args: Vec<&str>) {
+fn run_app(_extra_args: Vec<&str>) {
+    let prfs_api_server_bin = &PATHS.ws_root.join("prfs_api_server");
+
+    if !prfs_api_server_bin.exists() {
+        panic!("prfs_api_server bin does not exist");
+    }
+
     let envs = get_envs();
-    let status = Command::new(deps::SH)
+    let status = Command::new(prfs_api_server_bin)
         .current_dir(&PATHS.ws_root)
-        .args(["-c", "prfs_api_server"])
         .envs(envs)
         .status()
         .expect(&format!("{} command failed to start", deps::CARGO));

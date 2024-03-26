@@ -32,7 +32,7 @@ fn run_docker(_extra_args: Vec<&str>) {
             "--detach",
             "--build",
             "--no-deps",
-            "prfs_api_server",
+            "prfs_api_server_local",
         ])
         .envs(envs)
         .status()
