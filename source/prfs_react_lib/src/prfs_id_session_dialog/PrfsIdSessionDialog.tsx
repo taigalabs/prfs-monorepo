@@ -18,6 +18,7 @@ import PrfsIdSessionModal from "./PrfsIdSessionModal";
 
 const PrfsIdSessionDialog: React.FC<ProofRawDialogProps> = ({
   actionLabel,
+  sessionKey,
   isPrfsDialogOpen,
   setIsPrfsDialogOpen,
 }) => {
@@ -39,7 +40,7 @@ const PrfsIdSessionDialog: React.FC<ProofRawDialogProps> = ({
       {/*   {children} */}
       {/* </div> */}
       <FloatingPortal>
-        {isPrfsDialogOpen && (
+        {isPrfsDialogOpen && sessionKey && (
           <FloatingOverlay className={styles.overlay} lockScroll>
             <FloatingFocusManager context={context}>
               <div
@@ -49,7 +50,11 @@ const PrfsIdSessionDialog: React.FC<ProofRawDialogProps> = ({
                 aria-describedby={descriptionId}
                 {...getFloatingProps()}
               >
-                <PrfsIdSessionModal setIsOpen={setIsPrfsDialogOpen} actionLabel={actionLabel} />
+                <PrfsIdSessionModal
+                  setIsOpen={setIsPrfsDialogOpen}
+                  actionLabel={actionLabel}
+                  sessionKey={sessionKey}
+                />
               </div>
             </FloatingFocusManager>
           </FloatingOverlay>
@@ -65,4 +70,5 @@ export interface ProofRawDialogProps {
   isPrfsDialogOpen: boolean;
   setIsPrfsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   actionLabel: string;
+  sessionKey: string | null;
 }

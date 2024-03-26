@@ -44,7 +44,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const step = useAppSelector(state => state.tutorial.tutorialStep);
   const [status, setStatus] = React.useState(Status.Standby);
   const { tutorialId } = useTutorial();
-  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen } = usePrfsIdSession();
+  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
+    usePrfsIdSession();
 
   const handleClickCreateProof = React.useCallback(async () => {
     const session_key = createSessionKey();
@@ -87,6 +88,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       ticket: "TICKET",
     });
     setIsPrfsDialogOpen(true);
+    setSessionKey(proofGenArgs.session_key);
 
     console.log(11, payload);
 
@@ -167,6 +169,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     status,
     openPrfsIdSession,
     setIsPrfsDialogOpen,
+    setSessionKey,
   ]);
 
   return (
@@ -199,6 +202,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         </div>
       </div>
       <PrfsIdSessionDialog
+        sessionKey={sessionKey}
         isPrfsDialogOpen={isPrfsDialogOpen}
         setIsPrfsDialogOpen={setIsPrfsDialogOpen}
         actionLabel={i18n.create_proof.toLowerCase()}

@@ -142,6 +142,9 @@ export default {
   id: "Id",
   you_requested_to: "You requested to",
   public_key: "Public key",
+  session_key: "Session key",
+  prfs_id_session_modal_guide:
+    "Proceed and create data in the Prfs ID popup. Click submit below once you are done. If you did not see the popup, check your settings and try again. Report if the problem persists",
   hash_algorithm: "Hash algorithm",
   proof_instance_id: "Proof instance id",
   url_is_copied: "URL is copied",

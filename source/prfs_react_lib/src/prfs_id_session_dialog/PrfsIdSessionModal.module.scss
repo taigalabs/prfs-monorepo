@@ -8,9 +8,17 @@
 .main {
 }
 
+.sessionKey {
+  word-break: break-all;
+}
+
 .actionLabel {
   margin-left: 3px;
   font-weight: 500;
+}
+
+.submitBtn {
+  width: 100%;
 }
 
 @media screen and (min-width: $big_display_min_width) {
