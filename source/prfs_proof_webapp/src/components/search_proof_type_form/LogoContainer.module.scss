@@ -2,18 +2,28 @@
 
 .wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 24px;
-  height: 22vh;
+  margin-top: 15px;
+  margin-bottom: 14px;
   min-height: 120px;
   max-height: 280px;
 
   > div {
     margin-top: auto;
-    max-width: 140px;
   }
+}
+
+.text {
+  text-align: center;
+  font-size: 48px;
+  font-weight: 600;
+  /* word-break: break-all; */
+}
+
+.proofs {
+  margin-left: 0.3em;
 }
 
 .proofTypeChosen {
@@ -21,14 +31,14 @@
   max-height: 160px;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (min-width: $mid_display_min_width) {
   .wrapper {
-    height: auto;
-    margin-top: 15px;
-    margin-bottom: 14px;
+    margin-top: 0px;
+    margin-bottom: 24px;
+    height: 22vh;
+  }
 
-    > div {
-      max-width: 120px;
-    }
+  .text {
+    font-size: 61px;
   }
 }
