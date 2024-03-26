@@ -172,6 +172,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     setSessionKey,
   ]);
 
+  const handleSucceedGetSession = React.useCallback(() => {}, []);
+
   return (
     <>
       <div className={styles.wrapper}>

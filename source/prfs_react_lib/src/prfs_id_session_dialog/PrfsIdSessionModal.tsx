@@ -2,18 +2,24 @@ import React from "react";
 import cn from "classnames";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import { IoCloseSharp } from "@react-icons/all-files/io5/IoCloseSharp";
+import { useMutation } from "@tanstack/react-query";
+import { idSessionApi } from "@taigalabs/prfs-api-js";
+import { GetPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsIdSessionValueRequest";
 import { FaLock } from "@react-icons/all-files/fa/FaLock";
 
 import styles from "./PrfsIdSessionModal.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
 import Button from "../button/Button";
-import { useMutation } from "@tanstack/react-query";
-import { idSessionApi } from "@taigalabs/prfs-api-js";
-import { GetPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsIdSessionValueRequest";
+import { ErrorBox } from "../error_box/ErrorBox";
 
-const PrfsIdSessionModal: React.FC<ModalProps> = ({ actionLabel, setIsOpen, sessionKey }) => {
+const PrfsIdSessionModal: React.FC<ModalProps> = ({
+  actionLabel,
+  setIsOpen,
+  sessionKey,
+  handleSucceed,
+}) => {
   const i18n = React.useContext(i18nContext);
-  const [error, setError] = React.useState<React.ReactNode | null>(null);
+  const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const { mutateAsync: getPrfsIdSessionValue } = useMutation({
     mutationFn: (req: GetPrfsIdSessionValueRequest) => {
       return idSessionApi({ type: "get_prfs_id_session_value", ...req });
@@ -29,17 +35,24 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({ actionLabel, setIsOpen, sess
   }, [sessionKey]);
 
   const handleClickSubmit = React.useCallback(async () => {
+    setErrorMsg(null);
     const { payload, error } = await getPrfsIdSessionValue({ key: sessionKey });
 
     if (error) {
+      setErrorMsg(error.toString());
       return;
     }
 
-    if (!payload?.session?.value) {
+    if (!payload?.session?.value || payload?.session?.value.length < 1) {
+      setErrorMsg(
+        "Cannot find the value submitted. Did you submit the data in the \
+        Prfs ID popup?",
+      );
       return;
     }
-    console.log(11, payload, error);
-  }, [getPrfsIdSessionValue]);
+
+    handleSucceed(payload.session.value);
+  }, [getPrfsIdSessionValue, setErrorMsg, handleSucceed]);
 
   return (
     <div className={styles.wrapper}>
@@ -71,6 +84,11 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({ actionLabel, setIsOpen, sess
             </p>
           </Button>
         </div>
+        {errorMsg && (
+          <div className={styles.errorMsg}>
+            <ErrorBox>{errorMsg}</ErrorBox>
+          </div>
+        )}
       </div>
       <div className={styles.btnRow}>
         <Button variant="transparent_black_1" handleClick={handleClickClose}>
@@ -90,4 +108,5 @@ export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<any>>;
   actionLabel: string;
   sessionKey: string;
+  handleSucceed: (sessionValue: number[]) => void;
 }
