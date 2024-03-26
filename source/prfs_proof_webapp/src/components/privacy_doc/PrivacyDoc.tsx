@@ -2,12 +2,11 @@ import React from "react";
 
 import styles from "./PrivacyDoc.module.scss";
 import { Markdown } from "@/components/markdown/Markdown";
-import DocFooter from "@/components/global_footer/DocFooter";
 import DocMasthead from "@/components/doc_masthead/DocMasthead";
 import { paths } from "@/paths";
 import { getI18N } from "@/i18n/get_i18n";
 import DocumentView from "@/components/document_view/DocumentView";
-import { MastheadPlaceholder } from "../masthead/Masthead";
+import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 
 const PrivacyDoc: React.FC = async () => {
   const i18n = await getI18N();

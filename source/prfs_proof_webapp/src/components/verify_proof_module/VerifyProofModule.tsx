@@ -12,7 +12,6 @@ import {
   makeVerifyProofSearchParams,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import {
   PrivateKey,
   createRandomKeyPair,
@@ -38,9 +37,7 @@ export enum VerifyProofStatus {
 
 const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeId }) => {
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(VerifyProofStatus.Standby);
-  const { tutorialId } = useTutorial();
   const i18n = React.useContext(i18nContext);
-  const step = useAppSelector(state => state.tutorial.tutorialStep);
   const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
     usePrfsIdSession();
   const [sk, setSk] = React.useState<PrivateKey | null>(null);
@@ -58,12 +55,6 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
         session_key,
       };
 
-      if (tutorialId) {
-        verifyProofArgs.tutorial = {
-          tutorialId,
-          step,
-        };
-      }
       const searchParams = makeVerifyProofSearchParams(verifyProofArgs);
       const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.verify_proof}${searchParams}`;
 
@@ -90,7 +81,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
     } catch (err) {
       console.error(err);
     }
-  }, [setVerifyProofStatus, tutorialId, dispatch, setSk, setSessionKey, setIsPrfsDialogOpen]);
+  }, [setVerifyProofStatus, dispatch, setSk, setSessionKey, setIsPrfsDialogOpen]);
 
   const handleSucceedGetSession = React.useCallback(
     (session: PrfsIdSession) => {

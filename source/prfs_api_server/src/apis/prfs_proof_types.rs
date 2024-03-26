@@ -1,6 +1,7 @@
 use prfs_api_error_codes::PRFS_API_ERROR_CODES;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
+use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit};
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
@@ -20,7 +21,13 @@ pub async fn get_prfs_proof_types(
     Json(input): Json<GetPrfsProofTypesRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsProofTypesResponse>>) {
     let pool = &state.db2.pool;
-    let rows = prfs::get_prfs_proof_types(pool, input.offset, LIMIT).await;
+    let rows = match prfs::get_prfs_proof_types(pool, input.offset, LIMIT).await {
+        Ok(r) => r,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
         None
@@ -41,7 +48,14 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
 ) {
     let pool = &state.db2.pool;
     let prfs_proof_type =
-        prfs::get_prfs_proof_type_by_proof_type_id(pool, &input.proof_type_id).await;
+        match prfs::get_prfs_proof_type_by_proof_type_id(pool, &input.proof_type_id).await {
+            Ok(p) => p,
+            Err(err) => {
+                let resp =
+                    ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
 
     let resp = ApiResponse::new_success(GetPrfsProofTypeByProofTypeIdResponse { prfs_proof_type });
     return (StatusCode::OK, Json(resp));
@@ -52,16 +66,7 @@ pub async fn create_prfs_proof_type(
     Json(input): Json<CreatePrfsProofTypeRequest>,
 ) -> (StatusCode, Json<ApiResponse<CreatePrfsProofTypeResponse>>) {
     let pool = &state.db2.pool;
-    let mut tx = match pool.begin().await {
-        Ok(t) => t,
-        Err(err) => {
-            let resp = ApiResponse::new_error(
-                &PRFS_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!("error starting db transaction: {}", err),
-            );
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
+    let mut tx = bail_out_tx!(pool, &PRFS_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let prfs_proof_type = PrfsProofType {
         proof_type_id: input.proof_type_id,
@@ -78,9 +83,15 @@ pub async fn create_prfs_proof_type(
         created_at: chrono::offset::Utc::now(),
     };
 
-    let id = prfs::insert_prfs_proof_type(&mut tx, &prfs_proof_type).await;
+    let id = match prfs::insert_prfs_proof_type(&mut tx, &prfs_proof_type).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
-    tx.commit().await.unwrap();
+    bail_out_tx_commit!(tx, &PRFS_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let resp = ApiResponse::new_success(CreatePrfsProofTypeResponse { id });
     return (StatusCode::OK, Json(resp));

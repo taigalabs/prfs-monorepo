@@ -12,9 +12,7 @@ import {
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
 import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
-import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
-import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
@@ -24,7 +22,7 @@ import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
-import { useAppDispatch, useAppSelector } from "@/state/hooks";
+import { useAppDispatch } from "@/state/hooks";
 
 const PROOF = "Proof";
 
@@ -39,9 +37,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
-  const step = useAppSelector(state => state.tutorial.tutorialStep);
   const [status, setStatus] = React.useState(Status.Standby);
-  const { tutorialId } = useTutorial();
   const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
     usePrfsIdSession();
   const [sk, setSk] = React.useState<PrivateKey | null>(null);
@@ -64,13 +60,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       public_key: pkHex,
       session_key,
     };
-
-    if (tutorialId) {
-      proofGenArgs.tutorial = {
-        tutorialId,
-        step,
-      };
-    }
 
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
@@ -165,12 +154,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               </div>
               <div className={styles.btnRow}>
                 {status === Status.Loading && <div className={styles.overlay} />}
-                <TutorialStepper tutorialId={tutorialId} step={step} steps={[2]}>
-                  <button onClick={handleClickCreateProof} className={cn(styles.createBtn)}>
-                    <IoMdAdd />
-                    <span>{i18n.create_proof_with_prfs}</span>
-                  </button>
-                </TutorialStepper>
+                <button onClick={handleClickCreateProof} className={cn(styles.createBtn)}>
+                  <IoMdAdd />
+                  <span>{i18n.create_proof_with_prfs}</span>
+                </button>
               </div>
             </div>
           </div>

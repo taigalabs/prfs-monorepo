@@ -20,7 +20,7 @@ import {
   MastheadRightGroup,
   MastheadRightGroupMenu,
   MastheadWrapper,
-} from "@/components/masthead/Masthead";
+} from "@/components/masthead/MastheadComponents";
 import { envs } from "@/envs";
 import { PRFS_PROOF_APP_ID } from "@/app_id";
 

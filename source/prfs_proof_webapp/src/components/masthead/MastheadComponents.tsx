@@ -3,7 +3,7 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./Masthead.module.scss";
+import styles from "./MastheadComponents.module.scss";
 
 export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({
   children,
@@ -46,6 +46,10 @@ export const MastheadPlaceholder: React.FC<MastheadPlaceholderProps> = ({
 
 export const MastheadMain: React.FC<MastheadProps> = ({ className, children }) => {
   return <div className={cn(styles.main, className)}>{children}</div>;
+};
+
+export const MastheadLeftGroup: React.FC<MastheadProps> = ({ children, className }) => {
+  return <ul className={cn(styles.leftGroup, className)}>{children}</ul>;
 };
 
 export const MastheadRightGroup: React.FC<MastheadProps> = ({

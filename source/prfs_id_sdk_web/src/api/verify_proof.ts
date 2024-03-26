@@ -1,4 +1,3 @@
-import { TutorialArgs } from "../tutorial";
 import { createQueryString } from "../search_params";
 
 export function makeVerifyProofSearchParams(args: VerifyProofArgs): string {
@@ -12,7 +11,6 @@ export function parseVerifyProofSearchParams(searchParams: URLSearchParams): Ver
   const proof_type_id = searchParams.get("proof_type_id");
   const nonce = searchParams.get("nonce");
   const session_key = searchParams.get("session_key");
-  const tutorial = searchParams.get("tutorial");
 
   if (!app_id) {
     throw new Error("app id missing");
@@ -42,10 +40,6 @@ export function parseVerifyProofSearchParams(searchParams: URLSearchParams): Ver
     session_key,
   };
 
-  if (tutorial) {
-    args.tutorial = JSON.parse(decodeURIComponent(tutorial));
-  }
-
   return args;
 }
 
@@ -55,7 +49,6 @@ export interface VerifyProofArgs {
   proof_type_id: string;
   public_key: string;
   session_key: string;
-  tutorial?: TutorialArgs;
 }
 
 export interface VerifyProofResultPayload {

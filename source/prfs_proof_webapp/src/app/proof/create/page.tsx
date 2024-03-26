@@ -7,7 +7,6 @@ import DefaultLayout, {
 } from "@/components/layouts/default_layout/DefaultLayout";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
 
 const CreatePage = () => {
@@ -21,9 +20,6 @@ const CreatePage = () => {
       </DefaultBody>
       <DefaultFooter>
         <GlobalFooter />
-        <Suspense>
-          <TutorialPlaceholder />
-        </Suspense>
       </DefaultFooter>
     </DefaultLayout>
   );

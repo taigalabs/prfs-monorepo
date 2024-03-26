@@ -23,4 +23,4 @@ RUN apt-get -qq update \
   && apt install -y chromium \
   && apt install libssl-dev
 
-CMD ["sh", "-c", "./ci ${CI_CMD}"]
+CMD ["sh", "-c", "./${CI_CMD}"]

@@ -10,15 +10,11 @@ import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/b
 import Link from "next/link";
 import SearchProofDialog from "@taigalabs/prfs-react-lib/src/search_proof_dialog/SearchProofDialog";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
-import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./SearchProofTypeForm.module.scss";
 import { i18nContext } from "@/i18n/context";
 import LogoContainer from "./LogoContainer";
 import { paths } from "@/paths";
-import TutorialDefault from "@/components/tutorial/TutorialDefault";
-import { useAppSelector } from "@/state/hooks";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -30,8 +26,6 @@ const SearchProofTypeForm: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [formStatus, setFormStatus] = React.useState(SearchProofTypeFormStatus.Standby);
-  const step = useAppSelector(state => state.tutorial.tutorialStep);
-  const { tutorialId } = useTutorial();
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -60,29 +54,19 @@ const SearchProofTypeForm: React.FC = () => {
           )}
           <div className={cn(styles.formWrapper)}>
             <div className={styles.proofTypeRow}>
-              <TutorialStepper
-                tutorialId={tutorialId}
-                step={step}
-                steps={[1]}
-                fullWidth
-                mainAxisOffset={20}
-                crossAxisOffset={15}
-              >
-                <SearchProofDialog
-                  proofType={undefined}
-                  handleSelectProofType={handleSelectProofType}
-                  webappConsoleEndpoint={process.env.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}
-                />
-              </TutorialStepper>
+              <SearchProofDialog
+                proofType={undefined}
+                handleSelectProofType={handleSelectProofType}
+                webappConsoleEndpoint={process.env.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}
+              />
             </div>
-            <div className={styles.welcomeRow}>
-              <span>{i18n.create_and_share_proofs}</span>
-              <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link>
-            </div>
+            {/* <div className={styles.welcomeRow}> */}
+            {/*   <span>{i18n.create_and_share_proofs}</span> */}
+            {/*   <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link> */}
+            {/* </div> */}
           </div>
         </div>
       </div>
-      <TutorialDefault />
     </>
   );
 };

@@ -3,7 +3,7 @@ use std::process::Command;
 
 use crate::paths::PATHS;
 
-pub fn get_envs() -> HashMap<&'static str, String> {
+pub fn create_envs() -> HashMap<&'static str, String> {
     let git_hash_env = std::env::var("GIT_COMMIT_HASH");
     let git_hash = match git_hash_env {
         Ok(h) => h,

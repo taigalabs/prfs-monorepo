@@ -2,8 +2,8 @@ use clap::ArgMatches;
 use std::process::Command;
 
 use crate::{
+    create_envs::create_envs,
     deps::{self, JS_ENGINE},
-    envs::get_envs,
     paths::PATHS,
 };
 
@@ -19,31 +19,24 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_docker(_extra_args: Vec<&str>) {
-    let status = Command::new(deps::CARGO)
-        .args(["build", "--release", "-p", "prfs_api_server"])
+    let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
+    let envs = create_envs();
+
+    let status = Command::new(deps::DOCKER)
+        // .env("BUILDKIT_PROGRESS", "plain")
+        .args([
+            "compose",
+            "-f",
+            docker_compose_yml_path.to_str().unwrap(),
+            "up",
+            "--detach",
+            "--build",
+            "--no-deps",
+            "prfs_api_server_local",
+        ])
+        .envs(envs)
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
-    return;
-
-    // let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
-    // let envs = get_envs();
-
-    // let status = Command::new(deps::DOCKER)
-    //     // .env("BUILDKIT_PROGRESS", "plain")
-    //     .args([
-    //         "compose",
-    //         "-f",
-    //         docker_compose_yml_path.to_str().unwrap(),
-    //         "up",
-    //         "--detach",
-    //         "--build",
-    //         "--no-deps",
-    //         "prfs_api_server",
-    //     ])
-    //     .envs(envs)
-    //     .status()
-    //     .expect(&format!("{} command failed to start", JS_ENGINE));
-
-    // assert!(status.success());
+    assert!(status.success());
 }

@@ -7,6 +7,9 @@ import { envs } from "@/envs";
 
 const GlobalFooter: React.FC = () => {
   const i18n = React.useContext(i18nContext);
+  const commitHash = React.useMemo(() => {
+    return envs.NEXT_PUBLIC_GIT_COMMIT_HASH.substring(0, 6);
+  }, []);
 
   const handleClickLink = React.useCallback((ev: React.MouseEvent<HTMLAnchorElement>) => {
     ev.preventDefault();
@@ -19,6 +22,7 @@ const GlobalFooter: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
+      <p className={styles.commitHash}>{commitHash}</p>
       <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL} onClick={handleClickLink}>
         <span>{i18n.code}</span>
       </Link>

@@ -15,7 +15,7 @@ import {
   MastheadRightGroup,
   MastheadRightGroupMenu,
   MastheadWrapper,
-} from "@/components/masthead/Masthead";
+} from "@/components/masthead/MastheadComponents";
 import VerifiedAccSearch from "@/components/verified_acc_search/VerifiedAccSearch";
 import { envs } from "@/envs";
 import AppLogo from "@/components/app_logo/AppLogo";

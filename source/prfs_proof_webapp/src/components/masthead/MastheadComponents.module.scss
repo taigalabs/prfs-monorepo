@@ -84,6 +84,12 @@
   /* border: 1px solid red; */
 }
 
+.leftGroup {
+  position: absolute;
+  top: 6px;
+  left: 10px;
+}
+
 .rightGroup {
   display: flex;
   flex: 1;
@@ -167,6 +173,10 @@
     flex-shrink: 1;
 
     /* border: 1px solid blue; */
+  }
+
+  .leftGroup {
+    position: static;
   }
 
   .rightGroup {

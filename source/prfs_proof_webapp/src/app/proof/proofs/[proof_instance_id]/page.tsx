@@ -7,7 +7,6 @@ import DefaultLayout, {
   DefaultFooter,
 } from "@/components/layouts/default_layout/DefaultLayout";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
-import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   return (
@@ -19,9 +18,6 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
       </DefaultBody>
       <DefaultFooter>
         <GlobalFooter />
-        <Suspense>
-          <TutorialPlaceholder />
-        </Suspense>
       </DefaultFooter>
     </DefaultLayout>
   );
