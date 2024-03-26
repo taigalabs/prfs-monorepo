@@ -21,7 +21,7 @@ const PrfsIdSessionDialog: React.FC<ProofRawDialogProps> = ({
   sessionKey,
   isPrfsDialogOpen,
   setIsPrfsDialogOpen,
-  handleSucceed,
+  handleSucceedGetSession,
 }) => {
   const i18n = React.useContext(i18nContext);
   const { refs, context } = useFloating({
@@ -55,7 +55,7 @@ const PrfsIdSessionDialog: React.FC<ProofRawDialogProps> = ({
                   setIsOpen={setIsPrfsDialogOpen}
                   actionLabel={actionLabel}
                   sessionKey={sessionKey}
-                  handleSucceed={handleSucceed}
+                  handleSucceedGetSession={handleSucceedGetSession}
                 />
               </div>
             </FloatingFocusManager>
@@ -73,5 +73,5 @@ export interface ProofRawDialogProps {
   setIsPrfsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   actionLabel: string;
   sessionKey: string | null;
-  handleSucceed: (sessionValue: number[]) => void;
+  handleSucceedGetSession: (sessionValue: number[]) => void;
 }

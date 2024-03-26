@@ -13,19 +13,19 @@ import {
   createSessionKey,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
-import { useAppSelector } from "@/state/hooks";
-import { PrfsSessionType } from "@/prfs_session_type";
+import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { urls } from "@/urls";
 
 const PROOF = "Proof";
@@ -46,6 +46,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const { tutorialId } = useTutorial();
   const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
     usePrfsIdSession();
+  const [sk, setSk] = React.useState<PrivateKey | null>(null);
+  const dispatch = useAppDispatch();
 
   const handleClickCreateProof = React.useCallback(async () => {
     const session_key = createSessionKey();
@@ -82,15 +84,14 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       return;
     }
 
-    const { payload } = await openPrfsIdSession({
+    const { payload: _ } = await openPrfsIdSession({
       key: proofGenArgs.session_key,
       value: null,
       ticket: "TICKET",
     });
     setIsPrfsDialogOpen(true);
     setSessionKey(proofGenArgs.session_key);
-
-    console.log(11, payload);
+    setSk(sk);
 
     // let sessionStream;
     // try {
@@ -170,9 +171,59 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     openPrfsIdSession,
     setIsPrfsDialogOpen,
     setSessionKey,
+    setSk,
   ]);
 
-  const handleSucceedGetSession = React.useCallback(() => {}, []);
+  const handleSucceedGetSession = React.useCallback(
+    (sessionValue: number[]) => {
+      if (!sk) {
+        dispatch(
+          setGlobalError({
+            message: "Secret key is not set to decrypt Prfs ID session",
+          }),
+        );
+        return;
+      }
+
+      const buf = Buffer.from(sessionValue);
+      let decrypted: string;
+      try {
+        decrypted = decrypt(sk.secret, buf).toString();
+      } catch (err) {
+        dispatch(
+          setGlobalError({
+            message: `Cannot decrypt payload, err: ${err}`,
+          }),
+        );
+        return;
+      }
+
+      let payload: ProofGenSuccessPayload;
+      try {
+        payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+      } catch (err) {
+        dispatch(
+          setGlobalError({
+            message: "Cannot parse proof payload",
+          }),
+        );
+        return;
+      }
+
+      const proof = payload.receipt[PROOF] as ProveReceipt;
+      if (proof) {
+        handleCreateProofResult(proof);
+      } else {
+        dispatch(
+          setGlobalError({
+            message: "no proof delivered",
+          }),
+        );
+        return;
+      }
+    },
+    [sk, dispatch],
+  );
 
   return (
     <>
@@ -208,6 +259,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         isPrfsDialogOpen={isPrfsDialogOpen}
         setIsPrfsDialogOpen={setIsPrfsDialogOpen}
         actionLabel={i18n.create_proof.toLowerCase()}
+        handleSucceedGetSession={handleSucceedGetSession}
       />
     </>
   );

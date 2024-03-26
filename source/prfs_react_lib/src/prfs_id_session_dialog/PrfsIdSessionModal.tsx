@@ -16,7 +16,7 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({
   actionLabel,
   setIsOpen,
   sessionKey,
-  handleSucceed,
+  handleSucceedGetSession,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
@@ -51,8 +51,8 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({
       return;
     }
 
-    handleSucceed(payload.session.value);
-  }, [getPrfsIdSessionValue, setErrorMsg, handleSucceed]);
+    handleSucceedGetSession(payload.session.value);
+  }, [getPrfsIdSessionValue, setErrorMsg, handleSucceedGetSession]);
 
   return (
     <div className={styles.wrapper}>
@@ -108,5 +108,5 @@ export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<any>>;
   actionLabel: string;
   sessionKey: string;
-  handleSucceed: (sessionValue: number[]) => void;
+  handleSucceedGetSession: (sessionValue: number[]) => void;
 }
