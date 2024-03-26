@@ -4,7 +4,7 @@ import cn from "classnames";
 import {
   PrfsAppsPopoverLi,
   PrfsAppsPopoverUl,
-} from "@taigalabs/prfs-react-lib/src/prfs_apps_popover/Modal";
+} from "@taigalabs/prfs-react-lib/src/prfs_apps_popover";
 import { TbCertificate } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbCertificate";
 import { TbMathPi } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbMathPi";
 import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";

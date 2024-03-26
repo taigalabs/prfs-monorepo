@@ -14,20 +14,20 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./PrfsIdSessionDialog.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
+import PrfsIdSessionModal from "./PrfsIdSessionModal";
 
 const PrfsIdSessionDialog: React.FC<ProofRawDialogProps> = ({
   isPrfsDialogOpen,
   setIsPrfsDialogOpen,
 }) => {
   const i18n = React.useContext(i18nContext);
-  // const [isOpen, setIsOpen] = React.useState(false);
   const { refs, context } = useFloating({
     open: isPrfsDialogOpen,
     onOpenChange: setIsPrfsDialogOpen,
   });
   const click = useClick(context);
   const role = useRole(context);
-  const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
+  const dismiss = useDismiss(context, { outsidePress: false });
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
   const headingId = useId();
   const descriptionId = useId();
@@ -48,18 +48,17 @@ const PrfsIdSessionDialog: React.FC<ProofRawDialogProps> = ({
                 aria-describedby={descriptionId}
                 {...getFloatingProps()}
               >
-                <div className={styles.header}>
-                  <h1>{i18n.proof_raw}</h1>
-                  <button
-                    onClick={() => {
-                      console.log("Deleted.");
-                      setIsPrfsDialogOpen(false);
-                    }}
-                  >
-                    <AiOutlineClose />
-                  </button>
-                </div>
-                <div className={styles.data}>123</div>
+                {/* <div className={styles.header}> */}
+                {/*   <h1>{i18n.proof_raw}</h1> */}
+                {/*   <button */}
+                {/*     onClick={() => { */}
+                {/*       setIsPrfsDialogOpen(false); */}
+                {/*     }} */}
+                {/*   > */}
+                {/*     <AiOutlineClose /> */}
+                {/*   </button> */}
+                {/* </div> */}
+                <PrfsIdSessionModal setIsOpen={setIsPrfsDialogOpen} />
               </div>
             </FloatingFocusManager>
           </FloatingOverlay>

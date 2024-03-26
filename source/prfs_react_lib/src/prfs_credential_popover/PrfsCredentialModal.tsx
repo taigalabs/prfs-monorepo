@@ -1,10 +1,10 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./Modal.module.scss";
+import styles from "./PrfsCredentialModal.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
 
-const Modal: React.FC<ModalProps> = ({ id, handleClickSignOut }) => {
+const PrfsCredentialModal: React.FC<ModalProps> = ({ id, handleClickSignOut }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -22,7 +22,7 @@ const Modal: React.FC<ModalProps> = ({ id, handleClickSignOut }) => {
   );
 };
 
-export default Modal;
+export default PrfsCredentialModal;
 
 export interface ModalProps {
   handleClickSignOut: () => void;

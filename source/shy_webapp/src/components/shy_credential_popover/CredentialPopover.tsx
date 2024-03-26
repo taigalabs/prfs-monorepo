@@ -13,10 +13,10 @@ import {
 } from "@floating-ui/react";
 
 import styles from "./CredentialPopover.module.scss";
-import Modal from "./Modal";
+import ShyCredentialModal from "./ShyCredentialModal";
 import { LocalShyCredential } from "@/storage/local_storage";
 
-const CredentialPopover: React.FC<CredentialPopoverProps> = ({
+const ShyCredentialPopover: React.FC<CredentialPopoverProps> = ({
   className,
   credential,
   isOpenClassName,
@@ -76,7 +76,7 @@ const CredentialPopover: React.FC<CredentialPopoverProps> = ({
               aria-labelledby={headingId}
               {...getFloatingProps()}
             >
-              <Modal
+              <ShyCredentialModal
                 credential={credential}
                 setIsOpen={setIsOpen}
                 handleClickSignOut={handleClickSignOut}
@@ -89,7 +89,7 @@ const CredentialPopover: React.FC<CredentialPopoverProps> = ({
   );
 };
 
-export default CredentialPopover;
+export default ShyCredentialPopover;
 
 export interface CredentialPopoverProps {
   credential: LocalShyCredential;

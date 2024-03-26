@@ -16,7 +16,7 @@ import {
 
 import styles from "./PrfsAppsPopover.module.scss";
 import Tooltip from "../tooltip/Tooltip";
-import Modal from "./Modal";
+import PrfsAppsModal from "./PrfsAppsModal";
 
 const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
   className,
@@ -70,7 +70,7 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
             aria-labelledby={headingId}
             {...getFloatingProps()}
           >
-            <Modal setIsOpen={setIsOpen}>{children}</Modal>
+            <PrfsAppsModal setIsOpen={setIsOpen}>{children}</PrfsAppsModal>
           </div>
         </FloatingFocusManager>
       )}
