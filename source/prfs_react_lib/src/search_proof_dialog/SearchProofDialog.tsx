@@ -15,6 +15,7 @@ import { IoIosSearch } from "@react-icons/all-files/io/IoIosSearch";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./SearchProofDialog.module.scss";
+import { inter } from "../fonts";
 import { i18nContext } from "../i18n/i18nContext";
 import ProofTypeModal from "./ProofTypeModal";
 import CaptionedImg from "../captioned_img/CaptionedImg";
@@ -76,9 +77,14 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
             </div>
           </div>
         ) : (
-          <div className={styles.placeholderBtn}>
+          <div className={cn(styles.placeholderBtn, { [styles.empty]: !proofInstanceId })}>
             {isOpen && <SearchIcon />}
-            <p className={cn(styles.placeholder, { [styles.proofInstanceId]: proofInstanceId, [inter.] })}>
+            <p
+              className={cn(styles.placeholder, {
+                // [styles.proofInstanceId]: proofInstanceId,
+                [inter.className]: !proofInstanceId,
+              })}
+            >
               {proofInstanceId ?? i18n.find_what_to_prove}
             </p>
             <div className={cn(styles.searchBtn)}>
