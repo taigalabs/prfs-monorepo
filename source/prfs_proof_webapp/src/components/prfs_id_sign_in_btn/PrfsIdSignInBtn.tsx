@@ -157,7 +157,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
         handleSignInError={handleSignInError}
         handleSucceedSignIn={handleSucceedSignIn}
         prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
-        successUrl={urls.prfs__success}
       />
     </>
   );

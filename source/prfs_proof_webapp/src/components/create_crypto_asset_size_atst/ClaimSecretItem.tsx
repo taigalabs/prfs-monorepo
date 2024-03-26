@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
-import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import {
   CommitmentType,
   API_PATH,
@@ -13,13 +13,14 @@ import {
   WALLET_CACHE_KEY,
   WALLET_CM_STEM,
   EncryptType,
-  createSession,
+  // createSession,
   createSessionKey,
   openPopup,
   makeWalletAtstCmPreImage,
   CommitmentReceipt,
   EncryptedReceipt,
 } from "@taigalabs/prfs-id-sdk-web";
+import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -41,7 +42,10 @@ import {
   WALLET_ADDR,
 } from "./create_crypto_asset_size_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
-import { urls } from "@/urls";
+import { useAppDispatch } from "@/state/hooks";
+import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   formData,
@@ -52,6 +56,10 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   setWalletAddrEnc,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
+    usePrfsIdSession();
+  const [sk, setSk] = React.useState<PrivateKey | null>(null);
+  const dispatch = useAppDispatch();
   const claimSecret = React.useMemo(() => {
     const walletAddr = formData[WALLET_ADDR];
     return makeWalletAtstCmPreImage(walletAddr);
@@ -91,60 +99,59 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
       return;
     }
 
-    let sessionStream;
-    try {
-      sessionStream = await createSession({
-        key: proofGenArgs.session_key,
-        value: null,
-        ticket: "TICKET",
-      });
-    } catch (err) {
-      console.error(err);
-      return;
-    }
+    const { payload: _ } = await openPrfsIdSession({
+      key: proofGenArgs.session_key,
+      value: null,
+      ticket: "TICKET",
+    });
+    setIsPrfsDialogOpen(true);
+    setSessionKey(proofGenArgs.session_key);
+    setSk(sk);
+  }, [
+    formData,
+    claimSecret,
+    handleChangeCm,
+    setWalletCacheKeys,
+    setWalletAddrEnc,
+    openPrfsIdSession,
+    setSk,
+    setIsPrfsDialogOpen,
+    setSessionKey,
+  ]);
 
-    if (!sessionStream) {
-      console.error("Couldn't open a session");
-      return;
-    }
-
-    const { ws, send, receive } = sessionStream;
-    const session = await receive();
-    if (!session) {
-      console.error("Coultn' retreieve session");
-      return;
-    }
-
-    try {
-      if (session.error) {
-        console.error(session.error);
+  const handleSucceedGetSession = React.useCallback(
+    (session: PrfsIdSession) => {
+      if (!sk) {
+        dispatch(
+          setGlobalError({
+            message: "Secret key is not set to decrypt Prfs ID session",
+          }),
+        );
         return;
       }
 
-      if (!session.payload) {
-        console.error("Session doesn't have a payload");
-        return;
-      }
-
-      if (session.payload.type !== "put_prfs_id_session_value_result") {
-        console.error("Wrong session payload type at this point, msg: %s", session.payload);
-        return;
-      }
-
-      const buf = Buffer.from(session.payload.value);
+      const buf = Buffer.from(session.value);
       let decrypted: string;
       try {
         decrypted = decrypt(sk.secret, buf).toString();
       } catch (err) {
-        console.error("cannot decrypt payload", err);
+        dispatch(
+          setGlobalError({
+            message: `Cannot decrypt payload, err: ${err}`,
+          }),
+        );
         return;
       }
 
       let payload: ProofGenSuccessPayload;
       try {
-        payload = JSON.parse(decrypted);
+        payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
       } catch (err) {
-        console.error("cannot parse payload", err);
+        dispatch(
+          setGlobalError({
+            message: `Cannot parse proof payload, err: ${err}`,
+          }),
+        );
         return;
       }
 
@@ -163,42 +170,54 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         setWalletCacheKeys(walletCacheKeys);
         setWalletAddrEnc(walletAddrEncrypted.encrypted);
       } else {
-        console.error("no commitment delivered");
+        dispatch(
+          setGlobalError({
+            message: `No commitment delivered`,
+          }),
+        );
         return;
       }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [formData, claimSecret, handleChangeCm, setWalletCacheKeys, setWalletAddrEnc]);
+    },
+    [sk, dispatch],
+  );
 
   return (
-    <AttestationListItem isDisabled={formData[WALLET_ADDR]?.length === 0}>
-      <AttestationListItemOverlay />
-      <AttestationListItemNo>2</AttestationListItemNo>
-      <AttestationListRightCol>
-        <AttestationListItemDesc>
-          <AttestationListItemDescTitle>
-            {i18n.generate_a_cryptographic_claim}
-          </AttestationListItemDescTitle>
-          <p>
-            {i18n.claim_secret}: {claimSecret}
-          </p>
-        </AttestationListItemDesc>
-        <div className={cn(styles.claimCm)}>
-          <AttestationListItemBtn type="button" handleClick={handleClickGenerate}>
-            <MdSecurity />
-            <span>{i18n.generate}</span>
-          </AttestationListItemBtn>
-          <p className={cn(styles.value, common.alignItemCenter)}>{formData[CM]}</p>
-        </div>
-        {walletCacheKeys && (
-          <EncryptedWalletAddrItem
-            walletCacheKeys={walletCacheKeys}
-            walletAddrEnc={walletAddrEnc}
-          />
-        )}
-      </AttestationListRightCol>
-    </AttestationListItem>
+    <>
+      <AttestationListItem isDisabled={formData[WALLET_ADDR]?.length === 0}>
+        <AttestationListItemOverlay />
+        <AttestationListItemNo>2</AttestationListItemNo>
+        <AttestationListRightCol>
+          <AttestationListItemDesc>
+            <AttestationListItemDescTitle>
+              {i18n.generate_a_cryptographic_claim}
+            </AttestationListItemDescTitle>
+            <p>
+              {i18n.claim_secret}: {claimSecret}
+            </p>
+          </AttestationListItemDesc>
+          <div className={cn(styles.claimCm)}>
+            <AttestationListItemBtn type="button" handleClick={handleClickGenerate}>
+              <MdSecurity />
+              <span>{i18n.generate}</span>
+            </AttestationListItemBtn>
+            <p className={cn(styles.value, common.alignItemCenter)}>{formData[CM]}</p>
+          </div>
+          {walletCacheKeys && (
+            <EncryptedWalletAddrItem
+              walletCacheKeys={walletCacheKeys}
+              walletAddrEnc={walletAddrEnc}
+            />
+          )}
+        </AttestationListRightCol>
+      </AttestationListItem>
+      <PrfsIdSessionDialog
+        sessionKey={sessionKey}
+        isPrfsDialogOpen={isPrfsDialogOpen}
+        setIsPrfsDialogOpen={setIsPrfsDialogOpen}
+        actionLabel={i18n.create_proof.toLowerCase()}
+        handleSucceedGetSession={handleSucceedGetSession}
+      />
+    </>
   );
 };
 

@@ -8,8 +8,6 @@ import {
   API_PATH,
   ProofGenSuccessPayload,
   QueryType,
-  createSession2,
-  createSession,
   createSessionKey,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -20,14 +18,13 @@ import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { urls } from "@/urls";
-import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
 const PROOF = "Proof";
 

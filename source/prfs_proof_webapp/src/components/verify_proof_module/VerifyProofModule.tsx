@@ -8,7 +8,6 @@ import {
   API_PATH,
   VerifyProofArgs,
   VerifyProofResultPayload,
-  createSession,
   createSessionKey,
   makeVerifyProofSearchParams,
   openPopup,
@@ -88,76 +87,6 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
       setIsPrfsDialogOpen(true);
       setSessionKey(verifyProofArgs.session_key);
       setSk(sk);
-
-      // let sessionStream;
-      // try {
-      //   sessionStream = await createSession({
-      //     key: verifyProofArgs.session_key,
-      //     value: Array.from(bytes),
-      //     ticket: "TICKET",
-      //   });
-      // } catch (err) {
-      //   console.error(err);
-      //   return;
-      // }
-
-      // if (!sessionStream) {
-      //   console.error("failed to create session");
-      //   return;
-      // }
-      // const { ws, send, receive } = sessionStream;
-      // const session = await receive();
-      // if (!session) {
-      //   console.error("Coudln't get the session, session_key: %s", session_key);
-      //   ws.close();
-      //   return;
-      // }
-
-      // try {
-      //   if (session.error) {
-      //     console.error(session.error);
-      //     ws.close();
-      //     return;
-      //   }
-
-      //   if (session.payload) {
-      //     if (session.payload.type !== "put_prfs_id_session_value_result") {
-      //       console.error("Wrong session payload type at this point, msg: %s", session.payload);
-      //       ws.close();
-      //       return;
-      //     }
-
-      //     const buf = Buffer.from(session.payload.value);
-      //     let decrypted: string;
-      //     try {
-      //       decrypted = decrypt(sk.secret, buf).toString();
-      //     } catch (err) {
-      //       console.error("cannot decrypt payload", err);
-      //       ws.close();
-      //       return;
-      //     }
-
-      //     let payload: VerifyProofResultPayload;
-      //     try {
-      //       payload = JSON.parse(decrypted) as VerifyProofResultPayload;
-      //     } catch (err) {
-      //       console.error("cannot parse payload", err);
-      //       ws.close();
-      //       return;
-      //     }
-
-      //     if (payload.result) {
-      //       setVerifyProofStatus(VerifyProofStatus.Valid);
-      //     } else {
-      //       setVerifyProofStatus(VerifyProofStatus.Invalid);
-      //     }
-
-      //     ws.close();
-      //   }
-      // } catch (err) {
-      //   console.error(err);
-      //   ws.close();
-      // }
     } catch (err) {
       console.error(err);
     }
