@@ -2,7 +2,15 @@
 
 .wrapper {
   /* min-width: 360px; */
-  padding: 14px 10px;
+  /* padding: 10px 10px; */
+}
+
+.logo {
+  width: 50px;
+}
+
+.leftGroup {
+  padding: 5px 4px;
 }
 
 .rightGroup {
@@ -27,6 +35,10 @@
   .bigScreen {
     display: flex;
     align-items: center;
+  }
+
+  .logo {
+    width: 50px;
   }
 
   .rightGroup {

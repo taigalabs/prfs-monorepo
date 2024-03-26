@@ -48,6 +48,10 @@ export const MastheadMain: React.FC<MastheadProps> = ({ className, children }) =
   return <div className={cn(styles.main, className)}>{children}</div>;
 };
 
+export const MastheadLeftGroup: React.FC<MastheadProps> = ({ children, className }) => {
+  return <ul className={cn(styles.leftGroup, className)}>{children}</ul>;
+};
+
 export const MastheadRightGroup: React.FC<MastheadProps> = ({
   children,
   className,
