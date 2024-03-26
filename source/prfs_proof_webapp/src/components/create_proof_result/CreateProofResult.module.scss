@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   padding: 0px 21px;
   margin: 34px 0;
@@ -111,7 +113,7 @@
   opacity: 0;
 
   .verifyProofModuleWrapper {
-    padding: 10px 0 5px;
+    padding: 22px 0 5px;
   }
 }
 
