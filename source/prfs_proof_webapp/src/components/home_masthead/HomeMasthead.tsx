@@ -6,7 +6,6 @@ import cn from "classnames";
 import styles from "./HomeMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
-import { urls } from "@/urls";
 import PrfsAppsPopoverDefault from "@/components/prfs_apps_popover_default/PrfsAppsPopoverDefault";
 import {
   MastheadRightGroup,
@@ -21,11 +20,6 @@ const HomeMasthead: React.FC<HomeMastheadProps> = () => {
   return (
     <MastheadWrapper className={cn(styles.wrapper)}>
       <MastheadRightGroup className={styles.rightGroup}>
-        <MastheadRightGroupMenu className={cn(styles.menu, styles.underline, styles.tutorialBtn)}>
-          <a href={urls.tutorial}>
-            <span>{i18n.tutorial}</span>
-          </a>
-        </MastheadRightGroupMenu>
         <MastheadRightGroupMenu className={styles.menu}>
           <PrfsAppsPopoverDefault disableMarkIsOpen />
         </MastheadRightGroupMenu>

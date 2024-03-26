@@ -60,10 +60,10 @@ const SearchProofTypeForm: React.FC = () => {
                 webappConsoleEndpoint={process.env.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}
               />
             </div>
-            <div className={styles.welcomeRow}>
-              <span>{i18n.create_and_share_proofs}</span>
-              <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link>
-            </div>
+            {/* <div className={styles.welcomeRow}> */}
+            {/*   <span>{i18n.create_and_share_proofs}</span> */}
+            {/*   <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link> */}
+            {/* </div> */}
           </div>
         </div>
       </div>
