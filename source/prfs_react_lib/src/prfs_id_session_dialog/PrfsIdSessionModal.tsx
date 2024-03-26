@@ -89,13 +89,15 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({
             rounded
             handleClick={handleClickSubmit}
           >
-            <p className={styles.btnContent}>
+            <div className={styles.btnContent}>
               <span className={styles.lock}>
                 <FaLock />
               </span>
               <span>{i18n.submit}</span>
-              {status === Status.InProgress && <Spinner />}
-            </p>
+              {status === Status.InProgress && (
+                <Spinner className={styles.spinner} size={14} color="#fff" />
+              )}
+            </div>
           </Button>
         </div>
         {errorMsg && (
@@ -106,10 +108,10 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({
       </div>
       <div className={styles.btnRow}>
         <Button variant="transparent_black_1" handleClick={handleClickClose}>
-          <p className={cn(styles.btnContent, styles.abortBtn)}>
+          <div className={cn(styles.btnContent, styles.abortBtn)}>
             <IoCloseSharp />
             <span>{i18n.abort}</span>
-          </p>
+          </div>
         </Button>
       </div>
     </div>
