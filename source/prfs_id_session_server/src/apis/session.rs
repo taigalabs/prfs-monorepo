@@ -37,26 +37,13 @@ pub async fn open_prfs_id_session2(
     Json(input): Json<OpenPrfsIdSession2Request>,
 ) -> (StatusCode, Json<ApiResponse<OpenPrfsIdSession2Response>>) {
     let pool = &state.db2.pool;
-
     let mut tx = bail_out_tx!(pool, &PRFS_ID_SESSION_API_ERROR_CODES.UNKNOWN_ERROR);
-
-    let _session = match prfs::get_prfs_id_session(&pool, &input.key).await {
-        Ok(s) => s,
-        Err(err) => {
-            let resp = ApiResponse::new_error(
-                &PRFS_ID_SESSION_API_ERROR_CODES.SESSION_NOT_EXISTS,
-                err.to_string(),
-            );
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
 
     let session = PrfsIdSession {
         key: input.key,
         value: input.value.unwrap_or(vec![]),
         ticket: input.ticket,
     };
-    println!("open session2: {:?}", session);
 
     let key = match prfs::upsert_prfs_id_session(&mut tx, &session).await {
         Ok(k) => k,

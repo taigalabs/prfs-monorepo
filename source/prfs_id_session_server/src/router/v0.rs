@@ -18,7 +18,7 @@ pub fn make_id_session_v0_router() -> Router<Arc<ServerState>> {
         .route("/open_prfs_id_session", get(session::open_prfs_id_session))
         .route(
             "/open_prfs_id_session2",
-            get(session::open_prfs_id_session2),
+            post(session::open_prfs_id_session2),
         )
         .route(
             "/put_prfs_id_session_value",
