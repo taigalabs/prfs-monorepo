@@ -14,16 +14,6 @@ export function usePrfsIdSession() {
 
   const [isPrfsDialogOpen, setIsPrfsDialogOpen] = React.useState(false);
 
-  // const popup = openPopup(endpoint);
-  // if (!popup) {
-  //   console.error("Popup couldn't be open");
-  //   return;
-  // }
-  // const { payload } = await openPrfsIdSession({
-  //   key: proofGenArgs.session_key,
-  //   value: null,
-  //   ticket: "TICKET",
-  // });
   return {
     sessionKey,
     setSessionKey,

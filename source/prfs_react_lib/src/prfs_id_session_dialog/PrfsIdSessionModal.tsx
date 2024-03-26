@@ -7,9 +7,18 @@ import { FaLock } from "@react-icons/all-files/fa/FaLock";
 import styles from "./PrfsIdSessionModal.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
 import Button from "../button/Button";
+import { useMutation } from "@tanstack/react-query";
+import { idSessionApi } from "@taigalabs/prfs-api-js";
+import { GetPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsIdSessionValueRequest";
 
 const PrfsIdSessionModal: React.FC<ModalProps> = ({ actionLabel, setIsOpen, sessionKey }) => {
   const i18n = React.useContext(i18nContext);
+  const { mutateAsync: getPrfsIdSessionValue } = useMutation({
+    mutationFn: (req: GetPrfsIdSessionValueRequest) => {
+      return idSessionApi({ type: "get_prfs_id_session_value", ...req });
+    },
+  });
+
   const handleClickClose = React.useCallback(() => {
     setIsOpen(false);
   }, [setIsOpen]);
@@ -17,6 +26,11 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({ actionLabel, setIsOpen, sess
   const sessionKeyAbbrev = React.useMemo(() => {
     return abbrev7and5(sessionKey);
   }, [sessionKey]);
+
+  const handleClickSubmit = React.useCallback(async () => {
+    const { payload, error } = await getPrfsIdSessionValue({ key: sessionKey });
+    console.log(11, payload, error);
+  }, [getPrfsIdSessionValue]);
 
   return (
     <div className={styles.wrapper}>
@@ -34,7 +48,12 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({ actionLabel, setIsOpen, sess
           If you did not see the popup, check your settings and try again
         </p>
         <div className={styles.btnContainer}>
-          <Button variant="blue_3" className={styles.submitBtn} rounded>
+          <Button
+            variant="blue_3"
+            className={styles.submitBtn}
+            rounded
+            handleClick={handleClickSubmit}
+          >
             <p className={styles.btnContent}>
               <span className={styles.lock}>
                 <FaLock />
