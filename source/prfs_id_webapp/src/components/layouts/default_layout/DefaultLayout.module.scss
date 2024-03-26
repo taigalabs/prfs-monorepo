@@ -5,8 +5,7 @@
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-  /* min-height: 100%; */
-  background-color: var(--bright-blue-55);
+  background-color: var(--white-100);
 }
 
 .body {
@@ -17,6 +16,8 @@
 
 @media screen and (min-width: $mid_display_min_width) {
   .wrapper {
+    background-color: var(--bright-blue-55);
+
     &::before,
     &::after {
       content: "";

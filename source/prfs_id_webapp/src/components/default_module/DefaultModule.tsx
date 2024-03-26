@@ -41,7 +41,6 @@ export const DefaultModuleFooter: React.FC<DefaultModuleInputAreaProps> = ({ chi
   return (
     <>
       <div className={styles.footer}>{children}</div>
-      <div className={styles.footerPlaceholder} />
     </>
   );
 };

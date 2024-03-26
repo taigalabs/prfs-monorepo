@@ -46,7 +46,6 @@
   flex-direction: column;
   position: relative;
   padding: 0px 0px 0px;
-  min-height: 100%;
   border: none;
   background-color: var(--white-100);
 }
@@ -150,11 +149,7 @@
 }
 
 .footer {
-  z-index: 1;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  margin-top: auto;
   padding: 0 14px;
   height: 48px;
 }
@@ -198,7 +193,7 @@
   }
 
   .footer {
-    position: static;
+    margin-top: 0;
     padding: 0 0px;
   }
 
