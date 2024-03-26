@@ -5,10 +5,10 @@ export const chivo = Chivo({
   display: "swap",
 });
 
-export const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-});
+// export const inter = Inter({
+//   subsets: ["latin"],
+//   display: "swap",
+// });
 
 export const roboto = Roboto({
   weight: ["300", "400", "500", "700"],

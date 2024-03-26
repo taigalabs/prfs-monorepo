@@ -1,5 +1,7 @@
 @import "./colors.module.scss";
 
+$foo: "#333";
+
 :root {
   --gray-10: #2b2a2d;
   --gray-15: #3c4043;
@@ -116,7 +118,7 @@
   --black-00: #000000;
   --black-05: #001d35;
   --black-10: #0a0b0b;
-  --black-20: $black_20;
+  --black-20: #{$black_20};
   --black-25: #1b1b1b;
   --black-26: #1f1f1f;
   --black-27: #202124;

@@ -78,7 +78,7 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
         ) : (
           <div className={styles.placeholderBtn}>
             {isOpen && <SearchIcon />}
-            <p className={cn(styles.placeholder, { [styles.proofInstanceId]: proofInstanceId })}>
+            <p className={cn(styles.placeholder, { [styles.proofInstanceId]: proofInstanceId, [inter.] })}>
               {proofInstanceId ?? i18n.find_what_to_prove}
             </p>
             <div className={cn(styles.searchBtn)}>
