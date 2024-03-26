@@ -19,7 +19,6 @@ import {
   ProofGenArgs,
   QueryType,
   ProofGenSuccessPayload,
-  // createSession,
   createSessionKey,
   openPopup,
   CommitmentReceipt,
@@ -172,6 +171,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(async () => {
+    console.log(111);
     const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
@@ -196,84 +196,27 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return;
     }
 
-    // let sessionStream;
-    // try {
-    //   sessionStream = await createSession({
-    //     key: proofGenArgs.session_key,
-    //     value: null,
-    //     ticket: "TICKET",
-    //   });
-    // } catch (err) {
-    //   console.error(err);
-    //   return;
-    // }
+    const { payload: _ } = await openPrfsIdSession({
+      key: proofGenArgs.session_key,
+      value: null,
+      ticket: "TICKET",
+    });
 
-    // if (!sessionStream) {
-    //   console.error("Failed to create a session");
-    //   return;
-    // }
-
-    // const { ws, send, receive } = sessionStream;
-    // const session = await receive();
-    // if (!session) {
-    //   console.error("Coultn' retreieve session");
-    //   ws.close();
-    //   return;
-    // }
-
-    // try {
-    //   if (session.error) {
-    //     console.error(session.error);
-    //     ws.close();
-    //     return;
-    //   }
-
-    //   if (!session.payload) {
-    //     console.error("Session doesn't have a payload");
-    //     ws.close();
-    //     return;
-    //   }
-
-    //   if (session.payload.type !== "put_prfs_id_session_value_result") {
-    //     console.error("Wrong session payload type at this point, msg: %s", session.payload);
-    //     ws.close();
-    //     return;
-    //   }
-
-    //   if (session.payload.value.length === 0) {
-    //     console.error("Commitment is empty, session_key: %s", session_key);
-    //     ws.close();
-    //     return;
-    //   }
-
-    //   const buf = Buffer.from(session.payload.value);
-    //   let decrypted = decrypt(sk.secret, buf).toString();
-
-    //   let payload: ProofGenSuccessPayload;
-    //   try {
-    //     payload = JSON.parse(decrypted);
-    //   } catch (err) {
-    //     console.error("cannot parse payload", err);
-    //     ws.close();
-    //     return;
-    //   }
-
-    //   const cm: CommitmentReceipt = payload.receipt[CLAIM];
-    //   if (cm?.commitment) {
-    //     setClaimCm(cm.commitment);
-    //     setStep(AttestationStep.POST_TWEET);
-    //   } else {
-    //     console.error("no commitment delivered");
-    //     ws.close();
-    //     return;
-    //   }
-    // } catch (err) {
-    //   console.error(err);
-    //   ws.close();
-    //   return;
-    // }
-    // ws.close();
-  }, [formData, step, claimSecret, setClaimCm, setStep, dispatch, setSk, openPrfsIdSession]);
+    setIsPrfsDialogOpen(true);
+    setSessionKey(proofGenArgs.session_key);
+    setSk(sk);
+  }, [
+    formData,
+    step,
+    claimSecret,
+    setClaimCm,
+    setStep,
+    dispatch,
+    setSk,
+    openPrfsIdSession,
+    setIsPrfsDialogOpen,
+    setSessionKey,
+  ]);
 
   const handleClickValidate = React.useCallback(async () => {
     setValidation(null);
