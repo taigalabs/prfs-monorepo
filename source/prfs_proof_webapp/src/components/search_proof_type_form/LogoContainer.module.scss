@@ -15,6 +15,9 @@
   }
 }
 
+.lineBreak {
+}
+
 .text {
   text-align: center;
   font-size: 48px;
@@ -31,7 +34,7 @@
   max-height: 160px;
 }
 
-@media screen and (min-width: $mid_display_min_width) {
+@media screen and (min-width: $big2_display_min_width) {
   .wrapper {
     margin-top: 0px;
     margin-bottom: 24px;
@@ -40,5 +43,9 @@
 
   .text {
     font-size: 61px;
+  }
+
+  .lineBreak {
+    display: none;
   }
 }

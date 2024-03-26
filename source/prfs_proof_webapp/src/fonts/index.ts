@@ -1,6 +1,11 @@
-import { Chivo, Roboto } from "next/font/google";
+import { Chivo, Roboto, Inter } from "next/font/google";
 
 export const chivo = Chivo({
+  subsets: ["latin"],
+  display: "swap",
+});
+
+export const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
