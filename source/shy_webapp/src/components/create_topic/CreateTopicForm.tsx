@@ -27,7 +27,12 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
+import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
+import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 import styles from "./CreateTopicForm.module.scss";
 import { pathParts, paths } from "@/paths";
@@ -35,11 +40,7 @@ import TextEditor from "@/components/text_editor/TextEditor";
 import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import CreateTopicFooter from "./CreateTopicFooter";
-import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
-import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
-import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { useAppDispatch } from "@/state/hooks";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 const PROOF = "Proof";
 
@@ -225,11 +226,19 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
       );
       // console.log("proveReceipt: %o", proveReceipt);
 
-      const _recoveredAddr = walletUtils.verifyMessage(
+      const recoveredAddr = walletUtils.verifyMessage(
         proveReceipt.proofActionSigMsg,
         proveReceipt.proofActionSig,
       );
-      // console.log("addr: %s", recoveredAddr);
+      const addr = computeAddress(publicInputs.proofPubKey);
+      if (recoveredAddr !== addr) {
+        dispatch(
+          setGlobalError({
+            message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
+          }),
+        );
+        return;
+      }
 
       const shy_topic_proof_id = rand256Hex();
       const { error } = await createShyTopic({
