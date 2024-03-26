@@ -17,7 +17,8 @@ import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypt
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
-import { useOpenPrfsIdSession } from "@taigalabs/prfs-react-lib/src/requests";
+import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
+import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -43,7 +44,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const step = useAppSelector(state => state.tutorial.tutorialStep);
   const [status, setStatus] = React.useState(Status.Standby);
   const { tutorialId } = useTutorial();
-  const { mutateAsync: openPrfsIdSession } = useOpenPrfsIdSession();
+  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen } = usePrfsIdSession();
 
   const handleClickCreateProof = React.useCallback(async () => {
     const session_key = createSessionKey();
@@ -79,6 +80,16 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       console.error("Popup couldn't be open");
       return;
     }
+
+    const { payload } = await openPrfsIdSession({
+      key: proofGenArgs.session_key,
+      value: null,
+      ticket: "TICKET",
+    });
+    setIsPrfsDialogOpen(true);
+
+    console.log(11, payload);
+
     // let sessionStream;
     // try {
     //   sessionStream = await createSession({
@@ -90,21 +101,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     //   console.error(err);
     //   return;
     // }
-
-    const { payload, error } = await createSession2({
-      key: proofGenArgs.session_key,
-      value: JSON.stringify(proofGenArgs),
-      type: PrfsSessionType.CREATE_PROOF,
-      openPrfsIdSession: () => {
-        return openPrfsIdSession({
-          key: proofGenArgs.session_key,
-          value: null,
-          ticket: "TICKET",
-        });
-      },
-    });
-
-    console.log(11, payload);
 
     // if (!sessionStream) {
     //   console.error("Couldn't open a session");
@@ -164,36 +160,49 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
     // ws.close();
     // popup.close();
-  }, [proofType, handleCreateProofResult, setSystemMsg, status, openPrfsIdSession]);
+  }, [
+    proofType,
+    handleCreateProofResult,
+    setSystemMsg,
+    status,
+    openPrfsIdSession,
+    setIsPrfsDialogOpen,
+  ]);
 
   return (
-    <div className={styles.wrapper}>
-      {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
-      <div className={styles.main}>
-        <div className={styles.controlArea}>
-          <div className={styles.btnSection}>
-            <div className={styles.desc}>
-              <p className={styles.numberIcon}>
-                <TbNumbers />
-              </p>
-              <p className={styles.label}>{i18n.create_proof_desc}</p>
-            </div>
-            <div className={styles.btnRow}>
-              {status === Status.Loading && <div className={styles.overlay} />}
-              <TutorialStepper tutorialId={tutorialId} step={step} steps={[2]}>
-                <button onClick={handleClickCreateProof} className={cn(styles.createBtn)}>
-                  <IoMdAdd />
-                  <span>{i18n.create_proof_with_prfs}</span>
-                </button>
-              </TutorialStepper>
+    <>
+      <div className={styles.wrapper}>
+        {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
+        <div className={styles.main}>
+          <div className={styles.controlArea}>
+            <div className={styles.btnSection}>
+              <div className={styles.desc}>
+                <p className={styles.numberIcon}>
+                  <TbNumbers />
+                </p>
+                <p className={styles.label}>{i18n.create_proof_desc}</p>
+              </div>
+              <div className={styles.btnRow}>
+                {status === Status.Loading && <div className={styles.overlay} />}
+                <TutorialStepper tutorialId={tutorialId} step={step} steps={[2]}>
+                  <button onClick={handleClickCreateProof} className={cn(styles.createBtn)}>
+                    <IoMdAdd />
+                    <span>{i18n.create_proof_with_prfs}</span>
+                  </button>
+                </TutorialStepper>
+              </div>
             </div>
           </div>
-        </div>
-        <div className={styles.metaArea}>
-          <ProofTypeMeta proofType={proofType} />
+          <div className={styles.metaArea}>
+            <ProofTypeMeta proofType={proofType} />
+          </div>
         </div>
       </div>
-    </div>
+      <PrfsIdSessionDialog
+        isPrfsDialogOpen={isPrfsDialogOpen}
+        setIsPrfsDialogOpen={setIsPrfsDialogOpen}
+      />
+    </>
   );
 };
 

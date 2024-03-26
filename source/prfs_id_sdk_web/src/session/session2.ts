@@ -4,7 +4,7 @@ import { ApiResponse } from "@taigalabs/prfs-api-js";
 export const PRFS_LOCAL_SESSION_KEY = "prfs_local_session_key";
 
 export async function createSession2({ key, value, type, openPrfsIdSession }: CreateSession2Args) {
-  window.localStorage.setItem(PRFS_LOCAL_SESSION_KEY, value);
+  // window.localStorage.setItem(PRFS_LOCAL_SESSION_KEY, value);
 
   return await openPrfsIdSession();
 

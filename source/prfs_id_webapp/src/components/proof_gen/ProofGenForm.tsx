@@ -40,7 +40,7 @@ enum Status {
   Standby,
 }
 
-const DEBUG__keepWindowAtTheEnd = false;
+const DEBUG__keepWindowAtTheEnd = true;
 
 const ProofGenForm: React.FC<ProofGenFormProps> = ({
   handleClickPrev,
@@ -227,6 +227,11 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         }
 
         setCreateProofStatus(Status.Standby);
+
+        if (window.parent) {
+          console.log(11);
+          // window.parent.window.location.href = proofGenArgs.success_url;
+        }
 
         // For some reason, parent window sees the child as 'child', so child manually
         // closes itself
