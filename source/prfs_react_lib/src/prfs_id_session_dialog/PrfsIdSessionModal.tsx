@@ -1,6 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import { IoCloseSharp } from "@react-icons/all-files/io5/IoCloseSharp";
 import { FaLock } from "@react-icons/all-files/fa/FaLock";
 
 import styles from "./PrfsIdSessionModal.module.scss";
@@ -28,21 +29,27 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({ actionLabel, setIsOpen, sess
           <span>{i18n.session_key}</span>
           <span className={styles.actionLabel}>{sessionKeyAbbrev}</span>
         </p>
-        <p className={styles.guide}>{i18n.prfs_id_session_modal_guide}</p>
+        <p className={styles.guide}>
+          Proceed and create data in the <b>Prfs ID</b> popup. Click submit below once you are done.
+          If you did not see the popup, check your settings and try again
+        </p>
         <div className={styles.btnContainer}>
           <Button variant="blue_3" className={styles.submitBtn} rounded>
-            <p className={styles.submitBtnContent}>
+            <p className={styles.btnContent}>
               <span className={styles.lock}>
                 <FaLock />
               </span>
-              {i18n.submit}
+              <span>{i18n.submit}</span>
             </p>
           </Button>
         </div>
       </div>
       <div className={styles.btnRow}>
         <Button variant="transparent_black_1" handleClick={handleClickClose}>
-          {i18n.abort}
+          <p className={styles.btnContent}>
+            <IoCloseSharp />
+            <span>{i18n.abort}</span>
+          </p>
         </Button>
       </div>
     </div>
