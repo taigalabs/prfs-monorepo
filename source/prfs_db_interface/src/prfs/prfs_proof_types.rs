@@ -1,41 +1,42 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsProofType;
 
+use crate::DbInterfaceError;
+
 pub async fn get_prfs_proof_type_by_proof_type_id(
     pool: &Pool<Postgres>,
     proof_type_id: &String,
-) -> PrfsProofType {
+) -> Result<PrfsProofType, DbInterfaceError> {
     let query = "SELECT * from prfs_proof_types where proof_type_id=$1";
 
     let row = sqlx::query(query)
         .bind(&proof_type_id)
         .fetch_one(pool)
-        .await
-        .unwrap();
+        .await?;
 
     let ret = PrfsProofType {
-        proof_type_id: row.get("proof_type_id"),
-        expression: row.get("expression"),
-        img_url: row.get("img_url"),
-        img_caption: row.get("img_caption"),
-        label: row.get("label"),
-        author: row.get("author"),
-        desc: row.get("desc"),
-        circuit_id: row.get("circuit_id"),
-        circuit_type_id: row.get("circuit_type_id"),
-        circuit_type_data: row.get("circuit_type_data"),
-        circuit_driver_id: row.get("circuit_driver_id"),
-        created_at: row.get("created_at"),
+        proof_type_id: row.try_get("proof_type_id")?,
+        expression: row.try_get("expression")?,
+        img_url: row.try_get("img_url")?,
+        img_caption: row.try_get("img_caption")?,
+        label: row.try_get("label")?,
+        author: row.try_get("author")?,
+        desc: row.try_get("desc")?,
+        circuit_id: row.try_get("circuit_id")?,
+        circuit_type_id: row.try_get("circuit_type_id")?,
+        circuit_type_data: row.try_get("circuit_type_data")?,
+        circuit_driver_id: row.try_get("circuit_driver_id")?,
+        created_at: row.try_get("created_at")?,
     };
 
-    return ret;
+    return Ok(ret);
 }
 
 pub async fn get_prfs_proof_types(
     pool: &Pool<Postgres>,
     offset: i32,
     limit: i32,
-) -> Vec<PrfsProofType> {
+) -> Result<Vec<PrfsProofType>, DbInterfaceError> {
     let query = r#"
 SELECT * FROM prfs_proof_types
 ORDER BY updated_at
@@ -47,38 +48,41 @@ LIMIT $2
         .bind(&offset)
         .bind(&limit)
         .fetch_all(pool)
-        .await
-        .unwrap();
+        .await?;
 
-    let prfs_proof_types: Vec<PrfsProofType> = rows
+    let prfs_proof_types = rows
         .iter()
-        .map(|row| PrfsProofType {
-            proof_type_id: row.get("proof_type_id"),
-            label: row.get("label"),
-            expression: row.get("expression"),
-            img_url: row.get("img_url"),
-            img_caption: row.get("img_caption"),
-            author: row.get("author"),
-            desc: row.get("desc"),
-            circuit_id: row.get("circuit_id"),
-            circuit_type_id: row.get("circuit_type_id"),
-            circuit_type_data: row.get("circuit_type_data"),
-            circuit_driver_id: row.get("circuit_driver_id"),
-            created_at: row.get("created_at"),
+        .map(|row| {
+            Ok(PrfsProofType {
+                proof_type_id: row.try_get("proof_type_id")?,
+                label: row.try_get("label")?,
+                expression: row.try_get("expression")?,
+                img_url: row.try_get("img_url")?,
+                img_caption: row.try_get("img_caption")?,
+                author: row.try_get("author")?,
+                desc: row.try_get("desc")?,
+                circuit_id: row.try_get("circuit_id")?,
+                circuit_type_id: row.try_get("circuit_type_id")?,
+                circuit_type_data: row.try_get("circuit_type_data")?,
+                circuit_driver_id: row.try_get("circuit_driver_id")?,
+                created_at: row.try_get("created_at")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsProofType>, DbInterfaceError>>()?;
 
-    return prfs_proof_types;
+    return Ok(prfs_proof_types);
 }
 
 pub async fn insert_prfs_proof_type(
     tx: &mut Transaction<'_, Postgres>,
     proof_type: &PrfsProofType,
-) -> i64 {
-    let query = "INSERT INTO prfs_proof_types \
-(proof_type_id, author, label, \"desc\", circuit_id,\
-circuit_driver_id, expression, img_url, img_caption, circuit_type_id, circuit_type_data) \
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id";
+) -> Result<i64, DbInterfaceError> {
+    let query = r#"
+INSERT INTO prfs_proof_types
+(proof_type_id, author, label, \"desc\", circuit_id,
+circuit_driver_id, expression, img_url, img_caption, circuit_type_id, circuit_type_data)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+RETURNING id"#;
 
     let row = sqlx::query(query)
         .bind(&proof_type.proof_type_id)
@@ -93,10 +97,9 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id";
         .bind(&proof_type.circuit_type_id)
         .bind(&proof_type.circuit_type_data)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
-    let id: i64 = row.get("id");
+    let id: i64 = row.try_get("id")?;
 
-    return id;
+    return Ok(id);
 }
