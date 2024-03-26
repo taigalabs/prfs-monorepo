@@ -1,6 +1,5 @@
 export const paths = {
   __: "/",
-  prfs__success: "/prfs/success",
   generate: "/",
   account: "/account",
   account__sign_in: "/account/sign_in",
