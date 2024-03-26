@@ -279,18 +279,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
         );
         return;
       }
-
-      // const proof = payload.receipt[PROOF] as ProveReceipt;
-      // if (proof) {
-      //   handleCreateProofResult(proof);
-      // } else {
-      //   dispatch(
-      //     setGlobalError({
-      //       message: "no proof delivered",
-      //     }),
-      //   );
-      //   return;
-      // }
     },
     [sk, dispatch, postId, html],
   );
