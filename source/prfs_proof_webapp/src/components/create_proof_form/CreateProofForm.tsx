@@ -16,7 +16,7 @@ import CreateProofResult from "@/components/create_proof_result/CreateProofResul
 import ProofTypeSelectedMasthead from "@/components/proof_type_selected_masthead/ProofTypeSelectedMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import LeftPadding from "@/components/left_padding/LeftPadding";
-import { MastheadPlaceholder } from "@/components/masthead/Masthead";
+import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();

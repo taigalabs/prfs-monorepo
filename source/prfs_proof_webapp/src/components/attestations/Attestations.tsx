@@ -10,7 +10,7 @@ import styles from "./Attestations.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
-import { MastheadPlaceholder } from "@/components/masthead/Masthead";
+import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 import AttestationLeftBar from "./AttestationLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInProofUser } from "@/hooks/user";

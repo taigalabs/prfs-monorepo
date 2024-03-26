@@ -4,7 +4,7 @@ import React from "react";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-lib/src/table2/Table2";
 
-import styles from "./Sets.module.scss";
+import styles from "./page.module.scss";
 import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/i18n/context";
 import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
@@ -19,8 +19,6 @@ import {
   ContentAreaRow,
 } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
-import { useSearchParams } from "next/navigation";
-import CreateSetForm from "@/components/create_set_form/CreateSetForm";
 import { useAppDispatch } from "@/state/hooks";
 
 const Sets: React.FC = () => {

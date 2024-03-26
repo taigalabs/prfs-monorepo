@@ -12,7 +12,7 @@ import {
   MastheadRightGroup,
   MastheadRightGroupMenu,
   MastheadWrapper,
-} from "../masthead/Masthead";
+} from "@/components/masthead/MastheadComponents";
 import { paths } from "@/paths";
 
 const DocMasthead: React.FC<DocMastheadProps> = ({ title, titleHref }) => {

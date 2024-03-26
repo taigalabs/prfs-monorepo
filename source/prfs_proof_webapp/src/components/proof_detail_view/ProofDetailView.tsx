@@ -19,7 +19,7 @@ import { envs } from "@/envs";
 import ProofTypeSelectedMasthead from "@/components/proof_type_selected_masthead/ProofTypeSelectedMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import LeftPadding from "@/components/left_padding/LeftPadding";
-import { MastheadPlaceholder } from "@/components/masthead/Masthead";
+import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) => {
   const i18n = React.useContext(i18nContext);

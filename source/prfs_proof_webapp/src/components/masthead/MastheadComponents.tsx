@@ -3,7 +3,7 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./Masthead.module.scss";
+import styles from "./MastheadComponents.module.scss";
 
 export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({
   children,

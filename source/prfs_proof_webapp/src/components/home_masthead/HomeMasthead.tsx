@@ -11,7 +11,7 @@ import {
   MastheadRightGroup,
   MastheadRightGroupMenu,
   MastheadWrapper,
-} from "@/components/masthead/Masthead";
+} from "@/components/masthead/MastheadComponents";
 import { PRFS_PROOF_APP_ID } from "@/app_id";
 
 const HomeMasthead: React.FC<HomeMastheadProps> = () => {

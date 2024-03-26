@@ -9,7 +9,7 @@ import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import styles from "./Sets.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { consolePaths } from "@/paths";
-import { MastheadPlaceholder } from "@/components/masthead/Masthead";
+import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 import SetLeftBar from "./SetLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInProofUser } from "@/hooks/user";
