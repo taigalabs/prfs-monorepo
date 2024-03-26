@@ -140,6 +140,7 @@ export default {
   type: "Type",
   public: "Public",
   id: "Id",
+  you_requested_to: "You requested to",
   public_key: "Public key",
   hash_algorithm: "Hash algorithm",
   proof_instance_id: "Proof instance id",

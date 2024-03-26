@@ -201,6 +201,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       <PrfsIdSessionDialog
         isPrfsDialogOpen={isPrfsDialogOpen}
         setIsPrfsDialogOpen={setIsPrfsDialogOpen}
+        actionLabel={i18n.create_proof.toLowerCase()}
       />
     </>
   );

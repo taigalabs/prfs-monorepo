@@ -1,2 +1,17 @@
+@import "../layouts.module.scss";
+
 .wrapper {
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.main {
+}
+
+.actionLabel {
+  margin-left: 3px;
+  font-weight: 500;
+}
+
+@media screen and (min-width: $big_display_min_width) {
 }

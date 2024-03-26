@@ -17,6 +17,7 @@ import { i18nContext } from "../i18n/i18nContext";
 import PrfsIdSessionModal from "./PrfsIdSessionModal";
 
 const PrfsIdSessionDialog: React.FC<ProofRawDialogProps> = ({
+  actionLabel,
   isPrfsDialogOpen,
   setIsPrfsDialogOpen,
 }) => {
@@ -48,17 +49,7 @@ const PrfsIdSessionDialog: React.FC<ProofRawDialogProps> = ({
                 aria-describedby={descriptionId}
                 {...getFloatingProps()}
               >
-                {/* <div className={styles.header}> */}
-                {/*   <h1>{i18n.proof_raw}</h1> */}
-                {/*   <button */}
-                {/*     onClick={() => { */}
-                {/*       setIsPrfsDialogOpen(false); */}
-                {/*     }} */}
-                {/*   > */}
-                {/*     <AiOutlineClose /> */}
-                {/*   </button> */}
-                {/* </div> */}
-                <PrfsIdSessionModal setIsOpen={setIsPrfsDialogOpen} />
+                <PrfsIdSessionModal setIsOpen={setIsPrfsDialogOpen} actionLabel={actionLabel} />
               </div>
             </FloatingFocusManager>
           </FloatingOverlay>
@@ -73,6 +64,5 @@ export default PrfsIdSessionDialog;
 export interface ProofRawDialogProps {
   isPrfsDialogOpen: boolean;
   setIsPrfsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  // proofRaw: string;
-  // children: React.ReactNode;
+  actionLabel: string;
 }
