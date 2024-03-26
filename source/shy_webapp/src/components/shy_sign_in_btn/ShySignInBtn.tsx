@@ -27,6 +27,7 @@ import {
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import { SHY_APP_ID } from "@/app_id";
+import { urls } from "@/urls";
 
 enum Status {
   InProgress,

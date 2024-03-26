@@ -14,7 +14,7 @@ import {
 } from "@floating-ui/react";
 
 import styles from "./PrfsCredentialPopover.module.scss";
-import Modal from "./Modal";
+import PrfsCredentialModal from "./PrfsCredentialModal";
 
 const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
   className,
@@ -78,7 +78,7 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
               aria-labelledby={headingId}
               {...getFloatingProps()}
             >
-              <Modal
+              <PrfsCredentialModal
                 id={credential.account_id}
                 setIsOpen={setIsOpen}
                 handleClickSignOut={handleClickSignOut}

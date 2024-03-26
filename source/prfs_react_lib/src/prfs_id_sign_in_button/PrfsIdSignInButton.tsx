@@ -2,7 +2,6 @@ import React from "react";
 import cn from "classnames";
 import {
   API_PATH,
-  createSession,
   openPopup,
   ProofGenArgs,
   makeProofGenSearchParams,
@@ -13,13 +12,16 @@ import {
   ProofGenSuccessPayload,
   AppSignInResult,
 } from "@taigalabs/prfs-id-sdk-web";
-import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
 import Overlay from "../overlay/Overlay";
 import Spinner from "../spinner/Spinner";
+import { usePrfsIdSession } from "../prfs_id_session_dialog/use_prfs_id_session";
+import PrfsIdSessionDialog from "../prfs_id_session_dialog/PrfsIdSessionDialog";
 
 const SIGN_IN = "SIGN_IN";
 
@@ -33,6 +35,9 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   isLoading,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
+    usePrfsIdSession();
+  const [sk, setSk] = React.useState<PrivateKey | null>(null);
 
   const handleClickSignIn = React.useCallback(async () => {
     const { sk, pkHex } = createRandomKeyPair();
@@ -60,111 +65,85 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       return;
     }
 
-    let sessionStream;
-    try {
-      sessionStream = await createSession({
-        key: proofGenArgs.session_key,
-        value: null,
-        ticket: "TICKET",
-      });
-    } catch (err: any) {
-      handleSignInError(err.toString());
-      return;
-    }
-    if (!sessionStream) {
-      handleSignInError("Couldn't open a session");
-      return;
-    }
+    const { payload: _ } = await openPrfsIdSession({
+      key: proofGenArgs.session_key,
+      value: null,
+      ticket: "TICKET",
+    });
+    setIsPrfsDialogOpen(true);
+    setSessionKey(proofGenArgs.session_key);
+    setSk(sk);
+  }, [
+    prfsIdEndpoint,
+    handleSucceedSignIn,
+    setSk,
+    openPrfsIdSession,
+    setSessionKey,
+    setIsPrfsDialogOpen,
+  ]);
 
-    const { ws, send, receive } = sessionStream;
-    const session = await receive();
-    if (session) {
-      try {
-        if (session.error) {
-          handleSignInError(session.error);
-          ws.close();
-          return;
-        }
-
-        if (session.payload) {
-          if (session.payload.type !== "put_prfs_id_session_value_result") {
-            handleSignInError(`Wrong sesseion type at this point. Payload: ${session.payload}`);
-            ws.close();
-            return;
-          }
-
-          if (session.payload.value.length === 0) {
-            ws.close();
-            return;
-          }
-
-          const encrypted = Buffer.from(session.payload.value);
-          let decrypted: string;
-          try {
-            decrypted = decrypt(sk.secret, encrypted).toString();
-          } catch (err) {
-            handleSignInError(`Failed to decrypt, err: ${err}, msg: ${encrypted}`);
-            ws.close();
-            return;
-          }
-
-          let proofGenSuccessPayload: ProofGenSuccessPayload;
-          try {
-            proofGenSuccessPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-          } catch (err) {
-            handleSignInError(`Cannot parse sign in payload, msg: ${decrypted}`);
-            ws.close();
-            return;
-          }
-
-          const signInResult: AppSignInResult = proofGenSuccessPayload.receipt[SIGN_IN];
-
-          send({
-            type: "close_prfs_id_session",
-            key: proofGenArgs.session_key,
-            ticket: "TICKET",
-          });
-          ws.close();
-
-          if (signInResult) {
-            handleSucceedSignIn(signInResult);
-          } else {
-            handleSignInError(`appSignInResult is void, session_key: ${session_key}`);
-          }
-        }
-      } catch (err) {
-        handleSignInError("Error handling session response");
-        ws.close();
+  const handleSucceedGetSession = React.useCallback(
+    (session: PrfsIdSession) => {
+      if (!sk) {
+        handleSignInError("Secret key is not set to decrypt Prfs ID session");
         return;
       }
-    } else {
-      handleSignInError(
-        `Session didn't get the response, something's wrong, session key: \
-${proofGenArgs.session_key}`,
-      );
-    }
 
-    ws.close();
-  }, [prfsIdEndpoint, handleSucceedSignIn]);
+      const buf = Buffer.from(session.value);
+      let decrypted: string;
+      try {
+        decrypted = decrypt(sk.secret, buf).toString();
+      } catch (err) {
+        handleSignInError(`Cannot decrypt payload, err: ${err}`);
+        return;
+      }
+
+      let payload: ProofGenSuccessPayload;
+      try {
+        payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+      } catch (err) {
+        handleSignInError(`Cannot parse proof payload, err: ${err}`);
+        return;
+      }
+
+      const signInResult: AppSignInResult = payload.receipt[SIGN_IN];
+      if (signInResult) {
+        handleSucceedSignIn(signInResult);
+      } else {
+        handleSignInError(`appSignInResult is void, session_key: ${sessionKey}`);
+        return;
+      }
+    },
+    [sk, sessionKey, handleSucceedSignIn, handleSignInError],
+  );
 
   return (
-    <Button
-      variant="blue_2"
-      className={cn(styles.btn, className)}
-      noTransition
-      handleClick={handleClickSignIn}
-      noShadow
-    >
-      <div className={styles.wrapper}>
-        {isLoading ? (
-          <Overlay>
-            <Spinner size={18} color="#5c5c5c" />
-          </Overlay>
-        ) : (
-          <span>{label ? label : i18n.sign_in}</span>
-        )}
-      </div>
-    </Button>
+    <>
+      <Button
+        variant="blue_3"
+        className={cn(styles.btn, className)}
+        noTransition
+        handleClick={handleClickSignIn}
+        noShadow
+      >
+        <div className={styles.wrapper}>
+          {isLoading ? (
+            <Overlay>
+              <Spinner size={18} color="#5c5c5c" />
+            </Overlay>
+          ) : (
+            <span>{label ? label : i18n.sign_in}</span>
+          )}
+        </div>
+      </Button>
+      <PrfsIdSessionDialog
+        sessionKey={sessionKey}
+        isPrfsDialogOpen={isPrfsDialogOpen}
+        setIsPrfsDialogOpen={setIsPrfsDialogOpen}
+        actionLabel={i18n.create_proof.toLowerCase()}
+        handleSucceedGetSession={handleSucceedGetSession}
+      />
+    </>
   );
 };
 

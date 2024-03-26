@@ -3,22 +3,31 @@ use ts_rs::TS;
 
 use crate::id_session::PrfsIdSession;
 
-#[allow(non_camel_case_types)]
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[serde(tag = "type", rename_all = "snake_case")]
 #[ts(export)]
-pub enum PrfsIdSessionApiRequest {
-    GetPrfsIdSessionValue(GetPrfsIdSessionValueRequest),
-    PutPrfsIdSessionValue(PutPrfsIdSessionValueRequest),
+pub struct OpenPrfsIdSession2Request {
+    pub key: String,
+    pub value: Option<Vec<u8>>,
+    pub ticket: String,
 }
 
-#[allow(non_camel_case_types)]
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[serde(tag = "type", rename_all = "snake_case")]
 #[ts(export)]
-pub enum PrfsIdSessionApiResponse {
-    GetPrfsIdSessionValue(GetPrfsIdSessionValueResponse),
-    PutPrfsIdSessionValue(PutPrfsIdSessionValueResponse),
+pub struct OpenPrfsIdSession2Response {
+    pub key: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct ClosePrfsIdSessionRequest {
+    pub key: String,
+    pub ticket: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct ClosePrfsIdSessionResponse {
+    pub key: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

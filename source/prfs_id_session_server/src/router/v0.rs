@@ -1,7 +1,4 @@
-use prfs_axum_lib::axum::{
-    routing::{get, post},
-    Router,
-};
+use prfs_axum_lib::axum::{routing::post, Router};
 use prfs_common_server_state::ServerState;
 use prfs_id_session_api_error_codes::error_codes::bindgen::make_prfs_id_session_api_error_code_json_binding;
 use std::sync::Arc;
@@ -15,7 +12,10 @@ pub fn make_id_session_v0_router() -> Router<Arc<ServerState>> {
     make_prfs_id_session_api_error_code_json_binding().unwrap();
 
     let router = Router::new() //
-        .route("/open_prfs_id_session", get(session::open_prfs_id_session))
+        .route(
+            "/open_prfs_id_session2",
+            post(session::open_prfs_id_session2),
+        )
         .route(
             "/put_prfs_id_session_value",
             post(session_val::put_prfs_id_session_value),

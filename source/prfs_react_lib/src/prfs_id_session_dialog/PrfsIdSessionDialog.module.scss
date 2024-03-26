@@ -1,0 +1,16 @@
+.overlay {
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 11;
+}
+
+.dialog {
+  margin: 24px 12px;
+  background-color: white;
+  padding: 18px 20px;
+  border-radius: 4px;
+  max-width: 520px;
+}

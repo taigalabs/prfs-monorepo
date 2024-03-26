@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
+    "@taigalabs/prfs-api-js": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-crypto-deps-js": "*",
     "@taigalabs/prfs-driver-interface": "*",

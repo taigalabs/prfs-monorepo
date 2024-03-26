@@ -7,7 +7,7 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
-import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { useRouter } from "next/navigation";
@@ -19,7 +19,6 @@ import {
   ProofGenArgs,
   QueryType,
   ProofGenSuccessPayload,
-  createSession,
   createSessionKey,
   openPopup,
   CommitmentReceipt,
@@ -29,7 +28,9 @@ import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
+import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
+import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import common from "@/styles/common.module.scss";
@@ -54,6 +55,8 @@ import {
   AttestationsTitle,
 } from "@/components/attestations/AttestationComponents";
 import { useAppDispatch } from "@/state/hooks";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -99,6 +102,9 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return atstApi({ type: "attest_twitter_acc", ...req });
     },
   });
+  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
+    usePrfsIdSession();
+  const [sk, setSk] = React.useState<PrivateKey | null>(null);
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
@@ -165,6 +171,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(async () => {
+    console.log(111);
     const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {
@@ -189,84 +196,27 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return;
     }
 
-    let sessionStream;
-    try {
-      sessionStream = await createSession({
-        key: proofGenArgs.session_key,
-        value: null,
-        ticket: "TICKET",
-      });
-    } catch (err) {
-      console.error(err);
-      return;
-    }
+    const { payload: _ } = await openPrfsIdSession({
+      key: proofGenArgs.session_key,
+      value: null,
+      ticket: "TICKET",
+    });
 
-    if (!sessionStream) {
-      console.error("Failed to create a session");
-      return;
-    }
-
-    const { ws, send, receive } = sessionStream;
-    const session = await receive();
-    if (!session) {
-      console.error("Coultn' retreieve session");
-      ws.close();
-      return;
-    }
-
-    try {
-      if (session.error) {
-        console.error(session.error);
-        ws.close();
-        return;
-      }
-
-      if (!session.payload) {
-        console.error("Session doesn't have a payload");
-        ws.close();
-        return;
-      }
-
-      if (session.payload.type !== "put_prfs_id_session_value_result") {
-        console.error("Wrong session payload type at this point, msg: %s", session.payload);
-        ws.close();
-        return;
-      }
-
-      if (session.payload.value.length === 0) {
-        console.error("Commitment is empty, session_key: %s", session_key);
-        ws.close();
-        return;
-      }
-
-      const buf = Buffer.from(session.payload.value);
-      let decrypted = decrypt(sk.secret, buf).toString();
-
-      let payload: ProofGenSuccessPayload;
-      try {
-        payload = JSON.parse(decrypted);
-      } catch (err) {
-        console.error("cannot parse payload", err);
-        ws.close();
-        return;
-      }
-
-      const cm: CommitmentReceipt = payload.receipt[CLAIM];
-      if (cm?.commitment) {
-        setClaimCm(cm.commitment);
-        setStep(AttestationStep.POST_TWEET);
-      } else {
-        console.error("no commitment delivered");
-        ws.close();
-        return;
-      }
-    } catch (err) {
-      console.error(err);
-      ws.close();
-      return;
-    }
-    ws.close();
-  }, [formData, step, claimSecret, setClaimCm, setStep, dispatch]);
+    setIsPrfsDialogOpen(true);
+    setSessionKey(proofGenArgs.session_key);
+    setSk(sk);
+  }, [
+    formData,
+    step,
+    claimSecret,
+    setClaimCm,
+    setStep,
+    dispatch,
+    setSk,
+    openPrfsIdSession,
+    setIsPrfsDialogOpen,
+    setSessionKey,
+  ]);
 
   const handleClickValidate = React.useCallback(async () => {
     setValidation(null);
@@ -363,6 +313,58 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     setCreateStatus,
     router,
   ]);
+
+  const handleSucceedGetSession = React.useCallback(
+    (session: PrfsIdSession) => {
+      if (!sk) {
+        dispatch(
+          setGlobalError({
+            message: "Secret key is not set to decrypt Prfs ID session",
+          }),
+        );
+        return;
+      }
+
+      const buf = Buffer.from(session.value);
+      let decrypted: string;
+      try {
+        decrypted = decrypt(sk.secret, buf).toString();
+      } catch (err) {
+        dispatch(
+          setGlobalError({
+            message: `Cannot decrypt payload, err: ${err}`,
+          }),
+        );
+        return;
+      }
+
+      let payload: ProofGenSuccessPayload;
+      try {
+        payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+      } catch (err) {
+        dispatch(
+          setGlobalError({
+            message: `Cannot parse proof payload, err: ${err}`,
+          }),
+        );
+        return;
+      }
+
+      const cm: CommitmentReceipt = payload.receipt[CLAIM];
+      if (cm?.commitment) {
+        setClaimCm(cm.commitment);
+        setStep(AttestationStep.POST_TWEET);
+      } else {
+        dispatch(
+          setGlobalError({
+            message: "no proof delivered",
+          }),
+        );
+        return;
+      }
+    },
+    [sk, dispatch],
+  );
 
   return (
     <>
@@ -527,6 +529,13 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
           </AttestationFormBtnRow>
         </form>
       </div>
+      <PrfsIdSessionDialog
+        sessionKey={sessionKey}
+        isPrfsDialogOpen={isPrfsDialogOpen}
+        setIsPrfsDialogOpen={setIsPrfsDialogOpen}
+        actionLabel={i18n.create_proof.toLowerCase()}
+        handleSucceedGetSession={handleSucceedGetSession}
+      />
     </>
   );
 };

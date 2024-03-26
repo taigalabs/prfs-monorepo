@@ -36,15 +36,15 @@
 }
 
 .content {
+  width: 100%;
   z-index: 1;
-  /* display: grid; */
 }
 
 .transparent_btn {
   padding-left: 0;
   padding-right: 0;
-  display: flex;
-  align-items: center;
+  /* display: flex; */
+  /* align-items: center; */
 
   &:not(.rounded) {
     .backdrop {

@@ -2,8 +2,9 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use crate::{
-    GetPrfsIdSessionValueRequest, GetPrfsIdSessionValueResponse, PutPrfsIdSessionValueRequest,
-    PutPrfsIdSessionValueResponse,
+    ClosePrfsIdSessionRequest, ClosePrfsIdSessionResponse, GetPrfsIdSessionValueRequest,
+    GetPrfsIdSessionValueResponse, OpenPrfsIdSession2Request, OpenPrfsIdSession2Response,
+    PutPrfsIdSessionValueRequest, PutPrfsIdSessionValueResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -11,6 +12,8 @@ use crate::{
 #[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsIdSessionApiRequest {
+    open_prfs_id_session2(OpenPrfsIdSession2Request),
+    close_prfs_id_session(ClosePrfsIdSessionRequest),
     put_prfs_id_session_value(PutPrfsIdSessionValueRequest),
     get_prfs_id_session_value(GetPrfsIdSessionValueRequest),
 }
@@ -20,6 +23,8 @@ pub enum PrfsIdSessionApiRequest {
 #[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsIdSessionApiResponse {
+    open_prfs_id_session2(OpenPrfsIdSession2Request),
+    close_prfs_id_session(ClosePrfsIdSessionResponse),
     put_prfs_id_session_value(PutPrfsIdSessionValueResponse),
     get_prfs_id_session_value(GetPrfsIdSessionValueResponse),
 }

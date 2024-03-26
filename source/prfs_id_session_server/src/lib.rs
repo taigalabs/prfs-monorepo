@@ -1,5 +1,4 @@
 mod apis;
-pub mod event_loop;
 pub mod log;
 pub mod paths;
 pub mod router;

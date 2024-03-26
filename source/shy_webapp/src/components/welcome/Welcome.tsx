@@ -42,7 +42,7 @@ const Welcome: React.FC<WelcomeProps> = ({}) => {
         <InfiniteScrollMain>
           <div className={styles.wrapper}>
             <Content
-              attestationLink={urls.createCryptoAssetAttestion}
+              attestationLink={urls.$prfs_proof__attestations__create_crypto_asset_size}
               accountId={shyCredential.account_id}
             />
           </div>

@@ -5,32 +5,31 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useRouter, useSearchParams } from "next/navigation";
-import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
-import JSONBig from "json-bigint";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import { JSONbigNative } from "@taigalabs/prfs-crypto-js";
 
-import styles from "./PostCreateMenu.module.scss";
+import styles from "./CreateProofResult.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { useAppSelector } from "@/state/hooks";
-import Loading from "../loading/Loading";
+import Loading from "@/components/loading/Loading";
 
-const JSONbigNative = JSONBig({
-  useNativeBigInt: true,
-  alwaysParseAsBig: true,
-  storeAsString: true,
-});
+// const JSONbigNative = JSONBig({
+//   useNativeBigInt: true,
+//   alwaysParseAsBig: true,
+//   storeAsString: true,
+// });
 
-const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
+const CreateProofResult: React.FC<CreateProofResultProps> = ({
   proveReceipt,
   proofType,
   handleClickStartOver,
@@ -58,28 +57,30 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && proofType) {
-      const { proof } = proveReceipt;
-      const { proofBytes, publicInputSer } = proof;
-      const public_inputs = JSONbigNative.parse(publicInputSer);
-      const proof_instance_id = uuidv4();
+      return;
 
-      try {
-        const { payload } = await createPrfsProofInstance({
-          proof_instance_id,
-          account_id: null,
-          proof_type_id: proofType.proof_type_id,
-          proof: Array.from(proofBytes),
-          public_inputs,
-        });
-        const params = searchParams.toString();
+      // const { proof } = proveReceipt;
+      // const { proofBytes, publicInputSer } = proof;
+      // const public_inputs = JSONbigNative.parse(publicInputSer);
+      // const proof_instance_id = uuidv4();
 
-        if (payload) {
-          router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
-        }
-      } catch (err: any) {
-        console.error(err);
-        return;
-      }
+      // try {
+      //   const { payload } = await createPrfsProofInstance({
+      //     proof_instance_id,
+      //     account_id: null,
+      //     proof_type_id: proofType.proof_type_id,
+      //     proof: Array.from(proofBytes),
+      //     public_inputs,
+      //   });
+      //   const params = searchParams.toString();
+
+      //   if (payload) {
+      //     router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
+      //   }
+      // } catch (err: any) {
+      //   console.error(err);
+      //   return;
+      // }
     }
   }, [proveReceipt, searchParams]);
 
@@ -125,7 +126,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
                     className={cn(styles.uploadBtn, {
                       [styles.inProgress]: isCreatePrfsProofInstancePending,
                     })}
-                    disabled={isCreatePrfsProofInstancePending}
+                    // disabled={isCreatePrfsProofInstancePending}
+                    disabled={true}
                   >
                     {isCreatePrfsProofInstancePending && (
                       <Spinner color={colors.bright_gray_33} size={20} />
@@ -161,9 +163,9 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   );
 };
 
-export default PostCreateMenu;
+export default CreateProofResult;
 
-export interface PostCreateMenuProps {
+export interface CreateProofResultProps {
   proofType: PrfsProofType;
   proveReceipt: ProveReceipt;
   handleClickStartOver: () => void;

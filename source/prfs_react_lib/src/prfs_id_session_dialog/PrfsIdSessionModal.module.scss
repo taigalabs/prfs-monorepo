@@ -1,0 +1,76 @@
+@import "../layouts.module.scss";
+
+.wrapper {
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.main {
+}
+
+.msg {
+  font-size: 16px;
+}
+
+.sessionKey {
+  padding-top: 14px;
+  color: var(--gray-30);
+  word-break: break-all;
+}
+
+.guide {
+  padding-top: 14px;
+  line-height: 1.2em;
+}
+
+.actionLabel {
+  margin-left: 3px;
+  font-weight: 500;
+}
+
+.btnContainer {
+  padding-top: 18px;
+}
+
+.btnContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnRow {
+  padding-top: 18px;
+}
+
+.abortBtn {
+  svg {
+    font-size: 18px;
+    margin-right: 3px;
+  }
+}
+
+.lock {
+  border: 1px solid var(--white-100);
+  font-size: 12px;
+  border-radius: 12px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  margin-right: 5px;
+}
+
+.spinner {
+  margin-left: 3px;
+}
+
+.errorMsg {
+  padding-top: 10px;
+}
+
+.submitBtn {
+  width: 100%;
+}
+
+@media screen and (min-width: $big_display_min_width) {
+}

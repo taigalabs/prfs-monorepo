@@ -1,7 +1,7 @@
 use prfs_axum_lib::axum::{self, Router};
 use prfs_axum_lib::tower_http::trace::TraceLayer;
 use prfs_common_server_state::ServerState;
-use prfs_id_session_server::event_loop::start_listening_to_prfs_id_session_db_events;
+// use prfs_id_session_server::event_loop::start_listening_to_prfs_id_session_db_events;
 use std::net::SocketAddr;
 use std::sync::Arc;
 
@@ -16,13 +16,13 @@ pub async fn run_server() {
         Arc::new(s)
     };
 
-    let server_state_clone = server_state.clone();
+    // let server_state_clone = server_state.clone();
     let _ = tokio::join!(
         serve(
             using_serve_dir_with_handler_as_service(server_state).await,
             PORT
         ),
-        start_listening_to_prfs_id_session_db_events(server_state_clone)
+        // start_listening_to_prfs_id_session_db_events(server_state_clone)
     );
 }
 

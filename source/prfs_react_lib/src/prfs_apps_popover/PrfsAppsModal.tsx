@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./Modal.module.scss";
+import styles from "./PrfsAppsModal.module.scss";
 
 export const PrfsAppsPopoverUl: React.FC<PrfsAppsPopoverLiProps> = ({ children }) => {
   return <ul className={styles.appList}>{children}</ul>;
@@ -11,11 +11,11 @@ export const PrfsAppsPopoverLi: React.FC<PrfsAppsPopoverLiProps> = ({ children, 
   return <li className={cn(styles.appItem, { [styles.noPadding]: noPadding })}>{children}</li>;
 };
 
-const Modal: React.FC<ModalProps> = ({ children }) => {
+const PrfsAppsModal: React.FC<ModalProps> = ({ children }) => {
   return <div className={styles.wrapper}>{children}</div>;
 };
 
-export default Modal;
+export default PrfsAppsModal;
 
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<any>>;

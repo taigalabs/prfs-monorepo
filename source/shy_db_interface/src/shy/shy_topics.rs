@@ -1,6 +1,7 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
 use shy_entities::entities::{DateTimed, ShyTopic};
 
+use crate::shy::queries::get_shy_topic_query;
 use crate::ShyDbInterfaceError;
 
 pub async fn get_shy_topics(
@@ -59,13 +60,42 @@ pub async fn get_shy_topic(
     pool: &Pool<Postgres>,
     topic_id: &String,
 ) -> Result<DateTimed<ShyTopic>, ShyDbInterfaceError> {
-    let query = r#"
-SELECT * 
-FROM shy_topics
-WHERE topic_id=$1
-"#;
-
+    let query = get_shy_topic_query();
     let row = sqlx::query(&query).bind(topic_id).fetch_one(pool).await?;
+
+    let topic = ShyTopic {
+        title: row.try_get("title")?,
+        topic_id: row.try_get("topic_id")?,
+        channel_id: row.try_get("channel_id")?,
+        total_reply_count: row.try_get("total_reply_count")?,
+        author_public_key: row.try_get("author_public_key")?,
+        content: row.try_get("content")?,
+        shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
+        author_sig: row.try_get("author_sig")?,
+        participant_identity_inputs: row.try_get("participant_identity_inputs")?,
+        sub_channel_id: row.try_get("sub_channel_id")?,
+        total_like_count: row.try_get("total_like_count")?,
+    };
+    let topic = DateTimed {
+        inner: topic,
+        created_at: row.try_get("created_at")?,
+        updated_at: row.try_get("updated_at")?,
+    };
+
+    Ok(topic)
+}
+
+#[allow(non_snake_case)]
+pub async fn get_shy_topic__tx(
+    tx: &mut Transaction<'_, Postgres>,
+    topic_id: &String,
+) -> Result<DateTimed<ShyTopic>, ShyDbInterfaceError> {
+    let query = get_shy_topic_query();
+
+    let row = sqlx::query(&query)
+        .bind(topic_id)
+        .fetch_one(&mut **tx)
+        .await?;
 
     let topic = ShyTopic {
         title: row.try_get("title")?,
@@ -98,6 +128,11 @@ INSERT INTO shy_topics
 (topic_id, channel_id, title, author_public_key, total_reply_count, content, shy_topic_proof_id, 
 author_sig, participant_identity_inputs, sub_channel_id, total_like_count)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+ON CONFLICT (topic_id) DO UPDATE SET (
+total_reply_count, title, content, updated_at
+) = (
+excluded.total_reply_count, excluded.title, excluded.content, now()
+)
 RETURNING topic_id
 "#;
 

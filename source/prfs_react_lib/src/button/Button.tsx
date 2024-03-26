@@ -31,8 +31,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={cn({
-        [styles.wrapper]: true,
+      className={cn(styles.wrapper, className, {
         [styles.transparent_btn]: isTransparent(variant),
         [styles.aqua_blue_1]: variant === "aqua_blue_1",
         [styles.blue_1]: variant === "blue_1",
@@ -53,7 +52,6 @@ const Button: React.FC<ButtonProps> = ({
         [styles.no_shadow]: noShadow,
         [styles.smallPadding]: smallPadding,
         [styles.rounded]: !!rounded,
-        [className || ""]: !!className,
       })}
       {...(name && { name })}
       onClick={handleClick}
@@ -85,6 +83,7 @@ export interface ButtonProps {
   backdropClassName?: string;
   noShadow?: boolean;
   rounded?: boolean;
+  centerText?: boolean;
   type?: "submit" | "reset" | "button" | undefined;
 }
 
