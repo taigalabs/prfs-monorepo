@@ -6,7 +6,7 @@ import {
   ProofGenArgs,
   ProofGenSuccessPayload,
   QueryType,
-  createSession,
+  // createSession,
   createSessionKey,
   makeProofGenSearchParams,
   openPopup,
@@ -35,7 +35,6 @@ import TextEditor from "@/components/text_editor/TextEditor";
 import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import CreateTopicFooter from "./CreateTopicFooter";
-import { urls } from "@/urls";
 
 const PROOF = "Proof";
 

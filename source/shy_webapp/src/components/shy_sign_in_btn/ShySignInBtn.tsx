@@ -162,7 +162,6 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
           handleSucceedSignIn={handleSucceedSignIn}
           prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
           isLoading={status === Status.InProgress}
-          successUrl={urls.prfs__success}
         />
       )}
     </>

@@ -1,7 +1,7 @@
 import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 const PRFS_ID_EPHEMERAL = "prfs_id_ephemeral";
-const FIVE_MIN_MS = 300000;
+const EPHEMERAL_CREDENTIAL_LIFE = 600000; // 60 * 10 * 1000
 
 export interface EphemeralPrfsIdCredential {
   createdAt: number;
@@ -21,7 +21,7 @@ export function bustEphemeralPrfsIdCredential(force?: boolean) {
     if (json) {
       const cred: EphemeralPrfsIdCredential = JSON.parse(json);
       const lasted = Date.now() - cred.createdAt;
-      if (lasted > FIVE_MIN_MS || force) {
+      if (lasted > EPHEMERAL_CREDENTIAL_LIFE || force) {
         console.log("Busting ephemeral prfs id credential");
         window.localStorage.removeItem(PRFS_ID_EPHEMERAL);
       }
@@ -38,7 +38,7 @@ export function loadEphemeralPrfsIdCredential(): EphemeralPrfsIdCredential | nul
     if (val) {
       const cred: EphemeralPrfsIdCredential = JSON.parse(val);
 
-      if (Date.now() - cred.createdAt > FIVE_MIN_MS) {
+      if (Date.now() - cred.createdAt > EPHEMERAL_CREDENTIAL_LIFE) {
         console.log("Busting ephemeral prfs id credential");
         window.localStorage.removeItem(PRFS_ID_EPHEMERAL);
         return null;

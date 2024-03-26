@@ -4,13 +4,13 @@ import {
   ProofGenArgs,
   ProofGenSuccessPayload,
   QueryType,
-  createSession,
   createSessionKey,
   makeProofGenSearchParams,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
 import {
   JSONbigNative,
+  PrivateKey,
   createRandomKeyPair,
   decrypt,
   makeRandInt,
@@ -28,7 +28,10 @@ import { GetShyTopicProofRequest } from "@taigalabs/shy-entities/bindings/GetShy
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { CreateShyPostWithProofRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostWithProofRequest";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
+import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
 import styles from "./CreatePost.module.scss";
 import TextEditor from "@/components/text_editor/TextEditor";
@@ -37,8 +40,6 @@ import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
-import { verifyMessage } from "@taigalabs/prfs-crypto-deps-js/viem";
-import { urls } from "@/urls";
 
 const PROOF = "Proof";
 
@@ -52,17 +53,25 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const i18n = usePrfsI18N();
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
+    usePrfsIdSession();
+  const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const [error, setError] = React.useState<string | null>(null);
+  const [postId, setPostId] = React.useState<string | null>(null);
+  const [html, setHtml] = React.useState<string | null>(null);
+
   const { mutateAsync: getShyTopicProof } = useMutation({
     mutationFn: (req: GetShyTopicProofRequest) => {
       return shyApi2({ type: "get_shy_topic_proof", ...req });
     },
   });
+
   const { mutateAsync: createShyPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
       return shyApi2({ type: "create_shy_post", ...req });
     },
   });
+
   const { mutateAsync: createShyPostWithProof } = useMutation({
     mutationFn: (req: CreateShyPostWithProofRequest) => {
       return shyApi2({ type: "create_shy_post_with_proof", ...req });
@@ -120,138 +129,22 @@ const CreatePost: React.FC<CreatePostProps> = ({
       const searchParams = makeProofGenSearchParams(proofGenArgs);
       const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
-      let sessionStream;
-      try {
-        sessionStream = await createSession({
-          key: proofGenArgs.session_key,
-          value: null,
-          ticket: "TICKET",
-        });
-      } catch (err) {
-        console.error(err);
-        return;
-      }
-
-      if (!sessionStream) {
-        console.error("Couldn't open a session");
-        return;
-      }
-
       const popup = openPopup(endpoint);
       if (!popup) {
         console.error("Popup couldn't be open");
         return;
       }
 
-      const { ws, send, receive } = sessionStream;
-
-      const session = await receive();
-      if (!session) {
-        console.error("Coultn' retreieve session");
-        return;
-      }
-
-      try {
-        if (session.error) {
-          console.error(session.error);
-          return;
-        }
-
-        if (!session.payload) {
-          console.error("Session doesn't have a payload");
-          return;
-        }
-
-        if (session.payload.type !== "put_prfs_id_session_value_result") {
-          console.error("Wrong session payload type at this point, msg: %s", session.payload);
-          return;
-        }
-
-        const buf = Buffer.from(session.payload.value);
-        let decrypted: string;
-        try {
-          decrypted = decrypt(sk.secret, buf).toString();
-        } catch (err) {
-          console.error("cannot decrypt payload", err);
-          return;
-        }
-
-        let proofGenPayload: ProofGenSuccessPayload;
-        try {
-          proofGenPayload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-        } catch (err) {
-          console.error("cannot parse payload, err: %s, obj: %s", err, decrypted);
-          return;
-        }
-
-        const receipt = proofGenPayload.receipt[PROOF] as GenericProveReceipt;
-        if (receipt.type === "cached_prove_receipt") {
-          receipt.proofActionSigMsg;
-
-          const { payload: getShyTopicProofPayload } = await getShyTopicProof({
-            public_key: receipt.proofPubKey,
-          });
-          if (getShyTopicProofPayload?.shy_topic_proof) {
-            const topicProof = getShyTopicProofPayload.shy_topic_proof;
-
-            const { payload: _createShyPostPayload } = await createShyPost({
-              topic_id: topicId,
-              channel_id: channel.channel_id,
-              shy_topic_proof_id: topicProof.shy_topic_proof_id,
-              author_public_key: topicProof.public_key,
-              post_id: postId,
-              content: html,
-              author_sig: receipt.proofActionSig,
-              author_sig_msg: Array.from(receipt.proofActionSigMsg),
-            });
-            handleSucceedPost();
-          }
-        } else if (receipt.type === "prove_receipt") {
-          const shy_topic_proof_id = rand256Hex();
-          const receipt_ = receipt as ProveReceipt;
-          console.log("receipt", receipt_);
-
-          const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
-            receipt_.proof.publicInputSer,
-          );
-
-          const { error } = await createShyPostWithProof({
-            topic_id: topicId,
-            channel_id: channel.channel_id,
-            shy_topic_proof_id,
-            author_public_key: receipt_.proof.proofPubKey,
-            post_id: postId,
-            content: html,
-            author_sig: receipt_.proofActionSig,
-            author_sig_msg: Array.from(receipt_.proofActionSigMsg),
-            proof_identity_input: publicInputs.proofIdentityInput,
-            proof: Array.from(receipt.proof.proofBytes),
-            public_inputs: receipt_.proof.publicInputSer,
-            serial_no: publicInputs.circuitPubInput.serialNo.toString(),
-            sub_channel_id: subChannelId,
-          });
-
-          if (error) {
-          }
-
-          handleSucceedPost();
-        } else {
-          dispatch(
-            setGlobalError({
-              message: `Unknown receipt type, receipt: ${(receipt as any).type}`,
-            }),
-          );
-          return;
-        }
-
-        if (error) {
-          throw new Error(`Failed to create a topic, err: ${error}`);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-      ws.close();
-      popup.close();
+      const { payload: _ } = await openPrfsIdSession({
+        key: proofGenArgs.session_key,
+        value: null,
+        ticket: "TICKET",
+      });
+      setIsPrfsDialogOpen(true);
+      setSessionKey(proofGenArgs.session_key);
+      setSk(sk);
+      setPostId(postId);
+      setHtml(html);
     },
     [
       channel,
@@ -264,7 +157,142 @@ const CreatePost: React.FC<CreatePostProps> = ({
       createShyPostWithProof,
       createShyPost,
       subChannelId,
+      setSk,
+      setSessionKey,
+      setIsPrfsDialogOpen,
+      openPrfsIdSession,
+      setPostId,
+      setHtml,
     ],
+  );
+
+  const handleSucceedGetSession = React.useCallback(
+    async (session: PrfsIdSession) => {
+      if (!sk) {
+        dispatch(
+          setGlobalError({
+            message: "Secret key is not set to decrypt Prfs ID session",
+          }),
+        );
+        return;
+      }
+
+      if (!html) {
+        dispatch(
+          setGlobalError({
+            message: "Post content does not exist",
+          }),
+        );
+        return;
+      }
+
+      if (!postId) {
+        dispatch(
+          setGlobalError({
+            message: "Post Id does not exist",
+          }),
+        );
+        return;
+      }
+
+      const buf = Buffer.from(session.value);
+      let decrypted: string;
+      try {
+        decrypted = decrypt(sk.secret, buf).toString();
+      } catch (err) {
+        dispatch(
+          setGlobalError({
+            message: `Cannot decrypt payload, err: ${err}`,
+          }),
+        );
+        return;
+      }
+
+      let payload: ProofGenSuccessPayload;
+      try {
+        payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+      } catch (err) {
+        dispatch(
+          setGlobalError({
+            message: `Cannot parse proof payload, err: ${err}`,
+          }),
+        );
+        return;
+      }
+
+      const receipt = payload.receipt[PROOF] as GenericProveReceipt;
+      if (receipt.type === "cached_prove_receipt") {
+        receipt.proofActionSigMsg;
+
+        const { payload: getShyTopicProofPayload } = await getShyTopicProof({
+          public_key: receipt.proofPubKey,
+        });
+        if (getShyTopicProofPayload?.shy_topic_proof) {
+          const topicProof = getShyTopicProofPayload.shy_topic_proof;
+
+          const { payload: _createShyPostPayload } = await createShyPost({
+            topic_id: topicId,
+            channel_id: channel.channel_id,
+            shy_topic_proof_id: topicProof.shy_topic_proof_id,
+            author_public_key: topicProof.public_key,
+            post_id: postId,
+            content: html,
+            author_sig: receipt.proofActionSig,
+            author_sig_msg: Array.from(receipt.proofActionSigMsg),
+          });
+          handleSucceedPost();
+        }
+      } else if (receipt.type === "prove_receipt") {
+        const shy_topic_proof_id = rand256Hex();
+        const receipt_ = receipt as ProveReceipt;
+        console.log("receipt", receipt_);
+
+        const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
+          receipt_.proof.publicInputSer,
+        );
+
+        const { error } = await createShyPostWithProof({
+          topic_id: topicId,
+          channel_id: channel.channel_id,
+          shy_topic_proof_id,
+          author_public_key: receipt_.proof.proofPubKey,
+          post_id: postId,
+          content: html,
+          author_sig: receipt_.proofActionSig,
+          author_sig_msg: Array.from(receipt_.proofActionSigMsg),
+          proof_identity_input: publicInputs.proofIdentityInput,
+          proof: Array.from(receipt.proof.proofBytes),
+          public_inputs: receipt_.proof.publicInputSer,
+          serial_no: publicInputs.circuitPubInput.serialNo.toString(),
+          sub_channel_id: subChannelId,
+        });
+
+        if (error) {
+        }
+
+        handleSucceedPost();
+      } else {
+        dispatch(
+          setGlobalError({
+            message: `Unknown receipt type, receipt: ${(receipt as any).type}`,
+          }),
+        );
+        return;
+      }
+
+      // const proof = payload.receipt[PROOF] as ProveReceipt;
+      // if (proof) {
+      //   handleCreateProofResult(proof);
+      // } else {
+      //   dispatch(
+      //     setGlobalError({
+      //       message: "no proof delivered",
+      //     }),
+      //   );
+      //   return;
+      // }
+    },
+    [sk, dispatch, postId, html],
   );
 
   const footer = React.useMemo(() => {
@@ -281,12 +309,21 @@ const CreatePost: React.FC<CreatePostProps> = ({
   }, [setError]);
 
   return (
-    <div className={styles.wrapper}>
-      {error && <ErrorDialog handleClickClose={handleClickClose} error={error} />}
-      <div className={styles.inner}>
-        <TextEditor footer={footer} />
+    <>
+      <div className={styles.wrapper}>
+        {error && <ErrorDialog handleClickClose={handleClickClose} error={error} />}
+        <div className={styles.inner}>
+          <TextEditor footer={footer} />
+        </div>
       </div>
-    </div>
+      <PrfsIdSessionDialog
+        sessionKey={sessionKey}
+        isPrfsDialogOpen={isPrfsDialogOpen}
+        setIsPrfsDialogOpen={setIsPrfsDialogOpen}
+        actionLabel={i18n.create_proof.toLowerCase()}
+        handleSucceedGetSession={handleSucceedGetSession}
+      />
+    </>
   );
 };
 
