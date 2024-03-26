@@ -100,6 +100,14 @@
   margin-left: auto;
 }
 
+.textSearchBtn {
+  font-size: 17px;
+  color: var(--white-100);
+  background-color: var(--blue-05);
+  padding: 4px 10px;
+  border-radius: 18px;
+}
+
 .fadeOverlay {
   background: rgba(0, 0, 0, 0.8);
   display: grid;
