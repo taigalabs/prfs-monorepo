@@ -27,6 +27,7 @@ import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { urls } from "@/urls";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
 const PROOF = "Proof";
 
@@ -102,7 +103,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   ]);
 
   const handleSucceedGetSession = React.useCallback(
-    (sessionValue: number[]) => {
+    (session: PrfsIdSession) => {
       if (!sk) {
         dispatch(
           setGlobalError({
@@ -112,7 +113,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         return;
       }
 
-      const buf = Buffer.from(sessionValue);
+      const buf = Buffer.from(session.value);
       let decrypted: string;
       try {
         decrypted = decrypt(sk.secret, buf).toString();
@@ -131,7 +132,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       } catch (err) {
         dispatch(
           setGlobalError({
-            message: "Cannot parse proof payload",
+            message: `Cannot parse proof payload, err: ${err}`,
           }),
         );
         return;

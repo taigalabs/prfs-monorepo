@@ -5,12 +5,19 @@ import { IoCloseSharp } from "@react-icons/all-files/io5/IoCloseSharp";
 import { useMutation } from "@tanstack/react-query";
 import { idSessionApi } from "@taigalabs/prfs-api-js";
 import { GetPrfsIdSessionValueRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsIdSessionValueRequest";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { FaLock } from "@react-icons/all-files/fa/FaLock";
 
 import styles from "./PrfsIdSessionModal.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
 import Button from "../button/Button";
+import Spinner from "../spinner/Spinner";
 import { ErrorBox } from "../error_box/ErrorBox";
+
+enum Status {
+  Standby,
+  InProgress,
+}
 
 const PrfsIdSessionModal: React.FC<ModalProps> = ({
   actionLabel,
@@ -20,6 +27,7 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+  const [status, setStatus] = React.useState(Status.Standby);
   const { mutateAsync: getPrfsIdSessionValue } = useMutation({
     mutationFn: (req: GetPrfsIdSessionValueRequest) => {
       return idSessionApi({ type: "get_prfs_id_session_value", ...req });
@@ -36,10 +44,12 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({
 
   const handleClickSubmit = React.useCallback(async () => {
     setErrorMsg(null);
+    setStatus(Status.InProgress);
     const { payload, error } = await getPrfsIdSessionValue({ key: sessionKey });
 
     if (error) {
       setErrorMsg(error.toString());
+      setStatus(Status.Standby);
       return;
     }
 
@@ -48,11 +58,14 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({
         "Cannot find the value submitted. Did you submit the data in the \
         Prfs ID popup?",
       );
+      setStatus(Status.Standby);
       return;
     }
 
-    handleSucceedGetSession(payload.session.value);
-  }, [getPrfsIdSessionValue, setErrorMsg, handleSucceedGetSession]);
+    handleSucceedGetSession(payload.session);
+    setIsOpen(false);
+    setStatus(Status.Standby);
+  }, [getPrfsIdSessionValue, setErrorMsg, handleSucceedGetSession, setStatus]);
 
   return (
     <div className={styles.wrapper}>
@@ -81,6 +94,7 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({
                 <FaLock />
               </span>
               <span>{i18n.submit}</span>
+              {status === Status.InProgress && <Spinner />}
             </p>
           </Button>
         </div>
@@ -108,5 +122,5 @@ export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<any>>;
   actionLabel: string;
   sessionKey: string;
-  handleSucceedGetSession: (sessionValue: number[]) => void;
+  handleSucceedGetSession: (session: PrfsIdSession) => void;
 }

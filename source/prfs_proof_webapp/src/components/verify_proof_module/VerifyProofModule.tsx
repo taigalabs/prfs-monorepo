@@ -22,6 +22,9 @@ import {
   toUtf8Bytes,
 } from "@taigalabs/prfs-crypto-js";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
+import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -79,7 +82,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
 
       const { payload: _ } = await openPrfsIdSession({
         key: verifyProofArgs.session_key,
-        value: null,
+        value: Array.from(bytes),
         ticket: "TICKET",
       });
       setIsPrfsDialogOpen(true);
@@ -158,7 +161,52 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
     } catch (err) {
       console.error(err);
     }
-  }, [setVerifyProofStatus, tutorialId, dispatch]);
+  }, [setVerifyProofStatus, tutorialId, dispatch, setSk, setSessionKey, setIsPrfsDialogOpen]);
+
+  const handleSucceedGetSession = React.useCallback(
+    (session: PrfsIdSession) => {
+      if (!sk) {
+        dispatch(
+          setGlobalError({
+            message: "Secret key is not set to decrypt Prfs ID session",
+          }),
+        );
+        return;
+      }
+
+      const buf = Buffer.from(session.value);
+      let decrypted: string;
+      try {
+        decrypted = decrypt(sk.secret, buf).toString();
+      } catch (err) {
+        dispatch(
+          setGlobalError({
+            message: `Cannot decrypt session, err: ${err}`,
+          }),
+        );
+        return;
+      }
+
+      let payload: VerifyProofResultPayload;
+      try {
+        payload = JSON.parse(decrypted) as VerifyProofResultPayload;
+      } catch (err) {
+        dispatch(
+          setGlobalError({
+            message: `Cannot parse proof payload, err: ${err}`,
+          }),
+        );
+        return;
+      }
+
+      if (payload.result) {
+        setVerifyProofStatus(VerifyProofStatus.Valid);
+      } else {
+        setVerifyProofStatus(VerifyProofStatus.Invalid);
+      }
+    },
+    [sk, dispatch],
+  );
 
   const btnContent = React.useMemo(() => {
     switch (verifyProofStatus) {
@@ -181,20 +229,29 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
         return <span>{i18n.verify}</span>;
       }
     }
-  }, [verifyProofStatus]);
+  }, [verifyProofStatus, sk]);
 
   return (
-    <div className={styles.wrapper}>
-      <Button
-        variant="transparent_blue_1"
-        className={styles.verifyBtn}
-        contentClassName={styles.verifyBtnContent}
-        handleClick={handleClickVerify}
-        smallPadding
-      >
-        {btnContent}
-      </Button>
-    </div>
+    <>
+      <div className={styles.wrapper}>
+        <Button
+          variant="transparent_blue_1"
+          className={styles.verifyBtn}
+          contentClassName={styles.verifyBtnContent}
+          handleClick={handleClickVerify}
+          smallPadding
+        >
+          {btnContent}
+        </Button>
+      </div>
+      <PrfsIdSessionDialog
+        sessionKey={sessionKey}
+        isPrfsDialogOpen={isPrfsDialogOpen}
+        setIsPrfsDialogOpen={setIsPrfsDialogOpen}
+        actionLabel={i18n.create_proof.toLowerCase()}
+        handleSucceedGetSession={handleSucceedGetSession}
+      />
+    </>
   );
 };
 

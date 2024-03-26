@@ -24,7 +24,7 @@ const GlobalErrorDialog: React.FC<GlobalErrorDialogProps> = ({}) => {
 
   return (
     error && (
-      <Overlay className={styles.wrapper}>
+      <Overlay className={styles.wrapper} fixed>
         <GlobalMsgHeaderWrapper variant="error">
           <GlobalMsgHeaderContent>
             <IoMdWarning />

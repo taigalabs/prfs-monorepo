@@ -10,7 +10,7 @@ import {
   useInteractions,
   useRole,
 } from "@floating-ui/react";
-import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
 import styles from "./PrfsIdSessionDialog.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
@@ -73,5 +73,5 @@ export interface ProofRawDialogProps {
   setIsPrfsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   actionLabel: string;
   sessionKey: string | null;
-  handleSucceedGetSession: (sessionValue: number[]) => void;
+  handleSucceedGetSession: (session: PrfsIdSession) => void;
 }
