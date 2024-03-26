@@ -12,7 +12,6 @@ use crate::{
 #[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsIdSessionApiRequest {
-    open_prfs_id_session(OpenPrfsIdSession2Request),
     open_prfs_id_session2(OpenPrfsIdSession2Request),
     close_prfs_id_session(ClosePrfsIdSessionRequest),
     put_prfs_id_session_value(PutPrfsIdSessionValueRequest),
@@ -24,7 +23,6 @@ pub enum PrfsIdSessionApiRequest {
 #[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsIdSessionApiResponse {
-    open_prfs_id_session(OpenPrfsIdSession2Response),
     open_prfs_id_session2(OpenPrfsIdSession2Request),
     close_prfs_id_session(ClosePrfsIdSessionResponse),
     put_prfs_id_session_value(PutPrfsIdSessionValueResponse),

@@ -20,7 +20,6 @@ rust_decimal_macros = "1.29"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
 tracing-appender = "0.2"
-futures = { version = "0.3" }
 
 project_root = { path = "../project_root" }
 prfs_axum_lib = { path = "../prfs_axum_lib" }
