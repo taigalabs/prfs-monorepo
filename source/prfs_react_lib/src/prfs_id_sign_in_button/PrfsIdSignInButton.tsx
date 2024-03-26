@@ -51,7 +51,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       ],
       public_key: pkHex,
       session_key,
-      success_url: successUrl,
     };
 
     const searchParams = makeProofGenSearchParams(proofGenArgs);

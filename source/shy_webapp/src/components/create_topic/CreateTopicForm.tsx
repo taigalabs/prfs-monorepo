@@ -128,7 +128,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         ],
         public_key: pkHex,
         session_key,
-        success_url: urls.prfs__success,
       };
 
       const searchParams = makeProofGenSearchParams(proofGenArgs);

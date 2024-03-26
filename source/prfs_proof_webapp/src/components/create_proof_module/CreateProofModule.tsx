@@ -64,7 +64,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         },
       ],
       public_key: pkHex,
-      success_url: urls.prfs__success,
       session_key,
     };
 
@@ -80,7 +79,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
     const popup = openPopup(endpoint);
     if (!popup) {
-      console.error("Popup couldn't be open");
       return;
     }
 
@@ -92,77 +90,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     setIsPrfsDialogOpen(true);
     setSessionKey(proofGenArgs.session_key);
     setSk(sk);
-
-    // let sessionStream;
-    // try {
-    //   sessionStream = await createSession({
-    //     key: proofGenArgs.session_key,
-    //     value: null,
-    //     ticket: "TICKET",
-    //   });
-    // } catch (err) {
-    //   console.error(err);
-    //   return;
-    // }
-
-    // if (!sessionStream) {
-    //   console.error("Couldn't open a session");
-    //   return;
-    // }
-
-    // const { ws, send, receive } = sessionStream;
-    // const session = await receive();
-    // if (!session) {
-    //   console.error("Coultn' retreieve session");
-    //   return;
-    // }
-
-    // try {
-    //   if (session.error) {
-    //     console.error(session.error);
-    //     return;
-    //   }
-
-    //   if (!session.payload) {
-    //     console.error("Session doesn't have a payload");
-    //     return;
-    //   }
-
-    //   if (session.payload.type !== "put_prfs_id_session_value_result") {
-    //     console.error("Wrong session payload type at this point, msg: %s", session.payload);
-    //     return;
-    //   }
-
-    //   const buf = Buffer.from(session.payload.value);
-    //   let decrypted: string;
-    //   try {
-    //     decrypted = decrypt(sk.secret, buf).toString();
-    //   } catch (err) {
-    //     console.error("cannot decrypt payload", err);
-    //     return;
-    //   }
-
-    //   let payload: ProofGenSuccessPayload;
-    //   try {
-    //     payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-    //   } catch (err) {
-    //     console.error("cannot parse payload", err);
-    //     return;
-    //   }
-
-    //   const proof = payload.receipt[PROOF] as ProveReceipt;
-    //   if (proof) {
-    //     handleCreateProofResult(proof);
-    //   } else {
-    //     console.error("no proof delivered");
-    //     return;
-    //   }
-    // } catch (err) {
-    //   console.error(err);
-    // }
-
-    // ws.close();
-    // popup.close();
   }, [
     proofType,
     handleCreateProofResult,

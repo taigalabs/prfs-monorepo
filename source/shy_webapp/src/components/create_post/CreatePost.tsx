@@ -115,7 +115,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
         ],
         public_key: pkHex,
         session_key,
-        success_url: urls.prfs__success,
       };
 
       const searchParams = makeProofGenSearchParams(proofGenArgs);
