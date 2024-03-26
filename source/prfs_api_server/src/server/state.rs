@@ -48,7 +48,6 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
         launch_time,
         commit_hash,
         infura_fetcher,
-        peer_map: Arc::new(Mutex::new(HashMap::new())),
         tree_server_task_queue,
     })
 }

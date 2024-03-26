@@ -1,14 +1,10 @@
 use chrono::{DateTime, Utc};
 use ethers_core::k256::ecdsa::SigningKey;
 use ethers_signers::Wallet;
-use futures::stream::SplitSink;
-use prfs_axum_lib::axum::extract::ws::{Message, WebSocket};
 use prfs_db_driver::database2::Database2;
 use prfs_tree_server_task_queue::TreeServerTaskQueue;
 use prfs_web_fetcher::destinations::infura::InfuraFetcher;
-use std::collections::HashMap;
 use std::sync::Arc;
-use tokio::sync::Mutex;
 
 use crate::CommonServerStateError;
 
@@ -21,14 +17,9 @@ pub struct ServerState {
     // prfs_atst_server
     pub infura_fetcher: InfuraFetcher,
 
-    // prfs_id_session_server
-    pub peer_map: PeerMap,
-
     // prfs_tree_server
     pub tree_server_task_queue: Arc<TreeServerTaskQueue>,
 }
-
-pub type PeerMap = Arc<Mutex<HashMap<String, Arc<Mutex<SplitSink<WebSocket, Message>>>>>>;
 
 pub async fn init_server_state_test() -> Result<ServerState, CommonServerStateError> {
     use colored::Colorize;
@@ -73,7 +64,6 @@ pub async fn init_server_state_test() -> Result<ServerState, CommonServerStateEr
         launch_time,
         commit_hash,
         infura_fetcher,
-        peer_map: Arc::new(Mutex::new(HashMap::new())),
         tree_server_task_queue,
     })
 }
