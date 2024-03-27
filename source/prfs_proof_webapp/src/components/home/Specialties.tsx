@@ -17,10 +17,22 @@ const Specialties: React.FC<LogoContainerProps> = () => {
     <Area>
       <Title>Build with the latest innovation, without forsaking practicality</Title>
       <ul className={styles.itemContainer}>
-        <li className={styles.item}>Universality</li>
-        <li className={styles.item}>Client-side</li>
-        <li className={styles.item}>Pragmatic</li>
-        <li className={styles.item}>Performant</li>
+        <li className={styles.item}>
+          <p>Universality</p>
+          <p>An interface that is not tied to any specific blockchain, zk-dsl, or proof systems.</p>
+        </li>
+        <li className={styles.item}>
+          <p>Client-side</p>
+          <p></p>
+        </li>
+        <li className={styles.item}>
+          <p>Pragmatic</p>
+          <p></p>
+        </li>
+        <li className={styles.item}>
+          <p>Performant</p>
+          <p></p>
+        </li>
       </ul>
     </Area>
   );

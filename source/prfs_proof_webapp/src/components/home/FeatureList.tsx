@@ -24,7 +24,7 @@ const FeatureList: React.FC<LogoContainerProps> = () => {
             <TbMathPi />
             {i18n.proof}
           </p>
-          <p>Create and proof zero-knowledge proofs on your machine.</p>
+          <p>Create and verify zero-knowledge proofs on your browser.</p>
         </li>
         <li className={styles.item}>
           <p>
@@ -32,7 +32,8 @@ const FeatureList: React.FC<LogoContainerProps> = () => {
             {i18n.attestation}
           </p>
           <p>
-            Attest to your data to streamline the process of generating the proof and to enable{" "}
+            Attest to your data to streamline the process of generating the proof and to claim
+            diverse fact about you
           </p>
         </li>
       </ul>

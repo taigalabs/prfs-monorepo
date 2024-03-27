@@ -1,0 +1,17 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+}
+
+.itemContainer {
+  display: grid;
+  grid-template-columns: 180px 180px;
+  justify-content: center;
+  column-gap: 40px;
+}
+
+@media screen and (min-width: $mid_display_min_width) {
+  .wrapper {
+    text-align: center;
+  }
+}
