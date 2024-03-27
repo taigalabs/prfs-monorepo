@@ -1,22 +1,40 @@
 .wrapper {
+  padding-top: 32px;
 }
 
 .item {
   display: inline-block;
-  font-size: 24px;
+  font-size: 16px;
 
   &:not(:first-child) {
-    padding-left: 0.5em;
+    margin-left: 1em;
   }
 
   svg {
     margin-left: 0.1em;
-    font-size: 20px;
+    // font-size: 18px;
     vertical-align: middle;
   }
 }
 
 .attestation {
   color: var(--white-100);
-  background-color: #6e5b52;
+  background-color: var(--pale-brown-53);
+}
+
+.brownBtn {
+  color: var(--white-100);
+  background-color: var(--pale-brown-53);
+  padding: 8px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: var(--pale-brown-52);
+  }
+
+  &:active {
+    background-color: var(--pale-brown-51);
+  }
 }

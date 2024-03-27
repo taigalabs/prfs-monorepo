@@ -19,7 +19,7 @@ const CallToAction: React.FC<LogoContainerProps> = () => {
         </HoverableText>
       </p>
       <p className={styles.item}>{i18n.or}</p>
-      <p className={styles.item}>{i18n.start_with_attestation}</p>
+      <p className={cn(styles.item, styles.brownBtn)}>{i18n.start_with_attestation}</p>
     </div>
   );
 };

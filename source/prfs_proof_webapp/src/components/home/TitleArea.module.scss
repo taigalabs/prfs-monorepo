@@ -6,7 +6,7 @@
   align-items: center;
   flex-direction: column;
   margin-top: 60px;
-  margin-bottom: 14px;
+  margin-bottom: 28px;
   min-height: 120px;
   max-height: 280px;
 }
@@ -47,7 +47,6 @@
 @media screen and (min-width: $big_display_min_width) {
   .wrapper {
     margin-top: 0px;
-    margin-bottom: 24px;
     height: 22vh;
   }
 
