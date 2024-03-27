@@ -1,5 +1,10 @@
 @import "@/styles/layouts.module.scss";
 
+.area {
+  width: 100%;
+  padding: 60px 24px 0;
+}
+
 .title {
   font-size: 36px;
   text-align: center;
@@ -7,4 +12,8 @@
 }
 
 @media screen and (min-width: $mid_display_min_width) {
+  .area {
+    text-align: center;
+    padding: 80px 24px 0;
+  }
 }

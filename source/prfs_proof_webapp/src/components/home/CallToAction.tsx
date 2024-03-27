@@ -8,12 +8,13 @@ import styles from "./CallToAction.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 import { urls } from "@/urls";
 import { paths } from "@/paths";
+import { Area } from "./IntroComponents";
 
 const CallToAction: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();
 
   return (
-    <div className={styles.wrapper}>
+    <Area className={styles.wrapper}>
       <p className={styles.item}>
         <button className={styles.transparentBtn} type="button">
           <HoverableText>
@@ -23,14 +24,14 @@ const CallToAction: React.FC<LogoContainerProps> = () => {
             </a>
           </HoverableText>
         </button>
-        <span className={styles.or}>{i18n.or}</span>
       </p>
       <p className={styles.item}>
         <button className={styles.brownBtn} type="button">
           <Link href={paths.attestations}>{i18n.start_with_attestation}</Link>
+          <MdArrowForward />
         </button>
       </p>
-    </div>
+    </Area>
   );
 };
 

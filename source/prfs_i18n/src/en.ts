@@ -3,6 +3,7 @@ export default {
   done: "Done",
   close_and_return: "Close and return",
   close_window: "Close window",
+  features_for_safer_internet: "Features for safer Internet",
   account_verification: "Account Verification",
   account_id: "Account ID",
   attestations: "Attestations",

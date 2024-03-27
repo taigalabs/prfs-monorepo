@@ -8,18 +8,19 @@ import styles from "./FeatureList.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 import { urls } from "@/urls";
 import { paths } from "@/paths";
+import { Area, Title } from "./IntroComponents";
 
 const FeatureList: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();
 
   return (
-    <div className={styles.wrapper}>
-      <p>Proof</p>
+    <Area>
+      <Title>{i18n.features_for_safer_internet}</Title>
       <ul>
         <li>{i18n.proof}</li>
         <li>{i18n.attestation}</li>
       </ul>
-    </div>
+    </Area>
   );
 };
 

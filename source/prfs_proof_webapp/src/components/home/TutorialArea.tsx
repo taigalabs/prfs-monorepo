@@ -5,7 +5,7 @@ import cn from "classnames";
 
 import styles from "./TutorialArea.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
-import { Title } from "./IntroComponents";
+import { Area, Title } from "./IntroComponents";
 
 enum TutorialLabel {
   create_identity,
@@ -52,7 +52,7 @@ const TutorialArea: React.FC<LogoContainerProps> = () => {
   );
 
   return (
-    <div className={cn(styles.wrapper)}>
+    <Area className={cn(styles.wrapper)}>
       <Title>{i18n.learn_by_tutorials}</Title>
       <ol className={styles.list}>
         <li
@@ -88,7 +88,7 @@ const TutorialArea: React.FC<LogoContainerProps> = () => {
           <Iframe src="https://drive.google.com/file/d/1Hsic--IUT5LfRFpnRjmwvTcNYl3PDrGp/preview" />
         )}
       </div>
-    </div>
+    </Area>
   );
 };
 
