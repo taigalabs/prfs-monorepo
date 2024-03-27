@@ -11,6 +11,26 @@ enum TutorialLabel {
   create_topic,
 }
 
+const Iframe: React.FC<IframeProps> = ({ src }) => {
+  const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    if (iframeRef.current) {
+      iframeRef.current.addEventListener("load", function () {
+        setIsLoaded(true);
+      });
+    }
+  }, [setIsLoaded]);
+
+  return (
+    <div className={cn(styles.iframe)}>
+      <iframe className={cn(styles.video)} src={src} allow="autoplay" ref={iframeRef} />
+      {/* <div className={styles.overlay}>Loading...</div> */}
+    </div>
+  );
+};
+
 const TutorialArea: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();
   const [tutorialLabel, setTutorialLabel] = React.useState(TutorialLabel.create_identity);
@@ -53,25 +73,13 @@ const TutorialArea: React.FC<LogoContainerProps> = () => {
       </ol>
       <div className={styles.videoContainer}>
         {tutorialLabel === TutorialLabel.create_identity && (
-          <iframe
-            className={styles.video}
-            src="https://drive.google.com/file/d/1hyVmoqCExvPLMU9ABa7Vt6LaTw_D9dCV/preview"
-            allow="autoplay"
-          ></iframe>
+          <Iframe src="https://drive.google.com/file/d/1hyVmoqCExvPLMU9ABa7Vt6LaTw_D9dCV/preview" />
         )}
         {tutorialLabel === TutorialLabel.create_proof && (
-          <iframe
-            className={styles.video}
-            src="https://drive.google.com/file/d/1if74zytTjTy-eShG9GzyCQzhfjN-cN4b/preview"
-            allow="autoplay"
-          ></iframe>
+          <Iframe src="https://drive.google.com/file/d/1if74zytTjTy-eShG9GzyCQzhfjN-cN4b/preview" />
         )}
         {tutorialLabel === TutorialLabel.create_topic && (
-          <iframe
-            className={styles.video}
-            src="https://drive.google.com/file/d/1Hsic--IUT5LfRFpnRjmwvTcNYl3PDrGp/preview"
-            allow="autoplay"
-          ></iframe>
+          <Iframe src="https://drive.google.com/file/d/1Hsic--IUT5LfRFpnRjmwvTcNYl3PDrGp/preview" />
         )}
       </div>
     </div>
@@ -81,3 +89,7 @@ const TutorialArea: React.FC<LogoContainerProps> = () => {
 export default TutorialArea;
 
 export interface LogoContainerProps {}
+
+export interface IframeProps {
+  src: string;
+}

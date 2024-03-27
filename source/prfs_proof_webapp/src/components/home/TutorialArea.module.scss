@@ -35,7 +35,18 @@
 
 .videoContainer {
   padding: 24px 0 80px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.iframe {
+  position: relative;
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background-color: red;
+  }
 }
 
 .video {
@@ -46,7 +57,7 @@
 
 @media screen and (min-width: $big_display_min_width) {
   .video {
-    width: 640px;
-    height: 480px;
+    width: 480px;
+    height: 320px;
   }
 }
