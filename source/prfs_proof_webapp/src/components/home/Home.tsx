@@ -11,9 +11,9 @@ import Link from "next/link";
 import SearchProofDialog from "@taigalabs/prfs-react-lib/src/search_proof_dialog/SearchProofDialog";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
-import styles from "./SearchProofTypeForm.module.scss";
+import styles from "./Home.module.scss";
 import { i18nContext } from "@/i18n/context";
-import LogoContainer from "./LogoContainer";
+import TitleArea from "./TitleArea";
 import { paths } from "@/paths";
 
 enum SearchProofTypeFormStatus {
@@ -21,7 +21,7 @@ enum SearchProofTypeFormStatus {
   Loading,
 }
 
-const SearchProofTypeForm: React.FC = () => {
+const Home: React.FC<HomeProps> = () => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -45,7 +45,7 @@ const SearchProofTypeForm: React.FC = () => {
   return (
     <>
       <div className={styles.wrapper}>
-        <LogoContainer proofTypeChosen={false} />
+        <TitleArea proofTypeChosen={false} />
         <div className={cn(styles.formArea)}>
           {formStatus === SearchProofTypeFormStatus.Loading && (
             <div className={styles.overlay}>
@@ -71,4 +71,6 @@ const SearchProofTypeForm: React.FC = () => {
   );
 };
 
-export default SearchProofTypeForm;
+export default Home;
+
+export interface HomeProps {}

@@ -3,10 +3,10 @@ import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 import cn from "classnames";
 import { inter } from "@taigalabs/prfs-react-lib/src/fonts";
 
-import styles from "./LogoContainer.module.scss";
+import styles from "./TitleArea.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 
-const LogoContainer: React.FC<LogoContainerProps> = ({ proofTypeChosen }) => {
+const TitleArea: React.FC<LogoContainerProps> = ({ proofTypeChosen }) => {
   const i18n = useI18N();
 
   return (
@@ -23,7 +23,7 @@ const LogoContainer: React.FC<LogoContainerProps> = ({ proofTypeChosen }) => {
   );
 };
 
-export default LogoContainer;
+export default TitleArea;
 
 export interface LogoContainerProps {
   proofTypeChosen: boolean;
