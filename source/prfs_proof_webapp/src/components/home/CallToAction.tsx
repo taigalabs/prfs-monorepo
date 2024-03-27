@@ -2,11 +2,11 @@ import React from "react";
 import cn from "classnames";
 import { MdArrowForward } from "@react-icons/all-files/md/MdArrowForward";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
+import Link from "next/link";
 
 import styles from "./CallToAction.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 import { urls } from "@/urls";
-import Link from "next/link";
 import { paths } from "@/paths";
 
 const CallToAction: React.FC<LogoContainerProps> = () => {
