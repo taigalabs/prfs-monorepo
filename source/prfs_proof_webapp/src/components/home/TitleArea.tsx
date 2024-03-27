@@ -6,7 +6,7 @@ import { inter } from "@taigalabs/prfs-react-lib/src/fonts";
 import styles from "./TitleArea.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 
-const TitleArea: React.FC<LogoContainerProps> = ({ proofTypeChosen }) => {
+const TitleArea: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();
 
   return (
@@ -25,6 +25,4 @@ const TitleArea: React.FC<LogoContainerProps> = ({ proofTypeChosen }) => {
 
 export default TitleArea;
 
-export interface LogoContainerProps {
-  proofTypeChosen: boolean;
-}
+export interface LogoContainerProps {}

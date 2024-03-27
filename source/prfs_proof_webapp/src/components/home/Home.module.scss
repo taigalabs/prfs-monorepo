@@ -20,14 +20,14 @@
 }
 
 .formArea {
-  width: 580px;
+  width: 100%;
+  padding: 0 10px;
   display: flex;
   justify-content: center;
-  padding: 3px 0;
   position: relative;
 
   .proofTypeChosen {
-    padding: 14px 14px 34px;
+    padding: 9px 0px 34px;
   }
 }
 
@@ -78,17 +78,21 @@
   margin-top: 24px;
 }
 
-@media screen and (max-width: 1120px) {
+.loading {
+  padding: 70px 28px;
+}
+
+@media screen and (min-width: $big_display_min_width) {
   .loading {
-    padding: 70px 28px;
+    padding: 0;
   }
 
   .formArea {
-    width: 100%;
-    padding: 0 10px;
+    width: 580px;
+    padding: 3px 0;
 
     .proofTypeChosen {
-      padding: 9px 0px 34px;
+      padding: 14px 14px 34px;
     }
   }
 }

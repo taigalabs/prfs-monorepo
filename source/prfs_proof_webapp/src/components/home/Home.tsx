@@ -45,7 +45,7 @@ const Home: React.FC<HomeProps> = () => {
   return (
     <>
       <div className={styles.wrapper}>
-        <TitleArea proofTypeChosen={false} />
+        <TitleArea />
         <div className={cn(styles.formArea)}>
           {formStatus === SearchProofTypeFormStatus.Loading && (
             <div className={styles.overlay}>
