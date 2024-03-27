@@ -61,17 +61,15 @@ const TutorialArea: React.FC<LogoContainerProps> = () => {
         )}
         {tutorialLabel === TutorialLabel.create_proof && (
           <iframe
+            className={styles.video}
             src="https://drive.google.com/file/d/1if74zytTjTy-eShG9GzyCQzhfjN-cN4b/preview"
-            width="640"
-            height="480"
             allow="autoplay"
           ></iframe>
         )}
         {tutorialLabel === TutorialLabel.create_topic && (
           <iframe
+            className={styles.video}
             src="https://drive.google.com/file/d/1Hsic--IUT5LfRFpnRjmwvTcNYl3PDrGp/preview"
-            width="640"
-            height="480"
             allow="autoplay"
           ></iframe>
         )}
