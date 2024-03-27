@@ -8,7 +8,11 @@ import { useI18N } from "@/i18n/use_i18n";
 const TutorialArea: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();
 
-  return <div className={cn(styles.wrapper)}></div>;
+  return (
+    <div className={cn(styles.wrapper)}>
+      <p className={styles.title}>{i18n.learn_by_tutorials}</p>
+    </div>
+  );
 };
 
 export default TutorialArea;

@@ -1,0 +1,13 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  padding-top: 80px;
+}
+
+.title {
+  font-size: 36px;
+  font-variation-settings: "wght" 669;
+}
+
+@media screen and (min-width: $big_display_min_width) {
+}

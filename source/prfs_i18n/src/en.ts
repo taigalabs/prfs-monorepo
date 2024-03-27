@@ -6,6 +6,7 @@ export default {
   account_verification: "Account Verification",
   account_id: "Account ID",
   attestations: "Attestations",
+  learn_by_tutorials: "Learn by tutorials",
   attestation: "Attestation",
   on_chain: "On-chain",
   attestation_type: "Attestation type",
