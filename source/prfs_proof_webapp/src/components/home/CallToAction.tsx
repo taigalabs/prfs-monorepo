@@ -19,7 +19,7 @@ const CallToAction: React.FC<LogoContainerProps> = () => {
         <button className={styles.transparentBtn} type="button">
           <HoverableText>
             <a href={urls.docs}>
-              <span>{i18n.read_the_docs}</span>
+              <span>{i18n.read_the_docs} (working)</span>
               <MdArrowForward />
             </a>
           </HoverableText>
