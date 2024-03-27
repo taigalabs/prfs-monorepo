@@ -10,8 +10,13 @@
   font-size: 36px;
   text-align: center;
   font-variation-settings: "wght" 669;
-  padding-bottom: 24px;
+  padding-bottom: 18px;
   line-height: 1em;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-weight: 500;
 }
 
 @media screen and (min-width: $mid_display_min_width) {
@@ -21,6 +26,6 @@
   }
 
   .title {
-    padding-bottom: 14px;
+    padding-bottom: 24px;
   }
 }
