@@ -45,7 +45,9 @@
   .overlay {
     position: absolute;
     inset: 0;
-    background-color: red;
+    background-color: var(--bright-gray-40);
+    display: grid;
+    place-items: center;
   }
 }
 

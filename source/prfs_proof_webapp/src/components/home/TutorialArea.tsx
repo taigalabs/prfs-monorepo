@@ -1,5 +1,6 @@
 import React from "react";
 import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import cn from "classnames";
 
 import styles from "./TutorialArea.module.scss";
@@ -26,7 +27,11 @@ const Iframe: React.FC<IframeProps> = ({ src }) => {
   return (
     <div className={cn(styles.iframe)}>
       <iframe className={cn(styles.video)} src={src} allow="autoplay" ref={iframeRef} />
-      {/* <div className={styles.overlay}>Loading...</div> */}
+      {!isLoaded && (
+        <div className={styles.overlay}>
+          <Spinner />
+        </div>
+      )}
     </div>
   );
 };
