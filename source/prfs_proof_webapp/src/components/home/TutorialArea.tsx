@@ -25,8 +25,6 @@ const TutorialArea: React.FC<LogoContainerProps> = () => {
     [setTutorialLabel],
   );
 
-  console.log(11, tutorialLabel);
-
   return (
     <div className={cn(styles.wrapper)}>
       <p className={styles.title}>{i18n.learn_by_tutorials}</p>
@@ -53,6 +51,14 @@ const TutorialArea: React.FC<LogoContainerProps> = () => {
           (Live app example) Create a topic and comment
         </li>
       </ol>
+      <div>
+        <iframe
+          src="https://drive.google.com/file/d/1sjmdleq4_cK9UPQ6xxlSu1hUkfPy5Hao/preview"
+          width="640"
+          height="480"
+          allow="autoplay"
+        ></iframe>
+      </div>
     </div>
   );
 };
