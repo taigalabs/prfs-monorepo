@@ -1,25 +1,36 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
-  padding-top: 32px;
+  width: 100%;
+  padding: 32px 24px 0;
 }
 
 .item {
-  display: inline-block;
+  display: block;
   font-size: 16px;
+  text-align: center;
 
   &:not(:first-child) {
-    margin-left: 1em;
+    margin-top: 10px;
   }
 
   svg {
     margin-left: 0.1em;
-    // font-size: 18px;
     vertical-align: middle;
   }
+}
+
+.or {
+  margin-left: 1em;
 }
 
 .attestation {
   color: var(--white-100);
   background-color: var(--pale-brown-53);
+}
+
+.transparentBtn {
+  padding-left: 16px;
 }
 
 .brownBtn {
@@ -29,6 +40,7 @@
   font-weight: 500;
   cursor: pointer;
   border-radius: 5px;
+  width: 100%;
 
   &:hover {
     background-color: var(--pale-brown-52);
@@ -36,5 +48,19 @@
 
   &:active {
     background-color: var(--pale-brown-51);
+  }
+}
+
+@media screen and (min-width: $mid_display_min_width) {
+  .wrapper {
+    text-align: center;
+  }
+
+  .item {
+    display: inline-block;
+
+    &:not(:first-child) {
+      margin-left: 1em;
+    }
   }
 }

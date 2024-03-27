@@ -6,5 +6,6 @@ export const urls = {
   privacy: `${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}${paths.privacy}`,
   updates: `${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}${paths.updates}`,
   sets: `${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/${paths.sets}`,
+  docs: `${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}`,
   proof_types: `${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/${paths.proof_types}`,
 };
