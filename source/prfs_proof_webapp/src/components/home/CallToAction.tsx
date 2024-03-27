@@ -1,11 +1,10 @@
 import React from "react";
 import cn from "classnames";
-import { FaArrowRight } from "@react-icons/all-files/fa/FaArrowRight";
 import { MdArrowForward } from "@react-icons/all-files/md/MdArrowForward";
+import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./CallToAction.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
-import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 import { urls } from "@/urls";
 import Link from "next/link";
 import { paths } from "@/paths";
@@ -19,7 +18,7 @@ const CallToAction: React.FC<LogoContainerProps> = () => {
         <button className={styles.transparentBtn} type="button">
           <HoverableText>
             <a href={urls.docs}>
-              <span>{i18n.read_the_docs} (working)</span>
+              <span>{i18n.read_the_docs} (in-progress)</span>
               <MdArrowForward />
             </a>
           </HoverableText>
