@@ -21,20 +21,12 @@
 }
 
 @media screen and (min-width: $mid_display_min_width) {
-  .wrapper {
-    /* text-align: center; */
-  }
-
   .itemContainer {
     grid-template-columns: repeat(2, minmax(200px, 300px));
   }
 }
 
 @media screen and (min-width: $big_display_min_width) {
-  .wrapper {
-    /* text-align: center; */
-  }
-
   .itemContainer {
     column-gap: 60px;
     row-gap: 60px;
