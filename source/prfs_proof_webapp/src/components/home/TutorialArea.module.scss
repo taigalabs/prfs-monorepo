@@ -2,11 +2,35 @@
 
 .wrapper {
   padding-top: 80px;
+  width: 100%;
 }
 
 .title {
   font-size: 36px;
+  text-align: center;
   font-variation-settings: "wght" 669;
+}
+
+.list {
+  text-align: center;
+  padding-top: 24px;
+
+  li {
+    display: inline-block;
+    padding: 6px 10px;
+    font-variation-settings: "wght" 554;
+    margin-right: 6px;
+    cursor: pointer;
+    border-radius: 3px;
+
+    &.isActive {
+      background-color: var(--bright-gray-44);
+    }
+
+    &:hover {
+      background-color: var(--bright-gray-44);
+    }
+  }
 }
 
 @media screen and (min-width: $big_display_min_width) {
