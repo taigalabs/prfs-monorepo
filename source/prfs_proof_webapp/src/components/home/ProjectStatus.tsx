@@ -16,7 +16,7 @@ const ProjectStatus: React.FC<LogoContainerProps> = () => {
   return (
     <Area className={styles.wrapper}>
       <Subtitle>
-        We are currently participating in the Consensys fellowship program ('23-'24)
+        We are currently participating in the Consensys fellowship program (23-Present)
       </Subtitle>
       <div>
         <img

@@ -5,9 +5,10 @@
 
 .itemContainer {
   display: grid;
-  grid-template-columns: repeat(1, minmax(200px, 300px));
+  grid-template-columns: repeat(1, 200px);
   justify-content: center;
   column-gap: 40px;
+  row-gap: 40px;
 }
 
 .item {
@@ -20,6 +21,8 @@
 
 @media screen and (min-width: $mid_display_min_width) {
   .itemContainer {
-    grid-template-columns: repeat(2, minmax(200px, 300px));
+    grid-template-columns: repeat(2, 200px);
+    column-gap: 60px;
+    row-gap: 60px;
   }
 }
