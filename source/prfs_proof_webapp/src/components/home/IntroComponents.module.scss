@@ -9,11 +9,16 @@
   font-size: 36px;
   text-align: center;
   font-variation-settings: "wght" 669;
+  padding-bottom: 24px;
 }
 
 @media screen and (min-width: $mid_display_min_width) {
   .area {
     text-align: center;
     padding: 80px 24px 0;
+  }
+
+  .title {
+    padding-bottom: 14px;
   }
 }

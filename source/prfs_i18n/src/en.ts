@@ -4,6 +4,7 @@ export default {
   close_and_return: "Close and return",
   close_window: "Close window",
   features_for_safer_internet: "Features for safer Internet",
+  things_that_make_prfs_special: "Things that make Prfs Special",
   account_verification: "Account Verification",
   account_id: "Account ID",
   attestations: "Attestations",
