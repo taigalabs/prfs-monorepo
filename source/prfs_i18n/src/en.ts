@@ -331,6 +331,8 @@ export default {
   choose_proof_type: "Choose a proof type",
   console: "Console",
   get_ready_to_make_proof: "Get ready to make a proof",
+  read_the_docs: "Read the docs",
+  start_with_attestation: "Start with attestation",
   choose_set: "Choose a set",
   configure_circuit_inputs: "Configure circuit inputs",
   prover_generated: "prover_generated",

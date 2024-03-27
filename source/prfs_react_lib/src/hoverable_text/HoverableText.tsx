@@ -5,9 +5,9 @@ import styles from "./HoverableText.module.scss";
 
 const HoverableText: React.FC<ArrowButtonProps> = ({ className, children, disabled }) => {
   return (
-    <span className={cn(styles.hoverableText, className, { [styles.disabled]: disabled })}>
+    <div className={cn(styles.hoverableText, className, { [styles.disabled]: disabled })}>
       {children}
-    </span>
+    </div>
   );
 };
 

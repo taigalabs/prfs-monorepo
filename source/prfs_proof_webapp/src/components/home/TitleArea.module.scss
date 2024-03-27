@@ -24,6 +24,11 @@
 
 .proofs {
   margin-left: 0.3em;
+  background: #1c3e44;
+  background: linear-gradient(to right, #1c3e44 0%, #a66e5b 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 
   &::after {
     content: "*";

@@ -14,6 +14,7 @@ import {
 import { IoIosSearch } from "@react-icons/all-files/io/IoIosSearch";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { FaArrowRight } from "@react-icons/all-files/fa/FaArrowRight";
+import { MdArrowForward } from "@react-icons/all-files/md/MdArrowForward";
 
 import styles from "./SearchProofDialog.module.scss";
 import { inter } from "../fonts";
