@@ -15,10 +15,12 @@ const Specialties: React.FC<LogoContainerProps> = () => {
 
   return (
     <Area>
-      <Title>{i18n.things_that_make_prfs_special}</Title>
+      <Title>Build with the latest innovation, without forsaking practicality</Title>
       <ul className={styles.itemContainer}>
-        <li className={styles.item}>{i18n.proof}</li>
-        <li className={styles.item}>{i18n.attestation}</li>
+        <li className={styles.item}>Universality</li>
+        <li className={styles.item}>Client-side</li>
+        <li className={styles.item}>Pragmatic</li>
+        <li className={styles.item}>Performant</li>
       </ul>
     </Area>
   );

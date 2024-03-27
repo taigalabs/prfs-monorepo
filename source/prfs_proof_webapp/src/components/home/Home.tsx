@@ -20,6 +20,7 @@ import { roboto } from "@/fonts";
 import CallToAction from "./CallToAction";
 import FeatureList from "./FeatureList";
 import Specialties from "./Specialties";
+import ProjectStatus from "./ProjectStatus";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -72,6 +73,7 @@ const Home: React.FC<HomeProps> = () => {
         <FeatureList />
         <TutorialArea />
         <Specialties />
+        <ProjectStatus />
       </div>
     </>
   );
