@@ -173,7 +173,7 @@ const CreateSet: React.FC<CreateSetProps> = () => {
           <AttestationFormBtnRow className={styles.formBtnRow}>
             <div className={styles.createBtnRow}>
               <Button
-                variant="transparent_blue_2"
+                variant="transparent_blue_3"
                 noTransition
                 handleClick={handleClickStartOver}
                 type="button"
@@ -181,7 +181,7 @@ const CreateSet: React.FC<CreateSetProps> = () => {
                 {i18n.start_over}
               </Button>
               <Button
-                variant="blue_2"
+                variant="blue_3"
                 noTransition
                 className={styles.createBtn}
                 handleClick={handleClickCreate}
