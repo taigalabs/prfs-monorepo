@@ -30,6 +30,7 @@ const SearchIcon = () => {
 };
 
 const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
+  className,
   isActivated,
   proofInstanceId,
   proofType,
@@ -62,8 +63,7 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
 
   return (
     <div
-      className={cn({
-        [styles.wrapper]: true,
+      className={cn(styles.wrapper, className, {
         [styles.isActivated]: !!proofType || isActivated,
         [styles.isOpen]: !!isOpen,
       })}
@@ -122,6 +122,7 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
 export default SearchProofDialog;
 
 export interface SearchProofDialogProps {
+  className?: string;
   isActivated?: boolean;
   proofInstanceId?: string | undefined;
   proofType: PrfsProofType | undefined;

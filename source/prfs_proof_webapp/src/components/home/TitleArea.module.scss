@@ -24,6 +24,12 @@
 
 .proofs {
   margin-left: 0.3em;
+
+  &::after {
+    content: "*";
+    font-size: 0.8em;
+    margin-left: -0.1em;
+  }
 }
 
 .subtitle {

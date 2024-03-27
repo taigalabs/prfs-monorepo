@@ -7,14 +7,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-import Link from "next/link";
 import SearchProofDialog from "@taigalabs/prfs-react-lib/src/search_proof_dialog/SearchProofDialog";
+import { inter } from "@taigalabs/prfs-react-lib/src/fonts";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./Home.module.scss";
 import { i18nContext } from "@/i18n/context";
 import TitleArea from "./TitleArea";
 import { paths } from "@/paths";
+import TutorialArea from "./TutorialArea";
+import { roboto } from "@/fonts";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -44,7 +46,7 @@ const Home: React.FC<HomeProps> = () => {
 
   return (
     <>
-      <div className={styles.wrapper}>
+      <div className={cn(styles.wrapper, inter.className)}>
         <TitleArea />
         <div className={cn(styles.formArea)}>
           {formStatus === SearchProofTypeFormStatus.Loading && (
@@ -55,17 +57,15 @@ const Home: React.FC<HomeProps> = () => {
           <div className={cn(styles.formWrapper)}>
             <div className={styles.proofTypeRow}>
               <SearchProofDialog
+                className={roboto.className}
                 proofType={undefined}
                 handleSelectProofType={handleSelectProofType}
                 webappConsoleEndpoint={process.env.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}
               />
             </div>
-            {/* <div className={styles.welcomeRow}> */}
-            {/*   <span>{i18n.create_and_share_proofs}</span> */}
-            {/*   <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link> */}
-            {/* </div> */}
           </div>
         </div>
+        <TutorialArea />
       </div>
     </>
   );

@@ -42,13 +42,6 @@
   border-radius: 5px;
 }
 
-.select {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  width: 100%;
-}
-
 .createProofBtn {
   margin-top: 10px;
 
@@ -58,21 +51,21 @@
   }
 }
 
-.welcomeRow {
-  margin-top: 24px;
-  display: flex;
-  justify-content: center;
-  color: var(--gray-20);
+/* .welcomeRow { */
+/*   margin-top: 24px; */
+/*   display: flex; */
+/*   justify-content: center; */
+/*   color: var(--gray-20); */
 
-  a {
-    margin-left: 5px;
-    color: var(--dark-blue-50);
+/*   a { */
+/*     margin-left: 5px; */
+/*     color: var(--dark-blue-50); */
 
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
+/*     &:hover { */
+/*       text-decoration: underline; */
+/*     } */
+/*   } */
+/* } */
 
 .moduleWrapper {
   margin-top: 24px;

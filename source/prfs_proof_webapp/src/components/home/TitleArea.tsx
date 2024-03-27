@@ -10,14 +10,14 @@ const TitleArea: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();
 
   return (
-    <div className={cn(styles.wrapper, inter.className)}>
+    <div className={styles.wrapper}>
       <div className={styles.title}>
         <span>Create anonymous</span>
         <br className={styles.lineBreak} />
         <span className={styles.proofs}>proofs</span>
       </div>
       <div className={styles.subtitle}>
-        Universal and performant interface for building client-side ZKP capabilities.
+        Universal and performant interface for enabling client-side zero-knowledge proof.
       </div>
     </div>
   );
