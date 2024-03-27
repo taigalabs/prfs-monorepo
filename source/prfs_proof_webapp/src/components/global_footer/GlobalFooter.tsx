@@ -15,12 +15,12 @@ const GlobalFooter: React.FC<GlobalFooterProps> = async ({ transparent }) => {
     <div className={cn(styles.wrapper, { [styles.transparent]: transparent })}>
       <ul className={styles.leftList}>
         <li>{i18n.english}</li>
-        <li>
-          <Link className={styles.updates} href={urls.updates}>
-            <span>{i18n.updates}</span>
-            <LatestTimestamp />
-          </Link>
-        </li>
+        {/* <li> */}
+        {/*   <Link className={styles.updates} href={urls.updates}> */}
+        {/*     <span>{i18n.updates}</span> */}
+        {/*     <LatestTimestamp /> */}
+        {/*   </Link> */}
+        {/* </li> */}
       </ul>
       <ul className={styles.rightList}>
         <li>

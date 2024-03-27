@@ -17,7 +17,7 @@ const TitleArea: React.FC<LogoContainerProps> = () => {
         <span className={styles.proofs}>proofs</span>
       </div>
       <div className={styles.subtitle}>
-        Universal and performant interface for enabling client-side zero-knowledge proof.
+        Universal and performant interface for building client-side zero-knowledge proofs.
       </div>
     </div>
   );
