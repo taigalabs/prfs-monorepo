@@ -48,16 +48,33 @@ const TutorialArea: React.FC<LogoContainerProps> = () => {
           data-label={TutorialLabel.create_topic}
           onClick={handleClickItem}
         >
-          (Live app example) Create a topic and comment
+          (Live app - Shy) Create a topic and comment
         </li>
       </ol>
-      <div>
-        <iframe
-          src="https://drive.google.com/file/d/1sjmdleq4_cK9UPQ6xxlSu1hUkfPy5Hao/preview"
-          width="640"
-          height="480"
-          allow="autoplay"
-        ></iframe>
+      <div className={styles.videoContainer}>
+        {tutorialLabel === TutorialLabel.create_identity && (
+          <iframe
+            className={styles.video}
+            src="https://drive.google.com/file/d/1hyVmoqCExvPLMU9ABa7Vt6LaTw_D9dCV/preview"
+            allow="autoplay"
+          ></iframe>
+        )}
+        {tutorialLabel === TutorialLabel.create_proof && (
+          <iframe
+            src="https://drive.google.com/file/d/1if74zytTjTy-eShG9GzyCQzhfjN-cN4b/preview"
+            width="640"
+            height="480"
+            allow="autoplay"
+          ></iframe>
+        )}
+        {tutorialLabel === TutorialLabel.create_topic && (
+          <iframe
+            src="https://drive.google.com/file/d/1Hsic--IUT5LfRFpnRjmwvTcNYl3PDrGp/preview"
+            width="640"
+            height="480"
+            allow="autoplay"
+          ></iframe>
+        )}
       </div>
     </div>
   );

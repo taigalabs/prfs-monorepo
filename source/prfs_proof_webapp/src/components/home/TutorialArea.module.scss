@@ -33,5 +33,19 @@
   }
 }
 
+.videoContainer {
+  padding: 24px 0 80px;
+  text-align: center;
+}
+
+.video {
+  width: 300px;
+  height: 200px;
+}
+
 @media screen and (min-width: $big_display_min_width) {
+  .video {
+    width: 640px;
+    height: 480px;
+  }
 }
