@@ -10,15 +10,15 @@ const LogoContainer: React.FC<LogoContainerProps> = ({ proofTypeChosen }) => {
   const i18n = useI18N();
 
   return (
-    <div
-      className={cn(styles.wrapper, inter.className, { [styles.proofTypeChosen]: proofTypeChosen })}
-    >
-      <div className={styles.text}>
+    <div className={cn(styles.wrapper, inter.className)}>
+      <div className={styles.title}>
         <span>Create anonymous</span>
         <br className={styles.lineBreak} />
         <span className={styles.proofs}>proofs</span>
       </div>
-      <div>Prfs is a generic interface</div>
+      <div className={styles.subtitle}>
+        Universal and performant interface for building client-side ZKP capabilities.
+      </div>
     </div>
   );
 };

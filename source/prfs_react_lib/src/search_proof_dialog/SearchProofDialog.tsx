@@ -13,6 +13,7 @@ import {
 } from "@floating-ui/react";
 import { IoIosSearch } from "@react-icons/all-files/io/IoIosSearch";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { FaArrowRight } from "@react-icons/all-files/fa/FaArrowRight";
 
 import styles from "./SearchProofDialog.module.scss";
 import { inter } from "../fonts";
@@ -79,14 +80,18 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
         ) : (
           <div className={cn(styles.placeholderBtn, { [styles.empty]: !proofInstanceId })}>
             {isOpen && <SearchIcon />}
-            <p
+            <div
               className={cn(styles.placeholder, {
-                // [styles.proofInstanceId]: proofInstanceId,
                 [inter.className]: !proofInstanceId,
               })}
             >
-              {proofInstanceId ?? i18n.find_what_to_prove}
-            </p>
+              {proofInstanceId ?? (
+                <div className={styles.findWhatToProve}>
+                  <span>{i18n.find_what_to_prove}</span>
+                  <FaArrowRight />
+                </div>
+              )}
+            </div>
             <div className={cn(styles.searchBtn)}>
               <IoIosSearch />
             </div>
