@@ -1,0 +1,10 @@
+@import "@/styles/layouts.module.scss";
+
+.title {
+  font-size: 36px;
+  text-align: center;
+  font-variation-settings: "wght" 669;
+}
+
+@media screen and (min-width: $mid_display_min_width) {
+}

@@ -18,6 +18,7 @@ import { paths } from "@/paths";
 import TutorialArea from "./TutorialArea";
 import { roboto } from "@/fonts";
 import CallToAction from "./CallToAction";
+import FeatureList from "./FeatureList";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -67,6 +68,7 @@ const Home: React.FC<HomeProps> = () => {
           </div>
         </div>
         <CallToAction />
+        <FeatureList />
         <TutorialArea />
       </div>
     </>

@@ -5,6 +5,7 @@ import cn from "classnames";
 
 import styles from "./TutorialArea.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
+import { Title } from "./IntroComponents";
 
 enum TutorialLabel {
   create_identity,
@@ -52,7 +53,7 @@ const TutorialArea: React.FC<LogoContainerProps> = () => {
 
   return (
     <div className={cn(styles.wrapper)}>
-      <p className={styles.title}>{i18n.learn_by_tutorials}</p>
+      <Title>{i18n.learn_by_tutorials}</Title>
       <ol className={styles.list}>
         <li
           className={cn({ [styles.isActive]: tutorialLabel === TutorialLabel.create_identity })}
