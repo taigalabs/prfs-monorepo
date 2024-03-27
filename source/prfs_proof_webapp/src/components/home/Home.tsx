@@ -21,6 +21,7 @@ import CallToAction from "./CallToAction";
 import FeatureList from "./FeatureList";
 import Specialties from "./Specialties";
 import ProjectStatus from "./ProjectStatus";
+import Contacts from "./Contacts";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -74,6 +75,7 @@ const Home: React.FC<HomeProps> = () => {
         <TutorialArea />
         <Specialties />
         <ProjectStatus />
+        <Contacts />
       </div>
     </>
   );

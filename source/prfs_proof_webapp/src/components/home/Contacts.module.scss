@@ -1,0 +1,31 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  width: 100%;
+}
+
+.item {
+  display: block;
+  font-size: 16px;
+  text-align: center;
+
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
+
+  svg {
+    margin-left: 0.1em;
+    vertical-align: middle;
+  }
+}
+
+.appLogo {
+  margin-top: 18px;
+  height: 26px;
+}
+
+@media screen and (min-width: $mid_display_min_width) {
+  .wrapper {
+    text-align: center;
+  }
+}

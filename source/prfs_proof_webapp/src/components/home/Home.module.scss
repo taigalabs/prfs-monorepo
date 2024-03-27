@@ -61,6 +61,10 @@
 }
 
 @media screen and (min-width: $big_display_min_width) {
+  .wrapper {
+    padding-bottom: 100px;
+  }
+
   .loading {
     padding: 0;
   }
