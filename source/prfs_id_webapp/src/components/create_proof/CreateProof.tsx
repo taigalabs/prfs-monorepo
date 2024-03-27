@@ -124,6 +124,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
 
           const { proofAction, proofActionSig, proofActionSigMsg } = val;
           if (!proofAction) {
+            console.error("val", val.proofAction);
             throw new Error("Proof action is empty");
           }
 
