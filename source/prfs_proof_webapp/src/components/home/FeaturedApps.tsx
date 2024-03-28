@@ -7,7 +7,7 @@ import { TbCertificate } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbCert
 import { TbMathPi } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbMathPi";
 import Link from "next/link";
 
-import styles from "./FeatureList.module.scss";
+import styles from "./FeaturedApps.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 import { urls } from "@/urls";
 import { paths } from "@/paths";
@@ -18,29 +18,34 @@ const FeaturedApps: React.FC<LogoContainerProps> = () => {
 
   return (
     <Area className={styles.wrapper}>
-      <Subtitle>Featured applications</Subtitle>
-      <ul className={styles.itemContainer}>
-        <li className={cn(styles.item, styles.attestation)}>
-          <div className={styles.title}>
-            <p className={styles.iconBox}>
-              <TbCertificate />
+      <div className={styles.inner}>
+        <Subtitle>Featured applications</Subtitle>
+        <p className={styles.subtitle2}>
+          Prfs is empowering applications to make use of the latest ZKP technology
+        </p>
+        <ul className={styles.itemContainer}>
+          <li className={cn(styles.item)}>
+            <div className={styles.title}>
+              <img
+                className={styles.logo}
+                src="https://d1w1533jipmvi2.cloudfront.net/shy_s_logo_192.png"
+              />
+              Shy
+            </div>
+            <p className={styles.desc}>
+              Anonymous discussion forum powered by zkp. Chat with the proof of assets.
             </p>
-            {i18n.attestation}
-          </div>
-          <p className={styles.desc}>
-            Attest to your data to streamline the process of generating the proof and to claim
-            diverse fact about you
-          </p>
-          <div className={styles.callToAction}>
-            <p>
-              <Link href={paths.attestations}>
-                Learn more
-                <MdArrowForward />
-              </Link>
-            </p>
-          </div>
-        </li>
-      </ul>
+            <div className={styles.callToAction}>
+              <p>
+                <a href="https://www.shy.chat">
+                  Learn more
+                  <MdArrowForward />
+                </a>
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
     </Area>
   );
 };
