@@ -21,7 +21,7 @@ const FeatureList: React.FC<LogoContainerProps> = () => {
       <ul className={styles.itemContainer}>
         <li className={styles.item}>
           <div className={styles.title}>
-            <p className={styles.iconBox}>
+            <p className={cn(styles.iconBox, styles.proof)}>
               <TbMathPi />
             </p>
             {i18n.proof}

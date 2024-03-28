@@ -10,18 +10,18 @@ $item_width: 214px;
   display: grid;
   grid-template-columns: repeat(1, $item_width);
   justify-content: center;
-  column-gap: 40px;
-  row-gap: 40px;
+  column-gap: 20px;
+  row-gap: 20px;
 }
 
 .item {
-  font-size: 16px;
+  font-size: 15px;
   text-align: start;
   display: inline-block;
   border-radius: 5px;
   width: 200px;
   height: 200px;
-  /* background-color: var(--bright-gray-40); */
+  border: 2px solid var(--bright-gray-40);
   padding: 16px 16px 12px;
 }
 
@@ -38,11 +38,13 @@ $item_width: 214px;
   place-items: center;
   font-size: 16px;
   padding: 4px;
-  margin-right: 2px;
+  margin-right: 0.2em;
   border-radius: 0.3em;
+}
 
-  svg {
-  }
+.proof {
+  background-color: var(--bright-blue-52);
+  color: var(--blue-120);
 }
 
 .attestation {
@@ -57,7 +59,7 @@ $item_width: 214px;
 @media screen and (min-width: $mid_display_min_width) {
   .itemContainer {
     grid-template-columns: repeat(2, $item_width);
-    column-gap: 60px;
-    row-gap: 60px;
+    column-gap: 24px;
+    row-gap: 24px;
   }
 }
