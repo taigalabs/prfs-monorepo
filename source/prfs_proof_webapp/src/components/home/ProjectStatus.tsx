@@ -16,24 +16,24 @@ const ProjectStatus: React.FC<LogoContainerProps> = () => {
   return (
     <Area className={styles.wrapper}>
       <Subtitle>
-        <p>
+        <div>
           We are currently participating in the{" "}
           <a href="https://consensys.io/fellowship" target="_blank">
             <HoverableText>Consensys fellowship program</HoverableText>
           </a>{" "}
           ('23-Present)
-        </p>
+        </div>
       </Subtitle>
       <div className={styles.links}>
         <img
           className={styles.appLogo}
           src="https://d1w1533jipmvi2.cloudfront.net/Consensys_logo_2023.svg.png"
         />
-        <p className={styles.tweet}>
+        <div className={styles.tweet}>
           <a href="https://x.com/Consensys/status/1721602564775395502?s=20" target="_blank">
             <HoverableText>[Tweet]</HoverableText>
           </a>
-        </p>
+        </div>
       </div>
     </Area>
   );
