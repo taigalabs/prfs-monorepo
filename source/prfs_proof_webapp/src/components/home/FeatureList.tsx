@@ -16,22 +16,26 @@ const FeatureList: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();
 
   return (
-    <Area>
-      <Title>{i18n.features_for_safer_internet}</Title>
+    <Area className={styles.wrapper}>
+      {/* <Title>{i18n.features_for_safer_internet}</Title> */}
       <ul className={styles.itemContainer}>
         <li className={styles.item}>
-          <p>
-            <TbMathPi />
+          <div className={styles.title}>
+            <p className={styles.iconBox}>
+              <TbMathPi />
+            </p>
             {i18n.proof}
-          </p>
-          <p>Create and verify zero-knowledge proofs on your browser.</p>
+          </div>
+          <p className={styles.desc}>Create and verify zero-knowledge proofs on your browser.</p>
         </li>
         <li className={styles.item}>
-          <p>
-            <TbCertificate />
+          <div className={styles.title}>
+            <p className={cn(styles.iconBox, styles.attestation)}>
+              <TbCertificate />
+            </p>
             {i18n.attestation}
-          </p>
-          <p>
+          </div>
+          <p className={styles.desc}>
             Attest to your data to streamline the process of generating the proof and to claim
             diverse fact about you
           </p>
