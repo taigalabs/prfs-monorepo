@@ -16,9 +16,9 @@ const Contacts: React.FC<LogoContainerProps> = () => {
   return (
     <Area className={styles.wrapper}>
       <Subtitle>Reach out to us via</Subtitle>
-      <ul>
-        <li>Telegram (Shy)</li>
-        <li>Twitter (Shy)</li>
+      <ul className={styles.itemContainer}>
+        <li className={styles.item}>Telegram (Shy)</li>
+        <li className={styles.item}>Twitter (Shy)</li>
       </ul>
     </Area>
   );

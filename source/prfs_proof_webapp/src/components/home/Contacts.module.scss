@@ -24,6 +24,15 @@
   height: 26px;
 }
 
+.itemContainer {
+  /* display: flex; */
+  /* justify-content: center; */
+}
+
+.item {
+  display: inline-block;
+}
+
 @media screen and (min-width: $mid_display_min_width) {
   .wrapper {
     text-align: center;
