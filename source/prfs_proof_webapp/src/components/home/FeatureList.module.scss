@@ -15,13 +15,16 @@ $item_width: 214px;
 }
 
 .item {
-  font-size: 15px;
+  font-size: 14px;
+  font-variation-settings: "wght" 456;
+  line-height: 19px;
+  letter-spacing: 0.10125px;
   text-align: start;
   display: inline-block;
   border-radius: 5px;
   width: 200px;
   height: 200px;
-  border: 2px solid var(--bright-gray-40);
+  border: 2px solid var(--bright-gray-45);
   padding: 16px 16px 12px;
 }
 
