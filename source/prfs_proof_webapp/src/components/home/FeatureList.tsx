@@ -1,6 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { MdArrowForward } from "@react-icons/all-files/md/MdArrowForward";
+import { MdArrowUpward } from "@react-icons/all-files/md/MdArrowUpward";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 import { TbCertificate } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbCertificate";
 import { TbMathPi } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbMathPi";
@@ -19,18 +20,22 @@ const FeatureList: React.FC<LogoContainerProps> = () => {
     <Area className={styles.wrapper}>
       {/* <Title>{i18n.features_for_safer_internet}</Title> */}
       <ul className={styles.itemContainer}>
-        <li className={styles.item}>
+        <li className={cn(styles.item, styles.proof)}>
           <div className={styles.title}>
-            <p className={cn(styles.iconBox, styles.proof)}>
+            <p className={styles.iconBox}>
               <TbMathPi />
             </p>
             {i18n.proof}
           </div>
           <p className={styles.desc}>Create and verify zero-knowledge proofs on your browser.</p>
+          <p className={styles.callToAction}>
+            Find proof type
+            <MdArrowUpward />
+          </p>
         </li>
-        <li className={styles.item}>
+        <li className={cn(styles.item, styles.attestation)}>
           <div className={styles.title}>
-            <p className={cn(styles.iconBox, styles.attestation)}>
+            <p className={styles.iconBox}>
               <TbCertificate />
             </p>
             {i18n.attestation}
@@ -38,6 +43,10 @@ const FeatureList: React.FC<LogoContainerProps> = () => {
           <p className={styles.desc}>
             Attest to your data to streamline the process of generating the proof and to claim
             diverse fact about you
+          </p>
+          <p className={styles.callToAction}>
+            Learn more
+            <MdArrowForward />
           </p>
         </li>
       </ul>
