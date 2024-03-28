@@ -23,7 +23,7 @@ const Contacts: React.FC<LogoContainerProps> = () => {
           </a>
         </li>
         <li className={styles.item}>
-          <a href="https://t.me/shy_chat">
+          <a href="https://twitter.com/shy_chat">
             <HoverableText>Twitter (Shy)</HoverableText>
           </a>
         </li>

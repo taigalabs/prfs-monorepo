@@ -11,29 +11,15 @@ import styles from "./FeatureList.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 import { urls } from "@/urls";
 import { paths } from "@/paths";
-import { Area, Title } from "./IntroComponents";
+import { Area, Subtitle, Title } from "./IntroComponents";
 
-const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => {
+const FeaturedApps: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();
 
   return (
     <Area className={styles.wrapper}>
+      <Subtitle>Featured applications</Subtitle>
       <ul className={styles.itemContainer}>
-        <li className={cn(styles.item, styles.proof)}>
-          <div className={styles.title}>
-            <p className={styles.iconBox}>
-              <TbMathPi />
-            </p>
-            {i18n.proof}
-          </div>
-          <p className={styles.desc}>Create and verify zero-knowledge proofs on your browser.</p>
-          <div className={styles.callToAction}>
-            <p onClick={handleFocusSearchBar}>
-              Find proof type
-              <MdArrowUpward />
-            </p>
-          </div>
-        </li>
         <li className={cn(styles.item, styles.attestation)}>
           <div className={styles.title}>
             <p className={styles.iconBox}>
@@ -59,8 +45,6 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
   );
 };
 
-export default FeatureList;
+export default FeaturedApps;
 
-export interface LogoContainerProps {
-  handleFocusSearchBar: () => void;
-}
+export interface LogoContainerProps {}
