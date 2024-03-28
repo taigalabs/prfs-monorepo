@@ -10,7 +10,7 @@
   text-align: center;
 
   &:not(:first-child) {
-    margin-top: 10px;
+    margin-left: 22px;
   }
 
   svg {
@@ -25,6 +25,7 @@
 }
 
 .itemContainer {
+  padding-top: 16px;
   /* display: flex; */
   /* justify-content: center; */
 }

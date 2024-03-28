@@ -14,7 +14,10 @@ const Specialties: React.FC<LogoContainerProps> = () => {
       <ul className={styles.itemContainer}>
         <li className={styles.item}>
           <p className={styles.title}>Universality</p>
-          <p>An interface that is not tied to any specific blockchain, zk-dsl, or proof systems.</p>
+          <p>
+            An interface that is not tied to any specific blockchain, zk-dsl, or proof systems. Prfs
+            enables different finite fields or proof algorithms to run on the system.
+          </p>
         </li>
         <li className={styles.item}>
           <p className={styles.title}>Client-side</p>
@@ -24,11 +27,14 @@ const Specialties: React.FC<LogoContainerProps> = () => {
         </li>
         <li className={styles.item}>
           <p className={styles.title}>Pragmatic</p>
-          <p></p>
+          <p>Verifiable computing in a resource-constrained environment of edge devices.</p>
         </li>
         <li className={styles.item}>
           <p className={styles.title}>Performant</p>
-          <p></p>
+          <p>
+            With data pre-processing and proof system optimzation, we enable proving that can run
+            reasonably fast.
+          </p>
         </li>
       </ul>
     </Area>

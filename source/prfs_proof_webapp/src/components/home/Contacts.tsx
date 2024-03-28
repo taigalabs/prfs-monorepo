@@ -17,8 +17,16 @@ const Contacts: React.FC<LogoContainerProps> = () => {
     <Area className={styles.wrapper}>
       <Subtitle>Reach out to us via</Subtitle>
       <ul className={styles.itemContainer}>
-        <li className={styles.item}>Telegram (Shy)</li>
-        <li className={styles.item}>Twitter (Shy)</li>
+        <li className={styles.item}>
+          <a href="https://t.me/shy_chat">
+            <HoverableText>Telegram (Shy)</HoverableText>
+          </a>
+        </li>
+        <li className={styles.item}>
+          <a href="https://t.me/shy_chat">
+            <HoverableText>Twitter (Shy)</HoverableText>
+          </a>
+        </li>
       </ul>
     </Area>
   );
