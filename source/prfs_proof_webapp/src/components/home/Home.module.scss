@@ -37,6 +37,12 @@
   width: 100%;
   flex-direction: column;
   justify-content: center;
+  transition: all 0.2s;
+  border-radius: 20px;
+
+  &.isFocused {
+    background-color: var(--pale-brown-53);
+  }
 }
 
 .proofTypeRow {

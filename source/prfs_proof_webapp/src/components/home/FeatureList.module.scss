@@ -78,6 +78,12 @@ $item_width: 214px;
 .callToAction {
   cursor: pointer;
   margin-top: auto;
+  font-size: 13.5px;
+  font-variation-settings: "wght" 619;
+
+  &:hover {
+    text-decoration: underline;
+  }
 
   svg {
     margin-left: 0.15em;

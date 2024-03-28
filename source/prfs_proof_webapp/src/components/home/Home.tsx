@@ -33,6 +33,7 @@ const Home: React.FC<HomeProps> = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [formStatus, setFormStatus] = React.useState(SearchProofTypeFormStatus.Standby);
+  const [isSearchBarFocused, setIsSearchBarFocused] = React.useState(false);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -49,6 +50,17 @@ const Home: React.FC<HomeProps> = () => {
     [getPrfsProofTypeByProofTypeIdRequest, router, searchParams, setFormStatus],
   );
 
+  const handleFocusSearchBar = React.useCallback(() => {
+    console.log(123);
+    setIsSearchBarFocused(true);
+
+    window.setTimeout(() => {
+      setIsSearchBarFocused(false);
+    }, 1000);
+  }, [setIsSearchBarFocused]);
+
+  console.log(11, isSearchBarFocused);
+
   return (
     <>
       <div className={cn(styles.wrapper, inter.className)}>
@@ -59,10 +71,10 @@ const Home: React.FC<HomeProps> = () => {
               <Spinner size={32} color="#8a8c8c" />
             </div>
           )}
-          <div className={cn(styles.formWrapper)}>
+          <div className={cn(styles.formWrapper, { [styles.isFocused]: isSearchBarFocused })}>
             <div className={styles.proofTypeRow}>
               <SearchProofDialog
-                className={roboto.className}
+                className={cn(roboto.className, styles.searchBar)}
                 proofType={undefined}
                 handleSelectProofType={handleSelectProofType}
                 webappConsoleEndpoint={process.env.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}
@@ -71,7 +83,7 @@ const Home: React.FC<HomeProps> = () => {
           </div>
         </div>
         <CallToAction />
-        <FeatureList />
+        <FeatureList handleFocusSearchBar={handleFocusSearchBar} />
         <TutorialArea />
         <Specialties />
         <ProjectStatus />

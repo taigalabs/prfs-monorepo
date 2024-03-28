@@ -13,7 +13,7 @@ import { urls } from "@/urls";
 import { paths } from "@/paths";
 import { Area, Title } from "./IntroComponents";
 
-const FeatureList: React.FC<LogoContainerProps> = () => {
+const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => {
   const i18n = useI18N();
 
   return (
@@ -28,7 +28,7 @@ const FeatureList: React.FC<LogoContainerProps> = () => {
             {i18n.proof}
           </div>
           <p className={styles.desc}>Create and verify zero-knowledge proofs on your browser.</p>
-          <p className={styles.callToAction}>
+          <p className={styles.callToAction} onClick={handleFocusSearchBar}>
             Find proof type
             <MdArrowUpward />
           </p>
@@ -45,8 +45,10 @@ const FeatureList: React.FC<LogoContainerProps> = () => {
             diverse fact about you
           </p>
           <p className={styles.callToAction}>
-            Learn more
-            <MdArrowForward />
+            <Link href={paths.attestations}>
+              Learn more
+              <MdArrowForward />
+            </Link>
           </p>
         </li>
       </ul>
@@ -56,4 +58,6 @@ const FeatureList: React.FC<LogoContainerProps> = () => {
 
 export default FeatureList;
 
-export interface LogoContainerProps {}
+export interface LogoContainerProps {
+  handleFocusSearchBar: () => void;
+}
