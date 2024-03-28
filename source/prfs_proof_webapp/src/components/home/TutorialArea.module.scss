@@ -1,0 +1,64 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+}
+
+.title {
+  font-size: 36px;
+  text-align: center;
+  font-variation-settings: "wght" 669;
+}
+
+.list {
+  text-align: center;
+
+  li {
+    display: inline-block;
+    padding: 6px 10px;
+    font-variation-settings: "wght" 554;
+    font-size: 16px;
+    margin-right: 6px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    border-radius: 3px;
+
+    &.isActive {
+      background-color: var(--bright-gray-44);
+    }
+
+    &:hover {
+      background-color: var(--bright-gray-44);
+    }
+  }
+}
+
+.videoContainer {
+  padding: 24px 0 0;
+  display: flex;
+  justify-content: center;
+}
+
+.iframe {
+  position: relative;
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background-color: var(--bright-gray-40);
+    display: grid;
+    place-items: center;
+  }
+}
+
+.video {
+  width: 300px;
+  height: 200px;
+  border: none;
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .video {
+    width: 480px;
+    height: 320px;
+  }
+}

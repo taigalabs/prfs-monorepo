@@ -1,0 +1,60 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 70px;
+  margin-bottom: 28px;
+}
+
+.lineBreak {
+}
+
+.title {
+  text-align: center;
+  font-size: 45px;
+  font-variation-settings: "wght" 669;
+  line-height: 0.9em;
+  padding: 0 24px;
+}
+
+.proofs {
+  margin-left: 0.3em;
+  background: #1c3e44;
+  background: linear-gradient(to right, #1c3e44 0%, #a66e5b 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  &::after {
+    content: "*";
+    font-size: 0.8em;
+    margin-left: -0.1em;
+  }
+}
+
+.subtitle {
+  padding: 12px 24px 0;
+  text-align: center;
+  font-size: 24px;
+  font-variation-settings: "wght" 525;
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .wrapper {
+    margin-top: 0px;
+    height: 22vh;
+    min-height: 120px;
+    max-height: 210px;
+  }
+
+  .title {
+    font-size: 61px;
+  }
+
+  .lineBreak {
+    display: none;
+  }
+}

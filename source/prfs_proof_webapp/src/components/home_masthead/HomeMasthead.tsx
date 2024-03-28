@@ -2,7 +2,6 @@
 
 import React from "react";
 import cn from "classnames";
-import PrfsLogo from "@taigalabs/prfs-react-lib/src/prfs_logo/PrfsLogo";
 import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 
 import styles from "./HomeMasthead.module.scss";
@@ -25,7 +24,7 @@ const HomeMasthead: React.FC<HomeMastheadProps> = () => {
     <MastheadWrapper className={cn(styles.wrapper)}>
       <MastheadLeftGroup className={styles.leftGroup}>
         <a href={paths.__}>
-          <ImageLogo className={styles.logo} />
+          <ImageLogo width={50} />
         </a>
       </MastheadLeftGroup>
       <MastheadRightGroup className={styles.rightGroup}>

@@ -13,8 +13,11 @@ import {
 } from "@floating-ui/react";
 import { IoIosSearch } from "@react-icons/all-files/io/IoIosSearch";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { FaArrowRight } from "@react-icons/all-files/fa/FaArrowRight";
+import { MdArrowForward } from "@react-icons/all-files/md/MdArrowForward";
 
 import styles from "./SearchProofDialog.module.scss";
+import { inter } from "../fonts";
 import { i18nContext } from "../i18n/i18nContext";
 import ProofTypeModal from "./ProofTypeModal";
 import CaptionedImg from "../captioned_img/CaptionedImg";
@@ -28,6 +31,7 @@ const SearchIcon = () => {
 };
 
 const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
+  className,
   isActivated,
   proofInstanceId,
   proofType,
@@ -60,8 +64,7 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
 
   return (
     <div
-      className={cn({
-        [styles.wrapper]: true,
+      className={cn(styles.wrapper, className, {
         [styles.isActivated]: !!proofType || isActivated,
         [styles.isOpen]: !!isOpen,
       })}
@@ -76,13 +79,21 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
             </div>
           </div>
         ) : (
-          <div className={styles.placeholderBtn}>
+          <div className={cn(styles.placeholderBtn, { [styles.empty]: !proofInstanceId })}>
             {isOpen && <SearchIcon />}
-            <p className={styles.placeholder}>
-              {proofInstanceId ? proofInstanceId : i18n.find_what_to_prove}
-            </p>
-            <div className={cn(styles.searchBtn, styles.textSearchBtn)}>
-              {i18n.search}
+            <div
+              className={cn(styles.placeholder, {
+                [inter.className]: !proofInstanceId,
+              })}
+            >
+              {proofInstanceId ?? (
+                <div className={styles.findWhatToProve}>
+                  <span>{i18n.find_what_to_prove}</span>
+                  <FaArrowRight />
+                </div>
+              )}
+            </div>
+            <div className={cn(styles.searchBtn)}>
               <IoIosSearch />
             </div>
           </div>
@@ -112,6 +123,7 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
 export default SearchProofDialog;
 
 export interface SearchProofDialogProps {
+  className?: string;
   isActivated?: boolean;
   proofInstanceId?: string | undefined;
   proofType: PrfsProofType | undefined;

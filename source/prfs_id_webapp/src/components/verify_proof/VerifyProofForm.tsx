@@ -233,7 +233,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs }) =>
           <div />
           <Button
             type="button"
-            variant="blue_2"
+            variant="blue_3"
             className={styles.submitBtn}
             contentClassName={styles.submitBtnContent}
             noTransition
