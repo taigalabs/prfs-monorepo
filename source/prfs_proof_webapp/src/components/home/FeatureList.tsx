@@ -28,10 +28,12 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
             {i18n.proof}
           </div>
           <p className={styles.desc}>Create and verify zero-knowledge proofs on your browser.</p>
-          <p className={styles.callToAction} onClick={handleFocusSearchBar}>
-            Find proof type
-            <MdArrowUpward />
-          </p>
+          <div className={styles.callToAction}>
+            <p onClick={handleFocusSearchBar}>
+              Find proof type
+              <MdArrowUpward />
+            </p>
+          </div>
         </li>
         <li className={cn(styles.item, styles.attestation)}>
           <div className={styles.title}>
@@ -44,12 +46,14 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
             Attest to your data to streamline the process of generating the proof and to claim
             diverse fact about you
           </p>
-          <p className={styles.callToAction}>
-            <Link href={paths.attestations}>
-              Learn more
-              <MdArrowForward />
-            </Link>
-          </p>
+          <div className={styles.callToAction}>
+            <p>
+              <Link href={paths.attestations}>
+                Learn more
+                <MdArrowForward />
+              </Link>
+            </p>
+          </div>
         </li>
       </ul>
     </Area>

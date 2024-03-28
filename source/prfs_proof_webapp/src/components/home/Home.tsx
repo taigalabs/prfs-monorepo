@@ -51,15 +51,12 @@ const Home: React.FC<HomeProps> = () => {
   );
 
   const handleFocusSearchBar = React.useCallback(() => {
-    console.log(123);
     setIsSearchBarFocused(true);
 
     window.setTimeout(() => {
       setIsSearchBarFocused(false);
     }, 1000);
   }, [setIsSearchBarFocused]);
-
-  console.log(11, isSearchBarFocused);
 
   return (
     <>
