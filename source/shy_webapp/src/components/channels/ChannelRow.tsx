@@ -13,7 +13,12 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
           <span className={styles.label}>{channel.label}</span>
           <span className={styles.locale}>{channel.locale}</span>
         </div>
-        <div className={styles.desc}>{channel.desc}</div>
+        <div
+          className={styles.desc}
+          dangerouslySetInnerHTML={{
+            __html: channel.desc,
+          }}
+        />
       </div>
     </Link>
   );
