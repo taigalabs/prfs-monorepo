@@ -1,0 +1,42 @@
+{
+  "name": "@taigalabs/prfs-driver-o1js",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@ethereumjs/util": "^8.0.3",
+    "@taigalabs/prfs-crypto-js": "*",
+    "@taigalabs/prfs-crypto-deps-js": "*",
+    "@taigalabs/prfs-driver-interface": "*",
+    "@taigalabs/prfs-circuit-interface": "*",
+    "@taigalabs/prfs-circuits-circom": "*",
+    "bn.js": "^5.2.1",
+    "comlink": "^4.3.1",
+    "lodash.throttle": "^4.1.1",
+    "snarkjs": "0.7.3",
+    "wasm-feature-detect": "^1.2.11"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^8.3.3",
+    "@types/bn.js": "^5.1.1",
+    "@types/elliptic": "^6.4.14",
+    "@types/jest": "^29.2.5",
+    "@types/lodash.throttle": "^4.1.8",
+    "@types/webpack": "^5.28.3",
+    "core-js": "^3.31.0",
+    "jest": "^29.3.1",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "rollup": "^3.26.3",
+    "ts-jest": "^29.0.3",
+    "ts-loader": "^9.4.4",
+    "tsc-alias": "^1.8.8",
+    "typescript": "5.1.6",
+    "webpack": "5.88.2",
+    "webpack-cli": "5.1.4"
+  }
+}

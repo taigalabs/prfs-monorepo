@@ -4,6 +4,7 @@ packages:
   # Prfs
   - "source/prfs_circuit_artifact_uri_resolver"
   - "source/prfs_docs_website"
+  - "source/prfs_driver_o1js"
   - "source/prfs_driver_spartan_js"
   - "source/prfs_driver_interface"
   - "source/prfs_circuit_interface"
