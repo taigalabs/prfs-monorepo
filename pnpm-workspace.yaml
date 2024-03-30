@@ -30,6 +30,7 @@ packages:
   - "source/prfs_console_webapp"
   - "source/prfs_poll_webapp"
   - "source/prfs_id_webapp"
+  - "source/prfs_circuits_o1js"
 
   # Shy
   - "source/shy_webapp"
