@@ -18,3 +18,4 @@ project_root = { path = "../project_root" }
 circuit_reader = { path = "../../externals/circuit_reader" }
 prfs_crypto = { path = "../prfs_crypto" }
 prfs_entities = { path = "../prfs_entities" }
+prfs_driver_interface = { path = "../prfs_driver_interface" }

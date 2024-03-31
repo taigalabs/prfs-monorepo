@@ -2,10 +2,12 @@ use chrono::{DateTime, Utc};
 use colored::Colorize;
 use prfs_crypto::hex;
 use prfs_crypto::sha2::{Digest, Sha256};
+use prfs_driver_interface::CircuitDriverId;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
+use std::str::FromStr;
 use std::{io::Write, path::PathBuf, process::Command};
 
-use crate::{driver_id, paths::PATHS, CircuitBuild, CircuitBuildListJson, FileKind};
+use crate::{paths::PATHS, CircuitBuild, CircuitBuildListJson, FileKind};
 
 pub fn run() {
     println!("{} building {}", "Start".green(), env!("CARGO_PKG_NAME"),);
@@ -132,9 +134,10 @@ fn read_circuits_json() -> Vec<PrfsCircuit> {
 
 fn compile_circuits(circuit: &PrfsCircuit) {
     let circuit_driver_id = &circuit.circuit_driver_id;
+    let circuit_driver_id = CircuitDriverId::from_str(circuit_driver_id).unwrap();
 
-    match circuit_driver_id.as_str() {
-        driver_id::SPARTAN_CIRCOM_DRIVER_ID => {
+    match circuit_driver_id {
+        CircuitDriverId::spartan_circom_v1 => {
             let instance_path = &circuit.build_properties.get("instance_path").unwrap();
 
             let circuit_src_path = PATHS.circuits.join(&instance_path);
@@ -162,7 +165,7 @@ fn compile_circuits(circuit: &PrfsCircuit) {
         }
         _ => panic!(
             "We cannot compile a circuit of this type, driver: {:?}",
-            circuit_driver_id.as_str()
+            circuit_driver_id,
         ),
     };
 }

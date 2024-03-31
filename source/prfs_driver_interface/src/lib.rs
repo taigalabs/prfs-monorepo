@@ -1,8 +1,9 @@
 use serde::{Deserialize, Serialize};
 use sqlx::Type;
+use strum_macros::{EnumString, ToString};
 use ts_rs::TS;
 
-#[derive(Debug, Serialize, Deserialize, Clone, Type, TS)]
+#[derive(Debug, EnumString, Serialize, Deserialize, Clone, Type, TS)]
 #[allow(non_camel_case_types)]
 #[sqlx(type_name = "VARCHAR")]
 #[ts(export)]
