@@ -10,7 +10,7 @@ import {
   Struct,
 } from 'o1js';
 
-class MerkleWitness32 extends MerkleWitness(32) { }
+class MerkleWitness32 extends MerkleWitness(32) {}
 
 export interface MerkleSigPosRangeV1ContractUpdateArgs {
   root: string; // Field;

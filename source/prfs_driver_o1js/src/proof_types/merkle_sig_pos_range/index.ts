@@ -22,18 +22,6 @@ import {
   Empty,
   MerkleTree,
 } from "o1js";
-import { BN } from "bn.js";
-// import { SECP256K1_P } from "@/math/secp256k1";
-//
-export const SECP256K1_P = new BN(
-  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
-  16,
-);
-
-export const SECP256K1_N = new BN(
-  "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
-  16,
-);
 
 import ZkappWorkerClient from "./zkappWorkerClient";
 import { MerkleSigPosRangeV1ContractUpdateArgs } from "@taigalabs/prfs-circuits-o1js/src/merkle_sig_pos_range_v1";
@@ -66,12 +54,6 @@ export async function proveMembership(
     nonceRaw,
     proofPubKey,
   } = inputs;
-
-  // const proofPubKeyBytes = toUtf8Bytes(proofPubKey);
-  // const proofPubKeyInt = BigInt(new BN(proofPubKeyBytes).mod(SECP256K1_P).toString());
-
-  // const nonceRawBytes = toUtf8Bytes(nonceRaw);
-  // const nonceInt = BigInt(new BN(nonceRawBytes).mod(SECP256K1_P).toString());
 
   const idx0 = 0n;
   const tree_ = new MerkleTree(32);
