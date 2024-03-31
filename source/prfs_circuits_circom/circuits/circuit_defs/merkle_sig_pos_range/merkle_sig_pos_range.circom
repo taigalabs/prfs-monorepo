@@ -8,10 +8,13 @@ include "../../gadgets/bigint.circom";
 include "../../gadgets/secp256k1_func.circom";
 
 template MerkleSigPosRange(nLevels) {
+    signal input sigR;
+    signal input sigS;
+    signal input sigpos;
+
     signal input assetSize;
     signal input assetSizeGreaterEqThan;
     signal input assetSizeLessThan;
-    signal input sigpos;
 
     // leaf := pos(pos(sigpos), assetSize)
     signal input leaf;
@@ -23,6 +26,12 @@ template MerkleSigPosRange(nLevels) {
     signal input nonce;
     // serialNo := pos(sigpos, nonce)
     signal input serialNo;
+
+    component poseidon1 = Poseidon();
+    poseidon1.inputs[0] <== sigR;
+    poseidon1.inputs[1] <== sigS;
+    log("sig", poseidon1.out, "sigpos", sigpos);
+    // leaf === poseidon2.out;
 
     component greaterEqThan = GreaterEqThan(16);
     greaterEqThan.in[0] <-- assetSize;

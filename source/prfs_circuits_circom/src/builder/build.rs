@@ -134,7 +134,6 @@ fn read_circuits_json() -> Vec<PrfsCircuit> {
 
 fn compile_circuits(circuit: &PrfsCircuit) {
     let circuit_driver_id = &circuit.circuit_driver_id;
-    let circuit_driver_id = CircuitDriverId::from_str(circuit_driver_id).unwrap();
 
     match circuit_driver_id {
         CircuitDriverId::spartan_circom_v1 => {

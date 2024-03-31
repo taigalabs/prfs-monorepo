@@ -18,6 +18,8 @@ export async function proveMembership(
   console.log("inputs: %o", inputs);
 
   const {
+    sigR,
+    sigS,
     sigpos,
     leaf,
     merkleProof,
@@ -65,7 +67,10 @@ export async function proveMembership(
   );
 
   const witnessGenInput = {
+    sigR,
+    sigS,
     sigpos,
+
     leaf,
     assetSize,
     assetSizeGreaterEqThan,

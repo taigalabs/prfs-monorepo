@@ -1,4 +1,5 @@
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import { CircuitDriverId } from "@taigalabs/prfs-driver-interface/bindings/CircuitDriverId";
 import {
   ADDR_MEMBERSHIP_V1,
   ADDR_MEMBERSHIP_V1_CIRCUIT_ID,
@@ -22,7 +23,7 @@ const circuits: PrfsCircuit[] = [
     proof_algorithm: "Spartan",
     elliptic_curve: "Secp256k1",
     finite_field: "Z_(2^256-2^32-977)",
-    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    circuit_driver_id: "spartan_circom_v1",
     driver_version: "0.1.0",
     build_properties: {
       instance_path: `instances/${ADDR_MEMBERSHIP_V1}.circom`,
@@ -111,7 +112,7 @@ const circuits: PrfsCircuit[] = [
     build_properties: {
       instance_path: `instances/${SIMPLE_HASH_V1}.circom`,
     },
-    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    circuit_driver_id: "spartan_circom_v1",
     driver_version: "0.1.0",
     driver_properties: {
       wtns_gen_url: "",
@@ -147,7 +148,7 @@ const circuits: PrfsCircuit[] = [
     build_properties: {
       instance_path: `instances/${MERKLE_SIG_POS_RANGE_V1}.circom`,
     },
-    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    circuit_driver_id: "spartan_circom_v1",
     driver_version: "0.1.0",
     driver_properties: {
       wtns_gen_url: "",
