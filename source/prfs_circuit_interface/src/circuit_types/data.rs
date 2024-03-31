@@ -6,23 +6,23 @@ use super::{AddrMembershipV1Data, MerkleSigPosRangeV1Data, SimpleHashV1Data};
 
 #[derive(Debug, Serialize, Deserialize, Clone, Type, TS)]
 #[allow(non_camel_case_types)]
-#[serde(rename_all = "snake_case")]
+// #[serde(rename_all = "snake_case")]
 #[sqlx(type_name = "VARCHAR")]
 #[ts(export)]
 pub enum CircuitTypeId {
-    SimpleHashV1,
-    AddrMembershipV1,
-    MerkleSigPosRangeV1,
+    simple_hash_v1,
+    addr_membership_v1,
+    merkle_sig_pos_range_v1,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[allow(non_camel_case_types)]
-#[serde(tag = "type", rename_all = "snake_case")]
+#[serde(tag = "type")]
 #[ts(export)]
 pub enum CircuitTypeData {
-    SimpleHashV1(SimpleHashV1Data),
-    AddrMembershipV1(AddrMembershipV1Data),
-    MerkleSigPosRangeV1(MerkleSigPosRangeV1Data),
+    simple_hash_v1(SimpleHashV1Data),
+    addr_membership_v1(AddrMembershipV1Data),
+    merkle_sig_pos_range_v1(MerkleSigPosRangeV1Data),
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
