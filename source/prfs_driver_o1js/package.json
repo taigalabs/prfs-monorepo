@@ -12,12 +12,14 @@
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-crypto-deps-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
+    "@taigalabs/prfs-circuits-o1js": "*",
     "@taigalabs/prfs-circuit-interface": "*",
     "@taigalabs/prfs-circuits-circom": "*",
     "bn.js": "^5.2.1",
     "comlink": "^4.3.1",
     "lodash.throttle": "^4.1.1",
     "snarkjs": "0.7.3",
+    "o1js": "0.*",
     "wasm-feature-detect": "^1.2.11"
   },
   "devDependencies": {

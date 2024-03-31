@@ -695,6 +695,9 @@ importers:
       '@taigalabs/prfs-circuits-circom':
         specifier: '*'
         version: link:../prfs_circuits_circom
+      '@taigalabs/prfs-circuits-o1js':
+        specifier: '*'
+        version: link:../prfs_circuits_o1js
       '@taigalabs/prfs-crypto-deps-js':
         specifier: '*'
         version: link:../prfs_crypto_deps_js
@@ -713,6 +716,9 @@ importers:
       lodash.throttle:
         specifier: ^4.1.1
         version: 4.1.1
+      o1js:
+        specifier: 0.*
+        version: 0.17.0
       snarkjs:
         specifier: 0.7.3
         version: 0.7.3
@@ -1043,6 +1049,9 @@ importers:
       '@taigalabs/prfs-driver-interface':
         specifier: '*'
         version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-o1js':
+        specifier: '*'
+        version: link:../prfs_driver_o1js
       '@taigalabs/prfs-driver-spartan-js':
         specifier: '*'
         version: link:../prfs_driver_spartan_js
@@ -1345,6 +1354,9 @@ importers:
       '@taigalabs/prfs-driver-interface':
         specifier: '*'
         version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-o1js':
+        specifier: '*'
+        version: link:../prfs_driver_o1js
       '@taigalabs/prfs-driver-spartan-js':
         specifier: '*'
         version: link:../prfs_driver_spartan_js

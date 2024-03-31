@@ -16,6 +16,7 @@
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-circuit-artifact-uri-resolver": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
+    "@taigalabs/prfs-driver-o1js": "*",
     "@ethereumjs/util": "^8.0.3",
     "@taigalabs/prfs-entities": "*"
   },

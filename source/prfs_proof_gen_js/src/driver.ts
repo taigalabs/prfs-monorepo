@@ -3,6 +3,7 @@ import {
   DriverEventListener,
   SPARTAN_CIRCOM_V1,
 } from "@taigalabs/prfs-driver-interface";
+import { O1jsDriverProperties } from "@taigalabs/prfs-driver-o1js";
 import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
 
 export async function initCircuitDriver(
@@ -16,6 +17,15 @@ export async function initCircuitDriver(
 
       const driver = await mod.default.newInstance(
         driverProps as SpartanCircomDriverProperties,
+        eventListener,
+      );
+      return driver;
+    }
+    case "o1js_v1": {
+      const mod = await import("@taigalabs/prfs-driver-o1js");
+
+      const driver = await mod.default.newInstance(
+        driverProps as O1jsDriverProperties,
         eventListener,
       );
       return driver;

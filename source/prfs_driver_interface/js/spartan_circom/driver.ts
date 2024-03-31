@@ -29,6 +29,8 @@ export interface Proof {
   proofBytes: Uint8Array | number[];
   publicInputSer: string;
   proofPubKey: string;
+  ledger?: string;
+  txHash?: string;
 }
 
 export interface ProveResult {

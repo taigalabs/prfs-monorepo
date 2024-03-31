@@ -8,11 +8,11 @@ export const FormInput: React.FC<FormInputProps> = ({ children }) => {
 };
 
 export const FormInputType: React.FC<FormInputProps> = ({ children }) => {
-  return <p className={styles.inputType}>{children}</p>;
+  return <div className={styles.inputType}>{children}</div>;
 };
 
 export const FormInputTitle: React.FC<FormInputProps> = ({ children }) => {
-  return <p className={styles.inputTitle}>{children}</p>;
+  return <div className={styles.inputTitle}>{children}</div>;
 };
 
 export const FormInputBtnRow: React.FC<FormInputProps> = ({ children }) => {

@@ -10,6 +10,7 @@ import {
 } from "@taigalabs/prfs-circuit-artifact-uri-resolver";
 
 import { envs } from "@/envs";
+import { O1jsDriverProperties } from "@taigalabs/prfs-driver-o1js";
 
 export enum LoadDriverStatus {
   Standby,
@@ -87,6 +88,21 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
               version: "0.0.1",
               wtns_gen_url,
               circuit_url,
+            };
+
+            setLoadDriverStatus(LoadDriverStatus.InProgress);
+            const driver = await initCircuitDriver(
+              proofType.circuit_driver_id,
+              driverProps,
+              handleDriverEv,
+            );
+            setDriver(driver);
+            break;
+          }
+          case "o1js_v1": {
+            const driverProps: O1jsDriverProperties = {
+              transactionFee: "0.1",
+              zkAppAddr: "NONE",
             };
 
             setLoadDriverStatus(LoadDriverStatus.InProgress);

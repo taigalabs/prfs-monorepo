@@ -1,12 +1,31 @@
 import { ProveArgs, ProveResult, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { bytesToNumberLE, poseidon_2_bigint_le, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
-import { BN } from "bn.js";
-// import { SECP256K1_P } from "@/math/secp256k1";
+import {
+  Field,
+  SmartContract,
+  state,
+  State,
+  method,
+  MerkleWitness,
+  CircuitString,
+  Poseidon,
+  Struct,
+  PublicKey,
+} from "o1js";
 
-// import { snarkJsWitnessGen } from "@/utils/snarkjs";
-// import { PrfsHandlers } from "@/types";
-// import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
+import ZkappWorkerClient from "./zkappWorkerClient";
+
+const transactionFee = 0.1;
+const ZKAPP_ADDRESS = "B62qmB49xfPPLFtZspXwNpG2gPpfNEVgNc3ZCDLZzALg8vcuTnNDgNY";
+
+async function timeout(seconds: number): Promise<void> {
+  return new Promise<void>(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, seconds * 1000);
+  });
+}
 
 export async function proveMembership(
   args: ProveArgs<MerkleSigPosRangeV1Inputs>,
@@ -29,90 +48,117 @@ export async function proveMembership(
     proofPubKey,
   } = inputs;
 
-  // const nonceRawBytes = toUtf8Bytes(nonceRaw);
-  // const nonceInt = BigInt(new BN(nonceRawBytes).mod(SECP256K1_P).toString());
+  // if (!state.hasBeenSetup) {
+  // setDisplayText("Loading web worker...");
+  console.log("Loading web worker...");
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: { type: "info", payload: "Loading web worker" },
+  });
+  const zkappWorkerClient = new ZkappWorkerClient();
+  await timeout(5);
 
-  // const sigposAndNonceInt_ = await poseidon_2_bigint_le([sigpos, nonceInt]);
-  // const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
-  // // console.log("sigposAndNonce", sigposAndNonceInt_);
+  // setDisplayText("Done loading web worker");
+  console.log("Done loading web worker");
 
-  // const proofPubKeyBytes = toUtf8Bytes(proofPubKey);
-  // const proofPubKeyInt = BigInt(new BN(proofPubKeyBytes).mod(SECP256K1_P).toString());
+  await zkappWorkerClient.setActiveInstanceToBerkeley();
 
-  // const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
-  // const serialNo = bytesToNumberLE(serialNoHash);
-  // // console.log("serialNo", serialNo);
+  const mina = (window as any).mina;
+  if (mina == null) {
+    // setState({ ...state, hasWallet: false });
+    throw new Error("Mina does not exist");
+  }
 
-  // eventListener({
-  //   type: "CREATE_PROOF_EVENT",
-  //   payload: { type: "info", payload: "Computed ECDSA pub input" },
-  // });
+  const publicKeyBase58: string = (await mina.requestAccounts())[0];
+  const publicKey = PublicKey.fromBase58(publicKeyBase58);
 
-  // const circuitPubInput = new MerkleSigPosRangeCircuitPubInput(
-  //   merkleProof.root,
-  //   nonceInt,
-  //   proofPubKeyInt,
-  //   serialNo,
-  //   assetSizeGreaterEqThan,
-  //   assetSizeLessThan,
-  // );
+  console.log(`Using key:${publicKey.toBase58()}`);
+  // setDisplayText(`Using key:${publicKey.toBase58()}`);
 
-  // const publicInput = new MerkleSigPosRangePublicInput(
-  //   circuitPubInput,
-  //   nonceRaw,
-  //   proofPubKey,
-  //   assetSizeLabel,
-  // );
+  // setDisplayText("Checking if fee payer account exists...");
+  console.log("Checking if fee payer account exists...");
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: { type: "info", payload: "Checking if fee payer account exist..." },
+  });
 
-  // const witnessGenInput = {
-  //   sigpos,
-  //   leaf,
-  //   assetSize,
-  //   assetSizeGreaterEqThan,
-  //   assetSizeLessThan,
+  const res = await zkappWorkerClient.fetchAccount({
+    publicKey: publicKey!,
+  });
+  console.log("account", res);
 
-  //   root: merkleProof.root,
-  //   siblings: merkleProof.siblings,
-  //   pathIndices: merkleProof.pathIndices,
+  const accountExists = res.error == null;
+  await zkappWorkerClient.loadContract();
 
-  //   nonce: nonceInt,
-  //   proofPubKey: proofPubKeyInt,
-  //   serialNo,
-  // };
+  console.log("Compiling zkApp...");
+  // setDisplayText("Compiling zkApp...");
+  await zkappWorkerClient.compileContract();
+  console.log("zkApp compiled");
+  // setDisplayText("zkApp compiled...");
 
-  // console.log("witnessGenInput", witnessGenInput);
+  const zkappPublicKey = PublicKey.fromBase58(ZKAPP_ADDRESS);
+  await zkappWorkerClient.initZkappInstance(zkappPublicKey);
 
-  // // console.log("witnessGenInput: %o", witnessGenInput);
-  // const witness = await snarkJsWitnessGen(witnessGenInput, wtnsGen);
+  console.log("Getting zkApp state...", zkappPublicKey);
+  // setDisplayText("Getting zkApp state...");
+  await zkappWorkerClient.fetchAccount({ publicKey: zkappPublicKey });
 
-  // eventListener({
-  //   type: "CREATE_PROOF_EVENT",
-  //   payload: {
-  //     type: "info",
-  //     payload: "Computed witness gen input",
-  //   },
-  // });
+  const currentNum = await zkappWorkerClient.getNum();
+  console.log(`Current state in zkApp: ${currentNum.toString()}`);
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: {
+      type: "info",
+      payload: `Current state in zkApp: ${currentNum.toString()}`,
+    },
+  });
 
-  // const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
-  // console.log("circuit pub input byte length: %s", circuitPublicInput.length);
+  const prev = performance.now();
 
-  // const prev = performance.now();
-  // let proofBytes;
-  // try {
-  //   proofBytes = await handlers.prove(circuit, witness.data, circuitPublicInput);
-  // } catch (err) {
-  //   throw new Error(`Error calling prove(), err: ${err}`);
-  // }
-  // const now = performance.now();
+  // setState({ ...state, creatingTransaction: true });
+  // setDisplayText("Creating a transaction...");
+  console.log("Creating a transaction...");
 
-  // return {
-  //   duration: now - prev,
-  //   proof: {
-  //     proofBytes,
-  //     publicInputSer: publicInput.stringify(),
-  //     proofPubKey,
-  //   },
-  // };
+  await zkappWorkerClient.fetchAccount({
+    publicKey,
+  });
+
+  await zkappWorkerClient.fn6();
+  // setDisplayText("Creating proof...");
+  console.log("Creating proof...");
+  await zkappWorkerClient.proveUpdateTransaction();
+
+  console.log("Requesting send transaction...");
+  // setDisplayText("Requesting send transaction...");
+  const transactionJSON = await zkappWorkerClient.getTransactionJSON();
+
+  // setDisplayText("Getting transaction JSON...");
+  console.log("Getting transaction JSON...");
+  const { hash } = await (window as any).mina.sendTransaction({
+    transaction: transactionJSON,
+    feePayer: {
+      fee: transactionFee,
+      memo: "",
+    },
+  });
+
+  const transactionLink = `https://berkeley.minaexplorer.com/transaction/${hash}`;
+  console.log(`View transaction at ${transactionLink}`);
+
+  // setTransactionLink(transactionLink);
+  // setDisplayText(transactionLink);
+  // setState({ ...state, creatingTransaction: false });
+
+  const now = performance.now();
+
+  return {
+    duration: now - prev,
+    proof: {
+      proofBytes: [],
+      publicInputSer: "",
+      proofPubKey,
+    },
+  };
 }
 
 // export async function verifyMembership(

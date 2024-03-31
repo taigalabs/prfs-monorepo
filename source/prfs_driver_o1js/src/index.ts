@@ -1,6 +1,5 @@
-export * from "@/proof_types/membership_proof/public_input";
-export * from "@/types";
+export * from "./types";
 
-import SpartanDriver from "@/driver";
+import O1jsDriver from "./driver";
 
-export default SpartanDriver;
+export default O1jsDriver;
