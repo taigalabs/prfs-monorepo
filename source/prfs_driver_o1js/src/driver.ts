@@ -2,11 +2,9 @@ import {
   CircuitDriver,
   DriverEventListener,
   ProveArgs,
-  ProveReceipt,
   ProveResult,
   VerifyArgs,
 } from "@taigalabs/prfs-driver-interface";
-import { MERKLE_SIG_POS_RANGE_V1, SIMPLE_HASH_V1 } from "@taigalabs/prfs-circuit-interface";
 import { BuildStatus, O1jsDriverCtorArgs, O1jsDriverProperties } from "./types";
 
 export default class O1jsDriver implements CircuitDriver {
