@@ -8,34 +8,25 @@ import {
   PublicKey,
   fetchAccount,
 } from "o1js";
-
-type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
-
-// ---------------------------------------------------------------------------------------
-
 import {
   type MerkleSigPosRangeV1Contract,
   type MerkleSigPosRangeV1ContractUpdateArgs,
 } from "@taigalabs/prfs-circuits-o1js/src/merkle_sig_pos_range_v1";
 import { Witness } from "o1js/dist/node/lib/merkle-tree";
 
+type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
+
 const state = {
-  MerkleSigPosRangeV1Contract: null as
-    | null
-    | typeof MerkleSigPosRangeV1Contract,
+  MerkleSigPosRangeV1Contract: null as null | typeof MerkleSigPosRangeV1Contract,
   zkapp: null as null | MerkleSigPosRangeV1Contract,
   transaction: null as null | Transaction,
 };
 
-// ---------------------------------------------------------------------------------------
-//
-class MerkleWitness32 extends MerkleWitness(32) { }
+class MerkleWitness32 extends MerkleWitness(32) {}
 
 const functions = {
   setActiveInstanceToBerkeley: async (args: {}) => {
-    const Berkeley = Mina.Network(
-      "https://api.minascan.io/node/berkeley/v1/graphql",
-    );
+    const Berkeley = Mina.Network("https://api.minascan.io/node/berkeley/v1/graphql");
     console.log("Berkeley Instance Created");
     Mina.setActiveInstance(Berkeley);
   },
@@ -113,13 +104,9 @@ const functions = {
     const assetSizeGreaterEqThan = Field(1000);
     const assetSizeLessThan = Field(10000);
     const nonceRaw = "nonce";
-    const nonceInt = Poseidon.hash(
-      CircuitString.fromString(nonceRaw).toFields(),
-    );
+    const nonceInt = Poseidon.hash(CircuitString.fromString(nonceRaw).toFields());
     const proofPubKey = "0x0";
-    const proofPubKeyInt = Poseidon.hash(
-      CircuitString.fromString(proofPubKey).toFields(),
-    );
+    const proofPubKeyInt = Poseidon.hash(CircuitString.fromString(proofPubKey).toFields());
 
     const leaf = Poseidon.hash([sigpos, assetSize]);
     tree.setLeaf(idx0, leaf);
@@ -163,7 +150,7 @@ const functions = {
     const serialNo = Field.fromJSON(args.serialNo);
     const leaf = Field.fromJSON(args.leaf);
 
-    const witness: Witness = args.merklePath.map((p) => {
+    const witness: Witness = args.merklePath.map(p => {
       const w = {
         isLeft: p.isLeft,
         sibling: Field.fromJSON(p.sibling),
@@ -191,9 +178,7 @@ const functions = {
     state.transaction = transaction;
   },
 
-  createUpdateTransaction: async (
-    args: MerkleSigPosRangeV1ContractUpdateArgs,
-  ) => {
+  createUpdateTransaction: async (args: MerkleSigPosRangeV1ContractUpdateArgs) => {
     // const {
     //   root,
     //   sigpos,
@@ -226,7 +211,8 @@ const functions = {
   },
 
   proveUpdateTransaction: async (args: {}) => {
-    await state.transaction!.prove();
+    const res = await state.transaction!.prove();
+    return JSON.stringify(res);
   },
 
   getTransactionJSON: async (args: {}) => {
@@ -250,19 +236,16 @@ export type ZkappWorkerReponse = {
 };
 
 if (typeof window !== "undefined") {
-  addEventListener(
-    "message",
-    async (event: MessageEvent<ZkappWorkerRequest>) => {
-      const returnData = await functions[event.data.fn](event.data.args);
-      console.log("Return data", returnData);
+  addEventListener("message", async (event: MessageEvent<ZkappWorkerRequest>) => {
+    const returnData = await functions[event.data.fn](event.data.args);
+    console.log("Return data", returnData);
 
-      const message: ZkappWorkerReponse = {
-        id: event.data.id,
-        data: returnData,
-      };
-      postMessage(message);
-    },
-  );
+    const message: ZkappWorkerReponse = {
+      id: event.data.id,
+      data: returnData,
+    };
+    postMessage(message);
+  });
 }
 
 console.log("Web Worker Successfully Initialized.");

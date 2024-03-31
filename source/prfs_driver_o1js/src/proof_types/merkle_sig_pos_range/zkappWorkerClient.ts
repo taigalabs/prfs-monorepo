@@ -9,11 +9,7 @@ import {
 } from "o1js";
 import { MerkleSigPosRangeV1ContractUpdateArgs } from "@taigalabs/prfs-circuits-o1js/src/merkle_sig_pos_range_v1";
 
-import type {
-  ZkappWorkerRequest,
-  ZkappWorkerReponse,
-  WorkerFunctions,
-} from "./zkappWorker";
+import type { ZkappWorkerRequest, ZkappWorkerReponse, WorkerFunctions } from "./zkappWorker";
 
 export default class ZkappWorkerClient {
   // ---------------------------------------------------------------------------------------
@@ -30,11 +26,7 @@ export default class ZkappWorkerClient {
     return this._call("compileContract", {});
   }
 
-  fetchAccount({
-    publicKey,
-  }: {
-    publicKey: PublicKey;
-  }): ReturnType<typeof fetchAccount> {
+  fetchAccount({ publicKey }: { publicKey: PublicKey }): ReturnType<typeof fetchAccount> {
     const result = this._call("fetchAccount", {
       publicKey58: publicKey.toBase58(),
     });
@@ -76,13 +68,9 @@ export default class ZkappWorkerClient {
     const assetSizeGreaterEqThan = Field(1000);
     const assetSizeLessThan = Field(10000);
     const nonceRaw = "nonce";
-    const nonceInt = Poseidon.hash(
-      CircuitString.fromString(nonceRaw).toFields(),
-    );
+    const nonceInt = Poseidon.hash(CircuitString.fromString(nonceRaw).toFields());
     const proofPubKey = "0x0";
-    const proofPubKeyInt = Poseidon.hash(
-      CircuitString.fromString(proofPubKey).toFields(),
-    );
+    const proofPubKeyInt = Poseidon.hash(CircuitString.fromString(proofPubKey).toFields());
 
     const leaf = Poseidon.hash([sigpos, assetSize]);
     tree.setLeaf(idx0, leaf);
@@ -94,17 +82,13 @@ export default class ZkappWorkerClient {
     const serialNo = Poseidon.hash([sigposAndNonce, proofPubKeyInt]);
     const root = tree.getRoot();
     const witness = tree.getWitness(idx0);
-    const merklePath = witness.map((w) => {
+    const merklePath = witness.map(w => {
       const obj = {
         isLeft: w.isLeft,
         sibling: w.sibling.toJSON(),
       };
       return obj;
     });
-
-    // const merklePath = new MerkleWitness32(tree.getWitness(idx0));
-    //
-    console.log(123);
 
     const args: MerkleSigPosRangeV1ContractUpdateArgs = {
       root: root.toJSON(),

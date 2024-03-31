@@ -17,6 +17,9 @@ import {
   Poseidon,
   Struct,
   PublicKey,
+  Proof,
+  ZkappPublicInput,
+  Empty,
 } from "o1js";
 import { BN } from "bn.js";
 // import { SECP256K1_P } from "@/math/secp256k1";
@@ -79,14 +82,12 @@ export async function proveMembership(
   const zkappWorkerClient = new ZkappWorkerClient();
   await timeout(5);
 
-  // setDisplayText("Done loading web worker");
   console.log("Done loading web worker");
 
   await zkappWorkerClient.setActiveInstanceToBerkeley();
 
   const mina = (window as any).mina;
   if (mina == null) {
-    // setState({ ...state, hasWallet: false });
     throw new Error("Mina does not exist");
   }
 
@@ -94,9 +95,6 @@ export async function proveMembership(
   const publicKey = PublicKey.fromBase58(publicKeyBase58);
 
   console.log(`Using key:${publicKey.toBase58()}`);
-  // setDisplayText(`Using key:${publicKey.toBase58()}`);
-
-  // setDisplayText("Checking if fee payer account exists...");
   console.log("Checking if fee payer account exists...");
   eventListener({
     type: "CREATE_PROOF_EVENT",
@@ -108,7 +106,6 @@ export async function proveMembership(
   });
   console.log("account", res);
 
-  // const accountExists = res.error == null;
   await zkappWorkerClient.loadContract();
 
   console.log("Compiling zkApp...");
@@ -119,10 +116,8 @@ export async function proveMembership(
       payload: "Compiling zkApp...",
     },
   });
-  // setDisplayText("Compiling zkApp...");
   await zkappWorkerClient.compileContract();
   console.log("zkApp compiled");
-  // setDisplayText("zkApp compiled...");
   eventListener({
     type: "CREATE_PROOF_EVENT",
     payload: {
@@ -134,25 +129,23 @@ export async function proveMembership(
   const zkappPublicKey = PublicKey.fromBase58(ZKAPP_ADDRESS);
   await zkappWorkerClient.initZkappInstance(zkappPublicKey);
 
-  console.log("Getting zkApp state...", zkappPublicKey);
-  // setDisplayText("Getting zkApp state...");
-  await zkappWorkerClient.fetchAccount({ publicKey: zkappPublicKey });
-  console.log(`Fetched account, publicKey ${zkappPublicKey}`);
+  // console.log("Getting zkApp state...", zkappPublicKey);
+  // // setDisplayText("Getting zkApp state...");
+  // await zkappWorkerClient.fetchAccount({ publicKey: zkappPublicKey });
+  // console.log(`Fetched account, publicKey ${zkappPublicKey}`);
 
-  const currentNum = await zkappWorkerClient.getNum();
-  console.log(`Current state in zkApp: ${currentNum.toString()}`);
-  eventListener({
-    type: "CREATE_PROOF_EVENT",
-    payload: {
-      type: "info",
-      payload: `Current state in zkApp: ${currentNum.toString()}`,
-    },
-  });
+  // const currentNum = await zkappWorkerClient.getNum();
+  // console.log(`Current state in zkApp: ${currentNum.toString()}`);
+  // eventListener({
+  //   type: "CREATE_PROOF_EVENT",
+  //   payload: {
+  //     type: "info",
+  //     payload: `Current state in zkApp: ${currentNum.toString()}`,
+  //   },
+  // });
 
   const prev = performance.now();
 
-  // setState({ ...state, creatingTransaction: true });
-  // setDisplayText("Creating a transaction...");
   console.log("Creating a transaction...");
   eventListener({
     type: "CREATE_PROOF_EVENT",
@@ -167,7 +160,6 @@ export async function proveMembership(
   });
 
   await zkappWorkerClient.fn6();
-  // setDisplayText("Creating proof...");
   console.log("Creating proof...");
   eventListener({
     type: "CREATE_PROOF_EVENT",
@@ -176,10 +168,23 @@ export async function proveMembership(
       payload: `Creating proof...`,
     },
   });
-  await zkappWorkerClient.proveUpdateTransaction();
+
+  const proofStr = (await zkappWorkerClient.proveUpdateTransaction()) as string;
+  const proof = JSON.parse(proofStr) as (Proof<ZkappPublicInput, Empty> | undefined)[];
+  console.log("proof", proof);
+
+  let publicInput;
+  let proofBytes;
+  if (proof && proof.length > 0) {
+    console.log(33, proof[0]!.publicInput, proof[0]!.proof);
+    publicInput = JSONbigNative.stringify(proof[0]!.publicInput);
+    proofBytes = toUtf8Bytes(proof[0]!.proof as any);
+  } else {
+    publicInput = JSONbigNative.stringify([0, 0]);
+    proofBytes = [];
+  }
 
   console.log("Requesting send transaction...");
-  // setDisplayText("Requesting send transaction...");
   eventListener({
     type: "CREATE_PROOF_EVENT",
     payload: {
@@ -189,7 +194,6 @@ export async function proveMembership(
   });
   const transactionJSON = await zkappWorkerClient.getTransactionJSON();
 
-  // setDisplayText("Getting transaction JSON...");
   console.log("Getting transaction JSON...");
   const { hash } = await (window as any).mina.sendTransaction({
     transaction: transactionJSON,
@@ -209,18 +213,12 @@ export async function proveMembership(
     },
   });
 
-  // setTransactionLink(transactionLink);
-  // setDisplayText(transactionLink);
-  // setState({ ...state, creatingTransaction: false });
-
   const now = performance.now();
-
-  const publicInput = JSONbigNative.stringify([0, 0]);
 
   return {
     duration: now - prev,
     proof: {
-      proofBytes: [],
+      proofBytes: proofBytes,
       publicInputSer: publicInput,
       proofPubKey,
       ledger: transactionLink,
