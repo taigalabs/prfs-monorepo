@@ -1,11 +1,11 @@
 import { resolveCircuitUrl } from "@taigalabs/prfs-circuit-artifact-uri-resolver";
 import { CircuitTypeId } from "@taigalabs/prfs-circuit-interface/bindings/CircuitTypeId";
-import { DriverId } from "@taigalabs/prfs-driver-interface";
+import { CircuitDriverId } from "@taigalabs/prfs-driver-interface/bindings/CircuitDriverId";
 
 export function loadCircuitArtifactURIs(
   assetEndpoint: string,
   circuitTypeId: CircuitTypeId,
-  driverId: DriverId,
+  driverId: CircuitDriverId,
 ) {
   switch (circuitTypeId) {
     case "merkle_sig_pos_range_v1": {
