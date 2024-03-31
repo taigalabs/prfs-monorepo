@@ -1,6 +1,7 @@
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::error::ApiHandleError;
 use prfs_axum_lib::resp::ApiResponse;
+use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit};
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::id_session::PrfsIdSession;
@@ -31,7 +32,7 @@ pub async fn put_prfs_id_session_value(
     Json(input): Json<PutPrfsIdSessionValueRequest>,
 ) -> (StatusCode, Json<ApiResponse<PutPrfsIdSessionValueResponse>>) {
     let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+    let mut tx = bail_out_tx!(pool, &PRFS_ID_SESSION_API_ERROR_CODES.UNKNOWN_ERROR);
 
     if let Err(err) = prfs::get_prfs_id_session(&pool, &input.key).await {
         let resp = ApiResponse::new_error(
@@ -59,7 +60,7 @@ pub async fn put_prfs_id_session_value(
         }
     };
 
-    tx.commit().await.unwrap();
+    bail_out_tx_commit!(tx, &PRFS_ID_SESSION_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let resp = ApiResponse::new_success(PutPrfsIdSessionValueResponse { key });
     return (StatusCode::OK, Json(resp));
