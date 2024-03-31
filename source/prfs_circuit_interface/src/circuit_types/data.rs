@@ -6,7 +6,6 @@ use super::{AddrMembershipV1Data, MerkleSigPosRangeV1Data, SimpleHashV1Data};
 
 #[derive(Debug, Serialize, Deserialize, Clone, Type, TS)]
 #[allow(non_camel_case_types)]
-// #[serde(rename_all = "snake_case")]
 #[sqlx(type_name = "VARCHAR")]
 #[ts(export)]
 pub enum CircuitTypeId {
