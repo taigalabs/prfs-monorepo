@@ -13,4 +13,5 @@ export interface CreatePrfsProofTypeRequest {
   img_url: string | null;
   img_caption: string | null;
   driver_properties: Record<string, string>;
+  experimental: boolean;
 }

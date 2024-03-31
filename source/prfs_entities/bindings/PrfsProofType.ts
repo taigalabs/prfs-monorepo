@@ -13,4 +13,5 @@ export interface PrfsProofType {
   circuit_type_data: Record<string, any>;
   circuit_driver_id: "spartan_circom_v1" | "o1js_v1";
   created_at: string;
+  experimental: boolean;
 }

@@ -55,6 +55,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
         return await prfsApi3({
           type: "get_prfs_proof_types",
           offset: pageParam as number,
+          experimental: false,
         });
       },
       initialPageParam: 0,

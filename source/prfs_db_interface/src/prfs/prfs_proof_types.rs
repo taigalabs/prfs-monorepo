@@ -27,6 +27,7 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
         circuit_type_data: row.try_get("circuit_type_data")?,
         circuit_driver_id: row.try_get("circuit_driver_id")?,
         created_at: row.try_get("created_at")?,
+        experimental: row.try_get("experimental")?,
     };
 
     return Ok(ret);
@@ -34,17 +35,20 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
 
 pub async fn get_prfs_proof_types(
     pool: &Pool<Postgres>,
+    experimental: bool,
     offset: i32,
     limit: i32,
 ) -> Result<Vec<PrfsProofType>, DbInterfaceError> {
     let query = r#"
 SELECT * FROM prfs_proof_types
+WHERE experimental=$1
 ORDER BY updated_at
-OFFSET $1
-LIMIT $2
+OFFSET $2
+LIMIT $3
 "#;
 
     let rows = sqlx::query(query)
+        .bind(&experimental)
         .bind(&offset)
         .bind(&limit)
         .fetch_all(pool)
@@ -66,6 +70,7 @@ LIMIT $2
                 circuit_type_data: row.try_get("circuit_type_data")?,
                 circuit_driver_id: row.try_get("circuit_driver_id")?,
                 created_at: row.try_get("created_at")?,
+                experimental: row.try_get("experimental")?,
             })
         })
         .collect::<Result<Vec<PrfsProofType>, DbInterfaceError>>()?;
@@ -80,8 +85,9 @@ pub async fn insert_prfs_proof_type(
     let query = r#"
 INSERT INTO prfs_proof_types
 (proof_type_id, author, label, \"desc\", circuit_id,
-circuit_driver_id, expression, img_url, img_caption, circuit_type_id, circuit_type_data)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+circuit_driver_id, expression, img_url, img_caption, circuit_type_id, circuit_type_data,
+experimental)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
 RETURNING id"#;
 
     let row = sqlx::query(query)
@@ -96,6 +102,7 @@ RETURNING id"#;
         .bind(&proof_type.img_caption)
         .bind(&proof_type.circuit_type_id)
         .bind(&proof_type.circuit_type_data)
+        .bind(&proof_type.experimental)
         .fetch_one(&mut **tx)
         .await?;
 

@@ -23,4 +23,5 @@ pub struct PrfsProofType {
     pub circuit_driver_id: CircuitDriverId,
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
+    pub experimental: bool,
 }
