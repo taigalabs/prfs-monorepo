@@ -106,7 +106,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
 
     return prfsSet ? (
       <span className={styles.inputLabel}>
-        <span>{prfsSet.label}</span>
+        <span className={styles.label}>{prfsSet.label}</span>
         <a className={styles.link} onClick={handleClick} href={url}>
           <HoverableText> ({treeId})</HoverableText>
         </a>
