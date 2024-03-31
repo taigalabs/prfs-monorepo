@@ -59,10 +59,9 @@ export default class ZkappWorkerClient {
     return this._call("fn5", {});
   }
 
-  fn6() {
+  fn6(args_: MerkleSigPosRangeV1ContractUpdateArgs) {
     const idx0 = 0n;
     const tree = new MerkleTree(32);
-    // class MerkleWitness32 extends MerkleWitness(32) {}
     const sigpos = Field(10);
     const assetSize = Field(1521);
     const assetSizeGreaterEqThan = Field(1000);
@@ -91,8 +90,10 @@ export default class ZkappWorkerClient {
     });
 
     const args: MerkleSigPosRangeV1ContractUpdateArgs = {
-      root: root.toJSON(),
+      // root: root.toJSON(),
+      root: args_.root,
       sigpos: sigpos.toJSON(),
+      // sigpos: sigpos.toJSON(),
       merklePath,
       leaf: leaf.toJSON(),
       assetSize: assetSize.toJSON(),
@@ -102,6 +103,7 @@ export default class ZkappWorkerClient {
       proofPubKey: proofPubKeyInt.toJSON(),
       serialNo: serialNo.toJSON(),
     };
+    console.log(11, args, args_);
 
     return this._call("fn6", args);
   }
@@ -114,10 +116,6 @@ export default class ZkappWorkerClient {
   async getNum(): Promise<Field> {
     const result = await this._call("getNum", {});
     return Field.fromJSON(JSON.parse(result as string));
-  }
-
-  createUpdateTransaction(args: MerkleSigPosRangeV1ContractUpdateArgs) {
-    return this._call("createUpdateTransaction", args);
   }
 
   proveUpdateTransaction() {

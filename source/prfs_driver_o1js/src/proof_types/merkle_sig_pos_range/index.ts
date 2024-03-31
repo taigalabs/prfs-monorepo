@@ -20,6 +20,7 @@ import {
   Proof,
   ZkappPublicInput,
   Empty,
+  MerkleTree,
 } from "o1js";
 import { BN } from "bn.js";
 // import { SECP256K1_P } from "@/math/secp256k1";
@@ -35,6 +36,7 @@ export const SECP256K1_N = new BN(
 );
 
 import ZkappWorkerClient from "./zkappWorkerClient";
+import { MerkleSigPosRangeV1ContractUpdateArgs } from "@taigalabs/prfs-circuits-o1js/src/merkle_sig_pos_range_v1";
 
 const transactionFee = 0.1;
 const ZKAPP_ADDRESS = "B62qmB49xfPPLFtZspXwNpG2gPpfNEVgNc3ZCDLZzALg8vcuTnNDgNY";
@@ -49,9 +51,6 @@ async function timeout(seconds: number): Promise<void> {
 
 export async function proveMembership(
   args: ProveArgs<MerkleSigPosRangeV1Inputs>,
-  // handlers: PrfsHandlers,
-  // wtnsGen: Uint8Array,
-  // circuit: Uint8Array,
 ): Promise<ProveResult> {
   const { inputs, eventListener } = args;
   console.log("inputs: %o", inputs);
@@ -68,11 +67,53 @@ export async function proveMembership(
     proofPubKey,
   } = inputs;
 
-  const proofPubKeyBytes = toUtf8Bytes(proofPubKey);
-  const proofPubKeyInt = BigInt(new BN(proofPubKeyBytes).mod(SECP256K1_P).toString());
+  // const proofPubKeyBytes = toUtf8Bytes(proofPubKey);
+  // const proofPubKeyInt = BigInt(new BN(proofPubKeyBytes).mod(SECP256K1_P).toString());
 
-  const nonceRawBytes = toUtf8Bytes(nonceRaw);
-  const nonceInt = BigInt(new BN(nonceRawBytes).mod(SECP256K1_P).toString());
+  // const nonceRawBytes = toUtf8Bytes(nonceRaw);
+  // const nonceInt = BigInt(new BN(nonceRawBytes).mod(SECP256K1_P).toString());
+
+  const idx0 = 0n;
+  const tree_ = new MerkleTree(32);
+  const sigpos_ = Field(sigpos);
+  const assetSize_ = Field(assetSize);
+  const assetSizeGreaterEqThan_ = Field(assetSizeGreaterEqThan);
+  const assetSizeLessThan_ = Field(assetSizeLessThan);
+  // const nonceRaw_ = "nonce";
+  const nonceInt_ = Poseidon.hash(CircuitString.fromString(nonceRaw).toFields());
+  // const proofPubKey_ = "0x0";
+  const proofPubKeyInt_ = Poseidon.hash(CircuitString.fromString(proofPubKey).toFields());
+
+  const leaf_ = Poseidon.hash([sigpos_, assetSize_]);
+  tree_.setLeaf(idx0, leaf_);
+  tree_.setLeaf(1n, Field(1));
+  tree_.setLeaf(2n, Field(2));
+  tree_.setLeaf(3n, Field(3));
+
+  const sigposAndNonce = Poseidon.hash([sigpos_, nonceInt_]);
+  const serialNo = Poseidon.hash([sigposAndNonce, proofPubKeyInt_]);
+  const root_ = tree_.getRoot();
+  const witness_ = tree_.getWitness(idx0);
+  const merklePath_ = witness_.map(w => {
+    const obj = {
+      isLeft: w.isLeft,
+      sibling: w.sibling.toJSON(),
+    };
+    return obj;
+  });
+
+  const contractArgs: MerkleSigPosRangeV1ContractUpdateArgs = {
+    root: root_.toJSON(),
+    sigpos: sigpos_.toJSON(),
+    merklePath: merklePath_,
+    leaf: leaf_.toJSON(),
+    assetSize: assetSize_.toJSON(),
+    assetSizeGreaterEqThan: assetSizeGreaterEqThan_.toJSON(),
+    assetSizeLessThan: assetSizeLessThan_.toJSON(),
+    nonce: nonceInt_.toJSON(),
+    proofPubKey: proofPubKeyInt_.toJSON(),
+    serialNo: serialNo.toJSON(),
+  };
 
   console.log("Loading web worker...");
   eventListener({
@@ -80,7 +121,7 @@ export async function proveMembership(
     payload: { type: "info", payload: "Loading web worker" },
   });
   const zkappWorkerClient = new ZkappWorkerClient();
-  await timeout(5);
+  await timeout(3);
 
   console.log("Done loading web worker");
 
@@ -104,7 +145,7 @@ export async function proveMembership(
   const res = await zkappWorkerClient.fetchAccount({
     publicKey: publicKey!,
   });
-  console.log("account", res);
+  console.log("Account", res);
 
   await zkappWorkerClient.loadContract();
 
@@ -159,7 +200,7 @@ export async function proveMembership(
     publicKey,
   });
 
-  await zkappWorkerClient.fn6();
+  await zkappWorkerClient.fn6(contractArgs);
   console.log("Creating proof...");
   eventListener({
     type: "CREATE_PROOF_EVENT",

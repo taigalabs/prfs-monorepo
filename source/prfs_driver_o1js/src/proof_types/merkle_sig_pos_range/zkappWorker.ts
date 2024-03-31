@@ -178,38 +178,6 @@ const functions = {
     state.transaction = transaction;
   },
 
-  createUpdateTransaction: async (args: MerkleSigPosRangeV1ContractUpdateArgs) => {
-    // const {
-    //   root,
-    //   sigpos,
-    //   merklePath,
-    //   leaf,
-    //   assetSize,
-    //   assetSizeGreaterEqThan,
-    //   assetSizeLessThan,
-    //   nonce,
-    //   proofPubKey,
-    //   serialNo,
-    // } = args;
-    // console.log("args", args);
-    // const transaction = await Mina.transaction(() => {
-    //   state.zkapp!.update(
-    //     root,
-    //     sigpos,
-    //     merklePath,
-    //     leaf,
-    //     assetSize,
-    //     assetSizeGreaterEqThan,
-    //     assetSizeLessThan,
-    //     nonce,
-    //     proofPubKey,
-    //     serialNo,
-    //   );
-    // });
-    // console.log("transaction done");
-    // state.transaction = transaction;
-  },
-
   proveUpdateTransaction: async (args: {}) => {
     const res = await state.transaction!.prove();
     return JSON.stringify(res);
