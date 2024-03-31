@@ -3,7 +3,6 @@ import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindi
 import Select from "@taigalabs/prfs-react-lib/src/select/Select";
 
 import styles from "./RangeSelect.module.scss";
-import { InputWrapper } from "@/components/form_input/FormInput";
 import { useI18N } from "@/i18n/context";
 
 const RangeSelect: React.FC<RangeSelectProps> = ({ circuitTypeData, rangeOptionIdx }) => {
