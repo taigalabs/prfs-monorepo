@@ -8,7 +8,6 @@ import {
 } from "@taigalabs/prfs-driver-interface";
 import { MERKLE_SIG_POS_RANGE_V1, SIMPLE_HASH_V1 } from "@taigalabs/prfs-circuit-interface";
 
-// import { Tree } from "./utils/tree";
 import {
   PrfsHandlers,
   AsyncHashFn,
@@ -92,14 +91,6 @@ export default class SpartanDriver implements CircuitDriver {
   async getBuildStatus(): Promise<BuildStatus> {
     return this.handlers.getBuildStatus();
   }
-
-  // async makeMerkleProof(leaves: string[], leafIdx: BigInt, depth: number) {
-  //   return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
-  // }
-
-  // async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
-  //   return await Tree.newInstance(depth, hash);
-  // }
 
   async prove(args: ProveArgs<any>): Promise<ProveResult> {
     try {

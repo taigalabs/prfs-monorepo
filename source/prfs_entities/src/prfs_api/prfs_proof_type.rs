@@ -9,6 +9,7 @@ use crate::entities::PrfsProofType;
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsProofTypesRequest {
+    pub experimental: bool,
     pub offset: i32,
 }
 
@@ -49,6 +50,7 @@ pub struct CreatePrfsProofTypeRequest {
     pub img_url: Option<String>,
     pub img_caption: Option<String>,
     pub driver_properties: HashMap<String, String>,
+    pub experimental: bool,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

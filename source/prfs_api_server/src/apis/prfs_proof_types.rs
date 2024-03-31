@@ -21,7 +21,8 @@ pub async fn get_prfs_proof_types(
     Json(input): Json<GetPrfsProofTypesRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsProofTypesResponse>>) {
     let pool = &state.db2.pool;
-    let rows = match prfs::get_prfs_proof_types(pool, input.offset, LIMIT).await {
+    let rows = match prfs::get_prfs_proof_types(pool, input.experimental, input.offset, LIMIT).await
+    {
         Ok(r) => r,
         Err(err) => {
             let resp = ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
@@ -80,6 +81,7 @@ pub async fn create_prfs_proof_type(
         circuit_type_id: input.circuit_type_id,
         circuit_type_data: input.circuit_type_data,
         circuit_driver_id: input.circuit_driver_id,
+        experimental: input.experimental,
         created_at: chrono::offset::Utc::now(),
     };
 

@@ -29,15 +29,15 @@ export async function proveMembership(
     proofPubKey,
   } = inputs;
 
+  const proofPubKeyBytes = toUtf8Bytes(proofPubKey);
+  const proofPubKeyInt = BigInt(new BN(proofPubKeyBytes).mod(SECP256K1_P).toString());
+
   const nonceRawBytes = toUtf8Bytes(nonceRaw);
   const nonceInt = BigInt(new BN(nonceRawBytes).mod(SECP256K1_P).toString());
 
   const sigposAndNonceInt_ = await poseidon_2_bigint_le([sigpos, nonceInt]);
   const sigposAndNonceInt = bytesToNumberLE(sigposAndNonceInt_);
   // console.log("sigposAndNonce", sigposAndNonceInt_);
-
-  const proofPubKeyBytes = toUtf8Bytes(proofPubKey);
-  const proofPubKeyInt = BigInt(new BN(proofPubKeyBytes).mod(SECP256K1_P).toString());
 
   const serialNoHash = await poseidon_2_bigint_le([sigposAndNonceInt, proofPubKeyInt]);
   const serialNo = bytesToNumberLE(serialNoHash);
