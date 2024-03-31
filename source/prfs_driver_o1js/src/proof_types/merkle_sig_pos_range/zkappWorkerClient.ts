@@ -92,18 +92,25 @@ export default class ZkappWorkerClient {
     const args: MerkleSigPosRangeV1ContractUpdateArgs = {
       // root: root.toJSON(),
       root: args_.root,
-      sigpos: sigpos.toJSON(),
       // sigpos: sigpos.toJSON(),
-      merklePath,
-      leaf: leaf.toJSON(),
-      assetSize: assetSize.toJSON(),
-      assetSizeGreaterEqThan: assetSizeGreaterEqThan.toJSON(),
-      assetSizeLessThan: assetSizeLessThan.toJSON(),
-      nonce: nonceInt.toJSON(),
-      proofPubKey: proofPubKeyInt.toJSON(),
-      serialNo: serialNo.toJSON(),
+      sigpos: args_.sigpos,
+      // merklePath,
+      merklePath: args_.merklePath,
+      // leaf: leaf.toJSON(),
+      leaf: args_.leaf,
+      // assetSize: assetSize.toJSON(),
+      assetSize: args_.assetSize,
+      // assetSizeGreaterEqThan: assetSizeGreaterEqThan.toJSON(),
+      assetSizeGreaterEqThan: args_.assetSizeGreaterEqThan,
+      // assetSizeLessThan: assetSizeLessThan.toJSON(),
+      assetSizeLessThan: args_.assetSizeLessThan,
+      // nonce: nonceInt.toJSON(),
+      nonce: args_.nonce,
+      // proofPubKey: proofPubKeyInt.toJSON(),
+      proofPubKey: args_.proofPubKey,
+      // serialNo: serialNo.toJSON(),
+      serialNo: args_.serialNo,
     };
-    console.log(11, args, args_);
 
     return this._call("fn6", args);
   }
