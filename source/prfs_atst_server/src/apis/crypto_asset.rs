@@ -1,4 +1,4 @@
-use prfs_admin::mock::MASTER_ACCOUNT_IDS;
+use prfs_admin_credential::mock::MASTER_ACCOUNT_IDS;
 use prfs_api_rs::api::update_prfs_tree_by_new_atst;
 use prfs_atst_api_error_codes::PRFS_ATST_API_ERROR_CODES;
 use prfs_atst_api_ops::ops;
