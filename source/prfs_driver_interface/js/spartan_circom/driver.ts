@@ -44,11 +44,8 @@ export interface ProofActionPayload {
   proofActionSig: string;
 }
 
-// export type ProveReceipt = ProveResult & ProofActionPayload;
-
 export type ProveReceipt = {
   type: "prove_receipt";
-  // proofPubKey: string;
 } & ProveResult &
   ProofActionPayload;
 
