@@ -1,6 +1,11 @@
 import { ProveArgs, ProveResult, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { bytesToNumberLE, poseidon_2_bigint_le, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
+import {
+  JSONbigNative,
+  bytesToNumberLE,
+  poseidon_2_bigint_le,
+  toUtf8Bytes,
+} from "@taigalabs/prfs-crypto-js";
 import {
   Field,
   SmartContract,
@@ -13,6 +18,18 @@ import {
   Struct,
   PublicKey,
 } from "o1js";
+import { BN } from "bn.js";
+// import { SECP256K1_P } from "@/math/secp256k1";
+//
+export const SECP256K1_P = new BN(
+  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
+  16,
+);
+
+export const SECP256K1_N = new BN(
+  "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
+  16,
+);
 
 import ZkappWorkerClient from "./zkappWorkerClient";
 
@@ -48,8 +65,12 @@ export async function proveMembership(
     proofPubKey,
   } = inputs;
 
-  // if (!state.hasBeenSetup) {
-  // setDisplayText("Loading web worker...");
+  const proofPubKeyBytes = toUtf8Bytes(proofPubKey);
+  const proofPubKeyInt = BigInt(new BN(proofPubKeyBytes).mod(SECP256K1_P).toString());
+
+  const nonceRawBytes = toUtf8Bytes(nonceRaw);
+  const nonceInt = BigInt(new BN(nonceRawBytes).mod(SECP256K1_P).toString());
+
   console.log("Loading web worker...");
   eventListener({
     type: "CREATE_PROOF_EVENT",
@@ -87,14 +108,28 @@ export async function proveMembership(
   });
   console.log("account", res);
 
-  const accountExists = res.error == null;
+  // const accountExists = res.error == null;
   await zkappWorkerClient.loadContract();
 
   console.log("Compiling zkApp...");
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: {
+      type: "info",
+      payload: "Compiling zkApp...",
+    },
+  });
   // setDisplayText("Compiling zkApp...");
   await zkappWorkerClient.compileContract();
   console.log("zkApp compiled");
   // setDisplayText("zkApp compiled...");
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: {
+      type: "info",
+      payload: "zkApp compiled",
+    },
+  });
 
   const zkappPublicKey = PublicKey.fromBase58(ZKAPP_ADDRESS);
   await zkappWorkerClient.initZkappInstance(zkappPublicKey);
@@ -102,6 +137,7 @@ export async function proveMembership(
   console.log("Getting zkApp state...", zkappPublicKey);
   // setDisplayText("Getting zkApp state...");
   await zkappWorkerClient.fetchAccount({ publicKey: zkappPublicKey });
+  console.log(`Fetched account, publicKey ${zkappPublicKey}`);
 
   const currentNum = await zkappWorkerClient.getNum();
   console.log(`Current state in zkApp: ${currentNum.toString()}`);
@@ -118,6 +154,13 @@ export async function proveMembership(
   // setState({ ...state, creatingTransaction: true });
   // setDisplayText("Creating a transaction...");
   console.log("Creating a transaction...");
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: {
+      type: "info",
+      payload: `Creating a transaction...`,
+    },
+  });
 
   await zkappWorkerClient.fetchAccount({
     publicKey,
@@ -126,10 +169,24 @@ export async function proveMembership(
   await zkappWorkerClient.fn6();
   // setDisplayText("Creating proof...");
   console.log("Creating proof...");
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: {
+      type: "info",
+      payload: `Creating proof...`,
+    },
+  });
   await zkappWorkerClient.proveUpdateTransaction();
 
   console.log("Requesting send transaction...");
   // setDisplayText("Requesting send transaction...");
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: {
+      type: "info",
+      payload: `Send transaction...`,
+    },
+  });
   const transactionJSON = await zkappWorkerClient.getTransactionJSON();
 
   // setDisplayText("Getting transaction JSON...");
@@ -144,6 +201,13 @@ export async function proveMembership(
 
   const transactionLink = `https://berkeley.minaexplorer.com/transaction/${hash}`;
   console.log(`View transaction at ${transactionLink}`);
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: {
+      type: "info",
+      payload: `View transaction at ${transactionLink}`,
+    },
+  });
 
   // setTransactionLink(transactionLink);
   // setDisplayText(transactionLink);
@@ -151,12 +215,16 @@ export async function proveMembership(
 
   const now = performance.now();
 
+  const publicInput = JSONbigNative.stringify([0, 0]);
+
   return {
     duration: now - prev,
     proof: {
       proofBytes: [],
-      publicInputSer: "",
+      publicInputSer: publicInput,
       proofPubKey,
+      ledger: transactionLink,
+      txHash: hash,
     },
   };
 }

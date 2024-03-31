@@ -99,6 +99,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         return;
       }
 
+      console.log(11, session);
+
       const buf = Buffer.from(session.value);
       let decrypted: string;
       try {
@@ -112,6 +114,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         return;
       }
 
+      console.log(33, decrypted);
+
       let payload: ProofGenSuccessPayload;
       try {
         payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
@@ -123,6 +127,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         );
         return;
       }
+      console.log(22, payload);
 
       const proof = payload.receipt[PROOF] as ProveReceipt;
       if (proof) {

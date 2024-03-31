@@ -8,6 +8,7 @@ import { bustEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
 import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import PLogo from "@taigalabs/prfs-react-lib/src/prfs_logo/PLogo";
+import AppLogo from "@taigalabs/prfs-react-lib/src/app_logo/AppLogo";
 
 import styles from "./ProofGen.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -24,7 +25,6 @@ import { useAppDispatch } from "@/state/hooks";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import { signInPrfs } from "@/state/userReducer";
 import { useGetPrfsIdApp, useSignInPrfsIdentity } from "@/requests";
-import AppLogo from "@taigalabs/prfs-react-lib/src/app_logo/AppLogo";
 
 enum ProofGenStep {
   PrfsIdCredential,
