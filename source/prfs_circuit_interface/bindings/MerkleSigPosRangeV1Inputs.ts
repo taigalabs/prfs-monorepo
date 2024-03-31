@@ -2,6 +2,8 @@
 import type { SpartanMerkleProof } from "./SpartanMerkleProof";
 
 export interface MerkleSigPosRangeV1Inputs {
+  sigR: bigint;
+  sigS: bigint;
   sigpos: bigint;
   leaf: bigint;
   assetSize: bigint;

@@ -128,7 +128,7 @@ export function useHandleChangeAddress({
           const d = data[0];
           switch (d.type) {
             case "WalletCm": {
-              const { hashed } = await makeWalletAtstCm(credential.secret_key, addr);
+              const { sigBytes, hashed } = await makeWalletAtstCm(credential.secret_key, addr);
               const cm = hexlify(hashed);
               const cmInt = bytesToNumberLE(hashed);
 

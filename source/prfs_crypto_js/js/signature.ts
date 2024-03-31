@@ -4,7 +4,7 @@ import {
 } from "@taigalabs/prfs-crypto-deps-js/noble_curves/secp256k1";
 
 import { initWasm, wasmSingleton } from "./wasm_wrapper/wasm";
-import { poseidon_2 } from "./poseidon";
+import { poseidon_2, poseidon_2_str } from "./poseidon";
 
 export async function prfsSign(skHex: string, msg: string): Promise<RecoveredSignatureType> {
   if (wasmSingleton.wasm === null) {
@@ -12,7 +12,7 @@ export async function prfsSign(skHex: string, msg: string): Promise<RecoveredSig
     wasmSingleton.wasm = w;
   }
 
-  const msgHash = await poseidon_2(msg);
+  const msgHash = await poseidon_2_str(msg);
   const sig = secp.sign(msgHash, BigInt(skHex));
   return sig;
 }
