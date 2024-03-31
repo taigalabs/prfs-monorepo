@@ -1,6 +1,5 @@
 import { threads } from "wasm-feature-detect";
 import * as Comlink from "comlink";
-// import { wasmBytes } from "./build/prfs_wasm_bytes";
 import { wasmBytes } from "./build/prfs_driver_spartan_wasm_bytes";
 import wasmPackageJson from "./build/package.json";
 function wrapExports(prfsWasm) {

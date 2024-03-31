@@ -4,7 +4,6 @@ use prfs_crypto::hex;
 use prfs_crypto::sha2::{Digest, Sha256};
 use prfs_driver_interface::CircuitDriverId;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
-use std::str::FromStr;
 use std::{io::Write, path::PathBuf, process::Command};
 
 use crate::{paths::PATHS, CircuitBuild, CircuitBuildListJson, FileKind};

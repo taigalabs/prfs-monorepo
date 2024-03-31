@@ -58,12 +58,6 @@ export default class SpartanDriver {
     async getBuildStatus() {
         return this.handlers.getBuildStatus();
     }
-    // async makeMerkleProof(leaves: string[], leafIdx: BigInt, depth: number) {
-    //   return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
-    // }
-    // async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
-    //   return await Tree.newInstance(depth, hash);
-    // }
     async prove(args) {
         try {
             switch (args.circuitTypeId) {
