@@ -6,7 +6,7 @@
     "desc": "Proves he knows the preimage of a cryptographic hash function\n\n## Poseidon hash function\n\nPoseidon is a hash function that is designed to run efficiently in an arithmetic circuit.\nPoesidon maps strings over Fp (for a prime p ≈ 2n) to fixed-length strings over Fp, i.e.,\nPOSEIDON : (F_∗)^p → (F_o)^p, where o is the output length measured in Fp elements (usually,\no = 1). It is constructed by instantiating a sponge function with the POSEIDONπ permutation.\nPOSEIDONπ is a variant of HADESMiMC, albeit instantiated with a fixed and known key.\n",
     "expression": "Knows hash argument",
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/hash.png",
-    "circuit_id": "0x3CB2E6DDA2",
+    "circuit_id": "cf7eb0458d",
     "circuit_type_id": "simple_hash_v1",
     "circuit_type_data": {
       "type": "simple_hash_v1"
@@ -21,7 +21,7 @@
     "desc": "Proves he/she has the assets in cryptocurrency worth of X US dollars.\n\n## About crypto assets\n",
     "expression": "Has assets in crypto worth X USD",
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/money_cash_1.webp",
-    "circuit_id": "0xB63F9E874E",
+    "circuit_id": "124e3f60de",
     "circuit_type_id": "merkle_sig_pos_range_v1",
     "circuit_type_data": {
       "type": "merkle_sig_pos_range_v1",

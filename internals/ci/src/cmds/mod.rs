@@ -45,3 +45,6 @@ pub mod tmux;
 
 // Vercel
 pub mod vercel_deploy;
+
+// test
+pub mod test;

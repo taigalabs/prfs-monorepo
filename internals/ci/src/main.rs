@@ -14,7 +14,7 @@ use crate::{
         docker_run_default_local, docker_run_prfs_proof_webapp, seed_shy_api_data,
         start_prfs_api_server, start_prfs_api_server_local, start_prfs_asset_server,
         start_prfs_console_webapp, start_prfs_docs_website, start_prfs_id_webapp,
-        start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp, vercel_deploy,
+        start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp, test, vercel_deploy,
     },
 };
 use chrono::prelude::*;
@@ -69,7 +69,13 @@ fn main() {
         .subcommand(command!("seed_shy_api_data"))
         .subcommand(command!("seed_assets"))
         // test
-        .subcommand(command!("e2e_test_web"))
+        .subcommand(
+            command!(test::CMD_NAME).arg(
+                Arg::new("extra_args")
+                    .trailing_var_arg(true)
+                    .allow_hyphen_values(true),
+            ),
+        )
         // tmux
         .subcommand(command!("tmux").arg(Arg::new("extra_args")))
         // Vercel
@@ -189,6 +195,10 @@ fn main() {
         // Vercel
         Some((vercel_deploy::CMD_NAME, sub_matches)) => {
             cmds::vercel_deploy::run(sub_matches);
+        }
+        //
+        Some((test::CMD_NAME, sub_matches)) => {
+            cmds::test::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }
