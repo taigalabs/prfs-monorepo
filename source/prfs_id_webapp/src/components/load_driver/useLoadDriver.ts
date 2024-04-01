@@ -66,7 +66,9 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
           }
         }
 
-        const { circuit_driver_id } = proofType;
+        const { circuit_driver_id, circuit_id } = proofType;
+        console.log(11, proofType);
+
         if (!circuit_driver_id) {
           console.error("Circuit driver id is not given");
           return undefined;

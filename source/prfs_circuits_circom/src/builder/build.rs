@@ -6,6 +6,7 @@ use prfs_driver_interface::CircuitDriverId;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, path::PathBuf, process::Command};
 
+use crate::resolve_path::get_path_segment;
 use crate::{paths::PATHS, CircuitBuild, CircuitBuildListJson, FileKind};
 
 pub fn run() {
@@ -59,35 +60,6 @@ fn circuit_type_id_should_match_file_stem(circuit: &PrfsCircuit) {
         .unwrap();
 
     assert_eq!(circuit.circuit_type_id, file_stem);
-}
-
-fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> String {
-    match file_kind {
-        FileKind::R1CS => {
-            let instance_path = &circuit.build_properties.get("instance_path").unwrap();
-            let circuit_src_path = PATHS.circuits.join(&instance_path);
-            let file_stem = circuit_src_path
-                .file_stem()
-                .unwrap()
-                .to_os_string()
-                .into_string()
-                .unwrap();
-
-            format!("{}/{}.r1cs", &circuit.circuit_type_id, file_stem)
-        }
-        FileKind::Spartan => {
-            format!(
-                "{}/{}.spartan.circuit",
-                circuit.circuit_type_id, circuit.circuit_type_id
-            )
-        }
-        FileKind::WtnsGen => {
-            format!(
-                "{}/{}_js/{}.wasm",
-                circuit.circuit_type_id, circuit.circuit_type_id, circuit.circuit_type_id,
-            )
-        }
-    }
 }
 
 fn make_spartan(circuit: &mut PrfsCircuit) -> PathBuf {
