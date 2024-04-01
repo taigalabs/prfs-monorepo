@@ -4,8 +4,7 @@ import DOMPurify from "dompurify";
 import * as marked from "marked";
 import dayjs from "dayjs";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { JSONElem, iterateJSON } from "@taigalabs/prfs-ts-utils";
+import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 
 import styles from "./ProofTypeMeta.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -86,5 +85,5 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
 export default ProofTypeMeta;
 
 export interface ProofTypeMetaProps {
-  proofType: PrfsProofType;
+  proofType: PrfsProofTypeSyn1;
 }

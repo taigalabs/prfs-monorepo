@@ -2,7 +2,7 @@ import React from "react";
 import { CircuitDriver, DriverEvent } from "@taigalabs/prfs-driver-interface";
 import dayjs from "dayjs";
 import { initCircuitDriver } from "@taigalabs/prfs-proof-gen-js";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
 import {
   resolveCircuitUrl,
@@ -23,7 +23,7 @@ export interface DriverArtifacts {
   artifactCount: number;
 }
 
-export function useLoadDriver(proofType: PrfsProofType | undefined) {
+export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any> | null>(
     null,
   );

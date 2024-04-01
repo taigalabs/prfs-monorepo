@@ -80,7 +80,6 @@ pub async fn create_prfs_proof_type(
         circuit_id: input.circuit_id,
         circuit_type_id: input.circuit_type_id,
         circuit_type_data: input.circuit_type_data,
-        circuit_driver_id: input.circuit_driver_id,
         experimental: input.experimental,
         created_at: chrono::offset::Utc::now(),
     };
