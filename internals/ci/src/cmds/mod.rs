@@ -38,7 +38,6 @@ pub mod docker_run_prfs_proof_webapp;
 
 // seed
 pub mod seed_assets;
-pub mod seed_prfs_api_data;
 pub mod seed_shy_api_data;
 
 // tmux

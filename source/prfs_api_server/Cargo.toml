@@ -52,7 +52,3 @@ shy_api_server = { path = "../shy_api_server" }
 [[bin]]
 name = "prfs_api_server"
 path = "src/bin/server.rs"
-
-[[bin]]
-name = "prfs_api_server_seed"
-path = "src/bin/seed.rs"
