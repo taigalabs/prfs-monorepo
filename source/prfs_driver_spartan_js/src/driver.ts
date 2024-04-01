@@ -29,7 +29,6 @@ export default class SpartanDriver implements CircuitDriver {
       prfsHandlers = await initWasm();
 
       const { circuit_url, circuit_len, wtns_gen_url, wtns_gen_len, version } = driverProps;
-      console.log(33, driverProps);
 
       let vs: string;
       if (version) {
