@@ -1,7 +1,7 @@
 use serde::de::DeserializeOwned;
 use std::path::PathBuf;
 
-pub fn read_json<T>(json_path: &PathBuf) -> T
+pub fn read_json_file<T>(json_path: &PathBuf) -> T
 where
     T: DeserializeOwned,
 {

@@ -6,7 +6,6 @@ use crate::seed::local::{
     load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
     load_policy_items, load_prfs_accounts, load_proof_types,
 };
-use crate::seed::utils;
 
 // pub async fn upload(db: &Database2) {
 //     // upload_circuit_drivers(&db).await;
