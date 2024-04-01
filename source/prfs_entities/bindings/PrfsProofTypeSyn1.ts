@@ -7,7 +7,7 @@ export type PrfsProofTypeSyn1 = {
   desc: string;
   expression: string;
   img_url: string | null;
-  img_caption: string | null;
+  img_caption?: string;
   created_at: string;
   experimental: boolean;
   circuit_id: string;
