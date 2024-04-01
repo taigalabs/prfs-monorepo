@@ -32,7 +32,3 @@ prfs_entities = { path = "../prfs_entities" }
 [[bin]]
 name = "prfs_asset_server"
 path = "src/bin/server.rs"
-
-[[bin]]
-name = "seed_assets"
-path = "src/bin/seed_assets.rs"

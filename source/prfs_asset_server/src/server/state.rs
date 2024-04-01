@@ -23,8 +23,8 @@ impl ServerState {
         );
 
         let list_json_path = circuits_build_path.join("list.json");
-        let b = std::fs::read(list_json_path).unwrap();
-        let list_json = serde_json::from_slice::<CircuitBuildListJson>(&b).unwrap();
+        let list_json: CircuitBuildListJson =
+            prfs_rust_utils::serde::read_json_file(&list_json_path);
         check_circuits(&circuits_build_path, &list_json);
 
         let launched_at = Utc::now().to_rfc3339();
