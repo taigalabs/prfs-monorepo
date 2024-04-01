@@ -11,14 +11,16 @@ impl BuildTask for BuildPrfsDriverSpartanJsTask {
     }
 
     fn run(&self, _build_handle: &mut BuildHandle) -> Result<(), CiError> {
-        let status = Command::new(JS_ENGINE)
-            .current_dir(&PATHS.prfs_driver_spartan_js)
-            .args(["run", "build-pkg"])
-            .status()
-            .expect(&format!("{} command failed to start", JS_ENGINE));
+        panic!("Currently deprecated!");
 
-        assert!(status.success());
+        // let status = Command::new(JS_ENGINE)
+        //     .current_dir(&PATHS.prfs_driver_spartan_js)
+        //     .args(["run", "build-pkg"])
+        //     .status()
+        //     .expect(&format!("{} command failed to start", JS_ENGINE));
 
-        Ok(())
+        // assert!(status.success());
+
+        // Ok(())
     }
 }

@@ -8,11 +8,8 @@
     "build/**/*"
   ],
   "scripts": {
-    "build": "rm -rf ./dist && webpack --config webpack.config.js",
     "build-pkg": "pnpm run clean && tsc && tsc-alias -p tsconfig.json",
     "clean": "rm -rf ./dist",
-    "clean-build-cjs": "rm -rf ./build_cjs",
-    "prepublishOnly": "pnpm run build-pkg",
     "test": "jest"
   },
   "dependencies": {
