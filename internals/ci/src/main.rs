@@ -8,13 +8,14 @@ mod paths;
 use crate::{
     build_handle::BuildHandle,
     cmds::{
-        build_prfs_api_server, build_prfs_crypto_js, dev_prfs_api_server, dev_prfs_asset_server,
-        dev_prfs_console_webapp, dev_prfs_docs_website, dev_prfs_id_webapp, dev_prfs_poll_webapp,
-        dev_prfs_proof_webapp, dev_shy_webapp, docker_run_default, docker_run_default_debug,
-        docker_run_default_local, docker_run_prfs_proof_webapp, seed_shy_api_data,
-        start_prfs_api_server, start_prfs_api_server_local, start_prfs_asset_server,
-        start_prfs_console_webapp, start_prfs_docs_website, start_prfs_id_webapp,
-        start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp, test, vercel_deploy,
+        build_prfs_api_server, build_prfs_crypto_js, cargo_test, dev_prfs_api_server,
+        dev_prfs_asset_server, dev_prfs_console_webapp, dev_prfs_docs_website, dev_prfs_id_webapp,
+        dev_prfs_poll_webapp, dev_prfs_proof_webapp, dev_shy_webapp, docker_down_all,
+        docker_run_default, docker_run_default_debug, docker_run_default_local,
+        docker_run_prfs_proof_webapp, seed_shy_api_data, start_prfs_api_server,
+        start_prfs_api_server_local, start_prfs_asset_server, start_prfs_console_webapp,
+        start_prfs_docs_website, start_prfs_id_webapp, start_prfs_poll_webapp,
+        start_prfs_proof_webapp, start_shy_webapp, vercel_deploy,
     },
 };
 use chrono::prelude::*;
@@ -70,7 +71,7 @@ fn main() {
         .subcommand(command!("seed_assets"))
         // test
         .subcommand(
-            command!(test::CMD_NAME)
+            command!(cargo_test::CMD_NAME)
                 .arg(arg!(<extra_args> ... "args to run with").trailing_var_arg(true)),
         )
         // tmux
@@ -176,14 +177,11 @@ fn main() {
             docker_run_default_local::run(sub_matches);
         }
         Some(("docker_down_all", sub_matches)) => {
-            cmds::docker_down_all::run(sub_matches);
+            docker_down_all::run(sub_matches);
         }
         // misc
         Some((seed_shy_api_data::CMD_NAME, sub_matches)) => {
             seed_shy_api_data::run(sub_matches);
-        }
-        Some(("seed_assets", sub_matches)) => {
-            cmds::seed_assets::run(sub_matches);
         }
         // Tmux
         Some(("tmux", sub_matches)) => {
@@ -194,8 +192,8 @@ fn main() {
             cmds::vercel_deploy::run(sub_matches);
         }
         //
-        Some((test::CMD_NAME, sub_matches)) => {
-            cmds::test::run(sub_matches);
+        Some((cargo_test::CMD_NAME, sub_matches)) => {
+            cargo_test::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }

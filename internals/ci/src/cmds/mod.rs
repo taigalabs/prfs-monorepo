@@ -37,7 +37,6 @@ pub mod docker_run_postgres;
 pub mod docker_run_prfs_proof_webapp;
 
 // seed
-pub mod seed_assets;
 pub mod seed_shy_api_data;
 
 // tmux
@@ -47,4 +46,4 @@ pub mod tmux;
 pub mod vercel_deploy;
 
 // test
-pub mod test;
+pub mod cargo_test;

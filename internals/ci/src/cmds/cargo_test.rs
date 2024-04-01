@@ -7,10 +7,9 @@ use crate::{
     paths::PATHS,
 };
 
-pub const CMD_NAME: &str = "test";
+pub const CMD_NAME: &str = "cargo_test";
 
 pub fn run(matches: &ArgMatches) {
-    println!("aaa");
     let extra_args = match matches.get_many::<String>("extra_args") {
         Some(value_ref) => value_ref.map(|v| v.as_str()).collect::<Vec<_>>(),
         None => vec![],
@@ -24,12 +23,7 @@ fn run_app(extra_args: Vec<&str>) {
     println!("extra_args: {:?}", extra_args);
 
     let envs = create_envs();
-    let args = [
-        vec!["test"],
-        extra_args,
-        // vec!["--", "--nocapture"]
-    ]
-    .concat();
+    let args = [vec!["test"], extra_args].concat();
 
     let status = Command::new(deps::CARGO)
         .args(args)
