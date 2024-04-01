@@ -15,7 +15,7 @@ use crate::{
         docker_run_prfs_proof_webapp, seed_shy_api_data, start_prfs_api_server,
         start_prfs_api_server_local, start_prfs_asset_server, start_prfs_console_webapp,
         start_prfs_docs_website, start_prfs_id_webapp, start_prfs_poll_webapp,
-        start_prfs_proof_webapp, start_shy_webapp, vercel_deploy,
+        start_prfs_proof_webapp, start_shy_webapp, tmux, vercel_deploy,
     },
 };
 use chrono::prelude::*;
@@ -184,8 +184,8 @@ fn main() {
             seed_shy_api_data::run(sub_matches);
         }
         // Tmux
-        Some(("tmux", sub_matches)) => {
-            cmds::tmux::run(sub_matches);
+        Some((tmux::CMD_NAME, sub_matches)) => {
+            tmux::run(sub_matches);
         }
         // Vercel
         Some((vercel_deploy::CMD_NAME, sub_matches)) => {
