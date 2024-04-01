@@ -153,8 +153,6 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
         identity_id: credential.id,
       });
 
-      console.log(22);
-
       persistEphemeralPrfsIdCredential(credentialObj);
       handleSucceedSignIn(credentialObj);
     }
