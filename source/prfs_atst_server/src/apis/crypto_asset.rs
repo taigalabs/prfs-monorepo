@@ -17,10 +17,7 @@ use prfs_entities::atst_api::{
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_entities::{PrfsAtstType, UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest};
 use prfs_web3_rs::signature::verify_eth_sig_by_addr;
-use prfs_web_fetcher::destinations::coinbase::{self};
-use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
-use std::str::FromStr;
 use std::sync::Arc;
 
 use crate::envs::ENVS;

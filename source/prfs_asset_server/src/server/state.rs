@@ -41,7 +41,7 @@ impl ServerState {
 }
 
 fn check_circuits(circuits_build_path: &PathBuf, list_json: &CircuitBuildJson) {
-    for circuit in &list_json.circuits {
+    for (_, circuit) in &list_json.circuits {
         let path = circuits_build_path.join(&circuit.r1cs_src_path);
         let fd = std::fs::read(&path).unwrap();
         let mut hasher = Sha256::new();
