@@ -12,7 +12,7 @@ import {
 const circuits: PrfsCircuit[] = [
   {
     circuit_id: "",
-    circuit_type_id: "addr",
+    circuit_type_id: "addr_membership_v1",
     created_at: "2023-05-01T16:39:57-08:00",
     label: "addr_membership2_1",
     author: "SYSTEM_NATIVE",
