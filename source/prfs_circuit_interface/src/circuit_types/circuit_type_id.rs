@@ -13,4 +13,5 @@ pub enum CircuitTypeId {
     simple_hash_v1,
     addr_membership_v1,
     merkle_sig_pos_range_v1,
+    merkle_sig_pos_exact_v1,
 }
