@@ -62,7 +62,7 @@ fn circuit_type_id_should_match_file_stem(circuit: &PrfsCircuit) {
         .into_string()
         .unwrap();
 
-    assert_eq!(circuit.circuit_type_id, file_stem);
+    assert_eq!(circuit.circuit_type_id.to_string(), file_stem);
 }
 
 fn make_spartan(circuit: &mut PrfsCircuit) -> PathBuf {

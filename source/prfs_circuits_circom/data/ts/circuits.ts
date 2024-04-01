@@ -3,10 +3,10 @@ import { CircuitDriverId } from "@taigalabs/prfs-driver-interface/bindings/Circu
 import {
   ADDR_MEMBERSHIP_V1,
   // ADDR_MEMBERSHIP_V1_CIRCUIT_ID,
-  MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
+  // MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
   MERKLE_SIG_POS_RANGE_V1,
   SIMPLE_HASH_V1,
-  SIMPLE_HASH_V1_CIRCUIT_ID,
+  // SIMPLE_HASH_V1_CIRCUIT_ID,
 } from "@taigalabs/prfs-circuit-interface";
 
 const circuits: PrfsCircuit[] = [
@@ -97,7 +97,7 @@ const circuits: PrfsCircuit[] = [
     ],
   },
   {
-    circuit_id: SIMPLE_HASH_V1_CIRCUIT_ID,
+    circuit_id: "",
     circuit_type_id: SIMPLE_HASH_V1,
     created_at: "2023-10-01T16:39:57-08:00",
     label: "simple_hash_1_1",
@@ -133,7 +133,7 @@ const circuits: PrfsCircuit[] = [
     ],
   },
   {
-    circuit_id: MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
+    circuit_id: "",
     circuit_type_id: MERKLE_SIG_POS_RANGE_V1,
     created_at: "2024-02-02T00:00:00-00:00",
     label: "Merkle pos range v1",
