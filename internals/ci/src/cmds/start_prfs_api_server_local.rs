@@ -21,7 +21,6 @@ pub fn run(matches: &ArgMatches) {
 
 fn run_app(_extra_args: Vec<&str>) {
     let prfs_api_server_bin = &PATHS.ws_root.join("prfs_api_server");
-
     if !prfs_api_server_bin.exists() {
         panic!("prfs_api_server bin does not exist");
     }
