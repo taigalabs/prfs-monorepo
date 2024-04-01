@@ -1,12 +1,9 @@
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import { CircuitDriverId } from "@taigalabs/prfs-driver-interface/bindings/CircuitDriverId";
+import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-interface/bindings/SpartanCircomDriverProperties";
 import {
   ADDR_MEMBERSHIP_V1,
-  // ADDR_MEMBERSHIP_V1_CIRCUIT_ID,
-  // MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
   MERKLE_SIG_POS_RANGE_V1,
   SIMPLE_HASH_V1,
-  // SIMPLE_HASH_V1_CIRCUIT_ID,
 } from "@taigalabs/prfs-circuit-interface";
 
 const circuits: PrfsCircuit[] = [
@@ -31,7 +28,7 @@ const circuits: PrfsCircuit[] = [
     driver_properties: {
       wtns_gen_url: "",
       circuit_url: "",
-    },
+    } as SpartanCircomDriverProperties,
     raw_circuit_inputs_meta: [
       {
         label: "Tx",
@@ -117,7 +114,7 @@ const circuits: PrfsCircuit[] = [
     driver_properties: {
       wtns_gen_url: "",
       circuit_url: "",
-    },
+    } as SpartanCircomDriverProperties,
     raw_circuit_inputs_meta: [
       {
         label: "s",
@@ -153,7 +150,7 @@ const circuits: PrfsCircuit[] = [
     driver_properties: {
       wtns_gen_url: "",
       circuit_url: "",
-    },
+    } as SpartanCircomDriverProperties,
     raw_circuit_inputs_meta: [
       {
         label: "assetSize",

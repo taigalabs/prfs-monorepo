@@ -4,14 +4,10 @@ import dayjs from "dayjs";
 import { initCircuitDriver } from "@taigalabs/prfs-proof-gen-js";
 import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-interface/bindings/SpartanCircomDriverProperties";
-import {
-  interpolateSystemAssetEndpoint,
-  resolveCircuitUrl,
-  resolveWtnsGenUrl,
-} from "@taigalabs/prfs-circuit-artifact-uri-resolver";
+import { interpolateSystemAssetEndpoint } from "@taigalabs/prfs-circuit-artifact-uri-resolver";
+import { O1jsDriverProperties } from "@taigalabs/prfs-driver-o1js";
 
 import { envs } from "@/envs";
-import { O1jsDriverProperties } from "@taigalabs/prfs-driver-o1js";
 
 export enum LoadDriverStatus {
   Standby,
@@ -68,7 +64,6 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
         }
 
         const { circuit_driver_id } = proofType;
-        console.log(11, proofType);
 
         if (!circuit_driver_id) {
           console.error("Circuit driver id is not given");
@@ -77,20 +72,20 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
 
         switch (circuit_driver_id) {
           case "spartan_circom_v1": {
-            // proofType.driver_properties.
+            const driverProps_ = proofType.driver_properties as SpartanCircomDriverProperties;
 
             const wtns_gen_url = interpolateSystemAssetEndpoint(
+              driverProps_.wtns_gen_url,
               `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits`,
-              proofType.circuit_type_id,
             );
 
             const circuit_url = interpolateSystemAssetEndpoint(
+              driverProps_.circuit_url,
               `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits`,
-              proofType.circuit_type_id,
             );
 
-            const driverProps: SpartanCircomDriverProperties = {
-              version: "0.0.1",
+            const driverProps = {
+              ...driverProps_,
               wtns_gen_url,
               circuit_url,
             };
