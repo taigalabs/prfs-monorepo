@@ -8,9 +8,10 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
     proof_type_id: &String,
 ) -> Result<PrfsProofType, DbInterfaceError> {
     let query = r#"
-SELECT *
-FROM prfs_proof_types
+SELECT t.*
+FROM prfs_proof_types t
 WHERE proof_type_id=$1
+JOIN prfs_circuits c ON t.circuit_type_id=c.circuit_type_id
 "#;
 
     let row = sqlx::query(query)

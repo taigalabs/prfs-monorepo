@@ -7,7 +7,7 @@ async fn main() -> Result<(), ApiServerError> {
     println!("Starting backend seeding...");
 
     let db = seed::db::connect_db(Endpoint::Dev).await;
-    seed::upload::upload(&db).await;
+    // seed::upload::upload(&db).await;
 
     Ok(())
 }

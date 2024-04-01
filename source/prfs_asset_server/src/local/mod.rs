@@ -1,6 +1,7 @@
 mod utils;
 
 use colored::Colorize;
+use prfs_rust_utils::fs::copy_dir_all;
 
 use crate::paths::PATHS;
 
@@ -35,5 +36,5 @@ fn copy_circuits() {
         &PATHS.assets_circuits
     );
 
-    utils::copy_dir_all(circuits_build_path, &PATHS.assets_circuits).unwrap();
+    copy_dir_all(circuits_build_path, &PATHS.assets_circuits).unwrap();
 }
