@@ -9,6 +9,7 @@ use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::collections::HashMap;
 use std::{io::Write, path::PathBuf, process::Command};
 
+use crate::builder::create_digest;
 use crate::resolve_path::get_path_segment;
 use crate::{paths::PATHS, CircuitBuild, CircuitBuildJson, FileKind};
 
@@ -21,19 +22,15 @@ pub fn run() {
 
     let mut circuit_map = HashMap::new();
     for mut circuit in &mut circuits {
-        let circuit_id = rand256_hex()[..12].to_string();
-        circuit.circuit_id = circuit_id;
-
         circuit_type_id_should_match_file_stem(&circuit);
         compile_circuits(&circuit);
+
+        let digest = create_digest(circuit);
+        circuit.circuit_id = digest[..10].to_string();
+
         copy_wtns_gen_file(circuit);
         let r1cs_src_path = make_spartan(&mut circuit);
         create_circuit_json(&mut circuit);
-
-        let b = std::fs::read(&r1cs_src_path).unwrap();
-        let mut hasher = Sha256::new();
-        hasher.update(&b);
-        let digest = hex::encode(hasher.finalize());
 
         circuit_map.insert(
             circuit.circuit_type_id.clone(),
