@@ -13,6 +13,7 @@ pub struct Paths {
     pub package_root: PathBuf,
     pub data_seed: PathBuf,
     pub data_seed__json_bindings: PathBuf,
+    pub root_prfs_driver_spartan_js: PathBuf,
 }
 
 impl Paths {
@@ -24,10 +25,13 @@ impl Paths {
         #[allow(non_snake_case)]
         let data_seed__json_bindings = data_seed.join("json_bindings");
 
+        let root_prfs_driver_spartan_js = project_root.join("source/prfs_driver_spartan_js");
+
         let p = Paths {
             package_root,
             data_seed,
             data_seed__json_bindings,
+            root_prfs_driver_spartan_js,
         };
 
         println!(

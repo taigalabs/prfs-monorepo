@@ -1,5 +1,3 @@
-mod utils;
-
 use colored::Colorize;
 use prfs_rust_utils::fs::copy_dir_all;
 

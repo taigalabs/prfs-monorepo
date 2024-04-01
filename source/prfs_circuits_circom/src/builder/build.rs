@@ -19,7 +19,7 @@ pub fn run() {
 
     let mut circuit_list = vec![];
     for mut circuit in &mut circuits {
-        let circuit_id = rand256_hex()[..10].to_string();
+        let circuit_id = rand256_hex()[..12].to_string();
         circuit.circuit_id = circuit_id;
 
         circuit_type_id_should_match_file_stem(&circuit);

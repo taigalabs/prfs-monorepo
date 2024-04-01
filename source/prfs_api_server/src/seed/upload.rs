@@ -85,25 +85,6 @@ pub async fn upload_circuit_drivers(db: &Database2) {
     tx.commit().await.unwrap();
 }
 
-pub async fn upload_prfs_circuits(db: &Database2) {
-    let pool = &db.pool;
-    let mut tx = pool.begin().await.unwrap();
-
-    let circuit_types = load_circuit_types();
-    println!("circuit_types: {:#?}", circuit_types);
-
-    sqlx::query("truncate table prfs_circuit_types restart identity")
-        .execute(&mut *tx)
-        .await
-        .unwrap();
-
-    for circuit_type in circuit_types.values() {
-        prfs::insert_prfs_circuit_type(&mut tx, circuit_type).await;
-    }
-
-    tx.commit().await.unwrap();
-}
-
 pub async fn upload_circuit_types(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
@@ -142,20 +123,20 @@ pub async fn upload_circuit_input_types(db: &Database2) {
     tx.commit().await.unwrap();
 }
 
-async fn upload_circuits(db: &Database2) {
+pub async fn upload_prfs_circuits(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
     let circuits = load_circuits();
     println!("circuits: {:#?}", circuits);
 
-    sqlx::query("truncate table prfs_circuits restart identity")
-        .execute(&mut *tx)
-        .await
-        .unwrap();
+    // sqlx::query("truncate table prfs_circuits restart identity")
+    //     .execute(&mut *tx)
+    //     .await
+    //     .unwrap();
 
     for circuit in circuits.values() {
-        prfs::insert_prfs_circuit(&mut tx, circuit).await;
+        prfs::upsert_prfs_circuit(&mut tx, circuit).await;
     }
 
     tx.commit().await.unwrap();
