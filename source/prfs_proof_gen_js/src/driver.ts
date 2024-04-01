@@ -1,7 +1,7 @@
 import { CircuitDriver, DriverEventListener } from "@taigalabs/prfs-driver-interface";
 import { CircuitDriverId } from "@taigalabs/prfs-driver-interface/bindings/CircuitDriverId";
 import { O1jsDriverProperties } from "@taigalabs/prfs-driver-o1js";
-import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
+import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-interface/bindings/SpartanCircomDriverProperties";
 
 export async function initCircuitDriver(
   driverId: CircuitDriverId,

@@ -3,8 +3,9 @@ import { CircuitDriver, DriverEvent } from "@taigalabs/prfs-driver-interface";
 import dayjs from "dayjs";
 import { initCircuitDriver } from "@taigalabs/prfs-proof-gen-js";
 import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
-import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
+import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-interface/bindings/SpartanCircomDriverProperties";
 import {
+  interpolateSystemAssetEndpoint,
   resolveCircuitUrl,
   resolveWtnsGenUrl,
 } from "@taigalabs/prfs-circuit-artifact-uri-resolver";
@@ -66,7 +67,7 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
           }
         }
 
-        const { circuit_driver_id, circuit_id } = proofType;
+        const { circuit_driver_id } = proofType;
         console.log(11, proofType);
 
         if (!circuit_driver_id) {
@@ -76,12 +77,14 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
 
         switch (circuit_driver_id) {
           case "spartan_circom_v1": {
-            const wtns_gen_url = resolveWtnsGenUrl(
+            // proofType.driver_properties.
+
+            const wtns_gen_url = interpolateSystemAssetEndpoint(
               `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits`,
               proofType.circuit_type_id,
             );
 
-            const circuit_url = resolveCircuitUrl(
+            const circuit_url = interpolateSystemAssetEndpoint(
               `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits`,
               proofType.circuit_type_id,
             );

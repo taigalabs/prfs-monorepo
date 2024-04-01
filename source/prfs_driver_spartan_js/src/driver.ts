@@ -6,15 +6,10 @@ import {
   ProveResult,
   VerifyArgs,
 } from "@taigalabs/prfs-driver-interface";
+import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-interface/bindings/SpartanCircomDriverProperties";
 import { MERKLE_SIG_POS_RANGE_V1, SIMPLE_HASH_V1 } from "@taigalabs/prfs-circuit-interface";
 
-import {
-  PrfsHandlers,
-  AsyncHashFn,
-  BuildStatus,
-  SpartanDriverCtorArgs,
-  SpartanCircomDriverProperties,
-} from "./types";
+import { PrfsHandlers, AsyncHashFn, BuildStatus, SpartanDriverCtorArgs } from "./types";
 import { initWasm } from "./wasm_wrapper/load_worker";
 import { fetchAsset } from "./utils/fetch";
 

@@ -73,9 +73,3 @@ export interface SpartanDriverCtorArgs {
   circuit: Uint8Array;
   wtnsGen: Uint8Array;
 }
-
-export interface SpartanCircomDriverProperties {
-  version: string;
-  wtns_gen_url: string;
-  circuit_url: string;
-}

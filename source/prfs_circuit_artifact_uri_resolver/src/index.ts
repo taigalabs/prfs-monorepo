@@ -6,9 +6,6 @@ export function resolveCircuitUrl(endpoint: string, circuitTypeId: string) {
   return `${endpoint}/${circuitTypeId}/${circuitTypeId}.spartan.circuit`;
 }
 
-export function interpolateSystemAssetEndpoint(
-  url: string,
-  prfsAssetEndpoint: string,
-): string | null {
+export function interpolateSystemAssetEndpoint(url: string, prfsAssetEndpoint: string): string {
   return url.replace("prfs://", prfsAssetEndpoint);
 }
