@@ -24,14 +24,15 @@ template MerkleSigPosRange(nLevels) {
 
     signal input proofPubKey;
     signal input nonce;
+
     // serialNo := pos(sigpos, nonce)
     signal input serialNo;
 
     component poseidon1 = Poseidon();
     poseidon1.inputs[0] <== sigR;
     poseidon1.inputs[1] <== sigS;
-    log("sig", poseidon1.out, "sigpos", sigpos);
-    // leaf === poseidon2.out;
+    // log("sig", poseidon1.out, "sigpos", sigpos);
+    sigpos === poseidon1.out;
 
     component greaterEqThan = GreaterEqThan(16);
     greaterEqThan.in[0] <-- assetSize;
