@@ -10,6 +10,7 @@ pub use sha2;
 pub mod hexutils;
 pub mod merkletree;
 pub mod poseidon;
+pub mod rand_utils;
 
 #[cfg(test)]
 mod tests;

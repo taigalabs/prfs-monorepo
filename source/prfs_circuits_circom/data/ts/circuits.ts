@@ -2,7 +2,7 @@ import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { CircuitDriverId } from "@taigalabs/prfs-driver-interface/bindings/CircuitDriverId";
 import {
   ADDR_MEMBERSHIP_V1,
-  ADDR_MEMBERSHIP_V1_CIRCUIT_ID,
+  // ADDR_MEMBERSHIP_V1_CIRCUIT_ID,
   MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
   MERKLE_SIG_POS_RANGE_V1,
   SIMPLE_HASH_V1,
@@ -11,8 +11,8 @@ import {
 
 const circuits: PrfsCircuit[] = [
   {
-    circuit_id: ADDR_MEMBERSHIP_V1_CIRCUIT_ID,
-    circuit_type_id: ADDR_MEMBERSHIP_V1,
+    circuit_id: "",
+    circuit_type_id: "addr",
     created_at: "2023-05-01T16:39:57-08:00",
     label: "addr_membership2_1",
     author: "SYSTEM_NATIVE",

@@ -1,4 +1,5 @@
 use chrono::{DateTime, Utc};
+use prfs_circuit_interface::circuit_types::CircuitTypeId;
 use prfs_driver_interface::CircuitDriverId;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -8,7 +9,7 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct PrfsCircuit {
     pub circuit_id: String,
-    pub circuit_type_id: String,
+    pub circuit_type_id: CircuitTypeId,
     pub label: String,
     pub desc: String,
     pub author: String,

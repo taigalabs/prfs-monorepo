@@ -24,11 +24,14 @@ pub(crate) fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> St
         }
         FileKind::WtnsGen => {
             format!(
-                "{}/{}_js/{}_{}.wasm",
-                circuit.circuit_type_id,
-                circuit.circuit_type_id,
-                circuit.circuit_type_id,
-                circuit.circuit_id,
+                "{}/{}_js/{}.wasm",
+                circuit.circuit_type_id, circuit.circuit_type_id, circuit.circuit_type_id,
+            )
+        }
+        FileKind::WtnsGenRenamed => {
+            format!(
+                "{}/{}_{}.wasm",
+                circuit.circuit_type_id, circuit.circuit_type_id, circuit.circuit_id,
             )
         }
     }

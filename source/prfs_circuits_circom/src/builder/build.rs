@@ -1,6 +1,7 @@
 use chrono::{DateTime, Utc};
 use colored::Colorize;
 use prfs_crypto::hex;
+use prfs_crypto::rand_utils::rand256_hex;
 use prfs_crypto::sha2::{Digest, Sha256};
 use prfs_driver_interface::CircuitDriverId;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
@@ -18,6 +19,8 @@ pub fn run() {
 
     let mut circuit_list = vec![];
     for mut circuit in &mut circuits {
+        let circuit_id_ = rand256_hex()[..10].to_string();
+
         circuit_type_id_should_match_file_stem(&circuit);
         compile_circuits(&circuit);
         let r1cs_src_path = make_spartan(&mut circuit);

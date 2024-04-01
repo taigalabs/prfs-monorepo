@@ -5,6 +5,7 @@ pub enum FileKind {
     R1CS,
     Spartan,
     WtnsGen,
+    WtnsGenRenamed,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
