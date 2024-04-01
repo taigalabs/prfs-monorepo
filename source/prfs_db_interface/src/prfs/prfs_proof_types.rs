@@ -89,11 +89,12 @@ pub async fn insert_prfs_proof_type(
 ) -> Result<i64, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_proof_types
-(proof_type_id, author, label, \"desc\", circuit_id,
+(proof_type_id, author, label, "desc", circuit_id,
 expression, img_url, img_caption, circuit_type_id, circuit_type_data,
 experimental)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-RETURNING id"#;
+RETURNING id
+"#;
 
     let row = sqlx::query(query)
         .bind(&proof_type.proof_type_id)

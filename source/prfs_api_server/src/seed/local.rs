@@ -1,4 +1,5 @@
 use colored::Colorize;
+use prfs_circuit_interface::circuit_types::CircuitTypeId;
 use prfs_entities::{
     entities::{
         PrfsAccount, PrfsCircuit, PrfsCircuitDriver, PrfsCircuitInputType, PrfsCircuitType,
@@ -11,7 +12,7 @@ use std::collections::{HashMap, HashSet};
 
 use crate::paths::PATHS;
 
-pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
+pub fn load_circuits() -> HashMap<CircuitTypeId, PrfsCircuit> {
     println!("\n{} circuits", "Loading".green());
 
     let build_json = prfs_circuits_circom::access::read_circuit_artifacts();

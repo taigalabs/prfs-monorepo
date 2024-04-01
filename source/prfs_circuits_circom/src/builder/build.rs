@@ -38,7 +38,8 @@ pub fn run() {
         circuit_map.insert(
             circuit.circuit_type_id.clone(),
             CircuitBuild {
-                circuit_type_id: circuit.circuit_type_id.to_string(),
+                circuit_id: circuit.circuit_id.to_string(),
+                circuit_type_id: circuit.circuit_type_id.clone(),
                 r1cs_src_path: r1cs_src_path
                     .strip_prefix(&PATHS.build)
                     .unwrap()
@@ -49,7 +50,7 @@ pub fn run() {
         );
     }
 
-    create_map_json(&circuit_map);
+    create_build_json(&circuit_map);
     create_built_at(&now);
 }
 
@@ -187,7 +188,7 @@ fn create_circuit_json(circuit: &mut PrfsCircuit) {
     );
 }
 
-fn create_map_json(circuits_json: &HashMap<CircuitTypeId, CircuitBuild>) {
+fn create_build_json(circuits_json: &HashMap<CircuitTypeId, CircuitBuild>) {
     let build_json = CircuitBuildJson {
         circuits: circuits_json.clone(),
     };

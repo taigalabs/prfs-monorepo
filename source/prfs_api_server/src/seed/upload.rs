@@ -130,26 +130,28 @@ pub async fn upload_prfs_circuits(db: &Database2) {
     println!("circuits: {:#?}", circuits);
 
     for circuit in circuits.values() {
-        prfs::upsert_prfs_circuit(&mut tx, circuit).await;
+        prfs::upsert_prfs_circuit(&mut tx, circuit).await.unwrap();
     }
 
     tx.commit().await.unwrap();
 }
 
-pub async fn upload_proof_types(db: &Database2) {
+pub async fn upload_prfs_proof_types(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
     let proof_types = load_proof_types();
     println!("proof types: {:#?}", proof_types);
 
-    sqlx::query("truncate table prfs_proof_types restart identity")
-        .execute(&mut *tx)
-        .await
-        .unwrap();
+    // sqlx::query("truncate table prfs_proof_types restart identity")
+    //     .execute(&mut *tx)
+    //     .await
+    //     .unwrap();
 
     for proof_type in proof_types.values() {
-        prfs::insert_prfs_proof_type(&mut tx, proof_type).await;
+        prfs::insert_prfs_proof_type(&mut tx, proof_type)
+            .await
+            .unwrap();
     }
 
     tx.commit().await.unwrap();
