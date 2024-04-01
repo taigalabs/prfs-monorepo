@@ -5,6 +5,7 @@ export async function fetchAsset(
   assetName: string,
   url: string,
   eventListener: DriverEventListener,
+  assetLen: number,
 ): Promise<Uint8Array> {
   const response = await fetch(url);
 
@@ -15,11 +16,11 @@ export async function fetchAsset(
   response.headers.forEach(v => console.log(v, assetName));
 
   const contentLen = response.headers.get("content-length");
-  const totalLen = typeof contentLen === "string" && parseInt(contentLen);
+  const totalLen = (typeof contentLen === "string" && parseInt(contentLen)) || assetLen;
 
   if (!totalLen) {
-    return Promise.reject(
-      `Content length invalid, len: ${totalLen}, assetName: ${assetName}, url: ${url}`,
+    console.warn(
+      `Content-length header missing, len: ${totalLen}, assetName: ${assetName}, url: ${url}`,
     );
   }
 

@@ -28,7 +28,8 @@ export default class SpartanDriver implements CircuitDriver {
     try {
       prfsHandlers = await initWasm();
 
-      const { circuit_url, wtns_gen_url, version } = driverProps;
+      const { circuit_url, circuit_len, wtns_gen_url, wtns_gen_len, version } = driverProps;
+      console.log(33, driverProps);
 
       let vs: string;
       if (version) {
@@ -40,8 +41,8 @@ export default class SpartanDriver implements CircuitDriver {
       }
 
       const [circuit, wtnsGen] = await Promise.all([
-        fetchAsset("circuit", `${circuit_url}?version=${vs}`, eventListener),
-        fetchAsset("wtnsGen", `${wtns_gen_url}?version=${vs}`, eventListener),
+        fetchAsset("circuit", `${circuit_url}?version=${vs}`, eventListener, Number(circuit_len)),
+        fetchAsset("wtnsGen", `${wtns_gen_url}?version=${vs}`, eventListener, Number(wtns_gen_len)),
       ]);
 
       eventListener({
