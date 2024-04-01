@@ -19,10 +19,12 @@ pub fn run() {
 
     let mut circuit_list = vec![];
     for mut circuit in &mut circuits {
-        let circuit_id_ = rand256_hex()[..10].to_string();
+        let circuit_id = rand256_hex()[..10].to_string();
+        circuit.circuit_id = circuit_id;
 
         circuit_type_id_should_match_file_stem(&circuit);
         compile_circuits(&circuit);
+        copy_wtns_gen_file(circuit);
         let r1cs_src_path = make_spartan(&mut circuit);
         create_circuit_json(&mut circuit);
 
@@ -63,6 +65,18 @@ fn circuit_type_id_should_match_file_stem(circuit: &PrfsCircuit) {
         .unwrap();
 
     assert_eq!(circuit.circuit_type_id.to_string(), file_stem);
+}
+
+fn copy_wtns_gen_file(circuit: &mut PrfsCircuit) {
+    let wtns_gen_path = PATHS
+        .build
+        .join(get_path_segment(circuit, FileKind::WtnsGen));
+
+    let wtns_gen_renamed_path = PATHS
+        .build
+        .join(get_path_segment(circuit, FileKind::WtnsGenRenamed));
+
+    std::fs::copy(wtns_gen_path, wtns_gen_renamed_path).unwrap();
 }
 
 fn make_spartan(circuit: &mut PrfsCircuit) -> PathBuf {
@@ -144,11 +158,11 @@ fn compile_circuits(circuit: &PrfsCircuit) {
 }
 
 fn create_circuit_json(circuit: &mut PrfsCircuit) {
-    let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen);
+    let wtns_gen_renamed_path = get_path_segment(&circuit, FileKind::WtnsGenRenamed);
     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan);
 
     let wtns_gen_url = circuit.driver_properties.get_mut("wtns_gen_url").unwrap();
-    *wtns_gen_url = format!("prfs://{}", wtns_gen_path);
+    *wtns_gen_url = format!("prfs://{}", wtns_gen_renamed_path);
 
     let circuit_url = circuit.driver_properties.get_mut("circuit_url").unwrap();
     *circuit_url = format!("prfs://{}", spartan_circuit_path);

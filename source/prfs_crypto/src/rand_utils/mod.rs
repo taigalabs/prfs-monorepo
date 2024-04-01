@@ -3,5 +3,5 @@ use rand::rngs::OsRng;
 
 pub fn rand256_hex() -> String {
     let u256 = U256::random(&mut OsRng);
-    return u256.to_string();
+    return format!("0x{}", u256.to_string());
 }
