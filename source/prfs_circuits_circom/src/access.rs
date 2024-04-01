@@ -1,17 +1,17 @@
-use super::paths::PATHS;
-use crate::CircuitBuildListJson;
 use std::path::PathBuf;
+
+use super::paths::PATHS;
+use crate::CircuitBuildJson;
 
 pub fn get_build_fs_path() -> PathBuf {
     PATHS.build.clone()
 }
 
-pub fn read_circuit_artifacts() -> CircuitBuildListJson {
-    let build_list_json_path = PATHS.build.join("list.json");
-    let b = std::fs::read(&build_list_json_path).unwrap();
+pub fn read_circuit_artifacts() -> CircuitBuildJson {
+    let build_json_path = PATHS.build.join("build.json");
 
-    let build_list_json: CircuitBuildListJson =
-        serde_json::from_slice(&b).expect("failed to read build_json");
+    let build_json: CircuitBuildJson =
+        prfs_rust_utils::serde::read_json_file(&build_json_path).unwrap();
 
-    return build_list_json;
+    return build_json;
 }

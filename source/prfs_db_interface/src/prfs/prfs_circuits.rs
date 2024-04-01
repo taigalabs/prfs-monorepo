@@ -87,7 +87,7 @@ ON pc.circuit_type_id=pct.circuit_type_id"#;
     return Ok(circuits_syn1);
 }
 
-pub async fn insert_prfs_circuit(
+pub async fn upsert_prfs_circuit(
     tx: &mut Transaction<'_, Postgres>,
     circuit: &PrfsCircuit,
 ) -> Result<String, DbInterfaceError> {
@@ -98,6 +98,17 @@ arithmetization, proof_algorithm, elliptic_curve, finite_field, circuit_driver_i
 driver_properties, raw_circuit_inputs_meta, build_properties
 )
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+ON CONFLICT (circuit_id) DO UPDATE SET (
+circuit_id, circuit_type_id, label, "desc", author, num_public_inputs, circuit_dsl, 
+arithmetization, proof_algorithm, elliptic_curve, finite_field, circuit_driver_id, driver_version,
+driver_properties, raw_circuit_inputs_meta, build_properties, updated_at
+) = (
+excluded.circuit_id, excluded.circuit_type_id, excluded.label, excluded.desc, excluded.author, 
+excluded.num_public_inputs, excluded.circuit_dsl, excluded.arithmetization, 
+excluded.proof_algorithm, excluded.elliptic_curve, excluded.finite_field, 
+excluded.circuit_driver_id, excluded.driver_version, excluded.driver_properties, 
+excluded.raw_circuit_inputs_meta, excluded.build_properties, now()
+)
 RETURNING circuit_id
 "#;
 

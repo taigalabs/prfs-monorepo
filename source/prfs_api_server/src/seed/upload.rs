@@ -6,20 +6,19 @@ use crate::seed::local::{
     load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
     load_policy_items, load_prfs_accounts, load_proof_types,
 };
-use crate::seed::utils;
 
-pub async fn upload(db: &Database2) {
-    // upload_circuit_drivers(&db).await;
-    // upload_circuit_types(&db).await;
-    // upload_circuit_input_types(&db).await;
-    // upload_circuits(&db).await;
-    upload_proof_types(&db).await;
-    // upload_dynamic_sets(&db).await;
-    // upload_policy_items(&db).await;
-    // upload_prfs_accounts(&db).await;
-}
+// pub async fn upload(db: &Database2) {
+//     // upload_circuit_drivers(&db).await;
+//     // upload_circuit_types(&db).await;
+//     // upload_circuit_input_types(&db).await;
+//     // upload_circuits(&db).await;
+//     upload_proof_types(&db).await;
+//     // upload_dynamic_sets(&db).await;
+//     // upload_policy_items(&db).await;
+//     // upload_prfs_accounts(&db).await;
+// }
 
-async fn upload_prfs_accounts(db: &Database2) {
+pub async fn upload_prfs_accounts(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
@@ -41,7 +40,7 @@ async fn upload_prfs_accounts(db: &Database2) {
     tx.commit().await.unwrap();
 }
 
-async fn upload_policy_items(db: &Database2) {
+pub async fn upload_policy_items(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
@@ -63,7 +62,7 @@ async fn upload_policy_items(db: &Database2) {
     tx.commit().await.unwrap();
 }
 
-async fn upload_circuit_drivers(db: &Database2) {
+pub async fn upload_circuit_drivers(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
@@ -85,7 +84,7 @@ async fn upload_circuit_drivers(db: &Database2) {
     tx.commit().await.unwrap();
 }
 
-async fn upload_circuit_types(db: &Database2) {
+pub async fn upload_circuit_types(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
@@ -104,7 +103,7 @@ async fn upload_circuit_types(db: &Database2) {
     tx.commit().await.unwrap();
 }
 
-async fn upload_circuit_input_types(db: &Database2) {
+pub async fn upload_circuit_input_types(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
@@ -123,95 +122,37 @@ async fn upload_circuit_input_types(db: &Database2) {
     tx.commit().await.unwrap();
 }
 
-async fn upload_circuits(db: &Database2) {
+pub async fn upload_prfs_circuits(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
     let circuits = load_circuits();
     println!("circuits: {:#?}", circuits);
 
-    sqlx::query("truncate table prfs_circuits restart identity")
-        .execute(&mut *tx)
-        .await
-        .unwrap();
-
     for circuit in circuits.values() {
-        prfs::insert_prfs_circuit(&mut tx, circuit).await;
+        prfs::upsert_prfs_circuit(&mut tx, circuit).await.unwrap();
     }
 
     tx.commit().await.unwrap();
 }
 
-async fn upload_proof_types(db: &Database2) {
+pub async fn upload_prfs_proof_types(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
     let proof_types = load_proof_types();
     println!("proof types: {:#?}", proof_types);
 
-    sqlx::query("truncate table prfs_proof_types restart identity")
-        .execute(&mut *tx)
-        .await
-        .unwrap();
+    // sqlx::query("truncate table prfs_proof_types restart identity")
+    //     .execute(&mut *tx)
+    //     .await
+    //     .unwrap();
 
     for proof_type in proof_types.values() {
-        prfs::insert_prfs_proof_type(&mut tx, proof_type).await;
+        prfs::insert_prfs_proof_type(&mut tx, proof_type)
+            .await
+            .unwrap();
     }
 
     tx.commit().await.unwrap();
 }
-
-// async fn upload_dynamic_sets(db: &Database2) {
-//     let pool = &db.pool;
-//     let mut tx = pool.begin().await.unwrap();
-
-//     let mut dynamic_sets = load_dynamic_sets();
-//     println!("sets: {:#?}", dynamic_sets);
-
-//     for dynamic_set in dynamic_sets.values_mut() {
-//         let set_id = prfs::upsert_prfs_set(&mut tx, &dynamic_set.prfs_set)
-//             .await
-//             .unwrap();
-
-//         let rows_updated = prfs::delete_prfs_tree_nodes(&mut tx, &set_id)
-//             .await
-//             .unwrap();
-
-//         println!("Deleted {} prfs tree nodes", rows_updated);
-
-//         let elements_path = PATHS.data_seed.join(&dynamic_set.elements_path);
-
-//         let mut rdr = csv::Reader::from_path(elements_path)
-//             .expect(&format!("elements_path: {}", dynamic_set.elements_path));
-
-//         let mut nodes = vec![];
-//         for (idx, result) in rdr.deserialize().enumerate() {
-//             let record: SetElementRecord = result.unwrap();
-
-//             let prfs_tree_node = PrfsTreeNode {
-//                 pos_w: Decimal::from(idx),
-//                 pos_h: 0,
-//                 val: record.val,
-//                 meta: Some(record.meta),
-//                 set_id: set_id.to_string(),
-//             };
-
-//             nodes.push(prfs_tree_node);
-//         }
-
-//         let mut prfs_set = &mut dynamic_set.prfs_set;
-//         prfs_set.cardinality = nodes.len() as i64;
-
-//         tree_maker_apis::create_tree_nodes(&mut tx, &mut prfs_set, &nodes)
-//             .await
-//             .unwrap();
-
-//         let rows_affected = prfs::insert_prfs_tree_nodes(&mut tx, &nodes, true)
-//             .await
-//             .unwrap();
-
-//         println!("Rows affected: {}", rows_affected);
-//     }
-
-//     tx.commit().await.unwrap();
-// }

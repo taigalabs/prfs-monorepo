@@ -1,4 +1,4 @@
-export type DriverEvent = LoadDriverEvent | LoadDriverSuccessEvent;
+export type DriverEvent = LoadDriverEvent | LoadDriverSuccessEvent | LoadDriverErrorEvent;
 
 export type DriverEventListener = (ev: DriverEvent) => void;
 
@@ -21,6 +21,11 @@ export interface LoadDriverEventPayload {
 export interface LoadDriverSuccessEvent {
   type: "LOAD_DRIVER_SUCCESS";
   payload: LoadDriverSuccessEventPayload;
+}
+
+export interface LoadDriverErrorEvent {
+  type: "LOAD_DRIVER_ERROR";
+  payload: string;
 }
 
 export interface LoadDriverSuccessEventPayload {

@@ -1,4 +1,6 @@
 use chrono::{DateTime, Utc};
+use prfs_circuit_interface::circuit_types::CircuitTypeId;
+use prfs_driver_interface::CircuitDriverId;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
@@ -7,7 +9,7 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct PrfsCircuit {
     pub circuit_id: String,
-    pub circuit_type_id: String,
+    pub circuit_type_id: CircuitTypeId,
     pub label: String,
     pub desc: String,
     pub author: String,
@@ -19,7 +21,8 @@ pub struct PrfsCircuit {
     pub finite_field: String,
     #[ts(type = "Record<string, string>")]
     pub build_properties: sqlx::types::Json<HashMap<String, String>>,
-    pub circuit_driver_id: String,
+    #[ts(inline)]
+    pub circuit_driver_id: CircuitDriverId,
     pub driver_version: String,
     #[ts(type = "Record<string, string>")]
     pub driver_properties: sqlx::types::Json<HashMap<String, String>>,

@@ -1,4 +1,4 @@
-use prfs_circuits_circom::CircuitBuildListJson;
+use prfs_circuits_circom::CircuitBuildJson;
 use prfs_crypto::hex;
 use prfs_crypto::sha2::{Digest, Sha256};
 use prfs_db_driver::sqlx::types::chrono::Utc;
@@ -9,7 +9,7 @@ use std::path::PathBuf;
 pub struct ServerState {
     pub launched_at: String,
     pub circuits_build_path: PathBuf,
-    pub circuit_list_at_launch: CircuitBuildListJson,
+    pub circuit_build_at_launch: CircuitBuildJson,
 }
 
 impl ServerState {
@@ -22,16 +22,16 @@ impl ServerState {
             circuits_build_path
         );
 
-        let list_json_path = circuits_build_path.join("list.json");
-        let b = std::fs::read(list_json_path).unwrap();
-        let list_json = serde_json::from_slice::<CircuitBuildListJson>(&b).unwrap();
-        check_circuits(&circuits_build_path, &list_json);
+        let build_json_path = circuits_build_path.join("build.json");
+        let build_json: CircuitBuildJson =
+            prfs_rust_utils::serde::read_json_file(&build_json_path).unwrap();
+        check_circuits(&circuits_build_path, &build_json);
 
         let launched_at = Utc::now().to_rfc3339();
         let s = ServerState {
             launched_at,
             circuits_build_path,
-            circuit_list_at_launch: list_json,
+            circuit_build_at_launch: build_json,
         };
 
         println!("Initializing prfs asset server state: {:?}", s);
@@ -40,8 +40,8 @@ impl ServerState {
     }
 }
 
-fn check_circuits(circuits_build_path: &PathBuf, list_json: &CircuitBuildListJson) {
-    for circuit in &list_json.circuits {
+fn check_circuits(circuits_build_path: &PathBuf, list_json: &CircuitBuildJson) {
+    for (_, circuit) in &list_json.circuits {
         let path = circuits_build_path.join(&circuit.r1cs_src_path);
         let fd = std::fs::read(&path).unwrap();
         let mut hasher = Sha256::new();

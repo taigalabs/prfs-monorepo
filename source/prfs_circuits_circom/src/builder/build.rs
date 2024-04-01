@@ -1,11 +1,16 @@
 use chrono::{DateTime, Utc};
 use colored::Colorize;
+use prfs_circuit_interface::circuit_types::CircuitTypeId;
 use prfs_crypto::hex;
+use prfs_crypto::rand_utils::rand256_hex;
 use prfs_crypto::sha2::{Digest, Sha256};
+use prfs_driver_interface::CircuitDriverId;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
+use std::collections::HashMap;
 use std::{io::Write, path::PathBuf, process::Command};
 
-use crate::{driver_id, paths::PATHS, CircuitBuild, CircuitBuildListJson, FileKind};
+use crate::resolve_path::get_path_segment;
+use crate::{paths::PATHS, CircuitBuild, CircuitBuildJson, FileKind};
 
 pub fn run() {
     println!("{} building {}", "Start".green(), env!("CARGO_PKG_NAME"),);
@@ -14,10 +19,14 @@ pub fn run() {
     let now = Utc::now();
     let mut circuits = read_circuits_json();
 
-    let mut circuit_list = vec![];
+    let mut circuit_map = HashMap::new();
     for mut circuit in &mut circuits {
+        let circuit_id = rand256_hex()[..12].to_string();
+        circuit.circuit_id = circuit_id;
+
         circuit_type_id_should_match_file_stem(&circuit);
         compile_circuits(&circuit);
+        copy_wtns_gen_file(circuit);
         let r1cs_src_path = make_spartan(&mut circuit);
         create_circuit_json(&mut circuit);
 
@@ -26,18 +35,22 @@ pub fn run() {
         hasher.update(&b);
         let digest = hex::encode(hasher.finalize());
 
-        circuit_list.push(CircuitBuild {
-            circuit_type_id: circuit.circuit_type_id.to_string(),
-            r1cs_src_path: r1cs_src_path
-                .strip_prefix(&PATHS.build)
-                .unwrap()
-                .to_string_lossy()
-                .to_string(),
-            file_hash: digest,
-        });
+        circuit_map.insert(
+            circuit.circuit_type_id.clone(),
+            CircuitBuild {
+                circuit_id: circuit.circuit_id.to_string(),
+                circuit_type_id: circuit.circuit_type_id.clone(),
+                r1cs_src_path: r1cs_src_path
+                    .strip_prefix(&PATHS.build)
+                    .unwrap()
+                    .to_string_lossy()
+                    .to_string(),
+                file_hash: digest,
+            },
+        );
     }
 
-    create_list_json(&circuit_list);
+    create_build_json(&circuit_map);
     create_built_at(&now);
 }
 
@@ -57,36 +70,19 @@ fn circuit_type_id_should_match_file_stem(circuit: &PrfsCircuit) {
         .into_string()
         .unwrap();
 
-    assert_eq!(circuit.circuit_type_id, file_stem);
+    assert_eq!(circuit.circuit_type_id.to_string(), file_stem);
 }
 
-fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> String {
-    match file_kind {
-        FileKind::R1CS => {
-            let instance_path = &circuit.build_properties.get("instance_path").unwrap();
-            let circuit_src_path = PATHS.circuits.join(&instance_path);
-            let file_stem = circuit_src_path
-                .file_stem()
-                .unwrap()
-                .to_os_string()
-                .into_string()
-                .unwrap();
+fn copy_wtns_gen_file(circuit: &mut PrfsCircuit) {
+    let wtns_gen_path = PATHS
+        .build
+        .join(get_path_segment(circuit, FileKind::WtnsGen));
 
-            format!("{}/{}.r1cs", &circuit.circuit_type_id, file_stem)
-        }
-        FileKind::Spartan => {
-            format!(
-                "{}/{}.spartan.circuit",
-                circuit.circuit_type_id, circuit.circuit_type_id
-            )
-        }
-        FileKind::WtnsGen => {
-            format!(
-                "{}/{}_js/{}.wasm",
-                circuit.circuit_type_id, circuit.circuit_type_id, circuit.circuit_type_id,
-            )
-        }
-    }
+    let wtns_gen_renamed_path = PATHS
+        .build
+        .join(get_path_segment(circuit, FileKind::WtnsGenRenamed));
+
+    std::fs::copy(wtns_gen_path, wtns_gen_renamed_path).unwrap();
 }
 
 fn make_spartan(circuit: &mut PrfsCircuit) -> PathBuf {
@@ -133,8 +129,8 @@ fn read_circuits_json() -> Vec<PrfsCircuit> {
 fn compile_circuits(circuit: &PrfsCircuit) {
     let circuit_driver_id = &circuit.circuit_driver_id;
 
-    match circuit_driver_id.as_str() {
-        driver_id::SPARTAN_CIRCOM_DRIVER_ID => {
+    match circuit_driver_id {
+        CircuitDriverId::spartan_circom_v1 => {
             let instance_path = &circuit.build_properties.get("instance_path").unwrap();
 
             let circuit_src_path = PATHS.circuits.join(&instance_path);
@@ -162,17 +158,17 @@ fn compile_circuits(circuit: &PrfsCircuit) {
         }
         _ => panic!(
             "We cannot compile a circuit of this type, driver: {:?}",
-            circuit_driver_id.as_str()
+            circuit_driver_id,
         ),
     };
 }
 
 fn create_circuit_json(circuit: &mut PrfsCircuit) {
-    let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen);
+    let wtns_gen_renamed_path = get_path_segment(&circuit, FileKind::WtnsGenRenamed);
     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan);
 
     let wtns_gen_url = circuit.driver_properties.get_mut("wtns_gen_url").unwrap();
-    *wtns_gen_url = format!("prfs://{}", wtns_gen_path);
+    *wtns_gen_url = format!("prfs://{}", wtns_gen_renamed_path);
 
     let circuit_url = circuit.driver_properties.get_mut("circuit_url").unwrap();
     *circuit_url = format!("prfs://{}", spartan_circuit_path);
@@ -192,21 +188,17 @@ fn create_circuit_json(circuit: &mut PrfsCircuit) {
     );
 }
 
-fn create_list_json(circuits_json: &Vec<CircuitBuild>) {
-    let build_list_json = CircuitBuildListJson {
+fn create_build_json(circuits_json: &HashMap<CircuitTypeId, CircuitBuild>) {
+    let build_json = CircuitBuildJson {
         circuits: circuits_json.clone(),
     };
 
-    let build_list_json_path = PATHS.build.join("list.json");
-    let mut fd = std::fs::File::create(&build_list_json_path).unwrap();
-    let build_json_str = serde_json::to_string_pretty(&build_list_json).unwrap();
+    let build_json_path = PATHS.build.join("build.json");
+    let mut fd = std::fs::File::create(&build_json_path).unwrap();
+    let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
     fd.write_all(&build_json_str.into_bytes()).unwrap();
 
-    println!(
-        "{} build list, path: {:?}",
-        "Created".green(),
-        build_list_json_path
-    );
+    println!("{} build list, path: {:?}", "Created".green(), build_json);
 }
 
 fn create_built_at(now: &DateTime<Utc>) {

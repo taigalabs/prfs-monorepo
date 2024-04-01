@@ -11,11 +11,10 @@ use crate::{
         build_prfs_api_server, build_prfs_crypto_js, dev_prfs_api_server, dev_prfs_asset_server,
         dev_prfs_console_webapp, dev_prfs_docs_website, dev_prfs_id_webapp, dev_prfs_poll_webapp,
         dev_prfs_proof_webapp, dev_shy_webapp, docker_run_default, docker_run_default_debug,
-        docker_run_default_local, docker_run_prfs_proof_webapp, seed_prfs_api_data,
-        seed_shy_api_data, start_prfs_api_server, start_prfs_api_server_local,
-        start_prfs_asset_server, start_prfs_console_webapp, start_prfs_docs_website,
-        start_prfs_id_webapp, start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp,
-        vercel_deploy,
+        docker_run_default_local, docker_run_prfs_proof_webapp, seed_shy_api_data,
+        start_prfs_api_server, start_prfs_api_server_local, start_prfs_asset_server,
+        start_prfs_console_webapp, start_prfs_docs_website, start_prfs_id_webapp,
+        start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp, vercel_deploy,
     },
 };
 use chrono::prelude::*;
@@ -67,7 +66,6 @@ fn main() {
         .subcommand(command!(docker_run_default_local::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("docker_down_all").arg(Arg::new("extra_args")))
         // seed
-        .subcommand(command!(seed_prfs_api_data::CMD_NAME))
         .subcommand(command!("seed_shy_api_data"))
         .subcommand(command!("seed_assets"))
         // test
@@ -178,9 +176,6 @@ fn main() {
             cmds::docker_down_all::run(sub_matches);
         }
         // misc
-        Some((seed_prfs_api_data::CMD_NAME, sub_matches)) => {
-            seed_prfs_api_data::run(sub_matches);
-        }
         Some((seed_shy_api_data::CMD_NAME, sub_matches)) => {
             seed_shy_api_data::run(sub_matches);
         }

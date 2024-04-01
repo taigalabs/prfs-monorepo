@@ -1,17 +1,15 @@
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-interface/bindings/SpartanCircomDriverProperties";
 import {
   ADDR_MEMBERSHIP_V1,
-  ADDR_MEMBERSHIP_V1_CIRCUIT_ID,
-  MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
   MERKLE_SIG_POS_RANGE_V1,
   SIMPLE_HASH_V1,
-  SIMPLE_HASH_V1_CIRCUIT_ID,
 } from "@taigalabs/prfs-circuit-interface";
 
 const circuits: PrfsCircuit[] = [
   {
-    circuit_id: ADDR_MEMBERSHIP_V1_CIRCUIT_ID,
-    circuit_type_id: ADDR_MEMBERSHIP_V1,
+    circuit_id: "",
+    circuit_type_id: "addr_membership_v1",
     created_at: "2023-05-01T16:39:57-08:00",
     label: "addr_membership2_1",
     author: "SYSTEM_NATIVE",
@@ -22,7 +20,7 @@ const circuits: PrfsCircuit[] = [
     proof_algorithm: "Spartan",
     elliptic_curve: "Secp256k1",
     finite_field: "Z_(2^256-2^32-977)",
-    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    circuit_driver_id: "spartan_circom_v1",
     driver_version: "0.1.0",
     build_properties: {
       instance_path: `instances/${ADDR_MEMBERSHIP_V1}.circom`,
@@ -30,7 +28,7 @@ const circuits: PrfsCircuit[] = [
     driver_properties: {
       wtns_gen_url: "",
       circuit_url: "",
-    },
+    } as SpartanCircomDriverProperties,
     raw_circuit_inputs_meta: [
       {
         label: "Tx",
@@ -96,7 +94,7 @@ const circuits: PrfsCircuit[] = [
     ],
   },
   {
-    circuit_id: SIMPLE_HASH_V1_CIRCUIT_ID,
+    circuit_id: "",
     circuit_type_id: SIMPLE_HASH_V1,
     created_at: "2023-10-01T16:39:57-08:00",
     label: "simple_hash_1_1",
@@ -111,12 +109,12 @@ const circuits: PrfsCircuit[] = [
     build_properties: {
       instance_path: `instances/${SIMPLE_HASH_V1}.circom`,
     },
-    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    circuit_driver_id: "spartan_circom_v1",
     driver_version: "0.1.0",
     driver_properties: {
       wtns_gen_url: "",
       circuit_url: "",
-    },
+    } as SpartanCircomDriverProperties,
     raw_circuit_inputs_meta: [
       {
         label: "s",
@@ -132,7 +130,7 @@ const circuits: PrfsCircuit[] = [
     ],
   },
   {
-    circuit_id: MERKLE_SIG_POS_RANGE_V1_CIRCUIT_ID,
+    circuit_id: "",
     circuit_type_id: MERKLE_SIG_POS_RANGE_V1,
     created_at: "2024-02-02T00:00:00-00:00",
     label: "Merkle pos range v1",
@@ -147,12 +145,12 @@ const circuits: PrfsCircuit[] = [
     build_properties: {
       instance_path: `instances/${MERKLE_SIG_POS_RANGE_V1}.circom`,
     },
-    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    circuit_driver_id: "spartan_circom_v1",
     driver_version: "0.1.0",
     driver_properties: {
       wtns_gen_url: "",
       circuit_url: "",
-    },
+    } as SpartanCircomDriverProperties,
     raw_circuit_inputs_meta: [
       {
         label: "assetSize",

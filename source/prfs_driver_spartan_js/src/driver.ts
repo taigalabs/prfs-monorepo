@@ -6,15 +6,10 @@ import {
   ProveResult,
   VerifyArgs,
 } from "@taigalabs/prfs-driver-interface";
+import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-interface/bindings/SpartanCircomDriverProperties";
 import { MERKLE_SIG_POS_RANGE_V1, SIMPLE_HASH_V1 } from "@taigalabs/prfs-circuit-interface";
 
-import {
-  PrfsHandlers,
-  AsyncHashFn,
-  BuildStatus,
-  SpartanDriverCtorArgs,
-  SpartanCircomDriverProperties,
-} from "./types";
+import { PrfsHandlers, AsyncHashFn, BuildStatus, SpartanDriverCtorArgs } from "./types";
 import { initWasm } from "./wasm_wrapper/load_worker";
 import { fetchAsset } from "./utils/fetch";
 
@@ -26,7 +21,7 @@ export default class SpartanDriver implements CircuitDriver {
   static async newInstance(
     driverProps: SpartanCircomDriverProperties,
     eventListener: DriverEventListener,
-  ): Promise<CircuitDriver> {
+  ): Promise<CircuitDriver | null> {
     console.log("Creating a driver instance, props: %o", driverProps);
 
     let prfsHandlers;
@@ -64,8 +59,15 @@ export default class SpartanDriver implements CircuitDriver {
 
       const obj = new SpartanDriver(args);
       return obj;
-    } catch (err) {
-      throw err;
+    } catch (err: any) {
+      console.error(err);
+
+      eventListener({
+        type: "LOAD_DRIVER_ERROR",
+        payload: err.toString(),
+      });
+
+      return Promise.resolve(null);
     }
   }
 

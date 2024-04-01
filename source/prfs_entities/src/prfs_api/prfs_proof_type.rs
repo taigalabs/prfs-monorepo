@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
 
-use crate::entities::PrfsProofType;
+use crate::{entities::PrfsProofType, PrfsProofTypeSyn1};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -29,7 +29,7 @@ pub struct GetPrfsProofTypeByProofTypeIdRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsProofTypeByProofTypeIdResponse {
-    pub prfs_proof_type: PrfsProofType,
+    pub prfs_proof_type: PrfsProofTypeSyn1,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -44,8 +44,6 @@ pub struct CreatePrfsProofTypeRequest {
     pub circuit_type_id: CircuitTypeId,
     #[ts(type = "Record<string, any>")]
     pub circuit_type_data: sqlx::types::Json<CircuitTypeData>,
-    #[ts(inline)]
-    pub circuit_driver_id: CircuitDriverId,
     pub expression: String,
     pub img_url: Option<String>,
     pub img_caption: Option<String>,

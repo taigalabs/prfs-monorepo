@@ -1,20 +1,25 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use prfs_entities::entities::PrfsProofType;
+use prfs_entities::{entities::PrfsProofType, PrfsProofTypeSyn1};
 
 use crate::DbInterfaceError;
 
 pub async fn get_prfs_proof_type_by_proof_type_id(
     pool: &Pool<Postgres>,
     proof_type_id: &String,
-) -> Result<PrfsProofType, DbInterfaceError> {
-    let query = "SELECT * from prfs_proof_types where proof_type_id=$1";
+) -> Result<PrfsProofTypeSyn1, DbInterfaceError> {
+    let query = r#"
+SELECT t.*, c.circuit_driver_id, c.driver_properties
+FROM prfs_proof_types t
+JOIN prfs_circuits c ON t.circuit_id=c.circuit_id
+WHERE proof_type_id=$1
+"#;
 
     let row = sqlx::query(query)
         .bind(&proof_type_id)
         .fetch_one(pool)
         .await?;
 
-    let ret = PrfsProofType {
+    let ret = PrfsProofTypeSyn1 {
         proof_type_id: row.try_get("proof_type_id")?,
         expression: row.try_get("expression")?,
         img_url: row.try_get("img_url")?,
@@ -28,6 +33,7 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
         circuit_driver_id: row.try_get("circuit_driver_id")?,
         created_at: row.try_get("created_at")?,
         experimental: row.try_get("experimental")?,
+        driver_properties: row.try_get("driver_properties")?,
     };
 
     return Ok(ret);
@@ -68,7 +74,6 @@ LIMIT $3
                 circuit_id: row.try_get("circuit_id")?,
                 circuit_type_id: row.try_get("circuit_type_id")?,
                 circuit_type_data: row.try_get("circuit_type_data")?,
-                circuit_driver_id: row.try_get("circuit_driver_id")?,
                 created_at: row.try_get("created_at")?,
                 experimental: row.try_get("experimental")?,
             })
@@ -84,11 +89,12 @@ pub async fn insert_prfs_proof_type(
 ) -> Result<i64, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_proof_types
-(proof_type_id, author, label, \"desc\", circuit_id,
-circuit_driver_id, expression, img_url, img_caption, circuit_type_id, circuit_type_data,
+(proof_type_id, author, label, "desc", circuit_id,
+expression, img_url, img_caption, circuit_type_id, circuit_type_data,
 experimental)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-RETURNING id"#;
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+RETURNING id
+"#;
 
     let row = sqlx::query(query)
         .bind(&proof_type.proof_type_id)
@@ -96,7 +102,6 @@ RETURNING id"#;
         .bind(&proof_type.label)
         .bind(&proof_type.desc)
         .bind(&proof_type.circuit_id)
-        .bind(&proof_type.circuit_driver_id)
         .bind(&proof_type.expression)
         .bind(&proof_type.img_url)
         .bind(&proof_type.img_caption)

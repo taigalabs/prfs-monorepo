@@ -3,7 +3,7 @@ mod tests;
 
 use colored::Colorize;
 use ethers_core::{k256::U256, rand::rngs::OsRng};
-use prfs_admin::mock::MASTER_ACCOUNT_IDS;
+use prfs_admin_credential::mock::MASTER_ACCOUNT_IDS;
 use prfs_api_rs::api;
 use prfs_atst_api_ops::ops as atst_api_ops;
 use prfs_common_server_state::ServerState;

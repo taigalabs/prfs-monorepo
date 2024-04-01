@@ -18,20 +18,14 @@ export async function poseidon(msg: string): Promise<bigint> {
   return pwInt;
 }
 
-export async function poseidon_2(msg: string | Uint8Array): Promise<Uint8Array> {
+export async function poseidon_2(msg: Uint8Array): Promise<Uint8Array> {
   if (wasmSingleton.wasm === null) {
     const w = await initWasm();
     wasmSingleton.wasm = w;
   }
-  const { wasm } = wasmSingleton;
 
-  let mBytes = null;
-  if (typeof msg === "string") {
-    const msgBytes = ethers.utils.toUtf8Bytes(msg);
-    mBytes = msgBytes;
-  } else {
-    mBytes = msg;
-  }
+  const { wasm } = wasmSingleton;
+  let mBytes = msg;
 
   if (mBytes.length > 64) {
     throw new Error("msg has to be shorter than or equal to 64 bytes");
@@ -48,13 +42,12 @@ export async function poseidon_2(msg: string | Uint8Array): Promise<Uint8Array> 
   return hashed;
 }
 
-export async function poseidon_2_bigint_le(msg: bigint[]): Promise<Uint8Array> {
-  if (wasmSingleton.wasm === null) {
-    const w = await initWasm();
-    wasmSingleton.wasm = w;
-  }
-  const { wasm } = wasmSingleton;
+export async function poseidon_2_str(msg: string): Promise<Uint8Array> {
+  const msgBytes = ethers.utils.toUtf8Bytes(msg);
+  return poseidon_2(msgBytes);
+}
 
+export async function poseidon_2_bigint_le(msg: bigint[]): Promise<Uint8Array> {
   if (msg.length !== 2) {
     throw new Error("Poseidon2 now only supports arity of two");
   }
@@ -65,6 +58,5 @@ export async function poseidon_2_bigint_le(msg: bigint[]): Promise<Uint8Array> {
   }
 
   // console.log("Calling poseidon, mbytes: %s", mBytes);
-  const hashed = wasm.poseidon_2(mBytes.subarray(0, 32), mBytes.subarray(32, 64));
-  return hashed;
+  return poseidon_2(mBytes);
 }

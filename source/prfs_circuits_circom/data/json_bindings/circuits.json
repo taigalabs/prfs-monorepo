@@ -1,6 +1,6 @@
 [
   {
-    "circuit_id": "0x0000000000000000000000000000000000000000000000000000000000000001",
+    "circuit_id": "",
     "circuit_type_id": "addr_membership_v1",
     "created_at": "2023-05-01T16:39:57-08:00",
     "label": "addr_membership2_1",
@@ -12,7 +12,7 @@
     "proof_algorithm": "Spartan",
     "elliptic_curve": "Secp256k1",
     "finite_field": "Z_(2^256-2^32-977)",
-    "circuit_driver_id": "SPARTAN_CIRCOM_1",
+    "circuit_driver_id": "spartan_circom_v1",
     "driver_version": "0.1.0",
     "build_properties": {
       "instance_path": "instances/addr_membership_v1.circom"
@@ -86,7 +86,7 @@
     ]
   },
   {
-    "circuit_id": "0x0000000000000000000000000000000000000000000000000000000000000003",
+    "circuit_id": "",
     "circuit_type_id": "simple_hash_v1",
     "created_at": "2023-10-01T16:39:57-08:00",
     "label": "simple_hash_1_1",
@@ -101,7 +101,7 @@
     "build_properties": {
       "instance_path": "instances/simple_hash_v1.circom"
     },
-    "circuit_driver_id": "SPARTAN_CIRCOM_1",
+    "circuit_driver_id": "spartan_circom_v1",
     "driver_version": "0.1.0",
     "driver_properties": {
       "wtns_gen_url": "",
@@ -122,7 +122,7 @@
     ]
   },
   {
-    "circuit_id": "0x0000000000000000000000000000000000000000000000000000000000000002",
+    "circuit_id": "",
     "circuit_type_id": "merkle_sig_pos_range_v1",
     "created_at": "2024-02-02T00:00:00-00:00",
     "label": "Merkle pos range v1",
@@ -137,7 +137,7 @@
     "build_properties": {
       "instance_path": "instances/merkle_sig_pos_range_v1.circom"
     },
-    "circuit_driver_id": "SPARTAN_CIRCOM_1",
+    "circuit_driver_id": "spartan_circom_v1",
     "driver_version": "0.1.0",
     "driver_properties": {
       "wtns_gen_url": "",

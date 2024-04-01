@@ -23,6 +23,7 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 project_root = { path = "../project_root" }
 prfs_axum_lib = { path = "../prfs_axum_lib" }
+prfs_rust_utils = { path = "../prfs_rust_utils" }
 prfs_db_driver = { path = "../prfs_db_driver" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 prfs_crypto = { path ="../prfs_crypto" }
@@ -31,7 +32,3 @@ prfs_entities = { path = "../prfs_entities" }
 [[bin]]
 name = "prfs_asset_server"
 path = "src/bin/server.rs"
-
-[[bin]]
-name = "seed_assets"
-path = "src/bin/seed_assets.rs"

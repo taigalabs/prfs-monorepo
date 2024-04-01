@@ -6,7 +6,7 @@ use prfs_axum_lib::axum::{
     Json, Router,
 };
 use prfs_axum_lib::tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
-use prfs_circuits_circom::CircuitBuildListJson;
+use prfs_circuits_circom::CircuitBuildJson;
 use serde_json::{json, Value};
 use std::fs;
 use tracing::{info, Span};
@@ -51,11 +51,9 @@ async fn handle_404() -> (StatusCode, &'static str) {
 }
 
 pub async fn handle_server_status(State(state): State<ServerState>) -> (StatusCode, Json<Value>) {
-    let list_json_path = state.circuits_build_path.join("list.json");
-    let b = fs::read(&list_json_path)
-        .expect(&format!("list.json not found, path: {:?}", list_json_path));
-
-    let list_json: CircuitBuildListJson = serde_json::from_slice(&b).unwrap();
+    let build_json_path = state.circuits_build_path.join("build.json");
+    let list_json: CircuitBuildJson =
+        prfs_rust_utils::serde::read_json_file(&build_json_path).unwrap();
 
     let json: serde_json::Value = json!({
         "circuit_list": list_json,

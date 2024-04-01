@@ -123,12 +123,17 @@ export function useHandleChangeAddress({
           throw new Error("Only data of cardinality 2 is currently supported");
         }
 
+        let sigR: bigint;
+        let sigS: bigint;
         const args: bigint[] = [];
         await (async () => {
           const d = data[0];
           switch (d.type) {
             case "WalletCm": {
-              const { hashed } = await makeWalletAtstCm(credential.secret_key, addr);
+              const { sigBytes, hashed } = await makeWalletAtstCm(credential.secret_key, addr);
+              sigR = bytesToNumberLE(sigBytes.subarray(0, 32));
+              sigS = bytesToNumberLE(sigBytes.subarray(32, 64));
+
               const cm = hexlify(hashed);
               const cmInt = bytesToNumberLE(hashed);
 
@@ -268,6 +273,8 @@ export function useHandleChangeAddress({
 
         setFormValues(oldVal => ({
           ...oldVal,
+          sigR,
+          sigS,
           sigpos: args[0],
           leaf: leafVal,
           assetSize: args[1],

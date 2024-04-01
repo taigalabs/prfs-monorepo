@@ -9,7 +9,6 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 
 import styles from "./CreateProofResult.module.scss";
@@ -18,6 +17,7 @@ import { paths } from "@/paths";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import Loading from "@/components/loading/Loading";
+import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 
 const CreateProofResult: React.FC<CreateProofResultProps> = ({
   proveReceipt,
@@ -150,7 +150,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
 export default CreateProofResult;
 
 export interface CreateProofResultProps {
-  proofType: PrfsProofType;
+  proofType: PrfsProofTypeSyn1;
   proveReceipt: ProveReceipt;
   handleClickStartOver: () => void;
 }

@@ -1,4 +1,4 @@
-declare module "wasm-feature-detect";
+// declare module "wasm-feature-detect";
 
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 
@@ -72,10 +72,4 @@ export interface SpartanDriverCtorArgs {
   handlers: PrfsHandlers;
   circuit: Uint8Array;
   wtnsGen: Uint8Array;
-}
-
-export interface SpartanCircomDriverProperties {
-  version: string;
-  wtns_gen_url: string;
-  circuit_url: string;
 }

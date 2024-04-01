@@ -80,7 +80,7 @@ const PrfsIdSessionModal: React.FC<ModalProps> = ({
         </p>
         <p className={styles.guide}>
           Proceed and create data in the <b>Prfs ID</b> popup. Click submit below once you are done.
-          If you did not see the popup, check your settings and try again
+          If you did not see the popup, check your popup settings and try again
         </p>
         <div className={styles.btnContainer}>
           <Button

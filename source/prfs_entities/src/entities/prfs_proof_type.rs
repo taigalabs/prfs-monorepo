@@ -13,14 +13,13 @@ pub struct PrfsProofType {
     pub desc: String,
     pub expression: String,
     pub img_url: Option<String>,
+    #[ts(optional)]
     pub img_caption: Option<String>,
     pub circuit_id: String,
     #[ts(inline)]
     pub circuit_type_id: CircuitTypeId,
     #[ts(type = "Record<string, any>")]
     pub circuit_type_data: sqlx::types::Json<CircuitTypeData>,
-    #[ts(inline)]
-    pub circuit_driver_id: CircuitDriverId,
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
     pub experimental: bool,

@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 
 import styles from "./LoadDriver.module.scss";
 import { envs } from "@/envs";
@@ -65,14 +65,14 @@ const LoadDriver: React.FC<LoadDriverProps> = ({
 export default LoadDriver;
 
 export interface LoadDriverProps {
-  proofType: PrfsProofType;
+  proofType: PrfsProofTypeSyn1;
   loadDriverStatus: LoadDriverStatus;
   progress: Record<string, any> | null;
   driverArtifacts: DriverArtifacts | null;
 }
 
 interface LoadDriverResultProps {
-  proofType: PrfsProofType;
+  proofType: PrfsProofTypeSyn1;
   driverArtifacts: DriverArtifacts;
 }
 

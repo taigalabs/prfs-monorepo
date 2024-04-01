@@ -1,9 +1,9 @@
 import { ProveArgs, ProveReceipt, ProveResult, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
 
-import { PrfsHandlers } from "@/types";
+import { PrfsHandlers } from "../../types";
 import { SimpleHashCircuitPubInput, SimpleHashPublicInput } from "./public_input";
-import { snarkJsWitnessGen } from "@/utils/snarkjs";
+import { snarkJsWitnessGen } from "../../utils/snarkjs";
 
 export async function proveSimpleHash(
   args: ProveArgs<SimpleHashV1Inputs>,

@@ -62,14 +62,18 @@ const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, isCard }) => {
       <div className={styles.proofRawSection}>
         <div className={styles.data}>
           <div className={styles.title}>{i18n.proof}</div>
-          <div className={styles.row}>
-            <p className={styles.label}>{i18n.transaction_hash}</p>
-            <p>{proof.txHash ?? "None"}</p>
-          </div>
-          <div className={styles.row}>
-            <p className={styles.label}>{i18n.ledger}</p>
-            <p>{proof.ledger ?? "None"}</p>
-          </div>
+          {proof.txHash && (
+            <div className={styles.row}>
+              <p className={styles.label}>{i18n.transaction_hash}</p>
+              <p>{proof.txHash}</p>
+            </div>
+          )}
+          {proof.ledger && (
+            <div className={styles.row}>
+              <p className={styles.label}>{i18n.ledger}</p>
+              <p>{proof.ledger}</p>
+            </div>
+          )}
           <div className={styles.row}>
             <p className={styles.label}>{i18n.proof_size}</p>
             <p>

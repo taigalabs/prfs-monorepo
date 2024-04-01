@@ -1,5 +1,4 @@
 import React from "react";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import cn from "classnames";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
@@ -17,6 +16,7 @@ import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
+import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -99,8 +99,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         return;
       }
 
-      console.log(11, session);
-
       const buf = Buffer.from(session.value);
       let decrypted: string;
       try {
@@ -114,8 +112,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         return;
       }
 
-      console.log(33, decrypted);
-
       let payload: ProofGenSuccessPayload;
       try {
         payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
@@ -127,7 +123,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         );
         return;
       }
-      console.log(22, payload);
 
       const proof = payload.receipt[PROOF] as ProveReceipt;
       if (proof) {
@@ -185,7 +180,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 export default CreateProofModule;
 
 export interface CreateProofModuleProps {
-  proofType: PrfsProofType;
+  proofType: PrfsProofTypeSyn1;
   handleCreateProofResult: (proveReceipt: ProveReceipt) => void;
 }
 

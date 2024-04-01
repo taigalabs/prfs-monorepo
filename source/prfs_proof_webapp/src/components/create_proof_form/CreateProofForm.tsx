@@ -17,9 +17,10 @@ import ProofTypeSelectedMasthead from "@/components/proof_type_selected_masthead
 import { useSelectProofType } from "@/hooks/proofType";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
+import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 
 const CreateProofForm: React.FC = () => {
-  const [proofType, setProofType] = React.useState<PrfsProofType>();
+  const [proofType, setProofType] = React.useState<PrfsProofTypeSyn1>();
   const proofTypeIdRef = React.useRef<string | null>(null);
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt | null>(null);
   const searchParams = useSearchParams();

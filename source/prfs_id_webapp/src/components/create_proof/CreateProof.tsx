@@ -140,8 +140,6 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             eventListener: handleProofGenEvent,
           });
 
-          console.log(111, proveResult);
-
           setCreateProofStatus(Status.Standby);
           proveResult.proof.proofBytes = Array.from(proveResult.proof.proofBytes);
           return {
@@ -153,7 +151,6 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
           };
         } catch (err: any) {
           setCreateProofStatus(Status.Standby);
-          // setSystemMsg(err.toString());
           throw err;
         }
       },

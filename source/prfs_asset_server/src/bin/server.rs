@@ -1,6 +1,6 @@
 use colored::Colorize;
 use prfs_asset_server::server;
-use prfs_asset_server::{local, AssetServerError};
+use prfs_asset_server::AssetServerError;
 
 #[tokio::main]
 async fn main() -> Result<(), AssetServerError> {

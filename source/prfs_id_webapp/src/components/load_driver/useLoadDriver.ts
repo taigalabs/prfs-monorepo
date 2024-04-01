@@ -2,15 +2,12 @@ import React from "react";
 import { CircuitDriver, DriverEvent } from "@taigalabs/prfs-driver-interface";
 import dayjs from "dayjs";
 import { initCircuitDriver } from "@taigalabs/prfs-proof-gen-js";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
-import {
-  resolveCircuitUrl,
-  resolveWtnsGenUrl,
-} from "@taigalabs/prfs-circuit-artifact-uri-resolver";
+import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
+import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-interface/bindings/SpartanCircomDriverProperties";
+import { interpolateSystemAssetEndpoint } from "@taigalabs/prfs-circuit-artifact-uri-resolver";
+import { O1jsDriverProperties } from "@taigalabs/prfs-driver-o1js";
 
 import { envs } from "@/envs";
-import { O1jsDriverProperties } from "@taigalabs/prfs-driver-o1js";
 
 export enum LoadDriverStatus {
   Standby,
@@ -23,7 +20,7 @@ export interface DriverArtifacts {
   artifactCount: number;
 }
 
-export function useLoadDriver(proofType: PrfsProofType | undefined) {
+export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any> | null>(
     null,
   );
@@ -67,6 +64,7 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
         }
 
         const { circuit_driver_id } = proofType;
+
         if (!circuit_driver_id) {
           console.error("Circuit driver id is not given");
           return undefined;
@@ -74,18 +72,20 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
 
         switch (circuit_driver_id) {
           case "spartan_circom_v1": {
-            const wtns_gen_url = resolveWtnsGenUrl(
-              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits`,
-              proofType.circuit_type_id,
+            const driverProps_ = proofType.driver_properties as SpartanCircomDriverProperties;
+
+            const wtns_gen_url = interpolateSystemAssetEndpoint(
+              driverProps_.wtns_gen_url,
+              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits/`,
             );
 
-            const circuit_url = resolveCircuitUrl(
-              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits`,
-              proofType.circuit_type_id,
+            const circuit_url = interpolateSystemAssetEndpoint(
+              driverProps_.circuit_url,
+              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits/`,
             );
 
-            const driverProps: SpartanCircomDriverProperties = {
-              version: "0.0.1",
+            const driverProps = {
+              ...driverProps_,
               wtns_gen_url,
               circuit_url,
             };
@@ -96,7 +96,14 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
               driverProps,
               handleDriverEv,
             );
-            setDriver(driver);
+
+            if (driver) {
+              setDriver(driver);
+              setLoadDriverStatus(LoadDriverStatus.Standby);
+            } else {
+              setLoadDriverStatus(LoadDriverStatus.Error);
+            }
+
             break;
           }
           case "o1js_v1": {

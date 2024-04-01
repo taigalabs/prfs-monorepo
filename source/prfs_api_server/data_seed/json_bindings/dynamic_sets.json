@@ -1,16 +1,1 @@
-[
-  {
-    "prfs_set": {
-      "set_id": "10000000-0000-0000-0000-100000000004",
-      "set_type": "Dynamic",
-      "label": "EthGlobal Istanbul hackers (23/11/19)",
-      "author": "Prfs",
-      "desc": "EthGlobal Istanbul hackers",
-      "hash_algorithm": "Poseidon",
-      "cardinality": 0,
-      "element_type": "Ethereum address",
-      "created_at": "2023-11-19T00:00:00-00:00"
-    },
-    "elements_path": "sets/eth_global_istanbul_hackers_231119.csv"
-  }
-]
+[]
