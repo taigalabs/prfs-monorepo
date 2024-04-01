@@ -60,14 +60,6 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
             </LeftBarItemButton>
           </Link>
         </LeftBarItem>
-        {/* <LeftBarItem> */}
-        {/*   <Link href=""> */}
-        {/*     <LeftBarItemButton isHighlighted={name === LINKEDIN} disabled> */}
-        {/*       <FaLinkedin /> */}
-        {/*       <span>{i18n.linkedin} (Coming later)</span> */}
-        {/*     </LeftBarItemButton> */}
-        {/*   </Link> */}
-        {/* </LeftBarItem> */}
       </LeftBarMenu>
     </LeftBarWrapper>
   );

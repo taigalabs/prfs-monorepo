@@ -12,7 +12,6 @@ const ELLIPTIC_CURVE: &str = "Secp256k1";
 const LIMIT: i32 = 20;
 
 pub async fn _import_prfs_attestations_to_prfs_set(
-    // pool: &Pool<Postgres>,
     tx: &mut Transaction<'_, Postgres>,
     atst_type: &PrfsAtstType,
     dest_set_id: &String,
@@ -20,7 +19,6 @@ pub async fn _import_prfs_attestations_to_prfs_set(
     let _rows_deleted = prfs::delete_prfs_set_elements(tx, &dest_set_id).await?;
 
     let atsts = prfs::get_prfs_attestations__tx(tx, &atst_type, 0, 50000).await?;
-    println!("22, atsts: {:?}", atsts);
 
     if atsts.len() > 65536 {
         return Err("Currently we can produce upto 65536 items".into());
