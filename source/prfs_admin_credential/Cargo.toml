@@ -12,6 +12,5 @@ chrono = { verison = "0.4", features = ["serde"] }
 lazy_static = "1.4"
 rust_decimal = { version = "1.29", features = ["db-postgres"] }
 rust_decimal_macros = "1.29"
-ts-rs = { version = "7.1", features = ["chrono-impl"] }
 strum = "0.25"
 strum_macros = { version = "0.25" }

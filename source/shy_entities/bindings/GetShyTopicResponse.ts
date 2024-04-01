@@ -2,6 +2,4 @@
 import type { DateTimed } from "./DateTimed";
 import type { ShyTopicSyn1 } from "./ShyTopicSyn1";
 
-export interface GetShyTopicResponse {
-  shy_topic_syn1: DateTimed<ShyTopicSyn1>;
-}
+export type GetShyTopicResponse = { shy_topic_syn1: DateTimed<ShyTopicSyn1> };

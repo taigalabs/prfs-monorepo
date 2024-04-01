@@ -2,7 +2,4 @@
 import type { SigData } from "./SigData";
 import type { SpartanMerkleProof } from "./SpartanMerkleProof";
 
-export interface AddrMembershipV1Inputs {
-  sigData: SigData;
-  merkleProof: SpartanMerkleProof;
-}
+export type AddrMembershipV1Inputs = { sigData: SigData; merkleProof: SpartanMerkleProof };

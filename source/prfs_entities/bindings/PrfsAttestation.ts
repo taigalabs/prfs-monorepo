@@ -2,7 +2,7 @@
 import type { PrfsAtstStatus } from "./PrfsAtstStatus";
 import type { PrfsAtstType } from "./PrfsAtstType";
 
-export interface PrfsAttestation {
+export type PrfsAttestation = {
   atst_id: string;
   atst_type: PrfsAtstType;
   label: string;
@@ -10,4 +10,4 @@ export interface PrfsAttestation {
   meta: Record<string, any>[];
   status: PrfsAtstStatus;
   value: string;
-}
+};

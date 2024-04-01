@@ -2,7 +2,7 @@
 import type { DateTimed } from "./DateTimed";
 import type { ShyPostSyn1 } from "./ShyPostSyn1";
 
-export interface GetShyPostsOfTopicResponse {
+export type GetShyPostsOfTopicResponse = {
   rows: Array<DateTimed<ShyPostSyn1>>;
   next_offset: number | null;
-}
+};
