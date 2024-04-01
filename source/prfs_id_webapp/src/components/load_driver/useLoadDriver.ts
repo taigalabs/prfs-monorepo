@@ -73,6 +73,7 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
         switch (circuit_driver_id) {
           case "spartan_circom_v1": {
             const driverProps_ = proofType.driver_properties as SpartanCircomDriverProperties;
+            console.log(22, driverProps_);
 
             const wtns_gen_url = interpolateSystemAssetEndpoint(
               driverProps_.wtns_gen_url,

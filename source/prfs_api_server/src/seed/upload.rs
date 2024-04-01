@@ -129,11 +129,6 @@ pub async fn upload_prfs_circuits(db: &Database2) {
     let circuits = load_circuits();
     println!("circuits: {:#?}", circuits);
 
-    // sqlx::query("truncate table prfs_circuits restart identity")
-    //     .execute(&mut *tx)
-    //     .await
-    //     .unwrap();
-
     for circuit in circuits.values() {
         prfs::upsert_prfs_circuit(&mut tx, circuit).await;
     }

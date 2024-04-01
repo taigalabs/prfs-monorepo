@@ -18,8 +18,8 @@ pub(crate) fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> St
         }
         FileKind::Spartan => {
             format!(
-                "{}/{}_{}.spartan.circuit",
-                circuit.circuit_type_id, circuit.circuit_type_id, circuit.circuit_id,
+                "{}_{}.spartan.circuit",
+                circuit.circuit_type_id, circuit.circuit_id,
             )
         }
         FileKind::WtnsGen => {
@@ -29,10 +29,7 @@ pub(crate) fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> St
             )
         }
         FileKind::WtnsGenRenamed => {
-            format!(
-                "{}/{}_{}.wasm",
-                circuit.circuit_type_id, circuit.circuit_type_id, circuit.circuit_id,
-            )
+            format!("{}_{}.wasm", circuit.circuit_type_id, circuit.circuit_id,)
         }
     }
 }
