@@ -98,7 +98,14 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
               driverProps,
               handleDriverEv,
             );
-            setDriver(driver);
+
+            if (driver) {
+              setDriver(driver);
+              setLoadDriverStatus(LoadDriverStatus.Standby);
+            } else {
+              setLoadDriverStatus(LoadDriverStatus.Error);
+            }
+
             break;
           }
           case "o1js_v1": {

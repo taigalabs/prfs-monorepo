@@ -2,9 +2,8 @@
   "name": "@taigalabs/prfs-driver-spartan-js",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "./build_cjs/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
   "files": [
     "build/**/*"
   ],

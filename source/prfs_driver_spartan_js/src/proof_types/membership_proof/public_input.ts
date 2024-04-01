@@ -2,9 +2,9 @@ import { ec as EC } from "elliptic";
 import BN from "bn.js";
 import { bufferToHex, toBuffer } from "@ethereumjs/util";
 import { JSONbigNative, bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
+import { SECP256K1_N } from "@taigalabs/prfs-crypto-js/js/fields/secp256k1";
 
-import { EffECDSAPubInput } from "@/types";
-import { SECP256K1_N } from "@/math/secp256k1";
+import { EffECDSAPubInput } from "../../types";
 
 const ec = new EC("secp256k1");
 

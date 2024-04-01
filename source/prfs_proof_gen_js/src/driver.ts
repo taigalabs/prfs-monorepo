@@ -7,7 +7,7 @@ export async function initCircuitDriver(
   driverId: CircuitDriverId,
   driverProps: Record<string, any>,
   eventListener: DriverEventListener,
-): Promise<CircuitDriver> {
+): Promise<CircuitDriver | null> {
   switch (driverId) {
     case "spartan_circom_v1": {
       const mod = await import("@taigalabs/prfs-driver-spartan-js");

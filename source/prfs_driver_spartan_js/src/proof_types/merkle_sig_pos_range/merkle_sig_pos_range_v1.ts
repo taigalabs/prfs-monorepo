@@ -2,10 +2,10 @@ import { ProveArgs, ProveResult, VerifyArgs } from "@taigalabs/prfs-driver-inter
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { bytesToNumberLE, poseidon_2_bigint_le, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { BN } from "bn.js";
-import { SECP256K1_P } from "@/math/secp256k1";
+import { SECP256K1_P } from "@taigalabs/prfs-crypto-js/js/fields/secp256k1";
 
-import { snarkJsWitnessGen } from "@/utils/snarkjs";
-import { PrfsHandlers } from "@/types";
+import { snarkJsWitnessGen } from "../../utils/snarkjs";
+import { PrfsHandlers } from "../../types";
 import { MerkleSigPosRangeCircuitPubInput, MerkleSigPosRangePublicInput } from "./public_input";
 
 export async function proveMembership(

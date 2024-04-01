@@ -3,17 +3,17 @@ import { ProveArgs, ProveReceipt, ProveResult, VerifyArgs } from "@taigalabs/prf
 import { toBuffer } from "@ethereumjs/util";
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
 import { bytesToNumberLE, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
+import { SECP256K1_P } from "@taigalabs/prfs-crypto-js/js/fields/secp256k1";
 
-import { fromSig } from "@/utils/sig";
-import { snarkJsWitnessGen } from "@/utils/snarkjs";
-import { PrfsHandlers } from "@/types";
+import { fromSig } from "../../utils/sig";
+import { snarkJsWitnessGen } from "../../utils/snarkjs";
+import { PrfsHandlers } from "../../types";
 import {
   MembershipProofCircuitPubInput,
   MembershipProofPublicInput,
   computeEffEcdsaPubInput,
   verifyEffEcdsaPubInput,
 } from "./public_input";
-import { SECP256K1_P } from "@/math/secp256k1";
 
 export async function proveMembership(
   args: ProveArgs<AddrMembershipV1Inputs>,

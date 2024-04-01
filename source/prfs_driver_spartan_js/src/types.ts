@@ -1,4 +1,4 @@
-declare module "wasm-feature-detect";
+// declare module "wasm-feature-detect";
 
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 

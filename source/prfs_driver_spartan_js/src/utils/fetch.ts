@@ -16,7 +16,7 @@ export async function fetchAsset(
   const totalLen = typeof contentLen === "string" && parseInt(contentLen);
 
   if (!totalLen) {
-    throw new Error(`Content length is not parsable, assetName: ${assetName}`);
+    return Promise.reject(`Content length is not parsable, assetName: ${assetName}`);
   }
 
   const emitProgress = throttle(

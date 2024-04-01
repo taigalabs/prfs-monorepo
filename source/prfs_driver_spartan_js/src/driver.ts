@@ -26,7 +26,7 @@ export default class SpartanDriver implements CircuitDriver {
   static async newInstance(
     driverProps: SpartanCircomDriverProperties,
     eventListener: DriverEventListener,
-  ): Promise<CircuitDriver> {
+  ): Promise<CircuitDriver | null> {
     console.log("Creating a driver instance, props: %o", driverProps);
 
     let prfsHandlers;
@@ -64,8 +64,15 @@ export default class SpartanDriver implements CircuitDriver {
 
       const obj = new SpartanDriver(args);
       return obj;
-    } catch (err) {
-      throw err;
+    } catch (err: any) {
+      console.error(err);
+
+      eventListener({
+        type: "LOAD_DRIVER_ERROR",
+        payload: err.toString(),
+      });
+
+      return Promise.resolve(null);
     }
   }
 

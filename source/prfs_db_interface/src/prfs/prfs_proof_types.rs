@@ -8,7 +8,7 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
     proof_type_id: &String,
 ) -> Result<PrfsProofTypeSyn1, DbInterfaceError> {
     let query = r#"
-SELECT t.*, c.driver_properties
+SELECT t.*, c.circuit_driver_id, c.driver_properties
 FROM prfs_proof_types t
 JOIN prfs_circuits c ON t.circuit_id=c.circuit_id
 WHERE proof_type_id=$1
