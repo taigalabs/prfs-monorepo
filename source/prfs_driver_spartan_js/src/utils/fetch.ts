@@ -12,11 +12,15 @@ export async function fetchAsset(
     throw new Error("Response does not contain body");
   }
 
-  const contentLen = response.headers.get("Content-Length");
+  response.headers.forEach(v => console.log(v, assetName));
+
+  const contentLen = response.headers.get("content-length");
   const totalLen = typeof contentLen === "string" && parseInt(contentLen);
 
   if (!totalLen) {
-    return Promise.reject(`Content length is not parsable, assetName: ${assetName}`);
+    return Promise.reject(
+      `Content length invalid, len: ${totalLen}, assetName: ${assetName}, url: ${url}`,
+    );
   }
 
   const emitProgress = throttle(

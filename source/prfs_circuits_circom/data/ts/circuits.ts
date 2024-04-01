@@ -26,8 +26,11 @@ const circuits: PrfsCircuit[] = [
       instance_path: `instances/${ADDR_MEMBERSHIP_V1}.circom`,
     },
     driver_properties: {
+      version: "0.0.1",
       wtns_gen_url: "",
+      wtns_gen_len: "",
       circuit_url: "",
+      circuit_len: "",
     } as SpartanCircomDriverProperties,
     raw_circuit_inputs_meta: [
       {
@@ -112,8 +115,11 @@ const circuits: PrfsCircuit[] = [
     circuit_driver_id: "spartan_circom_v1",
     driver_version: "0.1.0",
     driver_properties: {
+      version: "0.0.1",
       wtns_gen_url: "",
+      wtns_gen_len: "",
       circuit_url: "",
+      circuit_len: "",
     } as SpartanCircomDriverProperties,
     raw_circuit_inputs_meta: [
       {
@@ -148,8 +154,11 @@ const circuits: PrfsCircuit[] = [
     circuit_driver_id: "spartan_circom_v1",
     driver_version: "0.1.0",
     driver_properties: {
+      version: "0.0.1",
       wtns_gen_url: "",
+      wtns_gen_len: "",
       circuit_url: "",
+      circuit_len: "",
     } as SpartanCircomDriverProperties,
     raw_circuit_inputs_meta: [
       {

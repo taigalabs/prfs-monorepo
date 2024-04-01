@@ -56,6 +56,21 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
               });
               break;
             }
+            case "LOAD_DRIVER_ERROR": {
+              console.log("load driver error", payload);
+              //   setLoadDriverProgress(oldVal => ({
+              //     ...oldVal,
+              //     [payload.asset_label!]: payload,
+              //   }));
+              // const now = dayjs();
+              // const diff = now.diff(since, "seconds", true).toFixed(2);
+              // setLoadDriverStatus(LoadDriverStatus.Standby);
+              // setDriverArtifacts({
+              //   diff,
+              //   artifactCount,
+              // });
+              break;
+            }
             default: {
               console.error("Cannot handle this type of driver msg", ev);
               break;

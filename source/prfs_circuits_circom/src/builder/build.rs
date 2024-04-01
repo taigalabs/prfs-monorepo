@@ -167,6 +167,14 @@ fn create_circuit_json(circuit: &mut PrfsCircuit) {
     let wtns_gen_renamed_path = get_path_segment(&circuit, FileKind::WtnsGenRenamed);
     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan);
 
+    let wtns_gen_len = circuit.driver_properties.get_mut("wtns_gen_len").unwrap();
+    let wtns_gen_bytes = std::fs::read(PATHS.build.join(&wtns_gen_renamed_path)).unwrap();
+    *wtns_gen_len = wtns_gen_bytes.len().to_string();
+
+    let circuit_len = circuit.driver_properties.get_mut("circuit_len").unwrap();
+    let circuit_bytes = std::fs::read(PATHS.build.join(&spartan_circuit_path)).unwrap();
+    *circuit_len = circuit_bytes.len().to_string();
+
     let wtns_gen_url = circuit.driver_properties.get_mut("wtns_gen_url").unwrap();
     *wtns_gen_url = format!("prfs://{}", wtns_gen_renamed_path);
 

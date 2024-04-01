@@ -17,5 +17,7 @@ pub enum CircuitDriverId {
 pub struct SpartanCircomDriverProperties {
     version: String,
     wtns_gen_url: String,
+    wtns_gen_len: String,
     circuit_url: String,
+    circuit_len: String,
 }
