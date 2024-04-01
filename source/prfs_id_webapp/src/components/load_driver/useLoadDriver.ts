@@ -76,12 +76,12 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
 
             const wtns_gen_url = interpolateSystemAssetEndpoint(
               driverProps_.wtns_gen_url,
-              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits`,
+              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits/`,
             );
 
             const circuit_url = interpolateSystemAssetEndpoint(
               driverProps_.circuit_url,
-              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits`,
+              `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/circuits/`,
             );
 
             const driverProps = {
