@@ -1,14 +1,16 @@
 use chrono::{DateTime, Utc};
 use colored::Colorize;
+use prfs_circuit_interface::circuit_types::CircuitTypeId;
 use prfs_crypto::hex;
 use prfs_crypto::rand_utils::rand256_hex;
 use prfs_crypto::sha2::{Digest, Sha256};
 use prfs_driver_interface::CircuitDriverId;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
+use std::collections::HashMap;
 use std::{io::Write, path::PathBuf, process::Command};
 
 use crate::resolve_path::get_path_segment;
-use crate::{paths::PATHS, CircuitBuild, CircuitBuildListJson, FileKind};
+use crate::{paths::PATHS, CircuitBuild, CircuitBuildJson, FileKind};
 
 pub fn run() {
     println!("{} building {}", "Start".green(), env!("CARGO_PKG_NAME"),);
@@ -17,7 +19,7 @@ pub fn run() {
     let now = Utc::now();
     let mut circuits = read_circuits_json();
 
-    let mut circuit_list = vec![];
+    let mut circuit_map = HashMap::new();
     for mut circuit in &mut circuits {
         let circuit_id = rand256_hex()[..12].to_string();
         circuit.circuit_id = circuit_id;
@@ -33,18 +35,21 @@ pub fn run() {
         hasher.update(&b);
         let digest = hex::encode(hasher.finalize());
 
-        circuit_list.push(CircuitBuild {
-            circuit_type_id: circuit.circuit_type_id.to_string(),
-            r1cs_src_path: r1cs_src_path
-                .strip_prefix(&PATHS.build)
-                .unwrap()
-                .to_string_lossy()
-                .to_string(),
-            file_hash: digest,
-        });
+        circuit_map.insert(
+            circuit.circuit_type_id.clone(),
+            CircuitBuild {
+                circuit_type_id: circuit.circuit_type_id.to_string(),
+                r1cs_src_path: r1cs_src_path
+                    .strip_prefix(&PATHS.build)
+                    .unwrap()
+                    .to_string_lossy()
+                    .to_string(),
+                file_hash: digest,
+            },
+        );
     }
 
-    create_list_json(&circuit_list);
+    create_map_json(&circuit_map);
     create_built_at(&now);
 }
 
@@ -182,8 +187,8 @@ fn create_circuit_json(circuit: &mut PrfsCircuit) {
     );
 }
 
-fn create_list_json(circuits_json: &Vec<CircuitBuild>) {
-    let build_list_json = CircuitBuildListJson {
+fn create_map_json(circuits_json: &HashMap<CircuitTypeId, CircuitBuild>) {
+    let build_list_json = CircuitBuildJson {
         circuits: circuits_json.clone(),
     };
 
