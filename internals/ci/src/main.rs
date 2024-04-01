@@ -18,7 +18,7 @@ use crate::{
     },
 };
 use chrono::prelude::*;
-use clap::{command, Arg};
+use clap::{arg, command, Arg};
 use colored::Colorize;
 use std::env;
 
@@ -70,11 +70,8 @@ fn main() {
         .subcommand(command!("seed_assets"))
         // test
         .subcommand(
-            command!(test::CMD_NAME).arg(
-                Arg::new("extra_args")
-                    .trailing_var_arg(true)
-                    .allow_hyphen_values(true),
-            ),
+            command!(test::CMD_NAME)
+                .arg(arg!(<extra_args> ... "args to run with").trailing_var_arg(true)),
         )
         // tmux
         .subcommand(command!("tmux").arg(Arg::new("extra_args")))

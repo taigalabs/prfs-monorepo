@@ -3,20 +3,20 @@ use std::{process::Command, sync::Arc};
 use tokio::sync::OnceCell;
 
 use super::upload::{upload_prfs_circuits, upload_prfs_proof_types};
-use crate::envs::ENVS;
+use crate::{envs::ENVS, paths::PATHS};
 
 static ONCE: OnceCell<u32> = OnceCell::const_new();
 const NODE_PKG_MANAGER: &str = "pnpm";
 
 async fn prepare() {
     ONCE.get_or_init(|| async {
-        // let status = Command::new(NODE_PKG_MANAGER)
-        //     .current_dir(&PATHS.package_root)
-        //     .args(["run", "create-bindings"])
-        //     .status()
-        //     .expect(&format!("{} command failed to start", NODE_PKG_MANAGER));
+        let status = Command::new(NODE_PKG_MANAGER)
+            .current_dir(&PATHS.package_root)
+            .args(["run", "create-bindings"])
+            .status()
+            .expect(&format!("{} command failed to start", NODE_PKG_MANAGER));
 
-        // assert!(status.success());
+        assert!(status.success());
 
         return 1;
     })
@@ -38,18 +38,22 @@ async fn get_db() -> Database2 {
     db2
 }
 
-#[tokio::test]
-async fn seed_prfs_circuits() {
-    // prepare().await;
-    let db = get_db().await;
+mod seed_api {
+    use super::*;
 
-    upload_prfs_circuits(&db).await;
-}
+    #[tokio::test]
+    async fn seed_prfs_circuits() {
+        prepare().await;
+        let db = get_db().await;
 
-#[tokio::test]
-async fn seed_prfs_proof_types() {
-    // prepare().await;
-    let db = get_db().await;
+        upload_prfs_circuits(&db).await;
+    }
 
-    upload_prfs_proof_types(&db).await;
+    #[tokio::test]
+    async fn seed_prfs_proof_types() {
+        prepare().await;
+        let db = get_db().await;
+
+        upload_prfs_proof_types(&db).await;
+    }
 }
