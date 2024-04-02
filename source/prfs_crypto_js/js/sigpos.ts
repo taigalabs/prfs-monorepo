@@ -1,5 +1,3 @@
-import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
-
 import { poseidon_2 } from "./poseidon";
 import { prfsSign } from "./signature";
 

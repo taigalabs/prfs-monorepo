@@ -1,4 +1,5 @@
 import { sigPoseidon } from "@taigalabs/prfs-crypto-js";
+import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 import { PRFS_ATTESTATION_STEM } from "../attestation";
 
@@ -14,7 +15,7 @@ export async function makeAppSignInCm(sk: string, appId: string) {
 }
 
 export function makeAtstCmPreImage(arg: string) {
-  return `${PRFS_ATTESTATION_STEM}${arg}`;
+  return keccak256(`${PRFS_ATTESTATION_STEM}${arg}`);
 }
 
 export function makeAtstCm(sk: string, arg: string) {
