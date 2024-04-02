@@ -69,18 +69,19 @@ function checkIfFormIsFilled(formData: GroupMemberAtstFormData) {
 const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const i18n = useI18N();
   const [isNavigating, setIsNavigating] = React.useState(false);
-  const [isSigValid, setIsSigValid] = React.useState(false);
-  const [walletAddrEnc, setWalletAddrEnc] = React.useState<string | null>(null);
+  const [memberIdEnc, setMemberIdEnc] = React.useState<string | null>(null);
   const router = useRouter();
   const [formData, setFormData] = React.useState<GroupMemberAtstFormData>({
     [MEMBER_ID]: "",
     [MEMBER_CODE]: "",
   });
-  const [walletCacheKeys, setWalletCacheKeys] = React.useState<Record<string, string> | null>(null);
+  const [memberIdCacheKeys, setMemberIdCacheKeys] = React.useState<Record<string, string> | null>(
+    null,
+  );
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
-  const [fetchAssetMsg, setFetchAssetMsg] = React.useState<React.ReactNode>(null);
   const [error, setError] = React.useState<React.ReactNode>(null);
   const [atstGroup, setAtstGroup] = React.useState<PrfsAtstGroup | null>(null);
+
   const { mutateAsync: getLeastRecentPrfsIndex } = useMutation({
     mutationFn: (req: GetLeastRecentPrfsIndexRequest) => {
       return prfsApi3({ type: "get_least_recent_prfs_index", prfs_indices: req.prfs_indices });
@@ -164,8 +165,8 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
       isFormFilled &&
       createStatus === Status.Standby &&
       atstGroup &&
-      walletCacheKeys &&
-      walletAddrEnc
+      memberIdCacheKeys &&
+      memberIdEnc
     ) {
       try {
         setError(null);
@@ -177,7 +178,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
           setCreateStatus(Status.InProgress);
 
           const { payload: indexPayload, error: indexError } = await getLeastRecentPrfsIndex({
-            prfs_indices: Object.values(walletCacheKeys),
+            prfs_indices: Object.values(memberIdCacheKeys),
           });
 
           if (indexError) {
@@ -239,9 +240,9 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     setCreateStatus,
     getLeastRecentPrfsIndex,
     router,
-    walletCacheKeys,
+    memberIdCacheKeys,
     addPrfsIndexRequest,
-    walletAddrEnc,
+    memberIdEnc,
   ]);
 
   return isNavigating ? (
@@ -278,10 +279,10 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
               atstGroup={atstGroup}
               formData={formData}
               handleChangeCm={handleChangeCm}
-              setWalletCacheKeys={setWalletCacheKeys}
-              setWalletAddrEnc={setWalletAddrEnc}
-              walletCacheKeys={walletCacheKeys}
-              walletAddrEnc={walletAddrEnc}
+              memberIdCacheKeys={memberIdCacheKeys}
+              setMemberIdCacheKeys={setMemberIdCacheKeys}
+              memberIdEnc={memberIdEnc}
+              setMemberIdEnc={setMemberIdEnc}
             />
           </ol>
           <AttestationFormBtnRow>

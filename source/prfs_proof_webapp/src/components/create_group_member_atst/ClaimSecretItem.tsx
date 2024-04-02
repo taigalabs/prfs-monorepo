@@ -55,10 +55,10 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   atstGroup,
   formData,
   handleChangeCm,
-  walletCacheKeys,
-  walletAddrEnc,
-  setWalletCacheKeys,
-  setWalletAddrEnc,
+  memberIdCacheKeys,
+  setMemberIdCacheKeys,
+  memberIdEnc,
+  setMemberIdEnc,
 }) => {
   const i18n = React.useContext(i18nContext);
   const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
@@ -123,8 +123,8 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
     formData,
     claimSecret,
     handleChangeCm,
-    setWalletCacheKeys,
-    setWalletAddrEnc,
+    setMemberIdCacheKeys,
+    setMemberIdEnc,
     openPrfsIdSession,
     setSk,
     setIsPrfsDialogOpen,
@@ -214,10 +214,10 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
             </AttestationListItemBtn>
             <p className={cn(styles.value, common.alignItemCenter)}>{null}</p>
           </div>
-          {walletCacheKeys && (
+          {memberIdCacheKeys && (
             <EncryptedWalletAddrItem
-              walletCacheKeys={walletCacheKeys}
-              walletAddrEnc={walletAddrEnc}
+              walletCacheKeys={memberIdCacheKeys}
+              walletAddrEnc={memberIdEnc}
             />
           )}
         </AttestationListRightCol>
@@ -239,8 +239,8 @@ export interface MemberCodeInputProps {
   atstGroup: PrfsAtstGroup | null;
   handleChangeCm: (cm: string) => void;
   formData: GroupMemberAtstFormData;
-  setWalletCacheKeys: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
-  setWalletAddrEnc: React.Dispatch<React.SetStateAction<string | null>>;
-  walletCacheKeys: Record<string, string> | null;
-  walletAddrEnc: string | null;
+  memberIdCacheKeys: Record<string, string> | null;
+  setMemberIdCacheKeys: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
+  memberIdEnc: string | null;
+  setMemberIdEnc: React.Dispatch<React.SetStateAction<string | null>>;
 }
