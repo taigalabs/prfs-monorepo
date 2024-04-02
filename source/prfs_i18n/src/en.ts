@@ -205,7 +205,7 @@ export default {
   create_twitter_acc_attestation: "Create X (Twitter) account attestation",
   create_tree: "Create Tree",
   create_crypto_asset_attestation: "Create crypto asset attestation",
-  create_member_attestation: "Create member attestation",
+  create_group_member_attestation: "Create group member attestation",
   twitter_acc_attestations: "X (Twitter) account attestations",
   crypto_asset_attestations: "Crypto asset attestations",
   x_twitter: "X (Twitter)",

@@ -289,7 +289,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     <>
       <AttestationsHeader>
         <AttestationsHeaderRow>
-          <AttestationsTitle>{i18n.create_member_attestation}</AttestationsTitle>
+          <AttestationsTitle>{i18n.create_group_member_attestation}</AttestationsTitle>
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
@@ -302,17 +302,8 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
                   <AttestationListItemDescTitle>
                     {i18n.what_group_are_you_a_member_of}
                   </AttestationListItemDescTitle>
-                  <p>{i18n.wallet_address_example_given}</p>
                 </AttestationListItemDesc>
                 <div className={styles.content}>
-                  <div className={styles.inputBtnRow}>
-                    <ConnectWallet handleChangeAddress={handleChangeAddress}>
-                      <button className={styles.inputBtn} type="button">
-                        <HoverableText>{i18n.connect}</HoverableText>
-                      </button>
-                    </ConnectWallet>
-                    <span> or paste your wallet address</span>
-                  </div>
                   <Input
                     className={styles.input}
                     name={WALLET_ADDR}
@@ -321,19 +312,19 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
                     value={formData.wallet_addr}
                     handleChangeValue={handleChangeWalletAddr}
                   />
-                  <div className={styles.btnRow}>
-                    <button type="button" onClick={handleClickFetchAsset} className={styles.btn}>
-                      <HoverableText disabled={formData.wallet_addr.length === 0}>
-                        {i18n.what_do_i_have}
-                      </HoverableText>
-                    </button>
-                    <div className={styles.msg}>
-                      {fetchAssetStatus === Status.InProgress && (
-                        <Spinner size={14} color={colors.gray_32} borderWidth={2} />
-                      )}
-                      {fetchAssetMsg}
-                    </div>
-                  </div>
+                  {/* <div className={styles.btnRow}> */}
+                  {/*   <button type="button" onClick={handleClickFetchAsset} className={styles.btn}> */}
+                  {/*     <HoverableText disabled={formData.wallet_addr.length === 0}> */}
+                  {/*       {i18n.what_do_i_have} */}
+                  {/*     </HoverableText> */}
+                  {/*   </button> */}
+                  {/*   <div className={styles.msg}> */}
+                  {/*     {fetchAssetStatus === Status.InProgress && ( */}
+                  {/*       <Spinner size={14} color={colors.gray_32} borderWidth={2} /> */}
+                  {/*     )} */}
+                  {/*     {fetchAssetMsg} */}
+                  {/*   </div> */}
+                  {/* </div> */}
                   {cryptoAssets?.length && (
                     <div className={styles.cryptoAsset}>
                       <div className={styles.item}>
