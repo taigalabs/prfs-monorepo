@@ -34,9 +34,9 @@ const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
   return (
     <LeftBarWrapper>
       <LeftBarTopMenu>
-        <LeftBarItem>
-          <CreateSetPopover />
-        </LeftBarItem>
+        {/* <LeftBarItem > */}
+        {/*   <CreateSetPopover /> */}
+        {/* </LeftBarItem> */}
       </LeftBarTopMenu>
       <LeftBarMenu>
         <LeftBarItem>
