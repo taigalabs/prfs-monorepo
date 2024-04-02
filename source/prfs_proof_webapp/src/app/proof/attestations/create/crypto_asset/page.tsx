@@ -8,7 +8,7 @@ import CreateAttestation from "@/components/create_attestation/CreateAttestation
 import CreateCryptoAssetAtst from "@/components/create_crypto_asset_atst/CreateCryptoAssetAtst";
 import { AttestationsDefaultBody } from "@/components/attestations/AttestationComponents";
 
-const CreateCryptoSizeAttestionPage = () => {
+const CreateCryptoAssetAtstPage = () => {
   return (
     <DefaultLayout>
       <AttestationsDefaultBody>
@@ -27,4 +27,4 @@ const CreateCryptoSizeAttestionPage = () => {
   );
 };
 
-export default CreateCryptoSizeAttestionPage;
+export default CreateCryptoAssetAtstPage;
