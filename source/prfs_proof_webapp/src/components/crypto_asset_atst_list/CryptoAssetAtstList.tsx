@@ -38,7 +38,9 @@ const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
           </AttestationsTopMenu>
         </AttestationsHeaderRow>
         <AttestationsHeaderRow>
-          <AlertWrapper variant="warn">Pr33fawkej</AlertWrapper>
+          <AlertWrapper variant="warn" rounded>
+            Pr33fawkej
+          </AlertWrapper>
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>

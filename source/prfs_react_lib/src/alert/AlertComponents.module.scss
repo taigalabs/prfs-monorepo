@@ -20,10 +20,6 @@
   }
 }
 
-.rounded {
-  border-radius: 5px;
-}
-
 .warn {
   &.wrapper {
     background-color: rgb(255, 244, 229);
@@ -39,6 +35,10 @@
   .btnGroup {
     color: rgb(211, 47, 47);
   }
+}
+
+.rounded {
+  border-radius: 4px;
 }
 
 .content {
