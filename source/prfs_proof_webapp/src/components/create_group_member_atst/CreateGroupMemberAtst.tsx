@@ -42,9 +42,10 @@ import {
   CM,
   WALLET_ADDR,
 } from "./create_crypto_asset_atst";
-import SignatureItem from "./SignatureItem";
+// import SignatureItem from "./SignatureItem";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
+import AtstGroupSelect from "./AtstGroupSelect";
 
 enum Status {
   Standby,
@@ -304,27 +305,15 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
                   </AttestationListItemDescTitle>
                 </AttestationListItemDesc>
                 <div className={styles.content}>
-                  <Input
-                    className={styles.input}
-                    name={WALLET_ADDR}
-                    error={""}
-                    label={i18n.wallet_address}
-                    value={formData.wallet_addr}
-                    handleChangeValue={handleChangeWalletAddr}
-                  />
-                  {/* <div className={styles.btnRow}> */}
-                  {/*   <button type="button" onClick={handleClickFetchAsset} className={styles.btn}> */}
-                  {/*     <HoverableText disabled={formData.wallet_addr.length === 0}> */}
-                  {/*       {i18n.what_do_i_have} */}
-                  {/*     </HoverableText> */}
-                  {/*   </button> */}
-                  {/*   <div className={styles.msg}> */}
-                  {/*     {fetchAssetStatus === Status.InProgress && ( */}
-                  {/*       <Spinner size={14} color={colors.gray_32} borderWidth={2} /> */}
-                  {/*     )} */}
-                  {/*     {fetchAssetMsg} */}
-                  {/*   </div> */}
-                  {/* </div> */}
+                  <AtstGroupSelect />
+                  {/* <Input */}
+                  {/*   className={styles.input} */}
+                  {/*   name={WALLET_ADDR} */}
+                  {/*   error={""} */}
+                  {/*   label={i18n.wallet_address} */}
+                  {/*   value={formData.wallet_addr} */}
+                  {/*   handleChangeValue={handleChangeWalletAddr} */}
+                  {/* /> */}
                   {cryptoAssets?.length && (
                     <div className={styles.cryptoAsset}>
                       <div className={styles.item}>
@@ -352,11 +341,11 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
               walletCacheKeys={walletCacheKeys}
               walletAddrEnc={walletAddrEnc}
             />
-            <SignatureItem
-              formData={formData}
-              setFormData={setFormData}
-              setIsSigValid={setIsSigValid}
-            />
+            {/* <SignatureItem */}
+            {/*   formData={formData} */}
+            {/*   setFormData={setFormData} */}
+            {/*   setIsSigValid={setIsSigValid} */}
+            {/* /> */}
           </ol>
           <AttestationFormBtnRow>
             <div className={styles.createBtnRow}>
