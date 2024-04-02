@@ -20,9 +20,9 @@ const CreateSetPage = () => {
           </Sets>
         </Suspense>
       </AttestationsDefaultBody>
-      <DefaultFooter>
-        <GlobalFooter />
-      </DefaultFooter>
+      {/* <DefaultFooter> */}
+      {/*   <GlobalFooter /> */}
+      {/* </DefaultFooter> */}
     </DefaultLayout>
   );
 };

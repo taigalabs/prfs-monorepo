@@ -25,9 +25,9 @@ const SetPage: React.FC<SetPageProps> = ({ params }) => {
           </Sets>
         </Suspense>
       </AttestationsDefaultBody>
-      <DefaultFooter>
-        <GlobalFooter />
-      </DefaultFooter>
+      {/* <DefaultFooter> */}
+      {/*   <GlobalFooter /> */}
+      {/* </DefaultFooter> */}
     </DefaultLayout>
   );
 };

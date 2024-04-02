@@ -20,9 +20,9 @@ const CreateGroupMemberAtstPage = () => {
           </Attestations>
         </Suspense>
       </AttestationsDefaultBody>
-      <DefaultFooter>
-        <GlobalFooter />
-      </DefaultFooter>
+      {/* <DefaultFooter> */}
+      {/*   <GlobalFooter /> */}
+      {/* </DefaultFooter> */}
     </DefaultLayout>
   );
 };
