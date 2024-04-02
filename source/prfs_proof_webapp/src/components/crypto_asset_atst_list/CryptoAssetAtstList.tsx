@@ -39,7 +39,10 @@ const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
         </AttestationsHeaderRow>
         <AttestationsHeaderRow>
           <AlertWrapper variant="warn" rounded>
-            <AlertContent>Pr33fawkej</AlertContent>
+            <AlertContent>
+              Prfs attestation has upgraded to version 0.2. For those that have created older
+              version, you should create again to continue to use that attestation
+            </AlertContent>
           </AlertWrapper>
         </AttestationsHeaderRow>
       </AttestationsHeader>

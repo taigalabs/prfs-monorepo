@@ -2,7 +2,6 @@
 
 import React from "react";
 import cn from "classnames";
-// import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
 import { IoWarningOutline } from "@react-icons/all-files/io5/IoWarningOutline";
 
 import styles from "./AlertComponents.module.scss";

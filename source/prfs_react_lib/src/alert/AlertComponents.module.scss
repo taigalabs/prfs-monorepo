@@ -5,16 +5,17 @@
   justify-content: space-between;
 }
 
+.img {
+  font-size: 18px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
 .content {
   display: flex;
   align-items: center;
   flex-grow: 1;
   font-size: 16px;
-
-  > svg {
-    font-size: 22px;
-    margin-right: 10px;
-  }
 }
 
 .error {
@@ -22,7 +23,7 @@
     background-color: rgb(253, 237, 237);
   }
 
-  > svg {
+  .img {
     color: rgb(211, 47, 47);
   }
 
@@ -40,7 +41,7 @@
     background-color: rgb(255, 244, 229);
   }
 
-  > svg {
+  .img {
     color: rgb(237, 108, 2);
   }
 
@@ -55,12 +56,6 @@
 
 .rounded {
   border-radius: 4px;
-}
-
-.img {
-  vertical-align: middle;
-  font-size: 18px;
-  margin-right: 6px;
 }
 
 .btnGroup {
