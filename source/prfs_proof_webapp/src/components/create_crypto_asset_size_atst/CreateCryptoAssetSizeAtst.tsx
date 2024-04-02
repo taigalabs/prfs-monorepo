@@ -238,7 +238,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
           const cm = formData[CM];
           const { payload, error } = await createCryptoSizeAtstRequest({
             atst_id,
-            atst_type: "crypto_1",
+            atst_type_id: "crypto_1",
             label: wallet_addr,
             serial_no: "empty",
             cm,

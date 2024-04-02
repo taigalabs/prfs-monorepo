@@ -1,5 +1,5 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use prfs_entities::{atst_entities::PrfsAttestation, PrfsAtstType};
+use prfs_entities::{atst_entities::PrfsAttestation, PrfsAtstTypeId};
 use shy_entities::sqlx::QueryBuilder;
 
 use crate::DbInterfaceError;
@@ -14,7 +14,7 @@ pub async fn insert_prfs_attestation(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_attestations
-(atst_id, atst_type, label, cm, meta, value, status)
+(atst_id, atst_type_id, label, cm, meta, value, status)
 VALUES ($1, $2, $3, $4, $5, $6, $7)
 ON CONFLICT (atst_id) DO UPDATE SET (
 atst_type, label, cm, meta, updated_at, value, status
@@ -26,7 +26,7 @@ RETURNING atst_id"#;
 
     let row = sqlx::query(query)
         .bind(&prfs_attestation.atst_id)
-        .bind(&prfs_attestation.atst_type)
+        .bind(&prfs_attestation.atst_type_id)
         .bind(&prfs_attestation.label)
         .bind(&prfs_attestation.cm)
         .bind(&prfs_attestation.meta)
@@ -45,14 +45,14 @@ pub async fn insert_prfs_attestations(
     prfs_attestations: &Vec<PrfsAttestation>,
 ) -> Result<u64, DbInterfaceError> {
     let mut query_builder: QueryBuilder<_> = QueryBuilder::new(
-        r#"INSERT INTO prfs_attestations(atst_id, atst_type, label, cm, meta, value, status) "#,
+        r#"INSERT INTO prfs_attestations(atst_id, atst_type_id, label, cm, meta, value, status) "#,
     );
 
     query_builder.push_values(
         prfs_attestations.iter().take(BIND_LIMIT / 4),
         |mut b, atst| {
             b.push_bind(&atst.atst_id)
-                .push_bind(&atst.atst_type)
+                .push_bind(&atst.atst_type_id)
                 .push_bind(&atst.label)
                 .push_bind(&atst.cm)
                 .push_bind(&atst.meta)
@@ -64,7 +64,7 @@ pub async fn insert_prfs_attestations(
     query_builder.push(
         r#"
 ON CONFLICT (atst_id) DO UPDATE SET (
-atst_type, label, cm, meta, updated_at, value, status
+atst_type_id, label, cm, meta, updated_at, value, status
 ) = (
 excluded.atst_type, excluded.label, excluded.cm, excluded.meta,
 now(), excluded.value, excluded.status
@@ -80,14 +80,14 @@ now(), excluded.value, excluded.status
 
 pub async fn get_prfs_attestations(
     pool: &Pool<Postgres>,
-    atst_type: &PrfsAtstType,
+    atst_type_id: &PrfsAtstTypeId,
     offset: i32,
     limit: i32,
 ) -> Result<Vec<PrfsAttestation>, DbInterfaceError> {
     let query = get_prfs_attestations_query();
 
     let rows = sqlx::query(query)
-        .bind(atst_type)
+        .bind(atst_type_id)
         .bind(limit)
         .bind(offset)
         .fetch_all(pool)
@@ -97,7 +97,7 @@ pub async fn get_prfs_attestations(
         .iter()
         .map(|row| PrfsAttestation {
             atst_id: row.get("atst_id"),
-            atst_type: row.get("atst_type"),
+            atst_type_id: row.get("atst_type_id"),
             cm: row.get("cm"),
             label: row.get("label"),
             value: row.get("value"),
@@ -112,14 +112,14 @@ pub async fn get_prfs_attestations(
 #[allow(non_snake_case)]
 pub async fn get_prfs_attestations__tx(
     tx: &mut Transaction<'_, Postgres>,
-    atst_type: &PrfsAtstType,
+    atst_type_id: &PrfsAtstTypeId,
     offset: i32,
     limit: i32,
 ) -> Result<Vec<PrfsAttestation>, DbInterfaceError> {
     let query = get_prfs_attestations_query();
 
     let rows = sqlx::query(query)
-        .bind(atst_type)
+        .bind(atst_type_id)
         .bind(limit)
         .bind(offset)
         .fetch_all(&mut **tx)
@@ -129,7 +129,7 @@ pub async fn get_prfs_attestations__tx(
         .iter()
         .map(|row| PrfsAttestation {
             atst_id: row.get("atst_id"),
-            atst_type: row.get("atst_type"),
+            atst_type_id: row.get("atst_type_id"),
             cm: row.get("cm"),
             label: row.get("label"),
             value: row.get("value"),
@@ -155,7 +155,7 @@ WHERE atst_id=$1
 
     let atst = PrfsAttestation {
         atst_id: row.get("atst_id"),
-        atst_type: row.get("atst_type"),
+        atst_type_id: row.get("atst_type_io"),
         cm: row.get("cm"),
         label: row.get("label"),
         value: row.get("value"),

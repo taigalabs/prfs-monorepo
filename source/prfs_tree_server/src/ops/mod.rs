@@ -1,6 +1,6 @@
 use prfs_db_driver::sqlx::{Pool, Postgres, Transaction};
 use prfs_db_interface::prfs;
-use prfs_entities::{PrfsAtstType, PrfsTree, PrfsTreeNode};
+use prfs_entities::{PrfsAtstTypeId, PrfsTree, PrfsTreeNode};
 use prfs_tree_lib::apis2::tree;
 use rust_decimal::Decimal;
 
@@ -13,12 +13,12 @@ const LIMIT: i32 = 20;
 
 pub async fn _import_prfs_attestations_to_prfs_set(
     tx: &mut Transaction<'_, Postgres>,
-    atst_type: &PrfsAtstType,
+    atst_type_id: &PrfsAtstTypeId,
     dest_set_id: &String,
 ) -> Result<(String, u64), PrfsTreeServerError> {
     let _rows_deleted = prfs::delete_prfs_set_elements(tx, &dest_set_id).await?;
 
-    let atsts = prfs::get_prfs_attestations__tx(tx, &atst_type, 0, 50000).await?;
+    let atsts = prfs::get_prfs_attestations__tx(tx, &atst_type_id, 0, 50000).await?;
 
     if atsts.len() > 65536 {
         return Err("Currently we can produce upto 65536 items".into());

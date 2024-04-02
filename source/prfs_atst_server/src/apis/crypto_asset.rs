@@ -15,7 +15,7 @@ use prfs_entities::atst_api::{
     GetCryptoAssetSizeAtstsRequest, GetCryptoAssetSizeAtstsResponse,
 };
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
-use prfs_entities::{PrfsAtstType, UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest};
+use prfs_entities::{PrfsAtstTypeId, UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest};
 use prfs_web3_rs::signature::verify_eth_sig_by_addr;
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -75,7 +75,7 @@ pub async fn create_crypto_asset_size_atst(
 
     let prfs_attestation = PrfsAttestation {
         atst_id: input.atst_id,
-        atst_type: input.atst_type.clone(),
+        atst_type_id: input.atst_type_id.clone(),
         label: input.label.to_string(),
         cm: input.cm,
         meta: JsonType::from(crypto_assets),
@@ -97,7 +97,7 @@ pub async fn create_crypto_asset_size_atst(
     let _ = match update_prfs_tree_by_new_atst(
         &ENVS.prfs_api_server_endpoint,
         &UpdatePrfsTreeByNewAtstRequest {
-            atst_type: input.atst_type,
+            atst_type_id: input.atst_type_id,
         },
     )
     .await
@@ -119,42 +119,42 @@ pub async fn create_crypto_asset_size_atst(
     return (StatusCode::OK, Json(resp));
 }
 
-pub async fn get_crypto_asset_size_atsts(
-    State(state): State<Arc<ServerState>>,
-    Json(input): Json<GetCryptoAssetSizeAtstsRequest>,
-) -> (
-    StatusCode,
-    Json<ApiResponse<GetCryptoAssetSizeAtstsResponse>>,
-) {
-    let pool = &state.db2.pool;
+// pub async fn get_crypto_asset_size_atsts(
+//     State(state): State<Arc<ServerState>>,
+//     Json(input): Json<GetCryptoAssetSizeAtstsRequest>,
+// ) -> (
+//     StatusCode,
+//     Json<ApiResponse<GetCryptoAssetSizeAtstsResponse>>,
+// ) {
+//     let pool = &state.db2.pool;
 
-    let rows = match prfs::get_prfs_attestations(
-        &pool,
-        &PrfsAtstType::crypto_1,
-        input.offset,
-        LIMIT,
-    )
-    .await
-    {
-        Ok(r) => r,
-        Err(err) => {
-            let resp = ApiResponse::new_error(
-                &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!("error getting crypto asset size atsts: {}", err),
-            );
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
+//     let rows = match prfs::get_prfs_attestations(
+//         &pool,
+//         &PrfsAtstType::crypto_1,
+//         input.offset,
+//         LIMIT,
+//     )
+//     .await
+//     {
+//         Ok(r) => r,
+//         Err(err) => {
+//             let resp = ApiResponse::new_error(
+//                 &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
+//                 format!("error getting crypto asset size atsts: {}", err),
+//             );
+//             return (StatusCode::BAD_REQUEST, Json(resp));
+//         }
+//     };
 
-    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
-        None
-    } else {
-        Some(input.offset + LIMIT)
-    };
+//     let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
+//         None
+//     } else {
+//         Some(input.offset + LIMIT)
+//     };
 
-    let resp = ApiResponse::new_success(GetCryptoAssetSizeAtstsResponse { rows, next_offset });
-    return (StatusCode::OK, Json(resp));
-}
+//     let resp = ApiResponse::new_success(GetCryptoAssetSizeAtstsResponse { rows, next_offset });
+//     return (StatusCode::OK, Json(resp));
+// }
 
 pub async fn get_crypto_asset_size_atst(
     State(state): State<Arc<ServerState>>,

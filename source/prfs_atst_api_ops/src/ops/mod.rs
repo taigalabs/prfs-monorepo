@@ -1,30 +1,13 @@
-use prfs_admin_credential::mock::MASTER_ACCOUNT_IDS;
-use prfs_api_rs::api::update_prfs_tree_by_new_atst;
-use prfs_atst_api_error_codes::PRFS_ATST_API_ERROR_CODES;
-use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
-use prfs_axum_lib::resp::ApiResponse;
-use prfs_axum_lib::ApiHandleError;
-use prfs_common_server_state::ServerState;
-use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
-use prfs_entities::atst_api::{
-    ComputeCryptoAssetSizeTotalValuesRequest, ComputeCryptoAssetSizeTotalValuesResponse,
-    CreateCryptoAssetSizeAtstRequest, CreateCryptoAssetSizeAtstResponse, FetchCryptoAssetRequest,
-    FetchCryptoAssetResponse, GetCryptoAssetSizeAtstRequest, GetCryptoAssetSizeAtstResponse,
-    GetCryptoAssetSizeAtstsRequest, GetCryptoAssetSizeAtstsResponse,
-};
-use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
-use prfs_entities::{PrfsAtstType, UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest};
-use prfs_web3_rs::signature::verify_eth_sig_by_addr;
-use prfs_web_fetcher::destinations::coinbase::{self};
+use prfs_entities::atst_api::ComputeCryptoAssetSizeTotalValuesResponse;
+use prfs_entities::PrfsAtstTypeId;
+use prfs_web_fetcher::destinations::coinbase;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
 use std::str::FromStr;
-use std::sync::Arc;
 
 use prfs_db_driver::sqlx::{Pool, Postgres, Transaction};
 
-use crate::envs::ENVS;
 use crate::AtstApiOpsError;
 
 const LIMIT: i32 = 20;
@@ -34,7 +17,7 @@ pub async fn compute_crypto_asset_size_total_values(
     mut tx: &mut Transaction<'_, Postgres>,
 ) -> Result<ComputeCryptoAssetSizeTotalValuesResponse, AtstApiOpsError> {
     let exchange_rates = coinbase::get_exchange_rates("ETH").await?;
-    let mut atsts = prfs::get_prfs_attestations(&pool, &PrfsAtstType::crypto_1, 0, 50000).await?;
+    let mut atsts = prfs::get_prfs_attestations(&pool, &PrfsAtstTypeId::crypto_1, 0, 50000).await?;
 
     let denom = Decimal::from_u128(1_000_000_000_000_000_000).unwrap();
     let usd: &str = exchange_rates.data.rates.USD.as_ref();
