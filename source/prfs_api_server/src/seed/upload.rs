@@ -132,11 +132,6 @@ pub async fn upload_prfs_proof_types(db: &Database2) {
     let proof_types = load_proof_types();
     println!("proof types: {:#?}", proof_types);
 
-    // sqlx::query("truncate table prfs_proof_types restart identity")
-    //     .execute(&mut *tx)
-    //     .await
-    //     .unwrap();
-
     for proof_type in proof_types.values() {
         prfs::insert_prfs_proof_type(&mut tx, proof_type)
             .await
