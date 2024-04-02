@@ -1,0 +1,33 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  padding-top: 24px;
+  color: var(--gray-20);
+}
+
+.content {
+  font-size: 13px;
+}
+
+.item {
+  &:not(:first-child) {
+    padding-top: 14px;
+  }
+}
+
+.label {
+  font-size: 14px;
+  color: var(--black-10);
+  padding: 4px 0;
+}
+
+.cacheKey {
+  display: inline-block;
+
+  &:not(:first-child) {
+    padding-left: 4px;
+  }
+}
+
+@media screen and (min-width: $big_display_min_width) {
+}

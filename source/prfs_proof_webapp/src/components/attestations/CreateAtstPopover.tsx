@@ -25,7 +25,7 @@ const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
           <Link href={paths.attestations__create__crypto_asset}>{i18n.crypto_asset}</Link>
         </li>
         <li onClick={handleClickItem}>
-          <Link href={paths.attestations__create__crypto_asset}>{i18n.crypto_asset}</Link>
+          <Link href={paths.attestations__create__member}>{i18n.member}</Link>
         </li>
       </ul>
     </div>

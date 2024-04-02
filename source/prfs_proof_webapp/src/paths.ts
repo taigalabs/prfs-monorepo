@@ -6,6 +6,7 @@ export const paths = {
   attestations: "/attestations",
   attestations__create__twitter: "/attestations/create/twitter",
   attestations__create__crypto_asset: "/attestations/create/crypto_asset",
+  attestations__create__member: "/attestations/create/member",
   attestations__twitter: "/attestations/twitter",
   attestations__crypto_asset: "/attestations/crypto_asset",
   proofs: "/proofs",
