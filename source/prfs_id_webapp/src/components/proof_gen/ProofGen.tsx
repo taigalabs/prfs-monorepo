@@ -25,6 +25,7 @@ import { useAppDispatch } from "@/state/hooks";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import { signInPrfs } from "@/state/userReducer";
 import { useGetPrfsIdApp, useSignInPrfsIdentity } from "@/requests";
+import { AlertWrapper } from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
 
 enum ProofGenStep {
   PrfsIdCredential,

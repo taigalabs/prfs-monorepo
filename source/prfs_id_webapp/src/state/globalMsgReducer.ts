@@ -1,11 +1,19 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+const notice = `
+  Prfs attestation has been upgraded to version 0.2. Those that have created the older\
+  version (prior to 2024 Apr 03) should create an attestation again to continue to use it\
+`;
+
 export interface GlobalMsgState {
   msg: GlobalMsg | null;
 }
 
 const initialState: GlobalMsgState = {
-  msg: null,
+  msg: {
+    message: notice,
+    notOverlay: true,
+  },
 };
 
 const globalMsgSlice = createSlice({
@@ -33,5 +41,6 @@ export const globalMsgReducer = globalMsgSlice.reducer;
 
 interface GlobalMsg {
   message: string;
+  notOverlay?: boolean;
   notDismissible?: boolean;
 }

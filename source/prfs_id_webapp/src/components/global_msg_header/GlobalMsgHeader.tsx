@@ -17,7 +17,6 @@ import { removeGlobalMsg } from "@/state/globalMsgReducer";
 
 const GlobalMsgHeader: React.FC<PrfsIdErrorDialogProps> = ({}) => {
   const i18n = useI18N();
-  // const [isOpen, setIsOpen] = React.useState(true);
   const globalMsg = useAppSelector(state => state.globalMsg.msg);
   const dispatch = useAppDispatch();
   const handleClickClose = React.useCallback(() => {
@@ -26,27 +25,36 @@ const GlobalMsgHeader: React.FC<PrfsIdErrorDialogProps> = ({}) => {
 
   const notDismissible = globalMsg?.notDismissible;
 
-  return (
-    globalMsg && (
-      <Overlay className={styles.overlay}>
-        <GlobalMsgHeaderWrapper>
-          <AlertWrapper variant="warn">
-            <AlertContent>
-              {/* <IoWarningOutline /> */}
-              <p>{globalMsg.message}</p>
-            </AlertContent>
-            <AlertBtnGroup>
-              {!notDismissible && (
-                <button type="button" onClick={handleClickClose}>
-                  <IoClose />
-                </button>
-              )}
-            </AlertBtnGroup>
-          </AlertWrapper>
-        </GlobalMsgHeaderWrapper>
-      </Overlay>
-    )
-  );
+  const elem = React.useMemo(() => {
+    if (!globalMsg) {
+      return null;
+    }
+
+    const content = (
+      <GlobalMsgHeaderWrapper>
+        <AlertWrapper variant="warn">
+          <AlertContent>
+            <p>{globalMsg.message}</p>
+          </AlertContent>
+          <AlertBtnGroup>
+            {!notDismissible && (
+              <button type="button" onClick={handleClickClose}>
+                <IoClose />
+              </button>
+            )}
+          </AlertBtnGroup>
+        </AlertWrapper>
+      </GlobalMsgHeaderWrapper>
+    );
+
+    if (globalMsg.notOverlay) {
+      return content;
+    } else {
+      return <Overlay className={styles.overlay}>{content}</Overlay>;
+    }
+  }, [globalMsg]);
+
+  return elem;
 };
 
 export default GlobalMsgHeader;
