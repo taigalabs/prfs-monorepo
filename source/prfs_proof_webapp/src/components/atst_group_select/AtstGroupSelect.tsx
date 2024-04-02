@@ -20,11 +20,10 @@ import { useI18N } from "@/i18n/use_i18n";
 import AtstGroupModal from "./AtstGroupModal";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 
-const AtstGroupSelect: React.FC<ClaimSecretItemProps> = ({}) => {
+const AtstGroupSelect: React.FC<ClaimSecretItemProps> = ({ atstGroup, setAtstGroup }) => {
   const i18n = useI18N();
 
   const [isOpen, setIsOpen] = React.useState(false);
-  const [atstGroup, setAtstGroup] = React.useState<PrfsAtstGroup | null>(null);
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
@@ -72,4 +71,7 @@ const AtstGroupSelect: React.FC<ClaimSecretItemProps> = ({}) => {
 
 export default AtstGroupSelect;
 
-export interface ClaimSecretItemProps {}
+export interface ClaimSecretItemProps {
+  atstGroup: PrfsAtstGroup | null;
+  setAtstGroup: React.Dispatch<React.SetStateAction<PrfsAtstGroup | null>>;
+}

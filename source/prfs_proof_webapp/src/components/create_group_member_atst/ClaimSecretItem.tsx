@@ -13,7 +13,6 @@ import {
   WALLET_CACHE_KEY,
   WALLET_CM_STEM,
   EncryptType,
-  // createSession,
   createSessionKey,
   openPopup,
   makeWalletAtstCmPreImage,
@@ -21,6 +20,9 @@ import {
   EncryptedReceipt,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
+import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -35,14 +37,20 @@ import {
   AttestationListItemOverlay,
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
-import { ATST_GROUP_ID, CM, GroupMemberAtstFormData } from "./create_group_member_atst";
+import {
+  ATST_GROUP_ID,
+  CM,
+  ENCRYPTED_MEMBER_ID,
+  GroupMemberAtstFormData,
+  MEMBER,
+  MEMBER_ID,
+} from "./create_group_member_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
-import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
-import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
+import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 
-const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
+const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
+  atstGroup,
   formData,
   handleChangeCm,
   walletCacheKeys,
@@ -56,12 +64,20 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
   const claimSecret = React.useMemo(() => {
-    const walletAddr = formData[ATST_GROUP_ID];
-    return makeWalletAtstCmPreImage(walletAddr);
-  }, [formData[ATST_GROUP_ID]]);
+    if (atstGroup) {
+      const walletAddr = atstGroup.atst_group_id;
+      return makeWalletAtstCmPreImage(walletAddr);
+    } else {
+      return "";
+    }
+  }, [atstGroup]);
 
   const handleClickGenerate = React.useCallback(async () => {
-    const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10, WALLET_CM_STEM);
+    if (!atstGroup) {
+      return;
+    }
+
+    const cacheKeyQueries = makeCmCacheKeyQueries(atstGroup.atst_group_id, 5, MEMBER);
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
 
@@ -76,6 +92,12 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
           queryType: QueryType.COMMITMENT,
         },
         ...cacheKeyQueries,
+        {
+          name: ENCRYPTED_MEMBER_ID,
+          msg: formData[MEMBER_ID],
+          type: EncryptType.EC_SECP256K1,
+          queryType: QueryType.ENCRYPT,
+        },
       ],
       public_key: pkHex,
       session_key,
@@ -172,7 +194,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
 
   return (
     <>
-      <AttestationListItem isDisabled={formData[ATST_GROUP_ID]?.length === 0}>
+      <AttestationListItem isDisabled={!atstGroup}>
         <AttestationListItemOverlay />
         <AttestationListItemNo>2</AttestationListItemNo>
         <AttestationListRightCol>
@@ -212,7 +234,8 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
 
 export default ClaimSecretItem;
 
-export interface ClaimSecretItemProps {
+export interface MemberCodeInputProps {
+  atstGroup: PrfsAtstGroup | null;
   handleChangeCm: (cm: string) => void;
   formData: GroupMemberAtstFormData;
   setWalletCacheKeys: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;

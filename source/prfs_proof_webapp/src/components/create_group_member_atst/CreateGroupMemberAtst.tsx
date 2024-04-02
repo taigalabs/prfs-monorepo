@@ -41,11 +41,14 @@ import {
   GroupMemberAtstFormData,
   ATST_GROUP_ID,
   MEMBER_CODE,
+  MEMBER_ID,
+  MEMBER,
 } from "./create_group_member_atst";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
 import AtstGroupSelect from "@/components/atst_group_select/AtstGroupSelect";
-import MemberCodeInput from "./MemberCodeInput";
+import MemberIdInput from "./MemberIdInput";
+import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 
 enum Status {
   Standby,
@@ -53,12 +56,12 @@ enum Status {
 }
 
 function checkIfFormIsFilled(formData: GroupMemberAtstFormData) {
-  if (formData[ATST_GROUP_ID].length < 1) {
-    return false;
-  }
-  if (formData[CM].length < 1) {
-    return false;
-  }
+  // if (formData[ATST_GROUP_ID].length < 1) {
+  //   return false;
+  // }
+  // if (formData[CM].length < 1) {
+  //   return false;
+  // }
 
   return true;
 }
@@ -70,17 +73,15 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const [walletAddrEnc, setWalletAddrEnc] = React.useState<string | null>(null);
   const router = useRouter();
   const [formData, setFormData] = React.useState<GroupMemberAtstFormData>({
-    [ATST_GROUP_ID]: "",
-    [ATST_TYPE_ID]: "",
+    [MEMBER_ID]: "",
     [MEMBER_CODE]: "",
     [CM]: "",
   });
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<Record<string, string> | null>(null);
-  const [fetchAssetStatus, setFetchAssetStatus] = React.useState<Status>(Status.Standby);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [fetchAssetMsg, setFetchAssetMsg] = React.useState<React.ReactNode>(null);
   const [error, setError] = React.useState<React.ReactNode>(null);
-  const [cryptoAssets, setCryptoAssets] = React.useState<CryptoAsset[] | null>(null);
+  const [atstGroup, setAtstGroup] = React.useState<PrfsAtstGroup | null>(null);
   const { mutateAsync: getLeastRecentPrfsIndex } = useMutation({
     mutationFn: (req: GetLeastRecentPrfsIndexRequest) => {
       return prfsApi3({ type: "get_least_recent_prfs_index", prfs_indices: req.prfs_indices });
@@ -96,6 +97,20 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
       return atstApi({ type: "create_crypto_asset_atst", ...req });
     },
   });
+
+  const handleChangeFormData = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value, name } = e.target;
+      if (name === MEMBER_ID) {
+        setFormData(oldVal => ({
+          ...oldVal,
+          [MEMBER_ID]: value,
+        }));
+      }
+    },
+
+    [setFormData],
+  );
 
   // const handleChangeWalletAddr = React.useCallback(
   //   (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,12 +153,18 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   }, [formData]);
 
   const handleClickCreate = React.useCallback(async () => {
-    if (isFormFilled && createStatus === Status.Standby && walletCacheKeys && walletAddrEnc) {
+    if (
+      isFormFilled &&
+      createStatus === Status.Standby &&
+      atstGroup &&
+      walletCacheKeys &&
+      walletAddrEnc
+    ) {
       try {
         setError(null);
         const cm = formData[CM];
         const cm_msg = toUtf8Bytes(cm);
-        const atst_id = `ETH_${formData[ATST_TYPE_ID]}`;
+        const atst_id = `${MEMBER}_${atstGroup}`;
 
         if (atst_id) {
           setCreateStatus(Status.InProgress);
@@ -204,7 +225,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     }
   }, [
     formData,
-    cryptoAssets,
+    atstGroup,
     setIsNavigating,
     createCryptoSizeAtstRequest,
     setError,
@@ -237,19 +258,17 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
                   </AttestationListItemDescTitle>
                 </AttestationListItemDesc>
                 <div className={styles.content}>
-                  <AtstGroupSelect />
+                  <AtstGroupSelect atstGroup={atstGroup} setAtstGroup={setAtstGroup} />
                 </div>
               </AttestationListRightCol>
             </AttestationListItem>
-            <MemberCodeInput
+            <MemberIdInput
+              atstGroup={atstGroup}
               formData={formData}
-              handleChangeCm={handleChangeCm}
-              setWalletCacheKeys={setWalletCacheKeys}
-              setWalletAddrEnc={setWalletAddrEnc}
-              walletCacheKeys={walletCacheKeys}
-              walletAddrEnc={walletAddrEnc}
+              handleChangeMemberInfo={handleChangeFormData}
             />
             <ClaimSecretItem
+              atstGroup={atstGroup}
               formData={formData}
               handleChangeCm={handleChangeCm}
               setWalletCacheKeys={setWalletCacheKeys}
