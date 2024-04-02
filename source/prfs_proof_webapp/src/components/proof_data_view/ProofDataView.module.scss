@@ -1,8 +1,11 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   transition: height 0.4s ease-out;
   padding: 18px 20px 18px;
   border-radius: 10px;
   background-color: var(--bright-gray-50);
+  border-left: none;
 
   > div {
     margin-top: 22px;
@@ -45,6 +48,10 @@
 
 .label {
   font-weight: 500;
+  font-size: inherit;
+  font-size: 1.12em;
+  font-weight: 500;
+  margin-bottom: 3px;
 }
 
 .proofRawSection {
@@ -77,8 +84,11 @@
   align-items: stretch;
   height: auto;
   font-size: 20px;
-  margin-bottom: 12px;
   font-weight: 400;
+
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
 }
 
 .data {
@@ -125,26 +135,23 @@
   }
 }
 
-@media screen and (max-width: 1120px) {
-  .wrapper {
-    border-left: none;
-    margin-top: 54px;
+@media screen and (min-width: $big_display_min_width) {
+  /* .wrapper { */
+  /*   &.isCard { */
+  /*     padding: 0px 0px; */
+  /*   } */
+  /* } */
 
-    &.isCard {
-      padding: 0px 0px;
-    }
-  }
+  /* .title { */
+  /*   margin-bottom: 14px; */
+  /*   display: flex; */
+  /*   align-items: center; */
+  /* } */
 
-  .title {
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-  }
-
-  .label {
-    font-size: inherit;
-    font-size: 1.12em;
-    font-weight: 500;
-    margin-bottom: 3px;
-  }
+  /* .label { */
+  /*   font-size: inherit; */
+  /*   font-size: 1.12em; */
+  /*   font-weight: 500; */
+  /*   margin-bottom: 3px; */
+  /* } */
 }
