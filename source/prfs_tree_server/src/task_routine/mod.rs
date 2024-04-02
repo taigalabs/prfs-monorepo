@@ -56,7 +56,7 @@ async fn do_update_prfs_tree_by_new_atst_task(
     let mut tree_ids = vec![];
     for atst_type_id in atst_type_ids {
         let compute_resp = atst_api_ops::compute_crypto_asset_total_values(&pool, &mut tx).await?;
-        println!("Compute crypto asset payload: {:?}", compute_resp);
+        tracing::debug!("Compute crypto asset payload: {:?}", compute_resp);
 
         let prfs_sets =
             prfs::get_prfs_sets_by_topic__tx(&mut tx, &atst_type_id.to_string()).await?;
@@ -64,9 +64,10 @@ async fn do_update_prfs_tree_by_new_atst_task(
             let (dest_set_id, import_count) =
                 _import_prfs_attestations_to_prfs_set(&mut tx, &atst_type_id, &set.set_id).await?;
 
-            println!(
+            tracing::debug!(
                 "dest_set_id: {}, import_count: {}",
-                dest_set_id, import_count
+                dest_set_id,
+                import_count
             );
 
             let u = U256::random(&mut OsRng);
@@ -81,7 +82,7 @@ async fn do_update_prfs_tree_by_new_atst_task(
     }
 
     tx.commit().await?;
-    println!("Created new trees: {:?}", tree_ids);
+    tracing::info!("Created new trees: {:?}", tree_ids);
 
     Ok(())
 }
