@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod tests;
+
 use crypto_bigint::{Random, U256};
 use rand::rngs::OsRng;
 

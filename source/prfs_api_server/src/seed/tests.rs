@@ -38,7 +38,7 @@ async fn get_db() -> Database2 {
     db2
 }
 
-mod seed_api {
+mod seed_api1 {
     use super::*;
 
     #[tokio::test]
@@ -55,5 +55,19 @@ mod seed_api {
         let db = get_db().await;
 
         upload_prfs_proof_types(&db).await;
+    }
+}
+
+mod seed_api2 {
+    use crate::seed::upload::upload_prfs_atst_groups;
+
+    use super::*;
+
+    #[tokio::test]
+    async fn seed_prfs_atst_group() {
+        prepare().await;
+        let db = get_db().await;
+
+        upload_prfs_atst_groups(&db).await;
     }
 }

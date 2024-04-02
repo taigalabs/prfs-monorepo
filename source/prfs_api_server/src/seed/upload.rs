@@ -4,19 +4,8 @@ use prfs_db_interface::prfs;
 
 use crate::seed::local::{
     load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
-    load_policy_items, load_prfs_accounts, load_proof_types,
+    load_policy_items, load_prfs_accounts, load_prfs_atst_groups, load_proof_types,
 };
-
-// pub async fn upload(db: &Database2) {
-//     // upload_circuit_drivers(&db).await;
-//     // upload_circuit_types(&db).await;
-//     // upload_circuit_input_types(&db).await;
-//     // upload_circuits(&db).await;
-//     upload_proof_types(&db).await;
-//     // upload_dynamic_sets(&db).await;
-//     // upload_policy_items(&db).await;
-//     // upload_prfs_accounts(&db).await;
-// }
 
 pub async fn upload_prfs_accounts(db: &Database2) {
     let pool = &db.pool;
@@ -152,6 +141,20 @@ pub async fn upload_prfs_proof_types(db: &Database2) {
         prfs::insert_prfs_proof_type(&mut tx, proof_type)
             .await
             .unwrap();
+    }
+
+    tx.commit().await.unwrap();
+}
+
+pub async fn upload_prfs_atst_groups(db: &Database2) {
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let atst_groups = load_prfs_atst_groups();
+    println!("atst_groups: {:#?}", atst_groups);
+
+    for atst_group in atst_groups.values() {
+        // prfs::upsert_prfs_circuit(&mut tx, circuit).await.unwrap();
     }
 
     tx.commit().await.unwrap();
