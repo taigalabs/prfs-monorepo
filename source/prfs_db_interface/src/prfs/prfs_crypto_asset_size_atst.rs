@@ -157,7 +157,7 @@ WHERE atst_id=$1
 
     let atst = PrfsAttestation {
         atst_id: row.get("atst_id"),
-        atst_type_id: row.get("atst_type_io"),
+        atst_type_id: row.get("atst_type_id"),
         cm: row.get("cm"),
         label: row.get("label"),
         value: row.get("value"),

@@ -5,6 +5,7 @@ import type { CreateCryptoAssetSizeAtstRequest } from "./CreateCryptoAssetSizeAt
 import type { FetchCryptoAssetRequest } from "./FetchCryptoAssetRequest";
 import type { GetCryptoAssetSizeAtstRequest } from "./GetCryptoAssetSizeAtstRequest";
 import type { GetCryptoAssetSizeAtstsRequest } from "./GetCryptoAssetSizeAtstsRequest";
+import type { GetPrfsAttestationRequest } from "./GetPrfsAttestationRequest";
 import type { GetPrfsAttestationsRequest } from "./GetPrfsAttestationsRequest";
 import type { GetTwitterAccAtstRequest } from "./GetTwitterAccAtstRequest";
 import type { GetTwitterAccAtstsRequest } from "./GetTwitterAccAtstsRequest";
@@ -16,6 +17,7 @@ export type PrfsAtstApiRequest =
   | ({ type: "get_crypto_asset_size_atst" } & GetCryptoAssetSizeAtstRequest)
   | ({ type: "get_crypto_asset_size_atsts" } & GetCryptoAssetSizeAtstsRequest)
   | ({ type: "get_prfs_attestations" } & GetPrfsAttestationsRequest)
+  | ({ type: "get_prfs_attestation" } & GetPrfsAttestationRequest)
   | ({ type: "compute_crypto_asset_size_total_values" } & ComputeCryptoAssetSizeTotalValuesRequest)
   | ({ type: "validate_twitter_acc" } & ValidateTwitterAccRequest)
   | ({ type: "attest_twitter_acc" } & AttestTwitterAccRequest)

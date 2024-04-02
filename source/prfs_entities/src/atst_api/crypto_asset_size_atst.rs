@@ -35,31 +35,6 @@ pub struct CryptoAsset {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetCryptoAssetSizeAtstsRequest {
-    pub offset: i32,
-}
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
-pub struct GetCryptoAssetSizeAtstsResponse {
-    pub rows: Vec<PrfsAttestation>,
-    pub next_offset: Option<i32>,
-}
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
-pub struct GetCryptoAssetSizeAtstRequest {
-    pub atst_id: String,
-}
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
-pub struct GetCryptoAssetSizeAtstResponse {
-    pub prfs_attestation: PrfsAttestation,
-}
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
 pub struct ComputeCryptoAssetSizeTotalValuesRequest {
     pub account_id: String,
 }
@@ -96,7 +71,6 @@ pub struct CreateCryptoAssetSizeAtstRequest {
     pub cm: String,
     pub cm_msg: Vec<u8>,
     pub sig: String,
-    // pub meta: Vec<CryptoAsset>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

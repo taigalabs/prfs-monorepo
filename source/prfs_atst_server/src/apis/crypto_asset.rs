@@ -11,11 +11,13 @@ use prfs_db_interface::prfs;
 use prfs_entities::atst_api::{
     ComputeCryptoAssetSizeTotalValuesRequest, ComputeCryptoAssetSizeTotalValuesResponse,
     CreateCryptoAssetSizeAtstRequest, CreateCryptoAssetSizeAtstResponse, FetchCryptoAssetRequest,
-    FetchCryptoAssetResponse, GetCryptoAssetSizeAtstRequest, GetCryptoAssetSizeAtstResponse,
-    GetCryptoAssetSizeAtstsRequest, GetCryptoAssetSizeAtstsResponse,
+    FetchCryptoAssetResponse,
 };
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
-use prfs_entities::{PrfsAtstTypeId, UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest};
+use prfs_entities::{
+    CreatePrfsAttestationRequest, CreatePrfsAttestationResponse, PrfsAtstTypeId,
+    UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest,
+};
 use prfs_web3_rs::signature::verify_eth_sig_by_addr;
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -28,14 +30,14 @@ pub async fn fetch_crypto_asset(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<FetchCryptoAssetRequest>,
 ) -> (StatusCode, Json<ApiResponse<FetchCryptoAssetResponse>>) {
-    let fetch_result = state
-        .infura_fetcher
-        .fetch_asset(&input.wallet_addr)
-        .await
-        .map_err(|err| {
-            ApiHandleError::from(&PRFS_ATST_API_ERROR_CODES.TWITTER_ACC_VALIDATE_FAIL, err)
-        })
-        .unwrap();
+    let fetch_result = match state.infura_fetcher.fetch_asset(&input.wallet_addr).await {
+        Ok(r) => r,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let resp = ApiResponse::new_success(FetchCryptoAssetResponse {
         wallet_addr: fetch_result.wallet_addr,
@@ -46,13 +48,10 @@ pub async fn fetch_crypto_asset(
 
 pub async fn create_crypto_asset_size_atst(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<CreateCryptoAssetSizeAtstRequest>,
-) -> (
-    StatusCode,
-    Json<ApiResponse<CreateCryptoAssetSizeAtstResponse>>,
-) {
+    Json(input): Json<CreatePrfsAttestationRequest>,
+) -> (StatusCode, Json<ApiResponse<CreatePrfsAttestationResponse>>) {
     let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+    let mut tx = bail_out_tx!(pool, &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR);
 
     if let Err(err) = verify_eth_sig_by_addr(&input.sig, &input.cm_msg, &input.label) {
         let resp = ApiResponse::new_error(
@@ -110,71 +109,12 @@ pub async fn create_crypto_asset_size_atst(
         }
     };
 
-    tx.commit().await.unwrap();
+    bail_out_tx_commit!(tx, &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR);
 
-    let resp = ApiResponse::new_success(CreateCryptoAssetSizeAtstResponse {
+    let resp = ApiResponse::new_success(CreatePrfsAttestationResponse {
         is_valid: true,
         atst_id,
     });
-    return (StatusCode::OK, Json(resp));
-}
-
-// pub async fn get_crypto_asset_size_atsts(
-//     State(state): State<Arc<ServerState>>,
-//     Json(input): Json<GetCryptoAssetSizeAtstsRequest>,
-// ) -> (
-//     StatusCode,
-//     Json<ApiResponse<GetCryptoAssetSizeAtstsResponse>>,
-// ) {
-//     let pool = &state.db2.pool;
-
-//     let rows = match prfs::get_prfs_attestations(
-//         &pool,
-//         &PrfsAtstType::crypto_1,
-//         input.offset,
-//         LIMIT,
-//     )
-//     .await
-//     {
-//         Ok(r) => r,
-//         Err(err) => {
-//             let resp = ApiResponse::new_error(
-//                 &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-//                 format!("error getting crypto asset size atsts: {}", err),
-//             );
-//             return (StatusCode::BAD_REQUEST, Json(resp));
-//         }
-//     };
-
-//     let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
-//         None
-//     } else {
-//         Some(input.offset + LIMIT)
-//     };
-
-//     let resp = ApiResponse::new_success(GetCryptoAssetSizeAtstsResponse { rows, next_offset });
-//     return (StatusCode::OK, Json(resp));
-// }
-
-pub async fn get_crypto_asset_size_atst(
-    State(state): State<Arc<ServerState>>,
-    Json(input): Json<GetCryptoAssetSizeAtstRequest>,
-) -> (
-    StatusCode,
-    Json<ApiResponse<GetCryptoAssetSizeAtstResponse>>,
-) {
-    let pool = &state.db2.pool;
-
-    let prfs_attestation = match prfs::get_prfs_attestation(&pool, &input.atst_id).await {
-        Ok(a) => a,
-        Err(err) => {
-            let resp =
-                ApiResponse::new_error(&PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
-
-    let resp = ApiResponse::new_success(GetCryptoAssetSizeAtstResponse { prfs_attestation });
     return (StatusCode::OK, Json(resp));
 }
 

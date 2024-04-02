@@ -5,14 +5,12 @@ use super::{
     AttestTwitterAccRequest, AttestTwitterAccResponse, ComputeCryptoAssetSizeTotalValuesRequest,
     ComputeCryptoAssetSizeTotalValuesResponse, CreateCryptoAssetSizeAtstRequest,
     CreateCryptoAssetSizeAtstResponse, FetchCryptoAssetRequest, FetchCryptoAssetResponse,
-    GetCryptoAssetSizeAtstRequest, GetCryptoAssetSizeAtstResponse, GetCryptoAssetSizeAtstsRequest,
-    GetCryptoAssetSizeAtstsResponse, GetTwitterAccAtstRequest, GetTwitterAccAtstResponse,
-    GetTwitterAccAtstsRequest, GetTwitterAccAtstsResponse, ValidateTwitterAccRequest,
-    ValidateTwitterAccResponse,
+    GetTwitterAccAtstRequest, GetTwitterAccAtstResponse, GetTwitterAccAtstsRequest,
+    GetTwitterAccAtstsResponse, ValidateTwitterAccRequest, ValidateTwitterAccResponse,
 };
 use crate::{
-    GetPrfsAttestationRequest, GetPrfsAttestationResponse, GetPrfsAttestationsRequest,
-    GetPrfsAttestationsResponse,
+    CreatePrfsAttestationRequest, CreatePrfsAttestationResponse, GetPrfsAttestationRequest,
+    GetPrfsAttestationResponse, GetPrfsAttestationsRequest, GetPrfsAttestationsResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -22,8 +20,7 @@ use crate::{
 pub enum PrfsAtstApiRequest {
     fetch_crypto_asset(FetchCryptoAssetRequest),
     create_crypto_asset_size_atst(CreateCryptoAssetSizeAtstRequest),
-    get_crypto_asset_size_atst(GetCryptoAssetSizeAtstRequest),
-    get_crypto_asset_size_atsts(GetCryptoAssetSizeAtstsRequest),
+    create_prfs_attestation(CreatePrfsAttestationRequest),
     get_prfs_attestations(GetPrfsAttestationsRequest),
     get_prfs_attestation(GetPrfsAttestationRequest),
     compute_crypto_asset_size_total_values(ComputeCryptoAssetSizeTotalValuesRequest),
@@ -40,8 +37,7 @@ pub enum PrfsAtstApiRequest {
 pub enum PrfsAtstApiResponse {
     fetch_crypto_asset(FetchCryptoAssetResponse),
     create_crypto_asset_size_atst(CreateCryptoAssetSizeAtstResponse),
-    get_crypto_asset_size_atst(GetCryptoAssetSizeAtstResponse),
-    get_crypto_asset_size_atsts(GetCryptoAssetSizeAtstsResponse),
+    create_prfs_attestation(CreatePrfsAttestationResponse),
     get_prfs_attestations(GetPrfsAttestationsResponse),
     get_prfs_attestation(GetPrfsAttestationResponse),
     compute_crypto_asset_size_total_values(ComputeCryptoAssetSizeTotalValuesResponse),

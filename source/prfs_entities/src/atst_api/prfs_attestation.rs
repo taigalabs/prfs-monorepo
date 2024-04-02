@@ -29,3 +29,22 @@ pub struct GetPrfsAttestationRequest {
 pub struct GetPrfsAttestationResponse {
     pub prfs_attestation: PrfsAttestation,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreatePrfsAttestationRequest {
+    pub atst_id: String,
+    pub atst_type_id: PrfsAtstTypeId,
+    pub label: String,
+    pub serial_no: String,
+    pub cm: String,
+    pub cm_msg: Vec<u8>,
+    pub sig: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreatePrfsAttestationResponse {
+    pub is_valid: bool,
+    pub atst_id: String,
+}

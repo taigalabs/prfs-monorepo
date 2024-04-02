@@ -13,8 +13,6 @@ pub const ATST_API_V0: &'static str = "/atst_api/v0";
 
 pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
     make_prfs_atst_api_error_code_json_binding().unwrap();
-
-    // Try to instantiate
     Envs::new();
 
     let router = Router::new() //
@@ -26,14 +24,6 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
             "/create_crypto_asset_size_atst",
             post(crypto_asset::create_crypto_asset_size_atst),
         )
-        // .route(
-        //     "/get_crypto_asset_size_atsts",
-        //     post(crypto_asset::get_crypto_asset_size_atsts),
-        // )
-        // .route(
-        //     "/get_crypto_asset_size_atst",
-        //     post(crypto_asset::get_crypto_asset_size_atst),
-        // )
         .route(
             "/get_prfs_attestations",
             post(prfs_attestations::get_prfs_attestations),
