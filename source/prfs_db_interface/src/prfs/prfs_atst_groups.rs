@@ -37,3 +37,31 @@ OFFSET $2
 
     Ok(atsts)
 }
+
+pub async fn upsert_prfs_atst_group(
+    tx: &mut Transaction<'_, Postgres>,
+    atst_group: &PrfsAtstGroup,
+) -> Result<String, DbInterfaceError> {
+    let query = r#"
+INSERT INTO prfs_atst_groups
+(atst_group_id, label, "desc")
+VALUES ($1, $2, $3)
+ON CONFLICT (atst_group_id) DO UPDATE SET (
+atst_group_id, label, "desc", updated_at
+) = (
+excluded.atst_group_id, excluded.label, excluded.desc, now()
+)
+RETURNING atst_group_id
+"#;
+
+    let row = sqlx::query(query)
+        .bind(&atst_group.atst_group_id)
+        .bind(&atst_group.label)
+        .bind(&atst_group.desc)
+        .fetch_one(&mut **tx)
+        .await?;
+
+    let circuit_id: String = row.try_get("atst_group_id")?;
+
+    Ok(circuit_id)
+}

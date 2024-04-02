@@ -154,7 +154,9 @@ pub async fn upload_prfs_atst_groups(db: &Database2) {
     println!("atst_groups: {:#?}", atst_groups);
 
     for atst_group in atst_groups.values() {
-        // prfs::upsert_prfs_circuit(&mut tx, circuit).await.unwrap();
+        prfs::upsert_prfs_atst_group(&mut tx, atst_group)
+            .await
+            .unwrap();
     }
 
     tx.commit().await.unwrap();
