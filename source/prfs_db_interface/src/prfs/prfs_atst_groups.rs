@@ -30,6 +30,7 @@ OFFSET $2
         .iter()
         .map(|row| PrfsAtstGroup {
             atst_group_id: row.get("atst_group_id"),
+            atst_type_id: row.get("atst_type_id"),
             label: row.get("label"),
             desc: row.get("desc"),
         })
@@ -44,12 +45,12 @@ pub async fn upsert_prfs_atst_group(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_atst_groups
-(atst_group_id, label, "desc")
-VALUES ($1, $2, $3)
+(atst_group_id, label, "desc", atst_type_id)
+VALUES ($1, $2, $3, $4)
 ON CONFLICT (atst_group_id) DO UPDATE SET (
-atst_group_id, label, "desc", updated_at
+atst_group_id, label, "desc", atst_type_id, updated_at
 ) = (
-excluded.atst_group_id, excluded.label, excluded.desc, now()
+excluded.atst_group_id, excluded.label, excluded.desc, excluded.atst_type_id, now()
 )
 RETURNING atst_group_id
 "#;
@@ -58,6 +59,7 @@ RETURNING atst_group_id
         .bind(&atst_group.atst_group_id)
         .bind(&atst_group.label)
         .bind(&atst_group.desc)
+        .bind(&atst_group.atst_type_id)
         .fetch_one(&mut **tx)
         .await?;
 

@@ -9,4 +9,5 @@ use ts_rs::TS;
 #[ts(export)]
 pub enum PrfsAtstTypeId {
     crypto_1,
+    nonce_seoul_1,
 }

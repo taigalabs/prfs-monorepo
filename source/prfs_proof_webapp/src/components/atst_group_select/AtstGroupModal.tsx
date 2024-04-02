@@ -3,11 +3,12 @@ import cn from "classnames";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsAtstGroupsRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAtstGroupsRequest";
 import { atstApi } from "@taigalabs/prfs-api-js";
+import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 
 import styles from "./AtstGroupModal.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 
-const AtstGroupModal: React.FC<AtstGroupModalProps> = ({}) => {
+const AtstGroupModal: React.FC<AtstGroupModalProps> = ({ handleSelectGroup, setIsOpen }) => {
   const i18n = useI18N();
   const { data, isFetching, error } = useQuery({
     queryKey: ["get_prfs_atst_groups"],
@@ -26,8 +27,13 @@ const AtstGroupModal: React.FC<AtstGroupModalProps> = ({}) => {
       }
 
       return data.payload.rows.map(r => {
+        const extendedHandleSelectGroup = () => {
+          handleSelectGroup(r);
+          setIsOpen(false);
+        };
+
         return (
-          <div key={r.atst_group_id} className={styles.entry}>
+          <div key={r.atst_group_id} className={styles.entry} onClick={extendedHandleSelectGroup}>
             {r.label}
           </div>
         );
@@ -35,11 +41,14 @@ const AtstGroupModal: React.FC<AtstGroupModalProps> = ({}) => {
     } else {
       return null;
     }
-  }, [data]);
+  }, [data, handleSelectGroup, setIsOpen]);
 
   return <div className={styles.wrapper}>{elems}</div>;
 };
 
 export default AtstGroupModal;
 
-export interface AtstGroupModalProps {}
+export interface AtstGroupModalProps {
+  handleSelectGroup: (group: PrfsAtstGroup) => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
