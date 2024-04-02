@@ -36,10 +36,11 @@ import {
 } from "@/components/create_attestation/CreateAtstComponents";
 import { paths } from "@/paths";
 import {
-  CryptoAssetSizeAtstFormData,
-  SIGNATURE,
   CM,
-  WALLET_ADDR,
+  ATST_TYPE_ID,
+  GroupMemberAtstFormData,
+  ATST_GROUP_ID,
+  MEMBER_CODE,
 } from "./create_group_member_atst";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
@@ -51,14 +52,11 @@ enum Status {
   InProgress,
 }
 
-function checkIfFormIsFilled(formData: CryptoAssetSizeAtstFormData) {
-  if (formData[WALLET_ADDR].length < 1) {
+function checkIfFormIsFilled(formData: GroupMemberAtstFormData) {
+  if (formData[ATST_GROUP_ID].length < 1) {
     return false;
   }
   if (formData[CM].length < 1) {
-    return false;
-  }
-  if (formData[SIGNATURE].length < 1) {
     return false;
   }
 
@@ -71,9 +69,10 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const [isSigValid, setIsSigValid] = React.useState(false);
   const [walletAddrEnc, setWalletAddrEnc] = React.useState<string | null>(null);
   const router = useRouter();
-  const [formData, setFormData] = React.useState<CryptoAssetSizeAtstFormData>({
-    [WALLET_ADDR]: "",
-    [SIGNATURE]: "",
+  const [formData, setFormData] = React.useState<GroupMemberAtstFormData>({
+    [ATST_GROUP_ID]: "",
+    [ATST_TYPE_ID]: "",
+    [MEMBER_CODE]: "",
     [CM]: "",
   });
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<Record<string, string> | null>(null);
@@ -98,25 +97,25 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     },
   });
 
-  const handleChangeWalletAddr = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value, name } = e.target;
+  // const handleChangeWalletAddr = React.useCallback(
+  //   (e: React.ChangeEvent<HTMLInputElement>) => {
+  //     const { value, name } = e.target;
 
-      if (name === WALLET_ADDR) {
-        setFormData(_ => ({
-          [WALLET_ADDR]: value,
-          [SIGNATURE]: "",
-          [CM]: "",
-        }));
-      }
+  //     if (name === WALLET_ADDR) {
+  //       setFormData(_ => ({
+  //         [WALLET_ADDR]: value,
+  //         [SIGNATURE]: "",
+  //         [CM]: "",
+  //       }));
+  //     }
 
-      if (cryptoAssets) {
-        setCryptoAssets(null);
-        setFetchAssetMsg(null);
-      }
-    },
-    [setFormData, setCryptoAssets, cryptoAssets, setFetchAssetMsg],
-  );
+  //     if (cryptoAssets) {
+  //       setCryptoAssets(null);
+  //       setFetchAssetMsg(null);
+  //     }
+  //   },
+  //   [setFormData, setCryptoAssets, cryptoAssets, setFetchAssetMsg],
+  // );
 
   const handleChangeCm = React.useCallback(
     (cm: string) => {
@@ -141,20 +140,10 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const handleClickCreate = React.useCallback(async () => {
     if (isFormFilled && createStatus === Status.Standby && walletCacheKeys && walletAddrEnc) {
       try {
-        const sig = formData[SIGNATURE];
-        const wallet_addr = formData[WALLET_ADDR];
-        const cm = formData[CM];
-
-        const cm_msg = toUtf8Bytes(cm);
-        const recoveredAddr = walletUtils.verifyMessage(cm_msg, sig);
-
-        if (recoveredAddr !== wallet_addr) {
-          setError(<span>Signature is not valid</span>);
-        }
-
-        // For now, we don't obfuscate attestation id
-        const atst_id = `ETH_${formData[WALLET_ADDR]}`;
         setError(null);
+        const cm = formData[CM];
+        const cm_msg = toUtf8Bytes(cm);
+        const atst_id = `ETH_${formData[ATST_TYPE_ID]}`;
 
         if (atst_id) {
           setCreateStatus(Status.InProgress);
@@ -178,35 +167,35 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
             return;
           }
 
-          const wallet_addr = formData[WALLET_ADDR];
+          // const wallet_addr = formData[WALLET_ADDR];
           const cm = formData[CM];
-          const { payload, error } = await createCryptoSizeAtstRequest({
-            atst_id,
-            atst_type_id: "crypto_1",
-            label: wallet_addr,
-            serial_no: "empty",
-            cm,
-            cm_msg: Array.from(cm_msg),
-            sig,
-          });
+          // const { payload, error } = await createCryptoSizeAtstRequest({
+          //   atst_id,
+          //   atst_type_id: "crypto_1",
+          //   label: wallet_addr,
+          //   serial_no: "empty",
+          //   cm,
+          //   cm_msg: Array.from(cm_msg),
+          //   sig,
+          // });
           setCreateStatus(Status.Standby);
 
-          if (error) {
-            setError(<span>{error.toString()}</span>);
-            setCreateStatus(Status.Standby);
-            return;
-          }
+          // if (error) {
+          //   setError(<span>{error.toString()}</span>);
+          //   setCreateStatus(Status.Standby);
+          //   return;
+          // }
 
-          if (payload) {
-            setIsNavigating(true);
-            router.push(paths.attestations__crypto_asset);
-          }
+          // if (payload) {
+          //   setIsNavigating(true);
+          //   router.push(paths.attestations__crypto_asset);
+          // }
 
-          await addPrfsIndexRequest({
-            key: prfs_index,
-            value: walletAddrEnc,
-            serial_no: "empty",
-          });
+          // await addPrfsIndexRequest({
+          //   key: prfs_index,
+          //   value: walletAddrEnc,
+          //   serial_no: "empty",
+          // });
         }
       } catch (err: any) {
         setError(<span>{err.toString()}</span>);

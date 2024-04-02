@@ -13,7 +13,6 @@ import {
   WALLET_CACHE_KEY,
   WALLET_CM_STEM,
   EncryptType,
-  // createSession,
   createSessionKey,
   openPopup,
   makeWalletAtstCmPreImage,
@@ -38,12 +37,7 @@ import {
   AttestationListItemOverlay,
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
-import {
-  CM,
-  CryptoAssetSizeAtstFormData,
-  ENCRYPT_WALLET_ADDR,
-  WALLET_ADDR,
-} from "./create_group_member_atst";
+import { ATST_GROUP_ID, CM, GroupMemberAtstFormData } from "./create_group_member_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
 
@@ -61,9 +55,9 @@ const MemberCodeInput: React.FC<MemberCodeInputProps> = ({
   const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
   const claimSecret = React.useMemo(() => {
-    const walletAddr = formData[WALLET_ADDR];
+    const walletAddr = formData[ATST_GROUP_ID];
     return makeWalletAtstCmPreImage(walletAddr);
-  }, [formData[WALLET_ADDR]]);
+  }, [formData[ATST_GROUP_ID]]);
 
   const handleClickGenerate = React.useCallback(async () => {
     const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10, WALLET_CM_STEM);
@@ -81,12 +75,12 @@ const MemberCodeInput: React.FC<MemberCodeInputProps> = ({
           queryType: QueryType.COMMITMENT,
         },
         ...cacheKeyQueries,
-        {
-          name: ENCRYPT_WALLET_ADDR,
-          msg: formData[WALLET_ADDR],
-          type: EncryptType.EC_SECP256K1,
-          queryType: QueryType.ENCRYPT,
-        },
+        // {
+        //   name: ENCRYPT_WALLET_ADDR,
+        //   msg: formData[WALLET_ADDR],
+        //   type: EncryptType.EC_SECP256K1,
+        //   queryType: QueryType.ENCRYPT,
+        // },
       ],
       public_key: pkHex,
       session_key,
@@ -156,8 +150,8 @@ const MemberCodeInput: React.FC<MemberCodeInputProps> = ({
       }
 
       const cm: CommitmentReceipt = payload.receipt[CM];
-      const walletAddrEncrypted: EncryptedReceipt = payload.receipt[ENCRYPT_WALLET_ADDR];
-      const { [CM]: _cm, [ENCRYPT_WALLET_ADDR]: _enc, ...rest } = payload.receipt;
+      // const walletAddrEncrypted: EncryptedReceipt = payload.receipt[ENCRYPT_WALLET_ADDR];
+      const { [CM]: _cm, ...rest } = payload.receipt;
 
       const rest_: Record<string, CommitmentReceipt> = rest;
       const walletCacheKeys: Record<string, string> = {};
@@ -165,25 +159,25 @@ const MemberCodeInput: React.FC<MemberCodeInputProps> = ({
         walletCacheKeys[key] = rest_[key].commitment;
       }
 
-      if (cm?.commitment && walletAddrEncrypted?.encrypted) {
-        handleChangeCm(cm.commitment);
-        setWalletCacheKeys(walletCacheKeys);
-        setWalletAddrEnc(walletAddrEncrypted.encrypted);
-      } else {
-        dispatch(
-          setGlobalError({
-            message: `No commitment delivered`,
-          }),
-        );
-        return;
-      }
+      // if (cm?.commitment && walletAddrEncrypted?.encrypted) {
+      //   handleChangeCm(cm.commitment);
+      //   setWalletCacheKeys(walletCacheKeys);
+      //   setWalletAddrEnc(walletAddrEncrypted.encrypted);
+      // } else {
+      //   dispatch(
+      //     setGlobalError({
+      //       message: `No commitment delivered`,
+      //     }),
+      //   );
+      //   return;
+      // }
     },
     [sk, dispatch],
   );
 
   return (
     <>
-      <AttestationListItem isDisabled={formData[WALLET_ADDR]?.length === 0}>
+      <AttestationListItem isDisabled={formData[ATST_GROUP_ID]?.length === 0}>
         <AttestationListItemOverlay />
         <AttestationListItemNo>2</AttestationListItemNo>
         <AttestationListRightCol>
@@ -225,7 +219,7 @@ export default MemberCodeInput;
 
 export interface MemberCodeInputProps {
   handleChangeCm: (cm: string) => void;
-  formData: CryptoAssetSizeAtstFormData;
+  formData: GroupMemberAtstFormData;
   setWalletCacheKeys: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
   setWalletAddrEnc: React.Dispatch<React.SetStateAction<string | null>>;
   walletCacheKeys: Record<string, string> | null;

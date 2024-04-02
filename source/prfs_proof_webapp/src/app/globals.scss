@@ -13,8 +13,8 @@
 }
 
 html {
-  font-family: "Roboto", "-apple-system", "system-ui", "BlinkMacSystemFont", "Segoe UI", Arial,
-    "Helvetica Neue", sans-serif;
+  /* font-family: "Roboto", "-apple-system", "system-ui", "BlinkMacSystemFont", "Segoe UI", Arial, */
+  /*   "Helvetica Neue", sans-serif; */
   height: 100%;
 }
 
@@ -38,8 +38,7 @@ input,
 select,
 option,
 textarea {
-  font-family: "Roboto", "-apple-system", "system-ui", "BlinkMacSystemFont", "Segoe UI", Arial,
-    "Helvetica Neue", sans-serif;
+  font-family: inherit;
 }
 
 a {
