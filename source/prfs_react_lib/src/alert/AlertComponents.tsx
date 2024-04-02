@@ -6,10 +6,10 @@ import { IoWarningOutline } from "@react-icons/all-files/io5/IoWarningOutline";
 
 import styles from "./AlertComponents.module.scss";
 
-export const AlertWrapper: React.FC<AlertProps> = ({ children, variant, rounded }) => {
+export const AlertWrapper: React.FC<AlertProps> = ({ children, variant, rounded, className }) => {
   return (
     <div
-      className={cn(styles.wrapper, {
+      className={cn(styles.wrapper, className, {
         [styles.warn]: variant === "warn",
         [styles.error]: variant === "error",
         [styles.rounded]: rounded,
@@ -30,6 +30,7 @@ export const AlertBtnGroup: React.FC<AlertBtnGroupProps> = ({ children }) => {
 };
 
 export interface AlertProps {
+  className?: string;
   children: React.ReactNode;
   variant: "error" | "warn";
   rounded?: boolean;

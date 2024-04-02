@@ -32,7 +32,7 @@ const GlobalMsgHeader: React.FC<PrfsIdErrorDialogProps> = ({}) => {
 
     const content = (
       <GlobalMsgHeaderWrapper>
-        <AlertWrapper variant="warn">
+        <AlertWrapper variant="warn" className={styles.alert}>
           <AlertContent>
             <p>{globalMsg.message}</p>
           </AlertContent>
