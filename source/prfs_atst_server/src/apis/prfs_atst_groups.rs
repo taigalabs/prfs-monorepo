@@ -19,10 +19,8 @@ pub async fn get_prfs_atst_groups(
     let rows = match prfs::get_prfs_atst_groups(&pool, input.offset, LIMIT).await {
         Ok(r) => r,
         Err(err) => {
-            let resp = ApiResponse::new_error(
-                &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!("error getting crypto asset size atsts: {}", err),
-            );
+            let resp =
+                ApiResponse::new_error(&PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };

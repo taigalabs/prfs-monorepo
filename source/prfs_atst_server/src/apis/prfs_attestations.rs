@@ -23,7 +23,7 @@ pub async fn get_prfs_attestations(
             Err(err) => {
                 let resp = ApiResponse::new_error(
                     &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                    format!("error getting crypto asset size atsts: {}", err),
+                    format!("error getting prfs attestations: {}", err),
                 );
                 return (StatusCode::BAD_REQUEST, Json(resp));
             }

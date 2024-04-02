@@ -16,8 +16,8 @@ pub async fn get_prfs_atst_groups(
 SELECT *
 FROM prfs_atst_groups
 ORDER BY created_at
-LIMIT $2
-OFFSET $3
+LIMIT $1
+OFFSET $2
 "#;
 
     let rows = sqlx::query(query)

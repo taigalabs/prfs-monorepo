@@ -34,7 +34,7 @@ const AtstGroupSelect: React.FC<ClaimSecretItemProps> = ({}) => {
     open: isOpen,
     onOpenChange: setIsOpen,
     placement: "bottom-end",
-    middleware: [offset(10), flip({ fallbackAxisSideDirection: "end" }), shift()],
+    middleware: [offset(0), flip({ fallbackAxisSideDirection: "start" }), shift()],
     whileElementsMounted: autoUpdate,
   });
   const click = useClick(context);
@@ -42,8 +42,6 @@ const AtstGroupSelect: React.FC<ClaimSecretItemProps> = ({}) => {
   const role = useRole(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, role]);
   const headingId = useId();
-  // const content = React.useMemo(() => {
-  // }, [tooltip]);
 
   return (
     <div className={styles.wrapper}>
