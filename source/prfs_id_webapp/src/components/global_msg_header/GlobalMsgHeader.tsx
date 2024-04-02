@@ -2,7 +2,7 @@
 
 import React from "react";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
-import GlobalMsgHeader_ from "@taigalabs/prfs-react-lib/src/global_msg_header/GlobalMsgHeader";
+import { GlobalMsgHeaderWrapper } from "@taigalabs/prfs-react-lib/src/global_msg_header/GlobalMsgHeaderComponents";
 import {
   AlertWrapper,
   AlertContent,
@@ -29,7 +29,7 @@ const GlobalMsgHeader: React.FC<PrfsIdErrorDialogProps> = ({}) => {
   return (
     globalMsg && (
       <Overlay className={styles.overlay}>
-        <GlobalMsgHeader_>
+        <GlobalMsgHeaderWrapper>
           <AlertWrapper variant="warn">
             <AlertContent>
               {/* <IoWarningOutline /> */}
@@ -43,7 +43,7 @@ const GlobalMsgHeader: React.FC<PrfsIdErrorDialogProps> = ({}) => {
               )}
             </AlertBtnGroup>
           </AlertWrapper>
-        </GlobalMsgHeader_>
+        </GlobalMsgHeaderWrapper>
       </Overlay>
     )
   );

@@ -2,8 +2,8 @@
 
 import React from "react";
 import cn from "classnames";
-import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
-// import { IoWarningOutline } from "@react-icons/all-files/io5/IoWarningOutline";
+// import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
+import { IoWarningOutline } from "@react-icons/all-files/io5/IoWarningOutline";
 
 import styles from "./AlertComponents.module.scss";
 
@@ -16,7 +16,7 @@ export const AlertWrapper: React.FC<AlertProps> = ({ children, variant, rounded 
         [styles.rounded]: rounded,
       })}
     >
-      <IoMdAlert className={styles.img} />
+      <IoWarningOutline className={styles.img} />
       {children}
     </div>
   );

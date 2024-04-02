@@ -1,6 +1,20 @@
 .wrapper {
   width: 100%;
   padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  font-size: 16px;
+
+  > svg {
+    font-size: 22px;
+    margin-right: 10px;
+  }
 }
 
 .error {
@@ -8,11 +22,12 @@
     background-color: rgb(253, 237, 237);
   }
 
+  > svg {
+    color: rgb(211, 47, 47);
+  }
+
   .content {
     color: rgb(95, 33, 32);
-    > svg {
-      color: rgb(211, 47, 47);
-    }
   }
 
   .btnGroup {
@@ -25,11 +40,12 @@
     background-color: rgb(255, 244, 229);
   }
 
+  > svg {
+    color: rgb(237, 108, 2);
+  }
+
   .content {
     color: rgb(102, 60, 0);
-    > svg {
-      color: rgb(237, 108, 2);
-    }
   }
 
   .btnGroup {
@@ -45,17 +61,6 @@
   vertical-align: middle;
   font-size: 18px;
   margin-right: 6px;
-}
-
-.content {
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-
-  > svg {
-    font-size: 22px;
-    margin-right: 10px;
-  }
 }
 
 .btnGroup {

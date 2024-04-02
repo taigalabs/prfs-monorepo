@@ -2,7 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
-import GlobalMsgHeader from "@taigalabs/prfs-react-lib/src/global_msg_header/GlobalMsgHeader";
+import { GlobalMsgHeaderWrapper } from "@taigalabs/prfs-react-lib/src/global_msg_header/GlobalMsgHeaderComponents";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { removeGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
@@ -25,7 +25,7 @@ const GlobalErrorDialog: React.FC<GlobalErrorDialogProps> = ({}) => {
   return (
     error && (
       <Overlay className={styles.wrapper} fixed>
-        <GlobalMsgHeader>
+        <GlobalMsgHeaderWrapper>
           <AlertWrapper variant="error">
             <AlertContent>
               <p>{error.message}</p>
@@ -36,7 +36,7 @@ const GlobalErrorDialog: React.FC<GlobalErrorDialogProps> = ({}) => {
               </button>
             </AlertBtnGroup>
           </AlertWrapper>
-        </GlobalMsgHeader>
+        </GlobalMsgHeaderWrapper>
       </Overlay>
     )
   );

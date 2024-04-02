@@ -3,13 +3,11 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./GlobalMsgHeader.module.scss";
+import styles from "./GlobalMsgHeaderComponents.module.scss";
 
-const GlobalMsgHeader: React.FC<GlobalErrorDialogProps> = ({ children }) => {
+export const GlobalMsgHeaderWrapper: React.FC<GlobalErrorDialogProps> = ({ children }) => {
   return <div className={styles.wrapper}>{children}</div>;
 };
-
-export default GlobalMsgHeader;
 
 export interface GlobalErrorDialogProps {
   children: React.ReactNode;
