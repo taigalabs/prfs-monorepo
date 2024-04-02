@@ -13,10 +13,10 @@ export async function makeAppSignInCm(sk: string, appId: string) {
   return sigPoseidon(sk, appId);
 }
 
-export function makeWalletAtstCmPreImage(walletAddr: string) {
-  return `${PRFS_ATTESTATION_STEM}${walletAddr}`;
+export function makeAtstCmPreImage(arg: string) {
+  return `${PRFS_ATTESTATION_STEM}${arg}`;
 }
 
-export function makeWalletAtstCm(sk: string, walletAddr: string) {
-  return sigPoseidon(sk, makeWalletAtstCmPreImage(walletAddr));
+export function makeAtstCm(sk: string, arg: string) {
+  return sigPoseidon(sk, makeAtstCmPreImage(arg));
 }

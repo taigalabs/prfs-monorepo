@@ -14,7 +14,8 @@ use prfs_entities::atst_api::{
 };
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_entities::{
-    CreatePrfsAttestationRequest, CreatePrfsAttestationResponse, UpdatePrfsTreeByNewAtstRequest,
+    CreatePrfsAttestationRequest, CreatePrfsAttestationResponse, PrfsAtstVersion,
+    UpdatePrfsTreeByNewAtstRequest,
 };
 use prfs_web3_rs::signature::verify_eth_sig_by_addr;
 use rust_decimal::Decimal;
@@ -78,6 +79,7 @@ pub async fn create_crypto_asset_atst(
         meta: JsonType::from(crypto_assets),
         status: PrfsAtstStatus::Valid,
         value: Decimal::from(0),
+        atst_version: PrfsAtstVersion::v0_2,
     };
 
     let atst_id = match prfs::insert_prfs_attestation(&mut tx, &prfs_attestation).await {

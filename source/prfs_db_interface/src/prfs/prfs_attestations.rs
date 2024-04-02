@@ -13,13 +13,13 @@ pub async fn insert_prfs_attestation(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_attestations
-(atst_id, atst_type_id, label, cm, meta, value, status)
-VALUES ($1, $2, $3, $4, $5, $6, $7)
+(atst_id, atst_type_id, label, cm, meta, value, status, atst_version)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 ON CONFLICT (atst_id) DO UPDATE SET (
-atst_type_id, label, cm, meta, updated_at, value, status
+atst_type_id, label, cm, meta, updated_at, value, status, atst_version
 ) = (
 excluded.atst_type_id, excluded.label, excluded.cm, excluded.meta,
-now(), excluded.value, excluded.status
+now(), excluded.value, excluded.status, excluded.atst_version
 )
 RETURNING atst_id"#;
 
@@ -31,6 +31,7 @@ RETURNING atst_id"#;
         .bind(&prfs_attestation.meta)
         .bind(&prfs_attestation.value)
         .bind(&prfs_attestation.status)
+        .bind(&prfs_attestation.atst_version)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -46,7 +47,7 @@ pub async fn insert_prfs_attestations(
     let mut query_builder: QueryBuilder<_> = QueryBuilder::new(
         r#"
 INSERT INTO prfs_attestations
-(atst_id, atst_type_id, label, cm, meta, value, status) 
+(atst_id, atst_type_id, label, cm, meta, value, status, atst_version) 
 "#,
     );
 
@@ -59,17 +60,18 @@ INSERT INTO prfs_attestations
                 .push_bind(&atst.cm)
                 .push_bind(&atst.meta)
                 .push_bind(&atst.value)
-                .push_bind(&atst.status);
+                .push_bind(&atst.status)
+                .push_bind(&atst.atst_version);
         },
     );
 
     query_builder.push(
         r#"
 ON CONFLICT (atst_id) DO UPDATE SET (
-atst_type_id, label, cm, meta, updated_at, value, status
+atst_type_id, label, cm, meta, updated_at, value, status, atst_version
 ) = (
 excluded.atst_type_id, excluded.label, excluded.cm, excluded.meta,
-now(), excluded.value, excluded.status
+now(), excluded.value, excluded.status, excluded.atst_version
 )
     "#,
     );
@@ -105,6 +107,7 @@ pub async fn get_prfs_attestations(
             value: row.get("value"),
             meta: row.get("meta"),
             status: row.get("status"),
+            atst_version: row.get("atst_version"),
         })
         .collect();
 
@@ -137,6 +140,7 @@ pub async fn get_prfs_attestations__tx(
             value: row.get("value"),
             meta: row.get("meta"),
             status: row.get("status"),
+            atst_version: row.get("atst_version"),
         })
         .collect();
 
@@ -163,6 +167,7 @@ WHERE atst_id=$1
         value: row.get("value"),
         meta: row.get("meta"),
         status: row.get("status"),
+        atst_version: row.get("atst_version"),
     };
 
     Ok(atst)

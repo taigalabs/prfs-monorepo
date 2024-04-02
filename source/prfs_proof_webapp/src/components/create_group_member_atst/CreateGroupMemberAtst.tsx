@@ -101,10 +101,18 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const handleChangeFormData = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value, name } = e.target;
+
       if (name === MEMBER_ID) {
         setFormData(oldVal => ({
           ...oldVal,
           [MEMBER_ID]: value,
+        }));
+      }
+
+      if (name === MEMBER_CODE) {
+        setFormData(oldVal => ({
+          ...oldVal,
+          [MEMBER_CODE]: value,
         }));
       }
     },
@@ -276,11 +284,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
               walletCacheKeys={walletCacheKeys}
               walletAddrEnc={walletAddrEnc}
             />
-            {/* <SignatureItem */}
-            {/*   formData={formData} */}
-            {/*   setFormData={setFormData} */}
-            {/*   setIsSigValid={setIsSigValid} */}
-            {/* /> */}
           </ol>
           <AttestationFormBtnRow>
             <div className={styles.createBtnRow}>

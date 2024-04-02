@@ -48,7 +48,7 @@ const MemberIdInput: React.FC<EncryptedWalletAddrItemProps> = ({
             <div>
               <p className={styles.guide}>Did you get a code to become registered in the group?</p>
               <Input
-                name={MEMBER_ID}
+                name={MEMBER_CODE}
                 label={i18n.member_code}
                 value={formData[MEMBER_CODE]}
                 type="text"

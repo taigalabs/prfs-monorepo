@@ -15,9 +15,9 @@ import {
   EncryptType,
   createSessionKey,
   openPopup,
-  makeWalletAtstCmPreImage,
   CommitmentReceipt,
   EncryptedReceipt,
+  makeAtstCmPreImage,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
@@ -65,8 +65,8 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   const dispatch = useAppDispatch();
   const claimSecret = React.useMemo(() => {
     if (atstGroup) {
-      const walletAddr = atstGroup.atst_group_id;
-      return makeWalletAtstCmPreImage(walletAddr);
+      const salt = atstGroup.atst_group_id;
+      return makeAtstCmPreImage(salt);
     } else {
       return "";
     }

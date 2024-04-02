@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use super::prfs_atst_status::PrfsAtstStatus;
-use crate::{atst_api::CryptoAsset, PrfsAtstTypeId};
+use crate::{atst_api::CryptoAsset, PrfsAtstTypeId, PrfsAtstVersion};
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
@@ -17,4 +17,5 @@ pub struct PrfsAttestation {
     pub status: PrfsAtstStatus,
     #[ts(type = "string")]
     pub value: Decimal,
+    pub atst_version: PrfsAtstVersion,
 }

@@ -16,7 +16,7 @@ import {
   // createSession,
   createSessionKey,
   openPopup,
-  makeWalletAtstCmPreImage,
+  makeAtstCmPreImage,
   CommitmentReceipt,
   EncryptedReceipt,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -62,7 +62,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   const dispatch = useAppDispatch();
   const claimSecret = React.useMemo(() => {
     const walletAddr = formData[WALLET_ADDR];
-    return makeWalletAtstCmPreImage(walletAddr);
+    return makeAtstCmPreImage(walletAddr);
   }, [formData[WALLET_ADDR]]);
 
   const handleClickGenerate = React.useCallback(async () => {
