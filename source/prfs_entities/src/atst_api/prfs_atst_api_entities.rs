@@ -2,8 +2,8 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use super::{
-    AttestTwitterAccRequest, AttestTwitterAccResponse, ComputeCryptoAssetSizeTotalValuesRequest,
-    ComputeCryptoAssetSizeTotalValuesResponse, FetchCryptoAssetRequest, FetchCryptoAssetResponse,
+    AttestTwitterAccRequest, AttestTwitterAccResponse, ComputeCryptoAssetTotalValuesRequest,
+    ComputeCryptoAssetTotalValuesResponse, FetchCryptoAssetRequest, FetchCryptoAssetResponse,
     GetTwitterAccAtstRequest, GetTwitterAccAtstResponse, GetTwitterAccAtstsRequest,
     GetTwitterAccAtstsResponse, ValidateTwitterAccRequest, ValidateTwitterAccResponse,
 };
@@ -18,8 +18,8 @@ use crate::{
 #[ts(export)]
 pub enum PrfsAtstApiRequest {
     fetch_crypto_asset(FetchCryptoAssetRequest),
-    compute_crypto_asset_size_total_values(ComputeCryptoAssetSizeTotalValuesRequest),
-    create_crypto_asset_size_atst(CreatePrfsAttestationRequest),
+    compute_crypto_asset_total_values(ComputeCryptoAssetTotalValuesRequest),
+    create_crypto_asset_atst(CreatePrfsAttestationRequest),
     create_prfs_attestation(CreatePrfsAttestationRequest),
     get_prfs_attestations(GetPrfsAttestationsRequest),
     get_prfs_attestation(GetPrfsAttestationRequest),
@@ -35,8 +35,8 @@ pub enum PrfsAtstApiRequest {
 #[ts(export)]
 pub enum PrfsAtstApiResponse {
     fetch_crypto_asset(FetchCryptoAssetResponse),
-    compute_crypto_asset_size_total_values(ComputeCryptoAssetSizeTotalValuesResponse),
-    create_crypto_asset_size_atst(CreatePrfsAttestationResponse),
+    compute_crypto_asset_total_values(ComputeCryptoAssetTotalValuesResponse),
+    create_crypto_asset_atst(CreatePrfsAttestationResponse),
     create_prfs_attestation(CreatePrfsAttestationResponse),
     get_prfs_attestations(GetPrfsAttestationsResponse),
     get_prfs_attestation(GetPrfsAttestationResponse),

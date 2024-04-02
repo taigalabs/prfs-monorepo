@@ -41,7 +41,7 @@ import {
   SIGNATURE,
   CM,
   WALLET_ADDR,
-} from "./create_crypto_asset_size_atst";
+} from "./create_crypto_asset_atst";
 import SignatureItem from "./SignatureItem";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
@@ -99,7 +99,7 @@ const CreateCryptoAssetAtst: React.FC<CreateCryptoSizeAttestationProps> = () => 
   });
   const { mutateAsync: createCryptoSizeAtstRequest } = useMutation({
     mutationFn: (req: CreatePrfsAttestationRequest) => {
-      return atstApi({ type: "create_crypto_asset_size_atst", ...req });
+      return atstApi({ type: "create_crypto_asset_atst", ...req });
     },
   });
 
@@ -289,7 +289,7 @@ const CreateCryptoAssetAtst: React.FC<CreateCryptoSizeAttestationProps> = () => 
     <>
       <AttestationsHeader>
         <AttestationsHeaderRow>
-          <AttestationsTitle>{i18n.create_crypto_asset_size_attestation}</AttestationsTitle>
+          <AttestationsTitle>{i18n.create_crypto_asset_attestation}</AttestationsTitle>
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>

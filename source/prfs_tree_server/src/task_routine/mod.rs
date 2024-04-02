@@ -3,25 +3,14 @@ mod tests;
 
 use colored::Colorize;
 use ethers_core::{k256::U256, rand::rngs::OsRng};
-use prfs_admin_credential::mock::MASTER_ACCOUNT_IDS;
-use prfs_api_rs::api;
 use prfs_atst_api_ops::ops as atst_api_ops;
 use prfs_common_server_state::ServerState;
-use prfs_crypto::hex;
-use prfs_crypto::{crypto_bigint::Random, hexutils};
-use prfs_db_driver::sqlx::Executor;
+use prfs_crypto::crypto_bigint::Random;
 use prfs_db_interface::prfs;
-use prfs_entities::{ComputeCryptoAssetSizeTotalValuesRequest, PrfsAtstTypeId, PrfsAttestation};
-use rust_decimal::Decimal;
-use serde_json::json;
+use prfs_entities::PrfsAtstTypeId;
 use std::sync::Arc;
-use tokio::sync::{
-    mpsc::{self, Receiver, Sender},
-    Mutex,
-};
 
 use crate::{
-    envs::ENVS,
     ops::{_create_prfs_tree_by_prfs_set, _import_prfs_attestations_to_prfs_set},
     PrfsTreeServerError,
 };
@@ -66,9 +55,8 @@ async fn do_update_prfs_tree_by_new_atst_task(
 
     let mut tree_ids = vec![];
     for atst_type_id in atst_type_ids {
-        let compute_resp =
-            atst_api_ops::compute_crypto_asset_size_total_values(&pool, &mut tx).await?;
-        println!("Compute crypto asset size payload: {:?}", compute_resp);
+        let compute_resp = atst_api_ops::compute_crypto_asset_total_values(&pool, &mut tx).await?;
+        println!("Compute crypto asset payload: {:?}", compute_resp);
 
         let prfs_sets =
             prfs::get_prfs_sets_by_topic__tx(&mut tx, &atst_type_id.to_string()).await?;

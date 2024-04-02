@@ -1,5 +1,5 @@
 use prfs_db_interface::prfs;
-use prfs_entities::atst_api::ComputeCryptoAssetSizeTotalValuesResponse;
+use prfs_entities::atst_api::ComputeCryptoAssetTotalValuesResponse;
 use prfs_entities::PrfsAtstTypeId;
 use prfs_web_fetcher::destinations::coinbase;
 use rust_decimal::prelude::FromPrimitive;
@@ -12,10 +12,10 @@ use crate::AtstApiOpsError;
 
 const LIMIT: i32 = 20;
 
-pub async fn compute_crypto_asset_size_total_values(
+pub async fn compute_crypto_asset_total_values(
     pool: &Pool<Postgres>,
     mut tx: &mut Transaction<'_, Postgres>,
-) -> Result<ComputeCryptoAssetSizeTotalValuesResponse, AtstApiOpsError> {
+) -> Result<ComputeCryptoAssetTotalValuesResponse, AtstApiOpsError> {
     let exchange_rates = coinbase::get_exchange_rates("ETH").await?;
     let mut atsts = prfs::get_prfs_attestations(&pool, &PrfsAtstTypeId::crypto_1, 0, 50000).await?;
 
@@ -35,7 +35,7 @@ pub async fn compute_crypto_asset_size_total_values(
 
     let _rows_updated = prfs::insert_prfs_attestations(&mut tx, &atsts).await?;
 
-    return Ok(ComputeCryptoAssetSizeTotalValuesResponse {
+    return Ok(ComputeCryptoAssetTotalValuesResponse {
         exchange_rates: exchange_rates.data,
         updated_row_count: count,
     });

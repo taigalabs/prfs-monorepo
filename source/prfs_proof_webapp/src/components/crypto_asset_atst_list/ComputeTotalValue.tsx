@@ -3,7 +3,7 @@ import { FaCalculator } from "@react-icons/all-files/fa/FaCalculator";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { atstApi } from "@taigalabs/prfs-api-js";
-import { ComputeCryptoAssetSizeTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetSizeTotalValuesRequest";
+import { ComputeCryptoAssetTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetTotalValuesRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 
@@ -82,9 +82,9 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const { mutateAsync: computeCryptoSizeTotalValuesRequest, isPending } = useMutation({
-    mutationFn: (req: ComputeCryptoAssetSizeTotalValuesRequest) => {
-      return atstApi({ type: "compute_crypto_asset_size_total_values", ...req });
+  const { mutateAsync: computeCryptoTotalValuesRequest, isPending } = useMutation({
+    mutationFn: (req: ComputeCryptoAssetTotalValuesRequest) => {
+      return atstApi({ type: "compute_crypto_asset_total_values", ...req });
     },
   });
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
@@ -97,7 +97,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
     }
 
     setComputeStatus(CommonStatus.InProgress);
-    const { payload, error } = await computeCryptoSizeTotalValuesRequest({
+    const { payload, error } = await computeCryptoTotalValuesRequest({
       account_id: credential.account_id,
     });
 
@@ -120,7 +120,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
     }
   }, [
     credential,
-    computeCryptoSizeTotalValuesRequest,
+    computeCryptoTotalValuesRequest,
     setComputeMsg,
     setComputeStatus,
     rerender,

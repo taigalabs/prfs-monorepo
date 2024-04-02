@@ -21,8 +21,8 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
             post(crypto_asset::fetch_crypto_asset),
         )
         .route(
-            "/create_crypto_asset_size_atst",
-            post(crypto_asset::create_crypto_asset_size_atst),
+            "/create_crypto_asset_atst",
+            post(crypto_asset::create_crypto_asset_atst),
         )
         .route(
             "/get_prfs_attestations",
@@ -33,8 +33,8 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
             post(prfs_attestations::get_prfs_attestation),
         )
         .route(
-            "/compute_crypto_asset_size_total_values",
-            post(crypto_asset::compute_crypto_asset_size_total_values),
+            "/compute_crypto_asset_total_values",
+            post(crypto_asset::compute_crypto_asset_total_values),
         )
         .route("/validate_twitter_acc", post(twitter::validate_twitter_acc))
         .route("/attest_twitter_acc", post(twitter::attest_twitter_acc))

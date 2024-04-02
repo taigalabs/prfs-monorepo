@@ -23,7 +23,7 @@ import {
 const CryptoAssetAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_id }) => {
   const i18n = React.useContext(i18nContext);
   const { isLoading, data, error } = useQuery({
-    queryKey: ["get_asset_size_atst"],
+    queryKey: ["get_prfs_attestation", atst_id],
     queryFn: async () => {
       const { payload } = await atstApi({ type: "get_prfs_attestation", atst_id: atst_id });
       return payload;

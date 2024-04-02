@@ -26,7 +26,7 @@ const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
       <AttestationsHeader>
         <AttestationsHeaderRow>
           <AttestationsTitle className={styles.title}>
-            {i18n.crypto_asset_size_attestations}
+            {i18n.crypto_asset_attestations}
           </AttestationsTitle>
           <AttestationsTopMenu>
             {isMasterAccountId(prfsProofCredential?.account_id) && (

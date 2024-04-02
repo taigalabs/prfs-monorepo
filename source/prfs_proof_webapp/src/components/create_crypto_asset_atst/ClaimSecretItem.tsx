@@ -40,7 +40,7 @@ import {
   CryptoAssetSizeAtstFormData,
   ENCRYPT_WALLET_ADDR,
   WALLET_ADDR,
-} from "./create_crypto_asset_size_atst";
+} from "./create_crypto_asset_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";

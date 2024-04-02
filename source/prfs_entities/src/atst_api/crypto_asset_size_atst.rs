@@ -35,14 +35,14 @@ pub struct CryptoAsset {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct ComputeCryptoAssetSizeTotalValuesRequest {
+pub struct ComputeCryptoAssetTotalValuesRequest {
     pub account_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 #[allow(non_snake_case)]
-pub struct ComputeCryptoAssetSizeTotalValuesResponse {
+pub struct ComputeCryptoAssetTotalValuesResponse {
     pub exchange_rates: CoinbaseExchangeRates,
     pub updated_row_count: u128,
 }

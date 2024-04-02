@@ -9,13 +9,12 @@ use prfs_common_server_state::ServerState;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api::{
-    ComputeCryptoAssetSizeTotalValuesRequest, ComputeCryptoAssetSizeTotalValuesResponse,
+    ComputeCryptoAssetTotalValuesRequest, ComputeCryptoAssetTotalValuesResponse,
     FetchCryptoAssetRequest, FetchCryptoAssetResponse,
 };
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_entities::{
-    CreatePrfsAttestationRequest, CreatePrfsAttestationResponse, PrfsAtstTypeId,
-    UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest,
+    CreatePrfsAttestationRequest, CreatePrfsAttestationResponse, UpdatePrfsTreeByNewAtstRequest,
 };
 use prfs_web3_rs::signature::verify_eth_sig_by_addr;
 use rust_decimal::Decimal;
@@ -45,7 +44,7 @@ pub async fn fetch_crypto_asset(
     return (StatusCode::OK, Json(resp));
 }
 
-pub async fn create_crypto_asset_size_atst(
+pub async fn create_crypto_asset_atst(
     State(state): State<Arc<ServerState>>,
     Json(input): Json<CreatePrfsAttestationRequest>,
 ) -> (StatusCode, Json<ApiResponse<CreatePrfsAttestationResponse>>) {
@@ -117,12 +116,12 @@ pub async fn create_crypto_asset_size_atst(
     return (StatusCode::OK, Json(resp));
 }
 
-pub(crate) async fn compute_crypto_asset_size_total_values(
+pub(crate) async fn compute_crypto_asset_total_values(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<ComputeCryptoAssetSizeTotalValuesRequest>,
+    Json(input): Json<ComputeCryptoAssetTotalValuesRequest>,
 ) -> (
     StatusCode,
-    Json<ApiResponse<ComputeCryptoAssetSizeTotalValuesResponse>>,
+    Json<ApiResponse<ComputeCryptoAssetTotalValuesResponse>>,
 ) {
     let pool = &state.db2.pool;
     let mut tx = bail_out_tx!(pool, &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR);
@@ -137,8 +136,7 @@ pub(crate) async fn compute_crypto_asset_size_total_values(
         );
     }
 
-    let compute_value_resp = match ops::compute_crypto_asset_size_total_values(&pool, &mut tx).await
-    {
+    let compute_value_resp = match ops::compute_crypto_asset_total_values(&pool, &mut tx).await {
         Ok(r) => r,
         Err(err) => {
             return (

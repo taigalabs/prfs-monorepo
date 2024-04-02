@@ -28,7 +28,7 @@ import {
   CryptoAssetSizeAtstFormData,
   SIGNATURE,
   WALLET_ADDR,
-} from "./create_crypto_asset_size_atst";
+} from "./create_crypto_asset_atst";
 
 const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, setIsSigValid }) => {
   const i18n = React.useContext(i18nContext);
