@@ -18,6 +18,7 @@ import {
   CommitmentReceipt,
   EncryptedReceipt,
   makeAtstCmPreImage,
+  makeAtstCmPreImageStr,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
@@ -43,6 +44,7 @@ import {
   ENCRYPTED_MEMBER_ID,
   GroupMemberAtstFormData,
   MEMBER,
+  MEMBER_CODE,
   MEMBER_ID,
 } from "./create_group_member_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
@@ -64,13 +66,12 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
   const claimSecret = React.useMemo(() => {
-    if (atstGroup) {
-      const salt = atstGroup.atst_group_id;
-      return makeAtstCmPreImage(salt);
+    if (atstGroup && formData[MEMBER_ID]) {
+      return makeAtstCmPreImageStr(`${atstGroup.atst_group_id}_${formData[MEMBER_ID]}`);
     } else {
       return "";
     }
-  }, [atstGroup]);
+  }, [atstGroup, formData]);
 
   const handleClickGenerate = React.useCallback(async () => {
     if (!atstGroup) {
@@ -211,7 +212,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
               <MdSecurity />
               <span>{i18n.generate}</span>
             </AttestationListItemBtn>
-            <p className={cn(styles.value, common.alignItemCenter)}>{formData[CM]}</p>
+            <p className={cn(styles.value, common.alignItemCenter)}>{null}</p>
           </div>
           {walletCacheKeys && (
             <EncryptedWalletAddrItem

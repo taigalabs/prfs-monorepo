@@ -14,8 +14,13 @@ export async function makeAppSignInCm(sk: string, appId: string) {
   return sigPoseidon(sk, appId);
 }
 
+export function makeAtstCmPreImageStr(arg: string) {
+  return `${PRFS_ATTESTATION_STEM}${arg}`;
+}
+
 export function makeAtstCmPreImage(arg: string) {
-  const bytes = toUtf8Bytes(`${PRFS_ATTESTATION_STEM}${arg}`);
+  const str = makeAtstCmPreImageStr(arg);
+  const bytes = toUtf8Bytes(str);
   return keccak256(bytes);
 }
 

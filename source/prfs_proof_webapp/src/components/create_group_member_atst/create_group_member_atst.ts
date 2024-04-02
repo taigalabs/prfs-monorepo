@@ -10,5 +10,4 @@ export const ENCRYPTED_MEMBER_ID = "encrypted_member_id";
 export type GroupMemberAtstFormData = {
   [MEMBER_CODE]: string;
   [MEMBER_ID]: string;
-  [CM]: string;
 };

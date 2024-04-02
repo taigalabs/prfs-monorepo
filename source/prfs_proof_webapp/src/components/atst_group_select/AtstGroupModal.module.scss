@@ -6,8 +6,12 @@
 .entry {
   display: flex;
   align-items: center;
-  height: 38px;
-  padding: 0 9px;
+  padding: 14px 14px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--bright-gray-60);
+  }
 }
 
 @media screen and (min-width: $big_display_min_width) {

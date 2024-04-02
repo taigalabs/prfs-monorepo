@@ -75,7 +75,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const [formData, setFormData] = React.useState<GroupMemberAtstFormData>({
     [MEMBER_ID]: "",
     [MEMBER_CODE]: "",
-    [CM]: "",
   });
   const [walletCacheKeys, setWalletCacheKeys] = React.useState<Record<string, string> | null>(null);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
@@ -170,8 +169,8 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     ) {
       try {
         setError(null);
-        const cm = formData[CM];
-        const cm_msg = toUtf8Bytes(cm);
+        // const cm = formData[CM];
+        // const cm_msg = toUtf8Bytes(cm);
         const atst_id = `${MEMBER}_${atstGroup}`;
 
         if (atst_id) {
@@ -197,7 +196,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
           }
 
           // const wallet_addr = formData[WALLET_ADDR];
-          const cm = formData[CM];
+          // const cm = formData[CM];
           // const { payload, error } = await createCryptoSizeAtstRequest({
           //   atst_id,
           //   atst_type_id: "crypto_1",
