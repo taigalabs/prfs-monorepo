@@ -5,7 +5,7 @@ import DefaultLayout, { DefaultFooter } from "@/components/layouts/default_layou
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Attestations from "@/components/attestations/Attestations";
 import CreateAttestation from "@/components/create_attestation/CreateAttestation";
-import CreateCryptoAssetSizeAttestation from "@/components/create_crypto_asset_size_atst/CreateCryptoAssetSizeAtst";
+import CreateCryptoAssetAtst from "@/components/create_crypto_asset_atst/CreateCryptoAssetAtst";
 import { AttestationsDefaultBody } from "@/components/attestations/AttestationComponents";
 
 const CreateCryptoSizeAttestionPage = () => {
@@ -15,7 +15,7 @@ const CreateCryptoSizeAttestionPage = () => {
         <Suspense>
           <Attestations>
             <CreateAttestation>
-              <CreateCryptoAssetSizeAttestation />
+              <CreateCryptoAssetAtst />
             </CreateAttestation>
           </Attestations>
         </Suspense>

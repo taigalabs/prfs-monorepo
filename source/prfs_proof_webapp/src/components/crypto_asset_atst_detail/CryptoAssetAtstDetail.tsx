@@ -9,7 +9,7 @@ import { i18nContext } from "@/i18n/context";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import Link from "next/link";
 
-import styles from "./CryptoAssetSizeAtstDetail.module.scss";
+import styles from "./CryptoAssetAtstDetail.module.scss";
 import { paths } from "@/paths";
 import {
   AttestationDetailBox,
@@ -20,7 +20,7 @@ import {
   AttestationDetailTopMenuRow,
 } from "@/components/attestation_detail/AttestationDetail";
 
-const CryptoAssetSizeAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_id }) => {
+const CryptoAssetAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_id }) => {
   const i18n = React.useContext(i18nContext);
   const { isLoading, data, error } = useQuery({
     queryKey: ["get_asset_size_atst"],
@@ -53,7 +53,7 @@ const CryptoAssetSizeAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ a
     atst && (
       <div className={styles.wrapper}>
         <AttestationDetailTopMenuRow>
-          <Link href={paths.attestations__crypto_asset_size}>
+          <Link href={paths.attestations__crypto_asset}>
             <ButtonCircleContainer>
               <FaArrowLeft />
             </ButtonCircleContainer>
@@ -123,7 +123,7 @@ const CryptoAssetSizeAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ a
   );
 };
 
-export default CryptoAssetSizeAtstDetail;
+export default CryptoAssetAtstDetail;
 
 export interface CryptoAssetSizeAtstDetailProps {
   atst_id: string;

@@ -18,11 +18,14 @@ const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
   return (
     <div className={styles.modal}>
       <ul className={styles.menu}>
+        {/* <li onClick={handleClickItem}> */}
+        {/*   <Link href={paths.attestations__create__twitter}>{i18n.twitter}</Link> */}
+        {/* </li> */}
         <li onClick={handleClickItem}>
-          <Link href={paths.attestations__create__twitter}>{i18n.twitter}</Link>
+          <Link href={paths.attestations__create__crypto_asset}>{i18n.crypto_asset}</Link>
         </li>
         <li onClick={handleClickItem}>
-          <Link href={paths.attestations__create__crypto_asset_size}>{i18n.crypto_asset_size}</Link>
+          <Link href={paths.attestations__create__crypto_asset}>{i18n.crypto_asset}</Link>
         </li>
       </ul>
     </div>

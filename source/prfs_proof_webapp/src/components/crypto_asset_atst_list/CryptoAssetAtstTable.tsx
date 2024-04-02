@@ -10,7 +10,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
 import { GetPrfsAttestationsRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsRequest";
 
-import styles from "./CryptoAssetSizeAtstTable.module.scss";
+import styles from "./CryptoAssetAtstTable.module.scss";
 import { paths } from "@/paths";
 import {
   AttestationTableBody,
@@ -37,7 +37,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
 
   const handleClickRow = React.useCallback(() => {
     setIsNavigating(true);
-    router.push(`${paths.attestations__crypto_asset_size}/${atst.atst_id}`);
+    router.push(`${paths.attestations__crypto_asset}/${atst.atst_id}`);
   }, [atst.atst_id, router, setIsNavigating]);
 
   const cryptoAssets = React.useMemo(() => {
@@ -83,7 +83,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
   );
 };
 
-const CryptoAssetSizeAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => {
+const CryptoAssetAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => {
   const i18n = useI18N();
   const router = useRouter();
   const [isNavigating, setIsNavigating] = React.useState(false);
@@ -218,7 +218,7 @@ const CryptoAssetSizeAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce })
   );
 };
 
-export default CryptoAssetSizeAtstTable;
+export default CryptoAssetAtstTable;
 
 export interface TwitterAccAtstTableProps {
   nonce: number;

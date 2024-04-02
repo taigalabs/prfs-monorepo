@@ -3,9 +3,9 @@
 import React from "react";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
-import styles from "./CryptoAssetSizeAtstList.module.scss";
+import styles from "./CryptoAssetAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
-import CryptoSizeAtstTable from "./CryptoAssetSizeAtstTable";
+import CryptoSizeAtstTable from "./CryptoAssetAtstTable";
 import {
   AttestationsHeader,
   AttestationsHeaderRow,
@@ -16,7 +16,7 @@ import { useSignedInProofUser } from "@/hooks/user";
 import { isMasterAccountId } from "@/mock/mock_data";
 import ComputeTotalValueDialog from "./ComputeTotalValue";
 
-const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
+const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { prfsProofCredential } = useSignedInProofUser();
   const { nonce, rerender } = useRerender();
@@ -44,6 +44,6 @@ const CryptoSizeAtstList: React.FC<CryptoSizeAtstListProps> = () => {
   );
 };
 
-export default CryptoSizeAtstList;
+export default CryptoAssetAtstList;
 
 export interface CryptoSizeAtstListProps {}

@@ -9,7 +9,7 @@ import {
   AttestationsMain,
   AttestationsMainInner,
 } from "@/components/attestations/AttestationComponents";
-import CryptoAssetSizeAtstDetail from "@/components/crypto_asset_size_atst_detail/CryptoAssetSizeAtstDetail";
+import CryptoAssetAtstDetail from "@/components/crypto_asset_atst_detail/CryptoAssetAtstDetail";
 
 const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({ params }) => {
   return (
@@ -19,7 +19,7 @@ const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({
           <Attestations>
             <AttestationsMain>
               <AttestationsMainInner>
-                <CryptoAssetSizeAtstDetail atst_id={params.atst_id} />
+                <CryptoAssetAtstDetail atst_id={params.atst_id} />
               </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>

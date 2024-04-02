@@ -86,6 +86,7 @@ export default {
   transaction_hash: "Transaction hash",
   generate_a_cryptographic_claim: "Generate a cryptographic claim",
   crypto_asset_size: "Crypto asset size",
+  crypto_asset: "Crypto asset",
   crypto_holders: "Crypto holders",
   what_is_your_twitter_handle: "What is your Twitter handle?",
   what_is_your_wallet_address: "What is your wallet address?",

@@ -21,7 +21,7 @@ import { toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { CreatePrfsAttestationRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsAttestationRequest";
 
-import styles from "./CreateCryptoAssetSizeAtst.module.scss";
+import styles from "./CreateCryptoAssetAtst.module.scss";
 import {
   AttestationsHeader,
   AttestationsHeaderRow,
@@ -65,7 +65,7 @@ function checkIfFormIsFilled(formData: CryptoAssetSizeAtstFormData) {
   return true;
 }
 
-const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = () => {
+const CreateCryptoAssetAtst: React.FC<CreateCryptoSizeAttestationProps> = () => {
   const i18n = useI18N();
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [isSigValid, setIsSigValid] = React.useState(false);
@@ -255,7 +255,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
 
           if (payload) {
             setIsNavigating(true);
-            router.push(paths.attestations__crypto_asset_size);
+            router.push(paths.attestations__crypto_asset);
           }
 
           await addPrfsIndexRequest({
@@ -406,6 +406,6 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   );
 };
 
-export default CreateCryptoSizeAttestation;
+export default CreateCryptoAssetAtst;
 
 export interface CreateCryptoSizeAttestationProps {}
