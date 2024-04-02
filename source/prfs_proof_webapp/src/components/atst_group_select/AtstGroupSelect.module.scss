@@ -48,3 +48,11 @@
   z-index: 10;
   outline: none;
 }
+
+.arrow {
+  transition: 0.3s all;
+
+  &.upsideDown {
+    transform: rotate(180deg);
+  }
+}

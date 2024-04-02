@@ -49,14 +49,8 @@ const AtstGroupSelect: React.FC<ClaimSecretItemProps> = ({}) => {
     <div className={styles.wrapper}>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
         <div className={styles.selectBase}>
-          {atstGroup ? (
-            atstGroup.label
-          ) : (
-            <>
-              {i18n.choose_group}
-              <IoMdArrowDropdown />
-            </>
-          )}
+          {atstGroup ? atstGroup.label : i18n.choose_group}
+          <IoMdArrowDropdown className={cn(styles.arrow, { [styles.upsideDown]: isOpen })} />
         </div>
       </div>
       {isOpen && (
