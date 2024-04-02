@@ -8,7 +8,6 @@ import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { atstApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { useRouter } from "next/navigation";
-import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
@@ -41,10 +40,11 @@ import {
   SIGNATURE,
   CM,
   WALLET_ADDR,
-} from "./create_crypto_asset_atst";
+} from "./create_group_member_atst";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
 import AtstGroupSelect from "@/components/atst_group_select/AtstGroupSelect";
+import MemberCodeInput from "./MemberCodeInput";
 
 enum Status {
   Standby,
@@ -85,11 +85,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const { mutateAsync: getLeastRecentPrfsIndex } = useMutation({
     mutationFn: (req: GetLeastRecentPrfsIndexRequest) => {
       return prfsApi3({ type: "get_least_recent_prfs_index", prfs_indices: req.prfs_indices });
-    },
-  });
-  const { mutateAsync: fetchCryptoAssetRequest } = useMutation({
-    mutationFn: (req: FetchCryptoAssetRequest) => {
-      return atstApi({ type: "fetch_crypto_asset", ...req });
     },
   });
   const { mutateAsync: addPrfsIndexRequest } = useMutation({
@@ -135,60 +130,9 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     [setFormData],
   );
 
-  const handleClickFetchAsset = React.useCallback(async () => {
-    const wallet_addr = formData[WALLET_ADDR];
-
-    if (wallet_addr.length > 0) {
-      if (!wallet_addr.startsWith("0x")) {
-        setFetchAssetMsg(
-          <span className={styles.error}>{i18n.wallet_address_should_start_with_0x}</span>,
-        );
-        return;
-      }
-
-      const req: FetchCryptoAssetRequest = {
-        wallet_addr,
-      };
-      setFetchAssetStatus(Status.InProgress);
-      const { payload, error } = await fetchCryptoAssetRequest(req);
-      setFetchAssetStatus(Status.Standby);
-
-      if (error) {
-        console.error(error);
-        setFetchAssetMsg(<span className={styles.error}>{error.toString()}</span>);
-        return;
-      }
-
-      if (payload && payload.crypto_assets) {
-        setCryptoAssets(payload.crypto_assets);
-        setFetchAssetMsg(
-          <span className={styles.success}>
-            <FaCheck />
-          </span>,
-        );
-      }
-    }
-  }, [
-    fetchCryptoAssetRequest,
-    formData[WALLET_ADDR],
-    setCryptoAssets,
-    setFetchAssetMsg,
-    setFetchAssetStatus,
-  ]);
-
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
   }, [formData]);
-
-  const handleChangeAddress = React.useCallback(
-    (address: string) => {
-      setFormData(oldVal => ({
-        ...oldVal,
-        [WALLET_ADDR]: address,
-      }));
-    },
-    [setFormData],
-  );
 
   const isFormFilled = React.useMemo(() => {
     return checkIfFormIsFilled(formData);
@@ -305,33 +249,17 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
                 </AttestationListItemDesc>
                 <div className={styles.content}>
                   <AtstGroupSelect />
-                  {/* <Input */}
-                  {/*   className={styles.input} */}
-                  {/*   name={WALLET_ADDR} */}
-                  {/*   error={""} */}
-                  {/*   label={i18n.wallet_address} */}
-                  {/*   value={formData.wallet_addr} */}
-                  {/*   handleChangeValue={handleChangeWalletAddr} */}
-                  {/* /> */}
-                  {cryptoAssets?.length && (
-                    <div className={styles.cryptoAsset}>
-                      <div className={styles.item}>
-                        <p className={styles.label}>{i18n.wallet_address}:</p>
-                        <p className={styles.value}>{formData[WALLET_ADDR]}</p>
-                      </div>
-                      <div className={styles.item}>
-                        <p className={styles.label}>{i18n.amount}:</p>
-                        <p className={styles.value}>{cryptoAssets[0].amount.toString()}</p>
-                      </div>
-                      <div className={styles.item}>
-                        <p className={styles.label}>{i18n.unit}:</p>
-                        <p className={styles.value}>{cryptoAssets[0].unit}</p>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </AttestationListRightCol>
             </AttestationListItem>
+            <MemberCodeInput
+              formData={formData}
+              handleChangeCm={handleChangeCm}
+              setWalletCacheKeys={setWalletCacheKeys}
+              setWalletAddrEnc={setWalletAddrEnc}
+              walletCacheKeys={walletCacheKeys}
+              walletAddrEnc={walletAddrEnc}
+            />
             <ClaimSecretItem
               formData={formData}
               handleChangeCm={handleChangeCm}

@@ -21,8 +21,11 @@ import {
   EncryptedReceipt,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
+import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
+import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
+import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
-import styles from "./ClaimSecretItem.module.scss";
+import styles from "./MemberCodeInput.module.scss";
 import common from "@/styles/common.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { envs } from "@/envs";
@@ -43,11 +46,8 @@ import {
 } from "./create_group_member_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
-import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
-import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
-const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
+const MemberCodeInput: React.FC<MemberCodeInputProps> = ({
   formData,
   handleChangeCm,
   walletCacheKeys,
@@ -221,9 +221,9 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   );
 };
 
-export default ClaimSecretItem;
+export default MemberCodeInput;
 
-export interface ClaimSecretItemProps {
+export interface MemberCodeInputProps {
   handleChangeCm: (cm: string) => void;
   formData: CryptoAssetSizeAtstFormData;
   setWalletCacheKeys: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
