@@ -22,12 +22,14 @@ async fn main() -> Result<(), ApiServerError> {
                 // axum logs rejections from built-in extractors with the `axum::rejection`
                 // target, at `TRACE` level. `axum::rejection=trace` enables showing those events
                 format!(
-                    "{},{},{},{},{}",
+                    "{},{},{},{},{},{},{}",
                     prfs_api_server::log::RUST_LOG_ENV,
+                    prfs_atst_server::log::RUST_LOG_ENV,
+                    prfs_tree_server::log::RUST_LOG_ENV,
                     shy_api_server::log::RUST_LOG_ENV,
                     prfs_id_session_server::log::RUST_LOG_ENV,
                     "tower_http=info",
-                    "axum::rejection=trace"
+                    "axum::rejection=trace",
                 )
                 .into()
             }),
