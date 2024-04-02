@@ -19,12 +19,18 @@ const AtstGroupModal: React.FC<AtstGroupModalProps> = ({}) => {
     },
   });
 
-  console.log(11, data);
-
   const elems = React.useMemo(() => {
     if (data?.payload) {
+      if (data.payload.rows.length < 1) {
+        return <div className={styles.entry}>No record</div>;
+      }
+
       return data.payload.rows.map(r => {
-        return <div key={r.atst_group_id}>{r.label}</div>;
+        return (
+          <div key={r.atst_group_id} className={styles.entry}>
+            {r.label}
+          </div>
+        );
       });
     } else {
       return null;
