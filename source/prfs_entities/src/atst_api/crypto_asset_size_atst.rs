@@ -60,22 +60,3 @@ pub struct CoinbaseExchangeRates {
     pub currency: String,
     pub rates: CryptoCurrencyRates,
 }
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
-pub struct CreateCryptoAssetSizeAtstRequest {
-    pub atst_id: String,
-    pub atst_type_id: PrfsAtstTypeId,
-    pub label: String,
-    pub serial_no: String,
-    pub cm: String,
-    pub cm_msg: Vec<u8>,
-    pub sig: String,
-}
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
-pub struct CreateCryptoAssetSizeAtstResponse {
-    pub is_valid: bool,
-    pub atst_id: String,
-}
