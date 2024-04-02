@@ -14,12 +14,12 @@ import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
-import { CreateCryptoAssetSizeAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateCryptoAssetSizeAtstRequest";
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 import { toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
+import { CreatePrfsAttestationRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsAttestationRequest";
 
 import styles from "./CreateCryptoAssetSizeAtst.module.scss";
 import {
@@ -98,7 +98,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
     },
   });
   const { mutateAsync: createCryptoSizeAtstRequest } = useMutation({
-    mutationFn: (req: CreateCryptoAssetSizeAtstRequest) => {
+    mutationFn: (req: CreatePrfsAttestationRequest) => {
       return atstApi({ type: "create_crypto_asset_size_atst", ...req });
     },
   });
