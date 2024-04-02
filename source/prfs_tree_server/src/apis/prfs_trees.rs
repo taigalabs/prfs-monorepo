@@ -49,9 +49,14 @@ pub async fn get_latest_prfs_tree_by_set_id(
     Json<ApiResponse<GetLatestPrfsTreeBySetIdResponse>>,
 ) {
     let pool = &state.db2.pool;
-    let prfs_tree = prfs::get_latest_prfs_tree_by_set_id(pool, &input.set_id)
-        .await
-        .unwrap();
+    let prfs_tree = match prfs::get_latest_prfs_tree_by_set_id(pool, &input.set_id).await {
+        Ok(t) => t,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let resp = ApiResponse::new_success(GetLatestPrfsTreeBySetIdResponse { prfs_tree });
     return (StatusCode::OK, Json(resp));

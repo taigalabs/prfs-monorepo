@@ -15,7 +15,7 @@ use std::sync::Arc;
 
 use crate::ops::_import_prfs_attestations_to_prfs_set;
 
-const LIMIT: i32 = 20;
+const LIMIT: usize = 20;
 
 pub async fn import_prfs_attestations_to_prfs_set(
     State(state): State<Arc<ServerState>>,
@@ -56,12 +56,16 @@ pub async fn get_prfs_set_elements(
 ) -> (StatusCode, Json<ApiResponse<GetPrfsSetElementsResponse>>) {
     let pool = &state.db2.pool;
 
-    let rows = prfs::get_prfs_set_elements(&pool, &input.set_id, input.offset, LIMIT)
-        .await
-        .map_err(|err| ApiHandleError::from(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err))
-        .unwrap();
+    let rows = match prfs::get_prfs_set_elements(&pool, &input.set_id, input.offset, LIMIT).await {
+        Ok(r) => r,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
-    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
+    let next_offset = if rows.len() < LIMIT {
         None
     } else {
         Some(input.offset + LIMIT)
@@ -77,10 +81,16 @@ pub async fn get_prfs_set_element(
 ) -> (StatusCode, Json<ApiResponse<GetPrfsSetElementResponse>>) {
     let pool = &state.db2.pool;
 
-    let prfs_set_element = prfs::get_prfs_set_element(&pool, &input.set_id, &input.label)
+    let prfs_set_element = match prfs::get_prfs_set_element(&pool, &input.set_id, &input.label)
         .await
-        .map_err(|err| ApiHandleError::from(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err))
-        .unwrap();
+    {
+        Ok(e) => e,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let resp = ApiResponse::new_success(GetPrfsSetElementResponse { prfs_set_element });
     return (StatusCode::OK, Json(resp));
