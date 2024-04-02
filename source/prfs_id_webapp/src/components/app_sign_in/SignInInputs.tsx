@@ -4,7 +4,6 @@ import { makeECCredential } from "@taigalabs/prfs-crypto-js";
 import {
   AppSignInData,
   AppSignInQuery,
-  AppSignInResult,
   PrfsIdCredential,
   makeAppSignInCm,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -38,6 +37,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
         if (d === AppSignInData.ID_POSEIDON) {
           const { hashed } = await makeAppSignInCm(credential.secret_key, appId);
           const { id, public_key } = await makeECCredential(hashed);
+
           setReceipt(oldVal => ({
             ...oldVal,
             [name]: {
