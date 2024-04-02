@@ -2,6 +2,8 @@
 
 import React from "react";
 import cn from "classnames";
+import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
+// import { IoWarningOutline } from "@react-icons/all-files/io5/IoWarningOutline";
 
 import styles from "./AlertComponents.module.scss";
 
@@ -14,12 +16,13 @@ export const AlertWrapper: React.FC<AlertProps> = ({ children, variant, rounded 
         [styles.rounded]: rounded,
       })}
     >
+      <IoMdAlert className={styles.img} />
       {children}
     </div>
   );
 };
 
-export const AlertHeaderContent: React.FC<AlertBtnGroupProps> = ({ children }) => {
+export const AlertContent: React.FC<AlertBtnGroupProps> = ({ children }) => {
   return <div className={styles.content}>{children}</div>;
 };
 

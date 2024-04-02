@@ -2,13 +2,13 @@
 
 import React from "react";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
+import GlobalMsgHeader_ from "@taigalabs/prfs-react-lib/src/global_msg_header/GlobalMsgHeader";
 import {
-  GlobalMsgHeaderBtnGroup,
-  GlobalMsgHeaderContent,
-  GlobalMsgHeaderWrapper,
-} from "@taigalabs/prfs-react-lib/src/global_msg_header/GlobalMsgHeader";
+  AlertWrapper,
+  AlertContent,
+  AlertBtnGroup,
+} from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
-import { IoWarningOutline } from "@react-icons/all-files/io5/IoWarningOutline";
 
 import styles from "./GlobalMsgHeader.module.scss";
 import { useI18N } from "@/i18n/context";
@@ -29,19 +29,21 @@ const GlobalMsgHeader: React.FC<PrfsIdErrorDialogProps> = ({}) => {
   return (
     globalMsg && (
       <Overlay className={styles.overlay}>
-        <GlobalMsgHeaderWrapper variant="warn">
-          <GlobalMsgHeaderContent>
-            <IoWarningOutline />
-            <p>{globalMsg.message}</p>
-          </GlobalMsgHeaderContent>
-          <GlobalMsgHeaderBtnGroup>
-            {!notDismissible && (
-              <button type="button" onClick={handleClickClose}>
-                <IoClose />
-              </button>
-            )}
-          </GlobalMsgHeaderBtnGroup>
-        </GlobalMsgHeaderWrapper>
+        <GlobalMsgHeader_>
+          <AlertWrapper variant="warn">
+            <AlertContent>
+              {/* <IoWarningOutline /> */}
+              <p>{globalMsg.message}</p>
+            </AlertContent>
+            <AlertBtnGroup>
+              {!notDismissible && (
+                <button type="button" onClick={handleClickClose}>
+                  <IoClose />
+                </button>
+              )}
+            </AlertBtnGroup>
+          </AlertWrapper>
+        </GlobalMsgHeader_>
       </Overlay>
     )
   );
