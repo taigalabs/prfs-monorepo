@@ -32,7 +32,11 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
   return (
     <>
       <ul className={styles.itemContainer}>
-        <li className={cn(styles.item, styles.proof)}>
+        <li
+          className={cn(styles.item, styles.proof, {
+            [styles.isHighlighted]: highlightedFeatureNo === 0,
+          })}
+        >
           <div className={styles.title}>
             <p className={styles.iconBox}>
               <TbMathPi />
@@ -47,7 +51,11 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
             </p>
           </div>
         </li>
-        <li className={cn(styles.item, styles.attestation)}>
+        <li
+          className={cn(styles.item, styles.attestation, {
+            [styles.isHighlighted]: highlightedFeatureNo === 1,
+          })}
+        >
           <div className={styles.title}>
             <p className={styles.iconBox}>
               <TbCertificate />
@@ -66,27 +74,25 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
         </li>
       </ul>
       <Area className={styles.wrapper}>
-        <div>
-          <div className={styles.imageContainer}>
-            <img
-              className={cn(styles.dummyImage)}
-              src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_example.png"
-              crossOrigin="anonymous"
-              alt="Proof example"
-            />
-            <img
-              className={cn(styles.image, { [styles.isHighlighted]: highlightedFeatureNo === 0 })}
-              src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_example.png"
-              crossOrigin="anonymous"
-              alt="Proof example"
-            />
-            <img
-              className={cn(styles.image, { [styles.isHighlighted]: highlightedFeatureNo === 1 })}
-              src="https://d1w1533jipmvi2.cloudfront.net/prfs_atst_example2.png"
-              crossOrigin="anonymous"
-              alt="Attestation example"
-            />
-          </div>
+        <div className={styles.imageContainer}>
+          <img
+            className={cn(styles.dummyImage)}
+            src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_example.png"
+            crossOrigin="anonymous"
+            alt="Proof example"
+          />
+          <img
+            className={cn(styles.image, { [styles.isHighlighted]: highlightedFeatureNo === 0 })}
+            src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_example.png"
+            crossOrigin="anonymous"
+            alt="Proof example"
+          />
+          <img
+            className={cn(styles.image, { [styles.isHighlighted]: highlightedFeatureNo === 1 })}
+            src="https://d1w1533jipmvi2.cloudfront.net/prfs_atst_example2.png"
+            crossOrigin="anonymous"
+            alt="Attestation example"
+          />
         </div>
       </Area>
     </>
