@@ -3,14 +3,19 @@
 import React from "react";
 import cn from "classnames";
 import {
-  GlobalMsgHeaderContent,
+  // GlobalMsgHeaderContent,
   GlobalMsgHeaderWrapper,
-  GlobalMsgHeaderBtnGroup,
+  // GlobalMsgHeaderBtnGroup,
 } from "@taigalabs/prfs-react-lib/src/global_msg_header/GlobalMsgHeader";
 import { IoMdWarning } from "@react-icons/all-files/io/IoMdWarning";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { removeGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
+import {
+  AlertWrapper,
+  AlertBtnGroup,
+  AlertHeaderContent,
+} from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
 
 import styles from "./GlobalErrorDialog.module.scss";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
@@ -25,16 +30,18 @@ const GlobalErrorDialog: React.FC<GlobalErrorDialogProps> = ({}) => {
   return (
     error && (
       <Overlay className={styles.wrapper} fixed>
-        <GlobalMsgHeaderWrapper variant="error">
-          <GlobalMsgHeaderContent>
-            <IoMdWarning />
-            <p>{error.message}</p>
-          </GlobalMsgHeaderContent>
-          <GlobalMsgHeaderBtnGroup>
-            <button type="button" onClick={handleClickClose}>
-              <IoClose />
-            </button>
-          </GlobalMsgHeaderBtnGroup>
+        <GlobalMsgHeaderWrapper>
+          <AlertWrapper variant="error">
+            <AlertHeaderContent>
+              <IoMdWarning />
+              <p>{error.message}</p>
+            </AlertHeaderContent>
+            <AlertBtnGroup>
+              <button type="button" onClick={handleClickClose}>
+                <IoClose />
+              </button>
+            </AlertBtnGroup>
+          </AlertWrapper>
         </GlobalMsgHeaderWrapper>
       </Overlay>
     )

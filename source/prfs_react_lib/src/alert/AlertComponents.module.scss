@@ -1,0 +1,64 @@
+.wrapper {
+  width: 100%;
+  padding: 20px 24px;
+}
+
+.error {
+  &.wrapper {
+    background-color: rgb(253, 237, 237);
+  }
+
+  .content {
+    color: rgb(95, 33, 32);
+    > svg {
+      color: rgb(211, 47, 47);
+    }
+  }
+
+  .btnGroup {
+    color: rgb(211, 47, 47);
+  }
+}
+
+.rounded {
+  border-radius: 5px;
+}
+
+.warn {
+  &.wrapper {
+    background-color: rgb(255, 244, 229);
+  }
+
+  .content {
+    color: rgb(102, 60, 0);
+    > svg {
+      color: rgb(237, 108, 2);
+    }
+  }
+
+  .btnGroup {
+    color: rgb(211, 47, 47);
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+
+  > svg {
+    font-size: 22px;
+    margin-right: 10px;
+  }
+}
+
+.btnGroup {
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  padding-left: 6px;
+
+  button {
+    cursor: pointer;
+  }
+}

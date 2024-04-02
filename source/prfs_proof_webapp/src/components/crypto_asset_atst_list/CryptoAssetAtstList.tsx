@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
+import { AlertWrapper } from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
 
 import styles from "./CryptoAssetAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -35,6 +36,9 @@ const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
               </li>
             )}
           </AttestationsTopMenu>
+        </AttestationsHeaderRow>
+        <AttestationsHeaderRow>
+          <AlertWrapper variant="warn">Pr33fawkej</AlertWrapper>
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
