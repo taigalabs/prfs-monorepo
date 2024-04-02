@@ -4,7 +4,7 @@ use prfs_atst_api_error_codes::PRFS_ATST_API_ERROR_CODES;
 use prfs_atst_api_ops::ops;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
-use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit, ApiHandleError};
+use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit};
 use prfs_common_server_state::ServerState;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
