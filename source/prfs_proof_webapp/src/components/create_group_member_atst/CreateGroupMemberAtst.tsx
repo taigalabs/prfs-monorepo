@@ -21,7 +21,7 @@ import { toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { CreatePrfsAttestationRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsAttestationRequest";
 
-import styles from "./CreateMemberAtst.module.scss";
+import styles from "./CreateGroupMemberAtst.module.scss";
 import {
   AttestationsHeader,
   AttestationsHeaderRow,
@@ -65,7 +65,7 @@ function checkIfFormIsFilled(formData: CryptoAssetSizeAtstFormData) {
   return true;
 }
 
-const CreateMemberAtst: React.FC<CreateMemberAtstProps> = () => {
+const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const i18n = useI18N();
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [isSigValid, setIsSigValid] = React.useState(false);
@@ -289,7 +289,7 @@ const CreateMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     <>
       <AttestationsHeader>
         <AttestationsHeaderRow>
-          <AttestationsTitle>{i18n.create_crypto_asset_attestation}</AttestationsTitle>
+          <AttestationsTitle>{i18n.create_member_attestation}</AttestationsTitle>
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
@@ -300,7 +300,7 @@ const CreateMemberAtst: React.FC<CreateMemberAtstProps> = () => {
               <AttestationListRightCol>
                 <AttestationListItemDesc>
                   <AttestationListItemDescTitle>
-                    {i18n.what_is_your_wallet_address}
+                    {i18n.what_group_are_you_a_member_of}
                   </AttestationListItemDescTitle>
                   <p>{i18n.wallet_address_example_given}</p>
                 </AttestationListItemDesc>
@@ -406,6 +406,6 @@ const CreateMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   );
 };
 
-export default CreateMemberAtst;
+export default CreateGroupMemberAtst;
 
 export interface CreateMemberAtstProps {}

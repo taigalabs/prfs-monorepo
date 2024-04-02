@@ -5,17 +5,17 @@ import DefaultLayout, { DefaultFooter } from "@/components/layouts/default_layou
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Attestations from "@/components/attestations/Attestations";
 import CreateAttestation from "@/components/create_attestation/CreateAttestation";
-import CreateCryptoAssetAtst from "@/components/create_crypto_asset_atst/CreateCryptoAssetAtst";
+import CreateGroupMemberAtst from "@/components/create_group_member_atst/CreateGroupMemberAtst";
 import { AttestationsDefaultBody } from "@/components/attestations/AttestationComponents";
 
-const CreateMemberAtstPage = () => {
+const CreateGroupMemberAtstPage = () => {
   return (
     <DefaultLayout>
       <AttestationsDefaultBody>
         <Suspense>
           <Attestations>
             <CreateAttestation>
-              <CreateCryptoAssetAtst />
+              <CreateGroupMemberAtst />
             </CreateAttestation>
           </Attestations>
         </Suspense>
@@ -27,4 +27,4 @@ const CreateMemberAtstPage = () => {
   );
 };
 
-export default CreateMemberAtstPage;
+export default CreateGroupMemberAtstPage;
