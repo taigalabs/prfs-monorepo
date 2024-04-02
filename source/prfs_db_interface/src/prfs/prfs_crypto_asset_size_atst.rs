@@ -17,9 +17,9 @@ INSERT INTO prfs_attestations
 (atst_id, atst_type_id, label, cm, meta, value, status)
 VALUES ($1, $2, $3, $4, $5, $6, $7)
 ON CONFLICT (atst_id) DO UPDATE SET (
-atst_type, label, cm, meta, updated_at, value, status
+atst_type_id, label, cm, meta, updated_at, value, status
 ) = (
-excluded.atst_type, excluded.label, excluded.cm, excluded.meta,
+excluded.atst_type_id, excluded.label, excluded.cm, excluded.meta,
 now(), excluded.value, excluded.status
 )
 RETURNING atst_id"#;
@@ -45,7 +45,10 @@ pub async fn insert_prfs_attestations(
     prfs_attestations: &Vec<PrfsAttestation>,
 ) -> Result<u64, DbInterfaceError> {
     let mut query_builder: QueryBuilder<_> = QueryBuilder::new(
-        r#"INSERT INTO prfs_attestations(atst_id, atst_type_id, label, cm, meta, value, status) "#,
+        r#"
+INSERT INTO prfs_attestations
+(atst_id, atst_type_id, label, cm, meta, value, status) 
+"#,
     );
 
     query_builder.push_values(
@@ -66,7 +69,7 @@ pub async fn insert_prfs_attestations(
 ON CONFLICT (atst_id) DO UPDATE SET (
 atst_type_id, label, cm, meta, updated_at, value, status
 ) = (
-excluded.atst_type, excluded.label, excluded.cm, excluded.meta,
+excluded.atst_type_id, excluded.label, excluded.cm, excluded.meta,
 now(), excluded.value, excluded.status
 )
     "#,
