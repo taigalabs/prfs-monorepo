@@ -33,21 +33,29 @@ const MemberIdInput: React.FC<EncryptedWalletAddrItemProps> = ({
             <AttestationListItemDescTitle>
               {i18n.type_in_your_member_information}
             </AttestationListItemDescTitle>
-            <Input
-              name={MEMBER_ID}
-              label={i18n.member_id}
-              value={formData[MEMBER_ID]}
-              type="password"
-              handleChangeValue={handleChangeMemberInfo}
-            />
-            <Input
-              name={MEMBER_ID}
-              label={i18n.member_code}
-              value={formData[MEMBER_CODE]}
-              type="password"
-              handleChangeValue={handleChangeMemberInfo}
-            />
           </AttestationListItemDesc>
+          <div className={styles.inputArea}>
+            <div>
+              <p className={styles.guide}>Member Id can be your name for example</p>
+              <Input
+                name={MEMBER_ID}
+                label={i18n.member_id}
+                value={formData[MEMBER_ID]}
+                type="text"
+                handleChangeValue={handleChangeMemberInfo}
+              />
+            </div>
+            <div>
+              <p className={styles.guide}>Did you get a code to become registered in the group?</p>
+              <Input
+                name={MEMBER_ID}
+                label={i18n.member_code}
+                value={formData[MEMBER_CODE]}
+                type="text"
+                handleChangeValue={handleChangeMemberInfo}
+              />
+            </div>
+          </div>
         </AttestationListRightCol>
       </AttestationListItem>
     </>
