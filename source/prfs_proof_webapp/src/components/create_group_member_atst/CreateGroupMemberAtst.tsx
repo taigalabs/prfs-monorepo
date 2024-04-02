@@ -42,10 +42,9 @@ import {
   CM,
   WALLET_ADDR,
 } from "./create_crypto_asset_atst";
-// import SignatureItem from "./SignatureItem";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
-import AtstGroupSelect from "./AtstGroupSelect";
+import AtstGroupSelect from "@/components/atst_group_select/AtstGroupSelect";
 
 enum Status {
   Standby,

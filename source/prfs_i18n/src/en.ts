@@ -331,6 +331,7 @@ export default {
   choose_circuit: "Choose a circuit",
   select: "Select",
   choose: "Choose",
+  choose_group: "Choose a group",
   element_of_a_group: "Element of a group, e.g., address",
   choose_an_address: "Choose an address",
   choose_account: "Choose an account",

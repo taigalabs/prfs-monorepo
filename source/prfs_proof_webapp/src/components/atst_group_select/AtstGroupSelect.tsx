@@ -15,36 +15,19 @@ import {
 } from "@floating-ui/react";
 
 import styles from "./AtstGroupSelect.module.scss";
-import common from "@/styles/common.module.scss";
-import { i18nContext } from "@/i18n/context";
-import { envs } from "@/envs";
-import {
-  AttestationListItem,
-  AttestationListItemBtn,
-  AttestationListItemDesc,
-  AttestationListItemDescTitle,
-  AttestationListItemNo,
-  AttestationListItemOverlay,
-  AttestationListRightCol,
-} from "@/components/create_attestation/CreateAtstComponents";
-import {
-  CM,
-  CryptoAssetSizeAtstFormData,
-  ENCRYPT_WALLET_ADDR,
-  WALLET_ADDR,
-} from "./create_crypto_asset_atst";
-import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
+import { useI18N } from "@/i18n/use_i18n";
+import AtstGroupModal from "./AtstGroupModal";
 
 const Modal: React.FC = () => {
   return <div>Modal</div>;
 };
 
 const AtstGroupSelect: React.FC<ClaimSecretItemProps> = ({}) => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = useI18N();
 
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
@@ -62,14 +45,10 @@ const AtstGroupSelect: React.FC<ClaimSecretItemProps> = ({}) => {
   // const content = React.useMemo(() => {
   // }, [tooltip]);
 
-  // const baseElem = React.useMemo(() => {
-  //   return createBase();
-  // }, [createBase]);
-
   return (
-    <>
+    <div className={styles.wrapper}>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
-        power
+        <div className={styles.selectBase}>{i18n.choose_group}</div>
       </div>
       {isOpen && (
         <FloatingFocusManager context={context} modal={false}>
@@ -80,12 +59,11 @@ const AtstGroupSelect: React.FC<ClaimSecretItemProps> = ({}) => {
             aria-labelledby={headingId}
             {...getFloatingProps()}
           >
-            powerwer
-            {/* <PrfsAppsModal setIsOpen={setIsOpen}>{children}</PrfsAppsModal> */}
+            <AtstGroupModal />
           </div>
         </FloatingFocusManager>
       )}
-    </>
+    </div>
   );
 };
 

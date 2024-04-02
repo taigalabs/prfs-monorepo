@@ -1,7 +1,11 @@
+.wrapper {
+  position: relative;
+}
+
 .base {
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   cursor: pointer;
   width: 100%;
   height: 100%;
@@ -10,6 +14,16 @@
     width: 100%;
     height: 100%;
   }
+}
+
+.selectBase {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 4px;
+  padding: 0 9px;
+  border: 1px solid var(--gray-45);
+  height: 38px;
 }
 
 .isOpen {
