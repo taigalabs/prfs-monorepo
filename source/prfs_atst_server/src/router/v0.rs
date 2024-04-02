@@ -7,7 +7,7 @@ use prfs_common_server_state::ServerState;
 use prfs_tree_lib::envs::Envs;
 use std::sync::Arc;
 
-use crate::apis::{crypto_asset, prfs_attestations, twitter};
+use crate::apis::{crypto_asset, prfs_atst_groups, prfs_attestations, twitter};
 
 pub const ATST_API_V0: &'static str = "/atst_api/v0";
 
@@ -17,20 +17,24 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
 
     let router = Router::new() //
         .route(
-            "/fetch_crypto_asset",
-            post(crypto_asset::fetch_crypto_asset),
-        )
-        .route(
-            "/create_crypto_asset_atst",
-            post(crypto_asset::create_crypto_asset_atst),
-        )
-        .route(
             "/get_prfs_attestations",
             post(prfs_attestations::get_prfs_attestations),
         )
         .route(
             "/get_prfs_attestation",
             post(prfs_attestations::get_prfs_attestation),
+        )
+        .route(
+            "/get_prfs_atst_groups",
+            post(prfs_atst_groups::get_prfs_atst_groups),
+        )
+        .route(
+            "/fetch_crypto_asset",
+            post(crypto_asset::fetch_crypto_asset),
+        )
+        .route(
+            "/create_crypto_asset_atst",
+            post(crypto_asset::create_crypto_asset_atst),
         )
         .route(
             "/compute_crypto_asset_total_values",

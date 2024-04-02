@@ -3,6 +3,7 @@ import type { AttestTwitterAccResponse } from "./AttestTwitterAccResponse";
 import type { ComputeCryptoAssetTotalValuesResponse } from "./ComputeCryptoAssetTotalValuesResponse";
 import type { CreatePrfsAttestationResponse } from "./CreatePrfsAttestationResponse";
 import type { FetchCryptoAssetResponse } from "./FetchCryptoAssetResponse";
+import type { GetPrfsAtstGroupsResponse } from "./GetPrfsAtstGroupsResponse";
 import type { GetPrfsAttestationResponse } from "./GetPrfsAttestationResponse";
 import type { GetPrfsAttestationsResponse } from "./GetPrfsAttestationsResponse";
 import type { GetTwitterAccAtstResponse } from "./GetTwitterAccAtstResponse";
@@ -16,6 +17,7 @@ export type PrfsAtstApiResponse =
   | ({ type: "create_prfs_attestation" } & CreatePrfsAttestationResponse)
   | ({ type: "get_prfs_attestations" } & GetPrfsAttestationsResponse)
   | ({ type: "get_prfs_attestation" } & GetPrfsAttestationResponse)
+  | ({ type: "get_prfs_atst_groups" } & GetPrfsAtstGroupsResponse)
   | ({ type: "validate_twitter_acc" } & ValidateTwitterAccResponse)
   | ({ type: "attest_twitter_acc" } & AttestTwitterAccResponse)
   | ({ type: "get_twitter_acc_atsts" } & GetTwitterAccAtstsResponse)

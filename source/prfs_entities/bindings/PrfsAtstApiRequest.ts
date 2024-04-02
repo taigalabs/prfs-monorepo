@@ -3,6 +3,7 @@ import type { AttestTwitterAccRequest } from "./AttestTwitterAccRequest";
 import type { ComputeCryptoAssetTotalValuesRequest } from "./ComputeCryptoAssetTotalValuesRequest";
 import type { CreatePrfsAttestationRequest } from "./CreatePrfsAttestationRequest";
 import type { FetchCryptoAssetRequest } from "./FetchCryptoAssetRequest";
+import type { GetPrfsAtstGroupsRequest } from "./GetPrfsAtstGroupsRequest";
 import type { GetPrfsAttestationRequest } from "./GetPrfsAttestationRequest";
 import type { GetPrfsAttestationsRequest } from "./GetPrfsAttestationsRequest";
 import type { GetTwitterAccAtstRequest } from "./GetTwitterAccAtstRequest";
@@ -16,6 +17,7 @@ export type PrfsAtstApiRequest =
   | ({ type: "create_prfs_attestation" } & CreatePrfsAttestationRequest)
   | ({ type: "get_prfs_attestations" } & GetPrfsAttestationsRequest)
   | ({ type: "get_prfs_attestation" } & GetPrfsAttestationRequest)
+  | ({ type: "get_prfs_atst_groups" } & GetPrfsAtstGroupsRequest)
   | ({ type: "validate_twitter_acc" } & ValidateTwitterAccRequest)
   | ({ type: "attest_twitter_acc" } & AttestTwitterAccRequest)
   | ({ type: "get_twitter_acc_atsts" } & GetTwitterAccAtstsRequest)

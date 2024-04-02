@@ -15,7 +15,7 @@ use std::sync::Arc;
 
 use crate::ops::_import_prfs_attestations_to_prfs_set;
 
-const LIMIT: usize = 20;
+const LIMIT: i32 = 20;
 
 pub async fn import_prfs_attestations_to_prfs_set(
     State(state): State<Arc<ServerState>>,
@@ -65,7 +65,16 @@ pub async fn get_prfs_set_elements(
         }
     };
 
-    let next_offset = if rows.len() < LIMIT {
+    let row_count: i32 = match rows.len().try_into() {
+        Ok(c) => c,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
+    let next_offset = if row_count < LIMIT {
         None
     } else {
         Some(input.offset + LIMIT)
