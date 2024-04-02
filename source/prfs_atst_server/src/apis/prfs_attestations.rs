@@ -15,7 +15,10 @@ use prfs_entities::atst_api::{
     GetCryptoAssetSizeAtstsRequest, GetCryptoAssetSizeAtstsResponse,
 };
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
-use prfs_entities::{PrfsAtstTypeId, UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest};
+use prfs_entities::{
+    GetPrfsAttestationsRequest, GetPrfsAttestationsResponse, PrfsAtstTypeId,
+    UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest,
+};
 use prfs_web3_rs::signature::verify_eth_sig_by_addr;
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -26,17 +29,12 @@ const LIMIT: i32 = 20;
 
 pub async fn get_prfs_attestations(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<GetCryptoAssetSizeAtstsRequest>,
-) -> (
-    StatusCode,
-    Json<ApiResponse<GetCryptoAssetSizeAtstsResponse>>,
-) {
+    Json(input): Json<GetPrfsAttestationsRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsAttestationsResponse>>) {
     let pool = &state.db2.pool;
 
     let rows =
-        match prfs::get_prfs_attestations(&pool, &PrfsAtstTypeId::crypto_1, input.offset, LIMIT)
-            .await
-        {
+        match prfs::get_prfs_attestations(&pool, &input.atst_type_id, input.offset, LIMIT).await {
             Ok(r) => r,
             Err(err) => {
                 let resp = ApiResponse::new_error(
@@ -53,6 +51,6 @@ pub async fn get_prfs_attestations(
         Some(input.offset + LIMIT)
     };
 
-    let resp = ApiResponse::new_success(GetCryptoAssetSizeAtstsResponse { rows, next_offset });
+    let resp = ApiResponse::new_success(GetPrfsAttestationsResponse { rows, next_offset });
     return (StatusCode::OK, Json(resp));
 }

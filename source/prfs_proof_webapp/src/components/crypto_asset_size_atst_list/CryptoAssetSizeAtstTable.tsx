@@ -22,6 +22,7 @@ import {
   AttestationLoading,
 } from "@/components/attestations_table/AttestationsTable";
 import { useI18N } from "@/i18n/use_i18n";
+import { GetPrfsAttestationsRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsRequest";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating }) => {
   const i18n = useI18N();
@@ -89,9 +90,16 @@ const CryptoAssetSizeAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce })
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_crypto_asset_size_atsts", nonce],
+      queryKey: ["get_prfs_attestations", nonce],
       queryFn: async ({ pageParam }) => {
-        return atstApi({ type: "get_crypto_asset_size_atsts", offset: pageParam as number });
+        const req: GetPrfsAttestationsRequest = {
+          atst_type_id: "crypto_1",
+          offset: pageParam as number,
+        };
+        return atstApi({
+          type: "get_prfs_attestations",
+          ...req,
+        });
       },
       initialPageParam: 0,
       getNextPageParam: lastPage => {

@@ -10,6 +10,7 @@ use super::{
     GetTwitterAccAtstsRequest, GetTwitterAccAtstsResponse, ValidateTwitterAccRequest,
     ValidateTwitterAccResponse,
 };
+use crate::{GetPrfsAttestationsRequest, GetPrfsAttestationsResponse};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[allow(non_camel_case_types)]
@@ -20,6 +21,7 @@ pub enum PrfsAtstApiRequest {
     create_crypto_asset_size_atst(CreateCryptoAssetSizeAtstRequest),
     get_crypto_asset_size_atst(GetCryptoAssetSizeAtstRequest),
     get_crypto_asset_size_atsts(GetCryptoAssetSizeAtstsRequest),
+    get_prfs_attestations(GetPrfsAttestationsRequest),
     compute_crypto_asset_size_total_values(ComputeCryptoAssetSizeTotalValuesRequest),
     validate_twitter_acc(ValidateTwitterAccRequest),
     attest_twitter_acc(AttestTwitterAccRequest),
@@ -36,6 +38,7 @@ pub enum PrfsAtstApiResponse {
     create_crypto_asset_size_atst(CreateCryptoAssetSizeAtstResponse),
     get_crypto_asset_size_atst(GetCryptoAssetSizeAtstResponse),
     get_crypto_asset_size_atsts(GetCryptoAssetSizeAtstsResponse),
+    get_prfs_attestations(GetPrfsAttestationsResponse),
     compute_crypto_asset_size_total_values(ComputeCryptoAssetSizeTotalValuesResponse),
     validate_twitter_acc(ValidateTwitterAccResponse),
     attest_twitter_acc(AttestTwitterAccResponse),
