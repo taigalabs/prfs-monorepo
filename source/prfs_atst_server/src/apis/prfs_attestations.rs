@@ -16,8 +16,9 @@ use prfs_entities::atst_api::{
 };
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_entities::{
-    GetPrfsAttestationsRequest, GetPrfsAttestationsResponse, PrfsAtstTypeId,
-    UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeNodeRequest,
+    GetPrfsAttestationRequest, GetPrfsAttestationResponse, GetPrfsAttestationsRequest,
+    GetPrfsAttestationsResponse, PrfsAtstTypeId, UpdatePrfsTreeByNewAtstRequest,
+    UpdatePrfsTreeNodeRequest,
 };
 use prfs_web3_rs::signature::verify_eth_sig_by_addr;
 use rust_decimal::Decimal;
@@ -52,5 +53,24 @@ pub async fn get_prfs_attestations(
     };
 
     let resp = ApiResponse::new_success(GetPrfsAttestationsResponse { rows, next_offset });
+    return (StatusCode::OK, Json(resp));
+}
+
+pub async fn get_prfs_attestation(
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsAttestationRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsAttestationResponse>>) {
+    let pool = &state.db2.pool;
+
+    let prfs_attestation = match prfs::get_prfs_attestation(&pool, &input.atst_id).await {
+        Ok(a) => a,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
+    let resp = ApiResponse::new_success(GetPrfsAttestationResponse { prfs_attestation });
     return (StatusCode::OK, Json(resp));
 }

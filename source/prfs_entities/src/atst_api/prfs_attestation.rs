@@ -17,3 +17,15 @@ pub struct GetPrfsAttestationsResponse {
     pub rows: Vec<PrfsAttestation>,
     pub next_offset: Option<i32>,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsAttestationRequest {
+    pub atst_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsAttestationResponse {
+    pub prfs_attestation: PrfsAttestation,
+}

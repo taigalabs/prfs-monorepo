@@ -30,13 +30,17 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
         //     "/get_crypto_asset_size_atsts",
         //     post(crypto_asset::get_crypto_asset_size_atsts),
         // )
+        // .route(
+        //     "/get_crypto_asset_size_atst",
+        //     post(crypto_asset::get_crypto_asset_size_atst),
+        // )
         .route(
             "/get_prfs_attestations",
             post(prfs_attestations::get_prfs_attestations),
         )
         .route(
-            "/get_crypto_asset_size_atst",
-            post(crypto_asset::get_crypto_asset_size_atst),
+            "/get_prfs_attestation",
+            post(prfs_attestations::get_prfs_attestation),
         )
         .route(
             "/compute_crypto_asset_size_total_values",
