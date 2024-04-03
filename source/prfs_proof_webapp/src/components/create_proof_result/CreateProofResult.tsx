@@ -27,7 +27,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [isVerifyOpen, setIsVerifyOpen] = React.useState(false);
+  const [isVerifyOpen, setIsVerifyOpen] = React.useState(true);
 
   const {
     mutateAsync: createPrfsProofInstance,
