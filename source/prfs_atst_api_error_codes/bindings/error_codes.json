@@ -26,5 +26,9 @@
   "CRYPTO_SIZE_UPSERT_FAIL": {
     "code": "40000003",
     "phrase": "Crypto size upsert fail"
+  },
+  "MEMBER_INFO_NOT_FOUND": {
+    "code": "40000C00",
+    "phrase": "Member information is not found"
   }
 }

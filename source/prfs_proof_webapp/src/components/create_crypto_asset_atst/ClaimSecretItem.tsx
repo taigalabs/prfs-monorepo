@@ -13,7 +13,6 @@ import {
   WALLET_CACHE_KEY,
   WALLET_CM_STEM,
   EncryptType,
-  // createSession,
   createSessionKey,
   openPopup,
   makeAtstCmPreImage,

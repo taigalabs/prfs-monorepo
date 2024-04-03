@@ -8,6 +8,7 @@ import type { GetPrfsAttestationRequest } from "./GetPrfsAttestationRequest";
 import type { GetPrfsAttestationsRequest } from "./GetPrfsAttestationsRequest";
 import type { GetTwitterAccAtstRequest } from "./GetTwitterAccAtstRequest";
 import type { GetTwitterAccAtstsRequest } from "./GetTwitterAccAtstsRequest";
+import type { ValidateGroupMembershipRequest } from "./ValidateGroupMembershipRequest";
 import type { ValidateTwitterAccRequest } from "./ValidateTwitterAccRequest";
 
 export type PrfsAtstApiRequest =
@@ -18,6 +19,7 @@ export type PrfsAtstApiRequest =
   | ({ type: "get_prfs_attestations" } & GetPrfsAttestationsRequest)
   | ({ type: "get_prfs_attestation" } & GetPrfsAttestationRequest)
   | ({ type: "get_prfs_atst_groups" } & GetPrfsAtstGroupsRequest)
+  | ({ type: "validate_group_membership" } & ValidateGroupMembershipRequest)
   | ({ type: "validate_twitter_acc" } & ValidateTwitterAccRequest)
   | ({ type: "attest_twitter_acc" } & AttestTwitterAccRequest)
   | ({ type: "get_twitter_acc_atsts" } & GetTwitterAccAtstsRequest)

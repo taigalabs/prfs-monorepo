@@ -39,7 +39,7 @@ import {
   CM,
   ATST_TYPE_ID,
   GroupMemberAtstFormData,
-  ATST_GROUP_ID,
+  //ATST_GROUP_ID,
   MEMBER_CODE,
   MEMBER_ID,
   MEMBER,
@@ -49,6 +49,7 @@ import { useI18N } from "@/i18n/use_i18n";
 import AtstGroupSelect from "@/components/atst_group_select/AtstGroupSelect";
 import MemberIdInput from "./MemberIdInput";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
+import { ValidateGroupMembershipRequest } from "@taigalabs/prfs-entities/bindings/ValidateGroupMembershipRequest";
 
 enum Status {
   Standby,
@@ -81,6 +82,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [error, setError] = React.useState<React.ReactNode>(null);
   const [atstGroup, setAtstGroup] = React.useState<PrfsAtstGroup | null>(null);
+  const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
 
   const { mutateAsync: getLeastRecentPrfsIndex } = useMutation({
     mutationFn: (req: GetLeastRecentPrfsIndexRequest) => {
@@ -95,6 +97,11 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const { mutateAsync: createCryptoSizeAtstRequest } = useMutation({
     mutationFn: (req: CreatePrfsAttestationRequest) => {
       return atstApi({ type: "create_crypto_asset_atst", ...req });
+    },
+  });
+  const { mutateAsync: validateGroupMembership } = useMutation({
+    mutationFn: (req: ValidateGroupMembershipRequest) => {
+      return atstApi({ type: "validate_group_membership", ...req });
     },
   });
 
@@ -119,6 +126,28 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
 
     [setFormData],
   );
+
+  const handleValidateGroupMembership = React.useCallback(async () => {
+    setValidationMsg(null);
+
+    if (atstGroup) {
+      if (!formData[MEMBER_ID]) {
+        setValidationMsg("Member Id is should be given");
+      }
+
+      if (!formData[MEMBER_CODE]) {
+        setValidationMsg("Member code should be given");
+      }
+
+      const data = await validateGroupMembership({
+        atst_group_id: atstGroup?.atst_group_id,
+        member_id: formData[MEMBER_ID],
+        member_code: formData[MEMBER_CODE],
+      });
+
+      console.log(11, data);
+    }
+  }, [formData, atstGroup, setValidationMsg, validateGroupMembership]);
 
   // const handleChangeWalletAddr = React.useCallback(
   //   (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -274,6 +303,8 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
               atstGroup={atstGroup}
               formData={formData}
               handleChangeMemberInfo={handleChangeFormData}
+              handleValidateGroupMembership={handleValidateGroupMembership}
+              validationMsg={validationMsg}
             />
             <ClaimSecretItem
               atstGroup={atstGroup}

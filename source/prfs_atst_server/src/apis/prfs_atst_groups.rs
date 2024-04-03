@@ -64,22 +64,23 @@ pub async fn validate_group_membership(
     };
 
     // Only equality check for now
-    let resp = if member.member_id != input.member_id {
-        ApiResponse::new_success(ValidateGroupMembershipResponse {
-            is_valid: false,
-            error: Some("member id is not correct".to_string()),
-        })
+    if member.member_id != input.member_id {
+        let resp = ApiResponse::new_error(
+            &PRFS_ATST_API_ERROR_CODES.MEMBER_INFO_NOT_FOUND,
+            "Member Id is not correct".to_string(),
+        );
+        return (StatusCode::BAD_REQUEST, Json(resp));
     } else if member.member_code != input.member_code {
-        ApiResponse::new_success(ValidateGroupMembershipResponse {
-            is_valid: false,
-            error: Some("member code is not correct".to_string()),
-        })
+        let resp = ApiResponse::new_error(
+            &PRFS_ATST_API_ERROR_CODES.MEMBER_INFO_NOT_FOUND,
+            "Member Code is not correct".to_string(),
+        );
+        return (StatusCode::BAD_REQUEST, Json(resp));
     } else {
-        ApiResponse::new_success(ValidateGroupMembershipResponse {
+        let resp = ApiResponse::new_success(ValidateGroupMembershipResponse {
             is_valid: true,
             error: None,
-        })
+        });
+        return (StatusCode::OK, Json(resp));
     };
-
-    return (StatusCode::OK, Json(resp));
 }

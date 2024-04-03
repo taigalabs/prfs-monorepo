@@ -10,7 +10,8 @@ use super::{
 use crate::{
     CreatePrfsAttestationRequest, CreatePrfsAttestationResponse, GetPrfsAtstGroupsRequest,
     GetPrfsAtstGroupsResponse, GetPrfsAttestationRequest, GetPrfsAttestationResponse,
-    GetPrfsAttestationsRequest, GetPrfsAttestationsResponse,
+    GetPrfsAttestationsRequest, GetPrfsAttestationsResponse, ValidateGroupMembershipRequest,
+    ValidateGroupMembershipResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -25,6 +26,7 @@ pub enum PrfsAtstApiRequest {
     get_prfs_attestations(GetPrfsAttestationsRequest),
     get_prfs_attestation(GetPrfsAttestationRequest),
     get_prfs_atst_groups(GetPrfsAtstGroupsRequest),
+    validate_group_membership(ValidateGroupMembershipRequest),
     validate_twitter_acc(ValidateTwitterAccRequest),
     attest_twitter_acc(AttestTwitterAccRequest),
     get_twitter_acc_atsts(GetTwitterAccAtstsRequest),
@@ -43,6 +45,7 @@ pub enum PrfsAtstApiResponse {
     get_prfs_attestations(GetPrfsAttestationsResponse),
     get_prfs_attestation(GetPrfsAttestationResponse),
     get_prfs_atst_groups(GetPrfsAtstGroupsResponse),
+    validate_group_membership(ValidateGroupMembershipResponse),
     validate_twitter_acc(ValidateTwitterAccResponse),
     attest_twitter_acc(AttestTwitterAccResponse),
     get_twitter_acc_atsts(GetTwitterAccAtstsResponse),

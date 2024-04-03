@@ -10,14 +10,11 @@ import {
   QueryType,
   ProofGenSuccessPayload,
   makeCmCacheKeyQueries,
-  WALLET_CACHE_KEY,
-  WALLET_CM_STEM,
   EncryptType,
   createSessionKey,
   openPopup,
   CommitmentReceipt,
   EncryptedReceipt,
-  makeAtstCmPreImage,
   makeAtstCmPreImageStr,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
@@ -25,7 +22,6 @@ import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_d
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
-import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -45,7 +41,6 @@ import {
   ENCRYPTED_MEMBER_ID,
   GroupMemberAtstFormData,
   MEMBER,
-  MEMBER_CODE,
   MEMBER_ID,
 } from "./create_group_member_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
@@ -66,13 +61,6 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
     usePrfsIdSession();
   const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
-  const [validateErorr, setValidateError] = React.useState<string | null>(null);
-
-  const { mutateAsync: validateGroupMembership } = useMutation({
-    mutationFn: (req: CreateShyTopicRequest) => {
-      return atstApi({ type: "create_shy_topic", ...req });
-    },
-  });
 
   const claimSecret = React.useMemo(() => {
     if (atstGroup && formData[MEMBER_ID]) {
@@ -80,19 +68,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
     } else {
       return "";
     }
-  }, [atstGroup, formData, validateGroupMembership]);
-
-  const handleValidateMembership = React.useCallback(() => {
-    setValidateError(null);
-
-    if (!formData[MEMBER_ID]) {
-      setValidateError("Member Id is should be given");
-    }
-
-    if (!formData[MEMBER_CODE]) {
-      setValidateError("Member code should be given");
-    }
-  }, [formData, atstGroup, setValidateError]);
+  }, [atstGroup, formData]);
 
   const handleClickGenerate = React.useCallback(async () => {
     if (!atstGroup) {

@@ -15,11 +15,14 @@ import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import styles from "./MemberIdInput.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { GroupMemberAtstFormData, MEMBER_CODE, MEMBER_ID } from "./create_group_member_atst";
+import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 const MemberIdInput: React.FC<EncryptedWalletAddrItemProps> = ({
   atstGroup,
   formData,
   handleChangeMemberInfo,
+  handleValidateGroupMembership,
+  validationMsg,
 }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -58,6 +61,12 @@ const MemberIdInput: React.FC<EncryptedWalletAddrItemProps> = ({
               />
             </div>
           </div>
+          <div className={styles.btnRow}>
+            <button type="button" onClick={handleValidateGroupMembership}>
+              <HoverableText>{i18n.validate}</HoverableText>
+            </button>
+            <div className={styles.msg}>{validationMsg}</div>
+          </div>
         </AttestationListRightCol>
       </AttestationListItem>
     </>
@@ -70,4 +79,6 @@ export interface EncryptedWalletAddrItemProps {
   atstGroup: PrfsAtstGroup | null;
   formData: GroupMemberAtstFormData;
   handleChangeMemberInfo: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleValidateGroupMembership: () => void;
+  validationMsg: React.ReactNode;
 }
