@@ -23,7 +23,7 @@ import {
 } from "@/storage/local_storage";
 import { useSignedInProofUser } from "@/hooks/user";
 import { paths } from "@/paths";
-import { setGlobalError } from "@/state/errorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   className,
@@ -49,7 +49,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
     async (signInResult: AppSignInResult) => {
       if (!signInResult.account_id || !signInResult.public_key) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Invalid sign in result, result: ${signInResult}`,
           }),
         );
@@ -76,7 +77,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
 
           if (error) {
             dispatch(
-              setGlobalError({
+              setGlobalMsg({
+                variant: "error",
                 message: `Error signing up, err: ${error.toString()}`,
               }),
             );
@@ -88,8 +90,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
           router.push(paths.account__welcome);
         } else {
           dispatch(
-            setGlobalError({
-              // errorObj: error,
+            setGlobalMsg({
+              variant: "error",
               message: `Error signing in, err: ${error.toString()}`,
             }),
           );
@@ -116,7 +118,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   const handleSignInError = React.useCallback(
     (err: string) => {
       dispatch(
-        setGlobalError({
+        setGlobalMsg({
+          variant: "error",
           message: err,
         }),
       );

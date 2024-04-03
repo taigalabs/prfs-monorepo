@@ -29,7 +29,7 @@ import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
 import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { useAppDispatch } from "@/state/hooks";
 import { useSignInPrfsIdentity } from "@/requests";
-import { setGlobalError } from "@/state/globalErrorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 enum InputCredentialStatus {
   Loading,
@@ -119,7 +119,8 @@ const SignInForm: React.FC<InputCredentialProps> = ({
     console.log(123, code, error);
     if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
       dispatch(
-        setGlobalError({
+        setGlobalMsg({
+          variant: "error",
           message: `Cannot find the id. Have you signed up before? id: ${credential.id}`,
         }),
       );

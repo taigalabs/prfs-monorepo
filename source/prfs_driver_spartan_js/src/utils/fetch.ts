@@ -7,7 +7,12 @@ export async function fetchAsset(
   eventListener: DriverEventListener,
   assetLen: number,
 ): Promise<Uint8Array> {
-  const response = await fetch(url);
+  let response;
+  try {
+    response = await fetch(url);
+  } catch (err) {
+    throw new Error(`Failed to fetch asset, name: ${assetName}, url: ${url}, err: ${err}`);
+  }
 
   if (!response?.body) {
     throw new Error("Response does not contain body");

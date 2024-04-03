@@ -13,13 +13,13 @@ import {
 
 import styles from "./GlobalErrorDialog.module.scss";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { removeGlobalError } from "@/state/errorReducer";
+import { removeGlobalMsg } from "@/state/globalMsgReducer";
 
 const GlobalErrorDialog: React.FC<GlobalErrorDialogProps> = ({}) => {
-  const error = useAppSelector(state => state.globalError.error);
+  const error = useAppSelector(state => state.globalMsg.msg);
   const dispatch = useAppDispatch();
   const handleClickClose = React.useCallback(() => {
-    dispatch(removeGlobalError());
+    dispatch(removeGlobalMsg());
   }, [dispatch]);
 
   return (

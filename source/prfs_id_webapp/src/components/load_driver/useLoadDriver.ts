@@ -9,7 +9,7 @@ import { O1jsDriverProperties } from "@taigalabs/prfs-driver-o1js";
 
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
-import { setGlobalError } from "@/state/globalErrorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 export enum LoadDriverStatus {
   Standby,
@@ -62,7 +62,7 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
             case "LOAD_DRIVER_ERROR": {
               console.log("load driver error", payload);
 
-              dispatch(setGlobalError({ message: payload.message }));
+              dispatch(setGlobalMsg({ variant: "error", message: payload.message }));
               break;
             }
             default: {

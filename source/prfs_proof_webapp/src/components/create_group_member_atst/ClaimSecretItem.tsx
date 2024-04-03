@@ -21,6 +21,7 @@ import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
+import { atstApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -44,8 +45,7 @@ import {
 } from "./create_group_member_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
-import { atstApi } from "@taigalabs/prfs-api-js";
-import { setGlobalError } from "@/state/errorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   atstGroup,
@@ -132,7 +132,8 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
     (session: PrfsIdSession) => {
       if (!sk) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "Secret key is not set to decrypt Prfs ID session",
           }),
         );
@@ -145,7 +146,8 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         decrypted = decrypt(sk.secret, buf).toString();
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot decrypt payload, err: ${err}`,
           }),
         );
@@ -157,7 +159,8 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot parse proof payload, err: ${err}`,
           }),
         );

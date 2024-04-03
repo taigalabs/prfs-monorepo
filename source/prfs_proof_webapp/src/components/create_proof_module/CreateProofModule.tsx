@@ -22,7 +22,7 @@ import { i18nContext } from "@/i18n/context";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
-import { setGlobalError } from "@/state/errorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 const PROOF = "Proof";
 
@@ -92,7 +92,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     (session: PrfsIdSession) => {
       if (!sk) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "Secret key is not set to decrypt Prfs ID session",
           }),
         );
@@ -105,7 +106,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         decrypted = decrypt(sk.secret, buf).toString();
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot decrypt payload, err: ${err}`,
           }),
         );
@@ -117,7 +119,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot parse proof payload, err: ${err}`,
           }),
         );
@@ -129,7 +132,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         handleCreateProofResult(proof);
       } else {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "no proof delivered",
           }),
         );

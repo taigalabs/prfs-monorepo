@@ -13,19 +13,19 @@ import {
 
 import styles from "./GlobalErrorHeader.module.scss";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { removeGlobalError } from "@/state/globalErrorReducer";
+import { removeGlobalMsg } from "@/state/globalMsgReducer";
 
 const GlobalErrorHeader: React.FC<GlobalErrorDialogProps> = ({}) => {
-  const error = useAppSelector(state => state.globalError.error);
+  const msg = useAppSelector(state => state.globalError.msg);
   const dispatch = useAppDispatch();
   const handleClickClose = React.useCallback(() => {
-    dispatch(removeGlobalError());
+    dispatch(removeGlobalMsg());
   }, [dispatch]);
 
-  const notDismissible = error?.notDismissible;
+  const notDismissible = msg?.notDismissible;
 
   const elem = React.useMemo(() => {
-    if (!error) {
+    if (!msg) {
       return null;
     }
 
@@ -33,7 +33,7 @@ const GlobalErrorHeader: React.FC<GlobalErrorDialogProps> = ({}) => {
       <GlobalMsgHeaderWrapper>
         <AlertWrapper variant="warn" className={styles.alert}>
           <AlertContent>
-            <p>{error.message}</p>
+            <p>{msg.message}</p>
           </AlertContent>
           <AlertBtnGroup>
             {!notDismissible && (
@@ -46,12 +46,12 @@ const GlobalErrorHeader: React.FC<GlobalErrorDialogProps> = ({}) => {
       </GlobalMsgHeaderWrapper>
     );
 
-    if (error.notOverlay) {
+    if (msg.notOverlay) {
       return content;
     } else {
       return <Overlay className={styles.overlay}>{content}</Overlay>;
     }
-  }, [error, handleClickClose]);
+  }, [msg, handleClickClose]);
 
   return elem;
 };

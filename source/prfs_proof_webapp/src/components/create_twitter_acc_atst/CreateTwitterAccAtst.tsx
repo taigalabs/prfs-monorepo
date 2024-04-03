@@ -56,7 +56,7 @@ import {
   AttestationsTitle,
 } from "@/components/attestations/AttestationComponents";
 import { useAppDispatch } from "@/state/hooks";
-import { setGlobalError } from "@/state/errorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -318,7 +318,8 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     (session: PrfsIdSession) => {
       if (!sk) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "Secret key is not set to decrypt Prfs ID session",
           }),
         );
@@ -331,7 +332,8 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         decrypted = decrypt(sk.secret, buf).toString();
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot decrypt payload, err: ${err}`,
           }),
         );
@@ -343,7 +345,8 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot parse proof payload, err: ${err}`,
           }),
         );
@@ -356,7 +359,8 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         setStep(AttestationStep.POST_TWEET);
       } else {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "no proof delivered",
           }),
         );

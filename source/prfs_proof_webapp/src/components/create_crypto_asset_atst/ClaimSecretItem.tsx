@@ -44,7 +44,7 @@ import {
 } from "./create_crypto_asset_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
-import { setGlobalError } from "@/state/errorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   formData,
@@ -122,7 +122,8 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
     (session: PrfsIdSession) => {
       if (!sk) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "Secret key is not set to decrypt Prfs ID session",
           }),
         );
@@ -135,7 +136,8 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         decrypted = decrypt(sk.secret, buf).toString();
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot decrypt payload, err: ${err}`,
           }),
         );
@@ -147,7 +149,8 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot parse proof payload, err: ${err}`,
           }),
         );
@@ -170,7 +173,8 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         setWalletAddrEnc(walletAddrEncrypted.encrypted);
       } else {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `No commitment delivered`,
           }),
         );

@@ -33,7 +33,7 @@ import {
 } from "@/components/default_module/DefaultModule";
 import { useAppDispatch } from "@/state/hooks";
 import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
-import { setGlobalError } from "@/state/globalErrorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 export enum IdCreationStatus {
   Standby,
@@ -84,7 +84,8 @@ const SignUp: React.FC<SignUpProps> = ({
 
         if (error) {
           dispatch(
-            setGlobalError({
+            setGlobalMsg({
+              variant: "error",
               message: error.toString(),
             }),
           );
@@ -95,7 +96,8 @@ const SignUp: React.FC<SignUpProps> = ({
         }
       } catch (err: any) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: err.toString(),
           }),
         );

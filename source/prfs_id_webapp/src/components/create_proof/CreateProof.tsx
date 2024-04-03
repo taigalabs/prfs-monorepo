@@ -26,7 +26,7 @@ import { useAppDispatch } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
 import { FormHandler } from "@/components/circuit_input_items/formTypes";
-import { setGlobalError } from "@/state/globalErrorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 enum Status {
   Standby,
@@ -77,7 +77,8 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
   React.useEffect(() => {
     if (error) {
       dispatch(
-        setGlobalError({
+        setGlobalMsg({
+          variant: "error",
           message: "Error fetching proof type, something is wrong. ",
         }),
       );
@@ -85,7 +86,8 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
 
     if (data?.error) {
       dispatch(
-        setGlobalError({
+        setGlobalMsg({
+          variant: "error",
           message: "Error fetching proof type, something is wrong. ",
         }),
       );

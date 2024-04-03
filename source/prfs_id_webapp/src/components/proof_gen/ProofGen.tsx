@@ -25,7 +25,7 @@ import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import { signInPrfs } from "@/state/userReducer";
 import { useGetPrfsIdApp, useSignInPrfsIdentity } from "@/requests";
 import { AlertWrapper } from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
-import { setGlobalError } from "@/state/globalErrorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -83,7 +83,8 @@ const ProofGen: React.FC = () => {
         const { error } = await signInPrfsIdentity({ identity_id: credential.id });
         if (error) {
           dispatch(
-            setGlobalError({
+            setGlobalMsg({
+              variant: "error",
               message: `Failed to sign in. Did you sign up? If yes, check out the passwords
 \ again. Id you created: ${credential.id}`,
             }),

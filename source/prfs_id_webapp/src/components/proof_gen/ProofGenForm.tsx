@@ -32,7 +32,7 @@ import { usePutSessionValue } from "@/hooks/session";
 import AppCredential from "@/components/app_sign_in/AppCredential";
 import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 import { useAppDispatch } from "@/state/hooks";
-import { setGlobalError } from "@/state/globalErrorReducer";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 enum Status {
   InProgress,
@@ -82,7 +82,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           setErrorMsg(error.toString());
           setCreateProofStatus(Status.Standby);
           dispatch(
-            setGlobalError({
+            setGlobalMsg({
+              variant: "error",
               message: "Session may be old. Re-try after closing the window",
               notDismissible: true,
             }),
@@ -90,7 +91,13 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           return;
         }
 
-        dispatch(setGlobalError({ message: i18n.already_made_proof, notDismissible: true }));
+        dispatch(
+          setGlobalMsg({
+            variant: "error",
+            message: i18n.already_made_proof,
+            notDismissible: true,
+          }),
+        );
         setCreateProofStatus(Status.Standby);
 
         if (!DEBUG__keepWindowAtTheEnd) {
@@ -175,7 +182,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
               default:
                 console.error("unsupported query type", query);
                 dispatch(
-                  setGlobalError({
+                  setGlobalMsg({
+                    variant: "error",
                     message: "Unsupported query type, something is wrong",
                   }),
                 );
@@ -234,9 +242,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         }
       } catch (err: any) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Failed to generate proof, ${err.toString()}`,
-            // errorObj: err,
           }),
         );
         setCreateProofStatus(Status.Standby);
