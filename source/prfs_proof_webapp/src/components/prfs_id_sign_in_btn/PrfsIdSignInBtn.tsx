@@ -3,23 +3,13 @@
 import React from "react";
 import cn from "classnames";
 import { useRouter } from "next/navigation";
-import { KeyPair, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
 import prfs_api_error_codes from "@taigalabs/prfs-api-error-codes";
-import {
-  AppSignInData,
-  makeColor,
-  createSessionKey,
-  ProofGenArgs,
-  AppSignInType,
-  QueryType,
-  AppSignInResult,
-} from "@taigalabs/prfs-id-sdk-web";
+import { makeColor, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { SignInPrfsAccountRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsAccountRequest";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { SignUpPrfsAccountRequest } from "@taigalabs/prfs-entities/bindings/SignUpPrfsAccountRequest";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
@@ -33,9 +23,7 @@ import {
 } from "@/storage/local_storage";
 import { useSignedInProofUser } from "@/hooks/user";
 import { paths } from "@/paths";
-import { urls } from "@/urls";
-
-// const SIGN_IN = "SIGN_IN";
+import { setGlobalError } from "@/state/errorReducer";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
   className,
@@ -89,7 +77,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
           if (error) {
             dispatch(
               setGlobalError({
-                // errorObj: error,
                 message: `Error signing up, err: ${error.toString()}`,
               }),
             );

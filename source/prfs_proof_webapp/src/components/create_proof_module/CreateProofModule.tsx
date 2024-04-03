@@ -14,7 +14,6 @@ import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalab
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 
@@ -23,6 +22,7 @@ import { i18nContext } from "@/i18n/context";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
+import { setGlobalError } from "@/state/errorReducer";
 
 const PROOF = "Proof";
 

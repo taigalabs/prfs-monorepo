@@ -4,37 +4,42 @@ export interface GlobalErrorState {
   error: GlobalError | null;
 }
 
-const initialState: GlobalErrorState = {
+const initialState_: GlobalErrorState = {
   error: null,
 };
 
-const slice = createSlice({
-  name: "error",
-  initialState,
-  reducers: {
-    setGlobalError: (state, action: PayloadAction<GlobalError>) => {
-      console.error("Reporting error: %s", action.payload.message);
+const makeSlice = (initialState: GlobalErrorState) =>
+  createSlice({
+    name: "error",
+    initialState,
+    reducers: {
+      setGlobalError: (state, action: PayloadAction<GlobalError>) => {
+        console.error("Reporting error: %s", action.payload.message);
 
-      return {
-        ...state,
-        error: action.payload,
-      };
+        return {
+          ...state,
+          error: action.payload,
+        };
+      },
+      removeGlobalError: (state, _action: PayloadAction<void>) => {
+        return {
+          ...state,
+          error: null,
+        };
+      },
     },
-    removeGlobalError: (state, _action: PayloadAction<void>) => {
-      return {
-        ...state,
-        error: null,
-      };
-    },
-  },
-});
+  });
 
-export const { setGlobalError, removeGlobalError } = slice.actions;
+// export const { setGlobalError, removeGlobalError } = slice.actions;
 
-export const globalErrorReducer = slice.reducer;
+// export const globalErrorReducer = slice.reducer;
 
 interface GlobalError {
-  errorObj?: any;
   message: string;
-  shouldCloseWindow?: boolean;
+  notOverlay?: boolean;
+  notDismissible?: boolean;
+}
+
+export function makeGlobalErrorSlice(initialState?: GlobalErrorState) {
+  return makeSlice(initialState || initialState_);
 }

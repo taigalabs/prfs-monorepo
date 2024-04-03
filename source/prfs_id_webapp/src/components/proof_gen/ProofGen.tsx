@@ -6,7 +6,6 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import { bustEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import PLogo from "@taigalabs/prfs-react-lib/src/prfs_logo/PLogo";
 import AppLogo from "@taigalabs/prfs-react-lib/src/app_logo/AppLogo";
 
@@ -26,6 +25,7 @@ import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import { signInPrfs } from "@/state/userReducer";
 import { useGetPrfsIdApp, useSignInPrfsIdentity } from "@/requests";
 import { AlertWrapper } from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
+import { setGlobalError } from "@/state/globalErrorReducer";
 
 enum ProofGenStep {
   PrfsIdCredential,

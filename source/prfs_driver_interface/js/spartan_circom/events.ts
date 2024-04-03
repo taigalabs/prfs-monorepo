@@ -25,11 +25,15 @@ export interface LoadDriverSuccessEvent {
 
 export interface LoadDriverErrorEvent {
   type: "LOAD_DRIVER_ERROR";
-  payload: string;
+  payload: LoadDriverErrorEventPayload;
 }
 
 export interface LoadDriverSuccessEventPayload {
   artifactCount: number;
+}
+
+export interface LoadDriverErrorEventPayload {
+  message: string;
 }
 
 export interface CreateProofEvent {

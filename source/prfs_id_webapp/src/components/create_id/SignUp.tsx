@@ -12,7 +12,6 @@ import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { SignUpPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignUpPrfsIdentityRequest";
 import {
   PASSWORD_1,
@@ -34,6 +33,7 @@ import {
 } from "@/components/default_module/DefaultModule";
 import { useAppDispatch } from "@/state/hooks";
 import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
+import { setGlobalError } from "@/state/globalErrorReducer";
 
 export enum IdCreationStatus {
   Standby,

@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createLogger } from "redux-logger";
-import { globalErrorReducer } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
+// import { globalErrorReducer } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
+import { globalErrorReducer } from "./errorReducer";
 
 import { userReducer } from "./userReducer";
 

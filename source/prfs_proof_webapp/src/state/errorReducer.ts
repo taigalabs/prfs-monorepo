@@ -1,39 +1,7 @@
-// import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { makeGlobalErrorSlice } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
-// export interface ErrorState {
-//   error: ReportableError | null;
-// }
+const slice = makeGlobalErrorSlice();
 
-// const initialState: ErrorState = {
-//   error: null,
-// };
+export const { setGlobalError, removeGlobalError } = slice.actions;
 
-// export const errorSlice = createSlice({
-//   name: "error",
-//   initialState,
-//   reducers: {
-//     reportError: (state, action: PayloadAction<ReportableError>) => {
-//       console.error("Reporting error: %o", action.payload.errorObj);
-
-//       return {
-//         ...state,
-//         error: action.payload,
-//       };
-//     },
-//     removeError: (state, _action: PayloadAction<void>) => {
-//       return {
-//         ...state,
-//         error: null,
-//       };
-//     },
-//   },
-// });
-
-// export const { reportError, removeError } = errorSlice.actions;
-
-// export const errorReducer = errorSlice.reducer;
-
-// interface ReportableError {
-//   errorObj: any;
-//   message: string;
-// }
+export const globalErrorReducer = slice.reducer;

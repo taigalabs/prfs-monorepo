@@ -22,7 +22,6 @@ import {
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -45,6 +44,7 @@ import {
 } from "./create_crypto_asset_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
+import { setGlobalError } from "@/state/errorReducer";
 
 const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   formData,

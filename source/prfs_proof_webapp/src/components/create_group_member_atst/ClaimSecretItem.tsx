@@ -20,7 +20,6 @@ import {
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 
 import styles from "./ClaimSecretItem.module.scss";
@@ -46,6 +45,7 @@ import {
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
 import { atstApi } from "@taigalabs/prfs-api-js";
+import { setGlobalError } from "@/state/errorReducer";
 
 const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   atstGroup,
