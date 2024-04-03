@@ -27,7 +27,6 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
@@ -41,6 +40,7 @@ import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import CreateTopicFooter from "./CreateTopicFooter";
 import { useAppDispatch } from "@/state/hooks";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 const PROOF = "Proof";
 
@@ -179,7 +179,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     async (session: PrfsIdSession) => {
       if (!sk) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "Secret key is not set to decrypt Prfs ID session",
           }),
         );
@@ -188,7 +189,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
 
       if (!html) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "Post content does not exist",
           }),
         );
@@ -201,7 +203,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         decrypted = decrypt(sk.secret, buf).toString();
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot decrypt payload, err: ${err}`,
           }),
         );
@@ -213,7 +216,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot parse proof payload, err: ${err}`,
           }),
         );
@@ -233,7 +237,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
       const addr = computeAddress(publicInputs.proofPubKey);
       if (recoveredAddr !== addr) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
           }),
         );
@@ -259,7 +264,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
 
       if (error) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Failed to create a topic, err: ${error}`,
           }),
         );
