@@ -98,17 +98,19 @@ pub async fn get_prfs_attestations(
 
     let atsts = rows
         .iter()
-        .map(|row| PrfsAttestation {
-            atst_id: row.get("atst_id"),
-            atst_type_id: row.get("atst_type_id"),
-            cm: row.get("cm"),
-            label: row.get("label"),
-            value: row.get("value"),
-            meta: row.get("meta"),
-            status: row.get("status"),
-            atst_version: row.get("atst_version"),
+        .map(|row| {
+            Ok(PrfsAttestation {
+                atst_id: row.try_get("atst_id")?,
+                atst_type_id: row.try_get("atst_type_id")?,
+                cm: row.try_get("cm")?,
+                label: row.try_get("label")?,
+                value: row.try_get("value")?,
+                meta: row.try_get("meta")?,
+                status: row.try_get("status")?,
+                atst_version: row.try_get("atst_version")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsAttestation>, DbInterfaceError>>()?;
 
     Ok(atsts)
 }
@@ -131,17 +133,19 @@ pub async fn get_prfs_attestations__tx(
 
     let atsts = rows
         .iter()
-        .map(|row| PrfsAttestation {
-            atst_id: row.get("atst_id"),
-            atst_type_id: row.get("atst_type_id"),
-            cm: row.get("cm"),
-            label: row.get("label"),
-            value: row.get("value"),
-            meta: row.get("meta"),
-            status: row.get("status"),
-            atst_version: row.get("atst_version"),
+        .map(|row| {
+            Ok(PrfsAttestation {
+                atst_id: row.try_get("atst_id")?,
+                atst_type_id: row.try_get("atst_type_id")?,
+                cm: row.try_get("cm")?,
+                label: row.try_get("label")?,
+                value: row.try_get("value")?,
+                meta: row.try_get("meta")?,
+                status: row.try_get("status")?,
+                atst_version: row.try_get("atst_version")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsAttestation>, DbInterfaceError>>()?;
 
     Ok(atsts)
 }
@@ -159,14 +163,14 @@ WHERE atst_id=$1
     let row = sqlx::query(query).bind(&atst_id).fetch_one(pool).await?;
 
     let atst = PrfsAttestation {
-        atst_id: row.get("atst_id"),
-        atst_type_id: row.get("atst_type_id"),
-        cm: row.get("cm"),
-        label: row.get("label"),
-        value: row.get("value"),
-        meta: row.get("meta"),
-        status: row.get("status"),
-        atst_version: row.get("atst_version"),
+        atst_id: row.try_get("atst_id")?,
+        atst_type_id: row.try_get("atst_type_id")?,
+        cm: row.try_get("cm")?,
+        label: row.try_get("label")?,
+        value: row.try_get("value")?,
+        meta: row.try_get("meta")?,
+        status: row.try_get("status")?,
+        atst_version: row.try_get("atst_version")?,
     };
 
     Ok(atst)

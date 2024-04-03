@@ -1,7 +1,6 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
 use prfs_entities::{atst_entities::PrfsAttestation, PrfsAtstGroup, PrfsAtstTypeId};
 
-use super::queries::get_prfs_attestations_query;
 use crate::DbInterfaceError;
 
 pub async fn get_prfs_atst_groups(
@@ -25,13 +24,15 @@ OFFSET $2
 
     let atsts = rows
         .iter()
-        .map(|row| PrfsAtstGroup {
-            atst_group_id: row.get("atst_group_id"),
-            atst_type_id: row.get("atst_type_id"),
-            label: row.get("label"),
-            desc: row.get("desc"),
+        .map(|row| {
+            Ok(PrfsAtstGroup {
+                atst_group_id: row.try_get("atst_group_id")?,
+                atst_type_id: row.try_get("atst_type_id")?,
+                label: row.try_get("label")?,
+                desc: row.try_get("desc")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsAtstGroup>, DbInterfaceError>>()?;
 
     Ok(atsts)
 }
