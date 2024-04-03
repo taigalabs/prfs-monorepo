@@ -12,7 +12,7 @@ import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import { PrfsIdCredential, makeWalletAtstCm } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, makeAtstCm } from "@taigalabs/prfs-id-sdk-web";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
@@ -130,7 +130,7 @@ export function useHandleChangeAddress({
           const d = data[0];
           switch (d.type) {
             case "WalletCm": {
-              const { sigBytes, hashed } = await makeWalletAtstCm(credential.secret_key, addr);
+              const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, addr);
               sigR = bytesToNumberLE(sigBytes.subarray(0, 32));
               sigS = bytesToNumberLE(sigBytes.subarray(32, 64));
 

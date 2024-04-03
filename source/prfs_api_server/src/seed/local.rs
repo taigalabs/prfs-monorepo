@@ -5,7 +5,7 @@ use prfs_entities::{
         PrfsAccount, PrfsCircuit, PrfsCircuitDriver, PrfsCircuitInputType, PrfsCircuitType,
         PrfsPolicyItem, PrfsProofType,
     },
-    seed::DynamicSetJson,
+    PrfsAtstGroup,
 };
 use prfs_rust_utils::serde::read_json_file;
 use std::collections::{HashMap, HashSet};
@@ -151,18 +151,17 @@ pub fn load_proof_types() -> HashMap<String, PrfsProofType> {
     m
 }
 
-pub fn load_dynamic_sets() -> HashMap<String, DynamicSetJson> {
-    println!("\n{} dynamic sets", "Loading".green());
+pub fn load_prfs_atst_groups() -> HashMap<String, PrfsAtstGroup> {
+    println!("\n{} proof types", "Loading".green());
 
-    let json_path = PATHS.data_seed__json_bindings.join("dynamic_sets.json");
-    let dynamic_sets: Vec<DynamicSetJson> = read_json_file(&json_path).unwrap();
+    let json_path = PATHS.data_seed__json_bindings.join("prfs_atst_groups.json");
+    let rows: Vec<PrfsAtstGroup> = read_json_file(&json_path).unwrap();
 
     let mut m = HashMap::new();
-    for dynamic_set in dynamic_sets {
-        let set_id = dynamic_set.prfs_set.set_id.to_string();
-        println!("Reading set, set_id: {}", set_id);
+    for row in rows {
+        println!("Reading row, name: {}", row.atst_group_id);
 
-        m.insert(set_id.to_string(), dynamic_set.clone());
+        m.insert(row.atst_group_id.to_string(), row.clone());
     }
 
     m

@@ -5,18 +5,28 @@ export async function fetchAsset(
   assetName: string,
   url: string,
   eventListener: DriverEventListener,
+  assetLen: number,
 ): Promise<Uint8Array> {
-  const response = await fetch(url);
+  let response;
+  try {
+    response = await fetch(url);
+  } catch (err) {
+    throw new Error(`Failed to fetch asset, name: ${assetName}, url: ${url}, err: ${err}`);
+  }
 
   if (!response?.body) {
     throw new Error("Response does not contain body");
   }
 
-  const contentLen = response.headers.get("Content-Length");
-  const totalLen = typeof contentLen === "string" && parseInt(contentLen);
+  response.headers.forEach(v => console.log(v, assetName));
+
+  const contentLen = response.headers.get("content-length");
+  const totalLen = (typeof contentLen === "string" && parseInt(contentLen)) || assetLen;
 
   if (!totalLen) {
-    return Promise.reject(`Content length is not parsable, assetName: ${assetName}`);
+    console.warn(
+      `Content-length header missing, len: ${totalLen}, assetName: ${assetName}, url: ${url}`,
+    );
   }
 
   const emitProgress = throttle(

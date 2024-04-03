@@ -1,4 +1,5 @@
 export type PrfsProofId = string;
+
 export interface LocalPrfsProofCredential {
   account_id: string;
   public_key: string; // encrpyted

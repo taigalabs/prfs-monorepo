@@ -3,5 +3,7 @@
 export type SpartanCircomDriverProperties = {
   version: string;
   wtns_gen_url: string;
+  wtns_gen_len: string;
   circuit_url: string;
+  circuit_len: string;
 };

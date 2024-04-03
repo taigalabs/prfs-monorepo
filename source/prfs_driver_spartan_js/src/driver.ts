@@ -2,14 +2,12 @@ import {
   CircuitDriver,
   DriverEventListener,
   ProveArgs,
-  ProveReceipt,
   ProveResult,
   VerifyArgs,
 } from "@taigalabs/prfs-driver-interface";
 import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-interface/bindings/SpartanCircomDriverProperties";
-import { MERKLE_SIG_POS_RANGE_V1, SIMPLE_HASH_V1 } from "@taigalabs/prfs-circuit-interface";
 
-import { PrfsHandlers, AsyncHashFn, BuildStatus, SpartanDriverCtorArgs } from "./types";
+import { PrfsHandlers, BuildStatus, SpartanDriverCtorArgs } from "./types";
 import { initWasm } from "./wasm_wrapper/load_worker";
 import { fetchAsset } from "./utils/fetch";
 
@@ -28,7 +26,7 @@ export default class SpartanDriver implements CircuitDriver {
     try {
       prfsHandlers = await initWasm();
 
-      const { circuit_url, wtns_gen_url, version } = driverProps;
+      const { circuit_url, circuit_len, wtns_gen_url, wtns_gen_len, version } = driverProps;
 
       let vs: string;
       if (version) {
@@ -40,8 +38,8 @@ export default class SpartanDriver implements CircuitDriver {
       }
 
       const [circuit, wtnsGen] = await Promise.all([
-        fetchAsset("circuit", `${circuit_url}?version=${vs}`, eventListener),
-        fetchAsset("wtnsGen", `${wtns_gen_url}?version=${vs}`, eventListener),
+        fetchAsset("circuit", `${circuit_url}?version=${vs}`, eventListener, Number(circuit_len)),
+        fetchAsset("wtnsGen", `${wtns_gen_url}?version=${vs}`, eventListener, Number(wtns_gen_len)),
       ]);
 
       eventListener({
@@ -64,7 +62,9 @@ export default class SpartanDriver implements CircuitDriver {
 
       eventListener({
         type: "LOAD_DRIVER_ERROR",
-        payload: err.toString(),
+        payload: {
+          message: err.toString(),
+        },
       });
 
       return Promise.resolve(null);

@@ -1,0 +1,14 @@
+@import "@/styles/layouts.module.scss";
+
+.inputArea {
+  /* padding-top: 12px; */
+
+  > div:not(:first-child) {
+    margin-top: 18px;
+  }
+}
+
+.guide {
+  color: var(--gray-20);
+  padding-bottom: 10px;
+}

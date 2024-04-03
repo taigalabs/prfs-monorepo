@@ -1,6 +1,5 @@
 use prfs_axum_lib::axum::{routing::post, Router};
 use prfs_common_server_state::ServerState;
-use prfs_entities::PrfsAtstType;
 use prfs_tree_api_error_codes::bindgen::make_prfs_tree_api_error_code_json_binding;
 use std::sync::Arc;
 

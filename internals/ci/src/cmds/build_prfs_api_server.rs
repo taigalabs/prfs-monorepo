@@ -16,6 +16,11 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
         timestamp: timestamp.to_string(),
     };
 
+    let dest_path = &PATHS.ws_root.join("prfs_api_server");
+    if dest_path.exists() {
+        std::fs::remove_file(&dest_path).unwrap();
+    }
+
     let tasks: Vec<Box<dyn BuildTask>> = vec![Box::new(BuildPrfsApiServerTask)];
     run_tasks(sub_matches, tasks, build_handle).expect("Ci failed");
 
@@ -24,6 +29,5 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
         panic!("Could not find the binary, path: {:?}", bin_path);
     }
 
-    let dest_path = &PATHS.ws_root.join("prfs_api_server");
     std::fs::copy(bin_path, &dest_path).expect("copy failed");
 }

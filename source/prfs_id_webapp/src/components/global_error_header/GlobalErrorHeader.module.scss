@@ -1,7 +1,21 @@
 @import "@/styles/layouts.module.scss";
 
+.overlay {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  position: absolute;
+  inset: 0px;
+  display: grid;
+  place-items: center;
+  z-index: 11;
+}
+
 .wrapper {
   position: fixed;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 10;
+}
+
+.alert {
+  border-bottom: 1px solid rgb(229, 174, 128);
 }

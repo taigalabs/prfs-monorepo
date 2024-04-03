@@ -10,7 +10,6 @@ import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -27,6 +26,7 @@ import { useAppDispatch } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
 import { FormHandler } from "@/components/circuit_input_items/formTypes";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 enum Status {
   Standby,
@@ -77,7 +77,8 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
   React.useEffect(() => {
     if (error) {
       dispatch(
-        setGlobalError({
+        setGlobalMsg({
+          variant: "error",
           message: "Error fetching proof type, something is wrong. ",
         }),
       );
@@ -85,7 +86,8 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
 
     if (data?.error) {
       dispatch(
-        setGlobalError({
+        setGlobalMsg({
+          variant: "error",
           message: "Error fetching proof type, something is wrong. ",
         }),
       );

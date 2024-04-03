@@ -8,6 +8,8 @@ import { interpolateSystemAssetEndpoint } from "@taigalabs/prfs-circuit-artifact
 import { O1jsDriverProperties } from "@taigalabs/prfs-driver-o1js";
 
 import { envs } from "@/envs";
+import { useAppDispatch } from "@/state/hooks";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 export enum LoadDriverStatus {
   Standby,
@@ -27,6 +29,7 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
   const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.Standby);
   const [driverArtifacts, setDriverArtifacts] = React.useState<DriverArtifacts | null>(null);
   const [driver, setDriver] = React.useState<CircuitDriver | null>(null);
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     async function fn() {
@@ -54,6 +57,12 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
                 diff,
                 artifactCount,
               });
+              break;
+            }
+            case "LOAD_DRIVER_ERROR": {
+              console.log("load driver error", payload);
+
+              dispatch(setGlobalMsg({ variant: "error", message: payload.message }));
               break;
             }
             default: {
@@ -127,7 +136,7 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
       }
     }
     fn().then();
-  }, [setLoadDriverProgress, setDriverArtifacts, proofType]);
+  }, [setLoadDriverProgress, setDriverArtifacts, proofType, dispatch]);
 
   return {
     driver,

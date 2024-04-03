@@ -12,7 +12,6 @@ import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { SignUpPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignUpPrfsIdentityRequest";
 import {
   PASSWORD_1,
@@ -34,6 +33,7 @@ import {
 } from "@/components/default_module/DefaultModule";
 import { useAppDispatch } from "@/state/hooks";
 import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 export enum IdCreationStatus {
   Standby,
@@ -84,7 +84,8 @@ const SignUp: React.FC<SignUpProps> = ({
 
         if (error) {
           dispatch(
-            setGlobalError({
+            setGlobalMsg({
+              variant: "error",
               message: error.toString(),
             }),
           );
@@ -95,7 +96,8 @@ const SignUp: React.FC<SignUpProps> = ({
         }
       } catch (err: any) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: err.toString(),
           }),
         );
@@ -136,7 +138,6 @@ const SignUp: React.FC<SignUpProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      {/* <AppLogoArea subLabel="ID" /> */}
       <div className={styles.wrapper}>
         <Fade>
           <DefaultModuleHeader noSidePadding>

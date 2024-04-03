@@ -1,3 +1,4 @@
+use prfs_db_driver::bind_limit::BIND_LIMIT;
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::atst_entities::PrfsAttestation;
 use prfs_entities::entities::{PrfsSetElement, PrfsSetElementData, PrfsSetElementDataType};
@@ -20,28 +21,31 @@ INSERT INTO prfs_set_elements
 "#,
     );
 
-    query_builder.push_values(atsts.iter().enumerate(), |mut b, (idx, atst)| {
-        let total_val = atst.value.floor();
-        let data = sqlx::types::Json::from(vec![
-            PrfsSetElementData {
-                label: "cm".to_string(),
-                r#type: PrfsSetElementDataType::WalletCm,
-                val: atst.cm.to_string(),
-            },
-            PrfsSetElementData {
-                label: "total_val".to_string(),
-                r#type: PrfsSetElementDataType::Int,
-                val: total_val.to_string(),
-            },
-        ]);
+    query_builder.push_values(
+        atsts.iter().take(BIND_LIMIT / 5).enumerate(),
+        |mut b, (idx, atst)| {
+            let total_val = atst.value.floor();
+            let data = sqlx::types::Json::from(vec![
+                PrfsSetElementData {
+                    label: "cm".to_string(),
+                    r#type: PrfsSetElementDataType::WalletCm,
+                    val: atst.cm.to_string(),
+                },
+                PrfsSetElementData {
+                    label: "total_val".to_string(),
+                    r#type: PrfsSetElementDataType::Int,
+                    val: total_val.to_string(),
+                },
+            ]);
 
-        b.push_bind(&atst.label)
-            .push_bind(data)
-            .push_bind(atst.atst_type.to_string())
-            .push_bind(set_id)
-            .push_bind(Decimal::from_u64(idx as u64))
-            .push_bind(PrfsSetElementStatus::NotRegistered);
-    });
+            b.push_bind(&atst.label)
+                .push_bind(data)
+                .push_bind(&atst.atst_type_id)
+                .push_bind(set_id)
+                .push_bind(Decimal::from_u64(idx as u64))
+                .push_bind(PrfsSetElementStatus::NotRegistered);
+        },
+    );
 
     query_builder.push(
         r#"

@@ -1,4 +1,7 @@
-export type DriverEvent = LoadDriverEvent | LoadDriverSuccessEvent | LoadDriverErrorEvent;
+export type DriverEvent =
+  | ({ type: "LOAD_DRIVER_EVENT" } & { payload: LoadDriverEventPayload })
+  | ({ type: "LOAD_DRIVER_SUCCESS" } & { payload: LoadDriverSuccessEventPayload })
+  | ({ type: "LOAD_DRIVER_ERROR" } & { payload: LoadDriverErrorEventPayload });
 
 export type DriverEventListener = (ev: DriverEvent) => void;
 
@@ -7,29 +10,18 @@ export interface LogEventPayload {
   payload: string;
 }
 
-export interface LoadDriverEvent {
-  type: "LOAD_DRIVER_EVENT";
-  payload: LoadDriverEventPayload;
-}
-
 export interface LoadDriverEventPayload {
   error?: string;
   asset_label?: string;
   progress?: number;
 }
 
-export interface LoadDriverSuccessEvent {
-  type: "LOAD_DRIVER_SUCCESS";
-  payload: LoadDriverSuccessEventPayload;
-}
-
-export interface LoadDriverErrorEvent {
-  type: "LOAD_DRIVER_ERROR";
-  payload: string;
-}
-
 export interface LoadDriverSuccessEventPayload {
   artifactCount: number;
+}
+
+export interface LoadDriverErrorEventPayload {
+  message: string;
 }
 
 export interface CreateProofEvent {

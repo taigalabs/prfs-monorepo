@@ -2,13 +2,16 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use super::{
-    AttestTwitterAccRequest, AttestTwitterAccResponse, ComputeCryptoAssetSizeTotalValuesRequest,
-    ComputeCryptoAssetSizeTotalValuesResponse, CreateCryptoAssetSizeAtstRequest,
-    CreateCryptoAssetSizeAtstResponse, FetchCryptoAssetRequest, FetchCryptoAssetResponse,
-    GetCryptoAssetSizeAtstRequest, GetCryptoAssetSizeAtstResponse, GetCryptoAssetSizeAtstsRequest,
-    GetCryptoAssetSizeAtstsResponse, GetTwitterAccAtstRequest, GetTwitterAccAtstResponse,
-    GetTwitterAccAtstsRequest, GetTwitterAccAtstsResponse, ValidateTwitterAccRequest,
-    ValidateTwitterAccResponse,
+    AttestTwitterAccRequest, AttestTwitterAccResponse, ComputeCryptoAssetTotalValuesRequest,
+    ComputeCryptoAssetTotalValuesResponse, FetchCryptoAssetRequest, FetchCryptoAssetResponse,
+    GetTwitterAccAtstRequest, GetTwitterAccAtstResponse, GetTwitterAccAtstsRequest,
+    GetTwitterAccAtstsResponse, ValidateTwitterAccRequest, ValidateTwitterAccResponse,
+};
+use crate::{
+    CreatePrfsAttestationRequest, CreatePrfsAttestationResponse, GetPrfsAtstGroupsRequest,
+    GetPrfsAtstGroupsResponse, GetPrfsAttestationRequest, GetPrfsAttestationResponse,
+    GetPrfsAttestationsRequest, GetPrfsAttestationsResponse, ValidateGroupMembershipRequest,
+    ValidateGroupMembershipResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -17,10 +20,13 @@ use super::{
 #[ts(export)]
 pub enum PrfsAtstApiRequest {
     fetch_crypto_asset(FetchCryptoAssetRequest),
-    create_crypto_asset_size_atst(CreateCryptoAssetSizeAtstRequest),
-    get_crypto_asset_size_atst(GetCryptoAssetSizeAtstRequest),
-    get_crypto_asset_size_atsts(GetCryptoAssetSizeAtstsRequest),
-    compute_crypto_asset_size_total_values(ComputeCryptoAssetSizeTotalValuesRequest),
+    compute_crypto_asset_total_values(ComputeCryptoAssetTotalValuesRequest),
+    create_crypto_asset_atst(CreatePrfsAttestationRequest),
+    create_prfs_attestation(CreatePrfsAttestationRequest),
+    get_prfs_attestations(GetPrfsAttestationsRequest),
+    get_prfs_attestation(GetPrfsAttestationRequest),
+    get_prfs_atst_groups(GetPrfsAtstGroupsRequest),
+    validate_group_membership(ValidateGroupMembershipRequest),
     validate_twitter_acc(ValidateTwitterAccRequest),
     attest_twitter_acc(AttestTwitterAccRequest),
     get_twitter_acc_atsts(GetTwitterAccAtstsRequest),
@@ -33,10 +39,13 @@ pub enum PrfsAtstApiRequest {
 #[ts(export)]
 pub enum PrfsAtstApiResponse {
     fetch_crypto_asset(FetchCryptoAssetResponse),
-    create_crypto_asset_size_atst(CreateCryptoAssetSizeAtstResponse),
-    get_crypto_asset_size_atst(GetCryptoAssetSizeAtstResponse),
-    get_crypto_asset_size_atsts(GetCryptoAssetSizeAtstsResponse),
-    compute_crypto_asset_size_total_values(ComputeCryptoAssetSizeTotalValuesResponse),
+    compute_crypto_asset_total_values(ComputeCryptoAssetTotalValuesResponse),
+    create_crypto_asset_atst(CreatePrfsAttestationResponse),
+    create_prfs_attestation(CreatePrfsAttestationResponse),
+    get_prfs_attestations(GetPrfsAttestationsResponse),
+    get_prfs_attestation(GetPrfsAttestationResponse),
+    get_prfs_atst_groups(GetPrfsAtstGroupsResponse),
+    validate_group_membership(ValidateGroupMembershipResponse),
     validate_twitter_acc(ValidateTwitterAccResponse),
     attest_twitter_acc(AttestTwitterAccResponse),
     get_twitter_acc_atsts(GetTwitterAccAtstsResponse),

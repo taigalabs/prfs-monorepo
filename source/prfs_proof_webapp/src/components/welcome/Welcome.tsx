@@ -25,7 +25,7 @@ const Welcome: React.FC<WelcomeProps> = ({}) => {
         <div className={styles.inner}>
           <Content
             accountId={prfsProofCredential?.account_id}
-            attestationLink={paths.attestations__create__crypto_asset_size}
+            attestationLink={paths.attestations__create__crypto_asset}
           />
         </div>
       </div>

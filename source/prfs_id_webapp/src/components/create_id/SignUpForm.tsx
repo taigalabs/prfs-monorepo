@@ -10,11 +10,9 @@ import {
   makePrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./SignUpForm.module.scss";
 import { i18nContext } from "@/i18n/context";
-import AppLogoArea from "@/components/app_logo_area/AppLogoArea";
 import {
   DefaultInnerPadding,
   DefaultInputGuide,

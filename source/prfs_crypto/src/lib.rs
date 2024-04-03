@@ -12,9 +12,6 @@ pub mod merkletree;
 pub mod poseidon;
 pub mod rand_utils;
 
-#[cfg(test)]
-mod tests;
-
 pub use ::poseidon::poseidon_k256::hash;
 pub use ::poseidon::*;
 pub use hexutils::*;

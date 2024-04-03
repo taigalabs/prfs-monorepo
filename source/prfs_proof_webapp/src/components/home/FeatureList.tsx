@@ -13,13 +13,30 @@ import { urls } from "@/urls";
 import { paths } from "@/paths";
 import { Area, Title } from "./IntroComponents";
 
+const FEAT_COUNT = 2;
+
 const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => {
   const i18n = useI18N();
+  const [highlightedFeatureNo, setHighlightedFeatureNo] = React.useState(0);
+
+  React.useEffect(() => {
+    const interval = window.setInterval(() => {
+      setHighlightedFeatureNo(n => (n + 1) % FEAT_COUNT);
+    }, 6000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [setHighlightedFeatureNo]);
 
   return (
-    <Area className={styles.wrapper}>
+    <>
       <ul className={styles.itemContainer}>
-        <li className={cn(styles.item, styles.proof)}>
+        <li
+          className={cn(styles.item, styles.proof, {
+            [styles.isHighlighted]: highlightedFeatureNo === 0,
+          })}
+        >
           <div className={styles.title}>
             <p className={styles.iconBox}>
               <TbMathPi />
@@ -34,17 +51,18 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
             </p>
           </div>
         </li>
-        <li className={cn(styles.item, styles.attestation)}>
+        <li
+          className={cn(styles.item, styles.attestation, {
+            [styles.isHighlighted]: highlightedFeatureNo === 1,
+          })}
+        >
           <div className={styles.title}>
             <p className={styles.iconBox}>
               <TbCertificate />
             </p>
             {i18n.attestation}
           </div>
-          <p className={styles.desc}>
-            Attest to your data to streamline the process of generating the proof and to claim
-            diverse fact about you
-          </p>
+          <p className={styles.desc}>Attest to your data to create a anonymous claim about</p>
           <div className={styles.callToAction}>
             <p>
               <Link href={paths.attestations}>
@@ -55,7 +73,29 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
           </div>
         </li>
       </ul>
-    </Area>
+      <Area className={styles.wrapper}>
+        <div className={styles.imageContainer}>
+          <img
+            className={cn(styles.dummyImage)}
+            src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_example.png"
+            crossOrigin="anonymous"
+            alt="Proof example"
+          />
+          <img
+            className={cn(styles.image, { [styles.isHighlighted]: highlightedFeatureNo === 0 })}
+            src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_example.png"
+            crossOrigin="anonymous"
+            alt="Proof example"
+          />
+          <img
+            className={cn(styles.image, { [styles.isHighlighted]: highlightedFeatureNo === 1 })}
+            src="https://d1w1533jipmvi2.cloudfront.net/prfs_atst_example2.png"
+            crossOrigin="anonymous"
+            alt="Attestation example"
+          />
+        </div>
+      </Area>
+    </>
   );
 };
 

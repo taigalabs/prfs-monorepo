@@ -14,6 +14,8 @@ pub struct PrfsProofTypeSyn1 {
     pub desc: String,
     pub expression: String,
     pub img_url: Option<String>,
+
+    #[ts(optional)]
     pub img_caption: Option<String>,
 
     #[ts(type = "string")]

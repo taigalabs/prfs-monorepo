@@ -7,36 +7,42 @@ use prfs_common_server_state::ServerState;
 use prfs_tree_lib::envs::Envs;
 use std::sync::Arc;
 
-use crate::apis::{crypto_asset, twitter};
+use crate::apis::{crypto_asset, prfs_atst_groups, prfs_attestations, twitter};
 
 pub const ATST_API_V0: &'static str = "/atst_api/v0";
 
 pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
     make_prfs_atst_api_error_code_json_binding().unwrap();
-
-    // Try to instantiate
     Envs::new();
 
     let router = Router::new() //
+        .route(
+            "/get_prfs_attestations",
+            post(prfs_attestations::get_prfs_attestations),
+        )
+        .route(
+            "/get_prfs_attestation",
+            post(prfs_attestations::get_prfs_attestation),
+        )
+        .route(
+            "/get_prfs_atst_groups",
+            post(prfs_atst_groups::get_prfs_atst_groups),
+        )
+        .route(
+            "/validate_group_membership",
+            post(prfs_atst_groups::validate_group_membership),
+        )
         .route(
             "/fetch_crypto_asset",
             post(crypto_asset::fetch_crypto_asset),
         )
         .route(
-            "/create_crypto_asset_size_atst",
-            post(crypto_asset::create_crypto_asset_size_atst),
+            "/create_crypto_asset_atst",
+            post(crypto_asset::create_crypto_asset_atst),
         )
         .route(
-            "/get_crypto_asset_size_atsts",
-            post(crypto_asset::get_crypto_asset_size_atsts),
-        )
-        .route(
-            "/get_crypto_asset_size_atst",
-            post(crypto_asset::get_crypto_asset_size_atst),
-        )
-        .route(
-            "/compute_crypto_asset_size_total_values",
-            post(crypto_asset::compute_crypto_asset_size_total_values),
+            "/compute_crypto_asset_total_values",
+            post(crypto_asset::compute_crypto_asset_total_values),
         )
         .route("/validate_twitter_acc", post(twitter::validate_twitter_acc))
         .route("/attest_twitter_acc", post(twitter::attest_twitter_acc))

@@ -21,13 +21,13 @@ import {
 } from "@taigalabs/prfs-crypto-js";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { envs } from "@/envs";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 export enum VerifyProofStatus {
   Standby,
@@ -87,7 +87,8 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
     (session: PrfsIdSession) => {
       if (!sk) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "Secret key is not set to decrypt Prfs ID session",
           }),
         );
@@ -100,7 +101,8 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
         decrypted = decrypt(sk.secret, buf).toString();
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot decrypt session, err: ${err}`,
           }),
         );
@@ -112,7 +114,8 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
         payload = JSON.parse(decrypted) as VerifyProofResultPayload;
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot parse proof payload, err: ${err}`,
           }),
         );

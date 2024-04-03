@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod tests;
+
 use ff::PrimeField;
 use poseidon::{
     poseidon_k256::hash, Poseidon as NeptunePoseidon,

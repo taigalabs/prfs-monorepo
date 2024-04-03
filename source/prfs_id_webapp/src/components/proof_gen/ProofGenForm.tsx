@@ -13,7 +13,6 @@ import { JSONbigNative, encrypt } from "@taigalabs/prfs-crypto-js";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import PrfsIdSessionErrorCodes from "@taigalabs/prfs-id-session-api-error-codes";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -83,15 +82,22 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           setErrorMsg(error.toString());
           setCreateProofStatus(Status.Standby);
           dispatch(
-            setGlobalError({
+            setGlobalMsg({
+              variant: "error",
               message: "Session may be old. Re-try after closing the window",
-              shouldCloseWindow: true,
+              notDismissible: true,
             }),
           );
           return;
         }
 
-        dispatch(setGlobalMsg({ message: i18n.already_made_proof, notDismissible: true }));
+        dispatch(
+          setGlobalMsg({
+            variant: "error",
+            message: i18n.already_made_proof,
+            notDismissible: true,
+          }),
+        );
         setCreateProofStatus(Status.Standby);
 
         if (!DEBUG__keepWindowAtTheEnd) {
@@ -176,7 +182,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
               default:
                 console.error("unsupported query type", query);
                 dispatch(
-                  setGlobalError({
+                  setGlobalMsg({
+                    variant: "error",
                     message: "Unsupported query type, something is wrong",
                   }),
                 );
@@ -235,9 +242,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         }
       } catch (err: any) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Failed to generate proof, ${err.toString()}`,
-            // errorObj: err,
           }),
         );
         setCreateProofStatus(Status.Standby);
@@ -296,7 +303,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
             {createProofStatus === Status.InProgress && <Spinner size={14} />}
           </Button>
         </DefaultModuleBtnRow>
-        {errorMsg && <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>}
+        {/* {errorMsg && <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>} */}
       </DefaultInnerPadding>
     </>
   ) : (

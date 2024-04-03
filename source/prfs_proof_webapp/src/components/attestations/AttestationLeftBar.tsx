@@ -18,7 +18,7 @@ import {
 } from "@/components/left_bar/LeftBar";
 
 const TWITTER = "twitter";
-const CRYPTO_ASSET_SIZE = "crypto_asset_size";
+const CRYPTO_ASSET = "crypto_asset";
 
 const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -41,30 +41,22 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
       </LeftBarTopMenu>
       <LeftBarMenu>
         <LeftBarItem>
-          <Link href={paths.attestations__crypto_asset_size}>
-            <LeftBarItemButton isHighlighted={name === CRYPTO_ASSET_SIZE}>
+          <Link href={paths.attestations__crypto_asset}>
+            <LeftBarItemButton isHighlighted={name === CRYPTO_ASSET}>
               <FaBitcoin />
-              <span>{i18n.crypto_asset_size}</span>
-            </LeftBarItemButton>
-          </Link>
-        </LeftBarItem>
-        <LeftBarItem>
-          <Link href={paths.attestations__twitter}>
-            <LeftBarItemButton isHighlighted={name === TWITTER}>
-              <img
-                src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"
-                alt="Twitter"
-                crossOrigin=""
-              />
-              <span>{i18n.x_twitter}</span>
+              <span>{i18n.crypto_asset}</span>
             </LeftBarItemButton>
           </Link>
         </LeftBarItem>
         {/* <LeftBarItem> */}
-        {/*   <Link href=""> */}
-        {/*     <LeftBarItemButton isHighlighted={name === LINKEDIN} disabled> */}
-        {/*       <FaLinkedin /> */}
-        {/*       <span>{i18n.linkedin} (Coming later)</span> */}
+        {/*   <Link href={paths.attestations__twitter}> */}
+        {/*     <LeftBarItemButton isHighlighted={name === TWITTER}> */}
+        {/*       <img */}
+        {/*         src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png" */}
+        {/*         alt="Twitter" */}
+        {/*         crossOrigin="" */}
+        {/*       /> */}
+        {/*       <span>{i18n.x_twitter}</span> */}
         {/*     </LeftBarItemButton> */}
         {/*   </Link> */}
         {/* </LeftBarItem> */}
