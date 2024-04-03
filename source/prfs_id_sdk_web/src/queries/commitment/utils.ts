@@ -1,7 +1,7 @@
 import { sigPoseidon } from "@taigalabs/prfs-crypto-js";
 import { keccak256, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
-import { PRFS_ATTESTATION_STEM } from "../attestation";
+import { PRFS_ATTESTATION_STEM } from "../../attestation";
 
 export const WALLET_CACHE_KEY = "wallet_cache_key";
 export const WALLET_CM_STEM = "WALLET";

@@ -2,7 +2,6 @@
 
 import React from "react";
 import cn from "classnames";
-import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { atstApi, prfsApi3 } from "@taigalabs/prfs-api-js";
@@ -11,14 +10,12 @@ import { useRouter } from "next/navigation";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
-import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
+import { CreateGroupMemberAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateGroupMemberAtstRequest";
 import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
-import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
-import { toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
-import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
-import { CreatePrfsAttestationRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsAttestationRequest";
+import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
+import { ValidateGroupMembershipRequest } from "@taigalabs/prfs-entities/bindings/ValidateGroupMembershipRequest";
+import { GROUP_MEMBER } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CreateGroupMemberAtst.module.scss";
 import {
@@ -37,19 +34,16 @@ import {
 import { paths } from "@/paths";
 import {
   CM,
-  ATST_TYPE_ID,
   GroupMemberAtstFormData,
-  //ATST_GROUP_ID,
   MEMBER_CODE,
   MEMBER_ID,
-  MEMBER,
+  MEMBER_ID_CM,
+  MEMBER_ID_ENC,
 } from "./create_group_member_atst";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
 import AtstGroupSelect from "@/components/atst_group_select/AtstGroupSelect";
 import MemberIdInput from "./MemberIdInput";
-import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
-import { ValidateGroupMembershipRequest } from "@taigalabs/prfs-entities/bindings/ValidateGroupMembershipRequest";
 
 enum Status {
   Standby,
@@ -57,12 +51,15 @@ enum Status {
 }
 
 function checkIfFormIsFilled(formData: GroupMemberAtstFormData) {
-  // if (formData[ATST_GROUP_ID].length < 1) {
-  //   return false;
-  // }
-  // if (formData[CM].length < 1) {
-  //   return false;
-  // }
+  if (!formData[MEMBER_ID_CM]) {
+    return false;
+  }
+  if (!formData[CM]) {
+    return false;
+  }
+  if (!formData[MEMBER_CODE]) {
+    return false;
+  }
 
   return true;
 }
@@ -70,11 +67,13 @@ function checkIfFormIsFilled(formData: GroupMemberAtstFormData) {
 const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const i18n = useI18N();
   const [isNavigating, setIsNavigating] = React.useState(false);
-  const [memberIdEnc, setMemberIdEnc] = React.useState<string | null>(null);
   const router = useRouter();
   const [formData, setFormData] = React.useState<GroupMemberAtstFormData>({
     [MEMBER_ID]: "",
     [MEMBER_CODE]: "",
+    [CM]: "",
+    [MEMBER_ID_CM]: "",
+    [MEMBER_ID_ENC]: "",
   });
   const [memberIdCacheKeys, setMemberIdCacheKeys] = React.useState<Record<string, string> | null>(
     null,
@@ -94,9 +93,9 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
       return prfsApi3({ type: "add_prfs_index", ...req });
     },
   });
-  const { mutateAsync: createCryptoSizeAtstRequest } = useMutation({
-    mutationFn: (req: CreatePrfsAttestationRequest) => {
-      return atstApi({ type: "create_crypto_asset_atst", ...req });
+  const { mutateAsync: createGroupMemberAttestation } = useMutation({
+    mutationFn: (req: CreateGroupMemberAtstRequest) => {
+      return atstApi({ type: "create_group_member_atst", ...req });
     },
   });
   const { mutateAsync: validateGroupMembership } = useMutation({
@@ -141,7 +140,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
 
       const { payload, error } = await validateGroupMembership({
         atst_group_id: atstGroup?.atst_group_id,
-        member_id: formData[MEMBER_ID],
         member_code: formData[MEMBER_CODE],
       });
 
@@ -150,7 +148,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
       }
 
       if (payload?.is_valid) {
-        console.log("yes");
+        setValidationMsg(<FaCheck className={styles.success} />);
       }
     }
   }, [formData, atstGroup, setValidationMsg, validateGroupMembership]);
@@ -167,6 +165,30 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     [setFormData],
   );
 
+  const handleChangeMemberIdEnc = React.useCallback(
+    (val: string) => {
+      if (val) {
+        setFormData(oldVal => ({
+          ...oldVal,
+          [MEMBER_ID_ENC]: val,
+        }));
+      }
+    },
+    [setFormData],
+  );
+
+  const handleChangeMemberIdCm = React.useCallback(
+    (val: string) => {
+      if (val) {
+        setFormData(oldVal => ({
+          ...oldVal,
+          [MEMBER_ID_CM]: val,
+        }));
+      }
+    },
+    [setFormData],
+  );
+
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
   }, [formData]);
@@ -176,71 +198,63 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   }, [formData]);
 
   const handleClickCreate = React.useCallback(async () => {
-    if (
-      isFormFilled &&
-      createStatus === Status.Standby &&
-      atstGroup &&
-      memberIdCacheKeys &&
-      memberIdEnc
-    ) {
+    if (isFormFilled && createStatus === Status.Standby && atstGroup && memberIdCacheKeys) {
       try {
         setError(null);
-        // const cm = formData[CM];
-        // const cm_msg = toUtf8Bytes(cm);
-        const atst_id = `${MEMBER}_${atstGroup}`;
+        setCreateStatus(Status.InProgress);
+        const { payload: indexPayload, error: indexError } = await getLeastRecentPrfsIndex({
+          prfs_indices: Object.values(memberIdCacheKeys),
+        });
 
-        if (atst_id) {
-          setCreateStatus(Status.InProgress);
-
-          const { payload: indexPayload, error: indexError } = await getLeastRecentPrfsIndex({
-            prfs_indices: Object.values(memberIdCacheKeys),
-          });
-
-          if (indexError) {
-            setError(<span>{indexError.toString()}</span>);
-            setCreateStatus(Status.Standby);
-            return;
-          }
-
-          let prfs_index = null;
-          if (indexPayload) {
-            prfs_index = indexPayload.prfs_index;
-          } else {
-            setError(<span>Wallet cache key is invalid. Something's wrong</span>);
-            setCreateStatus(Status.Standby);
-            return;
-          }
-
-          // const wallet_addr = formData[WALLET_ADDR];
-          // const cm = formData[CM];
-          // const { payload, error } = await createCryptoSizeAtstRequest({
-          //   atst_id,
-          //   atst_type_id: "crypto_1",
-          //   label: wallet_addr,
-          //   serial_no: "empty",
-          //   cm,
-          //   cm_msg: Array.from(cm_msg),
-          //   sig,
-          // });
+        if (indexError) {
+          setError(<span>{indexError.toString()}</span>);
           setCreateStatus(Status.Standby);
-
-          // if (error) {
-          //   setError(<span>{error.toString()}</span>);
-          //   setCreateStatus(Status.Standby);
-          //   return;
-          // }
-
-          // if (payload) {
-          //   setIsNavigating(true);
-          //   router.push(paths.attestations__crypto_asset);
-          // }
-
-          // await addPrfsIndexRequest({
-          //   key: prfs_index,
-          //   value: walletAddrEnc,
-          //   serial_no: "empty",
-          // });
+          return;
         }
+
+        let prfs_index = null;
+        if (indexPayload) {
+          prfs_index = indexPayload.prfs_index;
+        } else {
+          setError(<span>Wallet cache key is invalid. Something's wrong</span>);
+          setCreateStatus(Status.Standby);
+          return;
+        }
+
+        const cm = formData[CM];
+        const member_code = formData[MEMBER_CODE];
+        const member_id_cm = formData[MEMBER_ID_CM];
+        const member_id_enc = formData[MEMBER_ID_ENC];
+        const atst_id = `${GROUP_MEMBER}_${atstGroup.atst_group_id}_${member_code}`;
+
+        const { payload, error } = await createGroupMemberAttestation({
+          atst_id,
+          atst_type_id: "nonce_seoul_1",
+          label: member_id_cm,
+          serial_no: "empty",
+          cm,
+          atst_group_id: atstGroup.atst_group_id,
+          member_code,
+        });
+
+        setCreateStatus(Status.Standby);
+
+        if (error) {
+          setError(<span>{error.toString()}</span>);
+          setCreateStatus(Status.Standby);
+          return;
+        }
+
+        if (payload) {
+          setIsNavigating(true);
+          router.push(paths.attestations__group_member);
+        }
+
+        await addPrfsIndexRequest({
+          key: prfs_index,
+          value: member_id_enc,
+          serial_no: "empty",
+        });
       } catch (err: any) {
         setError(<span>{err.toString()}</span>);
         setCreateStatus(Status.Standby);
@@ -250,14 +264,13 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     formData,
     atstGroup,
     setIsNavigating,
-    createCryptoSizeAtstRequest,
+    createGroupMemberAttestation,
     setError,
     setCreateStatus,
     getLeastRecentPrfsIndex,
     router,
     memberIdCacheKeys,
     addPrfsIndexRequest,
-    memberIdEnc,
   ]);
 
   return isNavigating ? (
@@ -295,11 +308,11 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
             <ClaimSecretItem
               atstGroup={atstGroup}
               formData={formData}
-              handleChangeCm={handleChangeCm}
               memberIdCacheKeys={memberIdCacheKeys}
               setMemberIdCacheKeys={setMemberIdCacheKeys}
-              memberIdEnc={memberIdEnc}
-              setMemberIdEnc={setMemberIdEnc}
+              handleChangeCm={handleChangeCm}
+              handleChangeMemberIdEnc={handleChangeMemberIdEnc}
+              handleChangeMemberIdCm={handleChangeMemberIdCm}
             />
           </ol>
           <AttestationFormBtnRow>

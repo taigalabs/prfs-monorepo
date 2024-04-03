@@ -1,0 +1,5 @@
+circuit_type_ids = [
+  "simple_hash_v1",
+  "merkle_sig_pos_range_v1",
+  "merkle_sig_pos_exact_v1",
+]

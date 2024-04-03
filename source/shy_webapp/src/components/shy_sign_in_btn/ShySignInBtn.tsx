@@ -13,7 +13,6 @@ import { makeColor, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import shy_api_error_codes from "@taigalabs/shy-api-error-codes";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 
 import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -27,7 +26,7 @@ import {
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import { SHY_APP_ID } from "@/app_id";
-import { urls } from "@/urls";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 enum Status {
   InProgress,
@@ -72,8 +71,8 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
 
               if (error) {
                 dispatch(
-                  setGlobalError({
-                    // errorObj: error,
+                  setGlobalMsg({
+                    variant: "error",
                     message: "Failed to sign up",
                   }),
                 );
@@ -91,8 +90,8 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
               router.push(paths.account__welcome);
             } else {
               dispatch(
-                setGlobalError({
-                  // errorObj: error,
+                setGlobalMsg({
+                  variant: "error",
                   message: "Failed to sign up",
                 }),
               );
@@ -131,7 +130,8 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
   const handleSignInError = React.useCallback(
     (err: string) => {
       dispatch(
-        setGlobalError({
+        setGlobalMsg({
+          variant: "error",
           message: err,
         }),
       );

@@ -1,14 +1,12 @@
 use chrono::{DateTime, Utc};
 use colored::Colorize;
 use prfs_circuit_interface::circuit_types::CircuitTypeId;
-use prfs_crypto::hex;
-use prfs_crypto::rand_utils::rand256_hex;
-use prfs_crypto::sha2::{Digest, Sha256};
 use prfs_driver_interface::CircuitDriverId;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::collections::HashMap;
 use std::{io::Write, path::PathBuf, process::Command};
 
+use crate::builder::circuits_toml::read_circuits_toml;
 use crate::builder::create_digest;
 use crate::resolve_path::get_path_segment;
 use crate::{paths::PATHS, CircuitBuild, CircuitBuildJson, FileKind};
@@ -20,31 +18,41 @@ pub fn run() {
     let now = Utc::now();
     let mut circuits = read_circuits_json();
 
+    let circuit_type_ids = read_circuits_toml().unwrap();
+
     let mut circuit_map = HashMap::new();
     for mut circuit in &mut circuits {
-        circuit_type_id_should_match_file_stem(&circuit);
-        compile_circuits(&circuit);
+        if circuit_type_ids.contains(&circuit.circuit_type_id) {
+            circuit_type_id_should_match_file_stem(&circuit);
+            compile_circuits(&circuit);
 
-        let digest = create_digest(circuit);
-        circuit.circuit_id = digest[..10].to_string();
+            let digest = create_digest(circuit);
+            circuit.circuit_id = digest[..10].to_string();
 
-        copy_wtns_gen_file(circuit);
-        let r1cs_src_path = make_spartan(&mut circuit);
-        create_circuit_json(&mut circuit);
+            copy_wtns_gen_file(circuit);
+            let r1cs_src_path = make_spartan(&mut circuit);
+            create_circuit_json(&mut circuit);
 
-        circuit_map.insert(
-            circuit.circuit_type_id.clone(),
-            CircuitBuild {
-                circuit_id: circuit.circuit_id.to_string(),
-                circuit_type_id: circuit.circuit_type_id.clone(),
-                r1cs_src_path: r1cs_src_path
-                    .strip_prefix(&PATHS.build)
-                    .unwrap()
-                    .to_string_lossy()
-                    .to_string(),
-                file_hash: digest,
-            },
-        );
+            circuit_map.insert(
+                circuit.circuit_type_id.clone(),
+                CircuitBuild {
+                    circuit_id: circuit.circuit_id.to_string(),
+                    circuit_type_id: circuit.circuit_type_id.clone(),
+                    r1cs_src_path: r1cs_src_path
+                        .strip_prefix(&PATHS.build)
+                        .unwrap()
+                        .to_string_lossy()
+                        .to_string(),
+                    file_hash: digest,
+                },
+            );
+        } else {
+            println!(
+                "{} compiling, circuit_type_id: {}",
+                "Skip".yellow(),
+                circuit.circuit_type_id
+            );
+        }
     }
 
     create_build_json(&circuit_map);

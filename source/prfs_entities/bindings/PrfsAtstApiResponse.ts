@@ -19,6 +19,7 @@ export type PrfsAtstApiResponse =
   | ({ type: "get_prfs_attestations" } & GetPrfsAttestationsResponse)
   | ({ type: "get_prfs_attestation" } & GetPrfsAttestationResponse)
   | ({ type: "get_prfs_atst_groups" } & GetPrfsAtstGroupsResponse)
+  | ({ type: "create_group_member_atst" } & CreatePrfsAttestationResponse)
   | ({ type: "validate_group_membership" } & ValidateGroupMembershipResponse)
   | ({ type: "validate_twitter_acc" } & ValidateTwitterAccResponse)
   | ({ type: "attest_twitter_acc" } & AttestTwitterAccResponse)

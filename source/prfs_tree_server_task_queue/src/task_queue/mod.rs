@@ -9,7 +9,7 @@ use tokio::sync::{
 
 use crate::PrfsTreeServerTaskQueueError;
 
-const WINDOW_SIZE_SECS: u64 = 10;
+const WINDOW_SIZE_MS: u64 = 12000;
 
 pub struct TreeServerTaskQueue {
     pub task_map: Arc<Mutex<HashMap<PrfsAtstTypeId, bool>>>,
@@ -37,7 +37,7 @@ impl TreeServerTaskQueue {
 
             let tx = self.tx.clone();
             tokio::spawn(async move {
-                tokio::time::sleep(Duration::from_secs(WINDOW_SIZE_SECS)).await;
+                tokio::time::sleep(Duration::from_millis(WINDOW_SIZE_MS)).await;
 
                 if let Err(err) = tx.send(1).await {
                     println!("Failed to insert in task queue, err: {}", err);

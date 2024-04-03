@@ -36,11 +36,6 @@ pub async fn _create_prfs_tree_by_prfs_set(
     tree_label: &String,
     tree_id: &String,
 ) -> Result<(PrfsTree, i64), PrfsTreeServerError> {
-    println!(
-        "set_id: {}, tree_label: {}, tree_id: {}",
-        set_id, tree_label, tree_id
-    );
-
     let mut set = prfs::get_prfs_set_by_set_id__tx(tx, &set_id)
         .await
         .map_err(|err| format!("Error getting prfs set, set_id: {}, err: {}", set_id, err))?;

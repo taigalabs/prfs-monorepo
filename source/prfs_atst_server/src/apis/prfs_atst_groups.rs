@@ -4,7 +4,7 @@ use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    GetPrfsAtstGroupsRequest, GetPrfsAtstGroupsResponse, PrfsAtstTypeId,
+    GetPrfsAtstGroupsRequest, GetPrfsAtstGroupsResponse, PrfsAtstGroupMemberStatus, PrfsAtstTypeId,
     ValidateGroupMembershipRequest, ValidateGroupMembershipResponse,
 };
 use std::sync::Arc;
@@ -45,35 +45,31 @@ pub async fn validate_group_membership(
 ) {
     let pool = &state.db2.pool;
 
-    let member = match prfs::get_prfs_atst_group_member(
-        &pool,
-        &input.atst_group_id,
-        &input.member_id,
-        &input.member_code,
-    )
-    .await
-    {
-        Ok(r) => r,
-        Err(err) => {
-            let resp = ApiResponse::new_error(
-                &PRFS_ATST_API_ERROR_CODES.MEMBER_INFO_NOT_FOUND,
-                err.to_string(),
-            );
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
+    let member =
+        match prfs::get_prfs_atst_group_member(&pool, &input.atst_group_id, &input.member_code)
+            .await
+        {
+            Ok(r) => r,
+            Err(err) => {
+                let resp = ApiResponse::new_error(
+                    &PRFS_ATST_API_ERROR_CODES.MEMBER_INFO_NOT_FOUND,
+                    err.to_string(),
+                );
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
 
     // Only equality check for now
-    if member.member_id != input.member_id {
-        let resp = ApiResponse::new_error(
-            &PRFS_ATST_API_ERROR_CODES.MEMBER_INFO_NOT_FOUND,
-            "Member Id is not correct".to_string(),
-        );
-        return (StatusCode::BAD_REQUEST, Json(resp));
-    } else if member.member_code != input.member_code {
+    if member.member_code != input.member_code {
         let resp = ApiResponse::new_error(
             &PRFS_ATST_API_ERROR_CODES.MEMBER_INFO_NOT_FOUND,
             "Member Code is not correct".to_string(),
+        );
+        return (StatusCode::BAD_REQUEST, Json(resp));
+    } else if member.status != PrfsAtstGroupMemberStatus::NotRegistered {
+        let resp = ApiResponse::new_error(
+            &PRFS_ATST_API_ERROR_CODES.MEMBER_ALREADY_REGISTERED,
+            format!("Member code: {}", input.member_code),
         );
         return (StatusCode::BAD_REQUEST, Json(resp));
     } else {

@@ -1,6 +1,7 @@
 pub mod build;
 mod build_json;
 mod circuit_json;
+mod circuits_toml;
 mod digest;
 pub mod resolve_path;
 

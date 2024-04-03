@@ -20,7 +20,6 @@ pub struct GetPrfsAtstGroupsResponse {
 #[ts(export)]
 pub struct ValidateGroupMembershipRequest {
     pub atst_group_id: String,
-    pub member_id: String,
     pub member_code: String,
 }
 

@@ -23,7 +23,6 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import { useRouter } from "next/navigation";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
 import { GetShyTopicProofRequest } from "@taigalabs/shy-entities/bindings/GetShyTopicProofRequest";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { CreateShyPostWithProofRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostWithProofRequest";
@@ -40,6 +39,7 @@ import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 const PROOF = "Proof";
 
@@ -170,7 +170,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
     async (session: PrfsIdSession) => {
       if (!sk) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "Secret key is not set to decrypt Prfs ID session",
           }),
         );
@@ -179,7 +180,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
 
       if (!html) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "Post content does not exist",
           }),
         );
@@ -188,7 +190,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
 
       if (!postId) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: "Post Id does not exist",
           }),
         );
@@ -201,7 +204,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
         decrypted = decrypt(sk.secret, buf).toString();
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot decrypt payload, err: ${err}`,
           }),
         );
@@ -213,7 +217,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
         payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
       } catch (err) {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Cannot parse proof payload, err: ${err}`,
           }),
         );
@@ -273,7 +278,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
         handleSucceedPost();
       } else {
         dispatch(
-          setGlobalError({
+          setGlobalMsg({
+            variant: "error",
             message: `Unknown receipt type, receipt: ${(receipt as any).type}`,
           }),
         );

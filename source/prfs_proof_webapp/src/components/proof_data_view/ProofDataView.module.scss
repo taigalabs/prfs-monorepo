@@ -2,7 +2,7 @@
 
 .wrapper {
   transition: height 0.4s ease-out;
-  padding: 18px 20px 18px;
+  padding: 18px 0px 18px;
   border-radius: 10px;
   background-color: var(--bright-gray-50);
   border-left: none;
@@ -136,6 +136,9 @@
 }
 
 @media screen and (min-width: $big_display_min_width) {
+  .wrapper {
+    /* padding: 18px 4px 18px; */
+  }
   /* .wrapper { */
   /*   &.isCard { */
   /*     padding: 0px 0px; */

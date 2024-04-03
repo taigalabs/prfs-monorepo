@@ -28,7 +28,7 @@ INSERT INTO prfs_set_elements
             let data = sqlx::types::Json::from(vec![
                 PrfsSetElementData {
                     label: "cm".to_string(),
-                    r#type: PrfsSetElementDataType::WalletCm,
+                    r#type: PrfsSetElementDataType::Commitment,
                     val: atst.cm.to_string(),
                 },
                 PrfsSetElementData {

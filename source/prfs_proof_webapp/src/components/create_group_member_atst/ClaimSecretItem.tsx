@@ -16,6 +16,7 @@ import {
   CommitmentReceipt,
   EncryptedReceipt,
   makeAtstCmPreImageStr,
+  GROUP_MEMBER,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
@@ -40,21 +41,22 @@ import {
   CM,
   ENCRYPTED_MEMBER_ID,
   GroupMemberAtstFormData,
-  MEMBER,
   MEMBER_ID,
+  MEMBER_ID_CM,
+  MEMBER_ID_ENC,
 } from "./create_group_member_atst";
-import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
+import EncryptedMemberIdItem from "./EncryptedMemberIdItem";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 
 const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   atstGroup,
   formData,
-  handleChangeCm,
   memberIdCacheKeys,
   setMemberIdCacheKeys,
-  memberIdEnc,
-  setMemberIdEnc,
+  handleChangeCm,
+  handleChangeMemberIdEnc,
+  handleChangeMemberIdCm,
 }) => {
   const i18n = React.useContext(i18nContext);
   const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
@@ -75,7 +77,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
       return;
     }
 
-    const cacheKeyQueries = makeCmCacheKeyQueries(atstGroup.atst_group_id, 10, MEMBER);
+    const cacheKeyQueries = makeCmCacheKeyQueries(atstGroup.atst_group_id, 10, GROUP_MEMBER);
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
 
@@ -86,6 +88,12 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         {
           name: CM,
           preImage: claimSecret,
+          type: CommitmentType.SIG_POSEIDON_1,
+          queryType: QueryType.COMMITMENT,
+        },
+        {
+          name: MEMBER_ID_CM,
+          preImage: formData[MEMBER_ID],
           type: CommitmentType.SIG_POSEIDON_1,
           queryType: QueryType.COMMITMENT,
         },
@@ -116,17 +124,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
     setIsPrfsDialogOpen(true);
     setSessionKey(proofGenArgs.session_key);
     setSk(sk);
-  }, [
-    formData,
-    claimSecret,
-    handleChangeCm,
-    setMemberIdCacheKeys,
-    setMemberIdEnc,
-    openPrfsIdSession,
-    setSk,
-    setIsPrfsDialogOpen,
-    setSessionKey,
-  ]);
+  }, [formData, claimSecret, openPrfsIdSession, setSk, setIsPrfsDialogOpen, setSessionKey]);
 
   const handleSucceedGetSession = React.useCallback(
     (session: PrfsIdSession) => {
@@ -169,7 +167,13 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
 
       const cm: CommitmentReceipt = payload.receipt[CM];
       const memberIdEncrypted: EncryptedReceipt = payload.receipt[ENCRYPTED_MEMBER_ID];
-      const { [CM]: _cm, ...rest } = payload.receipt;
+      const memberIdCm: CommitmentReceipt = payload.receipt[MEMBER_ID_CM];
+      const {
+        [CM]: _cm,
+        [ENCRYPTED_MEMBER_ID]: _memberId,
+        [MEMBER_ID_CM]: _memberIdCm,
+        ...rest
+      } = payload.receipt;
 
       const rest_: Record<string, CommitmentReceipt> = rest;
       const memberIdCacheKeys: Record<string, string> = {};
@@ -177,20 +181,29 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         memberIdCacheKeys[key] = rest_[key].commitment;
       }
 
-      // if (cm?.commitment && walletAddrEncrypted?.encrypted) {
-      //   handleChangeCm(cm.commitment);
-      //   setWalletCacheKeys(walletCacheKeys);
-      //   setWalletAddrEnc(walletAddrEncrypted.encrypted);
-      // } else {
-      //   dispatch(
-      //     setGlobalError({
-      //       message: `No commitment delivered`,
-      //     }),
-      //   );
-      //   return;
-      // }
+      if (cm?.commitment && memberIdEncrypted?.encrypted && _memberIdCm) {
+        setMemberIdCacheKeys(memberIdCacheKeys);
+        handleChangeCm(cm.commitment);
+        handleChangeMemberIdEnc(memberIdEncrypted.encrypted);
+        handleChangeMemberIdCm(memberIdCm.commitment);
+      } else {
+        dispatch(
+          setGlobalMsg({
+            variant: "error",
+            message: `No commitment delivered`,
+          }),
+        );
+        return;
+      }
     },
-    [sk, dispatch],
+    [
+      sk,
+      dispatch,
+      handleChangeCm,
+      setMemberIdCacheKeys,
+      handleChangeMemberIdEnc,
+      handleChangeMemberIdCm,
+    ],
   );
 
   return (
@@ -215,9 +228,9 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
             <p className={cn(styles.value, common.alignItemCenter)}>{null}</p>
           </div>
           {memberIdCacheKeys && (
-            <EncryptedWalletAddrItem
-              walletCacheKeys={memberIdCacheKeys}
-              walletAddrEnc={memberIdEnc}
+            <EncryptedMemberIdItem
+              memberIdCacheKeys={memberIdCacheKeys}
+              memberIdEnc={formData[MEMBER_ID_ENC]}
             />
           )}
         </AttestationListRightCol>
@@ -237,10 +250,10 @@ export default ClaimSecretItem;
 
 export interface MemberCodeInputProps {
   atstGroup: PrfsAtstGroup | null;
-  handleChangeCm: (cm: string) => void;
+  handleChangeCm: (val: string) => void;
   formData: GroupMemberAtstFormData;
   memberIdCacheKeys: Record<string, string> | null;
   setMemberIdCacheKeys: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
-  memberIdEnc: string | null;
-  setMemberIdEnc: React.Dispatch<React.SetStateAction<string | null>>;
+  handleChangeMemberIdEnc: (val: string) => void;
+  handleChangeMemberIdCm: (val: string) => void;
 }

@@ -33,10 +33,10 @@ pub enum PrfsSetElementStatus {
     NotRegistered,
 }
 
-#[derive(TS, Clone, Debug, Serialize, Deserialize, Type, EnumString, Display)]
+#[derive(TS, Clone, Debug, Serialize, Deserialize, Type, EnumString, Display, PartialEq, Eq)]
 #[ts(export)]
 #[sqlx(type_name = "VARCHAR")]
 pub enum PrfsSetElementDataType {
-    WalletCm,
+    Commitment,
     Int,
 }

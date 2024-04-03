@@ -15,11 +15,11 @@ WHERE set_id=$1
     return query;
 }
 
-pub fn get_prfs_sets_by_topic_query<'a>() -> &'a str {
+pub fn get_prfs_sets_by_atst_type_id_query<'a>() -> &'a str {
     let query = r#"
 SELECT * 
 FROM prfs_sets
-WHERE topic=$1
+WHERE atst_type_id=$1
 "#;
     return query;
 }
