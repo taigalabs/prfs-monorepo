@@ -69,15 +69,16 @@ function checkIfFormIsFilled(formData: GroupMemberAtstFormData) {
 const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   const i18n = useI18N();
   const [isNavigating, setIsNavigating] = React.useState(false);
-  const [memberIdEnc, setMemberIdEnc] = React.useState<string | null>(null);
   const router = useRouter();
   const [formData, setFormData] = React.useState<GroupMemberAtstFormData>({
     [MEMBER_ID]: "",
     [MEMBER_CODE]: "",
+    [CM]: "",
   });
   const [memberIdCacheKeys, setMemberIdCacheKeys] = React.useState<Record<string, string> | null>(
     null,
   );
+  const [memberIdEnc, setMemberIdEnc] = React.useState<string | null>(null);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [error, setError] = React.useState<React.ReactNode>(null);
   const [atstGroup, setAtstGroup] = React.useState<PrfsAtstGroup | null>(null);
@@ -184,62 +185,61 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     ) {
       try {
         setError(null);
-        // const cm = formData[CM];
-        // const cm_msg = toUtf8Bytes(cm);
+        const cm = formData[CM];
+        const cm_msg = toUtf8Bytes(cm);
         const atst_id = `${MEMBER}_${atstGroup}`;
 
-        if (atst_id) {
-          setCreateStatus(Status.InProgress);
+        console.log(14, formData);
 
-          const { payload: indexPayload, error: indexError } = await getLeastRecentPrfsIndex({
-            prfs_indices: Object.values(memberIdCacheKeys),
-          });
+        setCreateStatus(Status.InProgress);
 
-          if (indexError) {
-            setError(<span>{indexError.toString()}</span>);
-            setCreateStatus(Status.Standby);
-            return;
-          }
+        const { payload: indexPayload, error: indexError } = await getLeastRecentPrfsIndex({
+          prfs_indices: Object.values(memberIdCacheKeys),
+        });
 
-          let prfs_index = null;
-          if (indexPayload) {
-            prfs_index = indexPayload.prfs_index;
-          } else {
-            setError(<span>Wallet cache key is invalid. Something's wrong</span>);
-            setCreateStatus(Status.Standby);
-            return;
-          }
-
-          // const wallet_addr = formData[WALLET_ADDR];
-          // const cm = formData[CM];
-          // const { payload, error } = await createCryptoSizeAtstRequest({
-          //   atst_id,
-          //   atst_type_id: "crypto_1",
-          //   label: wallet_addr,
-          //   serial_no: "empty",
-          //   cm,
-          //   cm_msg: Array.from(cm_msg),
-          //   sig,
-          // });
+        if (indexError) {
+          setError(<span>{indexError.toString()}</span>);
           setCreateStatus(Status.Standby);
-
-          // if (error) {
-          //   setError(<span>{error.toString()}</span>);
-          //   setCreateStatus(Status.Standby);
-          //   return;
-          // }
-
-          // if (payload) {
-          //   setIsNavigating(true);
-          //   router.push(paths.attestations__crypto_asset);
-          // }
-
-          // await addPrfsIndexRequest({
-          //   key: prfs_index,
-          //   value: walletAddrEnc,
-          //   serial_no: "empty",
-          // });
+          return;
         }
+
+        let prfs_index = null;
+        if (indexPayload) {
+          prfs_index = indexPayload.prfs_index;
+        } else {
+          setError(<span>Wallet cache key is invalid. Something's wrong</span>);
+          setCreateStatus(Status.Standby);
+          return;
+        }
+
+        const memberId = formData[MEMBER_ID];
+        // const { payload, error } = await createCryptoSizeAtstRequest({
+        //   atst_id,
+        //   atst_type_id: "crypto_1",
+        //   label: wallet_addr,
+        //   serial_no: "empty",
+        //   cm,
+        //   cm_msg: Array.from(cm_msg),
+        //   sig,
+        // });
+        setCreateStatus(Status.Standby);
+
+        // if (error) {
+        //   setError(<span>{error.toString()}</span>);
+        //   setCreateStatus(Status.Standby);
+        //   return;
+        // }
+
+        // if (payload) {
+        //   setIsNavigating(true);
+        //   router.push(paths.attestations__crypto_asset);
+        // }
+
+        // await addPrfsIndexRequest({
+        //   key: prfs_index,
+        //   value: walletAddrEnc,
+        //   serial_no: "empty",
+        // });
       } catch (err: any) {
         setError(<span>{err.toString()}</span>);
         setCreateStatus(Status.Standby);

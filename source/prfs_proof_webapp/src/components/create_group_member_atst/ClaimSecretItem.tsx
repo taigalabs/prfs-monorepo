@@ -43,7 +43,7 @@ import {
   MEMBER,
   MEMBER_ID,
 } from "./create_group_member_atst";
-import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
+import EncryptedMemberIdItem from "./EncryptedMemberIdItem";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 
@@ -169,7 +169,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
 
       const cm: CommitmentReceipt = payload.receipt[CM];
       const memberIdEncrypted: EncryptedReceipt = payload.receipt[ENCRYPTED_MEMBER_ID];
-      const { [CM]: _cm, ...rest } = payload.receipt;
+      const { [CM]: _cm, [ENCRYPTED_MEMBER_ID]: _memberId, ...rest } = payload.receipt;
 
       const rest_: Record<string, CommitmentReceipt> = rest;
       const memberIdCacheKeys: Record<string, string> = {};
@@ -177,18 +177,19 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         memberIdCacheKeys[key] = rest_[key].commitment;
       }
 
-      // if (cm?.commitment && walletAddrEncrypted?.encrypted) {
-      //   handleChangeCm(cm.commitment);
-      //   setWalletCacheKeys(walletCacheKeys);
-      //   setWalletAddrEnc(walletAddrEncrypted.encrypted);
-      // } else {
-      //   dispatch(
-      //     setGlobalError({
-      //       message: `No commitment delivered`,
-      //     }),
-      //   );
-      //   return;
-      // }
+      if (cm?.commitment && memberIdEncrypted?.encrypted) {
+        handleChangeCm(cm.commitment);
+        setMemberIdCacheKeys(memberIdCacheKeys);
+        setMemberIdEnc(memberIdEncrypted.encrypted);
+      } else {
+        dispatch(
+          setGlobalMsg({
+            variant: "error",
+            message: `No commitment delivered`,
+          }),
+        );
+        return;
+      }
     },
     [sk, dispatch],
   );
@@ -215,9 +216,9 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
             <p className={cn(styles.value, common.alignItemCenter)}>{null}</p>
           </div>
           {memberIdCacheKeys && (
-            <EncryptedWalletAddrItem
-              walletCacheKeys={memberIdCacheKeys}
-              walletAddrEnc={memberIdEnc}
+            <EncryptedMemberIdItem
+              memberIdCacheKeys={memberIdCacheKeys}
+              memberIdEnc={memberIdEnc}
             />
           )}
         </AttestationListRightCol>

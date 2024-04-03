@@ -37,6 +37,7 @@ export default {
   commitment: "Commitment",
   encryption: "Encryption",
   encrypted_wallet_addr: "Encrypted wallet address",
+  encrypted_member_id: "Encrypted member id",
   total_value_usd: "Total value USD",
   claim_secret: "Claim secret",
   language: "Language",
