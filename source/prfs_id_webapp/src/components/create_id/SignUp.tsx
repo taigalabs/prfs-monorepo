@@ -138,7 +138,6 @@ const SignUp: React.FC<SignUpProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      {/* <AppLogoArea subLabel="ID" /> */}
       <div className={styles.wrapper}>
         <Fade>
           <DefaultModuleHeader noSidePadding>

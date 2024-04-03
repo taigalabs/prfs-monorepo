@@ -31,7 +31,7 @@ const GlobalErrorHeader: React.FC<GlobalErrorDialogProps> = ({}) => {
 
     const content = (
       <GlobalMsgHeaderWrapper>
-        <AlertWrapper variant="warn" className={styles.alert}>
+        <AlertWrapper variant={msg.variant} className={styles.alert}>
           <AlertContent>
             <p>{msg.message}</p>
           </AlertContent>
