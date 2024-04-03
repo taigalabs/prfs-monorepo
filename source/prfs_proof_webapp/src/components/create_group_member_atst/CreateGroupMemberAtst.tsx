@@ -14,6 +14,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
+import { CreateGroupMemberAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateGroupMemberAtstRequest";
 import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 import { toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
@@ -95,7 +96,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     },
   });
   const { mutateAsync: createGroupMemberAttestation } = useMutation({
-    mutationFn: (req: CreatePrfsAttestationRequest) => {
+    mutationFn: (req: CreateGroupMemberAtstRequest) => {
       return atstApi({ type: "create_group_member_atst", ...req });
     },
   });
@@ -205,7 +206,8 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
         }
 
         const cm = formData[CM];
-        const atst_id = `${GROUP_MEMBER}_${atstGroup.atst_group_id}_${formData[MEMBER_CODE]}`;
+        const member_code = formData[MEMBER_CODE];
+        const atst_id = `${GROUP_MEMBER}_${atstGroup.atst_group_id}_${member_code}`;
 
         const { payload, error } = await createGroupMemberAttestation({
           atst_id,
@@ -213,8 +215,8 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
           label: formData[MEMBER_CODE],
           serial_no: "empty",
           cm,
-          cm_msg: [],
-          sig: "",
+          atst_group_id: atstGroup.atst_group_id,
+          member_code,
         });
 
         setCreateStatus(Status.Standby);

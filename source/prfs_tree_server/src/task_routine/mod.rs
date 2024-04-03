@@ -26,7 +26,7 @@ impl TaskRoutine {
     }
 
     pub async fn start_routine(&self) {
-        println!("{} start routine", "TaskRoutine".green());
+        tracing::info!("{} start routine", "TaskRoutine".green());
 
         let mut rx = self.state.tree_server_task_queue.rx.lock().await;
         while let Some(_) = rx.recv().await {
@@ -58,7 +58,7 @@ async fn do_update_prfs_tree_by_new_atst_task(
         if **atst_type_id == PrfsAtstTypeId::crypto_1 {
             let compute_resp =
                 atst_api_ops::compute_crypto_asset_total_values(&pool, &mut tx).await?;
-            tracing::debug!("Compute crypto asset payload: {:?}", compute_resp);
+            tracing::info!("Computed crypto asset payload: {:?}", compute_resp);
         }
 
         let prfs_sets = prfs::get_prfs_sets_by_atst_type_id__tx(&mut tx, &atst_type_id).await?;
@@ -66,8 +66,8 @@ async fn do_update_prfs_tree_by_new_atst_task(
             let (dest_set_id, import_count) =
                 _import_prfs_attestations_to_prfs_set(&mut tx, &atst_type_id, &set.set_id).await?;
 
-            tracing::debug!(
-                "dest_set_id: {}, import_count: {}",
+            tracing::info!(
+                "Imported attestations into set, dest_set_id: {}, import_count: {}",
                 dest_set_id,
                 import_count
             );
