@@ -78,7 +78,7 @@ mod seed_api3 {
     use super::*;
 
     #[tokio::test]
-    async fn seed_prfs_atst_group() {
+    async fn seed_prfs_atst_group_members() {
         prepare().await;
         let db = get_db().await;
 
