@@ -185,9 +185,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     ) {
       try {
         setError(null);
-
         setCreateStatus(Status.InProgress);
-
         const { payload: indexPayload, error: indexError } = await getLeastRecentPrfsIndex({
           prfs_indices: Object.values(memberIdCacheKeys),
         });
