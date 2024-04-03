@@ -6,6 +6,8 @@ export function makeAccAttestation({ attType, destination, id, cm }: MakeAttesta
 
 export const PRFS_ATTESTATION_STEM = "PRFS_ATST_";
 
+export const GROUP_MEMBER = "group_member";
+
 export interface MakeAttestationArgs {
   attType: string;
   destination: string;

@@ -16,6 +16,7 @@ import {
   CommitmentReceipt,
   EncryptedReceipt,
   makeAtstCmPreImageStr,
+  GROUP_MEMBER,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
@@ -40,7 +41,6 @@ import {
   CM,
   ENCRYPTED_MEMBER_ID,
   GroupMemberAtstFormData,
-  MEMBER,
   MEMBER_ID,
 } from "./create_group_member_atst";
 import EncryptedMemberIdItem from "./EncryptedMemberIdItem";
@@ -75,7 +75,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
       return;
     }
 
-    const cacheKeyQueries = makeCmCacheKeyQueries(atstGroup.atst_group_id, 10, MEMBER);
+    const cacheKeyQueries = makeCmCacheKeyQueries(atstGroup.atst_group_id, 10, GROUP_MEMBER);
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
 

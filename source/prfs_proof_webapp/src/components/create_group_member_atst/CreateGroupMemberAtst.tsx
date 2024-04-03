@@ -41,7 +41,6 @@ import {
   GroupMemberAtstFormData,
   MEMBER_CODE,
   MEMBER_ID,
-  MEMBER,
 } from "./create_group_member_atst";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
@@ -49,6 +48,7 @@ import AtstGroupSelect from "@/components/atst_group_select/AtstGroupSelect";
 import MemberIdInput from "./MemberIdInput";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 import { ValidateGroupMembershipRequest } from "@taigalabs/prfs-entities/bindings/ValidateGroupMembershipRequest";
+import { GROUP_MEMBER } from "@taigalabs/prfs-id-sdk-web";
 
 enum Status {
   Standby,
@@ -185,11 +185,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     ) {
       try {
         setError(null);
-        const cm = formData[CM];
-        const cm_msg = toUtf8Bytes(cm);
-        const atst_id = `${MEMBER}_${atstGroup}`;
-
-        console.log(14, formData);
 
         setCreateStatus(Status.InProgress);
 
@@ -212,7 +207,10 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
           return;
         }
 
+        const cm = formData[CM];
+        const atst_id = `${GROUP_MEMBER}_${atstGroup.atst_group_id}_${formData[MEMBER_CODE]}`;
         const memberId = formData[MEMBER_ID];
+
         // const { payload, error } = await createCryptoSizeAtstRequest({
         //   atst_id,
         //   atst_type_id: "crypto_1",
