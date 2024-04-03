@@ -1,3 +1,4 @@
+mod csv;
 mod local;
 pub mod upload;
 

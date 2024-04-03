@@ -152,6 +152,20 @@ pub fn load_proof_types() -> HashMap<String, PrfsProofType> {
 }
 
 pub fn load_prfs_atst_groups() -> HashMap<String, PrfsAtstGroup> {
+    let json_path = PATHS.data_seed__json_bindings.join("prfs_atst_groups.json");
+    let rows: Vec<PrfsAtstGroup> = read_json_file(&json_path).unwrap();
+
+    let mut m = HashMap::new();
+    for row in rows {
+        println!("Reading row, name: {}", row.atst_group_id);
+
+        m.insert(row.atst_group_id.to_string(), row.clone());
+    }
+
+    m
+}
+
+pub fn load_prfs_atst_group_members() -> HashMap<String, PrfsAtstGroup> {
     println!("\n{} proof types", "Loading".green());
 
     let json_path = PATHS.data_seed__json_bindings.join("prfs_atst_groups.json");
