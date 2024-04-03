@@ -15,12 +15,15 @@ const EncryptedMemberIdItem: React.FC<EncryptedWalletAddrItemProps> = ({
     if (memberIdCacheKeys) {
       const elems = [];
       for (const key in memberIdCacheKeys) {
-        memberIdCacheKeys[key] &&
+        if (memberIdCacheKeys[key]) {
           elems.push(
             <p key={memberIdCacheKeys[key]} className={styles.cacheKey}>
               {abbrev7and5(memberIdCacheKeys[key])},
             </p>,
           );
+        } else {
+          console.error("Key is not found, dismissing, key: %s", key);
+        }
       }
       return elems;
     } else {
