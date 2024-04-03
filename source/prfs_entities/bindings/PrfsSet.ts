@@ -10,5 +10,4 @@ export type PrfsSet = {
   cardinality: bigint;
   element_type: string;
   atst_type_id: PrfsAtstTypeId;
-  created_at: string;
 };

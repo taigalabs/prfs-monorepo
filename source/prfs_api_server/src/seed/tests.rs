@@ -108,4 +108,30 @@ mod seed_api3 {
 
         upload_prfs_atst_group_members(&db, &atst_group_members).await;
     }
+
+    #[tokio::test]
+    async fn seed_prfs_sets() {
+        prepare().await;
+        let db = get_db().await;
+
+        let csv_path = PATHS.data_seed.join("csv/nonce_20240403.csv");
+        let mut rdr = csv::Reader::from_path(csv_path).unwrap();
+
+        let mut atst_group_members = vec![];
+        for result in rdr.deserialize() {
+            let record: GroupMemberRecord = result.unwrap();
+            // println!("{:?}", record);
+
+            let m = PrfsAtstGroupMember {
+                atst_group_id: "0x1D73A70".to_string(),
+                member_id: record.member_id,
+                member_code: record.member_code,
+                code_type: PrfsAtstGroupMemberCodeType::Equality,
+                status: PrfsAtstGroupMemberStatus::NotRegistered,
+            };
+            atst_group_members.push(m);
+        }
+
+        upload_prfs_atst_group_members(&db, &atst_group_members).await;
+    }
 }

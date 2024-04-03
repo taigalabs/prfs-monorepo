@@ -20,7 +20,6 @@ pub async fn get_prfs_set_by_set_id(
     let desc: String = row.try_get("desc")?;
     let hash_algorithm: String = row.try_get("hash_algorithm")?;
     let cardinality: i64 = row.try_get("cardinality")?;
-    let created_at: DateTime<Utc> = row.try_get("created_at")?;
     let element_type: String = row.try_get("element_type")?;
     let atst_type_id: PrfsAtstTypeId = row.try_get("atst_type_id")?;
 
@@ -31,7 +30,6 @@ pub async fn get_prfs_set_by_set_id(
         desc,
         hash_algorithm,
         cardinality,
-        created_at,
         element_type,
         atst_type_id,
     };
@@ -57,7 +55,6 @@ pub async fn get_prfs_set_by_set_id__tx(
     let desc: String = row.try_get("desc")?;
     let hash_algorithm: String = row.try_get("hash_algorithm")?;
     let cardinality: i64 = row.try_get("cardinality")?;
-    let created_at: DateTime<Utc> = row.try_get("created_at")?;
     let element_type: String = row.try_get("element_type")?;
     let atst_type_id: PrfsAtstTypeId = row.try_get("atst_type_id")?;
 
@@ -68,7 +65,6 @@ pub async fn get_prfs_set_by_set_id__tx(
         desc,
         hash_algorithm,
         cardinality,
-        created_at,
         element_type,
         atst_type_id,
     };
@@ -106,7 +102,6 @@ OFFSET $2
             let desc: String = r.try_get("desc")?;
             let hash_algorithm: String = r.try_get("hash_algorithm")?;
             let cardinality: i64 = r.try_get("cardinality")?;
-            let created_at: DateTime<Utc> = r.try_get("created_at")?;
             let element_type: String = r.try_get("element_type")?;
             let atst_type_id: PrfsAtstTypeId = r.try_get("atst_type_id")?;
 
@@ -117,7 +112,6 @@ OFFSET $2
                 desc,
                 hash_algorithm,
                 cardinality,
-                created_at,
                 element_type,
                 atst_type_id,
             })
@@ -144,7 +138,6 @@ pub async fn get_prfs_sets_by_topic(
             let desc: String = r.try_get("desc")?;
             let hash_algorithm: String = r.try_get("hash_algorithm")?;
             let cardinality: i64 = r.try_get("cardinality")?;
-            let created_at: DateTime<Utc> = r.try_get("created_at")?;
             let element_type: String = r.try_get("element_type")?;
             let atst_type_id: PrfsAtstTypeId = r.try_get("atst_type_id")?;
 
@@ -155,7 +148,6 @@ pub async fn get_prfs_sets_by_topic(
                 desc,
                 hash_algorithm,
                 cardinality,
-                created_at,
                 element_type,
                 atst_type_id,
             })
@@ -186,7 +178,6 @@ pub async fn get_prfs_sets_by_atst_type_id__tx(
             let desc: String = r.try_get("desc")?;
             let hash_algorithm: String = r.try_get("hash_algorithm")?;
             let cardinality: i64 = r.try_get("cardinality")?;
-            let created_at: DateTime<Utc> = r.try_get("created_at")?;
             let element_type: String = r.try_get("element_type")?;
             let atst_type_id: PrfsAtstTypeId = r.try_get("atst_type_id")?;
 
@@ -197,7 +188,6 @@ pub async fn get_prfs_sets_by_atst_type_id__tx(
                 desc,
                 hash_algorithm,
                 cardinality,
-                created_at,
                 element_type,
                 atst_type_id,
             })

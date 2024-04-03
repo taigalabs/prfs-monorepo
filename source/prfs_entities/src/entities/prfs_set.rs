@@ -16,7 +16,6 @@ pub struct PrfsSet {
     pub cardinality: i64,
     pub element_type: String,
     pub atst_type_id: PrfsAtstTypeId,
-
-    #[ts(type = "string")]
-    pub created_at: DateTime<Utc>,
+    // #[ts(type = "string")]
+    // pub created_at: DateTime<Utc>,
 }
