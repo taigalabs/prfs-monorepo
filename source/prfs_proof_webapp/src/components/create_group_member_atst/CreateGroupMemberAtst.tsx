@@ -45,6 +45,8 @@ import {
   GroupMemberAtstFormData,
   MEMBER_CODE,
   MEMBER_ID,
+  MEMBER_ID_CM,
+  MEMBER_ID_ENC,
 } from "./create_group_member_atst";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
@@ -75,11 +77,12 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     [MEMBER_ID]: "",
     [MEMBER_CODE]: "",
     [CM]: "",
+    [MEMBER_ID_CM]: "",
+    [MEMBER_ID_ENC]: "",
   });
   const [memberIdCacheKeys, setMemberIdCacheKeys] = React.useState<Record<string, string> | null>(
     null,
   );
-  const [memberIdEnc, setMemberIdEnc] = React.useState<string | null>(null);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [error, setError] = React.useState<React.ReactNode>(null);
   const [atstGroup, setAtstGroup] = React.useState<PrfsAtstGroup | null>(null);
@@ -167,6 +170,30 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     [setFormData],
   );
 
+  const handleChangeMemberIdEnc = React.useCallback(
+    (val: string) => {
+      if (val) {
+        setFormData(oldVal => ({
+          ...oldVal,
+          [MEMBER_ID_ENC]: val,
+        }));
+      }
+    },
+    [setFormData],
+  );
+
+  const handleChangeMemberIdCm = React.useCallback(
+    (val: string) => {
+      if (val) {
+        setFormData(oldVal => ({
+          ...oldVal,
+          [MEMBER_ID_CM]: val,
+        }));
+      }
+    },
+    [setFormData],
+  );
+
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
   }, [formData]);
@@ -176,13 +203,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
   }, [formData]);
 
   const handleClickCreate = React.useCallback(async () => {
-    if (
-      isFormFilled &&
-      createStatus === Status.Standby &&
-      atstGroup &&
-      memberIdCacheKeys &&
-      memberIdEnc
-    ) {
+    if (isFormFilled && createStatus === Status.Standby && atstGroup && memberIdCacheKeys) {
       try {
         setError(null);
         setCreateStatus(Status.InProgress);
@@ -207,12 +228,14 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
 
         const cm = formData[CM];
         const member_code = formData[MEMBER_CODE];
+        const member_id_cm = formData[MEMBER_ID_CM];
+        const member_id_enc = formData[MEMBER_ID_ENC];
         const atst_id = `${GROUP_MEMBER}_${atstGroup.atst_group_id}_${member_code}`;
 
         const { payload, error } = await createGroupMemberAttestation({
           atst_id,
           atst_type_id: "nonce_seoul_1",
-          label: formData[MEMBER_CODE],
+          label: member_id_cm,
           serial_no: "empty",
           cm,
           atst_group_id: atstGroup.atst_group_id,
@@ -234,7 +257,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
 
         await addPrfsIndexRequest({
           key: prfs_index,
-          value: memberIdEnc,
+          value: member_id_enc,
           serial_no: "empty",
         });
       } catch (err: any) {
@@ -253,7 +276,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     router,
     memberIdCacheKeys,
     addPrfsIndexRequest,
-    memberIdEnc,
   ]);
 
   return isNavigating ? (
@@ -291,11 +313,11 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
             <ClaimSecretItem
               atstGroup={atstGroup}
               formData={formData}
-              handleChangeCm={handleChangeCm}
               memberIdCacheKeys={memberIdCacheKeys}
               setMemberIdCacheKeys={setMemberIdCacheKeys}
-              memberIdEnc={memberIdEnc}
-              setMemberIdEnc={setMemberIdEnc}
+              handleChangeCm={handleChangeCm}
+              handleChangeMemberIdEnc={handleChangeMemberIdEnc}
+              handleChangeMemberIdCm={handleChangeMemberIdCm}
             />
           </ol>
           <AttestationFormBtnRow>

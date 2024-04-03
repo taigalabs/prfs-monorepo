@@ -42,6 +42,8 @@ import {
   ENCRYPTED_MEMBER_ID,
   GroupMemberAtstFormData,
   MEMBER_ID,
+  MEMBER_ID_CM,
+  MEMBER_ID_ENC,
 } from "./create_group_member_atst";
 import EncryptedMemberIdItem from "./EncryptedMemberIdItem";
 import { useAppDispatch } from "@/state/hooks";
@@ -53,8 +55,8 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   handleChangeCm,
   memberIdCacheKeys,
   setMemberIdCacheKeys,
-  memberIdEnc,
-  setMemberIdEnc,
+  handleChangeMemberIdEnc,
+  handleChangeMemberIdCm,
 }) => {
   const i18n = React.useContext(i18nContext);
   const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
@@ -89,6 +91,12 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
           type: CommitmentType.SIG_POSEIDON_1,
           queryType: QueryType.COMMITMENT,
         },
+        {
+          name: MEMBER_ID_CM,
+          preImage: formData[MEMBER_ID],
+          type: CommitmentType.SIG_POSEIDON_1,
+          queryType: QueryType.COMMITMENT,
+        },
         ...cacheKeyQueries,
         {
           name: ENCRYPTED_MEMBER_ID,
@@ -116,17 +124,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
     setIsPrfsDialogOpen(true);
     setSessionKey(proofGenArgs.session_key);
     setSk(sk);
-  }, [
-    formData,
-    claimSecret,
-    handleChangeCm,
-    setMemberIdCacheKeys,
-    setMemberIdEnc,
-    openPrfsIdSession,
-    setSk,
-    setIsPrfsDialogOpen,
-    setSessionKey,
-  ]);
+  }, [formData, claimSecret, openPrfsIdSession, setSk, setIsPrfsDialogOpen, setSessionKey]);
 
   const handleSucceedGetSession = React.useCallback(
     (session: PrfsIdSession) => {
@@ -167,9 +165,17 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         return;
       }
 
+      console.log(11, payload.receipt);
+
       const cm: CommitmentReceipt = payload.receipt[CM];
       const memberIdEncrypted: EncryptedReceipt = payload.receipt[ENCRYPTED_MEMBER_ID];
-      const { [CM]: _cm, [ENCRYPTED_MEMBER_ID]: _memberId, ...rest } = payload.receipt;
+      const memberIdCm: CommitmentReceipt = payload.receipt[MEMBER_ID_CM];
+      const {
+        [CM]: _cm,
+        [ENCRYPTED_MEMBER_ID]: _memberId,
+        [MEMBER_ID_CM]: _memberIdCm,
+        ...rest
+      } = payload.receipt;
 
       const rest_: Record<string, CommitmentReceipt> = rest;
       const memberIdCacheKeys: Record<string, string> = {};
@@ -177,10 +183,11 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         memberIdCacheKeys[key] = rest_[key].commitment;
       }
 
-      if (cm?.commitment && memberIdEncrypted?.encrypted) {
+      if (cm?.commitment && memberIdEncrypted?.encrypted && _memberIdCm) {
         handleChangeCm(cm.commitment);
         setMemberIdCacheKeys(memberIdCacheKeys);
-        setMemberIdEnc(memberIdEncrypted.encrypted);
+        handleChangeMemberIdEnc(memberIdEncrypted.encrypted);
+        handleChangeMemberIdCm(memberIdCm.commitment);
       } else {
         dispatch(
           setGlobalMsg({
@@ -191,7 +198,14 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         return;
       }
     },
-    [sk, dispatch],
+    [
+      sk,
+      dispatch,
+      handleChangeCm,
+      setMemberIdCacheKeys,
+      handleChangeMemberIdEnc,
+      handleChangeMemberIdCm,
+    ],
   );
 
   return (
@@ -218,7 +232,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
           {memberIdCacheKeys && (
             <EncryptedMemberIdItem
               memberIdCacheKeys={memberIdCacheKeys}
-              memberIdEnc={memberIdEnc}
+              memberIdEnc={formData[MEMBER_ID_ENC]}
             />
           )}
         </AttestationListRightCol>
@@ -238,10 +252,10 @@ export default ClaimSecretItem;
 
 export interface MemberCodeInputProps {
   atstGroup: PrfsAtstGroup | null;
-  handleChangeCm: (cm: string) => void;
+  handleChangeCm: (val: string) => void;
   formData: GroupMemberAtstFormData;
   memberIdCacheKeys: Record<string, string> | null;
   setMemberIdCacheKeys: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
-  memberIdEnc: string | null;
-  setMemberIdEnc: React.Dispatch<React.SetStateAction<string | null>>;
+  handleChangeMemberIdEnc: (val: string) => void;
+  handleChangeMemberIdCm: (val: string) => void;
 }
