@@ -1,6 +1,5 @@
-use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::{PrfsAtstGroupMember, PrfsAtstTypeId};
-use shy_entities::sqlx::QueryBuilder;
 
 use crate::DbInterfaceError;
 

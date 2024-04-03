@@ -1,7 +1,6 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::entities::PrfsIndex;
 use prfs_entities::prfs_api::DatedPrfsIndex;
-use shy_entities::sqlx::Execute;
 
 use crate::DbInterfaceError;
 
