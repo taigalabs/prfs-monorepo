@@ -2,7 +2,6 @@ import React from "react";
 import cn from "classnames";
 import {
   AttestationListItem,
-  AttestationListItemBtn,
   AttestationListItemDesc,
   AttestationListItemDescTitle,
   AttestationListItemNo,
@@ -11,11 +10,11 @@ import {
 } from "@/components/create_attestation/CreateAtstComponents";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
+import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./MemberIdInput.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { GroupMemberAtstFormData, MEMBER_CODE, MEMBER_ID } from "./create_group_member_atst";
-import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 const MemberIdInput: React.FC<EncryptedWalletAddrItemProps> = ({
   atstGroup,

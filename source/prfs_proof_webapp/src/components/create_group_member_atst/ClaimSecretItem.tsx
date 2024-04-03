@@ -52,9 +52,9 @@ import { setGlobalMsg } from "@/state/globalMsgReducer";
 const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   atstGroup,
   formData,
-  handleChangeCm,
   memberIdCacheKeys,
   setMemberIdCacheKeys,
+  handleChangeCm,
   handleChangeMemberIdEnc,
   handleChangeMemberIdCm,
 }) => {
@@ -165,8 +165,6 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         return;
       }
 
-      console.log(11, payload.receipt);
-
       const cm: CommitmentReceipt = payload.receipt[CM];
       const memberIdEncrypted: EncryptedReceipt = payload.receipt[ENCRYPTED_MEMBER_ID];
       const memberIdCm: CommitmentReceipt = payload.receipt[MEMBER_ID_CM];
@@ -184,8 +182,8 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
       }
 
       if (cm?.commitment && memberIdEncrypted?.encrypted && _memberIdCm) {
-        handleChangeCm(cm.commitment);
         setMemberIdCacheKeys(memberIdCacheKeys);
+        handleChangeCm(cm.commitment);
         handleChangeMemberIdEnc(memberIdEncrypted.encrypted);
         handleChangeMemberIdCm(memberIdCm.commitment);
       } else {

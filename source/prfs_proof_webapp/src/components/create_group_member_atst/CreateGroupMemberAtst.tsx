@@ -2,7 +2,6 @@
 
 import React from "react";
 import cn from "classnames";
-import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { atstApi, prfsApi3 } from "@taigalabs/prfs-api-js";
@@ -11,15 +10,9 @@ import { useRouter } from "next/navigation";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
-import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 import { CreateGroupMemberAtstRequest } from "@taigalabs/prfs-entities/bindings/CreateGroupMemberAtstRequest";
 import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
-import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
-import { toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
-import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
-import { CreatePrfsAttestationRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsAttestationRequest";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 import { ValidateGroupMembershipRequest } from "@taigalabs/prfs-entities/bindings/ValidateGroupMembershipRequest";
 import { GROUP_MEMBER } from "@taigalabs/prfs-id-sdk-web";
@@ -41,7 +34,6 @@ import {
 import { paths } from "@/paths";
 import {
   CM,
-  ATST_TYPE_ID,
   GroupMemberAtstFormData,
   MEMBER_CODE,
   MEMBER_ID,
@@ -59,12 +51,15 @@ enum Status {
 }
 
 function checkIfFormIsFilled(formData: GroupMemberAtstFormData) {
-  // if (formData[ATST_GROUP_ID].length < 1) {
-  //   return false;
-  // }
-  // if (formData[CM].length < 1) {
-  //   return false;
-  // }
+  if (!formData[MEMBER_ID_CM]) {
+    return false;
+  }
+  if (!formData[CM]) {
+    return false;
+  }
+  if (!formData[MEMBER_CODE]) {
+    return false;
+  }
 
   return true;
 }
