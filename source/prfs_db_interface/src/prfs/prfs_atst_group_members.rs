@@ -58,9 +58,9 @@ INSERT INTO prfs_atst_group_members
     query_builder.push(" ON CONFLICT (atst_group_id, member_code)");
     query_builder.push(
         r#" 
-DO UPDATE SET (member_id, member_code, status, updated_at) 
+DO UPDATE SET (atst_group_id, member_id, member_code, status, updated_at) 
 = (
-excluded.member_id, excluded.member_code, excluded.status, now()
+excluded.atst_group_id, excluded.member_id, excluded.member_code, excluded.status, now()
 )
 "#,
     );

@@ -15,4 +15,5 @@ generate_api_error_codes! {
     (String::from("40000B00"), FETCH_CRYPTO_ASSET_FAIL, "Fetch crypto asset fail");
     (String::from("40000003"), CRYPTO_SIZE_UPSERT_FAIL, "Crypto size upsert fail");
     (String::from("40000C00"), MEMBER_INFO_NOT_FOUND, "Member information is not found");
+    (String::from("40000C01"), MEMBER_ALREADY_REGISTERED, "Member is already registered");
 }
