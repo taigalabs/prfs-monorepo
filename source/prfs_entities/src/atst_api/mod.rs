@@ -1,12 +1,14 @@
-pub mod acc_atst;
-pub mod crypto_asset_size_atst;
-pub mod prfs_atst_api_entities;
-pub mod prfs_atst_group;
+mod acc_atst;
+mod crypto_asset_atst;
+mod group_member_atst;
+mod prfs_atst_api_entities;
+mod prfs_atst_group;
 mod prfs_attestation;
-pub mod twitter;
+mod twitter;
 
 pub use acc_atst::*;
-pub use crypto_asset_size_atst::*;
+pub use crypto_asset_atst::*;
+pub use group_member_atst::*;
 pub use prfs_atst_api_entities::*;
 pub use prfs_atst_group::*;
 pub use prfs_attestation::*;

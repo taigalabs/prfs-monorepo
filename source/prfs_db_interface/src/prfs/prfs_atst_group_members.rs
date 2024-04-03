@@ -33,7 +33,7 @@ AND member_code=$2
     Ok(m)
 }
 
-pub async fn insert_prfs_atst_group_members(
+pub async fn upsert_prfs_atst_group_members(
     tx: &mut Transaction<'_, Postgres>,
     atst_group_members: &Vec<PrfsAtstGroupMember>,
 ) -> Result<u64, DbInterfaceError> {

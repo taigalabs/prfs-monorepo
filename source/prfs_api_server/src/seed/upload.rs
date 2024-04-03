@@ -165,7 +165,7 @@ pub async fn upload_prfs_atst_group_members(
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let rows_affected = prfs::insert_prfs_atst_group_members(&mut tx, &atst_group_members)
+    let rows_affected = prfs::upsert_prfs_atst_group_members(&mut tx, &atst_group_members)
         .await
         .unwrap();
     println!("rows_affected: {}", rows_affected);

@@ -141,7 +141,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
 
       const { payload, error } = await validateGroupMembership({
         atst_group_id: atstGroup?.atst_group_id,
-        member_id: formData[MEMBER_ID],
         member_code: formData[MEMBER_CODE],
       });
 
@@ -226,18 +225,16 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
           return;
         }
 
-        console.log(44, payload);
-
         if (payload) {
-          // setIsNavigating(true);
-          // router.push(paths.attestations__crypto_asset);
+          setIsNavigating(true);
+          router.push(paths.attestations__group_member);
         }
 
-        // await addPrfsIndexRequest({
-        //   key: prfs_index,
-        //   value: walletAddrEnc,
-        //   serial_no: "empty",
-        // });
+        await addPrfsIndexRequest({
+          key: prfs_index,
+          value: memberIdEnc,
+          serial_no: "empty",
+        });
       } catch (err: any) {
         setError(<span>{err.toString()}</span>);
         setCreateStatus(Status.Standby);

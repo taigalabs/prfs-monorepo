@@ -69,7 +69,7 @@ pub async fn validate_group_membership(
     } else if member.status != PrfsAtstGroupMemberStatus::NotRegistered {
         let resp = ApiResponse::new_error(
             &PRFS_ATST_API_ERROR_CODES.MEMBER_ALREADY_REGISTERED,
-            format!("Member id: {}", input.member_id),
+            format!("Member code: {}", input.member_code),
         );
         return (StatusCode::BAD_REQUEST, Json(resp));
     } else {
