@@ -39,7 +39,6 @@ import {
   CM,
   ATST_TYPE_ID,
   GroupMemberAtstFormData,
-  //ATST_GROUP_ID,
   MEMBER_CODE,
   MEMBER_ID,
   MEMBER,
@@ -150,7 +149,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
       }
 
       if (payload?.is_valid) {
-        console.log("yes");
+        setValidationMsg(<FaCheck className={styles.success} />);
       }
     }
   }, [formData, atstGroup, setValidationMsg, validateGroupMembership]);

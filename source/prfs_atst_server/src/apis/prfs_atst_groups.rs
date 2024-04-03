@@ -45,23 +45,19 @@ pub async fn validate_group_membership(
 ) {
     let pool = &state.db2.pool;
 
-    let member = match prfs::get_prfs_atst_group_member(
-        &pool,
-        &input.atst_group_id,
-        &input.member_id,
-        &input.member_code,
-    )
-    .await
-    {
-        Ok(r) => r,
-        Err(err) => {
-            let resp = ApiResponse::new_error(
-                &PRFS_ATST_API_ERROR_CODES.MEMBER_INFO_NOT_FOUND,
-                err.to_string(),
-            );
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
+    let member =
+        match prfs::get_prfs_atst_group_member(&pool, &input.atst_group_id, &input.member_code)
+            .await
+        {
+            Ok(r) => r,
+            Err(err) => {
+                let resp = ApiResponse::new_error(
+                    &PRFS_ATST_API_ERROR_CODES.MEMBER_INFO_NOT_FOUND,
+                    err.to_string(),
+                );
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
 
     // Only equality check for now
     if member.member_code != input.member_code {
