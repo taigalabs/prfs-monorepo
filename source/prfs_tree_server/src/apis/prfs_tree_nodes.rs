@@ -85,9 +85,14 @@ pub async fn update_prfs_tree_node(
 
     let mut tx = bail_out_tx!(pool, &PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR);
 
-    let pos_w = prfs::update_prfs_tree_node(&mut tx, &input.prfs_tree_node)
-        .await
-        .expect("get nodes fail");
+    let pos_w = match prfs::update_prfs_tree_node(&mut tx, &input.prfs_tree_node).await {
+        Ok(w) => w,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_TREE_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let resp = ApiResponse::new_success(UpdatePrfsTreeNodeResponse { pos_w });
 

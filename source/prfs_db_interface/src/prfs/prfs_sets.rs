@@ -1,9 +1,9 @@
 use chrono::{DateTime, Utc};
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use prfs_entities::entities::PrfsSet;
 use prfs_entities::prfs_api::PrfsSetIns1;
+use prfs_entities::{entities::PrfsSet, PrfsAtstTypeId};
 
-use super::queries::{get_prfs_set_by_set_id_query, get_prfs_sets_by_topic_query};
+use super::queries::{get_prfs_set_by_set_id_query, get_prfs_sets_by_atst_type_id_query};
 use crate::DbInterfaceError;
 
 pub async fn get_prfs_set_by_set_id(
@@ -22,7 +22,7 @@ pub async fn get_prfs_set_by_set_id(
     let cardinality: i64 = row.try_get("cardinality")?;
     let created_at: DateTime<Utc> = row.try_get("created_at")?;
     let element_type: String = row.try_get("element_type")?;
-    let topic: String = row.try_get("topic")?;
+    let atst_type_id: PrfsAtstTypeId = row.try_get("atst_type_id")?;
 
     let s = PrfsSet {
         set_id,
@@ -33,7 +33,7 @@ pub async fn get_prfs_set_by_set_id(
         cardinality,
         created_at,
         element_type,
-        topic,
+        atst_type_id,
     };
 
     Ok(s)
@@ -59,7 +59,7 @@ pub async fn get_prfs_set_by_set_id__tx(
     let cardinality: i64 = row.try_get("cardinality")?;
     let created_at: DateTime<Utc> = row.try_get("created_at")?;
     let element_type: String = row.try_get("element_type")?;
-    let topic: String = row.try_get("topic")?;
+    let atst_type_id: PrfsAtstTypeId = row.try_get("atst_type_id")?;
 
     let s = PrfsSet {
         set_id,
@@ -70,7 +70,7 @@ pub async fn get_prfs_set_by_set_id__tx(
         cardinality,
         created_at,
         element_type,
-        topic,
+        atst_type_id,
     };
 
     Ok(s)
@@ -108,7 +108,7 @@ OFFSET $2
             let cardinality: i64 = r.try_get("cardinality")?;
             let created_at: DateTime<Utc> = r.try_get("created_at")?;
             let element_type: String = r.try_get("element_type")?;
-            let topic: String = r.try_get("topic")?;
+            let atst_type_id: PrfsAtstTypeId = r.try_get("atst_type_id")?;
 
             Ok(PrfsSet {
                 set_id,
@@ -119,7 +119,7 @@ OFFSET $2
                 cardinality,
                 created_at,
                 element_type,
-                topic,
+                atst_type_id,
             })
         })
         .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
@@ -131,7 +131,7 @@ pub async fn get_prfs_sets_by_topic(
     pool: &Pool<Postgres>,
     topic: &String,
 ) -> Result<Vec<PrfsSet>, DbInterfaceError> {
-    let query = get_prfs_sets_by_topic_query();
+    let query = get_prfs_sets_by_atst_type_id_query();
 
     let rows = sqlx::query(&query).bind(&topic).fetch_all(pool).await?;
 
@@ -146,7 +146,7 @@ pub async fn get_prfs_sets_by_topic(
             let cardinality: i64 = r.try_get("cardinality")?;
             let created_at: DateTime<Utc> = r.try_get("created_at")?;
             let element_type: String = r.try_get("element_type")?;
-            let topic: String = r.try_get("topic")?;
+            let atst_type_id: PrfsAtstTypeId = r.try_get("atst_type_id")?;
 
             Ok(PrfsSet {
                 set_id,
@@ -157,7 +157,7 @@ pub async fn get_prfs_sets_by_topic(
                 cardinality,
                 created_at,
                 element_type,
-                topic,
+                atst_type_id,
             })
         })
         .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
@@ -170,7 +170,7 @@ pub async fn get_prfs_sets_by_topic__tx(
     tx: &mut Transaction<'_, Postgres>,
     topic: &String,
 ) -> Result<Vec<PrfsSet>, DbInterfaceError> {
-    let query = get_prfs_sets_by_topic_query();
+    let query = get_prfs_sets_by_atst_type_id_query();
 
     let rows = sqlx::query(&query)
         .bind(&topic)
@@ -188,7 +188,7 @@ pub async fn get_prfs_sets_by_topic__tx(
             let cardinality: i64 = r.try_get("cardinality")?;
             let created_at: DateTime<Utc> = r.try_get("created_at")?;
             let element_type: String = r.try_get("element_type")?;
-            let topic: String = r.try_get("topic")?;
+            let atst_type_id: PrfsAtstTypeId = r.try_get("atst_type_id")?;
 
             Ok(PrfsSet {
                 set_id,
@@ -199,7 +199,7 @@ pub async fn get_prfs_sets_by_topic__tx(
                 cardinality,
                 created_at,
                 element_type,
-                topic,
+                atst_type_id,
             })
         })
         .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
@@ -299,7 +299,7 @@ pub async fn insert_prfs_set(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_sets (set_id, label, author, "desc", hash_algorithm, cardinality,
-element_type, topic)
+element_type, atst_type_id)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
 "#;
 
@@ -311,7 +311,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         .bind(&prfs_set.hash_algorithm)
         .bind(&prfs_set.cardinality)
         .bind(&prfs_set.element_type)
-        .bind(&prfs_set.topic)
+        .bind(&prfs_set.atst_type_id)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -326,7 +326,7 @@ pub async fn upsert_prfs_set(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_sets (set_id, label, author, "desc", hash_algorithm, cardinality,
-element_type, topic) 
+element_type, atst_type_id) 
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
 ON CONFLICT (set_id) 
 DO UPDATE SET (cardinality,updated_at) = (excluded.cardinality, now())
@@ -341,7 +341,7 @@ RETURNING set_id
         .bind(&prfs_set.hash_algorithm)
         .bind(&prfs_set.cardinality)
         .bind(&prfs_set.element_type)
-        .bind(&prfs_set.topic)
+        .bind(&prfs_set.atst_type_id)
         .fetch_one(&mut **tx)
         .await?;
 
