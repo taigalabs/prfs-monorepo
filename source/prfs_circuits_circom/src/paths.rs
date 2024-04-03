@@ -10,6 +10,7 @@ lazy_static! {
 #[derive(Debug)]
 pub struct Paths {
     pub circuits: PathBuf,
+    pub package_root: PathBuf,
     pub build: PathBuf,
     pub data: PathBuf,
     pub data_json_bindings: PathBuf,
@@ -29,6 +30,7 @@ impl Paths {
 
         let p = Paths {
             circuits,
+            package_root,
             build,
             data,
             data_ts,

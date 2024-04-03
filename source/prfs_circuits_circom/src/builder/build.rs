@@ -9,6 +9,7 @@ use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::collections::HashMap;
 use std::{io::Write, path::PathBuf, process::Command};
 
+use crate::builder::circuits_toml::read_circuits_toml;
 use crate::builder::create_digest;
 use crate::resolve_path::get_path_segment;
 use crate::{paths::PATHS, CircuitBuild, CircuitBuildJson, FileKind};
@@ -19,6 +20,8 @@ pub fn run() {
 
     let now = Utc::now();
     let mut circuits = read_circuits_json();
+
+    let circuits_toml = read_circuits_toml().unwrap();
 
     let mut circuit_map = HashMap::new();
     for mut circuit in &mut circuits {
