@@ -71,3 +71,17 @@ mod seed_api2 {
         upload_prfs_atst_groups(&db).await;
     }
 }
+
+mod seed_api3 {
+    use crate::seed::upload::upload_prfs_atst_groups;
+
+    use super::*;
+
+    #[tokio::test]
+    async fn seed_prfs_atst_group() {
+        prepare().await;
+        let db = get_db().await;
+
+        upload_prfs_atst_groups(&db).await;
+    }
+}
