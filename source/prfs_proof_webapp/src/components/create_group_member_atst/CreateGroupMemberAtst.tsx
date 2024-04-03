@@ -19,6 +19,9 @@ import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/Hoverabl
 import { toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { CreatePrfsAttestationRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsAttestationRequest";
+import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
+import { ValidateGroupMembershipRequest } from "@taigalabs/prfs-entities/bindings/ValidateGroupMembershipRequest";
+import { GROUP_MEMBER } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CreateGroupMemberAtst.module.scss";
 import {
@@ -46,9 +49,6 @@ import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
 import AtstGroupSelect from "@/components/atst_group_select/AtstGroupSelect";
 import MemberIdInput from "./MemberIdInput";
-import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
-import { ValidateGroupMembershipRequest } from "@taigalabs/prfs-entities/bindings/ValidateGroupMembershipRequest";
-import { GROUP_MEMBER } from "@taigalabs/prfs-id-sdk-web";
 
 enum Status {
   Standby,
@@ -94,9 +94,9 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
       return prfsApi3({ type: "add_prfs_index", ...req });
     },
   });
-  const { mutateAsync: createCryptoSizeAtstRequest } = useMutation({
+  const { mutateAsync: createGroupMemberAttestation } = useMutation({
     mutationFn: (req: CreatePrfsAttestationRequest) => {
-      return atstApi({ type: "create_crypto_asset_atst", ...req });
+      return atstApi({ type: "create_group_member_atst", ...req });
     },
   });
   const { mutateAsync: validateGroupMembership } = useMutation({
@@ -207,29 +207,31 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
 
         const cm = formData[CM];
         const atst_id = `${GROUP_MEMBER}_${atstGroup.atst_group_id}_${formData[MEMBER_CODE]}`;
-        const memberId = formData[MEMBER_ID];
 
-        // const { payload, error } = await createCryptoSizeAtstRequest({
-        //   atst_id,
-        //   atst_type_id: "crypto_1",
-        //   label: wallet_addr,
-        //   serial_no: "empty",
-        //   cm,
-        //   cm_msg: Array.from(cm_msg),
-        //   sig,
-        // });
+        const { payload, error } = await createGroupMemberAttestation({
+          atst_id,
+          atst_type_id: "nonce_seoul_1",
+          label: formData[MEMBER_CODE],
+          serial_no: "empty",
+          cm,
+          cm_msg: [],
+          sig: "",
+        });
+
         setCreateStatus(Status.Standby);
 
-        // if (error) {
-        //   setError(<span>{error.toString()}</span>);
-        //   setCreateStatus(Status.Standby);
-        //   return;
-        // }
+        if (error) {
+          setError(<span>{error.toString()}</span>);
+          setCreateStatus(Status.Standby);
+          return;
+        }
 
-        // if (payload) {
-        //   setIsNavigating(true);
-        //   router.push(paths.attestations__crypto_asset);
-        // }
+        console.log(44, payload);
+
+        if (payload) {
+          // setIsNavigating(true);
+          // router.push(paths.attestations__crypto_asset);
+        }
 
         // await addPrfsIndexRequest({
         //   key: prfs_index,
@@ -245,7 +247,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     formData,
     atstGroup,
     setIsNavigating,
-    createCryptoSizeAtstRequest,
+    createGroupMemberAttestation,
     setError,
     setCreateStatus,
     getLeastRecentPrfsIndex,
