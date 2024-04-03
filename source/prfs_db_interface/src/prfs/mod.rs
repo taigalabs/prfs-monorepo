@@ -1,6 +1,7 @@
 mod eth_accounts;
 mod prfs_acc_atsts;
 mod prfs_accounts;
+mod prfs_atst_group_members;
 mod prfs_atst_groups;
 mod prfs_attestations;
 mod prfs_circuit_drivers;
@@ -26,6 +27,7 @@ pub(crate) mod queries;
 pub use eth_accounts::*;
 pub use prfs_acc_atsts::*;
 pub use prfs_accounts::*;
+pub use prfs_atst_group_members::*;
 pub use prfs_atst_groups::*;
 pub use prfs_attestations::*;
 pub use prfs_circuit_drivers::*;

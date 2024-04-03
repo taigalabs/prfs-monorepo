@@ -5,8 +5,6 @@ use shy_entities::sqlx::QueryBuilder;
 use super::queries::get_prfs_attestations_query;
 use crate::DbInterfaceError;
 
-const BIND_LIMIT: usize = 65535;
-
 pub async fn get_prfs_atst_groups(
     pool: &Pool<Postgres>,
     offset: i32,

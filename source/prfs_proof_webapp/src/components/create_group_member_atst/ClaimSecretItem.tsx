@@ -24,6 +24,8 @@ import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { setGlobalError } from "@taigalabs/prfs-react-lib/src/global_error_reducer";
+import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
+import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -39,7 +41,6 @@ import {
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
 import {
-  ATST_GROUP_ID,
   CM,
   ENCRYPTED_MEMBER_ID,
   GroupMemberAtstFormData,
@@ -49,7 +50,7 @@ import {
 } from "./create_group_member_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
-import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
+import { atstApi } from "@taigalabs/prfs-api-js";
 
 const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   atstGroup,
@@ -65,20 +66,40 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
     usePrfsIdSession();
   const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
+  const [validateErorr, setValidateError] = React.useState<string | null>(null);
+
+  const { mutateAsync: validateGroupMembership } = useMutation({
+    mutationFn: (req: CreateShyTopicRequest) => {
+      return atstApi({ type: "create_shy_topic", ...req });
+    },
+  });
+
   const claimSecret = React.useMemo(() => {
     if (atstGroup && formData[MEMBER_ID]) {
       return makeAtstCmPreImageStr(`${atstGroup.atst_group_id}_${formData[MEMBER_ID]}`);
     } else {
       return "";
     }
-  }, [atstGroup, formData]);
+  }, [atstGroup, formData, validateGroupMembership]);
+
+  const handleValidateMembership = React.useCallback(() => {
+    setValidateError(null);
+
+    if (!formData[MEMBER_ID]) {
+      setValidateError("Member Id is should be given");
+    }
+
+    if (!formData[MEMBER_CODE]) {
+      setValidateError("Member code should be given");
+    }
+  }, [formData, atstGroup, setValidateError]);
 
   const handleClickGenerate = React.useCallback(async () => {
     if (!atstGroup) {
       return;
     }
 
-    const cacheKeyQueries = makeCmCacheKeyQueries(atstGroup.atst_group_id, 5, MEMBER);
+    const cacheKeyQueries = makeCmCacheKeyQueries(atstGroup.atst_group_id, 10, MEMBER);
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
 
@@ -168,13 +189,13 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
       }
 
       const cm: CommitmentReceipt = payload.receipt[CM];
-      // const walletAddrEncrypted: EncryptedReceipt = payload.receipt[ENCRYPT_WALLET_ADDR];
+      const memberIdEncrypted: EncryptedReceipt = payload.receipt[ENCRYPTED_MEMBER_ID];
       const { [CM]: _cm, ...rest } = payload.receipt;
 
       const rest_: Record<string, CommitmentReceipt> = rest;
-      const walletCacheKeys: Record<string, string> = {};
+      const memberIdCacheKeys: Record<string, string> = {};
       for (const key in rest_) {
-        walletCacheKeys[key] = rest_[key].commitment;
+        memberIdCacheKeys[key] = rest_[key].commitment;
       }
 
       // if (cm?.commitment && walletAddrEncrypted?.encrypted) {

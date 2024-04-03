@@ -29,6 +29,10 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
             post(prfs_atst_groups::get_prfs_atst_groups),
         )
         .route(
+            "/validate_group_membership",
+            post(prfs_atst_groups::validate_group_membership),
+        )
+        .route(
             "/fetch_crypto_asset",
             post(crypto_asset::fetch_crypto_asset),
         )

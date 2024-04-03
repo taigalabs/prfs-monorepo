@@ -3,10 +3,11 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::{GetPrfsAtstGroupsRequest, GetPrfsAtstGroupsResponse, PrfsAtstTypeId};
+use prfs_entities::{
+    GetPrfsAtstGroupsRequest, GetPrfsAtstGroupsResponse, PrfsAtstTypeId,
+    ValidateGroupMembershipRequest, ValidateGroupMembershipResponse,
+};
 use std::sync::Arc;
-
-use crate::envs::ENVS;
 
 const LIMIT: i32 = 20;
 
@@ -32,5 +33,53 @@ pub async fn get_prfs_atst_groups(
     };
 
     let resp = ApiResponse::new_success(GetPrfsAtstGroupsResponse { rows, next_offset });
+    return (StatusCode::OK, Json(resp));
+}
+
+pub async fn validate_group_membership(
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<ValidateGroupMembershipRequest>,
+) -> (
+    StatusCode,
+    Json<ApiResponse<ValidateGroupMembershipResponse>>,
+) {
+    let pool = &state.db2.pool;
+
+    let member = match prfs::get_prfs_atst_group_member(
+        &pool,
+        &input.atst_group_id,
+        &input.member_id,
+        &input.member_code,
+    )
+    .await
+    {
+        Ok(r) => r,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &PRFS_ATST_API_ERROR_CODES.MEMBER_INFO_NOT_FOUND,
+                err.to_string(),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
+    // Only equality check for now
+    let resp = if member.member_id != input.member_id {
+        ApiResponse::new_success(ValidateGroupMembershipResponse {
+            is_valid: false,
+            error: Some("member id is not correct".to_string()),
+        })
+    } else if member.member_code != input.member_code {
+        ApiResponse::new_success(ValidateGroupMembershipResponse {
+            is_valid: false,
+            error: Some("member code is not correct".to_string()),
+        })
+    } else {
+        ApiResponse::new_success(ValidateGroupMembershipResponse {
+            is_valid: true,
+            error: None,
+        })
+    };
+
     return (StatusCode::OK, Json(resp));
 }
