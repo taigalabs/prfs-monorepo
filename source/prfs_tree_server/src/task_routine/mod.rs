@@ -55,11 +55,13 @@ async fn do_update_prfs_tree_by_new_atst_task(
 
     let mut tree_ids = vec![];
     for atst_type_id in atst_type_ids {
-        let compute_resp = atst_api_ops::compute_crypto_asset_total_values(&pool, &mut tx).await?;
-        tracing::debug!("Compute crypto asset payload: {:?}", compute_resp);
+        if **atst_type_id == PrfsAtstTypeId::crypto_1 {
+            let compute_resp =
+                atst_api_ops::compute_crypto_asset_total_values(&pool, &mut tx).await?;
+            tracing::debug!("Compute crypto asset payload: {:?}", compute_resp);
+        }
 
-        let prfs_sets =
-            prfs::get_prfs_sets_by_topic__tx(&mut tx, &atst_type_id.to_string()).await?;
+        let prfs_sets = prfs::get_prfs_sets_by_atst_type_id__tx(&mut tx, &atst_type_id).await?;
         for set in prfs_sets {
             let (dest_set_id, import_count) =
                 _import_prfs_attestations_to_prfs_set(&mut tx, &atst_type_id, &set.set_id).await?;

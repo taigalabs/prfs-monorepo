@@ -166,14 +166,14 @@ pub async fn get_prfs_sets_by_topic(
 }
 
 #[allow(non_snake_case)]
-pub async fn get_prfs_sets_by_topic__tx(
+pub async fn get_prfs_sets_by_atst_type_id__tx(
     tx: &mut Transaction<'_, Postgres>,
-    topic: &String,
+    atst_type_id: &PrfsAtstTypeId,
 ) -> Result<Vec<PrfsSet>, DbInterfaceError> {
     let query = get_prfs_sets_by_atst_type_id_query();
 
     let rows = sqlx::query(&query)
-        .bind(&topic)
+        .bind(&atst_type_id)
         .fetch_all(&mut **tx)
         .await?;
 
@@ -207,59 +207,6 @@ pub async fn get_prfs_sets_by_topic__tx(
     Ok(prfs_sets)
 }
 
-// pub async fn get_prfs_sets_by_set_type(
-//     pool: &Pool<Postgres>,
-//     page_idx: i32,
-//     page_size: i32,
-// ) -> Result<Vec<PrfsSet>, DbInterfaceError> {
-//     let query = r#"
-// SELECT *
-// FROM prfs_sets
-// ORDER BY created_at
-// LIMIT $2
-// OFFSET $3
-// "#;
-
-//     let offset = page_idx * page_size;
-
-//     let rows = sqlx::query(&query)
-//         .bind(page_size)
-//         .bind(offset)
-//         .fetch_all(pool)
-//         .await?;
-
-//     let prfs_sets: Vec<PrfsSet> = rows
-//         .iter()
-//         .map(|r| {
-//             let set_id: String = r.try_get("set_id")?;
-//             let label: String = r.try_get("label")?;
-//             let author: String = r.try_get("author")?;
-//             let desc: String = r.try_get("desc")?;
-//             let hash_algorithm: String = r.try_get("hash_algorithm")?;
-//             let cardinality: i64 = r.try_get("cardinality")?;
-//             let created_at: DateTime<Utc> = r.try_get("created_at")?;
-//             let element_type: String = r.try_get("element_type")?;
-//             // let set_type: PrfsSetType = r.try_get("set_type")?;
-//             let topic: String = r.try_get("topic")?;
-
-//             Ok(PrfsSet {
-//                 set_id,
-//                 label,
-//                 author,
-//                 desc,
-//                 hash_algorithm,
-//                 cardinality,
-//                 created_at,
-//                 element_type,
-//                 // set_type,
-//                 topic,
-//             })
-//         })
-//         .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
-
-//     Ok(prfs_sets)
-// }
-
 pub async fn insert_prfs_set_ins1(
     tx: &mut Transaction<'_, Postgres>,
     prfs_set: &PrfsSetIns1,
@@ -285,10 +232,9 @@ RETURNING set_id"#;
         .bind(&prfs_set.tree_depth)
         .bind(&prfs_set.topic)
         .fetch_one(&mut **tx)
-        .await
-        .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
+        .await?;
 
-    let set_id: String = row.get("set_id");
+    let set_id: String = row.try_get("set_id")?;
 
     return Ok(set_id);
 }
