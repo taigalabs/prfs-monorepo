@@ -1,11 +1,11 @@
 use prfs_db_driver::database2::Database2;
 use prfs_db_driver::sqlx;
 use prfs_db_interface::prfs;
-use prfs_entities::PrfsAtstGroupMember;
+use prfs_entities::{PrfsAtstGroupMember, PrfsProofType};
 
 use crate::seed::local::{
     load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
-    load_policy_items, load_prfs_accounts, load_prfs_atst_groups, load_proof_types,
+    load_policy_items, load_prfs_accounts, load_prfs_atst_groups,
 };
 
 pub async fn upload_prfs_accounts(db: &Database2) {
@@ -126,14 +126,11 @@ pub async fn upload_prfs_circuits(db: &Database2) {
     tx.commit().await.unwrap();
 }
 
-pub async fn upload_prfs_proof_types(db: &Database2) {
+pub async fn upload_prfs_proof_types(db: &Database2, proof_types: &Vec<PrfsProofType>) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let proof_types = load_proof_types();
-    println!("proof types: {:#?}", proof_types);
-
-    for proof_type in proof_types.values() {
+    for proof_type in proof_types {
         prfs::insert_prfs_proof_type(&mut tx, proof_type)
             .await
             .unwrap();
