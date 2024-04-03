@@ -1,16 +1,18 @@
 import circuitBuiltJson from "@taigalabs/prfs-circuits-circom/build/build.json";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitTypeData } from "@taigalabs/prfs-circuit-interface/bindings/CircuitTypeData";
-import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
-import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
-import { MERKLE_SIG_POS_RANGE_V1, SIMPLE_HASH_V1 } from "@taigalabs/prfs-circuit-interface";
+import {
+  MERKLE_SIG_POS_RANGE_V1,
+  SIMPLE_HASH_V1,
+  MERKLE_SIG_POS_EXACT_V1,
+} from "@taigalabs/prfs-circuit-interface";
 import path from "path";
 import fs from "fs";
 
 const proofTypeIds = {
-  ETH_0_0001_1: "ETH_0_0001_1",
   SIMPLE_HASH_1: "SIMPLE_HASH_1",
   CRYPTO_ASSET_SIZE_V1: "CRYPTO_ASSET_SIZE_V1",
+  NONCE_SEOUL_1: "NONCE_SEOUL_1",
 };
 
 const proofTypeDesc = (() => {
@@ -103,6 +105,22 @@ const proof_types: PrfsProofType[] = [
           },
         ],
       },
+    } as CircuitTypeData,
+    created_at: "2024-01-29T16:39:57-08:00",
+    experimental: false,
+  },
+  {
+    proof_type_id: proofTypeIds.NONCE_SEOUL_1,
+    label: "Nonce community Seoul",
+    author: "Prfs",
+    desc: proofTypeDesc.NONCE_SEOUL_1,
+    expression: "Has assets in crypto worth X USD",
+    img_url: "https://d1w1533jipmvi2.cloudfront.net/money_cash_1.webp",
+    circuit_id: circuitBuiltJson.circuits.merkle_sig_pos_range_v1.circuit_id,
+    circuit_type_id: MERKLE_SIG_POS_EXACT_V1,
+    circuit_type_data: {
+      type: "merkle_sig_pos_exact_v1",
+      prfs_set_id: "nonce_seoul_1",
     } as CircuitTypeData,
     created_at: "2024-01-29T16:39:57-08:00",
     experimental: false,
