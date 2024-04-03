@@ -18,7 +18,7 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
 
         for (idx, d) in data.iter().enumerate() {
             match d.r#type {
-                PrfsSetElementDataType::WalletCm => {
+                PrfsSetElementDataType::Commitment => {
                     let val = if d.val.starts_with("0x") {
                         &d.val[2..]
                     } else {
