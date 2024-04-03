@@ -51,7 +51,7 @@ prfs_tree_server_task_queue = { path = "../prfs_tree_server_task_queue" }
 shy_api_server = { path = "../shy_api_server" }
 
 [dev-dependencies]
-csv = "1.2.2"
+csv = "1.2"
 
 
 [[bin]]

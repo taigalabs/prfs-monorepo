@@ -73,14 +73,20 @@ mod seed_api2 {
 }
 
 mod seed_api3 {
-    use crate::seed::upload::upload_prfs_atst_groups;
-
     use super::*;
+    use crate::seed::{csv::GroupMemberRecord, upload::upload_prfs_atst_groups};
 
     #[tokio::test]
     async fn seed_prfs_atst_group_members() {
         prepare().await;
         let db = get_db().await;
+
+        let csv_path = PATHS.data_seed.join("csv/nonce_20240403.csv");
+        let mut rdr = csv::Reader::from_path(csv_path).unwrap();
+        for result in rdr.deserialize() {
+            let record: GroupMemberRecord = result.unwrap();
+            println!("{:?}", record);
+        }
 
         upload_prfs_atst_groups(&db).await;
     }

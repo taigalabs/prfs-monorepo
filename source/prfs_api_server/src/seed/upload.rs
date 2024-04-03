@@ -1,6 +1,7 @@
 use prfs_db_driver::database2::Database2;
 use prfs_db_driver::sqlx;
 use prfs_db_interface::prfs;
+use prfs_entities::PrfsAtstGroupMember;
 
 use crate::seed::local::{
     load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
@@ -142,6 +143,25 @@ pub async fn upload_prfs_proof_types(db: &Database2) {
 }
 
 pub async fn upload_prfs_atst_groups(db: &Database2) {
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let atst_groups = load_prfs_atst_groups();
+    println!("atst_groups: {:#?}", atst_groups);
+
+    for atst_group in atst_groups.values() {
+        prfs::upsert_prfs_atst_group(&mut tx, atst_group)
+            .await
+            .unwrap();
+    }
+
+    tx.commit().await.unwrap();
+}
+
+pub async fn upload_prfs_atst_group_members(
+    db: &Database2,
+    atst_group_members: Vec<PrfsAtstGroupMember>,
+) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
