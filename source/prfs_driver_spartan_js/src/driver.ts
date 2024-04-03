@@ -62,7 +62,9 @@ export default class SpartanDriver implements CircuitDriver {
 
       eventListener({
         type: "LOAD_DRIVER_ERROR",
-        payload: err.toString(),
+        payload: {
+          message: err.toString(),
+        },
       });
 
       return Promise.resolve(null);

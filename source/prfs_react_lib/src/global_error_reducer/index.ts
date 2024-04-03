@@ -14,7 +14,7 @@ const makeSlice = (initialState: GlobalErrorState) =>
     initialState,
     reducers: {
       setGlobalError: (state, action: PayloadAction<GlobalError>) => {
-        console.error("Reporting error: %s", action.payload.message);
+        console.error("Reporting error: %o", action);
 
         return {
           ...state,
@@ -29,10 +29,6 @@ const makeSlice = (initialState: GlobalErrorState) =>
       },
     },
   });
-
-// export const { setGlobalError, removeGlobalError } = slice.actions;
-
-// export const globalErrorReducer = slice.reducer;
 
 interface GlobalError {
   message: string;

@@ -5,14 +5,14 @@ import cn from "classnames";
 import { GlobalMsgHeaderWrapper } from "@taigalabs/prfs-react-lib/src/global_msg_header/GlobalMsgHeaderComponents";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
-
-import styles from "./GlobalErrorHeader.module.scss";
-import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import {
   AlertBtnGroup,
   AlertContent,
   AlertWrapper,
 } from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
+
+import styles from "./GlobalErrorHeader.module.scss";
+import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { removeGlobalError } from "@/state/globalErrorReducer";
 
 const GlobalErrorHeader: React.FC<GlobalErrorDialogProps> = ({}) => {
@@ -51,7 +51,7 @@ const GlobalErrorHeader: React.FC<GlobalErrorDialogProps> = ({}) => {
     } else {
       return <Overlay className={styles.overlay}>{content}</Overlay>;
     }
-  }, [error]);
+  }, [error, handleClickClose]);
 
   return elem;
 };
