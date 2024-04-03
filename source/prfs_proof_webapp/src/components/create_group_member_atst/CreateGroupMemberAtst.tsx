@@ -139,35 +139,21 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
         setValidationMsg("Member code should be given");
       }
 
-      const data = await validateGroupMembership({
+      const { payload, error } = await validateGroupMembership({
         atst_group_id: atstGroup?.atst_group_id,
         member_id: formData[MEMBER_ID],
         member_code: formData[MEMBER_CODE],
       });
 
-      console.log(11, data);
+      if (error) {
+        setValidationMsg(error.toString());
+      }
+
+      if (payload?.is_valid) {
+        console.log("yes");
+      }
     }
   }, [formData, atstGroup, setValidationMsg, validateGroupMembership]);
-
-  // const handleChangeWalletAddr = React.useCallback(
-  //   (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     const { value, name } = e.target;
-
-  //     if (name === WALLET_ADDR) {
-  //       setFormData(_ => ({
-  //         [WALLET_ADDR]: value,
-  //         [SIGNATURE]: "",
-  //         [CM]: "",
-  //       }));
-  //     }
-
-  //     if (cryptoAssets) {
-  //       setCryptoAssets(null);
-  //       setFetchAssetMsg(null);
-  //     }
-  //   },
-  //   [setFormData, setCryptoAssets, cryptoAssets, setFetchAssetMsg],
-  // );
 
   const handleChangeCm = React.useCallback(
     (cm: string) => {
