@@ -47,7 +47,7 @@ const ChannelMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel, 
         {/* {!noSubChannel && <div className={styles.subChannel}>{i18n.general}</div>} */}
         {!noDesc && (
           <div className={cn(styles.descRow)}>
-            <div className={styles.desc}>{channel.desc}</div>
+            <div className={styles.desc} dangerouslySetInnerHTML={{ __html: channel.desc }} />
             <div className={styles.proofTypeIds}>
               <p className={styles.title}>{i18n.requiring_proofs_of_type}</p>
               {proofTypesElem}
