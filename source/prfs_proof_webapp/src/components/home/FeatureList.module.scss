@@ -8,6 +8,8 @@ $item_width: 180px;
   display: flex;
   gap: 16px;
   overflow-x: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
 
   ::-webkit-scrollbar {
     display: none;
@@ -77,6 +79,17 @@ $item_width: 180px;
   }
 }
 
+.prfsId {
+  .iconBox {
+    color: rgb(234, 78, 67);
+    background-color: rgb(252, 233, 232);
+  }
+
+  .callToAction {
+    color: rgb(234, 78, 67);
+  }
+}
+
 .desc {
   padding-top: 8px;
 }
@@ -127,7 +140,7 @@ $item_width: 180px;
   opacity: 0;
 }
 
-@media screen and (min-width: $mid_display_min_width) {
+@media screen and (min-width: $display_w768) {
   .itemContainer {
     justify-content: center;
   }

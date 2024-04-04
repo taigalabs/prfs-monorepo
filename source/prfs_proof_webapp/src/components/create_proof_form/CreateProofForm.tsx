@@ -6,9 +6,9 @@ import cn from "classnames";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useSearchParams } from "next/navigation";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
+import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 
 import styles from "./CreateProofForm.module.scss";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
@@ -17,7 +17,6 @@ import ProofTypeSelectedMasthead from "@/components/proof_type_selected_masthead
 import { useSelectProofType } from "@/hooks/proofType";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
-import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofTypeSyn1>();
