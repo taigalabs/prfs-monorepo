@@ -3,9 +3,11 @@
 .wrapper {
   display: flex;
   justify-content: center;
-  padding: 120px 0 64px;
+  margin-top: 80px;
+  padding: 50px 0 64px;
   width: 100%;
   font-size: 15px;
+  border-top: 1px solid var(--bright-gray-30);
 }
 
 .inner {
