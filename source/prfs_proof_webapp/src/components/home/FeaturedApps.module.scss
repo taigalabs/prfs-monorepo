@@ -1,6 +1,6 @@
 @import "@/styles/layouts.module.scss";
 
-$item_width: 230px;
+$item_width: 200px;
 
 .wrapper {
   /* padding-top: 50px; */
@@ -46,7 +46,7 @@ $item_width: 230px;
   display: inline-flex;
   flex-direction: column;
   border-radius: 8px;
-  width: 200px;
+  width: $item_width;
   height: 200px;
   background-color: var(--bright-gray-45);
   /* border: 2px solid var(--bright-gray-45); */

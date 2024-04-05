@@ -1,0 +1,67 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 100px 0 64px;
+  width: 100%;
+}
+
+.inner {
+  display: flex;
+  padding: 0 24px;
+  width: 1180px;
+}
+
+.firstCol {
+  flex-grow: 1;
+}
+
+.col {
+  width: 180px;
+}
+
+.list {
+  li {
+    display: block;
+  }
+  li:not(:first-child) {
+    margin-top: 8px;
+  }
+}
+
+.item {
+  display: block;
+  font-size: 16px;
+
+  svg {
+    margin-left: 0.1em;
+    vertical-align: middle;
+  }
+
+  span {
+    &:hover {
+      color: var(--blue-05);
+    }
+  }
+}
+
+.appLogo {
+  margin-top: 18px;
+  height: 26px;
+}
+
+.itemContainer {
+  padding-top: 16px;
+  /* display: flex; */
+  /* justify-content: center; */
+}
+
+.item {
+  display: inline-block;
+}
+
+@media screen and (min-width: $display_w480) {
+  .wrapper {
+  }
+}
