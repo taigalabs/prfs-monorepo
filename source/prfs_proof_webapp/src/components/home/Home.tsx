@@ -12,11 +12,11 @@ import { inter } from "@taigalabs/prfs-react-lib/src/fonts";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./Home.module.scss";
-import { i18nContext } from "@/i18n/context";
-import TitleArea from "./TitleArea";
-import { paths } from "@/paths";
-import TutorialArea from "./TutorialArea";
 import { roboto } from "@/fonts";
+import { paths } from "@/paths";
+import { useI18N } from "@/i18n/use_i18n";
+import TitleArea from "./TitleArea";
+import TutorialArea from "./TutorialArea";
 import CallToAction from "./CallToAction";
 import FeatureList from "./FeatureList";
 import Specialties from "./Specialties";
@@ -24,7 +24,6 @@ import ProjectStatus from "./ProjectStatus";
 import Footer from "./Footer";
 import FeaturedApps from "./FeaturedApps";
 import UsageScenario from "./UsageScenario";
-import { useI18N } from "@/i18n/use_i18n";
 
 enum SearchProofTypeFormStatus {
   Standby,
