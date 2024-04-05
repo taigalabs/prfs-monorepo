@@ -1,11 +1,16 @@
 import React from "react";
 import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
-
-import styles from "./CircuitInputs.module.scss";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import MerkleSigPosRangeInput from "@/components/circuit_input_items/merkle_sig_pos_range_v1/MerkleSigPosRangeInput";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
+import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
+import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
+import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
+import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
+import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
+
+import styles from "./CircuitInputs.module.scss";
+import MerkleSigPosRangeInput from "@/components/circuit_input_items/merkle_sig_pos_range_v1/MerkleSigPosRangeInput";
 import {
   FormErrors,
   FormHandler,
@@ -13,13 +18,8 @@ import {
   HandleSkipCreateProof,
 } from "@/components/circuit_input_items/formTypes";
 import AddrMembershipInput from "@/components/circuit_input_items/addr_membership_v1/AddrMembershipInput";
-import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
-import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
 import SimpleHashInput from "@/components/circuit_input_items/simple_hash_v1/SimpleHashInput";
-import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
-import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
-import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
-import MerkleSigPosExactInput from "../circuit_input_items/merkle_sig_pos_exact_v1/MerkleSigPosExactInput";
+import MerkleSigPosExactInput from "@/components/circuit_input_items/merkle_sig_pos_exact_v1/MerkleSigPosExactInput";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
   proofType,
