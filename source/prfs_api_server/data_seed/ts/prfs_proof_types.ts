@@ -114,9 +114,9 @@ const proof_types: PrfsProofType[] = [
     label: "Nonce community Seoul",
     author: "Prfs",
     desc: proofTypeDesc.NONCE_SEOUL_1,
-    expression: "Has assets in crypto worth X USD",
-    img_url: "https://d1w1533jipmvi2.cloudfront.net/money_cash_1.webp",
-    circuit_id: circuitBuiltJson.circuits.merkle_sig_pos_range_v1.circuit_id,
+    expression: "Is a member of the group with some value",
+    img_url: "https://d1w1533jipmvi2.cloudfront.net/nonce.jpeg",
+    circuit_id: circuitBuiltJson.circuits.merkle_sig_pos_exact_v1.circuit_id,
     circuit_type_id: MERKLE_SIG_POS_EXACT_V1,
     circuit_type_data: {
       type: "merkle_sig_pos_exact_v1",

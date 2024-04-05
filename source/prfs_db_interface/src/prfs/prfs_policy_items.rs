@@ -9,11 +9,7 @@ pub async fn get_policy_item_policy_id(
 ) -> Result<PrfsPolicyItem, DbInterfaceError> {
     let query = "SELECT * from prfs_policy_item where policy_id=$1";
 
-    let row = sqlx::query(query)
-        .bind(&policy_id)
-        .fetch_one(pool)
-        .await
-        .unwrap();
+    let row = sqlx::query(query).bind(&policy_id).fetch_one(pool).await?;
 
     let prfs_policy_item = PrfsPolicyItem {
         policy_id: row.get("policy_id"),
@@ -35,8 +31,7 @@ pub async fn insert_prfs_policy_item(
         .bind(&prfs_policy_item.policy_id)
         .bind(&prfs_policy_item.description)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
     let policy_id: String = row.get("policy_id");
 

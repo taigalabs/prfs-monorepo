@@ -93,6 +93,14 @@ INSERT INTO prfs_proof_types
 expression, img_url, img_caption, circuit_type_id, circuit_type_data,
 experimental)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+ON CONFLICT (proof_type_id) DO UPDATE SET (
+author, label, "desc", circuit_id, expression, img_url, img_caption, circuit_type_id,
+circuit_type_data, experimental, updated_at
+) = (
+excluded.author, excluded.label, excluded.desc, excluded.circuit_id, excluded.expression,
+excluded.img_url, excluded.img_caption, excluded.circuit_type_id, excluded.circuit_type_data,
+excluded.experimental, now()
+)
 RETURNING id
 "#;
 

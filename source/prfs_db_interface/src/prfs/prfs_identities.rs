@@ -15,10 +15,10 @@ pub async fn get_prfs_identity_by_id(
         .await?;
 
     let prfs_identity = PrfsIdentity {
-        identity_id: row.get("identity_id"),
-        avatar_color: row.get("avatar_color"),
-        public_key: row.get("public_key"),
-        identity_type: row.get("identity_type"),
+        identity_id: row.try_get("identity_id")?,
+        avatar_color: row.try_get("avatar_color")?,
+        public_key: row.try_get("public_key")?,
+        identity_type: row.try_get("identity_type")?,
     };
 
     Ok(prfs_identity)
@@ -42,7 +42,7 @@ VALUES ($1, $2, $3, $4) returning identity_id
         .fetch_one(&mut **tx)
         .await?;
 
-    let identity_id: String = row.get("identity_id");
+    let identity_id: String = row.try_get("identity_id")?;
 
     return Ok(identity_id);
 }

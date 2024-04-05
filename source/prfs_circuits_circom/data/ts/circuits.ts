@@ -185,6 +185,16 @@ const circuits: PrfsCircuit[] = [
         type: "FIELD_ELEMENT",
       },
       {
+        label: "sigR",
+        desc: "A digital siganture R part",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "sigS",
+        desc: "A digital siganture S part",
+        type: "FIELD_ELEMENT",
+      },
+      {
         label: "leaf",
         desc: "Leaf of a tree",
         type: "FIELD_ELEMENT",
@@ -259,6 +269,16 @@ const circuits: PrfsCircuit[] = [
       {
         label: "sigpos",
         desc: "A siganture poseidon result",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "sigR",
+        desc: "A digital siganture R part",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "sigS",
+        desc: "A digital siganture S part",
         type: "FIELD_ELEMENT",
       },
       {

@@ -79,7 +79,8 @@ pub async fn insert_prfs_poll(
     let query = r#"
 INSERT INTO prfs_polls
 (poll_id, label, plural_voting, proof_type_id, author, questions, description)
-VALUES ($1, $2, $3, $4, $5, $6, $7) returning poll_id"#;
+VALUES ($1, $2, $3, $4, $5, $6, $7)
+RETURNING poll_id"#;
 
     let row = sqlx::query(query)
         .bind(&prfs_poll.poll_id)
@@ -90,10 +91,9 @@ VALUES ($1, $2, $3, $4, $5, $6, $7) returning poll_id"#;
         .bind(&prfs_poll.questions)
         .bind(&prfs_poll.description)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
-    let poll_id: Uuid = row.get("poll_id");
+    let poll_id: Uuid = row.try_get("poll_id")?;
 
     return Ok(poll_id);
 }
