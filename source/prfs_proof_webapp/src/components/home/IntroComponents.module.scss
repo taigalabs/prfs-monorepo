@@ -19,13 +19,14 @@
   font-variation-settings: "wght" 550;
 }
 
-@media screen and (min-width: $mid_display_min_width) {
+@media screen and (min-width: $display_w1024) {
   .area {
     text-align: center;
     padding: 120px 24px 0;
   }
 
   .title {
-    padding-bottom: 34px;
+    font-size: 45px;
+    padding-bottom: 30px;
   }
 }
