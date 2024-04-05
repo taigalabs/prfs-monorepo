@@ -3,7 +3,7 @@
 .area {
   width: 100%;
   max-width: 1180px;
-  padding: 80px 24px 0;
+  padding: 80px 24px 60px;
 }
 
 .title {
@@ -22,7 +22,7 @@
 @media screen and (min-width: $display_w1024) {
   .area {
     text-align: center;
-    padding: 120px 24px 0;
+    padding: 120px 24px 100px;
   }
 
   .title {

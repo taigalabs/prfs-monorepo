@@ -99,6 +99,9 @@ $item_width: 200px;
 }
 
 @media screen and (min-width: $mid_display_min_width) {
+  .wrapper {
+    padding: 120px 0 80px;
+  }
   /* .itemContainer { */
   /*   grid-template-columns: repeat(2, $item_width); */
   /* } */

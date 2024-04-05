@@ -84,9 +84,9 @@ const Home: React.FC<HomeProps> = () => {
         <CallToAction />
         <UsageScenario />
         <FeatureList handleFocusSearchBar={handleFocusSearchBar} />
-        <FeaturedApps />
         <TutorialArea />
         <Specialties />
+        <FeaturedApps />
         <ProjectStatus />
         <Footer />
       </div>
