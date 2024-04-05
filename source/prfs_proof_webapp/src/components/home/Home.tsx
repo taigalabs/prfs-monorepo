@@ -89,6 +89,7 @@ const Home: React.FC<HomeProps> = () => {
         <Specialties />
         <ProjectStatus />
         <Contacts />
+        <div>power</div>
       </div>
     </>
   );

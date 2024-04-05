@@ -43,20 +43,15 @@
 .title {
   line-height: 1.1em;
   font-size: 28px;
-  font-variation-settings: "wght" 619;
-}
-
-.iconBox {
-  display: grid;
-  place-items: center;
-  font-size: 16px;
-  padding: 4px;
-  margin-right: 0.2em;
-  border-radius: 0.3em;
+  font-variation-settings: "wght" 569;
 }
 
 .desc {
-  padding-top: 8px;
+  font-size: 20px;
+  line-height: 1.3em;
+  padding-top: 28px;
+  font-variation-settings: "wght" 350;
+  color: var(--black-20);
 }
 
 .callToAction {
@@ -80,7 +75,7 @@
 }
 
 .image {
-  padding: 18px;
+  padding: 24px;
   display: flex;
   justify-content: center;
 
@@ -108,6 +103,12 @@
   .itemContent {
     .inner {
       width: 400px;
+    }
+  }
+
+  .image {
+    img {
+      max-width: 400px;
     }
   }
 

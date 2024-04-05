@@ -29,12 +29,10 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
           <div className={styles.itemContent}>
             <div className={styles.inner}>
               <p className={styles.title}>Create a zero-knowledge proof on your own machine</p>
-              <div className={styles.callToAction}>
-                <p onClick={handleFocusSearchBar}>
-                  Find proof type
-                  <MdArrowUpward />
-                </p>
-              </div>
+              <p className={styles.desc}>
+                It is important that you are able to create a proof with minimal reliance on others.
+                Prfs is designed to allow you to make an anonymous claim on your own.
+              </p>
             </div>
           </div>
         </div>
@@ -50,17 +48,13 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
           </div>
           <div className={styles.itemContent}>
             <div className={styles.inner}>
-              <div className={styles.title}>
+              <p className={styles.title}>
                 Attest to your data to create an anonymous claim about it
-              </div>
-              <div className={styles.callToAction}>
-                <p>
-                  <Link href={paths.attestations}>
-                    Learn more
-                    <MdArrowForward />
-                  </Link>
-                </p>
-              </div>
+              </p>
+              <p className={styles.desc}>
+                When you attest to your data, the data that would anyway be available on the open
+                space, it becomes much efficient for you to generate a proof.
+              </p>
             </div>
           </div>
         </div>
@@ -76,18 +70,11 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
           </div>
           <div className={styles.itemContent}>
             <div className={styles.inner}>
-              <div className={styles.title}>
-                Conduct cryptographic operations on across your devices
-              </div>
-              <p className={styles.desc}></p>
-              <div className={styles.callToAction}>
-                {/* <p> */}
-                {/*   <Link href={paths.attestations}> */}
-                {/*     Learn more */}
-                {/*     <MdArrowForward /> */}
-                {/*   </Link> */}
-                {/* </p> */}
-              </div>
+              <p className={styles.title}>Use the Internet more safely on any device you have</p>
+              <p className={styles.desc}>
+                Prfs Id is designed to give you a similar experience you get when using other web
+                applications. Use security-enhanced apps on devices that you are already used to
+              </p>
             </div>
           </div>
         </div>

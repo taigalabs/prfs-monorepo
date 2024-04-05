@@ -20,13 +20,17 @@
   padding-bottom: 8px;
 }
 
-@media screen and (min-width: $mid_display_min_width) {
+.newLine {
+  display: none;
+}
+
+@media screen and (min-width: $display_w480) {
   .itemContainer {
     grid-template-columns: repeat(2, minmax(200px, 300px));
   }
 }
 
-@media screen and (min-width: $big_display_min_width) {
+@media screen and (min-width: $display_w1024) {
   .itemContainer {
     column-gap: 60px;
     row-gap: 60px;

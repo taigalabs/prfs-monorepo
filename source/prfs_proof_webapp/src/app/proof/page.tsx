@@ -22,9 +22,9 @@ const HomePage = () => {
           <Home />
         </Suspense>
       </DefaultBody>
-      <DefaultFooter>
-        <GlobalFooter />
-      </DefaultFooter>
+      {/* <DefaultFooter> */}
+      {/*   <GlobalFooter /> */}
+      {/* </DefaultFooter> */}
     </DefaultLayout>
   );
 };
