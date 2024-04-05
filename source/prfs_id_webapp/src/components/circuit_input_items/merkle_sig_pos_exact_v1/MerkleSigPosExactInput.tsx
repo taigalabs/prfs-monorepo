@@ -196,7 +196,7 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
             inputClassName={styles.addrInput}
             labelClassName={styles.addrInput}
             name={""}
-            label={i18n.wallet}
+            label={i18n.member_id}
             value={abbrevWalletAddr}
             readOnly
             hasError={!!error?.merkleProof}
