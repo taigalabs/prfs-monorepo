@@ -16,7 +16,7 @@
   text-align: center;
   font-size: 45px;
   font-variation-settings: "wght" 669;
-  line-height: 0.9em;
+  line-height: 1.02em;
   padding: 0 24px;
 }
 
@@ -45,7 +45,7 @@
 @media screen and (min-width: $big_display_min_width) {
   .wrapper {
     margin-top: 0px;
-    height: 22vh;
+    height: 20vh;
     min-height: 120px;
     max-height: 210px;
   }

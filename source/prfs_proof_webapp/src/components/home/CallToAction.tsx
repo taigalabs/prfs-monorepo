@@ -15,22 +15,24 @@ const CallToAction: React.FC<LogoContainerProps> = () => {
 
   return (
     <Area className={styles.wrapper}>
-      <p className={styles.item}>
-        <button className={styles.transparentBtn} type="button">
-          <HoverableText>
-            <a href={urls.docs}>
-              <span>{i18n.read_the_docs} (in-progress)</span>
-              <MdArrowForward />
-            </a>
-          </HoverableText>
-        </button>
-      </p>
-      <p className={styles.item}>
-        <button className={styles.brownBtn} type="button">
-          <Link href={paths.attestations}>{i18n.start_with_attestation}</Link>
-          <MdArrowForward />
-        </button>
-      </p>
+      <div className={styles.container}>
+        <p className={styles.item}>
+          <button className={styles.transparentBtn} type="button">
+            <HoverableText>
+              <a href={urls.docs}>
+                <span>{i18n.read_the_docs} (in-progress)</span>
+                <MdArrowForward />
+              </a>
+            </HoverableText>
+          </button>
+        </p>
+        <p className={styles.item}>
+          <button className={styles.brownBtn} type="button">
+            <Link href={paths.attestations}>{i18n.start_with_attestation}</Link>
+            <MdArrowForward />
+          </button>
+        </p>
+      </div>
     </Area>
   );
 };

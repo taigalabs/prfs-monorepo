@@ -21,8 +21,9 @@ import CallToAction from "./CallToAction";
 import FeatureList from "./FeatureList";
 import Specialties from "./Specialties";
 import ProjectStatus from "./ProjectStatus";
-import Contacts from "./Contacts";
+import Footer from "./Footer";
 import FeaturedApps from "./FeaturedApps";
+import UsageScenario from "./UsageScenario";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -81,12 +82,13 @@ const Home: React.FC<HomeProps> = () => {
           </div>
         </div>
         <CallToAction />
+        <UsageScenario />
         <FeatureList handleFocusSearchBar={handleFocusSearchBar} />
         <FeaturedApps />
         <TutorialArea />
         <Specialties />
         <ProjectStatus />
-        <Contacts />
+        <Footer />
       </div>
     </>
   );

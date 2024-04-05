@@ -10,7 +10,10 @@ const Specialties: React.FC<LogoContainerProps> = () => {
 
   return (
     <Area>
-      <Title>Build with the latest innovation, never letting go practicality</Title>
+      <Title>
+        Build with the latest innovation, <br className={styles.newLine} />
+        never letting go practicality
+      </Title>
       <ul className={styles.itemContainer}>
         <li className={styles.item}>
           <p className={styles.title}>Universality</p>

@@ -9,6 +9,7 @@ export default {
   account_id: "Account ID",
   attestations: "Attestations",
   learn_by_tutorials: "Learn by tutorials",
+  featured_applications: "Featured applications",
   attestation: "Attestation",
   on_chain: "On-chain",
   attestation_type: "Attestation type",

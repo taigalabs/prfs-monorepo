@@ -2,7 +2,7 @@
 
 .area {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1180px;
   padding: 80px 24px 0;
 }
 
@@ -10,8 +10,8 @@
   font-size: 36px;
   text-align: center;
   font-variation-settings: "wght" 669;
-  padding-bottom: 28px;
-  line-height: 1em;
+  padding-bottom: 20px;
+  line-height: 1.08em;
 }
 
 .subtitle {
@@ -19,13 +19,14 @@
   font-variation-settings: "wght" 550;
 }
 
-@media screen and (min-width: $mid_display_min_width) {
+@media screen and (min-width: $display_w1024) {
   .area {
     text-align: center;
     padding: 120px 24px 0;
   }
 
   .title {
-    padding-bottom: 34px;
+    font-size: 45px;
+    /* padding-bottom: 22px; */
   }
 }

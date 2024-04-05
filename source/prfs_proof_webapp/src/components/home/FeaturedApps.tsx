@@ -19,10 +19,10 @@ const FeaturedApps: React.FC<LogoContainerProps> = () => {
   return (
     <Area className={styles.wrapper}>
       <div className={styles.inner}>
-        <Subtitle>Featured applications</Subtitle>
-        <p className={styles.subtitle2}>
+        <Title>{i18n.featured_applications}</Title>
+        <Subtitle>
           Prfs is empowering applications to make use of the latest ZKP technology
-        </p>
+        </Subtitle>
         <ul className={styles.itemContainer}>
           <li className={cn(styles.item)}>
             <div className={styles.title}>

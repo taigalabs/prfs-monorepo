@@ -3,13 +3,14 @@ import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-interface/
 import {
   ADDR_MEMBERSHIP_V1,
   MERKLE_SIG_POS_RANGE_V1,
+  MERKLE_SIG_POS_EXACT_V1,
   SIMPLE_HASH_V1,
 } from "@taigalabs/prfs-circuit-interface";
 
 const circuits: PrfsCircuit[] = [
   {
     circuit_id: "",
-    circuit_type_id: "addr_membership_v1",
+    circuit_type_id: ADDR_MEMBERSHIP_V1,
     created_at: "2023-05-01T16:39:57-08:00",
     label: "addr_membership2_1",
     author: "SYSTEM_NATIVE",
@@ -177,6 +178,83 @@ const circuits: PrfsCircuit[] = [
         desc: "Asset size range upper bound exclusive",
         type: "FIELD_ELEMENT",
         public: true,
+      },
+      {
+        label: "sigpos",
+        desc: "A siganture poseidon result",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "leaf",
+        desc: "Leaf of a tree",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "root",
+        desc: "Vector commitment (Merkle root) of a set",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "pathIndices",
+        desc: "Merkle path indices",
+        type: "FIELD_ELEMENT_VECTOR",
+      },
+      {
+        label: "siblings",
+        desc: "Siblings of a leaf in a Merkle path towards the root",
+        type: "FIELD_ELEMENT_VECTOR",
+      },
+      {
+        label: "nonce",
+        desc: "An additional note to include in this proof",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "proofPubKey",
+        desc: "A cryptographic commitment",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+      {
+        label: "serialNo",
+        desc: "A cryptographic commitment",
+        type: "FIELD_ELEMENT",
+        public: true,
+      },
+    ],
+  },
+  {
+    circuit_id: "",
+    circuit_type_id: MERKLE_SIG_POS_EXACT_V1,
+    created_at: "2024-02-02T00:00:00-00:00",
+    label: "Merkle pos exact v1",
+    author: "SYSTEM_NATIVE",
+    num_public_inputs: 0,
+    desc: "Merkle pos range v1",
+    circuit_dsl: "Circom 2",
+    arithmetization: "R1CS",
+    proof_algorithm: "Spartan",
+    elliptic_curve: "Secp256k1",
+    finite_field: "Z_(2^256-2^32-977)",
+    build_properties: {
+      instance_path: `instances/${MERKLE_SIG_POS_EXACT_V1}.circom`,
+    },
+    circuit_driver_id: "spartan_circom_v1",
+    driver_version: "0.1.0",
+    driver_properties: {
+      version: "0.0.1",
+      wtns_gen_url: "",
+      wtns_gen_len: "",
+      circuit_url: "",
+      circuit_len: "",
+    } as SpartanCircomDriverProperties,
+    raw_circuit_inputs_meta: [
+      {
+        label: "value",
+        desc: "Size of asset",
+        type: "FIELD_ELEMENT",
       },
       {
         label: "sigpos",
