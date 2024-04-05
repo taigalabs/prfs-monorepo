@@ -27,14 +27,16 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
             />
           </div>
           <div className={styles.itemContent}>
-            <Title className={styles.title}>
-              Create a zero-knowledge proof on your own machine
-            </Title>
-            <div className={styles.callToAction}>
-              <p onClick={handleFocusSearchBar}>
-                Find proof type
-                <MdArrowUpward />
-              </p>
+            <div className={styles.inner}>
+              <Title className={styles.title}>
+                Create a zero-knowledge proof on your own machine
+              </Title>
+              <div className={styles.callToAction}>
+                <p onClick={handleFocusSearchBar}>
+                  Find proof type
+                  <MdArrowUpward />
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -49,20 +51,22 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
             />
           </div>
           <div className={styles.itemContent}>
-            <div className={styles.title}>
-              <p className={styles.iconBox}>
-                <TbCertificate />
-              </p>
-              {i18n.attestation}
-            </div>
-            <p className={styles.desc}>Attest to your data to create a anonymous claim about</p>
-            <div className={styles.callToAction}>
-              <p>
-                <Link href={paths.attestations}>
-                  Learn more
-                  <MdArrowForward />
-                </Link>
-              </p>
+            <div className={styles.inner}>
+              <div className={styles.title}>
+                <p className={styles.iconBox}>
+                  <TbCertificate />
+                </p>
+                {i18n.attestation}
+              </div>
+              <p className={styles.desc}>Attest to your data to create a anonymous claim about</p>
+              <div className={styles.callToAction}>
+                <p>
+                  <Link href={paths.attestations}>
+                    Learn more
+                    <MdArrowForward />
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -77,20 +81,22 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
             />
           </div>
           <div className={styles.itemContent}>
-            <div className={styles.title}>
-              <p className={styles.iconBox}>
-                <FaMobileAlt />
-              </p>
-              {i18n.prfs_id}
-            </div>
-            <p className={styles.desc}>Conduct cryptographic operations on your own device</p>
-            <div className={styles.callToAction}>
-              {/* <p> */}
-              {/*   <Link href={paths.attestations}> */}
-              {/*     Learn more */}
-              {/*     <MdArrowForward /> */}
-              {/*   </Link> */}
-              {/* </p> */}
+            <div className={styles.inner}>
+              <div className={styles.title}>
+                <p className={styles.iconBox}>
+                  <FaMobileAlt />
+                </p>
+                {i18n.prfs_id}
+              </div>
+              <p className={styles.desc}>Conduct cryptographic operations on your own device</p>
+              <div className={styles.callToAction}>
+                {/* <p> */}
+                {/*   <Link href={paths.attestations}> */}
+                {/*     Learn more */}
+                {/*     <MdArrowForward /> */}
+                {/*   </Link> */}
+                {/* </p> */}
+              </div>
             </div>
           </div>
         </div>
