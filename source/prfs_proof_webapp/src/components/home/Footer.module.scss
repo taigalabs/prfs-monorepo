@@ -9,16 +9,27 @@
 
 .inner {
   display: flex;
+  flex-direction: column;
   padding: 0 24px;
   width: 1180px;
 }
 
-.firstCol {
+.lang {
   flex-grow: 1;
+}
+
+.listContainer {
+  padding-top: 48px;
+  display: flex;
+  flex-direction: column;
 }
 
 .col {
   width: 180px;
+
+  &:not(:first-child) {
+    margin-top: 24px;
+  }
 }
 
 .list {
@@ -63,5 +74,20 @@
 
 @media screen and (min-width: $display_w480) {
   .wrapper {
+  }
+
+  .inner {
+    flex-direction: row;
+  }
+
+  .listContainer {
+    flex-direction: row;
+    padding-top: 0px;
+  }
+
+  .col {
+    &:not(:first-child) {
+      margin-top: 0;
+    }
   }
 }
