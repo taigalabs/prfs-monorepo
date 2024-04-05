@@ -9,9 +9,8 @@
 }
 
 .container {
-  width: 560px;
-
-  /* border: 1px solid red; */
+  padding: 0 24px;
+  width: 100%;
 }
 
 .text {
@@ -20,4 +19,10 @@
   color: var(--black-20);
   line-height: 1.67em;
   text-align: start;
+}
+
+@media screen and (min-width: $display_w768) {
+  .container {
+    width: 610px;
+  }
 }
