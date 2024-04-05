@@ -19,102 +19,87 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
   const i18n = useI18N();
 
   return (
-    <Area className={styles.wrapper}>
-      <div className={styles.item}>
-        <img
-          className={styles.image}
-          src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_example.png"
-          crossOrigin="anonymous"
-          alt="Proof example"
-        />
-        <div className={styles.itemContent}>
-          <div className={styles.title}>
-            <p className={styles.iconBox}>
-              <TbMathPi />
-            </p>
-            {i18n.proof}
-          </div>
-          <p className={styles.desc}>Create and verify zero-knowledge proofs on your browser.</p>
-          <div className={styles.callToAction}>
-            <p onClick={handleFocusSearchBar}>
-              Find proof type
-              <MdArrowUpward />
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className={styles.item}>
-        <img
-          className={cn(styles.image, {})}
-          src="https://d1w1533jipmvi2.cloudfront.net/prfs_atst_example2.png"
-          crossOrigin="anonymous"
-          alt="Prfs attestation example"
-        />
-        <div className={styles.itemContent}>
-          <div className={styles.title}>
-            <p className={styles.iconBox}>
-              <TbCertificate />
-            </p>
-            {i18n.attestation}
-          </div>
-          <p className={styles.desc}>Attest to your data to create a anonymous claim about</p>
-          <div className={styles.callToAction}>
-            <p>
-              <Link href={paths.attestations}>
-                Learn more
-                <MdArrowForward />
-              </Link>
-            </p>
+    <div className={styles.wrapper}>
+      <div className={cn(styles.item, styles.gray)}>
+        <div className={styles.box}>
+          <img
+            className={styles.image}
+            src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_example_1.png"
+            crossOrigin="anonymous"
+            alt="Proof example"
+          />
+          <div className={styles.itemContent}>
+            <div className={styles.title}>
+              <p className={styles.iconBox}>
+                <TbMathPi />
+              </p>
+              {i18n.proof}
+            </div>
+            <p className={styles.desc}>Create and verify zero-knowledge proofs on your browser.</p>
+            <div className={styles.callToAction}>
+              <p onClick={handleFocusSearchBar}>
+                Find proof type
+                <MdArrowUpward />
+              </p>
+            </div>
           </div>
         </div>
       </div>
       <div className={styles.item}>
-        <img
-          className={cn(styles.image, {})}
-          src="https://d1w1533jipmvi2.cloudfront.net/prfs_id_example.png"
-          crossOrigin="anonymous"
-          alt="Prfs Id example"
-        />
-        <div className={styles.itemContent}>
-          <div className={styles.title}>
-            <p className={styles.iconBox}>
-              <FaMobileAlt />
-            </p>
-            {i18n.prfs_id}
-          </div>
-          <p className={styles.desc}>Conduct cryptographic operations on your own device</p>
-          <div className={styles.callToAction}>
-            {/* <p> */}
-            {/*   <Link href={paths.attestations}> */}
-            {/*     Learn more */}
-            {/*     <MdArrowForward /> */}
-            {/*   </Link> */}
-            {/* </p> */}
+        <div className={styles.box}>
+          <img
+            className={cn(styles.image, {})}
+            src="https://d1w1533jipmvi2.cloudfront.net/prfs_atst_example_1.png"
+            crossOrigin="anonymous"
+            alt="Prfs attestation example"
+          />
+          <div className={styles.itemContent}>
+            <div className={styles.title}>
+              <p className={styles.iconBox}>
+                <TbCertificate />
+              </p>
+              {i18n.attestation}
+            </div>
+            <p className={styles.desc}>Attest to your data to create a anonymous claim about</p>
+            <div className={styles.callToAction}>
+              <p>
+                <Link href={paths.attestations}>
+                  Learn more
+                  <MdArrowForward />
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      {/* <Area className={styles.wrapper}> */}
-      {/*   <div className={styles.imageContainer}> */}
-      {/*     <img */}
-      {/*       className={cn(styles.dummyImage)} */}
-      {/*       src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_example.png" */}
-      {/*       crossOrigin="anonymous" */}
-      {/*       alt="Prfs Proof example" */}
-      {/*     /> */}
-      {/*     <img */}
-      {/*       className={cn(styles.image, {})} */}
-      {/*       src="https://d1w1533jipmvi2.cloudfront.net/prfs_atst_example2.png" */}
-      {/*       crossOrigin="anonymous" */}
-      {/*       alt="Prfs attestation example" */}
-      {/*     /> */}
-      {/*     <img */}
-      {/*       className={cn(styles.image, {})} */}
-      {/*       src="https://d1w1533jipmvi2.cloudfront.net/prfs_id_example.png" */}
-      {/*       crossOrigin="anonymous" */}
-      {/*       alt="Prfs Id example" */}
-      {/*     /> */}
-      {/*   </div> */}
-    </Area>
+      <div className={cn(styles.item, styles.gray)}>
+        <div className={styles.box}>
+          <img
+            className={cn(styles.image, {})}
+            src="https://d1w1533jipmvi2.cloudfront.net/prfs_id_example_1.png"
+            crossOrigin="anonymous"
+            alt="Prfs Id example"
+          />
+          <div className={styles.itemContent}>
+            <div className={styles.title}>
+              <p className={styles.iconBox}>
+                <FaMobileAlt />
+              </p>
+              {i18n.prfs_id}
+            </div>
+            <p className={styles.desc}>Conduct cryptographic operations on your own device</p>
+            <div className={styles.callToAction}>
+              {/* <p> */}
+              {/*   <Link href={paths.attestations}> */}
+              {/*     Learn more */}
+              {/*     <MdArrowForward /> */}
+              {/*   </Link> */}
+              {/* </p> */}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
