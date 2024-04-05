@@ -36,7 +36,7 @@ const ProofTypeSelectedMasthead: React.FC<ProofTypeMastheadProps> = ({
     <MastheadWrapper twoColumn>
       <MastheadLogoArea>
         <a href={paths.__}>
-          <ImageLogo width={50} />
+          <ImageLogo width={50} height={40} />
         </a>
       </MastheadLogoArea>
       <MastheadMain>

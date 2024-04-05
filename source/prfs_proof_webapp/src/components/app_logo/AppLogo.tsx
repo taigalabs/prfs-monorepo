@@ -21,7 +21,7 @@ const AppLogo: React.FC<AttestationsLogoAreaProps> = ({
         <IoIosMenu />
       </div>
       <a className={styles.logoArea} href={url}>
-        <ImageLogo width={24} />
+        <ImageLogo width={28} />
         <span>{label}</span>
       </a>
     </div>

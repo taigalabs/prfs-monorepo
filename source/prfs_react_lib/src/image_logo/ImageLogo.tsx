@@ -3,9 +3,9 @@ import cn from "classnames";
 
 import styles from "./ImageLogo.module.scss";
 
-const ImageLogo: React.FC<ImageLogoProps> = ({ width, className }) => {
+const ImageLogo: React.FC<ImageLogoProps> = ({ width, height, className }) => {
   return (
-    <div className={cn(styles.wrapper, className)} style={{ width }}>
+    <div className={cn(styles.wrapper, className)} style={{ width, height }}>
       <img
         src="https://d1w1533jipmvi2.cloudfront.net/prfs_logo_chivo_big_cropped.png"
         alt="logo"
@@ -19,5 +19,6 @@ export default ImageLogo;
 
 export interface ImageLogoProps {
   width?: number | "auto";
+  height?: number | "auto";
   className?: string;
 }
