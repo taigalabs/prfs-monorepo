@@ -2,16 +2,21 @@
 
 .wrapper {
   width: 100%;
-  padding: 22px 24px 0;
+  padding: 0px 24px 0;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  border: 1px solid blue;
 }
 
 .item {
-  display: block;
   font-size: 16px;
   text-align: center;
 
   &:not(:first-child) {
-    margin-top: 10px;
+    /* margin-top: 10px; */
   }
 
   svg {
@@ -51,17 +56,16 @@
   }
 }
 
-@media screen and (min-width: $mid_display_min_width) {
+@media screen and (min-width: $display_w1024) {
   .wrapper {
-    text-align: center;
-    padding: 18px 24px 0;
+    /* text-align: center; */
   }
 
   .item {
-    display: inline-block;
+    /* display: inline-block; */
 
     &:not(:first-child) {
-      margin-left: 2.5em;
+      /* margin-left: 2.5em; */
     }
   }
 }

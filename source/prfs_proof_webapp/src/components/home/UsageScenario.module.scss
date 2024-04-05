@@ -1,9 +1,22 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  padding-top: 18px;
+  padding-top: 28px;
+  display: flex;
+  justify-content: center;
+
+  /* border: 1px solid blue; */
 }
 
 .container {
-  border: 1px solid blue;
+  width: 560px;
+
+  /* border: 1px solid red; */
+}
+
+.text {
+  font-size: 16px;
+  font-variation-settings: "wght" 420;
+  color: var(--black-20);
+  line-height: 1.5em;
 }
