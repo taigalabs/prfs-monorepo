@@ -18,31 +18,31 @@ import { Area, Title } from "./IntroComponents";
 const FEAT_COUNT = 3;
 
 enum HighlightedFeature {
-  Proof = 0,
-  Attestation,
+  PrfsProof = 0,
+  PrfsAtst,
   PrfsId,
 }
 
 const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => {
   const i18n = useI18N();
-  const [highlightedFeatureNo, setHighlightedFeatureNo] = React.useState(HighlightedFeature.Proof);
+  const [highlightedFeature, setHighlightedFeature] = React.useState(HighlightedFeature.PrfsProof);
 
   React.useEffect(() => {
     const interval = window.setInterval(() => {
-      setHighlightedFeatureNo(n => (n + 1) % FEAT_COUNT);
+      setHighlightedFeature(i => (i + 1) % FEAT_COUNT);
     }, 5000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [setHighlightedFeatureNo]);
+  }, [setHighlightedFeature]);
 
   return (
     <>
       <ul className={styles.itemContainer}>
         <li
           className={cn(styles.item, styles.proof, {
-            [styles.isHighlighted]: highlightedFeatureNo === HighlightedFeature.Proof,
+            [styles.isHighlighted]: highlightedFeature === HighlightedFeature.PrfsProof,
           })}
         >
           <div className={styles.title}>
@@ -61,7 +61,7 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
         </li>
         <li
           className={cn(styles.item, styles.attestation, {
-            [styles.isHighlighted]: highlightedFeatureNo === HighlightedFeature.Attestation,
+            [styles.isHighlighted]: highlightedFeature === HighlightedFeature.PrfsAtst,
           })}
         >
           <div className={styles.title}>
@@ -82,7 +82,7 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
         </li>
         <li
           className={cn(styles.item, styles.prfsId, {
-            [styles.isHighlighted]: highlightedFeatureNo === HighlightedFeature.PrfsId,
+            [styles.isHighlighted]: highlightedFeature === HighlightedFeature.PrfsId,
           })}
         >
           <div className={styles.title}>
@@ -91,14 +91,14 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
             </p>
             {i18n.prfs_id}
           </div>
-          <p className={styles.desc}>Operate cryptographical operation on your own device</p>
+          <p className={styles.desc}>Conduct cryptographic operations on your own device</p>
           <div className={styles.callToAction}>
-            <p>
-              <Link href={paths.attestations}>
-                Learn more
-                <MdArrowForward />
-              </Link>
-            </p>
+            {/* <p> */}
+            {/*   <Link href={paths.attestations}> */}
+            {/*     Learn more */}
+            {/*     <MdArrowForward /> */}
+            {/*   </Link> */}
+            {/* </p> */}
           </div>
         </li>
       </ul>
@@ -108,19 +108,23 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
             className={cn(styles.dummyImage)}
             src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_example.png"
             crossOrigin="anonymous"
-            alt="Proof example"
+            alt="Prfs Proof example"
           />
           <img
-            className={cn(styles.image, { [styles.isHighlighted]: highlightedFeatureNo === 0 })}
+            className={cn(styles.image, {
+              [styles.isHighlighted]: highlightedFeature === HighlightedFeature.PrfsProof,
+            })}
             src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_example.png"
             crossOrigin="anonymous"
             alt="Proof example"
           />
           <img
-            className={cn(styles.image, { [styles.isHighlighted]: highlightedFeatureNo === 1 })}
-            src="https://d1w1533jipmvi2.cloudfront.net/prfs_atst_example2.png"
+            className={cn(styles.image, {
+              [styles.isHighlighted]: highlightedFeature === HighlightedFeature.PrfsId,
+            })}
+            src="https://d1w1533jipmvi2.cloudfront.net/prfs_id_example.png"
             crossOrigin="anonymous"
-            alt="Attestation example"
+            alt="Prfs Id example"
           />
         </div>
       </Area>

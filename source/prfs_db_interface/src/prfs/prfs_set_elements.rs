@@ -85,7 +85,7 @@ RETURNING atst_id"#;
         .fetch_one(&mut **tx)
         .await?;
 
-    let label: String = row.get("label");
+    let label: String = row.try_get("label")?;
 
     return Ok(label);
 }
@@ -107,15 +107,17 @@ pub async fn get_prfs_set_elements(
 
     let atsts = rows
         .iter()
-        .map(|row| PrfsSetElement {
-            label: row.get("label"),
-            data: row.get("data"),
-            r#ref: row.get("ref"),
-            status: row.get("status"),
-            element_idx: row.get("element_idx"),
-            set_id: row.get("set_id"),
+        .map(|row| {
+            Ok(PrfsSetElement {
+                label: row.try_get("label")?,
+                data: row.try_get("data")?,
+                r#ref: row.try_get("ref")?,
+                status: row.try_get("status")?,
+                element_idx: row.try_get("element_idx")?,
+                set_id: row.try_get("set_id")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsSetElement>, DbInterfaceError>>()?;
 
     Ok(atsts)
 }
@@ -138,15 +140,17 @@ pub async fn get_prfs_set_elements__tx(
 
     let atsts = rows
         .iter()
-        .map(|row| PrfsSetElement {
-            label: row.get("label"),
-            data: row.get("data"),
-            r#ref: row.get("ref"),
-            status: row.get("status"),
-            element_idx: row.get("element_idx"),
-            set_id: row.get("set_id"),
+        .map(|row| {
+            Ok(PrfsSetElement {
+                label: row.try_get("label")?,
+                data: row.try_get("data")?,
+                r#ref: row.try_get("ref")?,
+                status: row.try_get("status")?,
+                element_idx: row.try_get("element_idx")?,
+                set_id: row.try_get("set_id")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsSetElement>, DbInterfaceError>>()?;
 
     Ok(atsts)
 }
@@ -159,7 +163,8 @@ pub async fn get_prfs_set_element(
     let query = r#"
 SELECT *
 FROM prfs_set_elements
-WHERE set_id=$1 AND label=$2
+WHERE set_id=$1 
+AND label=$2
 "#;
 
     let row = sqlx::query(query)
@@ -169,12 +174,12 @@ WHERE set_id=$1 AND label=$2
         .await?;
 
     let atst = PrfsSetElement {
-        label: row.get("label"),
-        data: row.get("data"),
-        r#ref: row.get("ref"),
-        status: row.get("status"),
-        element_idx: row.get("element_idx"),
-        set_id: row.get("set_id"),
+        label: row.try_get("label")?,
+        data: row.try_get("data")?,
+        r#ref: row.try_get("ref")?,
+        status: row.try_get("status")?,
+        element_idx: row.try_get("element_idx")?,
+        set_id: row.try_get("set_id")?,
     };
 
     Ok(atst)
