@@ -28,9 +28,7 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
           </div>
           <div className={styles.itemContent}>
             <div className={styles.inner}>
-              <Title className={styles.title}>
-                Create a zero-knowledge proof on your own machine
-              </Title>
+              <p className={styles.title}>Create a zero-knowledge proof on your own machine</p>
               <div className={styles.callToAction}>
                 <p onClick={handleFocusSearchBar}>
                   Find proof type
@@ -53,12 +51,8 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
           <div className={styles.itemContent}>
             <div className={styles.inner}>
               <div className={styles.title}>
-                <p className={styles.iconBox}>
-                  <TbCertificate />
-                </p>
-                {i18n.attestation}
+                Attest to your data to create an anonymous claim about it
               </div>
-              <p className={styles.desc}>Attest to your data to create a anonymous claim about</p>
               <div className={styles.callToAction}>
                 <p>
                   <Link href={paths.attestations}>
@@ -83,12 +77,9 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
           <div className={styles.itemContent}>
             <div className={styles.inner}>
               <div className={styles.title}>
-                <p className={styles.iconBox}>
-                  <FaMobileAlt />
-                </p>
-                {i18n.prfs_id}
+                Conduct cryptographic operations on across your devices
               </div>
-              <p className={styles.desc}>Conduct cryptographic operations on your own device</p>
+              <p className={styles.desc}></p>
               <div className={styles.callToAction}>
                 {/* <p> */}
                 {/*   <Link href={paths.attestations}> */}
