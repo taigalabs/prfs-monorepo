@@ -24,6 +24,7 @@ import ProjectStatus from "./ProjectStatus";
 import Footer from "./Footer";
 import FeaturedApps from "./FeaturedApps";
 import UsageScenario from "./UsageScenario";
+import { useI18N } from "@/i18n/use_i18n";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -31,7 +32,7 @@ enum SearchProofTypeFormStatus {
 }
 
 const Home: React.FC<HomeProps> = () => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = useI18N();
   const searchParams = useSearchParams();
   const router = useRouter();
   const [formStatus, setFormStatus] = React.useState(SearchProofTypeFormStatus.Standby);
