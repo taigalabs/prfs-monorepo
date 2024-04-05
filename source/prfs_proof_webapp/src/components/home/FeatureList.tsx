@@ -120,6 +120,14 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
           />
           <img
             className={cn(styles.image, {
+              [styles.isHighlighted]: highlightedFeature === HighlightedFeature.PrfsAtst,
+            })}
+            src="https://d1w1533jipmvi2.cloudfront.net/prfs_atst_example2.png"
+            crossOrigin="anonymous"
+            alt="Prfs attestation example"
+          />
+          <img
+            className={cn(styles.image, {
               [styles.isHighlighted]: highlightedFeature === HighlightedFeature.PrfsId,
             })}
             src="https://d1w1533jipmvi2.cloudfront.net/prfs_id_example.png"

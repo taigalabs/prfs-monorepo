@@ -4,6 +4,8 @@ $item_width: 230px;
 
 .wrapper {
   /* padding-top: 50px; */
+  max-width: none;
+  padding: 80px 0 0;
 }
 
 .subtitle2 {
@@ -22,9 +24,9 @@ $item_width: 230px;
 }
 
 .inner {
-  padding: 22px 14px;
+  padding: 60px 14px;
   background-color: var(--bright-gray-523);
-  border-radius: 12px;
+  /* border-radius: 12px; */
 }
 
 .logo {
