@@ -1,0 +1,7 @@
+@import "@/styles/layouts.module.scss";
+
+.input {
+  &:disabled {
+    background-color: var(--bright-gray-52);
+  }
+}

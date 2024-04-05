@@ -19,6 +19,7 @@ import SimpleHashInput from "@/components/circuit_input_items/simple_hash_v1/Sim
 import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
+import MerkleSigPosExactInput from "../circuit_input_items/merkle_sig_pos_exact_v1/MerkleSigPosExactInput";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
   proofType,
@@ -80,7 +81,28 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
           />
         );
       }
+      case "merkle_sig_pos_exact_v1": {
+        return (
+          <MerkleSigPosExactInput
+            circuitTypeData={proofType.circuit_type_data as MerkleSigPosRangeV1Data}
+            value={formValues as FormValues<MerkleSigPosRangeV1Inputs>}
+            error={formErrors as FormErrors<MerkleSigPosRangeV1Inputs>}
+            setFormValues={setFormValues}
+            setFormErrors={setFormErrors as any}
+            setFormHandler={setFormHandler}
+            presetVals={presetVals as MerkleSigPosRangeV1PresetVals}
+            credential={credential}
+            proofAction={proofAction}
+            usePrfsRegistry={usePrfsRegistry}
+            handleSkipCreateProof={handleSkipCreateProof}
+          />
+        );
+      }
       default:
+        console.error(
+          "Cannot handle circuit input of this type, type: %s",
+          proofType.circuit_type_id,
+        );
         return null;
     }
   }, [proofType, formValues, setFormValues, formErrors]);

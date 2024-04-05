@@ -1,0 +1,34 @@
+@import "@/styles/layouts.module.scss";
+
+.computedValue {
+  padding: 2px 6px;
+  color: var(--gray-30);
+  font-size: 13px;
+}
+
+.addrInputWrapper {
+  position: relative;
+
+  .btnRow {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    width: 100%;
+  }
+}
+
+.addrInput {
+  padding: 12px 14px 42px;
+  transition: none;
+  /* margin-bottom: 14px; */
+}
+
+.row {
+  padding-top: 18px;
+}
+
+.inputLabel {
+  .label {
+    margin-right: 3px;
+  }
+}

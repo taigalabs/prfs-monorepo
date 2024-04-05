@@ -16,7 +16,7 @@ import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
-import styles from "./MerkleSigPosRangeInput.module.scss";
+import styles from "./MerkleSigPosExactInput.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   FormError,
@@ -59,7 +59,7 @@ const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   return <div className={styles.computedValue}>{val}</div>;
 };
 
-const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
+const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
   circuitTypeData,
   value,
   credential,
@@ -235,9 +235,9 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   );
 };
 
-export default MerkleSigPosRangeInput;
+export default MerkleSigPosExactInput;
 
-export interface MerkleSigPosRangeInputProps {
+export interface MerkleSigPosExactInputProps {
   circuitTypeData: MerkleSigPosRangeV1Data;
   value: FormValues<MerkleSigPosRangeV1Inputs>;
   error: FormErrors<MerkleSigPosRangeV1Inputs>;

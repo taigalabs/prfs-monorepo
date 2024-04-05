@@ -21,7 +21,7 @@ import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 
-import styles from "./MerkleSigPosRangeInput.module.scss";
+import styles from "./MerkleSigPosExactInput.module.scss";
 import { FormErrors } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
 
