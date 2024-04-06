@@ -211,6 +211,7 @@ export default {
   create_group_member_attestation: "Create group member attestation",
   twitter_acc_attestations: "X (Twitter) account attestations",
   crypto_asset_attestations: "Crypto asset attestations",
+  group_member_attestations: "Group member attestations",
   x_twitter: "X (Twitter)",
   all: "All",
   uploading_proof: "Uploading proof",

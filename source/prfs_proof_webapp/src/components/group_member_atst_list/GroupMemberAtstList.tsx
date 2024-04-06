@@ -4,7 +4,7 @@ import React from "react";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 import { AlertContent, AlertWrapper } from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
 
-import styles from "./CryptoAssetAtstList.module.scss";
+import styles from "./GroupMemberAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   AttestationsHeader,
@@ -27,7 +27,7 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = () => {
       <AttestationsHeader>
         <AttestationsHeaderRow>
           <AttestationsTitle className={styles.title}>
-            {i18n.crypto_asset_attestations}
+            {i18n.group_member_attestations}
           </AttestationsTitle>
           <AttestationsTopMenu>
             {isMasterAccountId(prfsProofCredential?.account_id) && (

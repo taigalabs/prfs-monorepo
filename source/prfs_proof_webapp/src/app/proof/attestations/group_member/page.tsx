@@ -11,6 +11,7 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import CryptoAssetAtstList from "@/components/crypto_asset_atst_list/CryptoAssetAtstList";
 import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
+import GroupMemberAtstList from "@/components/group_member_atst_list/GroupMemberAtstList";
 
 const CryptoSizePage = () => {
   return (
@@ -20,16 +21,12 @@ const CryptoSizePage = () => {
           <Attestations>
             <AttestationsMain>
               <AttestationsMainInner>
-                123
-                {/* <CryptoAssetAtstList /> */}
+                <GroupMemberAtstList />
               </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>
         </Suspense>
       </AttestationsDefaultBody>
-      {/* <DefaultFooter> */}
-      {/*   <GlobalFooter /> */}
-      {/* </DefaultFooter> */}
     </DefaultLayout>
   );
 };
