@@ -59,13 +59,17 @@ export function useCachedItems({ prfsIdCredential, prfsSet }: UseCachedItemsArgs
         for (let idx = 0; idx < 10; idx += 1) {
           switch (prfsSet.element_type) {
             case "member_id": {
+              break;
             }
             case "wallet_addr": {
               const arg = `${WALLET_CACHE_KEY}_${idx}`;
               const { hashed } = await makeAtstCm(prfsIdCredential.secret_key, arg);
               // const { hashed } = await makeWalletCacheKeyCm(prfsIdCredential.secret_key, idx);
               const key = hexlify(hashed);
+
+              console.log(11, arg, hashed, key);
               cacheKeys.push(key);
+              break;
             }
 
             default:
