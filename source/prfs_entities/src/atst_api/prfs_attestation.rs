@@ -6,7 +6,7 @@ use crate::{atst_entities::PrfsAttestation, PrfsAtstTypeId};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPrfsAttestationsRequest {
+pub struct GetPrfsAttestationsByAtstTypeRequest {
     pub offset: i32,
     pub atst_type_id: PrfsAtstTypeId,
 }

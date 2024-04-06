@@ -1,7 +1,7 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::{atst_entities::PrfsAttestation, PrfsAtstTypeId};
 
-use super::queries::get_prfs_attestations_query;
+use super::queries::get_prfs_attestations_by_atst_type_query;
 use crate::DbInterfaceError;
 
 const BIND_LIMIT: usize = 65535;
@@ -87,7 +87,7 @@ pub async fn get_prfs_attestations(
     offset: i32,
     limit: i32,
 ) -> Result<Vec<PrfsAttestation>, DbInterfaceError> {
-    let query = get_prfs_attestations_query();
+    let query = get_prfs_attestations_by_atst_type_query();
 
     let rows = sqlx::query(query)
         .bind(atst_type_id)
@@ -122,7 +122,7 @@ pub async fn get_prfs_attestations__tx(
     offset: i32,
     limit: i32,
 ) -> Result<Vec<PrfsAttestation>, DbInterfaceError> {
-    let query = get_prfs_attestations_query();
+    let query = get_prfs_attestations_by_atst_type_query();
 
     let rows = sqlx::query(query)
         .bind(atst_type_id)

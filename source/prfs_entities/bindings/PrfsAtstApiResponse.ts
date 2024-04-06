@@ -16,7 +16,7 @@ export type PrfsAtstApiResponse =
   | ({ type: "compute_crypto_asset_total_values" } & ComputeCryptoAssetTotalValuesResponse)
   | ({ type: "create_crypto_asset_atst" } & CreatePrfsAttestationResponse)
   | ({ type: "create_prfs_attestation" } & CreatePrfsAttestationResponse)
-  | ({ type: "get_prfs_attestations" } & GetPrfsAttestationsResponse)
+  | ({ type: "get_prfs_attestations_by_atst_type" } & GetPrfsAttestationsResponse)
   | ({ type: "get_prfs_attestation" } & GetPrfsAttestationResponse)
   | ({ type: "get_prfs_atst_groups" } & GetPrfsAtstGroupsResponse)
   | ({ type: "create_group_member_atst" } & CreatePrfsAttestationResponse)

@@ -4,16 +4,16 @@ use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    GetPrfsAttestationRequest, GetPrfsAttestationResponse, GetPrfsAttestationsRequest,
+    GetPrfsAttestationRequest, GetPrfsAttestationResponse, GetPrfsAttestationsByAtstTypeRequest,
     GetPrfsAttestationsResponse,
 };
 use std::sync::Arc;
 
 const LIMIT: i32 = 20;
 
-pub async fn get_prfs_attestations(
+pub async fn get_prfs_attestations_by_atst_type(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<GetPrfsAttestationsRequest>,
+    Json(input): Json<GetPrfsAttestationsByAtstTypeRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsAttestationsResponse>>) {
     let pool = &state.db2.pool;
 

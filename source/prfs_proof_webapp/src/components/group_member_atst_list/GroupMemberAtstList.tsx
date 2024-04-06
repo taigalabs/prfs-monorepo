@@ -17,7 +17,7 @@ import { isMasterAccountId } from "@/mock/mock_data";
 import ComputeTotalValueDialog from "./ComputeTotalValue";
 import GroupMemberAtstTable from "./GroupMemberAtstTable";
 
-const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = () => {
+const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) => {
   const i18n = React.useContext(i18nContext);
   const { prfsProofCredential } = useSignedInProofUser();
   const { nonce, rerender } = useRerender();
@@ -48,7 +48,7 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = () => {
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
-        <GroupMemberAtstTable nonce={nonce} />
+        <GroupMemberAtstTable nonce={nonce} atst_group_id={atst_group_id} />
       </div>
     </>
   );
@@ -56,4 +56,6 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = () => {
 
 export default GroupMemberAtstList;
 
-export interface CryptoSizeAtstListProps {}
+export interface CryptoSizeAtstListProps {
+  atst_group_id: string;
+}

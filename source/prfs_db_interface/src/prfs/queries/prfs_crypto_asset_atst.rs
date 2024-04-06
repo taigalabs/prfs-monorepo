@@ -1,6 +1,4 @@
-use crate::DbInterfaceError;
-
-pub fn get_prfs_attestations_query<'a>() -> &'a str {
+pub fn get_prfs_attestations_by_atst_type_query<'a>() -> &'a str {
     let query = r#"
 SELECT *
 FROM prfs_attestations

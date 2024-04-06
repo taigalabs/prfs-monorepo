@@ -11,8 +11,9 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import CryptoAssetAtstList from "@/components/crypto_asset_atst_list/CryptoAssetAtstList";
 import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
+import GroupMemberAtstList from "@/components/group_member_atst_list/GroupMemberAtstList";
 
-const CryptoSizePage = () => {
+const AtstGroupPage: React.FC<AtstGroupPageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <AttestationsDefaultBody>
@@ -20,7 +21,7 @@ const CryptoSizePage = () => {
           <Attestations>
             <AttestationsMain>
               <AttestationsMainInner>
-                <CryptoAssetAtstList />
+                <GroupMemberAtstList atst_group_id={atst_group_id} />
               </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>
@@ -30,4 +31,10 @@ const CryptoSizePage = () => {
   );
 };
 
-export default CryptoSizePage;
+export default AtstGroupPage;
+
+interface AtstGroupPageProps {
+  params: {
+    atst_group_id: string;
+  };
+}
