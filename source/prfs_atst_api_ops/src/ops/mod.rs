@@ -1,3 +1,4 @@
+use prfs_db_driver::sqlx::{Pool, Postgres, Transaction};
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api::ComputeCryptoAssetTotalValuesResponse;
 use prfs_entities::PrfsAtstTypeId;
@@ -5,8 +6,6 @@ use prfs_web_fetcher::destinations::coinbase;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
 use std::str::FromStr;
-
-use prfs_db_driver::sqlx::{Pool, Postgres, Transaction};
 
 use crate::AtstApiOpsError;
 
@@ -17,7 +16,9 @@ pub async fn compute_crypto_asset_total_values(
     mut tx: &mut Transaction<'_, Postgres>,
 ) -> Result<ComputeCryptoAssetTotalValuesResponse, AtstApiOpsError> {
     let exchange_rates = coinbase::get_exchange_rates("ETH").await?;
-    let mut atsts = prfs::get_prfs_attestations(&pool, &PrfsAtstTypeId::crypto_1, 0, 50000).await?;
+    let mut atsts =
+        prfs::get_prfs_attestations_by_atst_type(&pool, &PrfsAtstTypeId::crypto_1, 0, 50000)
+            .await?;
 
     let denom = Decimal::from_u128(1_000_000_000_000_000_000).unwrap();
     let usd: &str = exchange_rates.data.rates.USD.as_ref();

@@ -22,6 +22,7 @@ import {
   AttestationLoading,
 } from "@/components/attestations_table/AttestationsTable";
 import { useI18N } from "@/i18n/use_i18n";
+import { GetPrfsAttestationsByAtstGroupRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstGroupRequest";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating }) => {
   const i18n = useI18N();
@@ -79,21 +80,21 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
   );
 };
 
-const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => {
+const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_group_id }) => {
   const i18n = useI18N();
   const router = useRouter();
   const [isNavigating, setIsNavigating] = React.useState(false);
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_prfs_attestations", nonce],
+      queryKey: ["get_prfs_attestations", nonce, atst_group_id],
       queryFn: async ({ pageParam }) => {
-        const req: GetPrfsAttestationsByAtstTypeRequest = {
-          atst_type_id: "nonce_seoul_1",
+        const req: GetPrfsAttestationsByAtstGroupRequest = {
+          atst_group_id,
           offset: pageParam as number,
         };
         return atstApi({
-          type: "get_prfs_attestations_by_atst_type",
+          type: "get_prfs_attestations_by_atst_group",
           ...req,
         });
       },

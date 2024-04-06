@@ -82,13 +82,54 @@ now(), excluded.value, excluded.status, excluded.atst_version
     return Ok(rows.rows_affected());
 }
 
-pub async fn get_prfs_attestations(
+pub async fn get_prfs_attestations_by_atst_type(
     pool: &Pool<Postgres>,
     atst_type_id: &PrfsAtstTypeId,
     offset: i32,
     limit: i32,
 ) -> Result<Vec<PrfsAttestation>, DbInterfaceError> {
     let query = get_prfs_attestations_by_atst_type_query();
+
+    let rows = sqlx::query(query)
+        .bind(atst_type_id)
+        .bind(limit)
+        .bind(offset)
+        .fetch_all(pool)
+        .await?;
+
+    let atsts = rows
+        .iter()
+        .map(|row| {
+            Ok(PrfsAttestation {
+                atst_id: row.try_get("atst_id")?,
+                atst_type_id: row.try_get("atst_type_id")?,
+                cm: row.try_get("cm")?,
+                label: row.try_get("label")?,
+                value: row.try_get("value")?,
+                meta: row.try_get("meta")?,
+                status: row.try_get("status")?,
+                atst_version: row.try_get("atst_version")?,
+                atst_group_id: row.try_get("atst_group_id")?,
+            })
+        })
+        .collect::<Result<Vec<PrfsAttestation>, DbInterfaceError>>()?;
+
+    Ok(atsts)
+}
+
+pub async fn get_prfs_attestations_by_atst_group(
+    pool: &Pool<Postgres>,
+    atst_type_id: &PrfsAtstTypeId,
+    offset: i32,
+    limit: i32,
+) -> Result<Vec<PrfsAttestation>, DbInterfaceError> {
+    let query = r#"
+SELECT *
+FROM prfs_atst_groups
+ORDER BY created_at
+LIMIT $1
+OFFSET $2
+"#;
 
     let rows = sqlx::query(query)
         .bind(atst_type_id)

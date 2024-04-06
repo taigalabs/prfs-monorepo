@@ -21,6 +21,10 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
             post(prfs_attestations::get_prfs_attestations_by_atst_type),
         )
         .route(
+            "/get_prfs_attestations_by_atst_group",
+            post(prfs_attestations::get_prfs_attestations_by_atst_group),
+        )
+        .route(
             "/get_prfs_attestation",
             post(prfs_attestations::get_prfs_attestation),
         )
