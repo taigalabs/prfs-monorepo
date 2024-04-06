@@ -60,7 +60,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   const dispatch = useAppDispatch();
   const claimSecret = React.useMemo(() => {
     const walletAddr = formData[WALLET_ADDR];
-    return makeAtstCmPreImage(walletAddr);
+    return walletAddr;
   }, [formData[WALLET_ADDR]]);
 
   const handleClickGenerate = React.useCallback(async () => {

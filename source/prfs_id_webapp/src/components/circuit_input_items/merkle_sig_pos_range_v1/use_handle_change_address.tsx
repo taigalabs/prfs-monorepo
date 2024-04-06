@@ -138,7 +138,9 @@ export function useHandleChangeAddress({
               const cmInt = bytesToNumberLE(hashed);
 
               if (d.val !== cm) {
-                throw new Error(`Commitment does not match, addr: ${addr}`);
+                throw new Error(
+                  `Commitment does not match, addr: ${addr}, cm: ${d.val}, calculated: ${cm}`,
+                );
               }
 
               args[0] = cmInt;

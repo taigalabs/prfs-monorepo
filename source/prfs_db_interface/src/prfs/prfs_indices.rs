@@ -26,8 +26,8 @@ WHERE key in (
     }
     separated.push_unseparated(") ");
 
-    let sql = query_builder.sql();
-    println!("sql: {:?}", sql);
+    // let sql = query_builder.sql();
+    // println!("sql: {:?}", sql);
 
     let query = query_builder.build();
     let rows = query.fetch_all(pool).await?;
