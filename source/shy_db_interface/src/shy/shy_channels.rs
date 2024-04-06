@@ -24,14 +24,16 @@ LIMIT $2
 
     let shy_channels: Vec<ShyChannel> = rows
         .iter()
-        .map(|row| ShyChannel {
-            channel_id: row.get("channel_id"),
-            label: row.get("label"),
-            locale: row.get("locale"),
-            desc: row.get("desc"),
-            proof_type_ids: row.get("proof_type_ids"),
+        .map(|row| {
+            Ok(ShyChannel {
+                channel_id: row.try_get("channel_id")?,
+                label: row.try_get("label")?,
+                locale: row.try_get("locale")?,
+                desc: row.try_get("desc")?,
+                proof_type_ids: row.try_get("proof_type_ids")?,
+            })
         })
-        .collect();
+        .collect::<Result<Vec<ShyChannel>, ShyDbInterfaceError>>()?;
 
     Ok(shy_channels)
 }
@@ -53,11 +55,11 @@ WHERE channel_id=$1
 
     let shy_channel = if let Some(r) = row {
         let c = ShyChannel {
-            channel_id: r.get("channel_id"),
-            label: r.get("label"),
-            locale: r.get("locale"),
-            desc: r.get("desc"),
-            proof_type_ids: r.get("proof_type_ids"),
+            channel_id: r.try_get("channel_id")?,
+            label: r.try_get("label")?,
+            locale: r.try_get("locale")?,
+            desc: r.try_get("desc")?,
+            proof_type_ids: r.try_get("proof_type_ids")?,
         };
         Some(c)
     } else {
@@ -87,6 +89,6 @@ RETURNING channel_id
         .fetch_one(&mut **tx)
         .await?;
 
-    let channel_id: String = row.get("channel_id");
+    let channel_id: String = row.try_get("channel_id")?;
     Ok(channel_id)
 }

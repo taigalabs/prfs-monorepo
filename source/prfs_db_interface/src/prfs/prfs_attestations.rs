@@ -34,7 +34,7 @@ RETURNING atst_id"#;
         .fetch_one(&mut **tx)
         .await?;
 
-    let atst_id: String = row.get("atst_id");
+    let atst_id: String = row.try_get("atst_id")?;
 
     return Ok(atst_id);
 }

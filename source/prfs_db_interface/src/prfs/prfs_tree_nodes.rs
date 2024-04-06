@@ -126,23 +126,23 @@ LIMIT $3
     let nodes: Vec<PrfsTreeNode> = rows
         .iter()
         .map(|n| {
-            let tree_id = n.try_get("tree_id").expect("set_id should exist");
-            let set_id = n.try_get("set_id").expect("set_id should exist");
-            let pos_w = n.try_get("pos_w").expect("pos_w should exist");
-            let pos_h = n.try_get("pos_h").expect("pos_h should exist");
-            let val = n.try_get("val").expect("val should exist");
-            let meta = n.get("meta");
+            let tree_id = n.try_get("tree_id")?;
+            let set_id = n.try_get("set_id")?;
+            let pos_w = n.try_get("pos_w")?;
+            let pos_h = n.try_get("pos_h")?;
+            let val = n.try_get("val")?;
+            let meta = n.try_get("meta")?;
 
-            PrfsTreeNode {
+            Ok(PrfsTreeNode {
                 tree_id,
                 set_id,
                 pos_w,
                 pos_h,
                 val,
                 meta,
-            }
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsTreeNode>, DbInterfaceError>>()?;
 
     Ok(nodes)
 }
@@ -160,12 +160,12 @@ WHERE set_id=$1 AND pos_h=31 AND pos_w=0
 
     let row = sqlx::query(&query).bind(&set_id).fetch_one(pool).await?;
 
-    let pos_w = row.try_get("pos_w").expect("pos_w should exist");
-    let pos_h = row.try_get("pos_h").expect("pos_h should exist");
-    let val = row.try_get("val").expect("val should exist");
-    let tree_id = row.try_get("tree_id").expect("tree_id should exist");
-    let set_id = row.try_get("set_id").expect("set_id should exist");
-    let meta = row.get("meta");
+    let pos_w = row.try_get("pos_w")?;
+    let pos_h = row.try_get("pos_h")?;
+    let val = row.try_get("val")?;
+    let tree_id = row.try_get("tree_id")?;
+    let set_id = row.try_get("set_id")?;
+    let meta = row.try_get("meta")?;
 
     let n = PrfsTreeNode {
         tree_id,
@@ -230,7 +230,7 @@ ORDER BY pos_w desc
         .await?;
 
     if let Some(r) = row {
-        let pos_w: Decimal = r.get("pos_w");
+        let pos_w: Decimal = r.try_get("pos_w")?;
 
         Ok(Some(pos_w))
     } else {
@@ -257,7 +257,7 @@ RETURNING pos_w"#;
         .fetch_one(&mut **tx)
         .await?;
 
-    let pos_w: Decimal = row.get("pos_w");
+    let pos_w: Decimal = row.try_get("pos_w")?;
 
     return Ok(pos_w);
 }
@@ -282,10 +282,9 @@ RETURNING pos_w
         .bind(&node.val)
         .bind(&node.meta)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
-    let pos_w: Decimal = row.get("pos_w");
+    let pos_w: Decimal = row.try_get("pos_w")?;
 
     return Ok(pos_w);
 }

@@ -12,32 +12,36 @@ pub async fn get_prfs_polls(
 ) -> Result<(Vec<PrfsPoll>, f32), DbInterfaceError> {
     let table_row_count: f32 = {
         let query = r#"
-SELECT reltuples AS estimate FROM pg_class where relname = 'prfs_proof_instances';
+SELECT reltuples AS estimate 
+FROM pg_class 
+WHERE relname = 'prfs_proof_instances';
 "#;
-        let row = sqlx::query(query).fetch_one(pool).await.unwrap();
 
-        row.get("estimate")
+        let row = sqlx::query(query).fetch_one(pool).await?;
+        row.try_get("estimate")?
     };
 
     let query = r#"
-SELECT * from prfs_polls
+SELECT * FROM prfs_polls
 "#;
 
-    let rows = sqlx::query(query).fetch_all(pool).await.unwrap();
+    let rows = sqlx::query(query).fetch_all(pool).await?;
 
     let prfs_polls = rows
         .iter()
-        .map(|row| PrfsPoll {
-            poll_id: row.get("poll_id"),
-            label: row.get("label"),
-            plural_voting: row.get("plural_voting"),
-            proof_type_id: row.get("proof_type_id"),
-            questions: row.get("questions"),
-            description: row.get("description"),
-            author: row.get("author"),
-            created_at: row.get("created_at"),
+        .map(|row| {
+            Ok(PrfsPoll {
+                poll_id: row.get("poll_id"),
+                label: row.get("label"),
+                plural_voting: row.get("plural_voting"),
+                proof_type_id: row.get("proof_type_id"),
+                questions: row.get("questions"),
+                description: row.get("description"),
+                author: row.get("author"),
+                created_at: row.get("created_at"),
+            })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsPoll>, DbInterfaceError>>()?;
 
     return Ok((prfs_polls, table_row_count));
 }
@@ -52,21 +56,17 @@ FROM prfs_polls
 WHERE poll_id=$1
 "#;
 
-    let row = sqlx::query(query)
-        .bind(&poll_id)
-        .fetch_one(pool)
-        .await
-        .unwrap();
+    let row = sqlx::query(query).bind(&poll_id).fetch_one(pool).await?;
 
     let prfs_poll = PrfsPoll {
-        poll_id: row.get("poll_id"),
-        label: row.get("label"),
-        plural_voting: row.get("plural_voting"),
-        proof_type_id: row.get("proof_type_id"),
-        description: row.get("description"),
-        questions: row.get("questions"),
-        author: row.get("author"),
-        created_at: row.get("created_at"),
+        poll_id: row.try_get("poll_id")?,
+        label: row.try_get("label")?,
+        plural_voting: row.try_get("plural_voting")?,
+        proof_type_id: row.try_get("proof_type_id")?,
+        description: row.try_get("description")?,
+        questions: row.try_get("questions")?,
+        author: row.try_get("author")?,
+        created_at: row.try_get("created_at")?,
     };
 
     return Ok(prfs_poll);
