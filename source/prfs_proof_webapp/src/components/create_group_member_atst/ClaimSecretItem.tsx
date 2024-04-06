@@ -15,7 +15,7 @@ import {
   openPopup,
   CommitmentReceipt,
   EncryptedReceipt,
-  makeAtstCmPreImageStr,
+  // makeAtstCmPreImageStr,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
@@ -64,7 +64,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
 
   const claimSecret = React.useMemo(() => {
     if (atstGroup && formData[MEMBER_ID]) {
-      return makeAtstCmPreImageStr(`${atstGroup.atst_group_id}_${formData[MEMBER_ID]}`);
+      return `${atstGroup.atst_group_id}_${formData[MEMBER_ID]}`;
     } else {
       return "";
     }

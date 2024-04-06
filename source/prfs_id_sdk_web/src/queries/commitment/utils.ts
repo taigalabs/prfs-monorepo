@@ -11,11 +11,11 @@ export async function makeAppSignInCm(sk: string, appId: string) {
   return sigPoseidon(sk, appId);
 }
 
-export function makeAtstCmPreImageStr(arg: string) {
+function makeAtstCmPreImageStr(arg: string) {
   return `${PRFS_ATTESTATION_STEM}${arg}`;
 }
 
-export function makeAtstCmPreImage(arg: string) {
+function makeAtstCmPreImage(arg: string) {
   const str = makeAtstCmPreImageStr(arg);
   const bytes = toUtf8Bytes(str);
   return keccak256(bytes);

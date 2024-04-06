@@ -14,7 +14,6 @@ import {
   EncryptType,
   createSessionKey,
   openPopup,
-  makeAtstCmPreImage,
   CommitmentReceipt,
   EncryptedReceipt,
 } from "@taigalabs/prfs-id-sdk-web";
