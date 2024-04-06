@@ -12,7 +12,7 @@ mod tests {
         let server_state = Arc::new(init_server_state_test().await.unwrap());
         let atst_group_ids = vec![&PrfsAtstGroupId::crypto_1];
 
-        do_update_prfs_tree_by_new_atst_task(&server_state, &atst_type_ids)
+        do_update_prfs_tree_by_new_atst_task(&server_state, &atst_group_ids)
             .await
             .unwrap();
     }
