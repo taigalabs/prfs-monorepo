@@ -229,7 +229,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
 
         const { payload, error } = await createGroupMemberAttestation({
           atst_id,
-          atst_type_id: "nonce_seoul_1",
           label: member_id_cm,
           serial_no: "empty",
           cm,

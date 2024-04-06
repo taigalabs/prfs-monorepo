@@ -93,7 +93,7 @@ const CryptoAssetAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_
                 <AttestationDetailSectionRowLabel>
                   {i18n.attestation_type}
                 </AttestationDetailSectionRowLabel>
-                <div className={cn(styles.attestationType, styles.value)}>{atst.atst_type_id}</div>
+                <div className={cn(styles.attestationType, styles.value)}>{atst.atst_group_id}</div>
               </AttestationDetailSectionRow>
               <AttestationDetailSectionRow>
                 <AttestationDetailSectionRowLabel>
