@@ -13,15 +13,15 @@ import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
 
 export function useCachedMemberIdDialog(prfsIdCredential: PrfsIdCredential | null) {
-  const [walletCacheKeys, setWalletCacheKeys] = React.useState<string[] | null>(null);
+  const [cacheKeys, setCacheKeys] = React.useState<string[] | null>(null);
   const { data, error } = useQuery({
-    queryKey: ["get_prfs_indices", walletCacheKeys],
+    queryKey: ["get_prfs_indices", cacheKeys],
     queryFn: async () => {
-      if (walletCacheKeys) {
-        return prfsApi3({ type: "get_prfs_indices", keys: walletCacheKeys });
+      if (cacheKeys) {
+        return prfsApi3({ type: "get_prfs_indices", keys: cacheKeys });
       }
     },
-    enabled: !!walletCacheKeys,
+    enabled: !!cacheKeys,
   });
 
   const walletAddrs = React.useMemo<Set<string> | null>(() => {
@@ -54,13 +54,13 @@ export function useCachedMemberIdDialog(prfsIdCredential: PrfsIdCredential | nul
   React.useEffect(() => {
     async function fn() {
       if (prfsIdCredential) {
-        const walletCacheKeys = [];
+        const cacheKeys = [];
         for (let idx = 0; idx < 10; idx += 1) {
           const { hashed } = await makeWalletCacheKeyCm(prfsIdCredential.secret_key, idx);
           const key = hexlify(hashed);
-          walletCacheKeys.push(key);
+          cacheKeys.push(key);
         }
-        setWalletCacheKeys(walletCacheKeys);
+        setCacheKeys(cacheKeys);
       }
     }
     fn().then();

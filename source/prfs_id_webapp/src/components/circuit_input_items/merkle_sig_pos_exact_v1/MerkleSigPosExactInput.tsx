@@ -3,7 +3,6 @@ import cn from "classnames";
 import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
 import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
@@ -25,7 +24,6 @@ import {
   FormInputTitleRow,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
-import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
 import {
   FormErrors,
   FormHandler,
@@ -40,7 +38,7 @@ import {
   useMerkleSigPosRangeFormHandler,
 } from "./use_merkle_sig_pos_range_form_handler";
 import { useHandleChangeMemberId } from "./use_handle_change_member_id";
-import CachedMemberIdDialog from "@/components/cached_member_id_dialog/CachedMemberIdDialog";
+import CachedItemDialog from "@/components/cached_item_dialog/CachedMemberIdDialog";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -203,9 +201,9 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
             hasError={!!error?.merkleProof}
           />
           <div className={styles.btnRow}>
-            <CachedMemberIdDialog handleChangeAddress={handleChangeMemberId}>
+            <CachedItemDialog handleChangeItem={handleChangeMemberId}>
               <FormInputButton type="button">{i18n.cache}</FormInputButton>
-            </CachedMemberIdDialog>
+            </CachedItemDialog>
           </div>
         </div>
         {error?.merkleProof && (

@@ -8,9 +8,9 @@ import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
 import { useCachedMemberIdDialog } from "./use_cached_member_id_dialog";
 
-const CachedMemberIdModal: React.FC<WalletModalProps> = ({
+const CachedItemModal: React.FC<CachedItemModalProps> = ({
   handleClickClose,
-  handleChangeAddress,
+  handleChangeItem,
 }) => {
   const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
   const { walletAddrs } = useCachedMemberIdDialog(prfsIdCredential);
@@ -22,7 +22,7 @@ const CachedMemberIdModal: React.FC<WalletModalProps> = ({
       for (const addr of walletAddrs) {
         const address = abbrev7and5(addr);
         const handleClick = () => {
-          handleChangeAddress(addr);
+          handleChangeItem(addr);
         };
 
         const el = (
@@ -60,9 +60,9 @@ const CachedMemberIdModal: React.FC<WalletModalProps> = ({
   );
 };
 
-export default CachedMemberIdModal;
+export default CachedItemModal;
 
-export interface WalletModalProps {
+export interface CachedItemModalProps {
   handleClickClose: () => void;
-  handleChangeAddress: (addr: string) => void;
+  handleChangeItem: (addr: string) => void;
 }

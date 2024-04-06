@@ -16,11 +16,7 @@ import styles from "./CachedAddressDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
 import CachedMemberIdModal from "./CachedMemberIdModal";
 
-const CachedMemberIdDialog: React.FC<ConnectWalletProps> = ({
-  handleChangeAddress,
-  zIndex,
-  children,
-}) => {
+const CachedItemDialog: React.FC<ConnectWalletProps> = ({ handleChangeItem, zIndex, children }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, context } = useFloating({
@@ -38,12 +34,12 @@ const CachedMemberIdDialog: React.FC<ConnectWalletProps> = ({
     setIsOpen(false);
   }, [setIsOpen]);
 
-  const extendedHandleChangeAddress = React.useCallback(
+  const extendedHandleChangeItem = React.useCallback(
     (addr: string) => {
-      handleChangeAddress(addr);
+      handleChangeItem(addr);
       setIsOpen(false);
     },
-    [handleChangeAddress, setIsOpen],
+    [handleChangeItem, setIsOpen],
   );
 
   return (
@@ -65,7 +61,7 @@ const CachedMemberIdDialog: React.FC<ConnectWalletProps> = ({
                 >
                   <CachedMemberIdModal
                     handleClickClose={handleClickClose}
-                    handleChangeAddress={extendedHandleChangeAddress}
+                    handleChangeItem={extendedHandleChangeItem}
                   />
                 </div>
               </FloatingFocusManager>
@@ -77,10 +73,10 @@ const CachedMemberIdDialog: React.FC<ConnectWalletProps> = ({
   );
 };
 
-export default CachedMemberIdDialog;
+export default CachedItemDialog;
 
 export interface ConnectWalletProps {
-  handleChangeAddress: (addr: string) => void;
+  handleChangeItem: (item: string) => void;
   zIndex?: number;
   children: React.ReactNode;
 }
