@@ -1,5 +1,4 @@
 import React from "react";
-import { sigPoseidon } from "@taigalabs/prfs-crypto-js";
 import { useSearchParams } from "next/navigation";
 import {
   CommitmentType,
@@ -12,7 +11,6 @@ import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import styles from "./CommitmentView.module.scss";
 import CommitmentItem from "./CommitmentItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
-import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setReceipt }) => {
   const searchParams = useSearchParams();
@@ -25,7 +23,6 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({ query, credential, setR
         if (type === CommitmentType.SIG_POSEIDON_1) {
           const { hashed } = await makeAtstCm(credential.secret_key, preImage);
           const cm = hexlify(hashed);
-          console.log(22, preImage, cm);
 
           setReceipt(oldVal => ({
             ...oldVal,
