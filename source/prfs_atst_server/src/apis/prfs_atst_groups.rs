@@ -4,7 +4,7 @@ use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    GetPrfsAtstGroupsRequest, GetPrfsAtstGroupsResponse, PrfsAtstGroupMemberStatus, PrfsAtstTypeId,
+    GetPrfsAtstGroupsRequest, GetPrfsAtstGroupsResponse, PrfsAtstGroupMemberStatus,
     ValidateGroupMembershipRequest, ValidateGroupMembershipResponse,
 };
 use std::sync::Arc;

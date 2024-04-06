@@ -8,8 +8,8 @@ use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_entities::{
-    CreateGroupMemberAtstRequest, CreatePrfsAttestationRequest, CreatePrfsAttestationResponse,
-    PrfsAtstGroupMemberStatus, PrfsAtstVersion, UpdatePrfsTreeByNewAtstRequest,
+    CreateGroupMemberAtstRequest, CreatePrfsAttestationResponse, PrfsAtstGroupMemberStatus,
+    PrfsAtstVersion, UpdatePrfsTreeByNewAtstRequest,
 };
 use rust_decimal::Decimal;
 use std::sync::Arc;
