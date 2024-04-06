@@ -10,7 +10,8 @@ use super::{
 use crate::{
     CreateGroupMemberAtstRequest, CreatePrfsAttestationRequest, CreatePrfsAttestationResponse,
     GetPrfsAtstGroupsRequest, GetPrfsAtstGroupsResponse, GetPrfsAttestationRequest,
-    GetPrfsAttestationResponse, GetPrfsAttestationsByAtstTypeRequest, GetPrfsAttestationsResponse,
+    GetPrfsAttestationResponse, GetPrfsAttestationsByAtstGroupRequest,
+    GetPrfsAttestationsByAtstTypeRequest, GetPrfsAttestationsResponse,
     ValidateGroupMembershipRequest, ValidateGroupMembershipResponse,
 };
 
@@ -24,7 +25,7 @@ pub enum PrfsAtstApiRequest {
     create_crypto_asset_atst(CreatePrfsAttestationRequest),
     create_prfs_attestation(CreatePrfsAttestationRequest),
     get_prfs_attestations_by_atst_type(GetPrfsAttestationsByAtstTypeRequest),
-    get_prfs_attestations_by_atst_group(GetPrfsAttestationsByAtstTypeRequest),
+    get_prfs_attestations_by_atst_group(GetPrfsAttestationsByAtstGroupRequest),
     get_prfs_attestation(GetPrfsAttestationRequest),
     get_prfs_atst_groups(GetPrfsAtstGroupsRequest),
     create_group_member_atst(CreateGroupMemberAtstRequest),
@@ -45,6 +46,7 @@ pub enum PrfsAtstApiResponse {
     create_crypto_asset_atst(CreatePrfsAttestationResponse),
     create_prfs_attestation(CreatePrfsAttestationResponse),
     get_prfs_attestations_by_atst_type(GetPrfsAttestationsResponse),
+    get_prfs_attestations_by_atst_group(GetPrfsAttestationsResponse),
     get_prfs_attestation(GetPrfsAttestationResponse),
     get_prfs_atst_groups(GetPrfsAtstGroupsResponse),
     create_group_member_atst(CreatePrfsAttestationResponse),
