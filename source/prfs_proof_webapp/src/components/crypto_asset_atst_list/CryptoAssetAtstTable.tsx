@@ -8,7 +8,7 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
-import { GetPrfsAttestationsRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsRequest";
+import { GetPrfsAttestationsByAtstTypeRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstTypeRequest";
 
 import styles from "./CryptoAssetAtstTable.module.scss";
 import { paths } from "@/paths";
@@ -90,14 +90,14 @@ const CryptoAssetAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => 
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_prfs_attestations", nonce],
+      queryKey: ["get_prfs_attestations_by_atst_type", nonce],
       queryFn: async ({ pageParam }) => {
-        const req: GetPrfsAttestationsRequest = {
+        const req: GetPrfsAttestationsByAtstTypeRequest = {
           atst_type_id: "crypto_1",
           offset: pageParam as number,
         };
         return atstApi({
-          type: "get_prfs_attestations",
+          type: "get_prfs_attestations_by_atst_type",
           ...req,
         });
       },

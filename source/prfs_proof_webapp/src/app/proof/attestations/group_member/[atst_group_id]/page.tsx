@@ -21,7 +21,7 @@ const AtstGroupPage: React.FC<AtstGroupPageProps> = ({ params }) => {
           <Attestations>
             <AttestationsMain>
               <AttestationsMainInner>
-                <GroupMemberAtstList atst_group_id={atst_group_id} />
+                <GroupMemberAtstList atst_group_id={params.atst_group_id} />
               </AttestationsMainInner>
             </AttestationsMain>
           </Attestations>

@@ -6,7 +6,7 @@ import { atstApi } from "@taigalabs/prfs-api-js";
 import { PrfsAttestation } from "@taigalabs/prfs-entities/bindings/PrfsAttestation";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { GetPrfsAttestationsRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsRequest";
+import { GetPrfsAttestationsByAtstTypeRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstTypeRequest";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./GroupMemberAtstTable.module.scss";
@@ -88,12 +88,12 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => 
     useInfiniteQuery({
       queryKey: ["get_prfs_attestations", nonce],
       queryFn: async ({ pageParam }) => {
-        const req: GetPrfsAttestationsRequest = {
+        const req: GetPrfsAttestationsByAtstTypeRequest = {
           atst_type_id: "nonce_seoul_1",
           offset: pageParam as number,
         };
         return atstApi({
-          type: "get_prfs_attestations",
+          type: "get_prfs_attestations_by_atst_type",
           ...req,
         });
       },
