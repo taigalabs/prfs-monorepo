@@ -3,12 +3,9 @@ import { keccak256, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/li
 
 import { PRFS_ATTESTATION_STEM } from "../../attestation";
 
-export const WALLET_CACHE_KEY = "wallet_cache_key";
-export const WALLET_CM_STEM = "WALLET";
-
-export async function makeWalletCacheKeyCm(sk: string, idx: number) {
-  return sigPoseidon(sk, `${WALLET_CM_STEM}_${idx}`);
-}
+// export async function makeWalletCacheKeyCm(sk: string, idx: number) {
+//   return sigPoseidon(sk, `${WALLET_CM_STEM}_${idx}`);
+// }
 
 export async function makeAppSignInCm(sk: string, appId: string) {
   return sigPoseidon(sk, appId);

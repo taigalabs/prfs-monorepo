@@ -1,5 +1,5 @@
-use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use sqlx::prelude::Type;
 use strum_macros::{Display, EnumString};
 use ts_rs::TS;
 
@@ -14,8 +14,15 @@ pub struct PrfsSet {
     pub desc: String,
     pub hash_algorithm: String,
     pub cardinality: i64,
-    pub element_type: String,
+    pub element_type: PrfsSetElementType,
     pub atst_type_id: PrfsAtstTypeId,
-    // #[ts(type = "string")]
-    // pub created_at: DateTime<Utc>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Type, TS, Display, PartialEq, Eq, Hash)]
+#[allow(non_camel_case_types)]
+#[sqlx(type_name = "VARCHAR")]
+#[ts(export)]
+pub enum PrfsSetElementType {
+    wallet_addr,
+    member_id,
 }

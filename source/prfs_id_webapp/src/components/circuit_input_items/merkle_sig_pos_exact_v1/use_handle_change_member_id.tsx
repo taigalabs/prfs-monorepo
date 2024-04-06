@@ -303,7 +303,7 @@ export function useHandleChangeMemberId({
 }
 
 export interface UseHandleChangeAddressArgs {
-  prfsSet: PrfsSet | undefined;
+  prfsSet: PrfsSet | null;
   prfsTree: PrfsTree | undefined;
   setWalletAddr: React.Dispatch<React.SetStateAction<string>>;
   setRangeOptionIdx: React.Dispatch<React.SetStateAction<number>>;

@@ -72,7 +72,7 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
   handleSkipCreateProof,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
+  const [prfsSet, setPrfsSet] = React.useState<PrfsSet | null>(null);
   const [prfsTree, setPrfsTree] = React.useState<PrfsTree>();
   const [walletAddr, setWalletAddr] = React.useState("");
   const [rangeOptionIdx, setRangeOptionIdx] = React.useState(-1);
@@ -201,7 +201,7 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
             hasError={!!error?.merkleProof}
           />
           <div className={styles.btnRow}>
-            <CachedItemDialog handleChangeItem={handleChangeMemberId}>
+            <CachedItemDialog handleChangeItem={handleChangeMemberId} prfsSet={prfsSet}>
               <FormInputButton type="button">{i18n.cache}</FormInputButton>
             </CachedItemDialog>
           </div>

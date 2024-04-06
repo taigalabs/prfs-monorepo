@@ -11,7 +11,6 @@ import {
   ProofGenSuccessPayload,
   makeCmCacheKeyQueries,
   WALLET_CACHE_KEY,
-  WALLET_CM_STEM,
   EncryptType,
   createSessionKey,
   openPopup,
@@ -65,7 +64,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   }, [formData[WALLET_ADDR]]);
 
   const handleClickGenerate = React.useCallback(async () => {
-    const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10, WALLET_CM_STEM);
+    const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10);
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
 

@@ -15,15 +15,23 @@ import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 import styles from "./CachedItemDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
 import CachedMemberIdModal from "./CachedItemModal";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
-const CachedItemDialog: React.FC<ConnectWalletProps> = ({ handleChangeItem, zIndex, children }) => {
+const CachedItemDialog: React.FC<ConnectWalletProps> = ({
+  handleChangeItem,
+  zIndex,
+  children,
+  prfsSet,
+}) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
   });
-  const click = useClick(context);
+  const click = useClick(context, {
+    enabled: !!prfsSet,
+  });
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
@@ -48,7 +56,7 @@ const CachedItemDialog: React.FC<ConnectWalletProps> = ({ handleChangeItem, zInd
         {children}
       </div>
       <FloatingPortal>
-        {isOpen && (
+        {isOpen && prfsSet && (
           <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
             <Fade className={styles.fadeOverlay}>
               <FloatingFocusManager context={context}>
@@ -62,6 +70,7 @@ const CachedItemDialog: React.FC<ConnectWalletProps> = ({ handleChangeItem, zInd
                   <CachedMemberIdModal
                     handleClickClose={handleClickClose}
                     handleChangeItem={extendedHandleChangeItem}
+                    prfsSet={prfsSet}
                   />
                 </div>
               </FloatingFocusManager>
@@ -79,4 +88,5 @@ export interface ConnectWalletProps {
   handleChangeItem: (item: string) => void;
   zIndex?: number;
   children: React.ReactNode;
+  prfsSet: PrfsSet | null;
 }

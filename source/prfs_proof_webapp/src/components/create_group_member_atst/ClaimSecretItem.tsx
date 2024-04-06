@@ -22,7 +22,6 @@ import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
-import { atstApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -77,7 +76,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
       return;
     }
 
-    const cacheKeyQueries = makeCmCacheKeyQueries(atstGroup.atst_group_id, 10, GROUP_MEMBER);
+    const cacheKeyQueries = makeCmCacheKeyQueries(atstGroup.atst_group_id, 10);
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
 

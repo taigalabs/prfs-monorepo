@@ -303,8 +303,8 @@ export function useHandleChangeAddress({
 }
 
 export interface UseHandleChangeAddressArgs {
-  prfsSet: PrfsSet | undefined;
-  prfsTree: PrfsTree | undefined;
+  prfsSet: PrfsSet | null;
+  prfsTree: PrfsTree | null;
   setWalletAddr: React.Dispatch<React.SetStateAction<string>>;
   setRangeOptionIdx: React.Dispatch<React.SetStateAction<number>>;
   circuitTypeData: MerkleSigPosRangeV1Data;

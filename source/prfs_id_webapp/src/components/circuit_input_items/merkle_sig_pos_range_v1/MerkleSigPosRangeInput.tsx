@@ -74,8 +74,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   handleSkipCreateProof,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
-  const [prfsTree, setPrfsTree] = React.useState<PrfsTree>();
+  const [prfsSet, setPrfsSet] = React.useState<PrfsSet | null>(null);
+  const [prfsTree, setPrfsTree] = React.useState<PrfsTree | null>(null);
   const [walletAddr, setWalletAddr] = React.useState("");
   const [rangeOptionIdx, setRangeOptionIdx] = React.useState(-1);
 
@@ -203,7 +203,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             hasError={!!error?.merkleProof}
           />
           <div className={styles.btnRow}>
-            <CachedItemDialog handleChangeItem={handleChangeAddress}>
+            <CachedItemDialog handleChangeItem={handleChangeAddress} prfsSet={prfsSet}>
               <FormInputButton type="button">{i18n.cache}</FormInputButton>
             </CachedItemDialog>
             <span className={styles.or}> or </span>

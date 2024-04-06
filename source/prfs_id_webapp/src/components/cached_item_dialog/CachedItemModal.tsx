@@ -7,13 +7,15 @@ import styles from "./CachedItemModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
 import { useCachedItems } from "./use_cached_items";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 const CachedItemModal: React.FC<CachedItemModalProps> = ({
+  prfsSet,
   handleClickClose,
   handleChangeItem,
 }) => {
   const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
-  const { walletAddrs } = useCachedItems(prfsIdCredential);
+  const { walletAddrs } = useCachedItems({ prfsIdCredential, prfsSet });
   const i18n = React.useContext(i18nContext);
 
   const addrList = React.useMemo(() => {
@@ -63,6 +65,7 @@ const CachedItemModal: React.FC<CachedItemModalProps> = ({
 export default CachedItemModal;
 
 export interface CachedItemModalProps {
+  prfsSet: PrfsSet;
   handleClickClose: () => void;
   handleChangeItem: (addr: string) => void;
 }
