@@ -4,11 +4,10 @@ import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { PrfsAttestation } from "@taigalabs/prfs-entities/bindings/PrfsAttestation";
-import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
 import { GetPrfsAttestationsRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsRequest";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./GroupMemberAtstTable.module.scss";
 import { paths } from "@/paths";
@@ -23,12 +22,9 @@ import {
   AttestationLoading,
 } from "@/components/attestations_table/AttestationsTable";
 import { useI18N } from "@/i18n/use_i18n";
-import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating }) => {
   const i18n = useI18N();
-
-  console.log(33, atst);
 
   const label = React.useMemo(() => {
     return abbrev7and5(atst.label);
