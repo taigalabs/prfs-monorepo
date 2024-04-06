@@ -2,14 +2,7 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::{atst_entities::PrfsAttestation, PrfsAtstTypeId};
-
-#[derive(Serialize, Deserialize, Debug, TS)]
-#[ts(export)]
-pub struct GetPrfsAttestationsByAtstTypeRequest {
-    pub offset: i32,
-    pub atst_type_id: PrfsAtstTypeId,
-}
+use crate::{atst_entities::PrfsAttestation, PrfsAtstGroupId};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -34,7 +27,7 @@ pub struct GetPrfsAttestationResponse {
 #[ts(export)]
 pub struct CreatePrfsAttestationRequest {
     pub atst_id: String,
-    pub atst_type_id: PrfsAtstTypeId,
+    pub atst_group_id: PrfsAtstGroupId,
     pub label: String,
     pub serial_no: String,
     pub cm: String,
@@ -51,7 +44,7 @@ pub struct CreatePrfsAttestationResponse {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPrfsAttestationsByAtstGroupRequest {
+pub struct GetPrfsAttestationsByAtstGroupIdRequest {
     pub offset: i32,
-    pub atst_group_id: String,
+    pub atst_group_id: PrfsAtstGroupId,
 }

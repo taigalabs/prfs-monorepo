@@ -5,7 +5,7 @@ use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
     CreatePrfsTreeByPrfsSetRequest, CreatePrfsTreeByPrfsSetResponse,
-    GetLatestPrfsTreeBySetIdRequest, GetLatestPrfsTreeBySetIdResponse, PrfsAtstTypeId,
+    GetLatestPrfsTreeBySetIdRequest, GetLatestPrfsTreeBySetIdResponse,
     UpdatePrfsTreeByNewAtstRequest, UpdatePrfsTreeByNewAtstResponse,
 };
 use prfs_tree_api_error_codes::PRFS_TREE_API_ERROR_CODES;
@@ -71,11 +71,11 @@ pub async fn update_prfs_tree_by_new_atst(
 ) {
     state
         .tree_server_task_queue
-        .add_task(&input.atst_type_id)
+        .add_task(&input.atst_group_id)
         .await;
 
     let resp = ApiResponse::new_success(UpdatePrfsTreeByNewAtstResponse {
-        atst_type_id: input.atst_type_id,
+        atst_group_id: input.atst_group_id,
     });
     return (StatusCode::OK, Json(resp));
 }

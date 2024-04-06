@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::PrfsAtstGroup;
+use crate::{PrfsAtstGroup, PrfsAtstGroupId};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -19,7 +19,7 @@ pub struct GetPrfsAtstGroupsResponse {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct ValidateGroupMembershipRequest {
-    pub atst_group_id: String,
+    pub atst_group_id: PrfsAtstGroupId,
     pub member_code: String,
 }
 

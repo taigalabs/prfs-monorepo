@@ -3,7 +3,7 @@ use sqlx::prelude::Type;
 use strum_macros::{Display, EnumString};
 use ts_rs::TS;
 
-use crate::PrfsAtstTypeId;
+use crate::PrfsAtstGroupId;
 
 #[derive(TS, Clone, Debug, Serialize, Deserialize)]
 #[ts(export)]
@@ -15,7 +15,7 @@ pub struct PrfsSet {
     pub hash_algorithm: String,
     pub cardinality: i64,
     pub element_type: PrfsSetElementType,
-    pub atst_type_id: PrfsAtstTypeId,
+    pub atst_group_id: PrfsAtstGroupId,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Type, TS, Display, PartialEq, Eq, Hash)]

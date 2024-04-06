@@ -40,7 +40,7 @@ INSERT INTO prfs_set_elements
 
             b.push_bind(&atst.label)
                 .push_bind(data)
-                .push_bind(&atst.atst_type_id)
+                .push_bind(&atst.atst_group_id)
                 .push_bind(set_id)
                 .push_bind(Decimal::from_u64(idx as u64))
                 .push_bind(PrfsSetElementStatus::NotRegistered);

@@ -1,11 +1,11 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use prfs_entities::{PrfsAtstGroupMember, PrfsAtstTypeId};
+use prfs_entities::{PrfsAtstGroupId, PrfsAtstGroupMember};
 
 use crate::DbInterfaceError;
 
 pub async fn get_prfs_atst_group_member(
     pool: &Pool<Postgres>,
-    atst_group_id: &String,
+    atst_group_id: &PrfsAtstGroupId,
     member_code: &String,
 ) -> Result<PrfsAtstGroupMember, DbInterfaceError> {
     let query = r#"

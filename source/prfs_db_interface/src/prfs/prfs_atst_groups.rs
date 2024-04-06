@@ -1,5 +1,5 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use prfs_entities::{atst_entities::PrfsAttestation, PrfsAtstGroup, PrfsAtstTypeId};
+use prfs_entities::{atst_entities::PrfsAttestation, PrfsAtstGroup, PrfsAtstGroupId};
 
 use crate::DbInterfaceError;
 
@@ -27,7 +27,6 @@ OFFSET $2
         .map(|row| {
             Ok(PrfsAtstGroup {
                 atst_group_id: row.try_get("atst_group_id")?,
-                atst_type_id: row.try_get("atst_type_id")?,
                 label: row.try_get("label")?,
                 desc: row.try_get("desc")?,
             })
@@ -40,15 +39,15 @@ OFFSET $2
 pub async fn upsert_prfs_atst_group(
     tx: &mut Transaction<'_, Postgres>,
     atst_group: &PrfsAtstGroup,
-) -> Result<String, DbInterfaceError> {
+) -> Result<PrfsAtstGroupId, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_atst_groups
-(atst_group_id, label, "desc", atst_type_id)
-VALUES ($1, $2, $3, $4)
+(atst_group_id, label, "desc")
+VALUES ($1, $2, $3)
 ON CONFLICT (atst_group_id) DO UPDATE SET (
-atst_group_id, label, "desc", atst_type_id, updated_at
+atst_group_id, label, "desc", updated_at
 ) = (
-excluded.atst_group_id, excluded.label, excluded.desc, excluded.atst_type_id, now()
+excluded.atst_group_id, excluded.label, excluded.desc, now()
 )
 RETURNING atst_group_id
 "#;
@@ -57,11 +56,10 @@ RETURNING atst_group_id
         .bind(&atst_group.atst_group_id)
         .bind(&atst_group.label)
         .bind(&atst_group.desc)
-        .bind(&atst_group.atst_type_id)
         .fetch_one(&mut **tx)
         .await?;
 
-    let circuit_id: String = row.try_get("atst_group_id")?;
+    let id: PrfsAtstGroupId = row.try_get("atst_group_id")?;
 
-    Ok(circuit_id)
+    Ok(id)
 }

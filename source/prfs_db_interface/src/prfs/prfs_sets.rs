@@ -1,9 +1,9 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_entities::entities::PrfsSet;
 use prfs_entities::prfs_api::PrfsSetIns1;
-use prfs_entities::{entities::PrfsSet, PrfsAtstTypeId};
-use prfs_entities::{PrfsSetElementStatus, PrfsSetElementType};
+use prfs_entities::{PrfsAtstGroupId, PrfsSetElementStatus, PrfsSetElementType};
 
-use super::queries::{get_prfs_set_by_set_id_query, get_prfs_sets_by_atst_type_id_query};
+use super::queries::{get_prfs_set_by_set_id_query, get_prfs_sets_by_atst_group_id_query};
 use crate::DbInterfaceError;
 
 pub async fn get_prfs_set_by_set_id(
@@ -21,7 +21,7 @@ pub async fn get_prfs_set_by_set_id(
     let hash_algorithm: String = row.try_get("hash_algorithm")?;
     let cardinality: i64 = row.try_get("cardinality")?;
     let element_type: PrfsSetElementType = row.try_get("element_type")?;
-    let atst_type_id: PrfsAtstTypeId = row.try_get("atst_type_id")?;
+    let atst_group_id: PrfsAtstGroupId = row.try_get("atst_group_id")?;
 
     let s = PrfsSet {
         set_id,
@@ -31,7 +31,7 @@ pub async fn get_prfs_set_by_set_id(
         hash_algorithm,
         cardinality,
         element_type,
-        atst_type_id,
+        atst_group_id,
     };
 
     Ok(s)
@@ -56,7 +56,7 @@ pub async fn get_prfs_set_by_set_id__tx(
     let hash_algorithm: String = row.try_get("hash_algorithm")?;
     let cardinality: i64 = row.try_get("cardinality")?;
     let element_type: PrfsSetElementType = row.try_get("element_type")?;
-    let atst_type_id: PrfsAtstTypeId = row.try_get("atst_type_id")?;
+    let atst_group_id: PrfsAtstGroupId = row.try_get("atst_group_id")?;
 
     let s = PrfsSet {
         set_id,
@@ -66,7 +66,7 @@ pub async fn get_prfs_set_by_set_id__tx(
         hash_algorithm,
         cardinality,
         element_type,
-        atst_type_id,
+        atst_group_id,
     };
 
     Ok(s)
@@ -103,7 +103,7 @@ OFFSET $2
             let hash_algorithm: String = r.try_get("hash_algorithm")?;
             let cardinality: i64 = r.try_get("cardinality")?;
             let element_type: PrfsSetElementType = r.try_get("element_type")?;
-            let atst_type_id: PrfsAtstTypeId = r.try_get("atst_type_id")?;
+            let atst_group_id: PrfsAtstGroupId = r.try_get("atst_group_id")?;
 
             Ok(PrfsSet {
                 set_id,
@@ -113,7 +113,7 @@ OFFSET $2
                 hash_algorithm,
                 cardinality,
                 element_type,
-                atst_type_id,
+                atst_group_id,
             })
         })
         .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
@@ -125,7 +125,7 @@ pub async fn get_prfs_sets_by_topic(
     pool: &Pool<Postgres>,
     topic: &String,
 ) -> Result<Vec<PrfsSet>, DbInterfaceError> {
-    let query = get_prfs_sets_by_atst_type_id_query();
+    let query = get_prfs_sets_by_atst_group_id_query();
 
     let rows = sqlx::query(&query).bind(&topic).fetch_all(pool).await?;
 
@@ -139,7 +139,7 @@ pub async fn get_prfs_sets_by_topic(
             let hash_algorithm: String = r.try_get("hash_algorithm")?;
             let cardinality: i64 = r.try_get("cardinality")?;
             let element_type: PrfsSetElementType = r.try_get("element_type")?;
-            let atst_type_id: PrfsAtstTypeId = r.try_get("atst_type_id")?;
+            let atst_group_id: PrfsAtstGroupId = r.try_get("atst_group_id")?;
 
             Ok(PrfsSet {
                 set_id,
@@ -149,7 +149,7 @@ pub async fn get_prfs_sets_by_topic(
                 hash_algorithm,
                 cardinality,
                 element_type,
-                atst_type_id,
+                atst_group_id,
             })
         })
         .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
@@ -158,14 +158,14 @@ pub async fn get_prfs_sets_by_topic(
 }
 
 #[allow(non_snake_case)]
-pub async fn get_prfs_sets_by_atst_type_id__tx(
+pub async fn get_prfs_sets_by_atst_group_id__tx(
     tx: &mut Transaction<'_, Postgres>,
-    atst_type_id: &PrfsAtstTypeId,
+    atst_group_id: &PrfsAtstGroupId,
 ) -> Result<Vec<PrfsSet>, DbInterfaceError> {
-    let query = get_prfs_sets_by_atst_type_id_query();
+    let query = get_prfs_sets_by_atst_group_id_query();
 
     let rows = sqlx::query(&query)
-        .bind(&atst_type_id)
+        .bind(&atst_group_id)
         .fetch_all(&mut **tx)
         .await?;
 
@@ -179,7 +179,7 @@ pub async fn get_prfs_sets_by_atst_type_id__tx(
             let hash_algorithm: String = r.try_get("hash_algorithm")?;
             let cardinality: i64 = r.try_get("cardinality")?;
             let element_type: PrfsSetElementType = r.try_get("element_type")?;
-            let atst_type_id: PrfsAtstTypeId = r.try_get("atst_type_id")?;
+            let atst_group_id: PrfsAtstGroupId = r.try_get("atst_group_id")?;
 
             Ok(PrfsSet {
                 set_id,
@@ -189,7 +189,7 @@ pub async fn get_prfs_sets_by_atst_type_id__tx(
                 hash_algorithm,
                 cardinality,
                 element_type,
-                atst_type_id,
+                atst_group_id,
             })
         })
         .collect::<Result<Vec<PrfsSet>, DbInterfaceError>>()?;
@@ -236,7 +236,7 @@ pub async fn insert_prfs_set(
     let query = r#"
 INSERT INTO prfs_sets 
 (set_id, label, author, "desc", hash_algorithm, cardinality,
-element_type, atst_type_id)
+element_type, atst_group_id)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING set_id
 "#;
@@ -249,7 +249,7 @@ RETURNING set_id
         .bind(&prfs_set.hash_algorithm)
         .bind(&prfs_set.cardinality)
         .bind(&prfs_set.element_type)
-        .bind(&prfs_set.atst_type_id)
+        .bind(&prfs_set.atst_group_id)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -264,7 +264,7 @@ pub async fn upsert_prfs_set(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_sets (set_id, label, author, "desc", hash_algorithm, cardinality,
-element_type, atst_type_id) 
+element_type, atst_group_id) 
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
 ON CONFLICT (set_id) 
 DO UPDATE SET (cardinality,updated_at) = (excluded.cardinality, now())
@@ -279,7 +279,7 @@ RETURNING set_id
         .bind(&prfs_set.hash_algorithm)
         .bind(&prfs_set.cardinality)
         .bind(&prfs_set.element_type)
-        .bind(&prfs_set.atst_type_id)
+        .bind(&prfs_set.atst_group_id)
         .fetch_one(&mut **tx)
         .await?;
 

@@ -53,14 +53,13 @@ pub async fn create_group_member_atst(
 
     let prfs_attestation = PrfsAttestation {
         atst_id: input.atst_id,
-        atst_type_id: input.atst_type_id.clone(),
+        atst_group_id: input.atst_group_id.clone(),
         label: input.label.to_string(),
         cm: input.cm,
         meta: JsonType::from(vec![]),
         status: PrfsAtstStatus::Valid,
         value: Decimal::from(0),
         atst_version: PrfsAtstVersion::v0_2,
-        atst_group_id: Some(input.atst_group_id.to_string()),
     };
 
     member.status = PrfsAtstGroupMemberStatus::Registered;
@@ -87,7 +86,7 @@ pub async fn create_group_member_atst(
     let _ = match update_prfs_tree_by_new_atst(
         &ENVS.prfs_api_server_endpoint,
         &UpdatePrfsTreeByNewAtstRequest {
-            atst_type_id: input.atst_type_id,
+            atst_group_id: input.atst_group_id,
         },
     )
     .await

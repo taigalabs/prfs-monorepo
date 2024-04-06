@@ -1,4 +1,4 @@
-use prfs_entities::PrfsAtstTypeId;
+use prfs_entities::PrfsAtstGroupId;
 use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
@@ -12,7 +12,7 @@ use crate::PrfsTreeServerTaskQueueError;
 const WINDOW_SIZE_MS: u64 = 12000;
 
 pub struct TreeServerTaskQueue {
-    pub task_map: Arc<Mutex<HashMap<PrfsAtstTypeId, bool>>>,
+    pub task_map: Arc<Mutex<HashMap<PrfsAtstGroupId, bool>>>,
     pub tx: Arc<Sender<usize>>,
     pub rx: Arc<Mutex<Receiver<usize>>>,
 }
@@ -28,12 +28,12 @@ impl TreeServerTaskQueue {
         TreeServerTaskQueue { task_map, tx, rx }
     }
 
-    pub async fn add_task(&self, atst_type_id: &PrfsAtstTypeId) -> bool {
+    pub async fn add_task(&self, atst_group_id: &PrfsAtstGroupId) -> bool {
         let task_map = self.task_map.clone();
         let mut task_map_lock = task_map.lock().await;
 
-        if !task_map_lock.contains_key(&atst_type_id) {
-            task_map_lock.insert(atst_type_id.clone(), true);
+        if !task_map_lock.contains_key(&atst_group_id) {
+            task_map_lock.insert(atst_group_id.clone(), true);
 
             let tx = self.tx.clone();
             tokio::spawn(async move {

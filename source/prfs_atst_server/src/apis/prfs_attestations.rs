@@ -4,54 +4,54 @@ use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    GetPrfsAttestationRequest, GetPrfsAttestationResponse, GetPrfsAttestationsByAtstGroupRequest,
-    GetPrfsAttestationsByAtstTypeRequest, GetPrfsAttestationsResponse,
+    GetPrfsAttestationRequest, GetPrfsAttestationResponse, GetPrfsAttestationsByAtstGroupIdRequest,
+    GetPrfsAttestationsResponse,
 };
 use std::sync::Arc;
 
 const LIMIT: i32 = 20;
 
-pub async fn get_prfs_attestations_by_atst_type(
+// pub async fn get_prfs_attestations_by_atst_type(
+//     State(state): State<Arc<ServerState>>,
+//     Json(input): Json<GetPrfsAttestationsByAtstTypeRequest>,
+// ) -> (StatusCode, Json<ApiResponse<GetPrfsAttestationsResponse>>) {
+//     let pool = &state.db2.pool;
+
+//     let rows = match prfs::get_prfs_attestations_by_atst_type(
+//         &pool,
+//         &input.atst_type_id,
+//         input.offset,
+//         LIMIT,
+//     )
+//     .await
+//     {
+//         Ok(r) => r,
+//         Err(err) => {
+//             let resp = ApiResponse::new_error(
+//                 &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
+//                 format!("error getting prfs attestations: {}", err),
+//             );
+//             return (StatusCode::BAD_REQUEST, Json(resp));
+//         }
+//     };
+
+//     let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
+//         None
+//     } else {
+//         Some(input.offset + LIMIT)
+//     };
+
+//     let resp = ApiResponse::new_success(GetPrfsAttestationsResponse { rows, next_offset });
+//     return (StatusCode::OK, Json(resp));
+// }
+
+pub async fn get_prfs_attestations_by_atst_group_id(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<GetPrfsAttestationsByAtstTypeRequest>,
+    Json(input): Json<GetPrfsAttestationsByAtstGroupIdRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsAttestationsResponse>>) {
     let pool = &state.db2.pool;
 
-    let rows = match prfs::get_prfs_attestations_by_atst_type(
-        &pool,
-        &input.atst_type_id,
-        input.offset,
-        LIMIT,
-    )
-    .await
-    {
-        Ok(r) => r,
-        Err(err) => {
-            let resp = ApiResponse::new_error(
-                &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!("error getting prfs attestations: {}", err),
-            );
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
-
-    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
-        None
-    } else {
-        Some(input.offset + LIMIT)
-    };
-
-    let resp = ApiResponse::new_success(GetPrfsAttestationsResponse { rows, next_offset });
-    return (StatusCode::OK, Json(resp));
-}
-
-pub async fn get_prfs_attestations_by_atst_group(
-    State(state): State<Arc<ServerState>>,
-    Json(input): Json<GetPrfsAttestationsByAtstGroupRequest>,
-) -> (StatusCode, Json<ApiResponse<GetPrfsAttestationsResponse>>) {
-    let pool = &state.db2.pool;
-
-    let rows = match prfs::get_prfs_attestations_by_atst_group(
+    let rows = match prfs::get_prfs_attestations_by_atst_group_id(
         &pool,
         &input.atst_group_id,
         input.offset,
