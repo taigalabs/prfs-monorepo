@@ -12,4 +12,5 @@ export type PrfsAttestation = {
   status: PrfsAtstStatus;
   value: string;
   atst_version: PrfsAtstVersion;
+  atst_group_id: string | null;
 };

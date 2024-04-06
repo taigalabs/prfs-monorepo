@@ -4,9 +4,9 @@ import type { PrfsAtstTypeId } from "./PrfsAtstTypeId";
 export type CreateGroupMemberAtstRequest = {
   atst_id: string;
   atst_type_id: PrfsAtstTypeId;
+  atst_group_id: string;
   label: string;
   serial_no: string;
   cm: string;
-  atst_group_id: string;
   member_code: string;
 };

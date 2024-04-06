@@ -9,10 +9,10 @@ use crate::{atst_entities::PrfsAttestation, PrfsAtstTypeId};
 pub struct CreateGroupMemberAtstRequest {
     pub atst_id: String,
     pub atst_type_id: PrfsAtstTypeId,
+    pub atst_group_id: String,
     pub label: String,
     pub serial_no: String,
     pub cm: String,
-    pub atst_group_id: String,
     pub member_code: String,
     // pub cm_msg: Vec<u8>,
     // pub sig: String,

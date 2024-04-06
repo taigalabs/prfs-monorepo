@@ -18,6 +18,7 @@ export type PrfsAtstApiRequest =
   | ({ type: "create_crypto_asset_atst" } & CreatePrfsAttestationRequest)
   | ({ type: "create_prfs_attestation" } & CreatePrfsAttestationRequest)
   | ({ type: "get_prfs_attestations_by_atst_type" } & GetPrfsAttestationsByAtstTypeRequest)
+  | ({ type: "get_prfs_attestations_by_atst_group" } & GetPrfsAttestationsByAtstTypeRequest)
   | ({ type: "get_prfs_attestation" } & GetPrfsAttestationRequest)
   | ({ type: "get_prfs_atst_groups" } & GetPrfsAtstGroupsRequest)
   | ({ type: "create_group_member_atst" } & CreateGroupMemberAtstRequest)

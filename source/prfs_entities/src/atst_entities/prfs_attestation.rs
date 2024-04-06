@@ -18,4 +18,5 @@ pub struct PrfsAttestation {
     #[ts(type = "string")]
     pub value: Decimal,
     pub atst_version: PrfsAtstVersion,
+    pub atst_group_id: Option<String>,
 }

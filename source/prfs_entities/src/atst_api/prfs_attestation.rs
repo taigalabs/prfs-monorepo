@@ -48,3 +48,10 @@ pub struct CreatePrfsAttestationResponse {
     pub is_valid: bool,
     pub atst_id: String,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsAttestationsByAtstGroupRequest {
+    pub offset: i32,
+    pub atst_group_id: String,
+}

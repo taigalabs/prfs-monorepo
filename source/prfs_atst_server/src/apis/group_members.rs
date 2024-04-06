@@ -60,6 +60,7 @@ pub async fn create_group_member_atst(
         status: PrfsAtstStatus::Valid,
         value: Decimal::from(0),
         atst_version: PrfsAtstVersion::v0_2,
+        atst_group_id: Some(input.atst_group_id.to_string()),
     };
 
     member.status = PrfsAtstGroupMemberStatus::Registered;

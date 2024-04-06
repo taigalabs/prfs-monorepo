@@ -24,6 +24,7 @@ pub enum PrfsAtstApiRequest {
     create_crypto_asset_atst(CreatePrfsAttestationRequest),
     create_prfs_attestation(CreatePrfsAttestationRequest),
     get_prfs_attestations_by_atst_type(GetPrfsAttestationsByAtstTypeRequest),
+    get_prfs_attestations_by_atst_group(GetPrfsAttestationsByAtstTypeRequest),
     get_prfs_attestation(GetPrfsAttestationRequest),
     get_prfs_atst_groups(GetPrfsAtstGroupsRequest),
     create_group_member_atst(CreateGroupMemberAtstRequest),

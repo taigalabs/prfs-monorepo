@@ -12,13 +12,13 @@ pub async fn insert_prfs_attestation(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_attestations
-(atst_id, atst_type_id, label, cm, meta, value, status, atst_version)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+(atst_id, atst_type_id, label, cm, meta, value, status, atst_version, atst_group_id)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 ON CONFLICT (atst_id) DO UPDATE SET (
-atst_type_id, label, cm, meta, updated_at, value, status, atst_version
+atst_type_id, label, cm, meta, updated_at, value, status, atst_version, atst_group_id
 ) = (
 excluded.atst_type_id, excluded.label, excluded.cm, excluded.meta,
-now(), excluded.value, excluded.status, excluded.atst_version
+now(), excluded.value, excluded.status, excluded.atst_version, excluded.atst_group_id
 )
 RETURNING atst_id"#;
 
@@ -31,6 +31,7 @@ RETURNING atst_id"#;
         .bind(&prfs_attestation.value)
         .bind(&prfs_attestation.status)
         .bind(&prfs_attestation.atst_version)
+        .bind(&prfs_attestation.atst_group_id)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -108,6 +109,7 @@ pub async fn get_prfs_attestations(
                 meta: row.try_get("meta")?,
                 status: row.try_get("status")?,
                 atst_version: row.try_get("atst_version")?,
+                atst_group_id: row.try_get("atst_group_id")?,
             })
         })
         .collect::<Result<Vec<PrfsAttestation>, DbInterfaceError>>()?;
@@ -143,6 +145,7 @@ pub async fn get_prfs_attestations__tx(
                 meta: row.try_get("meta")?,
                 status: row.try_get("status")?,
                 atst_version: row.try_get("atst_version")?,
+                atst_group_id: row.try_get("atst_group_id")?,
             })
         })
         .collect::<Result<Vec<PrfsAttestation>, DbInterfaceError>>()?;
@@ -171,6 +174,7 @@ WHERE atst_id=$1
         meta: row.try_get("meta")?,
         status: row.try_get("status")?,
         atst_version: row.try_get("atst_version")?,
+        atst_group_id: row.try_get("atst_group_id")?,
     };
 
     Ok(atst)
