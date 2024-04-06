@@ -23,12 +23,15 @@ import {
   AttestationLoading,
 } from "@/components/attestations_table/AttestationsTable";
 import { useI18N } from "@/i18n/use_i18n";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating }) => {
   const i18n = useI18N();
 
-  const walletAddr = React.useMemo(() => {
-    return abbrevAddr(atst.label);
+  console.log(33, atst);
+
+  const label = React.useMemo(() => {
+    return abbrev7and5(atst.label);
   }, [atst.label]);
 
   const cm = React.useMemo(() => {
@@ -40,7 +43,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
     router.push(`${paths.attestations__crypto_asset}/${atst.atst_id}`);
   }, [atst.atst_id, router, setIsNavigating]);
 
-  const cryptoAssets = React.useMemo(() => {
+  const meta = React.useMemo(() => {
     if (typeof atst.meta === "object") {
       return JSON.stringify(atst.meta);
     } else {
@@ -48,30 +51,27 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
     }
   }, [atst.cm]);
 
-  const handleClickCryptoAssets = React.useCallback(
-    (ev: React.MouseEvent) => {
-      ev.stopPropagation();
-      window.open(`https://etherscan.io/address/${atst.label.toLowerCase()}`, "_blank");
-    },
-    [atst.label],
-  );
+  // const handleClickCryptoAssets = React.useCallback(
+  //   (ev: React.MouseEvent) => {
+  //     ev.stopPropagation();
+  //     window.open(`https://etherscan.io/address/${atst.label.toLowerCase()}`, "_blank");
+  //   },
+  //   [atst.label],
+  // );
 
   return (
     <AttestationTableRow style={style} handleClick={handleClickRow}>
-      <AttestationTableCell className={cn(styles.walletAddr, styles.cell)}>
-        <span>{walletAddr}</span>
+      <AttestationTableCell className={cn(styles.label, styles.cell)}>
+        <span>{label}</span>
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.commitment, styles.w1024)}>
         {cm}
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.totalValue, styles.w1024)}>
+      <AttestationTableCell className={cn(styles.value, styles.w1024)}>
         {Number(atst.value)}
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480, styles.cell)}>
-        <a target="_blank" onClick={handleClickCryptoAssets}>
-          <span>{cryptoAssets}</span>
-          <BiLinkExternal />
-        </a>
+      <AttestationTableCell className={cn(styles.meta, styles.w480, styles.cell)}>
+        <span>{meta}</span>
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
         {i18n.not_available}
@@ -93,7 +93,7 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => 
       queryKey: ["get_prfs_attestations", nonce],
       queryFn: async ({ pageParam }) => {
         const req: GetPrfsAttestationsRequest = {
-          atst_type_id: "crypto_1",
+          atst_type_id: "nonce_seoul_1",
           offset: pageParam as number,
         };
         return atstApi({
@@ -157,17 +157,17 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => 
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <AttestationTableHeaderCell className={cn(styles.walletAddr)}>
-              {i18n.wallet_address}
+            <AttestationTableHeaderCell className={cn(styles.label, styles.w1024)}>
+              {i18n.label}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
               {i18n.commitment}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.totalValue, styles.w1024)}>
-              {i18n.total_value_usd}
+            <AttestationTableHeaderCell className={cn(styles.value, styles.w1024)}>
+              {i18n.value}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.cryptoAssets, styles.w1320)}>
-              {i18n.crypto_assets}
+            <AttestationTableHeaderCell className={cn(styles.meta, styles.w1320)}>
+              {i18n.meta}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
               {i18n.notarized}
