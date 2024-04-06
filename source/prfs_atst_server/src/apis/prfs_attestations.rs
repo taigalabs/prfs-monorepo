@@ -17,17 +17,23 @@ pub async fn get_prfs_attestations_by_atst_type(
 ) -> (StatusCode, Json<ApiResponse<GetPrfsAttestationsResponse>>) {
     let pool = &state.db2.pool;
 
-    let rows =
-        match prfs::get_prfs_attestations(&pool, &input.atst_type_id, input.offset, LIMIT).await {
-            Ok(r) => r,
-            Err(err) => {
-                let resp = ApiResponse::new_error(
-                    &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                    format!("error getting prfs attestations: {}", err),
-                );
-                return (StatusCode::BAD_REQUEST, Json(resp));
-            }
-        };
+    let rows = match prfs::get_prfs_attestations_by_atst_type(
+        &pool,
+        &input.atst_type_id,
+        input.offset,
+        LIMIT,
+    )
+    .await
+    {
+        Ok(r) => r,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
+                format!("error getting prfs attestations: {}", err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
         None
@@ -45,17 +51,23 @@ pub async fn get_prfs_attestations_by_atst_group(
 ) -> (StatusCode, Json<ApiResponse<GetPrfsAttestationsResponse>>) {
     let pool = &state.db2.pool;
 
-    let rows =
-        match prfs::get_prfs_attestations(&pool, &input.atst_group_id, input.offset, LIMIT).await {
-            Ok(r) => r,
-            Err(err) => {
-                let resp = ApiResponse::new_error(
-                    &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                    format!("error getting prfs attestations: {}", err),
-                );
-                return (StatusCode::BAD_REQUEST, Json(resp));
-            }
-        };
+    let rows = match prfs::get_prfs_attestations_by_atst_group(
+        &pool,
+        &input.atst_group_id,
+        input.offset,
+        LIMIT,
+    )
+    .await
+    {
+        Ok(r) => r,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
+                format!("error getting prfs attestations: {}", err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
         None

@@ -119,20 +119,21 @@ pub async fn get_prfs_attestations_by_atst_type(
 
 pub async fn get_prfs_attestations_by_atst_group(
     pool: &Pool<Postgres>,
-    atst_type_id: &PrfsAtstTypeId,
+    atst_group_id: &String,
     offset: i32,
     limit: i32,
 ) -> Result<Vec<PrfsAttestation>, DbInterfaceError> {
     let query = r#"
 SELECT *
-FROM prfs_atst_groups
+FROM prfs_attestations
+WHERE atst_group_id=$1
 ORDER BY created_at
-LIMIT $1
-OFFSET $2
+LIMIT $2
+OFFSET $3
 "#;
 
     let rows = sqlx::query(query)
-        .bind(atst_type_id)
+        .bind(atst_group_id)
         .bind(limit)
         .bind(offset)
         .fetch_all(pool)
