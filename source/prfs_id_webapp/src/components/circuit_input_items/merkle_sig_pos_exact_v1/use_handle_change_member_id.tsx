@@ -25,7 +25,7 @@ import styles from "./MerkleSigPosExactInput.module.scss";
 import { FormErrors } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
 
-export function useHandleChangeAddress({
+export function useHandleChangeMemberId({
   credential,
   prfsSet,
   prfsTree,

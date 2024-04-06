@@ -39,7 +39,8 @@ import {
   useCachedProveReceiptCreator,
   useMerkleSigPosRangeFormHandler,
 } from "./use_merkle_sig_pos_range_form_handler";
-import { useHandleChangeAddress } from "./use_handle_change_address";
+import { useHandleChangeMemberId } from "./use_handle_change_member_id";
+import CachedMemberIdDialog from "@/components/cached_member_id_dialog/CachedMemberIdDialog";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -173,7 +174,7 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
     fn().then();
   }, [circuitTypeData, setPrfsSet, getPrfsSetBySetId, setPrfsTree]);
 
-  const handleChangeAddress = useHandleChangeAddress({
+  const handleChangeMemberId = useHandleChangeMemberId({
     credential,
     prfsSet,
     prfsTree,
@@ -202,13 +203,9 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
             hasError={!!error?.merkleProof}
           />
           <div className={styles.btnRow}>
-            <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
+            <CachedMemberIdDialog handleChangeAddress={handleChangeMemberId}>
               <FormInputButton type="button">{i18n.cache}</FormInputButton>
-            </CachedAddressDialog>
-            <span className={styles.or}> or </span>
-            <ConnectWallet handleChangeAddress={handleChangeAddress}>
-              <FormInputButton type="button">{i18n.connect}</FormInputButton>
-            </ConnectWallet>
+            </CachedMemberIdDialog>
           </div>
         </div>
         {error?.merkleProof && (

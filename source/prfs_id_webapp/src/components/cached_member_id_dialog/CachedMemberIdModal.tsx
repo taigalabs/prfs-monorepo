@@ -1,24 +1,19 @@
 import React from "react";
 import cn from "classnames";
-import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
-import { decrypt } from "@taigalabs/prfs-crypto-js";
-import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
-import { PrfsIdCredential, makeWalletCacheKeyCm } from "@taigalabs/prfs-id-sdk-web";
-import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
 import styles from "./CachedAddressModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
-import { useCachedAddresses } from "./use_cached_addresses";
+import { useCachedMemberIdDialog } from "./use_cached_member_id_dialog";
 
-const CachedAddressModal: React.FC<WalletModalProps> = ({
+const CachedMemberIdModal: React.FC<WalletModalProps> = ({
   handleClickClose,
   handleChangeAddress,
 }) => {
   const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
-  const { walletAddrs } = useCachedAddresses(prfsIdCredential);
+  const { walletAddrs } = useCachedMemberIdDialog(prfsIdCredential);
   const i18n = React.useContext(i18nContext);
 
   const addrList = React.useMemo(() => {
@@ -65,7 +60,7 @@ const CachedAddressModal: React.FC<WalletModalProps> = ({
   );
 };
 
-export default CachedAddressModal;
+export default CachedMemberIdModal;
 
 export interface WalletModalProps {
   handleClickClose: () => void;
