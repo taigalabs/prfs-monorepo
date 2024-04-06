@@ -16,7 +16,6 @@ import {
   CommitmentReceipt,
   EncryptedReceipt,
   makeAtstCmPreImageStr,
-  GROUP_MEMBER,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
