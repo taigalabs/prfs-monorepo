@@ -25,7 +25,8 @@ import {
   FormInputTitleRow,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
-import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
+// import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
+import CachedItemDialog from "@/components/cached_item_dialog/CachedItemDialog";
 import {
   FormErrors,
   FormHandler,
@@ -202,9 +203,9 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             hasError={!!error?.merkleProof}
           />
           <div className={styles.btnRow}>
-            <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
+            <CachedItemDialog handleChangeItem={handleChangeAddress}>
               <FormInputButton type="button">{i18n.cache}</FormInputButton>
-            </CachedAddressDialog>
+            </CachedItemDialog>
             <span className={styles.or}> or </span>
             <ConnectWallet handleChangeAddress={handleChangeAddress}>
               <FormInputButton type="button">{i18n.connect}</FormInputButton>

@@ -3,7 +3,7 @@ import cn from "classnames";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
-import styles from "./CachedAddressModal.module.scss";
+import styles from "./CachedItemModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
 import { useCachedMemberIdDialog } from "./use_cached_member_id_dialog";

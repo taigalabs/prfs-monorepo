@@ -38,7 +38,7 @@ import {
   useMerkleSigPosRangeFormHandler,
 } from "./use_merkle_sig_pos_range_form_handler";
 import { useHandleChangeMemberId } from "./use_handle_change_member_id";
-import CachedItemDialog from "@/components/cached_item_dialog/CachedMemberIdDialog";
+import CachedItemDialog from "@/components/cached_item_dialog/CachedItemDialog";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {

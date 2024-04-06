@@ -12,9 +12,9 @@ import {
 } from "@floating-ui/react";
 import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 
-import styles from "./CachedAddressDialog.module.scss";
+import styles from "./CachedItemDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
-import CachedMemberIdModal from "./CachedMemberIdModal";
+import CachedMemberIdModal from "./CachedItemModal";
 
 const CachedItemDialog: React.FC<ConnectWalletProps> = ({ handleChangeItem, zIndex, children }) => {
   const i18n = React.useContext(i18nContext);
