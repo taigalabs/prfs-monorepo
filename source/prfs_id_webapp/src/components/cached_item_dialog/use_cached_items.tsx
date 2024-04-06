@@ -12,7 +12,7 @@ import styles from "./CachedAddressModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
 
-export function useCachedMemberIdDialog(prfsIdCredential: PrfsIdCredential | null) {
+export function useCachedItems(prfsIdCredential: PrfsIdCredential | null) {
   const [cacheKeys, setCacheKeys] = React.useState<string[] | null>(null);
   const { data, error } = useQuery({
     queryKey: ["get_prfs_indices", cacheKeys],

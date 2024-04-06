@@ -6,14 +6,14 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import styles from "./CachedItemModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
-import { useCachedMemberIdDialog } from "./use_cached_member_id_dialog";
+import { useCachedItems } from "./use_cached_items";
 
 const CachedItemModal: React.FC<CachedItemModalProps> = ({
   handleClickClose,
   handleChangeItem,
 }) => {
   const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
-  const { walletAddrs } = useCachedMemberIdDialog(prfsIdCredential);
+  const { walletAddrs } = useCachedItems(prfsIdCredential);
   const i18n = React.useContext(i18nContext);
 
   const addrList = React.useMemo(() => {
