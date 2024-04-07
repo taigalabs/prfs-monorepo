@@ -41,6 +41,7 @@ import {
   useMerkleSigPosRangeFormHandler,
 } from "./use_merkle_sig_pos_range_form_handler";
 import { useHandleChangeAddress } from "./use_handle_change_address";
+import AddressInput from "./AddressInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -117,12 +118,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     );
   }, [prfsSet, prfsTree]);
 
-  const abbrevWalletAddr = React.useMemo(() => {
-    if (walletAddr.length > 10) {
-      return abbrev7and5(walletAddr);
-    }
-    return "";
-  }, [walletAddr]);
+  // const abbrevWalletAddr = React.useMemo(() => {
+  //   if (walletAddr.length > 10) {
+  //     return abbrev7and5(walletAddr);
+  //   }
+  //   return "";
+  // }, [walletAddr]);
 
   useMerkleSigPosRangeFormHandler({ setFormHandler, setFormErrors, credential, proofAction });
 
@@ -192,32 +193,32 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         <FormInputTitleRow>
           <FormInputTitle>{labelElem}</FormInputTitle>
         </FormInputTitleRow>
-        <div className={styles.addrInputWrapper}>
-          <Input
-            inputClassName={styles.addrInput}
-            labelClassName={styles.addrInput}
-            name={""}
-            label={i18n.wallet}
-            value={abbrevWalletAddr}
-            readOnly
-            hasError={!!error?.merkleProof}
-          />
-          <div className={styles.btnRow}>
-            <CachedItemDialog handleChangeItem={handleChangeAddress} prfsSet={prfsSet}>
-              <FormInputButton type="button">{i18n.cache}</FormInputButton>
-            </CachedItemDialog>
-            <span className={styles.or}> or </span>
-            <ConnectWallet handleChangeAddress={handleChangeAddress}>
-              <FormInputButton type="button">{i18n.connect}</FormInputButton>
-            </ConnectWallet>
-          </div>
-        </div>
-        {error?.merkleProof && (
-          <FormError>
-            <IoMdAlert />
-            {error.merkleProof}
-          </FormError>
-        )}
+        <AddressInput
+          handleChangeAddress={handleChangeAddress}
+          walletAddr={walletAddr}
+          error={error}
+          prfsSet={prfsSet}
+        />
+        {/* <div className={styles.addrInputWrapper}> */}
+        {/*   <Input */}
+        {/*     inputClassName={styles.addrInput} */}
+        {/*     labelClassName={styles.addrInput} */}
+        {/*     name={""} */}
+        {/*     label={i18n.wallet} */}
+        {/*     value={abbrevWalletAddr} */}
+        {/*     readOnly */}
+        {/*     hasError={!!error?.merkleProof} */}
+        {/*   /> */}
+        {/*   <div className={styles.btnRow}> */}
+        {/*     <CachedItemDialog handleChangeItem={handleChangeAddress} prfsSet={prfsSet}> */}
+        {/*       <FormInputButton type="button">{i18n.cache}</FormInputButton> */}
+        {/*     </CachedItemDialog> */}
+        {/*     <span className={styles.or}> or </span> */}
+        {/*     <ConnectWallet handleChangeAddress={handleChangeAddress}> */}
+        {/*       <FormInputButton type="button">{i18n.connect}</FormInputButton> */}
+        {/*     </ConnectWallet> */}
+        {/*   </div> */}
+        {/* </div> */}
         <div className={styles.row}>
           <MemoInput
             value={value}
@@ -227,7 +228,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             setFormErrors={setFormErrors}
             error={error}
           />
-          {error?.nonceRaw && <FormError>{error.merkleProof}</FormError>}
+          {error?.nonceRaw && <FormError>{error.nonceRaw}</FormError>}
         </div>
         <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
         {value && <ComputedValue value={value} />}

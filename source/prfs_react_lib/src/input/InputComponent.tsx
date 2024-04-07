@@ -1,4 +1,4 @@
-import React from "react";
+import React, { InputHTMLAttributes } from "react";
 import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
 import cn from "classnames";
 
@@ -29,6 +29,34 @@ export const Label: React.FC<LabelProps> = ({ children, className, name }) => {
     <div className={cn(styles.label, className)}>
       <label htmlFor={name}>{children}</label>
     </div>
+  );
+};
+
+export const InputElement: React.FC<InputElementProps> = ({
+  className,
+  name,
+  value,
+  onFocus,
+  onBlur,
+  onChange,
+  type,
+  onKeyDown,
+  readOnly,
+  disabled,
+}) => {
+  return (
+    <input
+      className={cn(styles.input, className)}
+      name={name}
+      value={value || ""}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      onChange={onChange}
+      type={type}
+      onKeyDown={onKeyDown}
+      readOnly={readOnly}
+      disabled={disabled}
+    />
   );
 };
 
@@ -68,3 +96,5 @@ export interface LabelProps {
 export interface FieldsetProps {
   children: React.ReactNode;
 }
+
+export type InputElementProps = InputHTMLAttributes<HTMLInputElement>;
