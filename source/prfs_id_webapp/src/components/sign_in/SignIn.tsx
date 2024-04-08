@@ -5,11 +5,7 @@ import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
-import {
-  IdCreateForm,
-  makeEmptyIDCreateFormErrors,
-  makeEmptyIdCreateForm,
-} from "@/functions/validate_id";
+import { IdCreateForm, makeEmptyIDCreateFormErrors, makeEmptyIdCreateForm } from "@/identity";
 import CreateID from "@/components/create_id/CreateID";
 import StoredCredentials from "./StoredCredentials";
 import SignInForm from "./SignInForm";

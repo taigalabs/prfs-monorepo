@@ -9,7 +9,7 @@ import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import copy from "copy-to-clipboard";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
-import { IdCreateForm } from "@/functions/validate_id";
+import { IdCreateForm } from "@/identity";
 import Link from "next/link";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { SignUpPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignUpPrfsIdentityRequest";
