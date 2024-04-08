@@ -18,7 +18,7 @@ import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/S
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
 import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
-import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
+import { MerkleSigPosExactV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Data";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 
 import styles from "./MerkleSigPosExactInput.module.scss";
@@ -29,7 +29,7 @@ export function useHandleChangeMemberId({
   credential,
   prfsSet,
   prfsTree,
-  setWalletAddr,
+  setMemberId,
   setFormErrors,
   circuitTypeData,
   setRangeOptionIdx,
@@ -55,18 +55,23 @@ export function useHandleChangeMemberId({
   });
 
   return React.useCallback(
-    async (addr: string) => {
+    async (memberId: string) => {
       if (!prfsSet) {
         return;
       }
       if (!prfsTree) {
         return;
       }
-      if (!addr) {
+      if (!memberId) {
         return;
       }
 
-      setWalletAddr(addr);
+      const { hashed } = await makeAtstCm(credential.secret_key, memberId);
+      const memberIdHashed = hexlify(hashed);
+
+      console.log(11, memberId, memberIdHashed);
+
+      setMemberId(memberId);
       setFormErrors(prevVals => {
         return {
           ...prevVals,
@@ -74,23 +79,13 @@ export function useHandleChangeMemberId({
         };
       });
 
-      const { set_id } = prfsSet;
-      const { range_data } = circuitTypeData;
-      if (!range_data) {
-        setFormErrors(prevVals => {
-          return {
-            ...prevVals,
-            merkleProof: "range_data is empty",
-          };
-        });
-        return;
-      }
+      const { set_id, atst_group_id } = prfsSet;
 
       try {
         // Merkle setup
         const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
-          label: addr,
+          label: memberId,
         });
 
         if (!getPrfsSetElementPayload) {
@@ -116,6 +111,10 @@ export function useHandleChangeMemberId({
           return;
         }
 
+        console.log(22, prfsSet, getPrfsSetElementPayload);
+
+        return;
+
         const data = getPrfsSetElementPayload.prfs_set_element
           ?.data as unknown as PrfsSetElementData[];
 
@@ -130,7 +129,7 @@ export function useHandleChangeMemberId({
           const d = data[0];
           switch (d.type) {
             case "Commitment": {
-              const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, addr);
+              const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, memberId);
               sigR = bytesToNumberLE(sigBytes.subarray(0, 32));
               sigS = bytesToNumberLE(sigBytes.subarray(32, 64));
 
@@ -138,7 +137,7 @@ export function useHandleChangeMemberId({
               const cmInt = bytesToNumberLE(hashed);
 
               if (d.val !== cm) {
-                throw new Error(`Commitment does not match, addr: ${addr}`);
+                throw new Error(`Commitment does not match, memberId: ${memberId}`);
               }
 
               args[0] = cmInt;
@@ -194,7 +193,7 @@ export function useHandleChangeMemberId({
           setFormErrors((prevVals: any) => {
             return {
               ...prevVals,
-              merkleProof: `${addr} is not part of a ${set_id}`,
+              merkleProof: `${memberId} is not part of a ${set_id}`,
             };
           });
           return;
@@ -289,7 +288,7 @@ export function useHandleChangeMemberId({
       }
     },
     [
-      setWalletAddr,
+      setMemberId,
       setFormValues,
       prfsSet,
       getPrfsTreeLeafIndices,
@@ -305,9 +304,9 @@ export function useHandleChangeMemberId({
 export interface UseHandleChangeAddressArgs {
   prfsSet: PrfsSet | null;
   prfsTree: PrfsTree | undefined;
-  setWalletAddr: React.Dispatch<React.SetStateAction<string>>;
+  setMemberId: React.Dispatch<React.SetStateAction<string>>;
   setRangeOptionIdx: React.Dispatch<React.SetStateAction<number>>;
-  circuitTypeData: MerkleSigPosRangeV1Data;
+  circuitTypeData: MerkleSigPosExactV1Data;
   setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
   credential: PrfsIdCredential;

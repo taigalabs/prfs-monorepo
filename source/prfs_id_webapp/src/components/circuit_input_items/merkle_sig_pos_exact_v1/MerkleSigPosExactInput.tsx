@@ -75,7 +75,7 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet | null>(null);
   const [prfsTree, setPrfsTree] = React.useState<PrfsTree>();
-  const [walletAddr, setWalletAddr] = React.useState("");
+  const [memberId, setMemberId] = React.useState("");
   const [rangeOptionIdx, setRangeOptionIdx] = React.useState(-1);
 
   const { isPending: isGetLatestPrfsTreePending, mutateAsync: getLatestPrfsTreeBySetId } =
@@ -116,12 +116,12 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
     );
   }, [prfsSet, prfsTree]);
 
-  const abbrevWalletAddr = React.useMemo(() => {
-    if (walletAddr.length > 10) {
-      return abbrev7and5(walletAddr);
-    }
-    return "";
-  }, [walletAddr]);
+  // const abbrevWalletAddr = React.useMemo(() => {
+  //   if (walletAddr.length > 10) {
+  //     return abbrev7and5(walletAddr);
+  //   }
+  //   return "";
+  // }, [walletAddr]);
 
   useMerkleSigPosRangeFormHandler({ setFormHandler, setFormErrors, credential, proofAction });
 
@@ -177,7 +177,7 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
     credential,
     prfsSet,
     prfsTree,
-    setWalletAddr,
+    setMemberId,
     setFormErrors,
     circuitTypeData,
     setRangeOptionIdx,
@@ -193,7 +193,7 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
         </FormInputTitleRow>
         <MemberIdInput
           handleChangeValue={handleChangeMemberId}
-          walletAddr={walletAddr}
+          memberId={memberId}
           error={error}
           prfsSet={prfsSet}
         />

@@ -23,6 +23,8 @@ const RawValueModal: React.FC<CachedItemModalProps> = ({
       const value = e.currentTarget?.value;
       if (value) {
         setValue(value);
+      } else {
+        setValue("");
       }
     },
 

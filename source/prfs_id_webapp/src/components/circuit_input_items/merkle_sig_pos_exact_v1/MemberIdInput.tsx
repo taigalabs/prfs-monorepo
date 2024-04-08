@@ -25,7 +25,7 @@ import { FormErrors } from "@/components/circuit_input_items/formTypes";
 import RawValueDialog from "@/components/raw_value_dialog/RawValueDialog";
 
 const MemberIdInput: React.FC<MemberIdInputProps> = ({
-  walletAddr,
+  memberId,
   handleChangeValue,
   error,
   prfsSet,
@@ -34,11 +34,11 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
   const { isFocused, handleFocus, handleBlur } = useInput();
 
   const abbrevWalletAddr = React.useMemo(() => {
-    if (walletAddr.length > 10) {
-      return abbrev7and5(walletAddr);
+    if (memberId.length > 10) {
+      return abbrev7and5(memberId);
     }
     return "";
-  }, [walletAddr]);
+  }, [memberId]);
 
   // const extendedHandleChangeValue = React.useCallback(
   //   (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +99,7 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
 export default MemberIdInput;
 
 export interface MemberIdInputProps {
-  walletAddr: string;
+  memberId: string;
   handleChangeValue: (val: string) => void;
   error: FormErrors<MerkleSigPosRangeV1Inputs>;
   prfsSet: PrfsSet | null;

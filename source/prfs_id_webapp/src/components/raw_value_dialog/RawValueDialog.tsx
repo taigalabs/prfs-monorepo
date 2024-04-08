@@ -41,8 +41,8 @@ const RawValueDialog: React.FC<ConnectWalletProps> = ({
   }, [setIsOpen]);
 
   const handleClickSubmit = React.useCallback(
-    (addr: string) => {
-      handleChangeItem(addr);
+    (val: string) => {
+      handleChangeItem(val);
       setIsOpen(false);
     },
     [handleChangeItem, setIsOpen],
