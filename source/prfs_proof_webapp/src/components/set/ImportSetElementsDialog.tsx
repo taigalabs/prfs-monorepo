@@ -21,7 +21,7 @@ import {
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
-import { isMasterAccountId } from "@/mock/mock_data";
+import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 const CRYPTO_1 = "crypto_1";
@@ -93,7 +93,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
   const handleClickImport = React.useCallback(async () => {
-    if (prfsProofCredential && isMasterAccountId(prfsProofCredential.account_id)) {
+    if (prfsProofCredential && prfsProofCredential.account_id) {
       setComputeStatus(CommonStatus.InProgress);
       try {
         const { payload, error } = await importPrfsSetElementsRequest({
@@ -151,7 +151,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
         variant="transparent_blue_2"
         noTransition
         type="button"
-        disabled={!isMasterAccountId(prfsProofCredential?.account_id)}
+        disabled={!isMasterAccount(prfsProofCredential?.account_id)}
       >
         <div className={styles.btnContent}>
           <FaFileImport />

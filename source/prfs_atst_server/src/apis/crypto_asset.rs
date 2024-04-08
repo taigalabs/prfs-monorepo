@@ -1,4 +1,4 @@
-use prfs_admin_credential::mock::MASTER_ACCOUNT_IDS;
+use prfs_admin_credential::master_accounts::get_master_account_ids;
 use prfs_api_rs::api::update_prfs_tree_by_new_atst;
 use prfs_atst_api_error_codes::PRFS_ATST_API_ERROR_CODES;
 use prfs_atst_api_ops::ops;
@@ -128,7 +128,7 @@ pub(crate) async fn compute_crypto_asset_total_values(
     let pool = &state.db2.pool;
     let mut tx = bail_out_tx!(pool, &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR);
 
-    if !MASTER_ACCOUNT_IDS.contains(&input.account_id.as_ref()) {
+    if !get_master_account_ids().contains(&input.account_id.as_ref()) {
         return (
             StatusCode::BAD_REQUEST,
             Json(ApiResponse::new_error(
