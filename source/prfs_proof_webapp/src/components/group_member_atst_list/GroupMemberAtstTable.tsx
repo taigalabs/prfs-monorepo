@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstGroupIdRequest";
+import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
 
 import styles from "./GroupMemberAtstTable.module.scss";
 import { paths } from "@/paths";
@@ -22,7 +23,6 @@ import {
   AttestationLoading,
 } from "@/components/attestations_table/AttestationsTable";
 import { useI18N } from "@/i18n/use_i18n";
-import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating }) => {
   const i18n = useI18N();
