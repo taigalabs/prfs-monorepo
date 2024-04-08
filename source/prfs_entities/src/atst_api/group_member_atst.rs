@@ -13,3 +13,10 @@ pub struct CreateGroupMemberAtstRequest {
     pub cm: String,
     pub member_code: String,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+#[allow(non_snake_case)]
+pub struct ComputeGroupMemberValueResponse {
+    pub updated_row_count: u128,
+}
