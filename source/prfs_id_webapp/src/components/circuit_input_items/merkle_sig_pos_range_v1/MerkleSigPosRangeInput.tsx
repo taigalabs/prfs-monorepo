@@ -16,7 +16,7 @@ import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
-import styles from "./MerkleSigPosRange.module.scss";
+import styles from "./MerkleSigPosRangeInput.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   FormError,
@@ -25,7 +25,8 @@ import {
   FormInputTitleRow,
 } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
-import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
+// import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
+import CachedItemDialog from "@/components/cached_item_dialog/CachedItemDialog";
 import {
   FormErrors,
   FormHandler,
@@ -40,6 +41,7 @@ import {
   useMerkleSigPosRangeFormHandler,
 } from "./use_merkle_sig_pos_range_form_handler";
 import { useHandleChangeAddress } from "./use_handle_change_address";
+import AddressInput from "./AddressInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -73,8 +75,8 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
   handleSkipCreateProof,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
-  const [prfsTree, setPrfsTree] = React.useState<PrfsTree>();
+  const [prfsSet, setPrfsSet] = React.useState<PrfsSet | null>(null);
+  const [prfsTree, setPrfsTree] = React.useState<PrfsTree | null>(null);
   const [walletAddr, setWalletAddr] = React.useState("");
   const [rangeOptionIdx, setRangeOptionIdx] = React.useState(-1);
 
@@ -115,13 +117,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
       <span className={styles.inputLabel}>{i18n.loading}</span>
     );
   }, [prfsSet, prfsTree]);
-
-  const abbrevWalletAddr = React.useMemo(() => {
-    if (walletAddr.length > 10) {
-      return abbrev7and5(walletAddr);
-    }
-    return "";
-  }, [walletAddr]);
 
   useMerkleSigPosRangeFormHandler({ setFormHandler, setFormErrors, credential, proofAction });
 
@@ -191,32 +186,12 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
         <FormInputTitleRow>
           <FormInputTitle>{labelElem}</FormInputTitle>
         </FormInputTitleRow>
-        <div className={styles.addrInputWrapper}>
-          <Input
-            inputClassName={styles.addrInput}
-            labelClassName={styles.addrInput}
-            name={""}
-            label={i18n.wallet}
-            value={abbrevWalletAddr}
-            readOnly
-            hasError={!!error?.merkleProof}
-          />
-          <div className={styles.btnRow}>
-            <CachedAddressDialog handleChangeAddress={handleChangeAddress}>
-              <FormInputButton type="button">{i18n.cache}</FormInputButton>
-            </CachedAddressDialog>
-            <span className={styles.or}> or </span>
-            <ConnectWallet handleChangeAddress={handleChangeAddress}>
-              <FormInputButton type="button">{i18n.connect}</FormInputButton>
-            </ConnectWallet>
-          </div>
-        </div>
-        {error?.merkleProof && (
-          <FormError>
-            <IoMdAlert />
-            {error.merkleProof}
-          </FormError>
-        )}
+        <AddressInput
+          handleChangeAddress={handleChangeAddress}
+          walletAddr={walletAddr}
+          error={error}
+          prfsSet={prfsSet}
+        />
         <div className={styles.row}>
           <MemoInput
             value={value}
@@ -226,7 +201,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
             setFormErrors={setFormErrors}
             error={error}
           />
-          {error?.nonceRaw && <FormError>{error.merkleProof}</FormError>}
+          {error?.nonceRaw && <FormError>{error.nonceRaw}</FormError>}
         </div>
         <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
         {value && <ComputedValue value={value} />}

@@ -19,11 +19,7 @@ import {
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
-import {
-  IdCreateForm,
-  makeEmptyIDCreateFormErrors,
-  makeEmptyIdCreateForm,
-} from "@/functions/validate_id";
+import { IdCreateForm, makeEmptyIDCreateFormErrors, makeEmptyIdCreateForm } from "@/identity";
 import { StoredCredentialRecord } from "@/storage/prfs_id_credential";
 import {
   EphemeralPrfsIdCredential,

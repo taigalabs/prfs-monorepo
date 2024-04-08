@@ -11,17 +11,17 @@ pub async fn get_eth_accounts(
 ) -> Result<Vec<EthAccount>, DbInterfaceError> {
     let query = format!("SELECT * from eth_accounts as acc {}", where_clause);
 
-    let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
+    let rows = sqlx::query(&query).fetch_all(pool).await?;
 
     let eth_accounts: Vec<EthAccount> = rows
         .iter()
         .map(|r| {
-            let addr: String = r.try_get("addr").expect("addr should be present");
-            let wei: Decimal = r.try_get("wei").expect("wei should be present");
+            let addr: String = r.try_get("addr")?;
+            let wei: Decimal = r.try_get("wei")?;
 
-            EthAccount { addr, wei }
+            Ok(EthAccount { addr, wei })
         })
-        .collect();
+        .collect::<Result<Vec<EthAccount>, DbInterfaceError>>()?;
 
     Ok(eth_accounts)
 }
@@ -50,7 +50,7 @@ pub async fn insert_eth_accounts(
         )
     };
 
-    let result = sqlx::query(&query).execute(&mut **tx).await.unwrap();
+    let result = sqlx::query(&query).execute(&mut **tx).await?;
 
     return Ok(result.rows_affected());
 }

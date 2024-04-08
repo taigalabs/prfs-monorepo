@@ -12,11 +12,11 @@ import { inter } from "@taigalabs/prfs-react-lib/src/fonts";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./Home.module.scss";
-import { i18nContext } from "@/i18n/context";
-import TitleArea from "./TitleArea";
-import { paths } from "@/paths";
-import TutorialArea from "./TutorialArea";
 import { roboto } from "@/fonts";
+import { paths } from "@/paths";
+import { useI18N } from "@/i18n/use_i18n";
+import TitleArea from "./TitleArea";
+import TutorialArea from "./TutorialArea";
 import CallToAction from "./CallToAction";
 import FeatureList from "./FeatureList";
 import Specialties from "./Specialties";
@@ -31,7 +31,7 @@ enum SearchProofTypeFormStatus {
 }
 
 const Home: React.FC<HomeProps> = () => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = useI18N();
   const searchParams = useSearchParams();
   const router = useRouter();
   const [formStatus, setFormStatus] = React.useState(SearchProofTypeFormStatus.Standby);
@@ -84,9 +84,9 @@ const Home: React.FC<HomeProps> = () => {
         <CallToAction />
         <UsageScenario />
         <FeatureList handleFocusSearchBar={handleFocusSearchBar} />
-        <FeaturedApps />
-        <TutorialArea />
         <Specialties />
+        <TutorialArea />
+        <FeaturedApps />
         <ProjectStatus />
         <Footer />
       </div>

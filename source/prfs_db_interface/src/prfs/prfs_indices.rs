@@ -8,6 +8,10 @@ pub async fn get_prfs_indices(
     pool: &Pool<Postgres>,
     keys: &Vec<String>,
 ) -> Result<Vec<PrfsIndex>, DbInterfaceError> {
+    if keys.len() < 1 {
+        return Ok(vec![]);
+    }
+
     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
         r#"
 SELECT *

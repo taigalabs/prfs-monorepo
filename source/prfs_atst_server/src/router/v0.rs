@@ -16,9 +16,13 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
     Envs::new();
 
     let router = Router::new() //
+        // .route(
+        //     "/get_prfs_attestations_by_atst_type",
+        //     post(prfs_attestations::get_prfs_attestations_by_atst_type),
+        // )
         .route(
-            "/get_prfs_attestations",
-            post(prfs_attestations::get_prfs_attestations),
+            "/get_prfs_attestations_by_atst_group_id",
+            post(prfs_attestations::get_prfs_attestations_by_atst_group_id),
         )
         .route(
             "/get_prfs_attestation",

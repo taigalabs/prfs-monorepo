@@ -21,7 +21,7 @@ import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 
-import styles from "./MerkleSigPosRange.module.scss";
+import styles from "./MerkleSigPosRangeInput.module.scss";
 import { FormErrors } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
 
@@ -116,50 +116,29 @@ export function useHandleChangeAddress({
           return;
         }
 
-        const data = getPrfsSetElementPayload.prfs_set_element
-          ?.data as unknown as PrfsSetElementData[];
-
-        if (data.length !== 2) {
-          throw new Error("Only data of cardinality 2 is currently supported");
-        }
+        const data = getPrfsSetElementPayload.prfs_set_element?.data as PrfsSetElementData;
 
         let sigR: bigint;
         let sigS: bigint;
         const args: bigint[] = [];
         await (async () => {
-          const d = data[0];
-          switch (d.type) {
-            case "Commitment": {
-              const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, addr);
-              sigR = bytesToNumberLE(sigBytes.subarray(0, 32));
-              sigS = bytesToNumberLE(sigBytes.subarray(32, 64));
+          const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, addr);
+          sigR = bytesToNumberLE(sigBytes.subarray(0, 32));
+          sigS = bytesToNumberLE(sigBytes.subarray(32, 64));
 
-              const cm = hexlify(hashed);
-              const cmInt = bytesToNumberLE(hashed);
+          const cm = hexlify(hashed);
+          const cmInt = bytesToNumberLE(hashed);
 
-              if (d.val !== cm) {
-                throw new Error(`Commitment does not match, addr: ${addr}`);
-              }
-
-              args[0] = cmInt;
-              break;
-            }
-            default:
-              throw new Error("Unsupported data type for the first element");
+          if (data.commitment !== cm) {
+            throw new Error(
+              `Commitment does not match, addr: ${addr}, cm: ${data.commitment}, calculated: ${cm}`,
+            );
           }
+
+          args[0] = cmInt;
         })();
 
-        (() => {
-          const d = data[1];
-          switch (d.type) {
-            case "Int": {
-              args[1] = BigInt(d.val);
-              break;
-            }
-            default:
-              throw new Error("Unsupported data type for the second element");
-          }
-        })();
+        args[1] = BigInt(data.value_int);
 
         const leafBytes = await poseidon_2_bigint_le(args);
         const leafVal = bytesToNumberLE(leafBytes);
@@ -303,8 +282,8 @@ export function useHandleChangeAddress({
 }
 
 export interface UseHandleChangeAddressArgs {
-  prfsSet: PrfsSet | undefined;
-  prfsTree: PrfsTree | undefined;
+  prfsSet: PrfsSet | null;
+  prfsTree: PrfsTree | null;
   setWalletAddr: React.Dispatch<React.SetStateAction<string>>;
   setRangeOptionIdx: React.Dispatch<React.SetStateAction<number>>;
   circuitTypeData: MerkleSigPosRangeV1Data;

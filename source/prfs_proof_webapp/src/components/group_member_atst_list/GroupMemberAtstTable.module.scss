@@ -3,7 +3,7 @@
 .wrapper {
 }
 
-.walletAddr {
+.label {
   width: 160px;
   display: flex;
   align-items: center;
@@ -13,11 +13,15 @@
   width: 150px;
 }
 
-.totalValue {
+.valueNum {
   width: 150px;
 }
 
-.cryptoAssets {
+.valueRaw {
+  width: 150px;
+}
+
+.meta {
   width: 200px;
 
   &.cell {

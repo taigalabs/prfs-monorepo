@@ -11,15 +11,17 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
-import styles from "./CachedAddressDialog.module.scss";
+import styles from "./CachedItemDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
-import CachedAddressModal from "./CachedAddressModal";
+import CachedMemberIdModal from "./CachedItemModal";
 
-const CachedAddressDialog: React.FC<ConnectWalletProps> = ({
-  handleChangeAddress,
+const CachedItemDialog: React.FC<ConnectWalletProps> = ({
+  handleChangeItem,
   zIndex,
   children,
+  prfsSet,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -27,7 +29,9 @@ const CachedAddressDialog: React.FC<ConnectWalletProps> = ({
     open: isOpen,
     onOpenChange: setIsOpen,
   });
-  const click = useClick(context);
+  const click = useClick(context, {
+    enabled: !!prfsSet,
+  });
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
@@ -38,12 +42,12 @@ const CachedAddressDialog: React.FC<ConnectWalletProps> = ({
     setIsOpen(false);
   }, [setIsOpen]);
 
-  const extendedHandleChangeAddress = React.useCallback(
+  const extendedHandleChangeItem = React.useCallback(
     (addr: string) => {
-      handleChangeAddress(addr);
+      handleChangeItem(addr);
       setIsOpen(false);
     },
-    [handleChangeAddress, setIsOpen],
+    [handleChangeItem, setIsOpen],
   );
 
   return (
@@ -52,7 +56,7 @@ const CachedAddressDialog: React.FC<ConnectWalletProps> = ({
         {children}
       </div>
       <FloatingPortal>
-        {isOpen && (
+        {isOpen && prfsSet && (
           <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
             <Fade className={styles.fadeOverlay}>
               <FloatingFocusManager context={context}>
@@ -63,9 +67,10 @@ const CachedAddressDialog: React.FC<ConnectWalletProps> = ({
                   aria-describedby={descriptionId}
                   {...getFloatingProps()}
                 >
-                  <CachedAddressModal
+                  <CachedMemberIdModal
                     handleClickClose={handleClickClose}
-                    handleChangeAddress={extendedHandleChangeAddress}
+                    handleChangeItem={extendedHandleChangeItem}
+                    prfsSet={prfsSet}
                   />
                 </div>
               </FloatingFocusManager>
@@ -77,10 +82,11 @@ const CachedAddressDialog: React.FC<ConnectWalletProps> = ({
   );
 };
 
-export default CachedAddressDialog;
+export default CachedItemDialog;
 
 export interface ConnectWalletProps {
-  handleChangeAddress: (addr: string) => void;
+  handleChangeItem: (item: string) => void;
   zIndex?: number;
   children: React.ReactNode;
+  prfsSet: PrfsSet | null;
 }

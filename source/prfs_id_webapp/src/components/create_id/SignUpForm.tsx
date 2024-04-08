@@ -22,7 +22,7 @@ import {
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
-import { IdCreateForm, validateIdCreateForm } from "@/functions/validate_id";
+import { IdCreateForm, validateIdCreateForm } from "@/identity";
 import { useAppDispatch } from "@/state/hooks";
 
 const ID_CONFIRM = "id_confirm";

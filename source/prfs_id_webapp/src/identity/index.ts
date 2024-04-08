@@ -1,6 +1,7 @@
 import { ID } from "@taigalabs/prfs-id-sdk-web";
 
-const MINIMUM_ID_LENGTH = 9;
+const MINIMUM_ID_LEN = 9;
+const MINIMUM_PW_LEN = 20;
 
 export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
   id: "",
@@ -29,20 +30,12 @@ export interface IdCreateForm {
   password_2_confirm: string | null;
 }
 
-// function validateEmail(email: any) {
-//   return String(email)
-//     .toLowerCase()
-//     .match(
-//       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-//     );
-// }
-
 function checkPassword(str: string | null): [boolean, string] {
   if (!str) {
     return [false, "not exist"];
   }
 
-  if (str?.length < 15) {
+  if (str?.length < MINIMUM_PW_LEN) {
     return [false, "too short"];
   } else if (str.search(/\d/) === -1) {
     return [false, "no digit"];
@@ -79,7 +72,7 @@ export function validateIdCreateForm(
     return false;
   }
 
-  if (formValues[ID]?.length < MINIMUM_ID_LENGTH) {
+  if (formValues[ID]?.length < MINIMUM_ID_LEN) {
     setFormErrors(oldVals => ({
       ...oldVals,
       id: "Id should be 9 letter or longer",

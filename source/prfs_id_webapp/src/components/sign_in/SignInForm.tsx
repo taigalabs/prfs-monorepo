@@ -9,9 +9,6 @@ import {
   PrfsIdCredential,
   makePrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
-import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { idApi, prfsApi3 } from "@taigalabs/prfs-api-js";
-import { SignInPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsIdentityRequest";
 import prfs_api_error_codes from "@taigalabs/prfs-api-error-codes";
 
 import styles from "./SignInForm.module.scss";
@@ -24,7 +21,7 @@ import {
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
-import { IdCreateForm } from "@/functions/validate_id";
+import { IdCreateForm } from "@/identity";
 import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
 import { persistEphemeralPrfsIdCredential } from "@/storage/ephe_credential";
 import { useAppDispatch } from "@/state/hooks";

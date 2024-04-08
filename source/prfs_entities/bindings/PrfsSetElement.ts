@@ -4,7 +4,7 @@ import type { PrfsSetElementStatus } from "./PrfsSetElementStatus";
 export type PrfsSetElement = {
   label: string;
   set_id: string;
-  data: Record<string, string>[];
+  data: Record<string, string>;
   element_idx: number;
   ref: string | null;
   status: PrfsSetElementStatus;

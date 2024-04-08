@@ -1,11 +1,19 @@
 import React from "react";
 import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { MerkleSigPosExactV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Data";
+import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
+import { MerkleSigPosExactV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Inputs";
+import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
+import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
+import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
+import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
+import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
+import { MerkleSigPosExactV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1PresetVals";
+import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 
 import styles from "./CircuitInputs.module.scss";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import MerkleSigPosRangeInput from "@/components/circuit_input_items/merkle_sig_pos_range_v1/MerkleSigPosRangeInput";
-import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
-import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import {
   FormErrors,
   FormHandler,
@@ -13,12 +21,8 @@ import {
   HandleSkipCreateProof,
 } from "@/components/circuit_input_items/formTypes";
 import AddrMembershipInput from "@/components/circuit_input_items/addr_membership_v1/AddrMembershipInput";
-import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
-import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
 import SimpleHashInput from "@/components/circuit_input_items/simple_hash_v1/SimpleHashInput";
-import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
-import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
-import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
+import MerkleSigPosExactInput from "@/components/circuit_input_items/merkle_sig_pos_exact_v1/MerkleSigPosExactInput";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
   proofType,
@@ -80,7 +84,28 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
           />
         );
       }
+      case "merkle_sig_pos_exact_v1": {
+        return (
+          <MerkleSigPosExactInput
+            circuitTypeData={proofType.circuit_type_data as MerkleSigPosExactV1Data}
+            value={formValues as FormValues<MerkleSigPosExactV1Inputs>}
+            error={formErrors as FormErrors<MerkleSigPosExactV1Inputs>}
+            setFormValues={setFormValues}
+            setFormErrors={setFormErrors as any}
+            setFormHandler={setFormHandler}
+            presetVals={presetVals as MerkleSigPosExactV1PresetVals}
+            credential={credential}
+            proofAction={proofAction}
+            usePrfsRegistry={usePrfsRegistry}
+            handleSkipCreateProof={handleSkipCreateProof}
+          />
+        );
+      }
       default:
+        console.error(
+          "Cannot handle circuit input of this type, type: %s",
+          proofType.circuit_type_id,
+        );
         return null;
     }
   }, [proofType, formValues, setFormValues, formErrors]);

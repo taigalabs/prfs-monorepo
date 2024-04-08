@@ -189,6 +189,8 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     [setFormData],
   );
 
+  console.log(formData[MEMBER_ID_CM]);
+
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
   }, [formData]);
@@ -229,7 +231,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
 
         const { payload, error } = await createGroupMemberAttestation({
           atst_id,
-          atst_type_id: "nonce_seoul_1",
           label: member_id_cm,
           serial_no: "empty",
           cm,

@@ -1,0 +1,17 @@
+@import "@/styles/layouts.module.scss";
+
+.computedValue {
+  padding: 2px 6px;
+  color: var(--gray-30);
+  font-size: 13px;
+}
+
+.row {
+  padding-top: 18px;
+}
+
+.inputLabel {
+  .label {
+    margin-right: 3px;
+  }
+}

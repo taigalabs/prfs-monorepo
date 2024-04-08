@@ -74,5 +74,21 @@
     },
     "created_at": "2024-01-29T16:39:57-08:00",
     "experimental": false
+  },
+  {
+    "proof_type_id": "NONCE_SEOUL_1",
+    "label": "Nonce community Seoul",
+    "author": "Prfs",
+    "desc": "This proves a person is a member of Web3 community - Nonce\n\n## Nonce community Seoul\n\nNonce is a distributed network of independent business units and self-sovereign individuals\ndedicated to blockchain and humans. As revolutionary as blockchain technology is, we need a\nrevolutionary way of living and working. We are a community operating out of a open (re)source\nco-living, co-working space in Korea. Our mission is to curate, connect, cultivate trustworthy\npeople building trustless technologies - future rebels who stay true to decentralization.\n",
+    "expression": "Is a member of the group with some value",
+    "img_url": "https://d1w1533jipmvi2.cloudfront.net/nonce.jpeg",
+    "circuit_id": "5f8e7167f0",
+    "circuit_type_id": "merkle_sig_pos_exact_v1",
+    "circuit_type_data": {
+      "type": "merkle_sig_pos_exact_v1",
+      "prfs_set_id": "nonce_seoul_1"
+    },
+    "created_at": "2024-01-29T16:39:57-08:00",
+    "experimental": false
   }
 ]

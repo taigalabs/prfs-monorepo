@@ -1,11 +1,11 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use prfs_entities::{PrfsAtstGroupMember, PrfsAtstTypeId};
+use prfs_entities::{PrfsAtstGroupId, PrfsAtstGroupMember};
 
 use crate::DbInterfaceError;
 
 pub async fn get_prfs_atst_group_member(
     pool: &Pool<Postgres>,
-    atst_group_id: &String,
+    atst_group_id: &PrfsAtstGroupId,
     member_code: &String,
 ) -> Result<PrfsAtstGroupMember, DbInterfaceError> {
     let query = r#"
@@ -22,11 +22,11 @@ AND member_code=$2
         .await?;
 
     let m = PrfsAtstGroupMember {
-        atst_group_id: row.get("atst_group_id"),
-        member_id: row.get("member_id"),
-        member_code: row.get("member_code"),
-        code_type: row.get("code_type"),
-        status: row.get("status"),
+        atst_group_id: row.try_get("atst_group_id")?,
+        member_id: row.try_get("member_id")?,
+        member_code: row.try_get("member_code")?,
+        code_type: row.try_get("code_type")?,
+        status: row.try_get("status")?,
     };
 
     Ok(m)

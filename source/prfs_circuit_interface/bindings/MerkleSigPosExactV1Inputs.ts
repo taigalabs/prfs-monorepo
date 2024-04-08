@@ -6,7 +6,8 @@ export type MerkleSigPosExactV1Inputs = {
   sigS: bigint;
   sigpos: bigint;
   leaf: bigint;
-  value: bigint;
+  valueRaw: string;
+  valueInt: bigint;
   merkleProof: SpartanMerkleProof;
   nonceRaw: string;
   proofPubKey: string;

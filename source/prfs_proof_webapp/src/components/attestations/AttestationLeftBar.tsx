@@ -2,6 +2,7 @@ import React from "react";
 import cn from "classnames";
 import Link from "next/link";
 import { FaLinkedin } from "@react-icons/all-files/fa/FaLinkedin";
+import { MdGroup } from "@react-icons/all-files/md/MdGroup";
 import { FaBitcoin } from "@react-icons/all-files/fa/FaBitcoin";
 import { usePathname } from "next/navigation";
 
@@ -19,6 +20,7 @@ import {
 
 const TWITTER = "twitter";
 const CRYPTO_ASSET = "crypto_asset";
+const GROUP_MEMBER = "group_member";
 
 const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -45,6 +47,14 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
             <LeftBarItemButton isHighlighted={name === CRYPTO_ASSET}>
               <FaBitcoin />
               <span>{i18n.crypto_asset}</span>
+            </LeftBarItemButton>
+          </Link>
+        </LeftBarItem>
+        <LeftBarItem>
+          <Link href={paths.attestations__group_member}>
+            <LeftBarItemButton isHighlighted={name === GROUP_MEMBER}>
+              <MdGroup />
+              <span>{i18n.group_member}</span>
             </LeftBarItemButton>
           </Link>
         </LeftBarItem>

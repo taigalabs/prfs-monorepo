@@ -1,4 +1,4 @@
-use prfs_admin_credential::mock::MASTER_ACCOUNT_IDS;
+use prfs_admin_credential::master_accounts::get_master_account_ids;
 use prfs_api_rs::api::update_prfs_tree_by_new_atst;
 use prfs_atst_api_error_codes::PRFS_ATST_API_ERROR_CODES;
 use prfs_atst_api_ops::ops;
@@ -73,12 +73,13 @@ pub async fn create_crypto_asset_atst(
 
     let prfs_attestation = PrfsAttestation {
         atst_id: input.atst_id,
-        atst_type_id: input.atst_type_id.clone(),
+        atst_group_id: input.atst_group_id.clone(),
         label: input.label.to_string(),
         cm: input.cm,
         meta: JsonType::from(crypto_assets),
         status: PrfsAtstStatus::Valid,
-        value: Decimal::from(0),
+        value_num: Decimal::from(0),
+        value_raw: "".into(),
         atst_version: PrfsAtstVersion::v0_2,
     };
 
@@ -96,7 +97,7 @@ pub async fn create_crypto_asset_atst(
     let _ = match update_prfs_tree_by_new_atst(
         &ENVS.prfs_api_server_endpoint,
         &UpdatePrfsTreeByNewAtstRequest {
-            atst_type_id: input.atst_type_id,
+            atst_group_id: input.atst_group_id,
         },
     )
     .await
@@ -128,7 +129,7 @@ pub(crate) async fn compute_crypto_asset_total_values(
     let pool = &state.db2.pool;
     let mut tx = bail_out_tx!(pool, &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR);
 
-    if !MASTER_ACCOUNT_IDS.contains(&input.account_id.as_ref()) {
+    if !get_master_account_ids().contains(&input.account_id.as_ref()) {
         return (
             StatusCode::BAD_REQUEST,
             Json(ApiResponse::new_error(

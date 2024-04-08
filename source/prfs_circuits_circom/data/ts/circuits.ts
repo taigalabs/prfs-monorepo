@@ -185,6 +185,16 @@ const circuits: PrfsCircuit[] = [
         type: "FIELD_ELEMENT",
       },
       {
+        label: "sigR",
+        desc: "A digital siganture R part",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "sigS",
+        desc: "A digital siganture S part",
+        type: "FIELD_ELEMENT",
+      },
+      {
         label: "leaf",
         desc: "Leaf of a tree",
         type: "FIELD_ELEMENT",
@@ -252,13 +262,24 @@ const circuits: PrfsCircuit[] = [
     } as SpartanCircomDriverProperties,
     raw_circuit_inputs_meta: [
       {
-        label: "value",
-        desc: "Size of asset",
+        label: "valueInt",
+        desc: "Exact value",
         type: "FIELD_ELEMENT",
+        public: true,
       },
       {
         label: "sigpos",
         desc: "A siganture poseidon result",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "sigR",
+        desc: "A digital siganture R part",
+        type: "FIELD_ELEMENT",
+      },
+      {
+        label: "sigS",
+        desc: "A digital siganture S part",
         type: "FIELD_ELEMENT",
       },
       {

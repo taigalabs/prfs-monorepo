@@ -15,14 +15,13 @@ import {
   openPopup,
   CommitmentReceipt,
   EncryptedReceipt,
-  makeAtstCmPreImageStr,
-  GROUP_MEMBER,
+  makeGroupMemberAtstClaimSecret,
+  // makeAtstCmPreImageStr,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
-import { atstApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -48,6 +47,7 @@ import {
 import EncryptedMemberIdItem from "./EncryptedMemberIdItem";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   atstGroup,
@@ -66,18 +66,26 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
 
   const claimSecret = React.useMemo(() => {
     if (atstGroup && formData[MEMBER_ID]) {
-      return makeAtstCmPreImageStr(`${atstGroup.atst_group_id}_${formData[MEMBER_ID]}`);
+      return makeGroupMemberAtstClaimSecret(atstGroup.atst_group_id, formData[MEMBER_ID]);
     } else {
       return "";
     }
   }, [atstGroup, formData]);
+
+  const cmAbbrev = React.useMemo(() => {
+    if (formData[CM]) {
+      return abbrev7and5(formData[CM]);
+    } else {
+      return "";
+    }
+  }, [formData[CM]]);
 
   const handleClickGenerate = React.useCallback(async () => {
     if (!atstGroup) {
       return;
     }
 
-    const cacheKeyQueries = makeCmCacheKeyQueries(atstGroup.atst_group_id, 10, GROUP_MEMBER);
+    const cacheKeyQueries = makeCmCacheKeyQueries(atstGroup.atst_group_id, 10);
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
 
@@ -225,11 +233,12 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
               <MdSecurity />
               <span>{i18n.generate}</span>
             </AttestationListItemBtn>
-            <p className={cn(styles.value, common.alignItemCenter)}>{null}</p>
+            <p className={cn(styles.value, common.alignItemCenter)}>{cmAbbrev}</p>
           </div>
           {memberIdCacheKeys && (
             <EncryptedMemberIdItem
               memberIdCacheKeys={memberIdCacheKeys}
+              memberIdCm={formData[MEMBER_ID_CM]}
               memberIdEnc={formData[MEMBER_ID_ENC]}
             />
           )}

@@ -5,7 +5,7 @@ $item_width: 200px;
 .wrapper {
   /* padding-top: 50px; */
   max-width: none;
-  padding: 80px 0 0;
+  /* padding: 80px 0 0; */
 }
 
 .subtitle2 {
@@ -24,7 +24,7 @@ $item_width: 200px;
 }
 
 .inner {
-  padding: 0 24px;
+  /* padding: 0 24px; */
   /* padding: 60px 14px; */
   /* background-color: var(--bright-gray-523); */
   /* border-radius: 12px; */
@@ -99,6 +99,9 @@ $item_width: 200px;
 }
 
 @media screen and (min-width: $mid_display_min_width) {
+  .wrapper {
+    padding: 60px 0 120px;
+  }
   /* .itemContainer { */
   /*   grid-template-columns: repeat(2, $item_width); */
   /* } */

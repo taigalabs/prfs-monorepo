@@ -2,7 +2,8 @@ import React, { HTMLInputTypeAttribute } from "react";
 import cn from "classnames";
 
 import styles from "./Input.module.scss";
-import { Fieldset, InputError, InputWrapper, Label } from "./InputComponent";
+import { Fieldset, InputElement, InputError, InputWrapper, Label } from "./InputComponent";
+import { useInput } from "./useInput";
 
 const Input: React.FC<InputProps> = ({
   className,
@@ -19,13 +20,7 @@ const Input: React.FC<InputProps> = ({
   handleChangeValue,
   handleKeyDown,
 }) => {
-  const [isFocused, setIsFocused] = React.useState(false);
-  const handleFocus = React.useCallback(() => {
-    setIsFocused(true);
-  }, [setIsFocused]);
-  const handleBlur = React.useCallback(() => {
-    setIsFocused(false);
-  }, [setIsFocused]);
+  const { isFocused, handleFocus, handleBlur } = useInput();
 
   return (
     <>
@@ -39,14 +34,14 @@ const Input: React.FC<InputProps> = ({
           {label}
         </Label>
         <Fieldset>{label}</Fieldset>
-        <input
+        <InputElement
           name={name}
           value={value || ""}
-          className={cn(styles.input, inputClassName)}
+          className={inputClassName}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          type={type}
           onChange={handleChangeValue}
+          type={type}
           onKeyDown={handleKeyDown}
           readOnly={readOnly}
           disabled={disabled}

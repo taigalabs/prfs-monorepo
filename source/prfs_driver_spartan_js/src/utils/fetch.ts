@@ -18,8 +18,6 @@ export async function fetchAsset(
     throw new Error("Response does not contain body");
   }
 
-  response.headers.forEach(v => console.log(v, assetName));
-
   const contentLen = response.headers.get("content-length");
   const totalLen = (typeof contentLen === "string" && parseInt(contentLen)) || assetLen;
 

@@ -1,13 +1,12 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::PrfsAtstTypeId;
+use crate::PrfsAtstGroupId;
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
 pub struct PrfsAtstGroup {
-    pub atst_group_id: String,
-    pub atst_type_id: PrfsAtstTypeId,
+    pub atst_group_id: PrfsAtstGroupId,
     pub label: String,
     pub desc: String,
 }

@@ -1,7 +1,7 @@
 use prfs_db_driver::bind_limit::BIND_LIMIT;
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::atst_entities::PrfsAttestation;
-use prfs_entities::entities::{PrfsSetElement, PrfsSetElementData, PrfsSetElementDataType};
+use prfs_entities::entities::{PrfsSetElement, PrfsSetElementData};
 use prfs_entities::PrfsSetElementStatus;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
@@ -24,23 +24,16 @@ INSERT INTO prfs_set_elements
     query_builder.push_values(
         atsts.iter().take(BIND_LIMIT / 5).enumerate(),
         |mut b, (idx, atst)| {
-            let total_val = atst.value.floor();
-            let data = sqlx::types::Json::from(vec![
-                PrfsSetElementData {
-                    label: "cm".to_string(),
-                    r#type: PrfsSetElementDataType::Commitment,
-                    val: atst.cm.to_string(),
-                },
-                PrfsSetElementData {
-                    label: "total_val".to_string(),
-                    r#type: PrfsSetElementDataType::Int,
-                    val: total_val.to_string(),
-                },
-            ]);
+            let total_val = atst.value_num.floor();
+            let data = sqlx::types::Json::from(PrfsSetElementData {
+                commitment: atst.cm.to_string(),
+                value_int: total_val,
+                value_raw: "".into(),
+            });
 
             b.push_bind(&atst.label)
                 .push_bind(data)
-                .push_bind(&atst.atst_type_id)
+                .push_bind(&atst.atst_group_id)
                 .push_bind(set_id)
                 .push_bind(Decimal::from_u64(idx as u64))
                 .push_bind(PrfsSetElementStatus::NotRegistered);

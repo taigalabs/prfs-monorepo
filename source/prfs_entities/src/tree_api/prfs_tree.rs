@@ -2,18 +2,18 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use crate::entities::PrfsTree;
-use crate::PrfsAtstTypeId;
+use crate::PrfsAtstGroupId;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct UpdatePrfsTreeByNewAtstRequest {
-    pub atst_type_id: PrfsAtstTypeId,
+    pub atst_group_id: PrfsAtstGroupId,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct UpdatePrfsTreeByNewAtstResponse {
-    pub atst_type_id: PrfsAtstTypeId,
+    pub atst_group_id: PrfsAtstGroupId,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

@@ -25,9 +25,6 @@ const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({
           </Attestations>
         </Suspense>
       </AttestationsDefaultBody>
-      {/* <DefaultFooter> */}
-      {/*   <GlobalFooter /> */}
-      {/* </DefaultFooter> */}
     </DefaultLayout>
   );
 };

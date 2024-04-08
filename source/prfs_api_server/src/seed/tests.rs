@@ -1,5 +1,6 @@
 use prfs_db_driver::database2::Database2;
 use prfs_db_interface::prfs;
+use prfs_entities::PrfsAtstGroupId;
 use prfs_entities::PrfsProofType;
 use prfs_entities::{
     PrfsAtstGroupMember, PrfsAtstGroupMemberCodeType, PrfsAtstGroupMemberStatus, PrfsSet,
@@ -52,7 +53,7 @@ mod seed_api1 {
     use super::*;
 
     #[tokio::test]
-    async fn seed_prfs_circuits() {
+    async fn seed_prfs_circuits_1() {
         prepare().await;
         let db = get_db().await;
 
@@ -60,7 +61,7 @@ mod seed_api1 {
     }
 
     #[tokio::test]
-    async fn seed_prfs_proof_types() {
+    async fn seed_prfs_proof_types_1() {
         prepare().await;
         let db = get_db().await;
 
@@ -76,7 +77,7 @@ mod seed_api2 {
     use super::*;
 
     #[tokio::test]
-    async fn seed_prfs_atst_group() {
+    async fn seed_prfs_atst_group_1() {
         prepare().await;
         let db = get_db().await;
 
@@ -88,7 +89,7 @@ mod seed_api3 {
     use super::*;
 
     #[tokio::test]
-    async fn seed_prfs_atst_group_members() {
+    async fn seed_prfs_atst_group_members_1() {
         prepare().await;
 
         let db = get_db().await;
@@ -102,7 +103,7 @@ mod seed_api3 {
             // println!("{:?}", record);
 
             let m = PrfsAtstGroupMember {
-                atst_group_id: "0x1D73A70".to_string(),
+                atst_group_id: PrfsAtstGroupId::nonce_seoul_1,
                 member_id: record.member_id,
                 member_code: record.member_code,
                 code_type: PrfsAtstGroupMemberCodeType::Equality,

@@ -1,0 +1,15 @@
+{
+  "name": "@taigalabs/prfs-admin-credential",
+  "version": "0.0.1",
+  "main": "./js/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf ./build",
+    "build": "pnpm clean && tsc"
+  },
+  "devDependencies": {
+    "@types/node": "20.3.1",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {}
+}

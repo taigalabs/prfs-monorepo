@@ -116,6 +116,13 @@ export default class SpartanDriver implements CircuitDriver {
 
           return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
         }
+        case "merkle_sig_pos_exact_v1": {
+          const { proveMembership } = await import(
+            "./proof_types/merkle_sig_pos_exact/merkle_sig_pos_exact_v1"
+          );
+
+          return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
+        }
         default:
           throw new Error(`Unknown circuit type: ${args.circuitTypeId}`);
       }
@@ -144,6 +151,13 @@ export default class SpartanDriver implements CircuitDriver {
         case "merkle_sig_pos_range_v1": {
           const { verifyMembership } = await import(
             "./proof_types/merkle_sig_pos_range/merkle_sig_pos_range_v1"
+          );
+
+          return verifyMembership(args, this.handlers, this.circuit);
+        }
+        case "merkle_sig_pos_exact_v1": {
+          const { verifyMembership } = await import(
+            "./proof_types/merkle_sig_pos_exact/merkle_sig_pos_exact_v1"
           );
 
           return verifyMembership(args, this.handlers, this.circuit);

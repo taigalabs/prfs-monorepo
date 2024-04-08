@@ -7,8 +7,8 @@ import { PrfsAttestation } from "@taigalabs/prfs-entities/bindings/PrfsAttestati
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstGroupIdRequest";
 import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
-import { GetPrfsAttestationsRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsRequest";
 
 import styles from "./CryptoAssetAtstTable.module.scss";
 import { paths } from "@/paths";
@@ -65,7 +65,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
         {cm}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.totalValue, styles.w1024)}>
-        {Number(atst.value)}
+        {Number(atst.value_num)}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480, styles.cell)}>
         <a target="_blank" onClick={handleClickCryptoAssets}>
@@ -90,14 +90,14 @@ const CryptoAssetAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => 
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_prfs_attestations", nonce],
+      queryKey: ["get_prfs_attestations_by_atst_type", nonce],
       queryFn: async ({ pageParam }) => {
-        const req: GetPrfsAttestationsRequest = {
-          atst_type_id: "crypto_1",
+        const req: GetPrfsAttestationsByAtstGroupIdRequest = {
+          atst_group_id: "crypto_1",
           offset: pageParam as number,
         };
         return atstApi({
-          type: "get_prfs_attestations",
+          type: "get_prfs_attestations_by_atst_group_id",
           ...req,
         });
       },

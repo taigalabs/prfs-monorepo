@@ -19,17 +19,16 @@ LIMIT 1
     let row = sqlx::query(&query)
         .bind(&set_id)
         .fetch_optional(pool)
-        .await
-        .unwrap();
+        .await?;
 
     if let Some(r) = row {
-        let label = r.try_get("label").expect("label should exist");
-        let tree_id = r.try_get("tree_id").expect("tree_id should exist");
-        let set_id = r.try_get("set_id").expect("set_id should exist");
-        let merkle_root = r.try_get("merkle_root").expect("invalid merkle_root");
-        let elliptic_curve = r.try_get("elliptic_curve").expect("invalid element_curve");
-        let finite_field = r.try_get("finite_field").expect("invalid finite_field");
-        let tree_depth = r.get("tree_depth");
+        let label = r.try_get("label")?;
+        let tree_id = r.try_get("tree_id")?;
+        let set_id = r.try_get("set_id")?;
+        let merkle_root = r.try_get("merkle_root")?;
+        let elliptic_curve = r.try_get("elliptic_curve")?;
+        let finite_field = r.try_get("finite_field")?;
+        let tree_depth = r.try_get("tree_depth")?;
 
         let t = PrfsTree {
             label,
@@ -68,10 +67,9 @@ RETURNING tree_id
         .bind(&tree.finite_field)
         .bind(&tree.merkle_root)
         .fetch_one(&mut **tx)
-        .await
-        .expect(&format!("insertion failed, set_id: {}", tree.tree_id));
+        .await?;
 
-    let tree_id: String = row.get("tree_id");
+    let tree_id: String = row.try_get("tree_id")?;
 
     return Ok(tree_id);
 }

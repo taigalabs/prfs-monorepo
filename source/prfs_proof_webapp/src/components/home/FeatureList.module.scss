@@ -33,6 +33,7 @@
 
 .itemContent {
   display: flex;
+  align-items: center;
   /* justify-content: center; */
 }
 
@@ -47,8 +48,8 @@
 }
 
 .desc {
-  font-size: 20px;
-  line-height: 1.3em;
+  font-size: 19px;
+  line-height: 1.4em;
   padding-top: 28px;
   font-variation-settings: "wght" 350;
   color: var(--black-20);

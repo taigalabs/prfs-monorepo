@@ -8,8 +8,8 @@ use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_entities::{
-    CreateGroupMemberAtstRequest, CreatePrfsAttestationRequest, CreatePrfsAttestationResponse,
-    PrfsAtstGroupMemberStatus, PrfsAtstVersion, UpdatePrfsTreeByNewAtstRequest,
+    CreateGroupMemberAtstRequest, CreatePrfsAttestationResponse, PrfsAtstGroupMemberStatus,
+    PrfsAtstVersion, UpdatePrfsTreeByNewAtstRequest,
 };
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -53,12 +53,13 @@ pub async fn create_group_member_atst(
 
     let prfs_attestation = PrfsAttestation {
         atst_id: input.atst_id,
-        atst_type_id: input.atst_type_id.clone(),
+        atst_group_id: input.atst_group_id.clone(),
         label: input.label.to_string(),
         cm: input.cm,
         meta: JsonType::from(vec![]),
         status: PrfsAtstStatus::Valid,
-        value: Decimal::from(0),
+        value_num: Decimal::from(0),
+        value_raw: "".into(),
         atst_version: PrfsAtstVersion::v0_2,
     };
 
@@ -86,7 +87,7 @@ pub async fn create_group_member_atst(
     let _ = match update_prfs_tree_by_new_atst(
         &ENVS.prfs_api_server_endpoint,
         &UpdatePrfsTreeByNewAtstRequest {
-            atst_type_id: input.atst_type_id,
+            atst_group_id: input.atst_group_id,
         },
     )
     .await

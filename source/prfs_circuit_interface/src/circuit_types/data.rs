@@ -1,8 +1,6 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use super::{AddrMembershipV1Data, MerkleSigPosRangeV1Data, SimpleHashV1Data};
-
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[allow(non_snake_case)]
 #[ts(export)]

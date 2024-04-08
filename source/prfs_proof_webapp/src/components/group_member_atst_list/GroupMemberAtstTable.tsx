@@ -4,11 +4,11 @@ import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { PrfsAttestation } from "@taigalabs/prfs-entities/bindings/PrfsAttestation";
-import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { abbrevAddr } from "@taigalabs/prfs-crypto-js";
-import { GetPrfsAttestationsRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsRequest";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstGroupIdRequest";
+import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
 
 import styles from "./GroupMemberAtstTable.module.scss";
 import { paths } from "@/paths";
@@ -27,8 +27,8 @@ import { useI18N } from "@/i18n/use_i18n";
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating }) => {
   const i18n = useI18N();
 
-  const walletAddr = React.useMemo(() => {
-    return abbrevAddr(atst.label);
+  const label = React.useMemo(() => {
+    return abbrev7and5(atst.label);
   }, [atst.label]);
 
   const cm = React.useMemo(() => {
@@ -37,10 +37,10 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
 
   const handleClickRow = React.useCallback(() => {
     setIsNavigating(true);
-    router.push(`${paths.attestations__crypto_asset}/${atst.atst_id}`);
+    router.push(`${paths.attestations__group_member}/${atst.atst_id}`);
   }, [atst.atst_id, router, setIsNavigating]);
 
-  const cryptoAssets = React.useMemo(() => {
+  const meta = React.useMemo(() => {
     if (typeof atst.meta === "object") {
       return JSON.stringify(atst.meta);
     } else {
@@ -48,30 +48,22 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
     }
   }, [atst.cm]);
 
-  const handleClickCryptoAssets = React.useCallback(
-    (ev: React.MouseEvent) => {
-      ev.stopPropagation();
-      window.open(`https://etherscan.io/address/${atst.label.toLowerCase()}`, "_blank");
-    },
-    [atst.label],
-  );
-
   return (
     <AttestationTableRow style={style} handleClick={handleClickRow}>
-      <AttestationTableCell className={cn(styles.walletAddr, styles.cell)}>
-        <span>{walletAddr}</span>
+      <AttestationTableCell className={cn(styles.label, styles.cell)}>
+        <span>{label}</span>
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.commitment, styles.w1024)}>
         {cm}
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.totalValue, styles.w1024)}>
-        {Number(atst.value)}
+      <AttestationTableCell className={cn(styles.valueNum, styles.w1024)}>
+        {Number(atst.value_num)}
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480, styles.cell)}>
-        <a target="_blank" onClick={handleClickCryptoAssets}>
-          <span>{cryptoAssets}</span>
-          <BiLinkExternal />
-        </a>
+      <AttestationTableCell className={cn(styles.valueRaw, styles.w1024)}>
+        {atst.value_raw}
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.meta, styles.w480, styles.cell)}>
+        <span>{meta}</span>
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
         {i18n.not_available}
@@ -83,21 +75,21 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
   );
 };
 
-const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => {
+const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_group_id }) => {
   const i18n = useI18N();
   const router = useRouter();
   const [isNavigating, setIsNavigating] = React.useState(false);
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_prfs_attestations", nonce],
+      queryKey: ["get_prfs_attestations", nonce, atst_group_id],
       queryFn: async ({ pageParam }) => {
-        const req: GetPrfsAttestationsRequest = {
-          atst_type_id: "crypto_1",
+        const req: GetPrfsAttestationsByAtstGroupIdRequest = {
+          atst_group_id: atst_group_id as PrfsAtstGroupId,
           offset: pageParam as number,
         };
         return atstApi({
-          type: "get_prfs_attestations",
+          type: "get_prfs_attestations_by_atst_group_id",
           ...req,
         });
       },
@@ -157,17 +149,20 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => 
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <AttestationTableHeaderCell className={cn(styles.walletAddr)}>
-              {i18n.wallet_address}
+            <AttestationTableHeaderCell className={cn(styles.label, styles.w1024)}>
+              {i18n.label}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
               {i18n.commitment}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.totalValue, styles.w1024)}>
-              {i18n.total_value_usd}
+            <AttestationTableHeaderCell className={cn(styles.valueNum, styles.w1024)}>
+              {i18n.value}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.cryptoAssets, styles.w1320)}>
-              {i18n.crypto_assets}
+            <AttestationTableHeaderCell className={cn(styles.valueRaw, styles.w1024)}>
+              {i18n.value_raw}
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.meta, styles.w1320)}>
+              {i18n.meta}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
               {i18n.notarized}
@@ -222,6 +217,7 @@ export default GroupMemberAtstTable;
 
 export interface TwitterAccAtstTableProps {
   nonce: number;
+  atst_group_id: string;
 }
 
 export interface AtstRowProps {

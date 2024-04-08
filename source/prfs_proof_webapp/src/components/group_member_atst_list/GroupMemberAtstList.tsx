@@ -3,8 +3,9 @@
 import React from "react";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 import { AlertContent, AlertWrapper } from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
+import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 
-import styles from "./CryptoAssetAtstList.module.scss";
+import styles from "./GroupMemberAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   AttestationsHeader,
@@ -13,24 +14,24 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import { AttestationsTopMenu } from "@/components/sets/SetComponents";
 import { useSignedInProofUser } from "@/hooks/user";
-import { isMasterAccountId } from "@/mock/mock_data";
 import ComputeTotalValueDialog from "./ComputeTotalValue";
 import GroupMemberAtstTable from "./GroupMemberAtstTable";
 
-const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = () => {
+const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) => {
   const i18n = React.useContext(i18nContext);
   const { prfsProofCredential } = useSignedInProofUser();
   const { nonce, rerender } = useRerender();
+  const isMaster = isMasterAccount(prfsProofCredential?.account_id);
 
   return (
     <>
       <AttestationsHeader>
         <AttestationsHeaderRow>
           <AttestationsTitle className={styles.title}>
-            {i18n.crypto_asset_attestations}
+            {i18n.group_member_attestations}
           </AttestationsTitle>
           <AttestationsTopMenu>
-            {isMasterAccountId(prfsProofCredential?.account_id) && (
+            {isMaster && (
               <li>
                 <ComputeTotalValueDialog credential={prfsProofCredential!} rerender={rerender} />
               </li>
@@ -48,7 +49,7 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = () => {
         </AttestationsHeaderRow>
       </AttestationsHeader>
       <div>
-        <GroupMemberAtstTable nonce={nonce} />
+        <GroupMemberAtstTable nonce={nonce} atst_group_id={atst_group_id} />
       </div>
     </>
   );
@@ -56,4 +57,6 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = () => {
 
 export default GroupMemberAtstList;
 
-export interface CryptoSizeAtstListProps {}
+export interface CryptoSizeAtstListProps {
+  atst_group_id: string;
+}

@@ -15,9 +15,11 @@ import {
   LeftBarTopMenu,
   LeftBarWrapper,
 } from "@/components/left_bar/LeftBar";
+import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
 
 const SETS = "";
 const CRYPTO_HOLDERS = "crypto_holders";
+const NONCE_SEOUL_1 = "nonce_seoul_1";
 
 const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -44,6 +46,12 @@ const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
             <LeftBarItemButton isHighlighted={name === CRYPTO_HOLDERS}>
               <FaBitcoin />
               <span>{i18n.crypto_holders}</span>
+            </LeftBarItemButton>
+          </Link>
+          <Link href={`${paths.sets}/${NONCE_SEOUL_1}`}>
+            <LeftBarItemButton isHighlighted={name === NONCE_SEOUL_1}>
+              <FaBitcoin />
+              <span>Nonce Seoul community</span>
             </LeftBarItemButton>
           </Link>
         </LeftBarItem>

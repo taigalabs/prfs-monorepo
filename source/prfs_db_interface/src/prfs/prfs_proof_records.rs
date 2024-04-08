@@ -20,8 +20,8 @@ WHERE public_key=$1
 
     if let Some(r) = row {
         let resp: PrfsProofRecord = PrfsProofRecord {
-            public_key: r.get("public_key"),
-            proof_starts_with: r.get("proof_starts_with"),
+            public_key: r.try_get("public_key")?,
+            proof_starts_with: r.try_get("proof_starts_with")?,
         };
         return Ok(Some(resp));
     } else {
@@ -32,7 +32,7 @@ WHERE public_key=$1
 pub async fn insert_prfs_proof_record(
     tx: &mut Transaction<'_, Postgres>,
     proof_record: &PrfsProofRecord,
-) -> String {
+) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_proof_records
 (public_key, proof_starts_with)
@@ -44,9 +44,8 @@ RETURNING public_key
         .bind(&proof_record.public_key)
         .bind(&proof_record.proof_starts_with)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
-    let public_key: String = row.get("public_key");
-    public_key
+    let public_key: String = row.try_get("public_key")?;
+    Ok(public_key)
 }

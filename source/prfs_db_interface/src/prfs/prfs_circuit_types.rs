@@ -24,9 +24,9 @@ FROM prfs_circuit_types"#;
                 created_at: row.try_get("created_at")?,
             })
         })
-        .collect();
+        .collect::<Result<Vec<PrfsCircuitType>, DbInterfaceError>>()?;
 
-    return circuit_types;
+    return Ok(circuit_types);
 }
 
 pub async fn get_prfs_circuit_type_by_circuit_type_id(

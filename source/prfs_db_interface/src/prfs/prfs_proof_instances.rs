@@ -8,7 +8,7 @@ use crate::DbInterfaceError;
 pub async fn get_prfs_proof_instance_syn1_by_instance_id(
     pool: &Pool<Postgres>,
     proof_instance_id: &uuid::Uuid,
-) -> PrfsProofInstanceSyn1 {
+) -> Result<PrfsProofInstanceSyn1, DbInterfaceError> {
     let query = r#"
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_type_label, 
 ppt.desc as proof_type_desc, ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, 
@@ -25,60 +25,57 @@ WHERE ppi.proof_instance_id=$1
     let row = sqlx::query(query)
         .bind(&proof_instance_id)
         .fetch_one(pool)
-        .await
-        .expect(&format!("proof_instance_id: {}", proof_instance_id));
+        .await?;
 
     let prfs_proof_instance = PrfsProofInstanceSyn1 {
-        proof_instance_id: row.get("proof_instance_id"),
-        proof_type_id: row.get("proof_type_id"),
-        prfs_ack_sig: row.get("prfs_ack_sig"),
-        proof: row.get("proof"),
-        short_id: row.get("short_id"),
-        expression: row.get("expression"),
-        img_url: row.get("img_url"),
-        img_caption: row.get("img_caption"),
-        circuit_id: row.get("circuit_id"),
-        circuit_driver_id: row.get("circuit_driver_id"),
-        proof_type_desc: row.get("proof_type_desc"),
-        public_inputs_meta: row.get("public_inputs_meta"),
-        proof_type_label: row.get("proof_type_label"),
-        public_inputs: row.get("public_inputs"),
-        created_at: row.get("created_at"),
-        circuit_type_id: row.get("circuit_type_id"),
-        proof_type_author: row.get("proof_type_author"),
-        circuit_desc: row.get("circuit_desc"),
-        circuit_author: row.get("circuit_author"),
-        proof_type_created_at: row.get("proof_type_created_at"),
+        proof_instance_id: row.try_get("proof_instance_id")?,
+        proof_type_id: row.try_get("proof_type_id")?,
+        prfs_ack_sig: row.try_get("prfs_ack_sig")?,
+        proof: row.try_get("proof")?,
+        short_id: row.try_get("short_id")?,
+        expression: row.try_get("expression")?,
+        img_url: row.try_get("img_url")?,
+        img_caption: row.try_get("img_caption")?,
+        circuit_id: row.try_get("circuit_id")?,
+        circuit_driver_id: row.try_get("circuit_driver_id")?,
+        proof_type_desc: row.try_get("proof_type_desc")?,
+        public_inputs_meta: row.try_get("public_inputs_meta")?,
+        proof_type_label: row.try_get("proof_type_label")?,
+        public_inputs: row.try_get("public_inputs")?,
+        created_at: row.try_get("created_at")?,
+        circuit_type_id: row.try_get("circuit_type_id")?,
+        proof_type_author: row.try_get("proof_type_author")?,
+        circuit_desc: row.try_get("circuit_desc")?,
+        circuit_author: row.try_get("circuit_author")?,
+        proof_type_created_at: row.try_get("proof_type_created_at")?,
     };
 
-    return prfs_proof_instance;
+    return Ok(prfs_proof_instance);
 }
 
 pub async fn get_prfs_proof_instance_by_short_id(
     pool: &Pool<Postgres>,
     short_id: &String,
-) -> PrfsProofInstance {
-    let query = "SELECT * from prfs_proof_instances where short_id=$1";
+) -> Result<PrfsProofInstance, DbInterfaceError> {
+    let query = r#"
+SELECT * from prfs_proof_instances
+WHERE short_id=$1"#;
 
     // println!("query: {}", query);
 
-    let row = sqlx::query(query)
-        .bind(&short_id)
-        .fetch_one(pool)
-        .await
-        .unwrap();
+    let row = sqlx::query(query).bind(&short_id).fetch_one(pool).await?;
 
     let prfs_proof_instance = PrfsProofInstance {
-        proof_instance_id: row.get("proof_instance_id"),
-        short_id: row.get("short_id"),
-        prfs_ack_sig: row.get("prfs_ack_sig"),
-        proof_type_id: row.get("proof_type_id"),
-        proof: row.get("proof"),
-        public_inputs: row.get("public_inputs"),
-        created_at: row.get("created_at"),
+        proof_instance_id: row.try_get("proof_instance_id")?,
+        short_id: row.try_get("short_id")?,
+        prfs_ack_sig: row.try_get("prfs_ack_sig")?,
+        proof_type_id: row.try_get("proof_type_id")?,
+        proof: row.try_get("proof")?,
+        public_inputs: row.try_get("public_inputs")?,
+        created_at: row.try_get("created_at")?,
     };
 
-    return prfs_proof_instance;
+    return Ok(prfs_proof_instance);
 }
 
 pub async fn get_prfs_proof_instances_syn1(

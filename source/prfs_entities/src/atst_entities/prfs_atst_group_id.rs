@@ -7,7 +7,7 @@ use ts_rs::TS;
 #[allow(non_camel_case_types)]
 #[sqlx(type_name = "VARCHAR")]
 #[ts(export)]
-pub enum PrfsAtstTypeId {
+pub enum PrfsAtstGroupId {
     crypto_1,
     nonce_seoul_1,
 }
