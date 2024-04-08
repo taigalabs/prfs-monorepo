@@ -43,6 +43,7 @@ import {
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   formData,
@@ -57,10 +58,19 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
     usePrfsIdSession();
   const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
+
   const claimSecret = React.useMemo(() => {
     const walletAddr = formData[WALLET_ADDR];
     return walletAddr;
   }, [formData[WALLET_ADDR]]);
+
+  const cmAbbrev = React.useMemo(() => {
+    if (formData[CM]) {
+      return abbrev7and5(formData[CM]);
+    } else {
+      return "";
+    }
+  }, [formData[CM]]);
 
   const handleClickGenerate = React.useCallback(async () => {
     const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10);
@@ -201,7 +211,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
               <MdSecurity />
               <span>{i18n.generate}</span>
             </AttestationListItemBtn>
-            <p className={cn(styles.value, common.alignItemCenter)}>{formData[CM]}</p>
+            <p className={cn(styles.value, common.alignItemCenter)}>{cmAbbrev}</p>
           </div>
           {walletCacheKeys && (
             <EncryptedWalletAddrItem

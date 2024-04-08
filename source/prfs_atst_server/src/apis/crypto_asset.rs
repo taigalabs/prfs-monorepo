@@ -78,7 +78,8 @@ pub async fn create_crypto_asset_atst(
         cm: input.cm,
         meta: JsonType::from(crypto_assets),
         status: PrfsAtstStatus::Valid,
-        value: Decimal::from(0),
+        value_num: Decimal::from(0),
+        value_raw: "".into(),
         atst_version: PrfsAtstVersion::v0_2,
     };
 

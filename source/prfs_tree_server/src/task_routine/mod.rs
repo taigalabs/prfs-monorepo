@@ -16,7 +16,7 @@ use crate::{
 };
 
 pub struct TaskRoutine {
-    // We don't have to hold the entire state here. We will change this later
+    // TODO: We don't have to hold the entire state here. We will change this later
     pub state: Arc<ServerState>,
 }
 

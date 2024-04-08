@@ -24,7 +24,7 @@ INSERT INTO prfs_set_elements
     query_builder.push_values(
         atsts.iter().take(BIND_LIMIT / 5).enumerate(),
         |mut b, (idx, atst)| {
-            let total_val = atst.value.floor();
+            let total_val = atst.value_num.floor();
             let data = sqlx::types::Json::from(vec![
                 PrfsSetElementData {
                     label: "cm".to_string(),

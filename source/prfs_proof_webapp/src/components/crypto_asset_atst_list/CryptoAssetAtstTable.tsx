@@ -65,7 +65,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
         {cm}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.totalValue, styles.w1024)}>
-        {Number(atst.value)}
+        {Number(atst.value_num)}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480, styles.cell)}>
         <a target="_blank" onClick={handleClickCryptoAssets}>

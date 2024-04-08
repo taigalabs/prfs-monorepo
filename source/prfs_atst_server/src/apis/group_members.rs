@@ -58,7 +58,8 @@ pub async fn create_group_member_atst(
         cm: input.cm,
         meta: JsonType::from(vec![]),
         status: PrfsAtstStatus::Valid,
-        value: Decimal::from(0),
+        value_num: Decimal::from(0),
+        value_raw: "".into(),
         atst_version: PrfsAtstVersion::v0_2,
     };
 

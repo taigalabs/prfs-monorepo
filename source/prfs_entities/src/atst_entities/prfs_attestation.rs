@@ -16,6 +16,7 @@ pub struct PrfsAttestation {
     pub meta: sqlx::types::Json<Vec<CryptoAsset>>,
     pub status: PrfsAtstStatus,
     #[ts(type = "string")]
-    pub value: Decimal,
+    pub value_num: Decimal,
     pub atst_version: PrfsAtstVersion,
+    pub value_raw: String,
 }

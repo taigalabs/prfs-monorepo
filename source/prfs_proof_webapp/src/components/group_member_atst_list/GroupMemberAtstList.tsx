@@ -3,6 +3,7 @@
 import React from "react";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 import { AlertContent, AlertWrapper } from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
+import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 
 import styles from "./GroupMemberAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -15,7 +16,6 @@ import { AttestationsTopMenu } from "@/components/sets/SetComponents";
 import { useSignedInProofUser } from "@/hooks/user";
 import ComputeTotalValueDialog from "./ComputeTotalValue";
 import GroupMemberAtstTable from "./GroupMemberAtstTable";
-import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 
 const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) => {
   const i18n = React.useContext(i18nContext);
