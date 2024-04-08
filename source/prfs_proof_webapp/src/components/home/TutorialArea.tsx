@@ -79,10 +79,10 @@ const TutorialArea: React.FC<LogoContainerProps> = () => {
       </ol>
       <div className={styles.videoContainer}>
         {tutorialLabel === TutorialLabel.create_identity && (
-          <Iframe src="https://drive.google.com/file/d/1hyVmoqCExvPLMU9ABa7Vt6LaTw_D9dCV/preview" />
+          <Iframe src="https://drive.google.com/file/d/13b46PP_VzBZ_S0uYSMUsq6BKa36hun5D/preview" />
         )}
         {tutorialLabel === TutorialLabel.create_proof && (
-          <Iframe src="https://drive.google.com/file/d/1if74zytTjTy-eShG9GzyCQzhfjN-cN4b/preview" />
+          <Iframe src="https://drive.google.com/file/d/1pFQd4082HGXUNsn3MldyGRdo1ZeblBhR/preview" />
         )}
         {tutorialLabel === TutorialLabel.create_topic && (
           <Iframe src="https://drive.google.com/file/d/1Hsic--IUT5LfRFpnRjmwvTcNYl3PDrGp/preview" />
