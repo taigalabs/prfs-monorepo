@@ -72,8 +72,6 @@ export function useHandleChangeMemberId({
       const { hashed: _memberIdHashed } = await makeAtstCm(credential.secret_key, memberId);
       const memberIdHashed = hexlify(_memberIdHashed);
 
-      console.log(11, memberId, memberIdHashed);
-
       setMemberId(memberId);
       setFormErrors(prevVals => {
         return {
@@ -82,7 +80,7 @@ export function useHandleChangeMemberId({
         };
       });
 
-      const { set_id, atst_group_id } = prfsSet;
+      const { set_id } = prfsSet;
 
       try {
         // Merkle setup
@@ -238,10 +236,8 @@ export function useHandleChangeMemberId({
           sigS,
           sigpos: args[0],
           leaf: leafVal,
-          value: args[1],
-          // assetSizeGreaterEqThan: lower_bound,
-          // assetSizeLessThan: upper_bound,
-          // assetSizeLabel: label,
+          valueInt: args[1],
+          valueRaw: data.value_raw,
           merkleProof,
           proofAction,
         }));
