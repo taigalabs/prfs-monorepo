@@ -46,6 +46,7 @@ import {
 import EncryptedMemberIdItem from "./EncryptedMemberIdItem";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   atstGroup,
@@ -69,6 +70,14 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
       return "";
     }
   }, [atstGroup, formData]);
+
+  const cmAbbrev = React.useMemo(() => {
+    if (formData[CM]) {
+      return abbrev7and5(formData[CM]);
+    } else {
+      return "";
+    }
+  }, [formData[CM]]);
 
   const handleClickGenerate = React.useCallback(async () => {
     if (!atstGroup) {
@@ -223,7 +232,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
               <MdSecurity />
               <span>{i18n.generate}</span>
             </AttestationListItemBtn>
-            <p className={cn(styles.value, common.alignItemCenter)}>{null}</p>
+            <p className={cn(styles.value, common.alignItemCenter)}>{cmAbbrev}</p>
           </div>
           {memberIdCacheKeys && (
             <EncryptedMemberIdItem
