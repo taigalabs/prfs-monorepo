@@ -24,9 +24,6 @@ pub struct PrfsSetElementData {
     #[ts(type = "string")]
     pub value_int: Decimal,
     pub value_raw: String,
-    // pub label: String,
-    // pub r#type: PrfsSetElementDataType,
-    // pub val: String,
 }
 
 #[derive(TS, Clone, Debug, Serialize, Deserialize, Type, EnumString, Display)]
@@ -35,14 +32,4 @@ pub struct PrfsSetElementData {
 pub enum PrfsSetElementStatus {
     Registered,
     NotRegistered,
-}
-
-#[derive(TS, Clone, Debug, Serialize, Deserialize, Type, EnumString, Display, PartialEq, Eq)]
-#[allow(non_camel_case_types)]
-#[ts(export)]
-#[sqlx(type_name = "VARCHAR")]
-pub enum PrfsSetElementDataType {
-    commitment,
-    value_int,
-    value_raw,
 }
