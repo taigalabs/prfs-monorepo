@@ -1,13 +1,13 @@
 import React from "react";
 import cn from "classnames";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
 import styles from "./CachedItemModal.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppSelector } from "@/state/hooks";
 import { useCachedItems } from "./use_cached_items";
-import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 const CachedItemModal: React.FC<CachedItemModalProps> = ({
   prfsSet,

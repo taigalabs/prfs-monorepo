@@ -118,13 +118,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     );
   }, [prfsSet, prfsTree]);
 
-  // const abbrevWalletAddr = React.useMemo(() => {
-  //   if (walletAddr.length > 10) {
-  //     return abbrev7and5(walletAddr);
-  //   }
-  //   return "";
-  // }, [walletAddr]);
-
   useMerkleSigPosRangeFormHandler({ setFormHandler, setFormErrors, credential, proofAction });
 
   useCachedProveReceiptCreator({

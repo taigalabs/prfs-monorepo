@@ -39,6 +39,7 @@ import {
 } from "./use_merkle_sig_pos_range_form_handler";
 import { useHandleChangeMemberId } from "./use_handle_change_member_id";
 import CachedItemDialog from "@/components/cached_item_dialog/CachedItemDialog";
+import MemberIdInput from "./MemberIdInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -190,28 +191,34 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
         <FormInputTitleRow>
           <FormInputTitle>{labelElem}</FormInputTitle>
         </FormInputTitleRow>
-        <div className={styles.addrInputWrapper}>
-          <Input
-            inputClassName={styles.addrInput}
-            labelClassName={styles.addrInput}
-            name={""}
-            label={i18n.member_id}
-            value={abbrevWalletAddr}
-            readOnly
-            hasError={!!error?.merkleProof}
-          />
-          <div className={styles.btnRow}>
-            <CachedItemDialog handleChangeItem={handleChangeMemberId} prfsSet={prfsSet}>
-              <FormInputButton type="button">{i18n.cache}</FormInputButton>
-            </CachedItemDialog>
-          </div>
-        </div>
-        {error?.merkleProof && (
-          <FormError>
-            <IoMdAlert />
-            {error.merkleProof}
-          </FormError>
-        )}
+        <MemberIdInput
+          handleChangeValue={handleChangeMemberId}
+          walletAddr={walletAddr}
+          error={error}
+          prfsSet={prfsSet}
+        />
+        {/* <div className={styles.addrInputWrapper}> */}
+        {/*   <Input */}
+        {/*     inputClassName={styles.addrInput} */}
+        {/*     labelClassName={styles.addrInput} */}
+        {/*     name={""} */}
+        {/*     label={i18n.member_id} */}
+        {/*     value={abbrevWalletAddr} */}
+        {/*     readOnly */}
+        {/*     hasError={!!error?.merkleProof} */}
+        {/*   /> */}
+        {/*   <div className={styles.btnRow}> */}
+        {/*     <CachedItemDialog handleChangeItem={handleChangeMemberId} prfsSet={prfsSet}> */}
+        {/*       <FormInputButton type="button">{i18n.cache}</FormInputButton> */}
+        {/*     </CachedItemDialog> */}
+        {/*   </div> */}
+        {/* </div> */}
+        {/* {error?.merkleProof && ( */}
+        {/*   <FormError> */}
+        {/*     <IoMdAlert /> */}
+        {/*     {error.merkleProof} */}
+        {/*   </FormError> */}
+        {/* )} */}
         <div className={styles.row}>
           <MemoInput
             value={value}
