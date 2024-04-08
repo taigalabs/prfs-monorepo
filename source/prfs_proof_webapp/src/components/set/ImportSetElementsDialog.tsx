@@ -6,6 +6,7 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { FaFileImport } from "@react-icons/all-files/fa/FaFileImport";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { treeApi } from "@taigalabs/prfs-api-js";
+import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 import { ImportPrfsAttestationsToPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/ImportPrfsAttestationsToPrfsSetRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
@@ -21,7 +22,6 @@ import {
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
-import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 const CRYPTO_1 = "crypto_1";
