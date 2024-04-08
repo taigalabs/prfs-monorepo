@@ -12,40 +12,61 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
         let data = &elem.data;
         let mut args = [ZERO_NODE, ZERO_NODE];
 
-        if data.len() > 2 {
-            return Err("data of length over two is currently not available".into());
-        }
-
-        for (idx, d) in data.iter().enumerate() {
-            match d.r#type {
-                PrfsSetElementDataType::commitment => {
-                    let val = if d.val.starts_with("0x") {
-                        &d.val[2..]
-                    } else {
-                        &d.val
-                    };
-
-                    // let leaf_decimal = primitive_types::U256::from_str_radix(&val, 16)?;
-                    // println!("leaf decimal {}", leaf_decimal);
-
-                    let bytes = convert_hex_into_32bytes(&val).map_err(|err| {
-                        format!("Failed to convert cm, cm: {:?}, err: {}", val, err)
-                    })?;
-                    // println!("cm: {:?}, bytes: {:?}", val, bytes);
-                    args[idx] = bytes;
-                }
-                PrfsSetElementDataType::value_int => {
-                    // let int128 = d.val.parse::<u128>().unwrap();
-                    // let u = U256::from_u128(int128);
-                    // let bytes = u.to_be_bytes();
-                    let bytes = convert_dec_into_32bytes(&d.val).map_err(|err| {
-                        format!("Failed to convert int, val: {}, err: {}", &d.val, err)
-                    })?;
-                    args[idx] = bytes;
-                }
-                PrfsSetElementDataType::value_raw => {}
+        {
+            let val = if data.commitment.starts_with("0x") {
+                &data.commitment[2..]
+            } else {
+                &data.commitment
             };
+            let bytes = convert_hex_into_32bytes(&val)
+                .map_err(|err| format!("Failed to convert cm, cm: {:?}, err: {}", val, err))?;
+            // println!("cm: {:?}, bytes: {:?}", val, bytes);
+            args[0] = bytes;
         }
+
+        {
+            // let int128 = d.val.parse::<u128>().unwrap();
+            // let u = U256::from_u128(int128);
+            // let bytes = u.to_be_bytes();
+            let bytes = convert_dec_into_32bytes(&data.value_int.to_string()).map_err(|err| {
+                format!(
+                    "Failed to convert int, val: {}, err: {}",
+                    &data.value_int, err
+                )
+            })?;
+            args[1] = bytes;
+        }
+
+        // for (idx, d) in data.iter().enumerate() {
+        //     match d.r#type {
+        //         PrfsSetElementDataType::commitment => {
+        //             let val = if d.val.starts_with("0x") {
+        //                 &d.val[2..]
+        //             } else {
+        //                 &d.val
+        //             };
+
+        //             // let leaf_decimal = primitive_types::U256::from_str_radix(&val, 16)?;
+        //             // println!("leaf decimal {}", leaf_decimal);
+
+        //             let bytes = convert_hex_into_32bytes(&val).map_err(|err| {
+        //                 format!("Failed to convert cm, cm: {:?}, err: {}", val, err)
+        //             })?;
+        //             // println!("cm: {:?}, bytes: {:?}", val, bytes);
+        //             args[idx] = bytes;
+        //         }
+        //         PrfsSetElementDataType::value_int => {
+        //             // let int128 = d.val.parse::<u128>().unwrap();
+        //             // let u = U256::from_u128(int128);
+        //             // let bytes = u.to_be_bytes();
+        //             let bytes = convert_dec_into_32bytes(&d.val).map_err(|err| {
+        //                 format!("Failed to convert int, val: {}, err: {}", &d.val, err)
+        //             })?;
+        //             args[idx] = bytes;
+        //         }
+        //         PrfsSetElementDataType::value_raw => {}
+        //     };
+        // }
 
         let val = poseidon_2(&args[0], &args[1]).map_err(|err| {
             format!(

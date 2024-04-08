@@ -9,8 +9,8 @@ use ts_rs::TS;
 pub struct PrfsSetElement {
     pub label: String,
     pub set_id: String,
-    #[ts(type = "Record<string, string>[]")]
-    pub data: sqlx::types::Json<Vec<PrfsSetElementData>>,
+    #[ts(type = "Record<string, string>")]
+    pub data: sqlx::types::Json<PrfsSetElementData>,
     #[ts(type = "number")]
     pub element_idx: Decimal,
     pub r#ref: Option<String>,
@@ -20,9 +20,13 @@ pub struct PrfsSetElement {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct PrfsSetElementData {
-    pub label: String,
-    pub r#type: PrfsSetElementDataType,
-    pub val: String,
+    pub commitment: String,
+    #[ts(type = "string")]
+    pub value_int: Decimal,
+    pub value_raw: String,
+    // pub label: String,
+    // pub r#type: PrfsSetElementDataType,
+    // pub val: String,
 }
 
 #[derive(TS, Clone, Debug, Serialize, Deserialize, Type, EnumString, Display)]

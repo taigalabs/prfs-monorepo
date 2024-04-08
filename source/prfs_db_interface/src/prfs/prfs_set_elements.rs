@@ -25,18 +25,18 @@ INSERT INTO prfs_set_elements
         atsts.iter().take(BIND_LIMIT / 5).enumerate(),
         |mut b, (idx, atst)| {
             let total_val = atst.value_num.floor();
-            let data = sqlx::types::Json::from(vec![
+            let data = sqlx::types::Json::from(
                 PrfsSetElementData {
-                    label: "cm".to_string(),
-                    r#type: PrfsSetElementDataType::commitment,
-                    val: atst.cm.to_string(),
+                    commitment: atst.cm.to_string(),
+                    value_int: total_val,
+                    value_raw: "".into(),
                 },
-                PrfsSetElementData {
-                    label: "total_val".to_string(),
-                    r#type: PrfsSetElementDataType::value_int,
-                    val: total_val.to_string(),
-                },
-            ]);
+                // PrfsSetElementData {
+                //     label: "total_val".to_string(),
+                //     r#type: PrfsSetElementDataType::value_int,
+                //     val: total_val.to_string(),
+                // },
+            );
 
             b.push_bind(&atst.label)
                 .push_bind(data)
