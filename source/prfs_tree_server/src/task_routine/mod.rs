@@ -42,7 +42,8 @@ impl TaskRoutine {
                 task_map_lock.remove(&atst);
             }
         }
-        println!("exit start_routine()");
+
+        tracing::warn!("exit start_routine()");
     }
 }
 
@@ -56,10 +57,6 @@ async fn do_update_prfs_tree_by_new_atst_task(
     let mut tree_ids = vec![];
     for atst_group_id in atst_group_ids {
         if **atst_group_id == PrfsAtstGroupId::crypto_1 {
-            let compute_resp =
-                atst_api_ops::compute_crypto_asset_total_values(&pool, &mut tx).await?;
-            tracing::info!("Computed crypto asset payload: {:?}", compute_resp);
-        } else if **atst_group_id == PrfsAtstGroupId::nonce_seoul_1 {
             let compute_resp =
                 atst_api_ops::compute_crypto_asset_total_values(&pool, &mut tx).await?;
             tracing::info!("Computed crypto asset payload: {:?}", compute_resp);
