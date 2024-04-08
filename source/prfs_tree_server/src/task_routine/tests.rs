@@ -1,11 +1,12 @@
+use prfs_common_server_state::init_server_state_test;
+use prfs_entities::PrfsAtstGroupId;
+use std::sync::Arc;
+
 use super::do_update_prfs_tree_by_new_atst_task;
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use prfs_common_server_state::{init_server_state_test, ServerState};
-    use prfs_entities::PrfsAtstGroupId;
-    use std::sync::Arc;
 
     #[tokio::test]
     async fn test_do_update_prfs_tree_by_new_atst_task() {

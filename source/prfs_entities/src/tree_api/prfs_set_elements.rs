@@ -6,8 +6,8 @@ use crate::{entities::PrfsSetElement, PrfsAtstGroupId};
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct ImportPrfsAttestationsToPrfsSetRequest {
-    pub topic: PrfsAtstGroupId,
-    pub dest_set_id: String,
+    pub atst_group_id: PrfsAtstGroupId,
+    pub prfs_set_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

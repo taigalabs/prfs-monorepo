@@ -22,6 +22,7 @@ import {
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
 const CRYPTO_1 = "crypto_1";
@@ -81,7 +82,10 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({ rerender }) => {
+const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = ({
+  rerender,
+  prfsSet,
+}) => {
   const i18n = React.useContext(i18nContext);
   const { mutateAsync: importPrfsSetElementsRequest } = useMutation({
     mutationFn: (req: ImportPrfsAttestationsToPrfsSetRequest) => {
@@ -92,13 +96,14 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
   const [isOpen, setIsOpen] = React.useState(false);
   const [computeStatus, setComputeStatus] = React.useState(CommonStatus.Standby);
   const [computeMsg, setComputeMsg] = React.useState<React.ReactNode>(null);
+
   const handleClickImport = React.useCallback(async () => {
     if (prfsProofCredential && prfsProofCredential.account_id) {
       setComputeStatus(CommonStatus.InProgress);
       try {
         const { payload, error } = await importPrfsSetElementsRequest({
-          topic: CRYPTO_1,
-          dest_set_id: CRYPTO_HOLDERS_SET_ID,
+          atst_group_id: prfsSet.atst_group_id,
+          prfs_set_id: prfsSet.set_id,
         });
 
         if (payload) {
@@ -135,6 +140,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
     importPrfsSetElementsRequest,
     setComputeMsg,
     setComputeStatus,
+    prfsSet,
     rerender,
   ]);
 
@@ -180,6 +186,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
 export default ImportPrfsSetElementsDialog;
 
 export interface ImportPrfsSetElementsDialogProps {
+  prfsSet: PrfsSet;
   rerender: () => void;
 }
 

@@ -29,8 +29,8 @@ pub async fn import_prfs_attestations_to_prfs_set(
 
     let (set_id, rows_affected) = match _import_prfs_attestations_to_prfs_set(
         &mut tx,
-        &input.topic,
-        &input.dest_set_id,
+        &input.atst_group_id,
+        &input.prfs_set_id,
     )
     .await
     {

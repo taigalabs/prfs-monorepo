@@ -2,6 +2,6 @@
 import type { PrfsAtstGroupId } from "./PrfsAtstGroupId";
 
 export type ImportPrfsAttestationsToPrfsSetRequest = {
-  topic: PrfsAtstGroupId;
-  dest_set_id: string;
+  atst_group_id: PrfsAtstGroupId;
+  prfs_set_id: string;
 };
