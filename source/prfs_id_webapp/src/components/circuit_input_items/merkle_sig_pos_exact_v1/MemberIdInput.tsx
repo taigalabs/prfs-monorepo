@@ -13,7 +13,6 @@ import {
   InputWrapper,
   Label,
 } from "@taigalabs/prfs-react-lib/src/input/InputComponent";
-import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 import { useInput } from "@taigalabs/prfs-react-lib/src/input/useInput";
 
 import styles from "./MemberIdInput.module.scss";

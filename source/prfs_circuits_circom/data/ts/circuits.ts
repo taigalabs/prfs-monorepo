@@ -262,9 +262,10 @@ const circuits: PrfsCircuit[] = [
     } as SpartanCircomDriverProperties,
     raw_circuit_inputs_meta: [
       {
-        label: "value",
-        desc: "Size of asset",
+        label: "valueInt",
+        desc: "Exact value",
         type: "FIELD_ELEMENT",
+        public: true,
       },
       {
         label: "sigpos",

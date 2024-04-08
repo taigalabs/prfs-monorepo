@@ -12,7 +12,7 @@ template MerkleSigPosExactV1(nLevels) {
     signal input sigS;
     signal input sigpos;
 
-    signal input value; 
+    signal input valueInt;
 
     // signal input assetSize;
     // signal input assetSizeGreaterEqThan;
@@ -49,7 +49,7 @@ template MerkleSigPosExactV1(nLevels) {
 
     component poseidon2 = Poseidon();
     poseidon2.inputs[0] <== sigpos;
-    poseidon2.inputs[1] <== value;
+    poseidon2.inputs[1] <== valueInt;
     // log("leaf", leaf, "computed", poseidon2.out);
     leaf === poseidon2.out;
 

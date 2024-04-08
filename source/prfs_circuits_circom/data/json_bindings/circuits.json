@@ -253,9 +253,10 @@
     },
     "raw_circuit_inputs_meta": [
       {
-        "label": "value",
-        "desc": "Size of asset",
-        "type": "FIELD_ELEMENT"
+        "label": "valueInt",
+        "desc": "Exact value",
+        "type": "FIELD_ELEMENT",
+        "public": true
       },
       {
         "label": "sigpos",
