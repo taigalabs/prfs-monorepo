@@ -12,22 +12,40 @@ import { useAppSelector } from "@/state/hooks";
 const RawValueModal: React.FC<CachedItemModalProps> = ({
   prfsSet,
   handleClickClose,
-  handleChangeValue,
+  handleClickSubmit,
 }) => {
   const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
   const i18n = useI18N();
   const [value, setValue] = React.useState("");
 
-  const extendedHandleChangeValue = React.useCallback(() => {}, [handleChangeValue]);
+  const extendedHandleChangeValue = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.currentTarget?.value;
+      if (value) {
+        setValue(value);
+      }
+    },
+
+    [setValue],
+  );
+
+  const extendedHandleClickSubmit = React.useCallback(() => {
+    handleClickSubmit(value);
+  }, [handleClickSubmit, value]);
 
   return prfsIdCredential ? (
     <div className={styles.wrapper}>
-      <Input name={""} label={i18n.member_id} value={value} readOnly />
+      <Input
+        name={""}
+        label={i18n.member_id}
+        value={value}
+        handleChangeValue={extendedHandleChangeValue}
+      />
       <div className={styles.btnRow}>
         <Button variant="transparent_aqua_blue_1" handleClick={handleClickClose}>
           {i18n.close}
         </Button>
-        <Button variant="blue_3" handleClick={extendedHandleChangeValue}>
+        <Button variant="blue_3" handleClick={extendedHandleClickSubmit}>
           {i18n.submit}
         </Button>
       </div>
@@ -42,5 +60,5 @@ export default RawValueModal;
 export interface CachedItemModalProps {
   prfsSet: PrfsSet;
   handleClickClose: () => void;
-  handleChangeValue: (addr: string) => void;
+  handleClickSubmit: (addr: string) => void;
 }

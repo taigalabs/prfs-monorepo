@@ -40,7 +40,7 @@ const RawValueDialog: React.FC<ConnectWalletProps> = ({
     setIsOpen(false);
   }, [setIsOpen]);
 
-  const extendedHandleChangeItem = React.useCallback(
+  const handleClickSubmit = React.useCallback(
     (addr: string) => {
       handleChangeItem(addr);
       setIsOpen(false);
@@ -65,7 +65,7 @@ const RawValueDialog: React.FC<ConnectWalletProps> = ({
               >
                 <RawValueModal
                   handleClickClose={handleClickClose}
-                  handleChangeValue={extendedHandleChangeItem}
+                  handleClickSubmit={handleClickSubmit}
                   prfsSet={prfsSet}
                 />
               </div>
