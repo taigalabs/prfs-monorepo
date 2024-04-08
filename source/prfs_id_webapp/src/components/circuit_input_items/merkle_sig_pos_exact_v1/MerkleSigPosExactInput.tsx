@@ -6,7 +6,7 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
-// import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
+import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 // import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
 import { MerkleSigPosExactV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Inputs";
 import { MerkleSigPosExactV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Data";
@@ -41,7 +41,7 @@ import {
 import { useHandleChangeMemberId } from "./use_handle_change_member_id";
 import CachedItemDialog from "@/components/cached_item_dialog/CachedItemDialog";
 import MemberIdInput from "./MemberIdInput";
-import ValueInput from "./ValueInput";
+import ExactValueInput from "./ExactValueInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -78,6 +78,7 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet | null>(null);
   const [prfsTree, setPrfsTree] = React.useState<PrfsTree>();
   const [memberId, setMemberId] = React.useState("");
+  const [exactValue, setExactValue] = React.useState(BigInt(0));
 
   const { isPending: isGetLatestPrfsTreePending, mutateAsync: getLatestPrfsTreeBySetId } =
     useMutation({
@@ -176,6 +177,7 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
     circuitTypeData,
     setFormValues,
     proofAction,
+    setExactValue,
   });
 
   return (
@@ -201,7 +203,9 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
           />
           {error?.nonceRaw && <FormError>{error.merkleProof}</FormError>}
         </div>
-        <ValueInput circuitTypeData={circuitTypeData} value={"1"} />
+        <div className={styles.row}>
+          <ExactValueInput circuitTypeData={circuitTypeData} exactValue={exactValue} />
+        </div>
         {value && <ComputedValue value={value} />}
       </FormInput>
     </>

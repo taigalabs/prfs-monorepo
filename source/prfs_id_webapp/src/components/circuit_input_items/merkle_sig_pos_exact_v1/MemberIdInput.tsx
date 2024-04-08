@@ -40,15 +40,6 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
     return "";
   }, [memberId]);
 
-  // const extendedHandleChangeValue = React.useCallback(
-  //   (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     if (e.currentTarget.value) {
-  //       handleChangeValue(e.currentTarget.value);
-  //     }
-  //   },
-  //   [handleChangeValue],
-  // );
-
   return (
     <>
       <div className={styles.wrapper}>

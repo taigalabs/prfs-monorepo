@@ -37,6 +37,7 @@ export function useHandleChangeMemberId({
   setFormErrors,
   setFormValues,
   proofAction,
+  setExactValue,
 }: UseHandleChangeAddressArgs) {
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
@@ -250,25 +251,8 @@ expected: ${d.val}, computed: ${cm}`);
           return;
         }
 
-        // // Range setup
-        // let optionIdx = -1;
-        // for (const [idx, option] of range_data.options.entries()) {
-        //   const { lower_bound, upper_bound } = option;
-        //   if (lower_bound <= args[1] && args[1] < upper_bound) {
-        //     optionIdx = idx;
-        //   }
-        // }
-
-        // if (optionIdx === -1) {
-        //   throw new Error("Value does not match any options");
-        // }
-        // setRangeOptionIdx(optionIdx);
-
-        // const option = range_data.options[optionIdx];
-        // if (!option) {
-        //   throw new Error(`Option at index does not exist, idx: ${optionIdx}`);
-        // }
-        // const { lower_bound, upper_bound, label } = option;
+        // Exact value setup
+        setExactValue(args[1]);
 
         setFormValues(oldVal => ({
           ...oldVal,
@@ -309,4 +293,5 @@ export interface UseHandleChangeAddressArgs {
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosExactV1Inputs>>>;
   credential: PrfsIdCredential;
   proofAction: string;
+  setExactValue: React.Dispatch<React.SetStateAction<bigint>>;
 }

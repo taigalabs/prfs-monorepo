@@ -192,26 +192,6 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
           error={error}
           prfsSet={prfsSet}
         />
-        {/* <div className={styles.addrInputWrapper}> */}
-        {/*   <Input */}
-        {/*     inputClassName={styles.addrInput} */}
-        {/*     labelClassName={styles.addrInput} */}
-        {/*     name={""} */}
-        {/*     label={i18n.wallet} */}
-        {/*     value={abbrevWalletAddr} */}
-        {/*     readOnly */}
-        {/*     hasError={!!error?.merkleProof} */}
-        {/*   /> */}
-        {/*   <div className={styles.btnRow}> */}
-        {/*     <CachedItemDialog handleChangeItem={handleChangeAddress} prfsSet={prfsSet}> */}
-        {/*       <FormInputButton type="button">{i18n.cache}</FormInputButton> */}
-        {/*     </CachedItemDialog> */}
-        {/*     <span className={styles.or}> or </span> */}
-        {/*     <ConnectWallet handleChangeAddress={handleChangeAddress}> */}
-        {/*       <FormInputButton type="button">{i18n.connect}</FormInputButton> */}
-        {/*     </ConnectWallet> */}
-        {/*   </div> */}
-        {/* </div> */}
         <div className={styles.row}>
           <MemoInput
             value={value}
