@@ -133,6 +133,7 @@ export default {
   desc_3: "c",
   key: "Key",
   value: "Value",
+  value_raw: "Value raw",
   validate: "Validate",
   fetch_asset: "Fetch asset",
   what_do_i_have: "What do I have?",

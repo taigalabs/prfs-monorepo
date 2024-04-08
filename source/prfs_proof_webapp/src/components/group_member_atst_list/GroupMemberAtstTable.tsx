@@ -48,14 +48,6 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
     }
   }, [atst.cm]);
 
-  // const handleClickCryptoAssets = React.useCallback(
-  //   (ev: React.MouseEvent) => {
-  //     ev.stopPropagation();
-  //     window.open(`https://etherscan.io/address/${atst.label.toLowerCase()}`, "_blank");
-  //   },
-  //   [atst.label],
-  // );
-
   return (
     <AttestationTableRow style={style} handleClick={handleClickRow}>
       <AttestationTableCell className={cn(styles.label, styles.cell)}>
@@ -64,8 +56,11 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
       <AttestationTableCell className={cn(styles.commitment, styles.w1024)}>
         {cm}
       </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.value, styles.w1024)}>
+      <AttestationTableCell className={cn(styles.valueNum, styles.w1024)}>
         {Number(atst.value_num)}
+      </AttestationTableCell>
+      <AttestationTableCell className={cn(styles.valueRaw, styles.w1024)}>
+        {atst.value_raw}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.meta, styles.w480, styles.cell)}>
         <span>{meta}</span>
@@ -160,8 +155,11 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
             <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
               {i18n.commitment}
             </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.value, styles.w1024)}>
+            <AttestationTableHeaderCell className={cn(styles.valueNum, styles.w1024)}>
               {i18n.value}
+            </AttestationTableHeaderCell>
+            <AttestationTableHeaderCell className={cn(styles.valueRaw, styles.w1024)}>
+              {i18n.value_raw}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.meta, styles.w1320)}>
               {i18n.meta}
