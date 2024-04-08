@@ -64,9 +64,9 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
           </InputWrapper>
         </>
         <div className={styles.btnRow}>
-          <CachedItemDialog handleChangeItem={handleChangeValue} prfsSet={prfsSet}>
-            <FormInputButton type="button">{i18n.cache}</FormInputButton>
-          </CachedItemDialog>
+          {/* <CachedItemDialog handleChangeItem={handleChangeValue} prfsSet={prfsSet}> */}
+          {/*   <FormInputButton type="button">{i18n.cache}</FormInputButton> */}
+          {/* </CachedItemDialog> */}
           <RawValueDialog
             className={styles.rawValueDialog}
             handleChangeItem={handleChangeValue}

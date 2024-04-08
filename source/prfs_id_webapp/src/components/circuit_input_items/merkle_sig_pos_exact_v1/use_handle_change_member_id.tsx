@@ -124,6 +124,7 @@ export function useHandleChangeMemberId({
         let sigR: bigint;
         let sigS: bigint;
         const args: bigint[] = [];
+        let value_raw: string;
         await (async () => {
           const d = data[0];
           switch (d.type) {
