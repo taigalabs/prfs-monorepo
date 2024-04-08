@@ -15,7 +15,7 @@ import {
   HandleSkipCreateProof,
 } from "@/components/circuit_input_items/formTypes";
 
-export function useMerkleSigPosRangeFormHandler({
+export function useMerkleSigPosExactFormHandler({
   setFormHandler,
   setFormErrors,
   credential,

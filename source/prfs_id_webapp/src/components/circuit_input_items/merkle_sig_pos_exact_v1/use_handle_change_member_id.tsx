@@ -28,7 +28,6 @@ import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
 import styles from "./MerkleSigPosExactInput.module.scss";
 import { FormErrors } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
-import { PrfsSetElement } from "@taigalabs/prfs-entities/bindings/PrfsSetElement";
 
 export function useHandleChangeMemberId({
   credential,

@@ -18,21 +18,8 @@ export async function proveMembership(
   const { inputs, eventListener } = args;
   console.log("inputs: %o", inputs);
 
-  const {
-    sigR,
-    sigS,
-    sigpos,
-    leaf,
-    merkleProof,
-    valueRaw,
-    valueInt,
-    // assetSize,
-    // assetSizeLessThan,
-    // assetSizeGreaterEqThan,
-    // assetSizeLabel,
-    nonceRaw,
-    proofPubKey,
-  } = inputs;
+  const { sigR, sigS, sigpos, leaf, merkleProof, valueRaw, valueInt, nonceRaw, proofPubKey } =
+    inputs;
 
   const proofPubKeyBytes = toUtf8Bytes(proofPubKey);
   const proofPubKeyInt = BigInt(new BN(proofPubKeyBytes).mod(SECP256K1_P).toString());
