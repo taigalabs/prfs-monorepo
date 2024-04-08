@@ -8,6 +8,7 @@ export const InputWrapper: React.FC<InputWrapperProps> = ({
   children,
   className,
   focusClassName,
+  hasValueClassName,
   isError,
   isFocused,
   hasValue,
@@ -19,6 +20,7 @@ export const InputWrapper: React.FC<InputWrapperProps> = ({
         [styles.isFocused]: isFocused,
         [styles.hasValue]: hasValue,
         [focusClassName || ""]: isFocused,
+        [hasValueClassName || ""]: hasValue,
       })}
     >
       {children}
@@ -85,6 +87,7 @@ export interface InputWrapperProps {
   children: React.ReactNode;
   className?: string;
   focusClassName?: string;
+  hasValueClassName?: string;
   isError: boolean;
   isFocused: boolean;
   hasValue: boolean;

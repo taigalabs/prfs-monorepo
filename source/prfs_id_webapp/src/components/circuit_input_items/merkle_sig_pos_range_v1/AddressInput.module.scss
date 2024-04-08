@@ -11,13 +11,13 @@
 
 .inputWrapper {
   height: 80px;
-}
 
-.inputWrapperFocused {
-  &.label {
+  .label {
+    transform: translateY(calc(-50% - 16px));
   }
 
-  &.input {
+  .input {
+    transform: translateY(-16px);
   }
 }
 

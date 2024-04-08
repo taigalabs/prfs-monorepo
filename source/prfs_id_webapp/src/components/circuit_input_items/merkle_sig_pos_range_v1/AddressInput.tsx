@@ -55,7 +55,6 @@ const AddressInput: React.FC<AddresseInputProps> = ({
         <>
           <InputWrapper
             className={styles.inputWrapper}
-            focusClassName={styles.inputWrapperFocused}
             isError={!!error.merkleProof}
             isFocused={isFocused}
             hasValue={abbrevWalletAddr.length > 0}
