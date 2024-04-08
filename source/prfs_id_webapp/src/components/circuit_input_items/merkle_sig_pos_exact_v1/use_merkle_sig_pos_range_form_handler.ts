@@ -3,8 +3,8 @@ import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { PrfsIdCredential, deriveProofKey } from "@taigalabs/prfs-id-sdk-web";
-import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
+import { MerkleSigPosExactV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Inputs";
+import { MerkleSigPosExactV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1PresetVals";
 import { GetPrfsProofRecordRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofRecordRequest";
 import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
 
@@ -22,8 +22,8 @@ export function useMerkleSigPosRangeFormHandler({
   proofAction,
 }: UseMerkleSigPosRangeFormHandlerArgs) {
   React.useEffect(() => {
-    setFormHandler(() => async (formValues: FormValues<MerkleSigPosRangeV1Inputs>) => {
-      const val = formValues as MerkleSigPosRangeV1Inputs | undefined;
+    setFormHandler(() => async (formValues: FormValues<MerkleSigPosExactV1Inputs>) => {
+      const val = formValues as MerkleSigPosExactV1Inputs | undefined;
       if (!val) {
         setFormErrors(oldVal => ({
           ...oldVal,
@@ -140,13 +140,13 @@ export function useCachedProveReceiptCreator({
 
 export interface UseMerkleSigPosRangeFormHandlerArgs {
   setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosExactV1Inputs>>>;
   credential: PrfsIdCredential;
   proofAction: string;
 }
 
 export interface UseCachedProveReceiptCreatorArgs {
-  presetVals?: MerkleSigPosRangeV1PresetVals;
+  presetVals?: MerkleSigPosExactV1PresetVals;
   credential: PrfsIdCredential;
   proofAction: string;
   usePrfsRegistry?: boolean;

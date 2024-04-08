@@ -12,8 +12,12 @@ import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import { PrfsIdCredential, makeAtstCm } from "@taigalabs/prfs-id-sdk-web";
-import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
+import {
+  PrfsIdCredential,
+  makeAtstCm,
+  makeGroupMemberAtstClaimSecret,
+} from "@taigalabs/prfs-id-sdk-web";
+import { MerkleSigPosExactV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Inputs";
 import { SpartanMerkleProof } from "@taigalabs/prfs-circuit-interface/bindings/SpartanMerkleProof";
 import { GetPrfsSetElementRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetElementRequest";
 import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetElementData";
@@ -31,8 +35,6 @@ export function useHandleChangeMemberId({
   prfsTree,
   setMemberId,
   setFormErrors,
-  circuitTypeData,
-  setRangeOptionIdx,
   setFormValues,
   proofAction,
 }: UseHandleChangeAddressArgs) {
@@ -66,9 +68,8 @@ export function useHandleChangeMemberId({
         return;
       }
 
-      // const claimSecret = `${prfsSet.atst_group_id}_${memberId}`;
-      const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, memberId);
-      const memberIdHashed = hexlify(hashed);
+      const { hashed: _memberIdHashed } = await makeAtstCm(credential.secret_key, memberId);
+      const memberIdHashed = hexlify(_memberIdHashed);
 
       console.log(11, memberId, memberIdHashed);
 
@@ -126,6 +127,8 @@ export function useHandleChangeMemberId({
           const d = data[0];
           switch (d.type) {
             case "Commitment": {
+              const claimSecret = makeGroupMemberAtstClaimSecret(prfsSet.atst_group_id, memberId);
+              const { hashed, sigBytes } = await makeAtstCm(credential.secret_key, claimSecret);
               sigR = bytesToNumberLE(sigBytes.subarray(0, 32));
               sigS = bytesToNumberLE(sigBytes.subarray(32, 64));
 
@@ -156,8 +159,6 @@ expected: ${d.val}, computed: ${cm}`);
               throw new Error("Unsupported data type for the second element");
           }
         })();
-
-        return;
 
         const leafBytes = await poseidon_2_bigint_le(args);
         const leafVal = bytesToNumberLE(leafBytes);
@@ -249,25 +250,25 @@ expected: ${d.val}, computed: ${cm}`);
           return;
         }
 
-        // Range setup
-        let optionIdx = -1;
-        for (const [idx, option] of range_data.options.entries()) {
-          const { lower_bound, upper_bound } = option;
-          if (lower_bound <= args[1] && args[1] < upper_bound) {
-            optionIdx = idx;
-          }
-        }
+        // // Range setup
+        // let optionIdx = -1;
+        // for (const [idx, option] of range_data.options.entries()) {
+        //   const { lower_bound, upper_bound } = option;
+        //   if (lower_bound <= args[1] && args[1] < upper_bound) {
+        //     optionIdx = idx;
+        //   }
+        // }
 
-        if (optionIdx === -1) {
-          throw new Error("Value does not match any options");
-        }
-        setRangeOptionIdx(optionIdx);
+        // if (optionIdx === -1) {
+        //   throw new Error("Value does not match any options");
+        // }
+        // setRangeOptionIdx(optionIdx);
 
-        const option = range_data.options[optionIdx];
-        if (!option) {
-          throw new Error(`Option at index does not exist, idx: ${optionIdx}`);
-        }
-        const { lower_bound, upper_bound, label } = option;
+        // const option = range_data.options[optionIdx];
+        // if (!option) {
+        //   throw new Error(`Option at index does not exist, idx: ${optionIdx}`);
+        // }
+        // const { lower_bound, upper_bound, label } = option;
 
         setFormValues(oldVal => ({
           ...oldVal,
@@ -275,10 +276,10 @@ expected: ${d.val}, computed: ${cm}`);
           sigS,
           sigpos: args[0],
           leaf: leafVal,
-          assetSize: args[1],
-          assetSizeGreaterEqThan: lower_bound,
-          assetSizeLessThan: upper_bound,
-          assetSizeLabel: label,
+          value: args[1],
+          // assetSizeGreaterEqThan: lower_bound,
+          // assetSizeLessThan: upper_bound,
+          // assetSizeLabel: label,
           merkleProof,
           proofAction,
         }));
@@ -293,7 +294,6 @@ expected: ${d.val}, computed: ${cm}`);
       getPrfsTreeLeafIndices,
       setFormErrors,
       getPrfsSetElement,
-      setRangeOptionIdx,
       prfsTree,
       proofAction,
     ],
@@ -304,10 +304,9 @@ export interface UseHandleChangeAddressArgs {
   prfsSet: PrfsSet | null;
   prfsTree: PrfsTree | undefined;
   setMemberId: React.Dispatch<React.SetStateAction<string>>;
-  setRangeOptionIdx: React.Dispatch<React.SetStateAction<number>>;
   circuitTypeData: MerkleSigPosExactV1Data;
-  setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
+  setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosExactV1Inputs>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosExactV1Inputs>>>;
   credential: PrfsIdCredential;
   proofAction: string;
 }

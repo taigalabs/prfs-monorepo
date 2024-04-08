@@ -1,7 +1,7 @@
 import React from "react";
-import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
-import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
+import { MerkleSigPosExactV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Data";
+import { MerkleSigPosExactV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Inputs";
+import { MerkleSigPosExactV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1PresetVals";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
 import styles from "./MemoInput.module.scss";
@@ -63,10 +63,10 @@ const MemoInput: React.FC<RangeSelectProps> = ({
 export default MemoInput;
 
 export interface RangeSelectProps {
-  circuitTypeData: MerkleSigPosRangeV1Data;
-  value: FormValues<MerkleSigPosRangeV1Inputs>;
-  presetVals?: MerkleSigPosRangeV1PresetVals;
-  setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
-  error: FormErrors<MerkleSigPosRangeV1Inputs>;
+  circuitTypeData: MerkleSigPosExactV1Data;
+  value: FormValues<MerkleSigPosExactV1Inputs>;
+  presetVals?: MerkleSigPosExactV1PresetVals;
+  setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosExactV1Inputs>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosExactV1Inputs>>>;
+  error: FormErrors<MerkleSigPosExactV1Inputs>;
 }

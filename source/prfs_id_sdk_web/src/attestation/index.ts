@@ -1,7 +1,13 @@
+import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
+
 const ATST = "atst";
 
 export function makeAccAttestation({ attType, destination, id, cm }: MakeAttestationArgs) {
   return `${ATST}-${attType} ${destination} ${id} ${cm}`;
+}
+
+export function makeGroupMemberAtstClaimSecret(groupId: PrfsAtstGroupId, memberId: string) {
+  return `${groupId}_${memberId}`;
 }
 
 export const PRFS_ATTESTATION_STEM = "PRFS_ATST_";

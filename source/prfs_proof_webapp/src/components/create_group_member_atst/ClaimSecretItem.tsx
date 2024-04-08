@@ -15,6 +15,7 @@ import {
   openPopup,
   CommitmentReceipt,
   EncryptedReceipt,
+  makeGroupMemberAtstClaimSecret,
   // makeAtstCmPreImageStr,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
@@ -65,7 +66,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
 
   const claimSecret = React.useMemo(() => {
     if (atstGroup && formData[MEMBER_ID]) {
-      return `${atstGroup.atst_group_id}_${formData[MEMBER_ID]}`;
+      return makeGroupMemberAtstClaimSecret(atstGroup.atst_group_id, formData[MEMBER_ID]);
     } else {
       return "";
     }

@@ -6,8 +6,10 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
-import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
+// import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
+// import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
+import { MerkleSigPosExactV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Inputs";
+import { MerkleSigPosExactV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Data";
 import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
@@ -31,7 +33,6 @@ import {
   HandleSkipCreateProof,
 } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
-import RangeSelect from "./RangeSelect";
 import MemoInput from "./MemoInput";
 import {
   useCachedProveReceiptCreator,
@@ -40,6 +41,7 @@ import {
 import { useHandleChangeMemberId } from "./use_handle_change_member_id";
 import CachedItemDialog from "@/components/cached_item_dialog/CachedItemDialog";
 import MemberIdInput from "./MemberIdInput";
+import ValueInput from "./ValueInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -76,7 +78,6 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet | null>(null);
   const [prfsTree, setPrfsTree] = React.useState<PrfsTree>();
   const [memberId, setMemberId] = React.useState("");
-  const [rangeOptionIdx, setRangeOptionIdx] = React.useState(-1);
 
   const { isPending: isGetLatestPrfsTreePending, mutateAsync: getLatestPrfsTreeBySetId } =
     useMutation({
@@ -115,13 +116,6 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
       <span className={styles.inputLabel}>{i18n.loading}</span>
     );
   }, [prfsSet, prfsTree]);
-
-  // const abbrevWalletAddr = React.useMemo(() => {
-  //   if (walletAddr.length > 10) {
-  //     return abbrev7and5(walletAddr);
-  //   }
-  //   return "";
-  // }, [walletAddr]);
 
   useMerkleSigPosRangeFormHandler({ setFormHandler, setFormErrors, credential, proofAction });
 
@@ -180,7 +174,6 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
     setMemberId,
     setFormErrors,
     circuitTypeData,
-    setRangeOptionIdx,
     setFormValues,
     proofAction,
   });
@@ -197,28 +190,6 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
           error={error}
           prfsSet={prfsSet}
         />
-        {/* <div className={styles.addrInputWrapper}> */}
-        {/*   <Input */}
-        {/*     inputClassName={styles.addrInput} */}
-        {/*     labelClassName={styles.addrInput} */}
-        {/*     name={""} */}
-        {/*     label={i18n.member_id} */}
-        {/*     value={abbrevWalletAddr} */}
-        {/*     readOnly */}
-        {/*     hasError={!!error?.merkleProof} */}
-        {/*   /> */}
-        {/*   <div className={styles.btnRow}> */}
-        {/*     <CachedItemDialog handleChangeItem={handleChangeMemberId} prfsSet={prfsSet}> */}
-        {/*       <FormInputButton type="button">{i18n.cache}</FormInputButton> */}
-        {/*     </CachedItemDialog> */}
-        {/*   </div> */}
-        {/* </div> */}
-        {/* {error?.merkleProof && ( */}
-        {/*   <FormError> */}
-        {/*     <IoMdAlert /> */}
-        {/*     {error.merkleProof} */}
-        {/*   </FormError> */}
-        {/* )} */}
         <div className={styles.row}>
           <MemoInput
             value={value}
@@ -230,7 +201,7 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
           />
           {error?.nonceRaw && <FormError>{error.merkleProof}</FormError>}
         </div>
-        <RangeSelect circuitTypeData={circuitTypeData} rangeOptionIdx={rangeOptionIdx} />
+        <ValueInput circuitTypeData={circuitTypeData} value={"1"} />
         {value && <ComputedValue value={value} />}
       </FormInput>
     </>
@@ -240,11 +211,11 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
 export default MerkleSigPosExactInput;
 
 export interface MerkleSigPosExactInputProps {
-  circuitTypeData: MerkleSigPosRangeV1Data;
-  value: FormValues<MerkleSigPosRangeV1Inputs>;
-  error: FormErrors<MerkleSigPosRangeV1Inputs>;
-  setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosRangeV1Inputs>>;
-  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosRangeV1Inputs>>>;
+  circuitTypeData: MerkleSigPosExactV1Data;
+  value: FormValues<MerkleSigPosExactV1Inputs>;
+  error: FormErrors<MerkleSigPosExactV1Inputs>;
+  setFormValues: React.Dispatch<React.SetStateAction<MerkleSigPosExactV1Inputs>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosExactV1Inputs>>>;
   setFormHandler: React.Dispatch<React.SetStateAction<FormHandler | null>>;
   presetVals?: MerkleSigPosRangeV1PresetVals;
   credential: PrfsIdCredential;
@@ -254,5 +225,5 @@ export interface MerkleSigPosExactInputProps {
 }
 
 export interface ComputedValueProps {
-  value: FormValues<MerkleSigPosRangeV1Inputs>;
+  value: FormValues<MerkleSigPosExactV1Inputs>;
 }

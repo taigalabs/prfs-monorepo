@@ -3,7 +3,7 @@ import cn from "classnames";
 import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
-import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
+import { MerkleSigPosExactV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Inputs";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import {
@@ -101,6 +101,6 @@ export default MemberIdInput;
 export interface MemberIdInputProps {
   memberId: string;
   handleChangeValue: (val: string) => void;
-  error: FormErrors<MerkleSigPosRangeV1Inputs>;
+  error: FormErrors<MerkleSigPosExactV1Inputs>;
   prfsSet: PrfsSet | null;
 }
