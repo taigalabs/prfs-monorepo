@@ -1,7 +1,7 @@
 import { ID } from "@taigalabs/prfs-id-sdk-web";
 
 const MINIMUM_ID_LEN = 9;
-const MINIMUM_PW_LEN = 15;
+const MINIMUM_PW_LEN = 20;
 
 export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
   id: "",
