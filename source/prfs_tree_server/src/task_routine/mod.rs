@@ -59,6 +59,10 @@ async fn do_update_prfs_tree_by_new_atst_task(
             let compute_resp =
                 atst_api_ops::compute_crypto_asset_total_values(&pool, &mut tx).await?;
             tracing::info!("Computed crypto asset payload: {:?}", compute_resp);
+        } else if **atst_group_id == PrfsAtstGroupId::nonce_seoul_1 {
+            let compute_resp =
+                atst_api_ops::compute_crypto_asset_total_values(&pool, &mut tx).await?;
+            tracing::info!("Computed crypto asset payload: {:?}", compute_resp);
         }
 
         let prfs_sets = prfs::get_prfs_sets_by_atst_group_id__tx(&mut tx, &atst_group_id).await?;
