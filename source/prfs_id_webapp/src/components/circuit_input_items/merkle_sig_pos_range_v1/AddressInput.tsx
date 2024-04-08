@@ -43,15 +43,6 @@ const AddressInput: React.FC<AddresseInputProps> = ({
   return (
     <>
       <div className={styles.wrapper}>
-        {/* <Input */}
-        {/*   inputClassName={styles.addrInput} */}
-        {/*   labelClassName={styles.addrInput} */}
-        {/*   name={""} */}
-        {/*   label={i18n.wallet} */}
-        {/*   value={abbrevWalletAddr} */}
-        {/*   readOnly */}
-        {/*   hasError={!!error?.merkleProof} */}
-        {/* /> */}
         <>
           <InputWrapper
             className={styles.inputWrapper}
@@ -70,13 +61,8 @@ const AddressInput: React.FC<AddresseInputProps> = ({
               onFocus={handleFocus}
               onBlur={handleBlur}
               readOnly
-              // onChange={handleChangeValue}
-              // onKeyDown={handleKeyDown}
-              // readOnly={readOnly}
-              // disabled={disabled}
             />
           </InputWrapper>
-          {/* {error && <InputError>{error?.merkleProof}</InputError>} */}
         </>
         <div className={styles.btnRow}>
           <CachedItemDialog handleChangeItem={handleChangeAddress} prfsSet={prfsSet}>
