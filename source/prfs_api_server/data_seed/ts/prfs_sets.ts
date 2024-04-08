@@ -8,8 +8,8 @@ const prfs_sets: PrfsSet[] = [
     desc: "Nonce community Seoul",
     hash_algorithm: "Poseidon",
     cardinality: BigInt(0),
-    element_type: "",
-    atst_type_id: "nonce_seoul_1",
+    element_type: "member_id",
+    atst_group_id: "nonce_seoul_1",
   },
 ];
 
