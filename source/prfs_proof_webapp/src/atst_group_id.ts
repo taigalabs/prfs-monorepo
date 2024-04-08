@@ -1,1 +1,3 @@
-export const NONCE_ATST_GROUP_ID = "0x1D73A70";
+import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
+
+export const NONCE_ATST_GROUP_ID: PrfsAtstGroupId = "nonce_seoul_1";
