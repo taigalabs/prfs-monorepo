@@ -46,7 +46,7 @@ pub async fn insert_prfs_attestations(
     let mut query_builder: QueryBuilder<_> = QueryBuilder::new(
         r#"
 INSERT INTO prfs_attestations
-(atst_id, label, cm, meta, value, status, atst_version) 
+(atst_id, label, cm, meta, value, status, atst_version, atst_group_id)
 "#,
     );
 
@@ -59,17 +59,18 @@ INSERT INTO prfs_attestations
                 .push_bind(&atst.meta)
                 .push_bind(&atst.value)
                 .push_bind(&atst.status)
-                .push_bind(&atst.atst_version);
+                .push_bind(&atst.atst_version)
+                .push_bind(&atst.atst_group_id);
         },
     );
 
     query_builder.push(
         r#"
 ON CONFLICT (atst_id) DO UPDATE SET (
-label, cm, meta, updated_at, value, status, atst_version
+label, cm, meta, updated_at, value, status, atst_version, atst_group_id
 ) = (
 excluded.label, excluded.cm, excluded.meta,
-now(), excluded.value, excluded.status, excluded.atst_version
+now(), excluded.value, excluded.status, excluded.atst_version, excluded.atst_group_id
 )
     "#,
     );
