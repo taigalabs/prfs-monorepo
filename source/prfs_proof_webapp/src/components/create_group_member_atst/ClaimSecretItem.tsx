@@ -237,6 +237,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
           {memberIdCacheKeys && (
             <EncryptedMemberIdItem
               memberIdCacheKeys={memberIdCacheKeys}
+              memberIdCm={formData[MEMBER_ID_CM]}
               memberIdEnc={formData[MEMBER_ID_ENC]}
             />
           )}

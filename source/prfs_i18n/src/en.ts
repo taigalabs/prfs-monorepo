@@ -37,6 +37,7 @@ export default {
     "Validation may take 7-30 secs depending on the network traffic. Try not to close the window.",
   commitment: "Commitment",
   encryption: "Encryption",
+  member_id_commitment: "Member id commitment",
   encrypted_wallet_addr: "Encrypted wallet address",
   encrypted_member_id: "Encrypted member id",
   total_value_usd: "Total value USD",

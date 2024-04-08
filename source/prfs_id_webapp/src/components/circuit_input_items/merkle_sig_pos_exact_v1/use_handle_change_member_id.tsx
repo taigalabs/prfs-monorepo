@@ -66,8 +66,8 @@ export function useHandleChangeMemberId({
         return;
       }
 
-      const claimSecret = `${prfsSet.atst_group_id}_${memberId}`;
-      const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, claimSecret);
+      // const claimSecret = `${prfsSet.atst_group_id}_${memberId}`;
+      const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, memberId);
       const memberIdHashed = hexlify(hashed);
 
       console.log(11, memberId, memberIdHashed);
@@ -126,7 +126,6 @@ export function useHandleChangeMemberId({
           const d = data[0];
           switch (d.type) {
             case "Commitment": {
-              // const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, claimSecre);
               sigR = bytesToNumberLE(sigBytes.subarray(0, 32));
               sigS = bytesToNumberLE(sigBytes.subarray(32, 64));
 
