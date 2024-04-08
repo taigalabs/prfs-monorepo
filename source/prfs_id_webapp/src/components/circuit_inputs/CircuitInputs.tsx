@@ -1,12 +1,15 @@
 import React from "react";
 import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { MerkleSigPosExactV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Data";
 import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Data";
+import { MerkleSigPosExactV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Inputs";
 import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { AddrMembershipV1Data } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Data";
 import { AddrMembershipV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/AddrMembershipV1Inputs";
 import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
+import { MerkleSigPosExactV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1PresetVals";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 
 import styles from "./CircuitInputs.module.scss";
@@ -84,13 +87,13 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
       case "merkle_sig_pos_exact_v1": {
         return (
           <MerkleSigPosExactInput
-            circuitTypeData={proofType.circuit_type_data as MerkleSigPosRangeV1Data}
-            value={formValues as FormValues<MerkleSigPosRangeV1Inputs>}
-            error={formErrors as FormErrors<MerkleSigPosRangeV1Inputs>}
+            circuitTypeData={proofType.circuit_type_data as MerkleSigPosExactV1Data}
+            value={formValues as FormValues<MerkleSigPosExactV1Inputs>}
+            error={formErrors as FormErrors<MerkleSigPosExactV1Inputs>}
             setFormValues={setFormValues}
             setFormErrors={setFormErrors as any}
             setFormHandler={setFormHandler}
-            presetVals={presetVals as MerkleSigPosRangeV1PresetVals}
+            presetVals={presetVals as MerkleSigPosExactV1PresetVals}
             credential={credential}
             proofAction={proofAction}
             usePrfsRegistry={usePrfsRegistry}

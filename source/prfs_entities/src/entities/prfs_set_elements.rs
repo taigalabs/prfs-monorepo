@@ -34,9 +34,11 @@ pub enum PrfsSetElementStatus {
 }
 
 #[derive(TS, Clone, Debug, Serialize, Deserialize, Type, EnumString, Display, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 #[ts(export)]
 #[sqlx(type_name = "VARCHAR")]
 pub enum PrfsSetElementDataType {
-    Commitment,
-    Int,
+    commitment,
+    value_int,
+    value_raw,
 }

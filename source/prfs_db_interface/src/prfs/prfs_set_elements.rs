@@ -28,12 +28,12 @@ INSERT INTO prfs_set_elements
             let data = sqlx::types::Json::from(vec![
                 PrfsSetElementData {
                     label: "cm".to_string(),
-                    r#type: PrfsSetElementDataType::Commitment,
+                    r#type: PrfsSetElementDataType::commitment,
                     val: atst.cm.to_string(),
                 },
                 PrfsSetElementData {
                     label: "total_val".to_string(),
-                    r#type: PrfsSetElementDataType::Int,
+                    r#type: PrfsSetElementDataType::value_int,
                     val: total_val.to_string(),
                 },
             ]);

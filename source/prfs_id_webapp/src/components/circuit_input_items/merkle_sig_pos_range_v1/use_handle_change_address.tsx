@@ -129,7 +129,7 @@ export function useHandleChangeAddress({
         await (async () => {
           const d = data[0];
           switch (d.type) {
-            case "Commitment": {
+            case "commitment": {
               const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, addr);
               sigR = bytesToNumberLE(sigBytes.subarray(0, 32));
               sigS = bytesToNumberLE(sigBytes.subarray(32, 64));
@@ -154,7 +154,7 @@ export function useHandleChangeAddress({
         (() => {
           const d = data[1];
           switch (d.type) {
-            case "Int": {
+            case "value_int": {
               args[1] = BigInt(d.val);
               break;
             }

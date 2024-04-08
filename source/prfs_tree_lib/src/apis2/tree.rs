@@ -18,7 +18,7 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
 
         for (idx, d) in data.iter().enumerate() {
             match d.r#type {
-                PrfsSetElementDataType::Commitment => {
+                PrfsSetElementDataType::commitment => {
                     let val = if d.val.starts_with("0x") {
                         &d.val[2..]
                     } else {
@@ -34,7 +34,7 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
                     // println!("cm: {:?}, bytes: {:?}", val, bytes);
                     args[idx] = bytes;
                 }
-                PrfsSetElementDataType::Int => {
+                PrfsSetElementDataType::value_int => {
                     // let int128 = d.val.parse::<u128>().unwrap();
                     // let u = U256::from_u128(int128);
                     // let bytes = u.to_be_bytes();
@@ -43,6 +43,7 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
                     })?;
                     args[idx] = bytes;
                 }
+                PrfsSetElementDataType::value_raw => {}
             };
         }
 
