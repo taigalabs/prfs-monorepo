@@ -64,7 +64,6 @@ export function useCachedItems({ prfsIdCredential, prfsSet }: UseCachedItemsArgs
               // const { hashed } = await makeWalletCacheKeyCm(prfsIdCredential.secret_key, idx);
               const key = hexlify(hashed);
 
-              console.log(11, arg, hashed, key);
               cacheKeys.push(key);
               break;
             }
@@ -74,7 +73,6 @@ export function useCachedItems({ prfsIdCredential, prfsSet }: UseCachedItemsArgs
               // const { hashed } = await makeWalletCacheKeyCm(prfsIdCredential.secret_key, idx);
               const key = hexlify(hashed);
 
-              console.log(11, arg, hashed, key);
               cacheKeys.push(key);
               break;
             }

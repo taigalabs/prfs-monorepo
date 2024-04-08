@@ -14,6 +14,7 @@ import {
   Label,
 } from "@taigalabs/prfs-react-lib/src/input/InputComponent";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
+import { useInput } from "@taigalabs/prfs-react-lib/src/input/useInput";
 
 import styles from "./AddressInput.module.scss";
 import { useI18N } from "@/i18n/context";
@@ -22,7 +23,6 @@ import { FormInputButton } from "@/components/circuit_inputs/CircuitInputCompone
 // import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
 import CachedItemDialog from "@/components/cached_item_dialog/CachedItemDialog";
 import { FormErrors } from "@/components/circuit_input_items/formTypes";
-import { useInput } from "@taigalabs/prfs-react-lib/src/input/useInput";
 
 const AddressInput: React.FC<AddresseInputProps> = ({
   walletAddr,
@@ -42,7 +42,7 @@ const AddressInput: React.FC<AddresseInputProps> = ({
 
   return (
     <>
-      <div className={styles.addrInputWrapper}>
+      <div className={styles.wrapper}>
         {/* <Input */}
         {/*   inputClassName={styles.addrInput} */}
         {/*   labelClassName={styles.addrInput} */}
@@ -54,18 +54,20 @@ const AddressInput: React.FC<AddresseInputProps> = ({
         {/* /> */}
         <>
           <InputWrapper
+            className={styles.inputWrapper}
+            focusClassName={styles.inputWrapperFocused}
             isError={!!error.merkleProof}
             isFocused={isFocused}
             hasValue={abbrevWalletAddr.length > 0}
           >
-            <Label name={""} className={styles.addrInput}>
+            <Label name={""} className={styles.label}>
               {i18n.wallet}
             </Label>
             <Fieldset>{i18n.wallet}</Fieldset>
             <InputElement
               name={""}
               value={abbrevWalletAddr || ""}
-              className={styles.addrInput}
+              className={styles.input}
               onFocus={handleFocus}
               onBlur={handleBlur}
               readOnly

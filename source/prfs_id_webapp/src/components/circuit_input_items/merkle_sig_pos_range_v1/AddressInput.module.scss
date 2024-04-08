@@ -1,4 +1,4 @@
-.addrInputWrapper {
+.wrapper {
   position: relative;
 
   .btnRow {
@@ -6,6 +6,18 @@
     bottom: 8px;
     left: 10px;
     width: 100%;
+  }
+}
+
+.inputWrapper {
+  height: 80px;
+}
+
+.inputWrapperFocused {
+  &.label {
+  }
+
+  &.input {
   }
 }
 

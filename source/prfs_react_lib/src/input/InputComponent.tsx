@@ -7,6 +7,7 @@ import styles from "./InputComponent.module.scss";
 export const InputWrapper: React.FC<InputWrapperProps> = ({
   children,
   className,
+  focusClassName,
   isError,
   isFocused,
   hasValue,
@@ -17,6 +18,7 @@ export const InputWrapper: React.FC<InputWrapperProps> = ({
         [styles.isError]: isError,
         [styles.isFocused]: isFocused,
         [styles.hasValue]: hasValue,
+        [focusClassName || ""]: isFocused,
       })}
     >
       {children}
@@ -82,6 +84,7 @@ export const InputError: React.FC<FieldsetProps> = ({ children }) => {
 export interface InputWrapperProps {
   children: React.ReactNode;
   className?: string;
+  focusClassName?: string;
   isError: boolean;
   isFocused: boolean;
   hasValue: boolean;
