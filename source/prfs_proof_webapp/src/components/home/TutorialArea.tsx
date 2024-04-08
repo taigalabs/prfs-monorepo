@@ -1,5 +1,4 @@
 import React from "react";
-import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import cn from "classnames";
 
