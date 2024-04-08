@@ -138,9 +138,7 @@ export function useHandleChangeAddress({
           args[0] = cmInt;
         })();
 
-        (() => {
-          args[1] = BigInt(data.value_int);
-        })();
+        args[1] = BigInt(data.value_int);
 
         const leafBytes = await poseidon_2_bigint_le(args);
         const leafVal = bytesToNumberLE(leafBytes);

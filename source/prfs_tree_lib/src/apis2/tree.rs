@@ -1,14 +1,13 @@
 use prfs_crypto::{
-    convert_32bytes_le_into_decimal_string, convert_dec_into_32bytes, convert_hex_into_32bytes,
-    crypto_bigint::Encoding, hex, poseidon::poseidon_2, primitive_types, ZERO_NODE,
+    convert_dec_into_32bytes, convert_hex_into_32bytes, poseidon::poseidon_2, ZERO_NODE,
 };
-use prfs_entities::entities::{PrfsSet, PrfsSetElement, PrfsSetElementDataType};
+use prfs_entities::entities::PrfsSetElement;
 
 use crate::TreeMakerError;
 
 pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>, TreeMakerError> {
     let mut nodes = vec![];
-    for (idx, elem) in set_elements.iter().enumerate() {
+    for (_idx, elem) in set_elements.iter().enumerate() {
         let data = &elem.data;
         let mut args = [ZERO_NODE, ZERO_NODE];
 
@@ -36,37 +35,6 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
             })?;
             args[1] = bytes;
         }
-
-        // for (idx, d) in data.iter().enumerate() {
-        //     match d.r#type {
-        //         PrfsSetElementDataType::commitment => {
-        //             let val = if d.val.starts_with("0x") {
-        //                 &d.val[2..]
-        //             } else {
-        //                 &d.val
-        //             };
-
-        //             // let leaf_decimal = primitive_types::U256::from_str_radix(&val, 16)?;
-        //             // println!("leaf decimal {}", leaf_decimal);
-
-        //             let bytes = convert_hex_into_32bytes(&val).map_err(|err| {
-        //                 format!("Failed to convert cm, cm: {:?}, err: {}", val, err)
-        //             })?;
-        //             // println!("cm: {:?}, bytes: {:?}", val, bytes);
-        //             args[idx] = bytes;
-        //         }
-        //         PrfsSetElementDataType::value_int => {
-        //             // let int128 = d.val.parse::<u128>().unwrap();
-        //             // let u = U256::from_u128(int128);
-        //             // let bytes = u.to_be_bytes();
-        //             let bytes = convert_dec_into_32bytes(&d.val).map_err(|err| {
-        //                 format!("Failed to convert int, val: {}, err: {}", &d.val, err)
-        //             })?;
-        //             args[idx] = bytes;
-        //         }
-        //         PrfsSetElementDataType::value_raw => {}
-        //     };
-        // }
 
         let val = poseidon_2(&args[0], &args[1]).map_err(|err| {
             format!(

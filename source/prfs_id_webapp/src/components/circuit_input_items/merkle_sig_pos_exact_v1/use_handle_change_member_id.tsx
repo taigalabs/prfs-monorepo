@@ -117,10 +117,6 @@ export function useHandleChangeMemberId({
 
         const data = getPrfsSetElementPayload.prfs_set_element?.data as PrfsSetElementData;
 
-        // if (data.length !== 2) {
-        //   throw new Error("Only data of cardinality 2 is currently supported");
-        // }
-
         let sigR: bigint;
         let sigS: bigint;
         const args: bigint[] = [];
@@ -142,46 +138,7 @@ export function useHandleChangeMemberId({
           args[0] = cmInt;
         })();
 
-        //         await (async () => {
-        //           const d = data[0];
-        //           switch (d.type) {
-        //             case "commitment": {
-        //               const claimSecret = makeGroupMemberAtstClaimSecret(prfsSet.atst_group_id, memberId);
-        //               const { hashed, sigBytes } = await makeAtstCm(credential.secret_key, claimSecret);
-        //               sigR = bytesToNumberLE(sigBytes.subarray(0, 32));
-        //               sigS = bytesToNumberLE(sigBytes.subarray(32, 64));
-
-        //               const cm = hexlify(hashed);
-        //               const cmInt = bytesToNumberLE(hashed);
-
-        //               if (d.val !== cm) {
-        //                 throw new Error(`Commitment does not match, memberId: ${memberId}, \
-        // expected: ${d.val}, computed: ${cm}`);
-        //               }
-
-        //               args[0] = cmInt;
-        //               break;
-        //             }
-        //             default:
-        //               throw new Error("Unsupported data type for the first element");
-        //           }
-        //         })();
-
-        (() => {
-          args[1] = BigInt(data.value_int);
-        })();
-
-        // (() => {
-        //   const d = data[1];
-        //   switch (d.type) {
-        //     case "value_int": {
-        //       args[1] = BigInt(d.val);
-        //       break;
-        //     }
-        //     default:
-        //       throw new Error("Unsupported data type for the second element");
-        //   }
-        // })();
+        args[1] = BigInt(data.value_int);
 
         const leafBytes = await poseidon_2_bigint_le(args);
         const leafVal = bytesToNumberLE(leafBytes);
