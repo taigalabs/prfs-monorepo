@@ -13,14 +13,15 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import { AttestationsTopMenu } from "@/components/sets/SetComponents";
 import { useSignedInProofUser } from "@/hooks/user";
-import { isMasterAccountId } from "@/mock/mock_data";
 import ComputeTotalValueDialog from "./ComputeTotalValue";
 import GroupMemberAtstTable from "./GroupMemberAtstTable";
+import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 
 const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) => {
   const i18n = React.useContext(i18nContext);
   const { prfsProofCredential } = useSignedInProofUser();
   const { nonce, rerender } = useRerender();
+  const isMaster = isMasterAccount(prfsProofCredential?.account_id);
 
   return (
     <>
@@ -30,7 +31,7 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id 
             {i18n.group_member_attestations}
           </AttestationsTitle>
           <AttestationsTopMenu>
-            {isMasterAccountId(prfsProofCredential?.account_id) && (
+            {isMaster && (
               <li>
                 <ComputeTotalValueDialog credential={prfsProofCredential!} rerender={rerender} />
               </li>
