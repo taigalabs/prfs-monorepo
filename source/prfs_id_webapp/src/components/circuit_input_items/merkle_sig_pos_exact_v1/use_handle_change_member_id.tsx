@@ -66,7 +66,8 @@ export function useHandleChangeMemberId({
         return;
       }
 
-      const { hashed } = await makeAtstCm(credential.secret_key, memberId);
+      const claimSecret = `${prfsSet.atst_group_id}_${memberId}`;
+      const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, claimSecret);
       const memberIdHashed = hexlify(hashed);
 
       console.log(11, memberId, memberIdHashed);
@@ -85,7 +86,7 @@ export function useHandleChangeMemberId({
         // Merkle setup
         const { payload: getPrfsSetElementPayload } = await getPrfsSetElement({
           set_id,
-          label: memberId,
+          label: memberIdHashed,
         });
 
         if (!getPrfsSetElementPayload) {
@@ -96,7 +97,7 @@ export function useHandleChangeMemberId({
 
           const elem = (
             <span>
-              This address doesn't exist in {prfsSet.label}. Choose a different one or{" "}
+              This member doesn't exist in {prfsSet.label}. Choose a different one or{" "}
               <button type="button" onClick={handleClick} className={styles.link}>
                 add yours
               </button>{" "}
@@ -110,10 +111,6 @@ export function useHandleChangeMemberId({
           }));
           return;
         }
-
-        console.log(22, prfsSet, getPrfsSetElementPayload);
-
-        return;
 
         const data = getPrfsSetElementPayload.prfs_set_element
           ?.data as unknown as PrfsSetElementData[];
@@ -129,7 +126,7 @@ export function useHandleChangeMemberId({
           const d = data[0];
           switch (d.type) {
             case "Commitment": {
-              const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, memberId);
+              // const { sigBytes, hashed } = await makeAtstCm(credential.secret_key, claimSecre);
               sigR = bytesToNumberLE(sigBytes.subarray(0, 32));
               sigS = bytesToNumberLE(sigBytes.subarray(32, 64));
 
@@ -137,7 +134,8 @@ export function useHandleChangeMemberId({
               const cmInt = bytesToNumberLE(hashed);
 
               if (d.val !== cm) {
-                throw new Error(`Commitment does not match, memberId: ${memberId}`);
+                throw new Error(`Commitment does not match, memberId: ${memberId}, \
+expected: ${d.val}, computed: ${cm}`);
               }
 
               args[0] = cmInt;
@@ -159,6 +157,8 @@ export function useHandleChangeMemberId({
               throw new Error("Unsupported data type for the second element");
           }
         })();
+
+        return;
 
         const leafBytes = await poseidon_2_bigint_le(args);
         const leafVal = bytesToNumberLE(leafBytes);
