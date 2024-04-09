@@ -21,10 +21,10 @@ pub async fn do_update_prfs_tree_by_new_atst_task(
     let mut tree_ids = vec![];
     for atst_group_id in atst_group_ids {
         if **atst_group_id == PrfsAtstGroupId::crypto_1 {
-            let resp = atst_api_ops::compute_crypto_asset_total_values(&pool, &mut tx).await?;
+            let resp = atst_api_ops::compute_crypto_asset_total_values(&mut tx).await?;
             tracing::info!("Computed crypto asset payload: {:?}", resp);
         } else if **atst_group_id == PrfsAtstGroupId::nonce_seoul_1 {
-            let resp = atst_api_ops::compute_group_member_atst_value(&pool, &mut tx).await?;
+            let resp = atst_api_ops::compute_group_member_atst_value(&mut tx).await?;
             tracing::info!("Computed group member value: {:?}", resp);
         }
 

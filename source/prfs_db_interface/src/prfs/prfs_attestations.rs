@@ -128,7 +128,7 @@ OFFSET $3
 }
 
 #[allow(non_snake_case)]
-pub async fn get_prfs_attestations__tx(
+pub async fn get_prfs_attestations_by_atst_group_id__tx(
     tx: &mut Transaction<'_, Postgres>,
     atst_group_id: &PrfsAtstGroupId,
     offset: i32,

@@ -141,7 +141,7 @@ pub(crate) async fn compute_crypto_asset_total_values(
         );
     }
 
-    let compute_value_resp = match ops::compute_crypto_asset_total_values(&pool, &mut tx).await {
+    let compute_value_resp = match ops::compute_crypto_asset_total_values(&mut tx).await {
         Ok(r) => r,
         Err(err) => {
             return (
