@@ -1,7 +1,6 @@
 use crypto_bigint::{Wrapping, U256};
 use ff::PrimeField;
 use k256::{self, elliptic_curve::Curve, Scalar};
-use secq256k1::elliptic_curve::bigint::Wrapping;
 
 #[test]
 fn test_convert_str_into_k256_number_1() {
