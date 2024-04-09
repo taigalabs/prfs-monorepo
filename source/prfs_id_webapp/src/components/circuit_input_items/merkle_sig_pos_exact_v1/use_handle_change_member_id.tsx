@@ -8,7 +8,7 @@ import {
   makeSiblingPath,
   poseidon_2_bigint_le,
 } from "@taigalabs/prfs-crypto-js";
-import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { hexlify, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
@@ -24,10 +24,14 @@ import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetEle
 import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosExactV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Data";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
+import { hexToBytes, keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./MerkleSigPosExactInput.module.scss";
 import { FormErrors } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
+import { useAppDispatch } from "@/state/hooks";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { ExactValueType } from "./ExactValueInput";
 
 export function useHandleChangeMemberId({
   credential,
@@ -39,6 +43,7 @@ export function useHandleChangeMemberId({
   proofAction,
   setExactValue,
 }: UseHandleChangeAddressArgs) {
+  const dispatch = useAppDispatch();
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
       return treeApi({ type: "get_prfs_set_element", ...req });
@@ -137,7 +142,20 @@ export function useHandleChangeMemberId({
 
         args[1] = BigInt(data.value_int);
 
-        console.log(11, args);
+        (() => {
+          const hash = keccak256(toUtf8Bytes(data.value_raw));
+          const b = hexToBytes(hash);
+          const valueComputed = bytesToNumberLE(b);
+          if (valueComputed !== BigInt(data.value_int)) {
+            dispatch(
+              setGlobalMsg({
+                variant: "error",
+                message: `Value computed is different to the expected, computed: ${valueComputed}, \
+expected: ${data.value_int}`,
+              }),
+            );
+          }
+        })();
 
         const leafBytes = await poseidon_2_bigint_le(args);
         const leafVal = bytesToNumberLE(leafBytes);
@@ -230,7 +248,10 @@ export function useHandleChangeMemberId({
         }
 
         // Exact value setup
-        setExactValue(args[1]);
+        setExactValue({
+          int: BigInt(data.value_int),
+          raw: data.value_raw,
+        });
 
         setFormValues(oldVal => ({
           ...oldVal,
@@ -269,5 +290,5 @@ export interface UseHandleChangeAddressArgs {
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosExactV1Inputs>>>;
   credential: PrfsIdCredential;
   proofAction: string;
-  setExactValue: React.Dispatch<React.SetStateAction<bigint>>;
+  setExactValue: React.Dispatch<React.SetStateAction<ExactValueType>>;
 }

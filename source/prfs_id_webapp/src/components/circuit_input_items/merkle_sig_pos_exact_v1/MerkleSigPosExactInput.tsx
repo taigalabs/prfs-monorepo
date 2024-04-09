@@ -34,7 +34,8 @@ import {
 } from "./use_merkle_sig_pos_exact_form_handler";
 import { useHandleChangeMemberId } from "./use_handle_change_member_id";
 import MemberIdInput from "./MemberIdInput";
-import ExactValueInput from "./ExactValueInput";
+import ExactValueInput, { ExactValueType } from "./ExactValueInput";
+import { useAppDispatch } from "@/state/hooks";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -71,7 +72,10 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet | null>(null);
   const [prfsTree, setPrfsTree] = React.useState<PrfsTree>();
   const [memberId, setMemberId] = React.useState("");
-  const [exactValue, setExactValue] = React.useState(BigInt(0));
+  const [exactValue, setExactValue] = React.useState<ExactValueType>({
+    int: BigInt(0),
+    raw: "0",
+  });
 
   const { isPending: isGetLatestPrfsTreePending, mutateAsync: getLatestPrfsTreeBySetId } =
     useMutation({
