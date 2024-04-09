@@ -86,8 +86,6 @@ pub async fn create_crypto_asset_atst(
             value_int: "".into(),
             meta: None,
         }]),
-        // value_num: Decimal::from(0).to_string(),
-        // value_raw: "".into(),
         atst_version: PrfsAtstVersion::v0_2,
     };
 
