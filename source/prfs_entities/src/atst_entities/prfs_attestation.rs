@@ -28,8 +28,14 @@ pub struct PrfsAttestation {
 #[serde(tag = "type")]
 #[ts(export)]
 pub enum PrfsAtstMeta {
-    crypto_asset(Vec<CryptoAsset>),
+    crypto_asset(CryptoAssetMeta),
     group_member(GroupMemberAtstMeta),
+}
+
+#[derive(TS, Debug, Serialize, Deserialize, Default, Clone)]
+#[ts(export)]
+pub struct CryptoAssetMeta {
+    pub assets: Vec<CryptoAsset>,
 }
 
 #[derive(TS, Debug, Serialize, Deserialize, Default, Clone)]
