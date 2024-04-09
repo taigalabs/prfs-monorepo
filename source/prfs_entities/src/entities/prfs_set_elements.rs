@@ -21,8 +21,7 @@ pub struct PrfsSetElement {
 #[ts(export)]
 pub struct PrfsSetElementData {
     pub commitment: String,
-    #[ts(type = "string")]
-    pub value_int: Decimal,
+    pub value_int: String,
     pub value_raw: String,
 }
 

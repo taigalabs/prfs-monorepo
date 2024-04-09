@@ -24,22 +24,17 @@ INSERT INTO prfs_set_elements
     query_builder.push_values(
         atsts.iter().take(BIND_LIMIT / 5).enumerate(),
         |mut b, (idx, atst)| {
-            let total_val = match Decimal::from_str_radix(&atst.value_num, 10) {
-                Ok(v) => v,
-                Err(err) => {
-                    tracing::error!(
-                        "Failed to convert value into num, value_num: {}, err: {}",
-                        atst.value_num,
-                        err,
-                    );
-                    Decimal::from(0)
-                }
+            let dot_idx = atst.value_num.find(".");
+            let value_int = if let Some(i) = dot_idx {
+                atst.value_num[..i].to_string()
+            } else {
+                atst.value_num.to_string()
             };
 
             let data = sqlx::types::Json::from(PrfsSetElementData {
                 commitment: atst.cm.to_string(),
-                value_int: total_val,
-                value_raw: "".into(),
+                value_int,
+                value_raw: atst.value_raw.to_string(),
             });
 
             b.push_bind(&atst.label)
