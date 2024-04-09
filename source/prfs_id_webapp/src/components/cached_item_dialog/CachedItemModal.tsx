@@ -24,7 +24,7 @@ const CachedItemModal: React.FC<CachedItemModalProps> = ({
       for (const item of items) {
         const itemAbbrev = item.length > 12 ? abbrev7and5(item) : item;
         const handleClick = () => {
-          handleChangeItem(itemAbbrev);
+          handleChangeItem(item);
         };
 
         const el = (

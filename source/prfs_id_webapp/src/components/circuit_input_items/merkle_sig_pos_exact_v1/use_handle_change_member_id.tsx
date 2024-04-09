@@ -137,6 +137,8 @@ export function useHandleChangeMemberId({
 
         args[1] = BigInt(data.value_int);
 
+        console.log(11, args);
+
         const leafBytes = await poseidon_2_bigint_le(args);
         const leafVal = bytesToNumberLE(leafBytes);
         console.log("leafBytes: %o, args: %s, leafVal: %s, ", leafBytes, args, leafVal);
@@ -170,7 +172,7 @@ export function useHandleChangeMemberId({
           setFormErrors((prevVals: any) => {
             return {
               ...prevVals,
-              merkleProof: `${memberId} is not part of a ${set_id}`,
+              merkleProof: `Couldn't find tree nodes, memberId: ${memberId}, set_id: ${set_id}`,
             };
           });
           return;

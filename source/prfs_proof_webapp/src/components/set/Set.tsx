@@ -32,21 +32,22 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
 
   const prfsSet = data?.payload?.prfs_set;
 
-  return (
+  return prfsSet ? (
     <>
       <AttestationsHeader className={styles.header}>
         <AttestationsHeaderRow>
-          <AttestationsTitle className={styles.title}>{i18n.crypto_holders}</AttestationsTitle>
+          <AttestationsTitle className={styles.title}>
+            {prfsSet.label} ({set_id})
+          </AttestationsTitle>
         </AttestationsHeaderRow>
         <AttestationsHeaderRow className={styles.headerRow}>
-          {isFetching && <Spinner />}
           {prfsSet && (
             <ul className={styles.topMenu}>
               <li>
                 <ImportSetElementsDialog rerender={rerender} prfsSet={prfsSet} />
               </li>
               <li>
-                <CreateTreeDialog rerender={rerender} />
+                <CreateTreeDialog rerender={rerender} set_id={set_id} />
               </li>
             </ul>
           )}
@@ -57,6 +58,8 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
         <SetElementTable setId={set_id} nonce={nonce} />
       </div>
     </>
+  ) : (
+    <Spinner />
   );
 };
 

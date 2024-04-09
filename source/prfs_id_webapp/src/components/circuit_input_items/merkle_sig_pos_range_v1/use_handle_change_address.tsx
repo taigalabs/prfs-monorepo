@@ -101,7 +101,7 @@ export function useHandleChangeAddress({
 
           const elem = (
             <span>
-              This address doesn't exist in {prfsSet.label}. Choose a different one or{" "}
+              This address ({addr}) doesn't exist in {prfsSet.label}. Choose a different one or{" "}
               <button type="button" onClick={handleClick} className={styles.link}>
                 add yours
               </button>{" "}
