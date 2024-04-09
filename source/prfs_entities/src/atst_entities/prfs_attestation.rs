@@ -17,8 +17,7 @@ pub struct PrfsAttestation {
     #[ts(type = "Record<string, string>")]
     pub meta: sqlx::types::Json<PrfsAtstMeta>,
     pub status: PrfsAtstStatus,
-    #[ts(type = "string")]
-    pub value_num: Decimal,
+    pub value_num: String,
     pub atst_version: PrfsAtstVersion,
     pub value_raw: String,
 }

@@ -189,8 +189,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     [setFormData],
   );
 
-  console.log(formData[MEMBER_ID_CM]);
-
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
   }, [formData]);

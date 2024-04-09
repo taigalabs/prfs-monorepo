@@ -34,7 +34,7 @@ pub async fn compute_group_member_atst_value(
             let hx = hex::encode(bytes);
             let num = Decimal::from_str_radix(&hx, 16)?;
 
-            atst.value_num = num;
+            atst.value_num = num.to_string();
             atst.value_raw = m.value_raw.to_string();
         }
     }

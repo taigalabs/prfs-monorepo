@@ -3,22 +3,45 @@ use prfs_entities::{PrfsAtstGroupId, PrfsAtstGroupMember};
 
 use crate::DbInterfaceError;
 
+use super::queries::get_prfs_atst_group_member_query;
+
 pub async fn get_prfs_atst_group_member(
     pool: &Pool<Postgres>,
     atst_group_id: &PrfsAtstGroupId,
     member_code: &String,
 ) -> Result<PrfsAtstGroupMember, DbInterfaceError> {
-    let query = r#"
-SELECT *
-FROM prfs_atst_group_members
-WHERE atst_group_id=$1
-AND member_code=$2
-"#;
+    let query = get_prfs_atst_group_member_query();
 
     let row = sqlx::query(query)
         .bind(atst_group_id)
         .bind(member_code)
         .fetch_one(pool)
+        .await?;
+
+    let m = PrfsAtstGroupMember {
+        atst_group_id: row.try_get("atst_group_id")?,
+        member_id: row.try_get("member_id")?,
+        member_code: row.try_get("member_code")?,
+        code_type: row.try_get("code_type")?,
+        status: row.try_get("status")?,
+        meta: row.try_get("meta")?,
+    };
+
+    Ok(m)
+}
+
+#[allow(non_snake_case)]
+pub async fn get_prfs_atst_group_member__tx(
+    tx: &mut Transaction<'_, Postgres>,
+    atst_group_id: &PrfsAtstGroupId,
+    member_code: &String,
+) -> Result<PrfsAtstGroupMember, DbInterfaceError> {
+    let query = get_prfs_atst_group_member_query();
+
+    let row = sqlx::query(query)
+        .bind(atst_group_id)
+        .bind(member_code)
+        .fetch_one(&mut **tx)
         .await?;
 
     let m = PrfsAtstGroupMember {

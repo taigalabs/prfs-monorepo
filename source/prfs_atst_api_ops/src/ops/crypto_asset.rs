@@ -50,7 +50,7 @@ pub async fn compute_crypto_asset_total_values(
 
                 if let Some(a) = meta.assets.get(0) {
                     let val = a.amount * usd / denom;
-                    atst.value_num = val;
+                    atst.value_num = val.to_string();
                     // println!("atst: {:?}", atst);
                     count += 1;
                 }
