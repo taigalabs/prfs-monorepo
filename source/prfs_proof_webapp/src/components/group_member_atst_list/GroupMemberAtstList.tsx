@@ -14,7 +14,7 @@ import {
 } from "@/components/attestations/AttestationComponents";
 import { AttestationsTopMenu } from "@/components/sets/SetComponents";
 import { useSignedInProofUser } from "@/hooks/user";
-import ComputeTotalValueDialog from "./ComputeTotalValue";
+import ComputeValueDialog from "./ComputeValueDialog";
 import GroupMemberAtstTable from "./GroupMemberAtstTable";
 
 const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) => {
@@ -33,7 +33,7 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id 
           <AttestationsTopMenu>
             {isMaster && (
               <li>
-                <ComputeTotalValueDialog credential={prfsProofCredential!} rerender={rerender} />
+                <ComputeValueDialog credential={prfsProofCredential!} rerender={rerender} />
               </li>
             )}
           </AttestationsTopMenu>

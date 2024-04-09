@@ -7,7 +7,7 @@ import { ComputeCryptoAssetTotalValuesRequest } from "@taigalabs/prfs-entities/b
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 
-import styles from "./ComputeTotalValue.module.scss";
+import styles from "./ComputeValueDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { LocalPrfsProofCredential } from "@/storage/local_storage";
 import DialogDefault from "@/components/dialog_default/DialogDefault";
@@ -76,10 +76,7 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
-  credential,
-  rerender,
-}) => {
+const ComputeValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential, rerender }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const { mutateAsync: computeCryptoTotalValuesRequest, isPending } = useMutation({
@@ -157,7 +154,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
   );
 };
 
-export default ComputeTotalValueDialog;
+export default ComputeValueDialog;
 
 export interface ComputeTotalValueDialogProps {
   credential: LocalPrfsProofCredential;
