@@ -2,6 +2,7 @@ use ethers_core::abi::Address;
 use ethers_core::types::Signature;
 use ethers_core::utils::keccak256;
 use k256::ecdsa::VerifyingKey;
+use prfs_crypto::hex;
 use primitive_types::H160;
 use std::str::FromStr;
 

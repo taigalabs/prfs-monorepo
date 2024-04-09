@@ -38,7 +38,6 @@ serde-wasm-bindgen = "0.4.5"
 rs_merkle = "1.4.1"
 primitive-types = "0.12.1"
 sha2 = "0.10.7"
-hex = "0.4.3"
 
 [package.metadata.wasm-pack.profile.dev.wasm-bindgen]
 omit-default-module-path = true
