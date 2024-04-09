@@ -14,7 +14,6 @@ import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 import styles from "./CachedItemDialog.module.scss";
-import { i18nContext } from "@/i18n/context";
 import CachedMemberIdModal from "./CachedItemModal";
 
 const CachedItemDialog: React.FC<ConnectWalletProps> = ({
@@ -23,7 +22,6 @@ const CachedItemDialog: React.FC<ConnectWalletProps> = ({
   children,
   prfsSet,
 }) => {
-  const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, context } = useFloating({
     open: isOpen,

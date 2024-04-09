@@ -15,22 +15,22 @@ const CachedItemModal: React.FC<CachedItemModalProps> = ({
   handleChangeItem,
 }) => {
   const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
-  const { walletAddrs } = useCachedItems({ prfsIdCredential, prfsSet });
+  const { items } = useCachedItems({ prfsIdCredential, prfsSet });
   const i18n = React.useContext(i18nContext);
 
-  const addrList = React.useMemo(() => {
-    if (walletAddrs) {
+  const elems = React.useMemo(() => {
+    if (items) {
       const elems = [];
-      for (const addr of walletAddrs) {
-        const address = abbrev7and5(addr);
+      for (const item of items) {
+        const itemAbbrev = item.length > 12 ? abbrev7and5(item) : item;
         const handleClick = () => {
-          handleChangeItem(addr);
+          handleChangeItem(itemAbbrev);
         };
 
         const el = (
-          <li key={addr}>
+          <li key={itemAbbrev}>
             <Button variant="white_black_2" className={styles.itemBtn} handleClick={handleClick}>
-              {address}
+              {itemAbbrev}
             </Button>
           </li>
         );
@@ -38,18 +38,18 @@ const CachedItemModal: React.FC<CachedItemModalProps> = ({
       }
       return (
         <div>
-          <p className={styles.title}>{i18n.choose_an_address}</p>
+          <p className={styles.title}>{i18n.choose_a_cached_item}</p>
           <ul className={styles.itemList}>{elems}</ul>
         </div>
       );
     } else {
       return <div>No cached addresses to select</div>;
     }
-  }, [walletAddrs]);
+  }, [items]);
 
   return prfsIdCredential ? (
     <div className={styles.wrapper}>
-      {addrList}
+      {elems}
       <div className={styles.btnRow}>
         <div />
         <Button variant="transparent_aqua_blue_1" handleClick={handleClickClose}>
