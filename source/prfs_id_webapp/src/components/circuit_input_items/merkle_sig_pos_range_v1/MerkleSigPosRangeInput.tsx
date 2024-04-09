@@ -1,9 +1,7 @@
 import React from "react";
 import cn from "classnames";
-import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
 import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
@@ -12,8 +10,6 @@ import { MerkleSigPosRangeV1Data } from "@taigalabs/prfs-circuit-interface/bindi
 import { GetLatestPrfsTreeBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetLatestPrfsTreeBySetIdRequest";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
-import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
-import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./MerkleSigPosRangeInput.module.scss";
@@ -24,9 +20,6 @@ import {
   FormInputTitle,
   FormInputTitleRow,
 } from "@/components/form_input/FormInput";
-import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
-// import CachedAddressDialog from "@/components/cached_address_dialog/CachedAddressDialog";
-import CachedItemDialog from "@/components/cached_item_dialog/CachedItemDialog";
 import {
   FormErrors,
   FormHandler,

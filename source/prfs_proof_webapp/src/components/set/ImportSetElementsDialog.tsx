@@ -8,6 +8,7 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { treeApi } from "@taigalabs/prfs-api-js";
 import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 import { ImportPrfsAttestationsToPrfsSetRequest } from "@taigalabs/prfs-entities/bindings/ImportPrfsAttestationsToPrfsSetRequest";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./ImportSetElementsDialog.module.scss";
@@ -22,10 +23,6 @@ import {
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
-import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-
-const CRYPTO_HOLDERS_SET_ID = "crypto_holders";
-const CRYPTO_1 = "crypto_1";
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
@@ -162,7 +159,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
         <div className={styles.btnContent}>
           <FaFileImport />
           <span>
-            {i18n.import_from} {i18n.prfs_attestations} (type: {CRYPTO_1})
+            {i18n.import_from} {i18n.prfs_attestations} (Attestation group: {prfsSet.atst_group_id})
           </span>
         </div>
       </Button>

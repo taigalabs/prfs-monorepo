@@ -1,5 +1,7 @@
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
+use sqlx::prelude::Type;
+use strum_macros::{Display, EnumString};
 use ts_rs::TS;
 
 use super::prfs_atst_status::PrfsAtstStatus;
@@ -12,11 +14,31 @@ pub struct PrfsAttestation {
     pub atst_group_id: PrfsAtstGroupId,
     pub label: String,
     pub cm: String,
-    #[ts(type = "Record<string, any>[]")]
-    pub meta: sqlx::types::Json<Vec<CryptoAsset>>,
+    #[ts(type = "Record<string, string>")]
+    pub meta: sqlx::types::Json<PrfsAtstMeta>,
     pub status: PrfsAtstStatus,
-    #[ts(type = "string")]
-    pub value_num: Decimal,
+    pub value_num: String,
     pub atst_version: PrfsAtstVersion,
+    pub value_raw: String,
+}
+
+#[allow(non_camel_case_types)]
+#[derive(TS, Clone, Debug, Serialize, Deserialize, EnumString, Display)]
+#[serde(tag = "type")]
+#[ts(export)]
+pub enum PrfsAtstMeta {
+    crypto_asset(CryptoAssetMeta),
+    group_member(GroupMemberAtstMeta),
+}
+
+#[derive(TS, Debug, Serialize, Deserialize, Default, Clone)]
+#[ts(export)]
+pub struct CryptoAssetMeta {
+    pub assets: Vec<CryptoAsset>,
+}
+
+#[derive(TS, Debug, Serialize, Deserialize, Default, Clone)]
+#[ts(export)]
+pub struct GroupMemberAtstMeta {
     pub value_raw: String,
 }

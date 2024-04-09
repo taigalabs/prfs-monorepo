@@ -8,7 +8,7 @@ import {
   makeSiblingPath,
   poseidon_2_bigint_le,
 } from "@taigalabs/prfs-crypto-js";
-import { hexlify } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { hexlify, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
@@ -24,11 +24,14 @@ import { PrfsSetElementData } from "@taigalabs/prfs-entities/bindings/PrfsSetEle
 import { bytesToNumberLE } from "@taigalabs/prfs-crypto-js";
 import { MerkleSigPosExactV1Data } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Data";
 import { PrfsTree } from "@taigalabs/prfs-entities/bindings/PrfsTree";
+import { hexToBytes, keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 import styles from "./MerkleSigPosExactInput.module.scss";
 import { FormErrors } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
-import { PrfsSetElement } from "@taigalabs/prfs-entities/bindings/PrfsSetElement";
+import { useAppDispatch } from "@/state/hooks";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { ExactValueType } from "./ExactValueInput";
 
 export function useHandleChangeMemberId({
   credential,
@@ -40,6 +43,7 @@ export function useHandleChangeMemberId({
   proofAction,
   setExactValue,
 }: UseHandleChangeAddressArgs) {
+  const dispatch = useAppDispatch();
   const { mutateAsync: getPrfsSetElement } = useMutation({
     mutationFn: (req: GetPrfsSetElementRequest) => {
       return treeApi({ type: "get_prfs_set_element", ...req });
@@ -73,8 +77,6 @@ export function useHandleChangeMemberId({
       const { hashed: _memberIdHashed } = await makeAtstCm(credential.secret_key, memberId);
       const memberIdHashed = hexlify(_memberIdHashed);
 
-      console.log(11, memberId, memberIdHashed);
-
       setMemberId(memberId);
       setFormErrors(prevVals => {
         return {
@@ -83,7 +85,7 @@ export function useHandleChangeMemberId({
         };
       });
 
-      const { set_id, atst_group_id } = prfsSet;
+      const { set_id } = prfsSet;
 
       try {
         // Merkle setup
@@ -140,6 +142,21 @@ export function useHandleChangeMemberId({
 
         args[1] = BigInt(data.value_int);
 
+        (() => {
+          const hash = keccak256(toUtf8Bytes(data.value_raw));
+          const b = hexToBytes(hash);
+          const valueComputed = bytesToNumberLE(b);
+          if (valueComputed !== BigInt(data.value_int)) {
+            dispatch(
+              setGlobalMsg({
+                variant: "error",
+                message: `Value computed is different to the expected, computed: ${valueComputed}, \
+expected: ${data.value_int}`,
+              }),
+            );
+          }
+        })();
+
         const leafBytes = await poseidon_2_bigint_le(args);
         const leafVal = bytesToNumberLE(leafBytes);
         console.log("leafBytes: %o, args: %s, leafVal: %s, ", leafBytes, args, leafVal);
@@ -173,7 +190,7 @@ export function useHandleChangeMemberId({
           setFormErrors((prevVals: any) => {
             return {
               ...prevVals,
-              merkleProof: `${memberId} is not part of a ${set_id}`,
+              merkleProof: `Couldn't find tree nodes, memberId: ${memberId}, set_id: ${set_id}`,
             };
           });
           return;
@@ -231,7 +248,10 @@ export function useHandleChangeMemberId({
         }
 
         // Exact value setup
-        setExactValue(args[1]);
+        setExactValue({
+          int: BigInt(data.value_int),
+          raw: data.value_raw,
+        });
 
         setFormValues(oldVal => ({
           ...oldVal,
@@ -239,10 +259,8 @@ export function useHandleChangeMemberId({
           sigS,
           sigpos: args[0],
           leaf: leafVal,
-          value: args[1],
-          // assetSizeGreaterEqThan: lower_bound,
-          // assetSizeLessThan: upper_bound,
-          // assetSizeLabel: label,
+          valueInt: args[1],
+          valueRaw: data.value_raw,
           merkleProof,
           proofAction,
         }));
@@ -272,5 +290,5 @@ export interface UseHandleChangeAddressArgs {
   setFormErrors: React.Dispatch<React.SetStateAction<FormErrors<MerkleSigPosExactV1Inputs>>>;
   credential: PrfsIdCredential;
   proofAction: string;
-  setExactValue: React.Dispatch<React.SetStateAction<bigint>>;
+  setExactValue: React.Dispatch<React.SetStateAction<ExactValueType>>;
 }

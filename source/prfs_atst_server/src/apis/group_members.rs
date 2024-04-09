@@ -4,12 +4,13 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit};
 use prfs_common_server_state::ServerState;
+use prfs_crypto::{convert_str_into_keccak_u256, hex};
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_entities::{
-    CreateGroupMemberAtstRequest, CreatePrfsAttestationResponse, PrfsAtstGroupMemberStatus,
-    PrfsAtstVersion, UpdatePrfsTreeByNewAtstRequest,
+    CreateGroupMemberAtstRequest, CreatePrfsAttestationResponse, GroupMemberAtstMeta,
+    PrfsAtstGroupMemberStatus, PrfsAtstMeta, PrfsAtstVersion, UpdatePrfsTreeByNewAtstRequest,
 };
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -23,19 +24,22 @@ pub async fn create_group_member_atst(
     let pool = &state.db2.pool;
     let mut tx = bail_out_tx!(pool, &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR);
 
-    let mut member =
-        match prfs::get_prfs_atst_group_member(&pool, &input.atst_group_id, &input.member_code)
-            .await
-        {
-            Ok(r) => r,
-            Err(err) => {
-                let resp = ApiResponse::new_error(
-                    &PRFS_ATST_API_ERROR_CODES.MEMBER_INFO_NOT_FOUND,
-                    err.to_string(),
-                );
-                return (StatusCode::BAD_REQUEST, Json(resp));
-            }
-        };
+    let mut member = match prfs::get_prfs_atst_group_member__tx(
+        &mut tx,
+        &input.atst_group_id,
+        &input.member_code,
+    )
+    .await
+    {
+        Ok(r) => r,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &PRFS_ATST_API_ERROR_CODES.MEMBER_INFO_NOT_FOUND,
+                err.to_string(),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     if member.member_code != input.member_code {
         let resp = ApiResponse::new_error(
@@ -51,15 +55,23 @@ pub async fn create_group_member_atst(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
+    let (value_num, value_raw) = if let PrfsAtstMeta::group_member(m) = &member.meta.0 {
+        let num = convert_str_into_keccak_u256(&m.value_raw);
+
+        (num.to_string(), m.value_raw.to_string())
+    } else {
+        (Decimal::from(0).to_string(), "".into())
+    };
+
     let prfs_attestation = PrfsAttestation {
         atst_id: input.atst_id,
         atst_group_id: input.atst_group_id.clone(),
         label: input.label.to_string(),
         cm: input.cm,
-        meta: JsonType::from(vec![]),
+        meta: member.meta.clone(),
         status: PrfsAtstStatus::Valid,
-        value_num: Decimal::from(0),
-        value_raw: "".into(),
+        value_num,
+        value_raw,
         atst_version: PrfsAtstVersion::v0_2,
     };
 

@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::{atst_entities::PrfsAttestation, PrfsAtstGroupId};
+use crate::{atst_entities::PrfsAttestation, GroupMemberAtstMeta, PrfsAtstGroupId};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]

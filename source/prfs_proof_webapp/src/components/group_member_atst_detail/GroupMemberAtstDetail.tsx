@@ -71,9 +71,7 @@ const GroupMemberAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_
                 <div className={cn(styles.commitment, styles.value)}>{atst.cm}</div>
               </AttestationDetailSectionRow>
               <AttestationDetailSectionRow>
-                <AttestationDetailSectionRowLabel>
-                  {i18n.crypto_assets}
-                </AttestationDetailSectionRowLabel>
+                <AttestationDetailSectionRowLabel>{i18n.meta}</AttestationDetailSectionRowLabel>
                 <div className={cn(styles.destination, styles.value)}>{meta}</div>
               </AttestationDetailSectionRow>
               <AttestationDetailSectionRow>

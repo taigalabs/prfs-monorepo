@@ -24,9 +24,6 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
         }
 
         {
-            // let int128 = d.val.parse::<u128>().unwrap();
-            // let u = U256::from_u128(int128);
-            // let bytes = u.to_be_bytes();
             let bytes = convert_dec_into_32bytes(&data.value_int.to_string()).map_err(|err| {
                 format!(
                     "Failed to convert int, val: {}, err: {}",
@@ -36,19 +33,17 @@ pub fn create_leaves(set_elements: &Vec<PrfsSetElement>) -> Result<Vec<[u8; 32]>
             args[1] = bytes;
         }
 
+        // println!(
+        //     "args:{:?}, comm: {}, value_int: {}",
+        //     args, data.commitment, data.value_int
+        // );
+
         let val = poseidon_2(&args[0], &args[1]).map_err(|err| {
             format!(
                 "Failed to run poseidon to compute leaf, args: {:?}, err: {}",
                 args, err
             )
         })?;
-        // println!("d.val: {:?}, val: {:?}", data, val);
-        // let int = convert_32bytes_le_into_decimal_string(&val).unwrap();
-        // let val2 = U256::from_be_bytes(val);
-        // println!(
-        //     "idx: {}, poseidon: {:?}, int: {}, args: {:?}",
-        //     idx, val, int, args
-        // );
 
         nodes.push(val);
     }

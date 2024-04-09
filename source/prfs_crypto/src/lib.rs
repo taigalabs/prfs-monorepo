@@ -1,4 +1,5 @@
 pub use crypto_bigint;
+pub use ethers_core;
 pub use ff;
 pub use group;
 pub use hex;

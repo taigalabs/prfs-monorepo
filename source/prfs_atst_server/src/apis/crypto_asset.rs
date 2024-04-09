@@ -14,8 +14,8 @@ use prfs_entities::atst_api::{
 };
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_entities::{
-    CreatePrfsAttestationRequest, CreatePrfsAttestationResponse, PrfsAtstVersion,
-    UpdatePrfsTreeByNewAtstRequest,
+    CreatePrfsAttestationRequest, CreatePrfsAttestationResponse, CryptoAssetMeta, PrfsAtstMeta,
+    PrfsAtstVersion, UpdatePrfsTreeByNewAtstRequest,
 };
 use prfs_web3_rs::signature::verify_eth_sig_by_addr;
 use rust_decimal::Decimal;
@@ -76,9 +76,11 @@ pub async fn create_crypto_asset_atst(
         atst_group_id: input.atst_group_id.clone(),
         label: input.label.to_string(),
         cm: input.cm,
-        meta: JsonType::from(crypto_assets),
+        meta: JsonType::from(PrfsAtstMeta::crypto_asset(CryptoAssetMeta {
+            assets: crypto_assets,
+        })),
         status: PrfsAtstStatus::Valid,
-        value_num: Decimal::from(0),
+        value_num: Decimal::from(0).to_string(),
         value_raw: "".into(),
         atst_version: PrfsAtstVersion::v0_2,
     };
@@ -139,18 +141,19 @@ pub(crate) async fn compute_crypto_asset_total_values(
         );
     }
 
-    let compute_value_resp = match ops::compute_crypto_asset_total_values(&pool, &mut tx).await {
-        Ok(r) => r,
-        Err(err) => {
-            return (
-                StatusCode::BAD_REQUEST,
-                Json(ApiResponse::new_error(
-                    &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                    err.to_string(),
-                )),
-            );
-        }
-    };
+    let compute_value_resp =
+        match ops::compute_crypto_asset_total_values(&mut tx, &state.infura_fetcher).await {
+            Ok(r) => r,
+            Err(err) => {
+                return (
+                    StatusCode::BAD_REQUEST,
+                    Json(ApiResponse::new_error(
+                        &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
+                        err.to_string(),
+                    )),
+                );
+            }
+        };
 
     println!(
         "Computed crypto size total values, releasing tx, count: {}",

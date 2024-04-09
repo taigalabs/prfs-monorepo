@@ -2,14 +2,11 @@ import React from "react";
 import cn from "classnames";
 import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { MerkleSigPosExactV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Inputs";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
-import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import {
   Fieldset,
   InputElement,
-  InputError,
   InputWrapper,
   Label,
 } from "@taigalabs/prfs-react-lib/src/input/InputComponent";
@@ -32,11 +29,11 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
   const i18n = useI18N();
   const { isFocused, handleFocus, handleBlur } = useInput();
 
-  const abbrevWalletAddr = React.useMemo(() => {
-    if (memberId.length > 10) {
+  const abbrevMemberId = React.useMemo(() => {
+    if (memberId.length > 12) {
       return abbrev7and5(memberId);
     }
-    return "";
+    return memberId;
   }, [memberId]);
 
   return (
@@ -47,7 +44,7 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
             className={styles.inputWrapper}
             isError={!!error.merkleProof}
             isFocused={isFocused}
-            hasValue={abbrevWalletAddr.length > 0}
+            hasValue={abbrevMemberId.length > 0}
           >
             <Label name={""} className={styles.label}>
               {i18n.member_id}
@@ -55,7 +52,7 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
             <Fieldset>{i18n.member_id}</Fieldset>
             <InputElement
               name={""}
-              value={abbrevWalletAddr || ""}
+              value={abbrevMemberId || ""}
               className={styles.input}
               onFocus={handleFocus}
               onBlur={handleBlur}
@@ -64,9 +61,9 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
           </InputWrapper>
         </>
         <div className={styles.btnRow}>
-          {/* <CachedItemDialog handleChangeItem={handleChangeValue} prfsSet={prfsSet}> */}
-          {/*   <FormInputButton type="button">{i18n.cache}</FormInputButton> */}
-          {/* </CachedItemDialog> */}
+          <CachedItemDialog handleChangeItem={handleChangeValue} prfsSet={prfsSet}>
+            <FormInputButton type="button">{i18n.cache}</FormInputButton>
+          </CachedItemDialog>
           <RawValueDialog
             className={styles.rawValueDialog}
             handleChangeItem={handleChangeValue}

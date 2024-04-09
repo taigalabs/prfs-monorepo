@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstGroupIdRequest";
+import Link from "next/link";
 import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
 
 import styles from "./GroupMemberAtstTable.module.scss";
@@ -35,10 +36,19 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
     return `${atst.cm.substring(0, 12)}...`;
   }, [atst.cm]);
 
-  const handleClickRow = React.useCallback(() => {
-    setIsNavigating(true);
-    router.push(`${paths.attestations__group_member}/${atst.atst_id}`);
-  }, [atst.atst_id, router, setIsNavigating]);
+  const url = React.useMemo(() => {
+    return `${paths.attestations__group_member}/g/${atst.atst_group_id}/${atst.atst_id}`;
+  }, [atst]);
+
+  const handleClickRow = React.useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+
+      setIsNavigating(true);
+      router.push(url);
+    },
+    [url, router, setIsNavigating],
+  );
 
   const meta = React.useMemo(() => {
     if (typeof atst.meta === "object") {
@@ -49,29 +59,31 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
   }, [atst.cm]);
 
   return (
-    <AttestationTableRow style={style} handleClick={handleClickRow}>
-      <AttestationTableCell className={cn(styles.label, styles.cell)}>
-        <span>{label}</span>
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.commitment, styles.w1024)}>
-        {cm}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.valueNum, styles.w1024)}>
-        {Number(atst.value_num)}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.valueRaw, styles.w1024)}>
-        {atst.value_raw}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.meta, styles.w480, styles.cell)}>
-        <span>{meta}</span>
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
-        {i18n.not_available}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.onChain, styles.w1320)}>
-        {i18n.not_available}
-      </AttestationTableCell>
-    </AttestationTableRow>
+    <Link href={url} onClick={handleClickRow}>
+      <AttestationTableRow style={style}>
+        <AttestationTableCell className={cn(styles.label, styles.cell)}>
+          <span>{label}</span>
+        </AttestationTableCell>
+        <AttestationTableCell className={cn(styles.commitment, styles.w1024)}>
+          {cm}
+        </AttestationTableCell>
+        <AttestationTableCell className={cn(styles.valueNum, styles.w1024)}>
+          {Number(atst.value_num)}
+        </AttestationTableCell>
+        <AttestationTableCell className={cn(styles.valueRaw, styles.w1024)}>
+          {atst.value_raw}
+        </AttestationTableCell>
+        <AttestationTableCell className={cn(styles.meta, styles.w480, styles.cell)}>
+          <span>{meta}</span>
+        </AttestationTableCell>
+        <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
+          {i18n.not_available}
+        </AttestationTableCell>
+        <AttestationTableCell className={cn(styles.onChain, styles.w1320)}>
+          {i18n.not_available}
+        </AttestationTableCell>
+      </AttestationTableRow>
+    </Link>
   );
 };
 

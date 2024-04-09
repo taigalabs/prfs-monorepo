@@ -18,7 +18,8 @@ pub async fn _import_prfs_attestations_to_prfs_set(
 ) -> Result<(String, u64), PrfsTreeServerError> {
     let _rows_deleted = prfs::delete_prfs_set_elements(tx, &dest_set_id).await?;
 
-    let atsts = prfs::get_prfs_attestations__tx(tx, &atst_group_id, 0, 50000).await?;
+    let atsts =
+        prfs::get_prfs_attestations_by_atst_group_id__tx(tx, &atst_group_id, 0, 50000).await?;
 
     if atsts.len() > 65536 {
         return Err("Currently we can produce upto 65536 items".into());

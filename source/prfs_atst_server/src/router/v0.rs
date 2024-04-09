@@ -16,10 +16,6 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
     Envs::new();
 
     let router = Router::new() //
-        // .route(
-        //     "/get_prfs_attestations_by_atst_type",
-        //     post(prfs_attestations::get_prfs_attestations_by_atst_type),
-        // )
         .route(
             "/get_prfs_attestations_by_atst_group_id",
             post(prfs_attestations::get_prfs_attestations_by_atst_group_id),
@@ -52,6 +48,10 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
             "/compute_crypto_asset_total_values",
             post(crypto_asset::compute_crypto_asset_total_values),
         )
+        // .route(
+        //     "/compute_group_member_values",
+        //     post(group_members::compute_group_member_values),
+        // )
         .route("/validate_twitter_acc", post(twitter::validate_twitter_acc))
         .route("/attest_twitter_acc", post(twitter::attest_twitter_acc))
         .route(

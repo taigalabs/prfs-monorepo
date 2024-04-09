@@ -341,6 +341,7 @@ export default {
   choose_group: "Choose a group",
   element_of_a_group: "Element of a group, e.g., address",
   choose_an_address: "Choose an address",
+  choose_a_cached_item: "Choose a cached item",
   choose_account: "Choose an account",
   choose_your_id_to_create_data: "Choose your ID to create data",
   choose_type: "Choose type",

@@ -1,4 +1,5 @@
 use super::signature::verify_eth_sig_by_pk;
+use prfs_crypto::hex;
 
 #[tokio::test]
 async fn test_verify_eth_sig_1() {

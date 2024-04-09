@@ -9,4 +9,5 @@ export type PrfsAtstGroupMember = {
   member_code: string;
   code_type: PrfsAtstGroupMemberCodeType;
   status: PrfsAtstGroupMemberStatus;
+  meta: Record<string, string>;
 };
