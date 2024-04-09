@@ -2,6 +2,9 @@
 
 .wrapper {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: var(--bright-gray-523);
 }
 
 .item {

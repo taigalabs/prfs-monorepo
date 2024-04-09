@@ -1,6 +1,10 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: var(--bright-gray-523);
 }
 
 .title {
@@ -21,13 +25,14 @@
     margin-bottom: 4px;
     cursor: pointer;
     border-radius: 3px;
+    border: 1px solid transparent;
 
     &.isActive {
-      background-color: var(--bright-gray-44);
+      border: 1px solid var(--gray-60);
     }
 
     &:hover {
-      background-color: var(--bright-gray-44);
+      border: 1px solid var(--gray-40);
     }
   }
 }
