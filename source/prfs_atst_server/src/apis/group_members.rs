@@ -77,6 +77,7 @@ pub async fn create_group_member_atst(
             label: "".into(),
             value_raw,
             value_int,
+            meta: None,
         }]),
         atst_version: PrfsAtstVersion::v0_2,
     };

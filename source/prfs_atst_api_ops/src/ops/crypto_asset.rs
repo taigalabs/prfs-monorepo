@@ -43,11 +43,10 @@ pub async fn compute_crypto_asset_total_values(
 
                     atst.value = JsonType(vec![PrfsAtstValue {
                         label: "total value".to_string(),
-                        value_raw: format!("{} USc", a.amount.to_string()),
+                        value_raw: val.to_string(),
                         value_int: val.to_string(),
+                        meta: Some(format!("{} USc", a.amount.to_string())),
                     }]);
-                    // atst.value_num = val.to_string();
-                    // println!("atst: {:?}", atst);
                     count += 1;
                 }
             }

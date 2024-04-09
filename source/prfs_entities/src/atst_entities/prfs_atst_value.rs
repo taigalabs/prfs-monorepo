@@ -10,4 +10,5 @@ pub struct PrfsAtstValue {
     pub label: String,
     pub value_raw: String,
     pub value_int: String,
+    pub meta: Option<String>,
 }
