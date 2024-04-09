@@ -32,12 +32,14 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
   const i18n = useI18N();
   const { isFocused, handleFocus, handleBlur } = useInput();
 
-  const abbrevWalletAddr = React.useMemo(() => {
-    if (memberId.length > 10) {
+  const abbrevMemberId = React.useMemo(() => {
+    if (memberId.length > 12) {
       return abbrev7and5(memberId);
     }
-    return "";
+    return memberId;
   }, [memberId]);
+
+  console.log(33, abbrevMemberId);
 
   return (
     <>
@@ -47,7 +49,7 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
             className={styles.inputWrapper}
             isError={!!error.merkleProof}
             isFocused={isFocused}
-            hasValue={abbrevWalletAddr.length > 0}
+            hasValue={abbrevMemberId.length > 0}
           >
             <Label name={""} className={styles.label}>
               {i18n.member_id}
@@ -55,7 +57,7 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
             <Fieldset>{i18n.member_id}</Fieldset>
             <InputElement
               name={""}
-              value={abbrevWalletAddr || ""}
+              value={abbrevMemberId || ""}
               className={styles.input}
               onFocus={handleFocus}
               onBlur={handleBlur}
