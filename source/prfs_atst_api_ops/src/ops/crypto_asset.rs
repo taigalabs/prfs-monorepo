@@ -37,8 +37,8 @@ pub async fn compute_crypto_asset_total_values(
                 if let Some(a) = meta.assets.get(0) {
                     let val = a.amount * usd / denom;
                     atst.value = JsonType(vec![PrfsAtstValue {
-                        label: "".to_string(),
-                        value_raw: "".to_string(),
+                        label: "total value".to_string(),
+                        value_raw: format!("{} USD", a.amount.to_string()),
                         value_int: val.to_string(),
                     }]);
                     // atst.value_num = val.to_string();
@@ -50,7 +50,7 @@ pub async fn compute_crypto_asset_total_values(
         }
     }
 
-    let _rows_updated = prfs::insert_prfs_attestations(&mut tx, &atsts).await?;
+    let _rows_updated = prfs::upsert_prfs_attestations(&mut tx, &atsts).await?;
 
     return Ok(ComputeCryptoAssetTotalValuesResponse {
         exchange_rates: exchange_rates.data,

@@ -58,8 +58,11 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
   );
 
   const totalValue = React.useMemo(() => {
-    const value = atst.value as PrfsAtstValue;
-    if (atst.value) {
+    const value = atst.value as PrfsAtstValue[];
+    if (value.length > 0) {
+      return value[0].value_int;
+    } else {
+      return 0;
     }
   }, [atst.value]);
 
@@ -72,7 +75,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
         {cm}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.totalValue, styles.w1024)}>
-        {atst.value}
+        {totalValue}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480, styles.cell)}>
         <a target="_blank" onClick={handleClickCryptoAssets}>

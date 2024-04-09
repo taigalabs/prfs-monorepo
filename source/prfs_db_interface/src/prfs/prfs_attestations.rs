@@ -40,7 +40,7 @@ RETURNING atst_id"#;
     return Ok(atst_id);
 }
 
-pub async fn insert_prfs_attestations(
+pub async fn upsert_prfs_attestations(
     tx: &mut Transaction<'_, Postgres>,
     prfs_attestations: &Vec<PrfsAttestation>,
 ) -> Result<u64, DbInterfaceError> {
@@ -68,11 +68,10 @@ INSERT INTO prfs_attestations
     query_builder.push(
         r#"
 ON CONFLICT (atst_id) DO UPDATE SET (
-label, cm, meta, updated_at, value_num, status, atst_version, atst_group_id, value_raw
+label, cm, meta, updated_at, status, atst_version, atst_group_id, value
 ) = (
 excluded.label, excluded.cm, excluded.meta,
-now(), excluded.value_num, excluded.status, excluded.atst_version, excluded.atst_group_id,
-excluded.value_raw
+now(), excluded.status, excluded.atst_version, excluded.atst_group_id, excluded.value
 )
     "#,
     );

@@ -1,13 +1,8 @@
-mod prfs_atst_value;
-
-pub use prfs_atst_value::*;
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
-use sqlx::prelude::Type;
 use strum_macros::{Display, EnumString};
 use ts_rs::TS;
 
-use super::prfs_atst_status::PrfsAtstStatus;
+use super::{PrfsAtstStatus, PrfsAtstValue};
 use crate::{atst_api::CryptoAsset, PrfsAtstGroupId, PrfsAtstVersion};
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
@@ -17,9 +12,11 @@ pub struct PrfsAttestation {
     pub atst_group_id: PrfsAtstGroupId,
     pub label: String,
     pub cm: String,
+
     #[ts(type = "Record<string, string>")]
     pub meta: sqlx::types::Json<PrfsAtstMeta>,
     pub status: PrfsAtstStatus,
+
     #[ts(type = "Record<string, string>[]")]
     pub value: sqlx::types::Json<Vec<PrfsAtstValue>>,
     pub atst_version: PrfsAtstVersion,

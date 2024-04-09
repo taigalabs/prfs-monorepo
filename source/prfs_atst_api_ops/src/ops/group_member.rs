@@ -27,7 +27,7 @@ pub async fn compute_group_member_atst_value(
             for value in &d.values {
                 let u = convert_str_into_keccak_u256(&value.value_raw);
                 atst.value = JsonType(vec![PrfsAtstValue {
-                    label: "value".to_string(),
+                    label: "member default value".to_string(),
                     value_raw: value.value_raw.to_string(),
                     value_int: u.to_string(),
                 }]);
@@ -40,7 +40,7 @@ pub async fn compute_group_member_atst_value(
         }
     }
 
-    let rows_updated = prfs::insert_prfs_attestations(&mut tx, &atsts).await?;
+    let rows_updated = prfs::upsert_prfs_attestations(&mut tx, &atsts).await?;
 
     return Ok(ComputeGroupMemberValueResponse {
         updated_row_count: rows_updated.try_into()?,

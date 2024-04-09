@@ -4,8 +4,6 @@ use sqlx::prelude::Type;
 use strum_macros::{Display, EnumString};
 use ts_rs::TS;
 
-use crate::{atst_api::CryptoAsset, PrfsAtstGroupId, PrfsAtstVersion};
-
 #[derive(TS, Debug, Serialize, Deserialize, Default, Clone)]
 #[ts(export)]
 pub struct PrfsAtstValue {
