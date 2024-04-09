@@ -10,7 +10,14 @@ const ExactValueInput: React.FC<RangeSelectProps> = ({ circuitTypeData, exactVal
 
   return (
     <div className={styles.wrapper}>
-      <Input name={""} label={i18n.value} value={exactValue.toString()} disabled readOnly />
+      <Input
+        className={styles.input}
+        name={""}
+        label={i18n.value}
+        value={exactValue.toString()}
+        disabled
+        readOnly
+      />
     </div>
   );
 };

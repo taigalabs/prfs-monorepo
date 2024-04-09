@@ -2,14 +2,11 @@ import React from "react";
 import cn from "classnames";
 import { IoMdAlert } from "@react-icons/all-files/io/IoMdAlert";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { MerkleSigPosExactV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Inputs";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
-import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import {
   Fieldset,
   InputElement,
-  InputError,
   InputWrapper,
   Label,
 } from "@taigalabs/prfs-react-lib/src/input/InputComponent";
