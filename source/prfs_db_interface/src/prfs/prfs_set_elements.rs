@@ -11,7 +11,6 @@ use crate::DbInterfaceError;
 
 pub async fn insert_asset_atsts_as_prfs_set_elements(
     tx: &mut Transaction<'_, Postgres>,
-    // atsts: Vec<PrfsAttestation>,
     prfs_set_elements: Vec<PrfsSetElement>,
 ) -> Result<u64, DbInterfaceError> {
     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
