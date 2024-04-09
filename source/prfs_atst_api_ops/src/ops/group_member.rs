@@ -1,15 +1,7 @@
-use prfs_crypto::ethers_core::utils::keccak256;
-use prfs_crypto::ff::PrimeField;
 use prfs_crypto::hex;
-use prfs_crypto::hexutils;
-use prfs_crypto::k256::Scalar;
 use prfs_db_driver::sqlx::{Pool, Postgres, Transaction};
 use prfs_db_interface::prfs;
-use prfs_entities::atst_api::ComputeCryptoAssetTotalValuesResponse;
-use prfs_entities::{
-    ComputeGroupMemberValueResponse, GroupMemberAtstMeta, PrfsAtstGroupId, PrfsAtstMeta,
-};
-use prfs_web_fetcher::destinations::coinbase;
+use prfs_entities::{ComputeGroupMemberValueResponse, PrfsAtstGroupId, PrfsAtstMeta};
 use rust_decimal::Decimal;
 
 use crate::AtstApiOpsError;
@@ -27,7 +19,6 @@ pub async fn compute_group_member_atst_value(
     )
     .await?;
 
-    // let mut count = 0;
     for atst in atsts.iter_mut() {
         if let PrfsAtstMeta::group_member(m) = &atst.meta.0 {
             let bytes = m.value_raw.as_bytes();

@@ -33,21 +33,6 @@ pub async fn compute_crypto_asset_total_values(
     for atst in atsts.iter_mut() {
         match &mut atst.meta.0 {
             PrfsAtstMeta::crypto_asset(ref mut meta) => {
-                // println!("fetching... {}", atst.label);
-                // let fetch_result = match infura_fetcher.fetch_asset(&atst.label).await {
-                //     Ok(r) => r,
-                //     Err(err) => {
-                //         tracing::warn!(
-                //             "Asset fetch failed, wallet_addr: {}, err: {}",
-                //             &atst.label,
-                //             err
-                //         );
-                //         continue;
-                //     }
-                // };
-
-                // meta.assets = fetch_result.crypto_assets;
-
                 if let Some(a) = meta.assets.get(0) {
                     let val = a.amount * usd / denom;
                     atst.value_num = val.to_string();
