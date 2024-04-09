@@ -174,7 +174,7 @@ const CryptoAssetAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => 
               {i18n.commitment}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.totalValue, styles.w1024)}>
-              {i18n.total_value_usd}
+              {i18n.total_value_usc}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.cryptoAssets, styles.w1320)}>
               {i18n.crypto_assets}
