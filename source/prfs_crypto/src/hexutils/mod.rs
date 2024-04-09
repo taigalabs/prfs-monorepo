@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod tests;
+
 use primitive_types::U256;
 
 use crate::PrfsCryptoError;

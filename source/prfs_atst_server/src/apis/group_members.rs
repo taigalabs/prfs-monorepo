@@ -4,6 +4,7 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit};
 use prfs_common_server_state::ServerState;
+use prfs_crypto::hex;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
@@ -51,17 +52,25 @@ pub async fn create_group_member_atst(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
+    let (value_num, value_raw) = if let PrfsAtstMeta::group_member(m) = &member.meta.0 {
+        let bytes = m.value_raw.as_bytes();
+        let hx = hex::encode(bytes);
+        let num = Decimal::from_str_radix(&hx, 16).unwrap_or(Decimal::from(0));
+
+        (num, m.value_raw.to_string())
+    } else {
+        (Decimal::from(0), "".into())
+    };
+
     let prfs_attestation = PrfsAttestation {
         atst_id: input.atst_id,
         atst_group_id: input.atst_group_id.clone(),
         label: input.label.to_string(),
         cm: input.cm,
-        meta: JsonType::from(PrfsAtstMeta::group_member(GroupMemberAtstMeta {
-            value_raw: "".into(),
-        })),
+        meta: member.meta.clone(),
         status: PrfsAtstStatus::Valid,
-        value_num: Decimal::from(0),
-        value_raw: "".into(),
+        value_num,
+        value_raw,
         atst_version: PrfsAtstVersion::v0_2,
     };
 
