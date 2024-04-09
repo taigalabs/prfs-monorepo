@@ -1,3 +1,6 @@
+mod prfs_atst_value;
+
+pub use prfs_atst_value::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use sqlx::prelude::Type;
@@ -17,9 +20,9 @@ pub struct PrfsAttestation {
     #[ts(type = "Record<string, string>")]
     pub meta: sqlx::types::Json<PrfsAtstMeta>,
     pub status: PrfsAtstStatus,
-    pub value_num: String,
+    #[ts(type = "Record<string, string>[]")]
+    pub value: sqlx::types::Json<Vec<PrfsAtstValue>>,
     pub atst_version: PrfsAtstVersion,
-    pub value_raw: String,
 }
 
 #[allow(non_camel_case_types)]
@@ -28,7 +31,7 @@ pub struct PrfsAttestation {
 #[ts(export)]
 pub enum PrfsAtstMeta {
     crypto_asset(CryptoAssetMeta),
-    group_member(GroupMemberAtstMeta),
+    plain_data(PlainDataAtstMeta),
 }
 
 #[derive(TS, Debug, Serialize, Deserialize, Default, Clone)]
@@ -39,6 +42,14 @@ pub struct CryptoAssetMeta {
 
 #[derive(TS, Debug, Serialize, Deserialize, Default, Clone)]
 #[ts(export)]
-pub struct GroupMemberAtstMeta {
+pub struct PlainDataAtstMeta {
+    pub values: Vec<PlainDataValue>,
+}
+
+#[derive(TS, Debug, Serialize, Deserialize, Default, Clone)]
+#[ts(export)]
+pub struct PlainDataValue {
+    pub label: String,
     pub value_raw: String,
+    pub meta: Option<String>,
 }

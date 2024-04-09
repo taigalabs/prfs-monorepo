@@ -1,7 +1,8 @@
+use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_driver::sqlx::{Pool, Postgres, Transaction};
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api::ComputeCryptoAssetTotalValuesResponse;
-use prfs_entities::{PrfsAtstGroupId, PrfsAtstMeta};
+use prfs_entities::{PrfsAtstGroupId, PrfsAtstMeta, PrfsAtstValue, PrfsSetElementData};
 use prfs_web_fetcher::destinations::coinbase;
 use prfs_web_fetcher::destinations::infura::InfuraFetcher;
 use rust_decimal::prelude::FromPrimitive;
@@ -35,12 +36,17 @@ pub async fn compute_crypto_asset_total_values(
             PrfsAtstMeta::crypto_asset(ref mut meta) => {
                 if let Some(a) = meta.assets.get(0) {
                     let val = a.amount * usd / denom;
-                    atst.value_num = val.to_string();
+                    atst.value = JsonType(vec![PrfsAtstValue {
+                        label: "".to_string(),
+                        value_raw: "".to_string(),
+                        value_int: val.to_string(),
+                    }]);
+                    // atst.value_num = val.to_string();
                     // println!("atst: {:?}", atst);
                     count += 1;
                 }
             }
-            PrfsAtstMeta::group_member(_) => {}
+            _ => {}
         }
     }
 

@@ -2,7 +2,7 @@ use prfs_db_driver::bind_limit::BIND_LIMIT;
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::atst_entities::PrfsAttestation;
 use prfs_entities::entities::{PrfsSetElement, PrfsSetElementData};
-use prfs_entities::PrfsSetElementStatus;
+use prfs_entities::{PrfsAtstGroupId, PrfsSetElementStatus};
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
 
@@ -11,8 +11,8 @@ use crate::DbInterfaceError;
 
 pub async fn insert_asset_atsts_as_prfs_set_elements(
     tx: &mut Transaction<'_, Postgres>,
-    atsts: Vec<PrfsAttestation>,
-    set_id: &String,
+    // atsts: Vec<PrfsAttestation>,
+    prfs_set_elements: Vec<PrfsSetElement>,
 ) -> Result<u64, DbInterfaceError> {
     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
         r#"
@@ -22,27 +22,27 @@ INSERT INTO prfs_set_elements
     );
 
     query_builder.push_values(
-        atsts.iter().take(BIND_LIMIT / 5).enumerate(),
-        |mut b, (idx, atst)| {
-            let dot_idx = atst.value_num.find(".");
-            let value_int = if let Some(i) = dot_idx {
-                atst.value_num[..i].to_string()
-            } else {
-                atst.value_num.to_string()
-            };
+        prfs_set_elements.iter().take(BIND_LIMIT / 5).enumerate(),
+        |mut b, (_, elem)| {
+            // let dot_idx = atst.value_num.find(".");
+            // let value_int = if let Some(i) = dot_idx {
+            //     atst.value_num[..i].to_string()
+            // } else {
+            //     atst.value_num.to_string()
+            // };
 
-            let data = sqlx::types::Json::from(PrfsSetElementData {
-                commitment: atst.cm.to_string(),
-                value_int,
-                value_raw: atst.value_raw.to_string(),
-            });
+            // let data = sqlx::types::Json::from(PrfsSetElementData {
+            //     commitment: atst.cm.to_string(),
+            //     value_int,
+            //     value_raw: atst.value_raw.to_string(),
+            // });
 
-            b.push_bind(&atst.label)
-                .push_bind(data)
-                .push_bind(&atst.atst_group_id)
-                .push_bind(set_id)
-                .push_bind(Decimal::from_u64(idx as u64))
-                .push_bind(PrfsSetElementStatus::NotRegistered);
+            b.push_bind(&elem.label)
+                .push_bind(&elem.data)
+                .push_bind(&elem.r#ref)
+                .push_bind(&elem.set_id)
+                .push_bind(&elem.element_idx)
+                .push_bind(&elem.status);
         },
     );
 

@@ -1,6 +1,10 @@
+use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_driver::sqlx::{Pool, Postgres, Transaction};
 use prfs_db_interface::prfs;
-use prfs_entities::{PrfsAtstGroup, PrfsAtstGroupId, PrfsTree, PrfsTreeNode};
+use prfs_entities::{
+    PrfsAtstGroup, PrfsAtstGroupId, PrfsAtstValue, PrfsSetElement, PrfsSetElementData,
+    PrfsSetElementStatus, PrfsTree, PrfsTreeNode,
+};
 use prfs_tree_lib::apis2::tree;
 use rust_decimal::Decimal;
 
@@ -10,6 +14,8 @@ const TREE_DEPTH: i16 = 32;
 const FINITE_FIELD: &str = "Z_(2^256-2^32-977)";
 const ELLIPTIC_CURVE: &str = "Secp256k1";
 const LIMIT: i32 = 20;
+
+const VALUE_IDX: usize = 0;
 
 pub async fn _import_prfs_attestations_to_prfs_set(
     tx: &mut Transaction<'_, Postgres>,
@@ -25,8 +31,34 @@ pub async fn _import_prfs_attestations_to_prfs_set(
         return Err("Currently we can produce upto 65536 items".into());
     }
 
+    let mut prfs_set_elements = vec![];
+    for (idx, atst) in atsts.iter().enumerate() {
+        let value_at_idx = atst
+            .value
+            .0
+            .get(VALUE_IDX)
+            .ok_or_else(|| format!("Value should exist, atst: {:?}", atst))?;
+
+        let data = PrfsSetElementData {
+            commitment: atst.cm.to_string(),
+            value_int: value_at_idx.value_int.to_string(),
+            value_raw: value_at_idx.value_raw.to_string(),
+        };
+
+        let elem = PrfsSetElement {
+            label: atst.label.to_string(),
+            set_id: dest_set_id.to_string(),
+            data: JsonType::from(data),
+            element_idx: Decimal::from(idx),
+            r#ref: None,
+            status: PrfsSetElementStatus::NotRegistered,
+        };
+
+        prfs_set_elements.push(elem);
+    }
+
     let rows_affected =
-        prfs::insert_asset_atsts_as_prfs_set_elements(tx, atsts, &dest_set_id).await?;
+        prfs::insert_asset_atsts_as_prfs_set_elements(tx, prfs_set_elements).await?;
 
     return Ok((dest_set_id.to_string(), rows_affected));
 }

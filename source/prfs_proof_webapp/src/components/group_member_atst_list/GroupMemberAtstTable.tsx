@@ -68,10 +68,10 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
           {cm}
         </AttestationTableCell>
         <AttestationTableCell className={cn(styles.valueNum, styles.w1024)}>
-          {Number(atst.value_num)}
+          {atst.value.values.toString()}
         </AttestationTableCell>
         <AttestationTableCell className={cn(styles.valueRaw, styles.w1024)}>
-          {atst.value_raw}
+          {atst.value.values.toString()}
         </AttestationTableCell>
         <AttestationTableCell className={cn(styles.meta, styles.w480, styles.cell)}>
           <span>{meta}</span>

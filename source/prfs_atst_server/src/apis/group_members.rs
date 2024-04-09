@@ -9,8 +9,8 @@ use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_entities::{
-    CreateGroupMemberAtstRequest, CreatePrfsAttestationResponse, GroupMemberAtstMeta,
-    PrfsAtstGroupMemberStatus, PrfsAtstMeta, PrfsAtstVersion, UpdatePrfsTreeByNewAtstRequest,
+    CreateGroupMemberAtstRequest, CreatePrfsAttestationResponse, PrfsAtstGroupMemberStatus,
+    PrfsAtstMeta, PrfsAtstValue, PrfsAtstVersion, UpdatePrfsTreeByNewAtstRequest,
 };
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -55,10 +55,13 @@ pub async fn create_group_member_atst(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
-    let (value_num, value_raw) = if let PrfsAtstMeta::group_member(m) = &member.meta.0 {
-        let num = convert_str_into_keccak_u256(&m.value_raw);
-
-        (num.to_string(), m.value_raw.to_string())
+    let (value_int, value_raw) = if let PrfsAtstMeta::plain_data(d) = &member.meta.0 {
+        if let Some(v) = d.values.get(0) {
+            let num = convert_str_into_keccak_u256(&v.value_raw);
+            (num.to_string(), v.value_raw.to_string())
+        } else {
+            (Decimal::from(0).to_string(), "".into())
+        }
     } else {
         (Decimal::from(0).to_string(), "".into())
     };
@@ -70,8 +73,11 @@ pub async fn create_group_member_atst(
         cm: input.cm,
         meta: member.meta.clone(),
         status: PrfsAtstStatus::Valid,
-        value_num,
-        value_raw,
+        value: JsonType::from(vec![PrfsAtstValue {
+            label: "".into(),
+            value_raw,
+            value_int,
+        }]),
         atst_version: PrfsAtstVersion::v0_2,
     };
 
