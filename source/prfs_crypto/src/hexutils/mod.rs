@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests;
 
+use ethers_core::utils::keccak256;
 use primitive_types::U256;
 
 use crate::PrfsCryptoError;
@@ -27,4 +28,11 @@ pub fn convert_dec_into_32bytes(var: &str) -> Result<[u8; 32], PrfsCryptoError> 
 pub fn convert_32bytes_le_into_decimal_string(val: &[u8; 32]) -> Result<String, PrfsCryptoError> {
     let u = U256::from_little_endian(val);
     Ok(u.to_string())
+}
+
+pub fn convert_str_into_keccak_u256(arg: &str) -> U256 {
+    let bytes = arg.as_bytes();
+    let hash = keccak256(&bytes);
+    let num = U256::from_little_endian(&hash);
+    num
 }
