@@ -24,19 +24,6 @@ INSERT INTO prfs_set_elements
     query_builder.push_values(
         prfs_set_elements.iter().take(BIND_LIMIT / 5).enumerate(),
         |mut b, (_, elem)| {
-            // let dot_idx = atst.value_num.find(".");
-            // let value_int = if let Some(i) = dot_idx {
-            //     atst.value_num[..i].to_string()
-            // } else {
-            //     atst.value_num.to_string()
-            // };
-
-            // let data = sqlx::types::Json::from(PrfsSetElementData {
-            //     commitment: atst.cm.to_string(),
-            //     value_int,
-            //     value_raw: atst.value_raw.to_string(),
-            // });
-
             b.push_bind(&elem.label)
                 .push_bind(&elem.data)
                 .push_bind(&elem.r#ref)
