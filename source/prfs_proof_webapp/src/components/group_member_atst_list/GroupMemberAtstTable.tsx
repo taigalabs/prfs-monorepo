@@ -37,7 +37,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
 
   const handleClickRow = React.useCallback(() => {
     setIsNavigating(true);
-    router.push(`${paths.attestations__group_member}/${atst.atst_id}`);
+    router.push(`${paths.attestations__group_member}/g/${atst.atst_group_id}/${atst.atst_id}`);
   }, [atst.atst_id, router, setIsNavigating]);
 
   const meta = React.useMemo(() => {
