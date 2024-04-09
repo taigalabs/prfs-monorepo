@@ -1,3 +1,4 @@
+use prfs_crypto::ethers_core::utils::keccak256;
 use prfs_crypto::ff::PrimeField;
 use prfs_crypto::hex;
 use prfs_crypto::hexutils;
@@ -8,7 +9,6 @@ use prfs_entities::atst_api::ComputeCryptoAssetTotalValuesResponse;
 use prfs_entities::{
     ComputeGroupMemberValueResponse, GroupMemberAtstMeta, PrfsAtstGroupId, PrfsAtstMeta,
 };
-use prfs_web3_rs::ethers_core::utils::keccak256;
 use prfs_web_fetcher::destinations::coinbase;
 use rust_decimal::Decimal;
 
@@ -33,11 +33,6 @@ pub async fn compute_group_member_atst_value(
             let bytes = m.value_raw.as_bytes();
             let hx = hex::encode(bytes);
             let num = Decimal::from_str_radix(&hx, 16)?;
-
-            // Scalar::from_str_vartime(s)
-            // Scalar::from_str_vartime(bytes);
-            // let h = keccak256(bytes);
-            // let hashed = hex::encode(h);
 
             atst.value_num = num;
             atst.value_raw = m.value_raw.to_string();

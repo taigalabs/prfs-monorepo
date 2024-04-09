@@ -16,7 +16,6 @@ sha256 = "1.0"
 ff = "0.13"
 group = "0.13"
 rand = "0.8"
-ethers-core = "2.0"
 ethers-signers = "2.0"
 k256 = { version = "0.13.3", features = ["ecdsa-core", "arithmetic"] }
 tokio = { version = "1", features = ["full"] }

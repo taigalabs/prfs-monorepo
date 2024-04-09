@@ -1,4 +1,3 @@
-pub use ethers_core;
 pub use ethers_signers;
 
 pub mod signature;

@@ -18,6 +18,7 @@ rand = "0.8"
 k256 = { version = "0.13.3", features = ["ecdsa-core", "arithmetic"] }
 rust_decimal = { version = "1.29", features = ["db-postgres"] }
 crypto-bigint = "0.5.5"
+ethers-core = "2.0"
 
 poseidon = { path = "../../externals/poseidon" }
 secq256k1 = { path = "../../externals/secq256k1" }
