@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { PrfsAttestation } from "@taigalabs/prfs-entities/bindings/PrfsAttestation";
+import { PrfsAtstValue } from "@taigalabs/prfs-entities/bindings/PrfsAtstValue";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -56,6 +57,15 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
     [atst.label],
   );
 
+  const totalValue = React.useMemo(() => {
+    const value = atst.value as PrfsAtstValue[];
+    if (value.length > 0) {
+      return value[0].value_int;
+    } else {
+      return 0;
+    }
+  }, [atst.value]);
+
   return (
     <AttestationTableRow style={style} handleClick={handleClickRow}>
       <AttestationTableCell className={cn(styles.walletAddr, styles.cell)}>
@@ -65,7 +75,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
         {cm}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.totalValue, styles.w1024)}>
-        {Number(atst.value_num)}
+        {totalValue}
       </AttestationTableCell>
       <AttestationTableCell className={cn(styles.cryptoAssets, styles.w480, styles.cell)}>
         <a target="_blank" onClick={handleClickCryptoAssets}>
@@ -164,7 +174,7 @@ const CryptoAssetAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => 
               {i18n.commitment}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.totalValue, styles.w1024)}>
-              {i18n.total_value_usd}
+              {i18n.total_value_usc}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.cryptoAssets, styles.w1320)}>
               {i18n.crypto_assets}

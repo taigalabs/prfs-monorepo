@@ -1,7 +1,10 @@
 use prfs_db_driver::database2::Database2;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
+use prfs_entities::PlainDataAtstMeta;
+use prfs_entities::PlainDataValue;
 use prfs_entities::PrfsAtstGroupId;
+use prfs_entities::PrfsAtstMeta;
 use prfs_entities::PrfsProofType;
 use prfs_entities::{
     PrfsAtstGroupMember, PrfsAtstGroupMemberCodeType, PrfsAtstGroupMemberStatus, PrfsSet,
@@ -87,8 +90,6 @@ mod seed_api2 {
 }
 
 mod seed_api3 {
-    use prfs_entities::{GroupMemberAtstMeta, PrfsAtstMeta};
-
     use super::*;
 
     #[tokio::test]
@@ -109,8 +110,12 @@ mod seed_api3 {
                 atst_group_id: PrfsAtstGroupId::nonce_seoul_1,
                 member_id: record.member_id,
                 member_code: record.member_code,
-                meta: JsonType::from(PrfsAtstMeta::group_member(GroupMemberAtstMeta {
-                    value_raw: record.value_raw,
+                meta: JsonType::from(PrfsAtstMeta::plain_data(PlainDataAtstMeta {
+                    values: vec![PlainDataValue {
+                        value_raw: record.value_raw,
+                        label: "".into(),
+                        meta: None,
+                    }],
                 })),
                 code_type: PrfsAtstGroupMemberCodeType::Equality,
                 status: PrfsAtstGroupMemberStatus::NotRegistered,

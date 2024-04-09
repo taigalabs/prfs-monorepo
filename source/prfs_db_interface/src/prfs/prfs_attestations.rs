@@ -12,14 +12,14 @@ pub async fn insert_prfs_attestation(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_attestations
-(atst_id, label, cm, meta, value_num, status, atst_version, atst_group_id, value_raw)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+(atst_id, label, cm, meta, status, atst_version, atst_group_id, value)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 ON CONFLICT (atst_id) DO UPDATE SET (
-label, cm, meta, updated_at, value_num, status, atst_version, atst_group_id, value_raw
+label, cm, meta, updated_at, status, atst_version, atst_group_id, value
 ) = (
 excluded.label, excluded.cm, excluded.meta,
-now(), excluded.value_num, excluded.status, excluded.atst_version, excluded.atst_group_id,
-excluded.value_raw
+now(), excluded.status, excluded.atst_version, excluded.atst_group_id,
+excluded.value
 )
 RETURNING atst_id"#;
 
@@ -28,11 +28,10 @@ RETURNING atst_id"#;
         .bind(&prfs_attestation.label)
         .bind(&prfs_attestation.cm)
         .bind(&prfs_attestation.meta)
-        .bind(&prfs_attestation.value_num)
         .bind(&prfs_attestation.status)
         .bind(&prfs_attestation.atst_version)
         .bind(&prfs_attestation.atst_group_id)
-        .bind(&prfs_attestation.value_raw)
+        .bind(&prfs_attestation.value)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -41,14 +40,14 @@ RETURNING atst_id"#;
     return Ok(atst_id);
 }
 
-pub async fn insert_prfs_attestations(
+pub async fn upsert_prfs_attestations(
     tx: &mut Transaction<'_, Postgres>,
     prfs_attestations: &Vec<PrfsAttestation>,
 ) -> Result<u64, DbInterfaceError> {
     let mut query_builder: QueryBuilder<_> = QueryBuilder::new(
         r#"
 INSERT INTO prfs_attestations
-(atst_id, label, cm, meta, value_num, status, atst_version, atst_group_id, value_raw)
+(atst_id, label, cm, meta, status, atst_version, atst_group_id, value)
 "#,
     );
 
@@ -59,22 +58,20 @@ INSERT INTO prfs_attestations
                 .push_bind(&atst.label)
                 .push_bind(&atst.cm)
                 .push_bind(&atst.meta)
-                .push_bind(&atst.value_num)
                 .push_bind(&atst.status)
                 .push_bind(&atst.atst_version)
                 .push_bind(&atst.atst_group_id)
-                .push_bind(&atst.value_raw);
+                .push_bind(&atst.value);
         },
     );
 
     query_builder.push(
         r#"
 ON CONFLICT (atst_id) DO UPDATE SET (
-label, cm, meta, updated_at, value_num, status, atst_version, atst_group_id, value_raw
+label, cm, meta, updated_at, status, atst_version, atst_group_id, value
 ) = (
 excluded.label, excluded.cm, excluded.meta,
-now(), excluded.value_num, excluded.status, excluded.atst_version, excluded.atst_group_id,
-excluded.value_raw
+now(), excluded.status, excluded.atst_version, excluded.atst_group_id, excluded.value
 )
     "#,
     );
@@ -114,12 +111,11 @@ OFFSET $3
                 atst_id: row.try_get("atst_id")?,
                 cm: row.try_get("cm")?,
                 label: row.try_get("label")?,
-                value_num: row.try_get("value_num")?,
                 meta: row.try_get("meta")?,
                 status: row.try_get("status")?,
                 atst_version: row.try_get("atst_version")?,
                 atst_group_id: row.try_get("atst_group_id")?,
-                value_raw: row.try_get("value_raw")?,
+                value: row.try_get("value")?,
             })
         })
         .collect::<Result<Vec<PrfsAttestation>, DbInterfaceError>>()?;
@@ -150,12 +146,11 @@ pub async fn get_prfs_attestations_by_atst_group_id__tx(
                 atst_id: row.try_get("atst_id")?,
                 cm: row.try_get("cm")?,
                 label: row.try_get("label")?,
-                value_num: row.try_get("value_num")?,
+                value: row.try_get("value")?,
                 meta: row.try_get("meta")?,
                 status: row.try_get("status")?,
                 atst_version: row.try_get("atst_version")?,
                 atst_group_id: row.try_get("atst_group_id")?,
-                value_raw: row.try_get("value_raw")?,
             })
         })
         .collect::<Result<Vec<PrfsAttestation>, DbInterfaceError>>()?;
@@ -179,12 +174,11 @@ WHERE atst_id=$1
         atst_id: row.try_get("atst_id")?,
         cm: row.try_get("cm")?,
         label: row.try_get("label")?,
-        value_num: row.try_get("value_num")?,
         meta: row.try_get("meta")?,
         status: row.try_get("status")?,
         atst_version: row.try_get("atst_version")?,
         atst_group_id: row.try_get("atst_group_id")?,
-        value_raw: row.try_get("value_raw")?,
+        value: row.try_get("value")?,
     };
 
     Ok(atst)

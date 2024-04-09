@@ -11,6 +11,7 @@ pub async fn get_shy_channels(
     let query = r#"
 SELECT * 
 FROM shy_channels
+WHERE status='Normal'
 ORDER BY updated_at DESC
 OFFSET $1
 LIMIT $2
@@ -31,6 +32,7 @@ LIMIT $2
                 locale: row.try_get("locale")?,
                 desc: row.try_get("desc")?,
                 proof_type_ids: row.try_get("proof_type_ids")?,
+                status: row.try_get("status")?,
             })
         })
         .collect::<Result<Vec<ShyChannel>, ShyDbInterfaceError>>()?;
@@ -60,6 +62,7 @@ WHERE channel_id=$1
             locale: r.try_get("locale")?,
             desc: r.try_get("desc")?,
             proof_type_ids: r.try_get("proof_type_ids")?,
+            status: r.try_get("status")?,
         };
         Some(c)
     } else {
@@ -75,7 +78,7 @@ pub async fn insert_shy_channel(
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_channels
-(channel_id, label, proof_type_ids, locale, "desc")
+(channel_id, label, proof_type_ids, locale, "desc", status)
 VALUES ($1, $2, $3, $4, $5)
 RETURNING channel_id
 "#;
@@ -86,6 +89,7 @@ RETURNING channel_id
         .bind(&shy_channel.proof_type_ids)
         .bind(&shy_channel.locale)
         .bind(&shy_channel.desc)
+        .bind(&shy_channel.status)
         .fetch_one(&mut **tx)
         .await?;
 

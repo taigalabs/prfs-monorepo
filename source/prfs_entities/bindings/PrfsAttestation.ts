@@ -10,7 +10,6 @@ export type PrfsAttestation = {
   cm: string;
   meta: Record<string, string>;
   status: PrfsAtstStatus;
-  value_num: string;
+  value: Record<string, string>[];
   atst_version: PrfsAtstVersion;
-  value_raw: string;
 };
