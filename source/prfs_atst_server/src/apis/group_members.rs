@@ -110,3 +110,48 @@ pub async fn create_group_member_atst(
     });
     return (StatusCode::OK, Json(resp));
 }
+
+// pub(crate) async fn compute_group_member_values(
+//     State(state): State<Arc<ServerState>>,
+//     Json(input): Json<ComputeCryptoAssetTotalValuesRequest>,
+// ) -> (
+//     StatusCode,
+//     Json<ApiResponse<ComputeCryptoAssetTotalValuesResponse>>,
+// ) {
+//     let pool = &state.db2.pool;
+//     let mut tx = bail_out_tx!(pool, &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR);
+
+//     if !get_master_account_ids().contains(&input.account_id.as_ref()) {
+//         return (
+//             StatusCode::BAD_REQUEST,
+//             Json(ApiResponse::new_error(
+//                 &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
+//                 format!("Account is not master, id: {}", input.account_id),
+//             )),
+//         );
+//     }
+
+//     let compute_value_resp =
+//         match ops::compute_crypto_asset_total_values(&mut tx, &state.infura_fetcher).await {
+//             Ok(r) => r,
+//             Err(err) => {
+//                 return (
+//                     StatusCode::BAD_REQUEST,
+//                     Json(ApiResponse::new_error(
+//                         &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
+//                         err.to_string(),
+//                     )),
+//                 );
+//             }
+//         };
+
+//     println!(
+//         "Computed crypto size total values, releasing tx, count: {}",
+//         compute_value_resp.updated_row_count
+//     );
+
+//     bail_out_tx_commit!(tx, &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR);
+
+//     let resp = ApiResponse::new_success(compute_value_resp);
+//     return (StatusCode::OK, Json(resp));
+// }

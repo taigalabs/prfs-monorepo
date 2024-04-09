@@ -48,6 +48,10 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
             "/compute_crypto_asset_total_values",
             post(crypto_asset::compute_crypto_asset_total_values),
         )
+        // .route(
+        //     "/compute_group_member_values",
+        //     post(group_members::compute_group_member_values),
+        // )
         .route("/validate_twitter_acc", post(twitter::validate_twitter_acc))
         .route("/attest_twitter_acc", post(twitter::attest_twitter_acc))
         .route(
