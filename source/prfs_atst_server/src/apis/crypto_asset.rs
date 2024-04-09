@@ -141,18 +141,19 @@ pub(crate) async fn compute_crypto_asset_total_values(
         );
     }
 
-    let compute_value_resp = match ops::compute_crypto_asset_total_values(&mut tx).await {
-        Ok(r) => r,
-        Err(err) => {
-            return (
-                StatusCode::BAD_REQUEST,
-                Json(ApiResponse::new_error(
-                    &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
-                    err.to_string(),
-                )),
-            );
-        }
-    };
+    let compute_value_resp =
+        match ops::compute_crypto_asset_total_values(&mut tx, &state.infura_fetcher).await {
+            Ok(r) => r,
+            Err(err) => {
+                return (
+                    StatusCode::BAD_REQUEST,
+                    Json(ApiResponse::new_error(
+                        &PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR,
+                        err.to_string(),
+                    )),
+                );
+            }
+        };
 
     println!(
         "Computed crypto size total values, releasing tx, count: {}",
