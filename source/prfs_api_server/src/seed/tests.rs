@@ -1,4 +1,5 @@
 use prfs_db_driver::database2::Database2;
+use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::PrfsAtstGroupId;
 use prfs_entities::PrfsProofType;
@@ -86,6 +87,8 @@ mod seed_api2 {
 }
 
 mod seed_api3 {
+    use prfs_entities::{GroupMemberAtstMeta, PrfsAtstMeta};
+
     use super::*;
 
     #[tokio::test]
@@ -94,7 +97,7 @@ mod seed_api3 {
 
         let db = get_db().await;
 
-        let csv_path = PATHS.data_seed.join("csv/nonce_20240403.csv");
+        let csv_path = PATHS.data_seed.join("csv/nonce_seoul_20240409.csv");
         let mut rdr = csv::Reader::from_path(csv_path).unwrap();
 
         let mut atst_group_members = vec![];
@@ -106,6 +109,9 @@ mod seed_api3 {
                 atst_group_id: PrfsAtstGroupId::nonce_seoul_1,
                 member_id: record.member_id,
                 member_code: record.member_code,
+                meta: JsonType::from(PrfsAtstMeta::group_member(GroupMemberAtstMeta {
+                    value_raw: record.value_raw,
+                })),
                 code_type: PrfsAtstGroupMemberCodeType::Equality,
                 status: PrfsAtstGroupMemberStatus::NotRegistered,
             };
