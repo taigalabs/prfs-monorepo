@@ -34,12 +34,12 @@ template MerkleSigPosRange(nLevels) {
     // log("sig", poseidon1.out, "sigpos", sigpos);
     sigpos === poseidon1.out;
 
-    component greaterEqThan = GreaterEqThan(16);
+    component greaterEqThan = GreaterEqThan(32);
     greaterEqThan.in[0] <-- assetSize;
     greaterEqThan.in[1] <-- assetSizeGreaterEqThan;
     greaterEqThan.out === 1;
 
-    component lessThan = LessThan(16);
+    component lessThan = LessThan(32);
     lessThan.in[0] <-- assetSize;
     lessThan.in[1] <-- assetSizeLessThan;
     // log("lessThan", lessThan.out);
