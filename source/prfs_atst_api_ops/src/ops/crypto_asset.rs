@@ -1,7 +1,7 @@
 use prfs_db_driver::sqlx::{Pool, Postgres, Transaction};
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api::ComputeCryptoAssetTotalValuesResponse;
-use prfs_entities::PrfsAtstGroupId;
+use prfs_entities::{PrfsAtstGroupId, PrfsAtstMeta};
 use prfs_web_fetcher::destinations::coinbase;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
@@ -26,11 +26,16 @@ pub async fn compute_crypto_asset_total_values(
 
     let mut count = 0;
     for atst in atsts.iter_mut() {
-        if let Some(c) = atst.meta.get(0) {
-            let v = c.amount * usd / denom;
-            atst.value_num = v;
-            // println!("atst: {:?}", atst);
-            count += 1;
+        match &atst.meta.0 {
+            PrfsAtstMeta::crypto_asset(vec) => {
+                if let Some(c) = vec.get(0) {
+                    let val = c.amount * usd / denom;
+                    atst.value_num = val;
+                    // println!("atst: {:?}", atst);
+                    count += 1;
+                }
+            }
+            PrfsAtstMeta::group_member(_) => {}
         }
     }
 

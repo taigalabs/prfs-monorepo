@@ -8,7 +8,7 @@ export type PrfsAttestation = {
   atst_group_id: PrfsAtstGroupId;
   label: string;
   cm: string;
-  meta: Record<string, any>[];
+  meta: Record<string, string>;
   status: PrfsAtstStatus;
   value_num: string;
   atst_version: PrfsAtstVersion;

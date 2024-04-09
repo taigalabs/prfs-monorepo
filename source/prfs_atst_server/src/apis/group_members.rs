@@ -8,8 +8,8 @@ use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
 use prfs_entities::atst_entities::{PrfsAtstStatus, PrfsAttestation};
 use prfs_entities::{
-    CreateGroupMemberAtstRequest, CreatePrfsAttestationResponse, PrfsAtstGroupMemberStatus,
-    PrfsAtstVersion, UpdatePrfsTreeByNewAtstRequest,
+    CreateGroupMemberAtstRequest, CreatePrfsAttestationResponse, GroupMemberAtstMeta,
+    PrfsAtstGroupMemberStatus, PrfsAtstMeta, PrfsAtstVersion, UpdatePrfsTreeByNewAtstRequest,
 };
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -56,7 +56,9 @@ pub async fn create_group_member_atst(
         atst_group_id: input.atst_group_id.clone(),
         label: input.label.to_string(),
         cm: input.cm,
-        meta: JsonType::from(vec![]),
+        meta: JsonType::from(PrfsAtstMeta::group_member(GroupMemberAtstMeta {
+            value_raw: "".into(),
+        })),
         status: PrfsAtstStatus::Valid,
         value_num: Decimal::from(0),
         value_raw: "".into(),
