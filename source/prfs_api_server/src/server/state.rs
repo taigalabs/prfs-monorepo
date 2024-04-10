@@ -13,6 +13,8 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
     let commit_hash =
         std::env::var("GIT_COMMIT_HASH").unwrap_or("GIT_COMMIT_HASH not provided".to_string());
 
+    let server_group = std::env::var("SERVER_GROUP").unwrap_or("NOT GIVEN".to_string());
+
     let db2 = {
         let pg_endpoint = &ENVS.postgres_endpoint;
         let pg_username = &ENVS.postgres_username;
@@ -44,6 +46,7 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
         db2,
         wallet,
         launch_time,
+        server_group,
         commit_hash,
         infura_fetcher,
         tree_server_task_queue,

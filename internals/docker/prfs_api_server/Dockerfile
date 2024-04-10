@@ -8,6 +8,9 @@ ENV CI_CMD=${ci_cmd}
 ARG git_commit_hash
 ENV GIT_COMMIT_HASH=${git_commit_hash}
 
+ARG server_group
+ENV SERVER_GROUP=${server_group}
+
 WORKDIR /usr/prfs-monorepo
 
 COPY . .
