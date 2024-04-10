@@ -1,7 +1,7 @@
+use crate::seed::data::get_shy_channels_seed;
 use prfs_db_driver::database2::Database2;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_rust_utils::serde::read_json_file;
-use shy_db_interface::shy::get_shy_channels;
 use std::process::Command;
 use tokio::sync::OnceCell;
 
@@ -49,6 +49,6 @@ mod seed_api1 {
         prepare().await;
         let db = get_db().await;
 
-        get_shy_channels();
+        get_shy_channels_seed();
     }
 }

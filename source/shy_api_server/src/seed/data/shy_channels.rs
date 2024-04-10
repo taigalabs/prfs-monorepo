@@ -1,1 +1,1 @@
-pub fn get_shy_channels() {}
+pub fn get_shy_channels_seed() {}
