@@ -7,9 +7,7 @@ use crate::{
     paths::PATHS,
 };
 
-pub const CMD_NAME: &str = "start_prfs_api_server_blue";
-
-const SERVER_PORT_BLUE: &str = "40000";
+pub const CMD_NAME: &str = "start_prfs_api_server";
 
 pub fn run(matches: &ArgMatches) {
     let extra_args = match matches.get_many::<String>("extra_args") {
@@ -21,9 +19,8 @@ pub fn run(matches: &ArgMatches) {
     run_app(extra_args);
 }
 
-fn run_app(extra_args: Vec<&str>) {
-    let mut envs = create_envs();
-    envs.insert("PRFS_API_SERVER_PORT", SERVER_PORT_BLUE.into());
+fn run_app(_extra_args: Vec<&str>) {
+    let envs = create_envs();
 
     let status = Command::new(deps::CARGO)
         .current_dir(&PATHS.prfs_api_server)

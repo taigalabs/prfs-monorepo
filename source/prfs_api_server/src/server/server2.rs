@@ -19,7 +19,7 @@ pub async fn run_server() {
     let port = if cfg!(debug_assertions) {
         PORT_DEV
     } else {
-        let port = std::env::var("PRFS_API_SERVER_PORT").unwrap();
+        let port = std::env::var("PRFS_API_SERVER_PORT").expect("server port should be provided");
         port.parse::<u16>().unwrap()
     };
 
