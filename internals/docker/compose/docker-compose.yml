@@ -1,4 +1,15 @@
 services:
+  nginx:
+    image: 'docker.io/jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+
   prfs_api_server:
     build:
       context: ../../../
@@ -10,24 +21,24 @@ services:
     ports:
       - "4000:4000"
 
-  prfs_api_server_debug:
-    build:
-      context: ../../../
-      dockerfile: ./internals/docker/prfs_api_server/Dockerfile
-      args:
-        ci_cmd: ci dev_prfs_api_server
-        rust_version: 1.77
-        git_commit_hash: $GIT_COMMIT_HASH
-    ports:
-      - "4000:4000"
+  # prfs_api_server_debug:
+  #   build:
+  #     context: ../../../
+  #     dockerfile: ./internals/docker/prfs_api_server/Dockerfile
+  #     args:
+  #       ci_cmd: ci dev_prfs_api_server
+  #       rust_version: 1.77
+  #       git_commit_hash: $GIT_COMMIT_HASH
+  #   ports:
+  #     - "4000:4000"
 
-  prfs_api_server_local:
-    build:
-      context: ../../../
-      dockerfile: ./internals/docker/prfs_api_server/Dockerfile
-      args:
-        ci_cmd: ci start_prfs_api_server_local
-        rust_version: 1.77
-        git_commit_hash: $GIT_COMMIT_HASH
-    ports:
-      - "4000:4000"
+  # prfs_api_server_local:
+  #   build:
+  #     context: ../../../
+  #     dockerfile: ./internals/docker/prfs_api_server/Dockerfile
+  #     args:
+  #       ci_cmd: ci start_prfs_api_server_local
+  #       rust_version: 1.77
+  #       git_commit_hash: $GIT_COMMIT_HASH
+  #   ports:
+  #     - "4000:4000"
