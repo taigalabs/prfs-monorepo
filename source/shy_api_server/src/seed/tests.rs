@@ -41,7 +41,6 @@ async fn get_db() -> Database2 {
 }
 
 mod seed_api1 {
-
     use super::*;
 
     #[tokio::test]

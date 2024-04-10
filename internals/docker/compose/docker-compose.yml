@@ -15,7 +15,6 @@ services:
       context: ../../../
       dockerfile: ./internals/docker/prfs_api_server/Dockerfile
       args:
-        prfs_api_server_port: 40000
         ci_cmd: ci start_prfs_api_server
         rust_version: 1.77
         git_commit_hash: $GIT_COMMIT_HASH
@@ -25,7 +24,6 @@ services:
       context: ../../../
       dockerfile: ./internals/docker/prfs_api_server/Dockerfile
       args:
-        prfs_api_server_port: 40001
         ci_cmd: ci start_prfs_api_server
         rust_version: 1.77
         git_commit_hash: $GIT_COMMIT_HASH
