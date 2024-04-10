@@ -17,8 +17,8 @@ pub mod dev_shy_webapp;
 pub mod dev_snap;
 
 // prod mode
-pub mod start_prfs_api_server;
-pub mod start_prfs_api_server_local;
+pub mod start_prfs_api_server_blue;
+pub mod start_prfs_api_server_green;
 pub mod start_prfs_asset_server;
 pub mod start_prfs_console_webapp;
 pub mod start_prfs_docs_website;
@@ -28,13 +28,7 @@ pub mod start_prfs_proof_webapp;
 pub mod start_shy_webapp;
 
 // docker
-pub mod docker_down_all;
-pub mod docker_run_api_server;
-pub mod docker_run_default;
-pub mod docker_run_default_debug;
-pub mod docker_run_default_local;
-pub mod docker_run_postgres;
-pub mod docker_run_prfs_proof_webapp;
+pub mod docker;
 
 // seed
 pub mod seed_shy_api_data;

@@ -8,14 +8,13 @@ mod paths;
 use crate::{
     build_handle::BuildHandle,
     cmds::{
-        build_prfs_api_server, build_prfs_crypto_js, cargo_test, dev_prfs_api_server,
-        dev_prfs_asset_server, dev_prfs_console_webapp, dev_prfs_docs_website, dev_prfs_id_webapp,
-        dev_prfs_poll_webapp, dev_prfs_proof_webapp, dev_shy_webapp, docker_down_all,
-        docker_run_default, docker_run_default_debug, docker_run_default_local,
-        docker_run_prfs_proof_webapp, seed_shy_api_data, start_prfs_api_server,
-        start_prfs_api_server_local, start_prfs_asset_server, start_prfs_console_webapp,
-        start_prfs_docs_website, start_prfs_id_webapp, start_prfs_poll_webapp,
-        start_prfs_proof_webapp, start_shy_webapp, tmux, vercel_deploy,
+        build_circuits, build_prfs_api_server, build_prfs_crypto_js, cargo_test,
+        dev_prfs_api_server, dev_prfs_asset_server, dev_prfs_console_webapp, dev_prfs_docs_website,
+        dev_prfs_id_webapp, dev_prfs_poll_webapp, dev_prfs_proof_webapp, dev_shy_webapp, docker,
+        seed_shy_api_data, start_prfs_api_server_blue, start_prfs_api_server_green,
+        start_prfs_asset_server, start_prfs_console_webapp, start_prfs_docs_website,
+        start_prfs_id_webapp, start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp,
+        tmux, vercel_deploy,
     },
 };
 use chrono::prelude::*;
@@ -32,23 +31,23 @@ fn main() {
         .arg_required_else_help(true)
         // build
         .subcommand(command!("build"))
-        .subcommand(command!("build_prfs_driver_spartan_js"))
+        .subcommand(command!(cmds::build_prfs_driver_spartan_js::CMD_NAME))
         .subcommand(command!(build_prfs_crypto_js::CMD_NAME))
         .subcommand(command!(build_prfs_api_server::CMD_NAME))
-        .subcommand(command!("build_circuits"))
+        .subcommand(command!(build_circuits::CMD_NAME))
         // dev mode
         .subcommand(command!(dev_prfs_console_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_proof_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_poll_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_id_webapp::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!("dev_shy_webapp").arg(Arg::new("extra_args")))
+        .subcommand(command!(dev_shy_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_docs_website::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_asset_server::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_api_server::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("dev_snap"))
         // prod mode
-        .subcommand(command!(start_prfs_api_server::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!(start_prfs_api_server_local::CMD_NAME).arg(Arg::new("extra_args")))
+        .subcommand(command!(start_prfs_api_server_blue::CMD_NAME).arg(Arg::new("extra_args")))
+        .subcommand(command!(start_prfs_api_server_green::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_asset_server::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_console_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_proof_webapp::CMD_NAME).arg(Arg::new("extra_args")))
@@ -57,15 +56,11 @@ fn main() {
         .subcommand(command!(start_shy_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_docs_website::CMD_NAME).arg(Arg::new("extra_args")))
         // docker
-        .subcommand(command!("docker_run_postgres").arg(Arg::new("extra_args")))
-        .subcommand(command!("docker_run_webapp_console").arg(Arg::new("extra_args")))
-        .subcommand(command!("docker_run_webapp_proof").arg(Arg::new("extra_args")))
-        .subcommand(command!("docker_run_api_server").arg(Arg::new("extra_args")))
-        .subcommand(command!("docker_run_asset_server").arg(Arg::new("extra_args")))
-        .subcommand(command!(docker_run_default::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!(docker_run_default_debug::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!(docker_run_default_local::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!("docker_down_all").arg(Arg::new("extra_args")))
+        .subcommand(
+            command!(docker::CMD_NAME)
+                .arg(arg!(-f <FILE> "script to run"))
+                .arg(arg!(<extra_args> ... "args to run with").trailing_var_arg(true)),
+        )
         // seed
         .subcommand(command!("seed_shy_api_data"))
         .subcommand(command!("seed_assets"))
@@ -89,7 +84,7 @@ fn main() {
         Some(("build", sub_matches)) => {
             cmds::build::run(sub_matches, &timestamp);
         }
-        Some(("build_prfs_driver_spartan_js", sub_matches)) => {
+        Some((cmds::build_prfs_driver_spartan_js::CMD_NAME, sub_matches)) => {
             cmds::build_prfs_driver_spartan_js::run(sub_matches, &timestamp);
         }
         Some((build_prfs_api_server::CMD_NAME, sub_matches)) => {
@@ -98,7 +93,7 @@ fn main() {
         Some((build_prfs_crypto_js::CMD_NAME, sub_matches)) => {
             cmds::build_prfs_crypto_js::run(sub_matches, &timestamp);
         }
-        Some(("build_circuits", sub_matches)) => {
+        Some((cmds::build_circuits::CMD_NAME, sub_matches)) => {
             cmds::build_circuits::run(sub_matches, &timestamp);
         }
         // dev mode
@@ -130,11 +125,11 @@ fn main() {
             cmds::dev_snap::run(sub_matches);
         }
         // prod mode
-        Some((start_prfs_api_server::CMD_NAME, sub_matches)) => {
-            start_prfs_api_server::run(sub_matches);
+        Some((start_prfs_api_server_blue::CMD_NAME, sub_matches)) => {
+            start_prfs_api_server_blue::run(sub_matches);
         }
-        Some((start_prfs_api_server_local::CMD_NAME, sub_matches)) => {
-            start_prfs_api_server_local::run(sub_matches);
+        Some((start_prfs_api_server_green::CMD_NAME, sub_matches)) => {
+            start_prfs_api_server_green::run(sub_matches);
         }
         Some((start_prfs_asset_server::CMD_NAME, sub_matches)) => {
             start_prfs_asset_server::run(sub_matches);
@@ -158,26 +153,8 @@ fn main() {
             start_prfs_docs_website::run(sub_matches);
         }
         // docker
-        Some(("docker_run_postgres", sub_matches)) => {
-            cmds::docker_run_postgres::run(sub_matches);
-        }
-        Some((docker_run_prfs_proof_webapp::CMD_NAME, sub_matches)) => {
-            cmds::docker_run_prfs_proof_webapp::run(sub_matches);
-        }
-        Some(("docker_run_api_server", sub_matches)) => {
-            cmds::docker_run_api_server::run(sub_matches);
-        }
-        Some((docker_run_default::CMD_NAME, sub_matches)) => {
-            docker_run_default::run(sub_matches);
-        }
-        Some((docker_run_default_debug::CMD_NAME, sub_matches)) => {
-            docker_run_default_debug::run(sub_matches);
-        }
-        Some((docker_run_default_local::CMD_NAME, sub_matches)) => {
-            docker_run_default_local::run(sub_matches);
-        }
-        Some(("docker_down_all", sub_matches)) => {
-            docker_down_all::run(sub_matches);
+        Some((docker::CMD_NAME, sub_matches)) => {
+            docker::run(sub_matches);
         }
         // misc
         Some((seed_shy_api_data::CMD_NAME, sub_matches)) => {

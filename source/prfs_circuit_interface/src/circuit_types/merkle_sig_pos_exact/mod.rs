@@ -22,7 +22,7 @@ pub struct MerkleSigPosExactV1Inputs {
 #[allow(non_snake_case)]
 #[ts(export)]
 pub struct MerkleSigPosExactV1Data {
-    prfs_set_id: String,
+    pub prfs_set_id: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

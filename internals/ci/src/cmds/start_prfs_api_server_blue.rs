@@ -1,5 +1,5 @@
 use clap::ArgMatches;
-use std::{path::PathBuf, process::Command};
+use std::process::Command;
 
 use crate::{
     create_envs::create_envs,
@@ -7,7 +7,9 @@ use crate::{
     paths::PATHS,
 };
 
-pub const CMD_NAME: &str = "start_prfs_api_server_local";
+pub const CMD_NAME: &str = "start_prfs_api_server_blue";
+
+const SERVER_PORT_BLUE: &str = "40000";
 
 pub fn run(matches: &ArgMatches) {
     let extra_args = match matches.get_many::<String>("extra_args") {
@@ -19,15 +21,13 @@ pub fn run(matches: &ArgMatches) {
     run_app(extra_args);
 }
 
-fn run_app(_extra_args: Vec<&str>) {
-    let prfs_api_server_bin = &PATHS.ws_root.join("prfs_api_server");
-    if !prfs_api_server_bin.exists() {
-        panic!("prfs_api_server bin does not exist");
-    }
+fn run_app(extra_args: Vec<&str>) {
+    let mut envs = create_envs();
+    envs.insert("PRFS_API_SERVER_PORT", SERVER_PORT_BLUE.into());
 
-    let envs = create_envs();
-    let status = Command::new(prfs_api_server_bin)
-        .current_dir(&PATHS.ws_root)
+    let status = Command::new(deps::CARGO)
+        .current_dir(&PATHS.prfs_api_server)
+        .args(["run", "-p", "prfs_api_server", "--release"])
         .envs(envs)
         .status()
         .expect(&format!("{} command failed to start", deps::CARGO));

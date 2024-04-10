@@ -3,12 +3,13 @@ ARG rust_version
 FROM rust:${rust_version}
 
 ARG ci_cmd
-ENV CI_CMD=$ci_cmd
+ENV CI_CMD=${ci_cmd}
 
 ARG git_commit_hash
 ENV GIT_COMMIT_HASH=${git_commit_hash}
 
-EXPOSE 4000
+ARG prfs_api_server_port
+ENV PRFS_API_SERVER_PORT=${prfs_api_server_port}
 
 WORKDIR /usr/prfs-monorepo
 

@@ -15,10 +15,7 @@ pub struct Paths {
     pub internals_ci: PathBuf,
     pub internals__tmux: PathBuf,
     pub internals__vercel: PathBuf,
-
-    // docker
-    pub internals_docker: PathBuf,
-    pub internals_docker_postgres: PathBuf,
+    pub internals__docker: PathBuf,
 
     pub prfs_circuits_circom: PathBuf,
     pub prfs_snap: PathBuf,
@@ -38,6 +35,7 @@ pub struct Paths {
     pub prfs_asset_server: PathBuf,
     pub prfs_asset_server_assets: PathBuf,
     pub prfs_asset_server_assets_local: PathBuf,
+
     // drivers
     pub prfs_driver_spartan_js: PathBuf,
     pub prfs_driver_spartan_wasm: PathBuf,
@@ -71,7 +69,7 @@ impl Paths {
         let internals_ci = ws_root.join("internals/ci");
         let internals__tmux = ws_root.join("internals/tmux");
         let internals__vercel = ws_root.join("internals/vercel");
-        let internals_docker = ws_root.join("internals/docker");
+        let internals__docker = ws_root.join("internals/docker");
         let internals_docker_postgres = ws_root.join("internals/docker_postgres");
 
         let prfs_docs_website = ws_root.join("source/prfs_docs_website");
@@ -112,8 +110,7 @@ impl Paths {
             internals_ci,
             internals__tmux,
             internals__vercel,
-            internals_docker,
-            internals_docker_postgres,
+            internals__docker,
 
             // Prfs
             prfs_env__bindings,

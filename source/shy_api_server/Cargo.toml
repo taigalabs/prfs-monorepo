@@ -34,7 +34,3 @@ prfs_crypto = { path = "../prfs_crypto" }
 shy_api_error_codes = { path = "../shy_api_error_codes" }
 shy_entities = { path = "../shy_entities" }
 shy_db_interface = { path = "../shy_db_interface" }
-
-[[bin]]
-name = "shy_api_server_seed"
-path = "src/bin/seed/mod.rs"

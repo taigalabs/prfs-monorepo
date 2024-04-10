@@ -3,8 +3,7 @@ use std::process::Command;
 
 use crate::{
     create_envs::create_envs,
-    deps::{self, CARGO},
-    paths::PATHS,
+    deps::{self},
 };
 
 pub const CMD_NAME: &str = "cargo_test";
