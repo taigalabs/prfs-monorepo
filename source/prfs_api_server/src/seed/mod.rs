@@ -1,7 +1,5 @@
-#[path = "../../data_seed/rust/mod.rs"]
-mod seed;
-
 mod csv;
+mod data;
 
 mod local;
 pub mod upload;

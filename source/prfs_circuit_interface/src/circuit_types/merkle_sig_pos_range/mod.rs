@@ -24,8 +24,8 @@ pub struct MerkleSigPosRangeV1Inputs {
 #[allow(non_snake_case)]
 #[ts(export)]
 pub struct MerkleSigPosRangeV1Data {
-    prfs_set_id: String,
-    range_data: RangeData,
+    pub prfs_set_id: String,
+    pub range_data: RangeData,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
