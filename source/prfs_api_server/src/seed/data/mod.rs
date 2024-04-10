@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use prfs_circuit_interface::circuit_types::{
-    CircuitTypeData, CircuitTypeId, MerkleSigPosRangeV1Data, RangeData, RangeOption,
-    SimpleHashV1Data,
+    CircuitTypeData, CircuitTypeId, MerkleSigPosExactV1Data, MerkleSigPosRangeV1Data, RangeData,
+    RangeOption, SimpleHashV1Data,
 };
 use prfs_circuits_circom::CircuitBuildJson;
 use prfs_db_driver::sqlx::types::Json as JsonType;
@@ -15,6 +15,7 @@ const NONCE_SEOUL_1: &str = "NONCE_SEOUL_1";
 const SIMPLE_HASH_1_DESC: &str = include_str!("../../../data_seed/proof_types/SIMPLE_HASH_1.md");
 const CRYPTO_ASSET_SIZE_V1_DESC: &str =
     include_str!("../../../data_seed/proof_types/CRYPTO_ASSET_SIZE_V1.md");
+const NONCE_SEOUL_1_DESC: &str = include_str!("../../../data_seed/proof_types/NONCE_SEOUL_1.md");
 
 const CIRCUITS_BUILD_JSON: &str = include_str!("../../../../prfs_circuits_circom/build/build.json");
 
@@ -103,9 +104,27 @@ pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
             created_at: DateTime::from_str("2024-01-29T16:39:57-08:00").unwrap(),
             experimental: false,
         },
+        PrfsProofType {
+            proof_type_id: NONCE_SEOUL_1.into(),
+            label: "Nonce community Seoul".into(),
+            author: "Prfs".into(),
+            desc: NONCE_SEOUL_1_DESC.into(),
+            expression: "Is a member of the group with some value".into(),
+            img_url: Some("https://d1w1533jipmvi2.cloudfront.net/nonce.jpeg".into()),
+            img_caption: None,
+            circuit_id: circuit_build_json.circuits[&CircuitTypeId::merkle_sig_pos_exact_v1]
+                .circuit_id
+                .clone(),
+            circuit_type_id: CircuitTypeId::merkle_sig_pos_exact_v1,
+            circuit_type_data: JsonType::from(CircuitTypeData::merkle_sig_pos_exact_v1(
+                MerkleSigPosExactV1Data {
+                    prfs_set_id: "nonce_seoul_1".into(),
+                },
+            )),
+            created_at: DateTime::from_str("2024-01-29T16:39:57-08:00").unwrap(),
+            experimental: false,
+        },
     ];
-
-    println!("p: {:?}", prfs_proof_types);
 
     return prfs_proof_types;
 }

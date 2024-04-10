@@ -68,13 +68,16 @@ mod seed_api1 {
     #[tokio::test]
     async fn seed_prfs_proof_types_1() {
         prepare().await;
-        get_prfs_proof_types();
-        // let db = get_db().await;
+        let db = get_db().await;
 
         // let json_path = PATHS.data_seed__json_bindings.join("prfs_proof_types.json");
         // let proof_types: Vec<PrfsProofType> = read_json_file(&json_path).unwrap();
         // println!("proof types: {:#?}", proof_types);
-
+        //
+        let proof_types = get_prfs_proof_types();
+        let mut file =
+            File::create(PATHS.data_seed__json_bindings.join("prfs_proof_types.json")).unwrap();
+        serde_json::to_writer_pretty(&mut file, &MASTER_ACCOUNT_IDS).unwrap();
         // upload_prfs_proof_types(&db, &proof_types).await;
     }
 }

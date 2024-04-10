@@ -18,7 +18,7 @@ pub fn get_master_account_ids() -> [&'static str; 4] {
         let mut file = File::create(file_path).unwrap();
 
         // MASTER_ACCOUNT_IDS
-        serde_json::to_writer(&mut file, &MASTER_ACCOUNT_IDS).unwrap();
+        serde_json::to_writer_pretty(&mut file, &MASTER_ACCOUNT_IDS).unwrap();
 
         return 0;
     });
