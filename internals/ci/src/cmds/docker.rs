@@ -30,6 +30,7 @@ pub fn run(sub_matches: &ArgMatches) {
                     .envs(envs)
                     .status()
                     .expect(&format!("{} command failed to start", deps::CARGO));
+
                 assert!(status.success());
             } else {
                 println!("Cannot find script: {}", file_path.to_str().unwrap());
