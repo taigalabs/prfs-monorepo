@@ -1,2 +1,3 @@
+mod data;
 mod db;
-mod seed;
+mod tests;
