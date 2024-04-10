@@ -1,11 +1,27 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inner {
+  width: 100%;
+  max-width: 1180px;
+  padding: 60px 24px 120px;
+}
+
+.titleComponent {
+  width: 100%;
+  max-width: 1180px;
+  padding: 60px 24px;
+  font-variation-settings: "wght" 566;
 }
 
 .itemContainer {
   display: grid;
-  // grid-template-columns: repeat(1, 1fr);
   grid-auto-rows: auto;
   justify-content: center;
   row-gap: 40px;
@@ -21,19 +37,49 @@
 
 .title {
   font-size: 18px;
-  font-variation-settings: "wght" 666;
+  font-variation-settings: "wght" 636;
   padding-bottom: 8px;
 }
 
 .newLine {
   display: none;
+  text-align: center;
 }
 
-// @media screen and (min-width: $display_w480) {
-//   .itemContainer {
-//     grid-template-columns: repeat(2, 1fr);
-//   }
-// }
+.background {
+  padding-bottom: 30px;
+  color: var(--white-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 360px;
+  width: 100%;
+  background-color: #772953;
+  background-size: 44% 99.83%, 88% 91%, 103.8% 30.26%, 100% 99.8%;
+  background-blend-mode: multiply, multiply, normal, normal;
+  background-position: top right, top left, right bottom -1px, left top;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+      to bottom left,
+      rgba(119, 41, 83, 0.16) 0,
+      rgba(119, 41, 83, 0.16) 49.9%,
+      transparent 50%
+    ),
+    linear-gradient(
+      to bottom right,
+      rgba(228, 228, 228, 0.5) 0,
+      rgba(228, 228, 228, 0.5) 49.9%,
+      transparent 50%
+    ),
+    linear-gradient(
+      to top left,
+      white 0%,
+      white 49.3%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    linear-gradient(-89deg, #51433c 0%, #6e5b52 42%, #1c3e44 94%);
+}
 
 @media screen and (min-width: $display_w768) {
   .itemContainer {

@@ -22,6 +22,17 @@ in this channel."
             proof_type_ids: JsonType::from(vec![]),
             status: shy_entities::entities::ShyChannelStatus::Normal,
         },
+        ShyChannel {
+            channel_id: "0xa8482bb".into(),
+            label: "Korean crypto holders (한국 크립토 소유자)".into(),
+            locale: "ko".into(),
+            desc: "Crypto talk. Gossip in the industry. Thoughts on investment. Confessions. \
+Whatever you couldn't have said with your identity revealed. You are expected to speak in English \
+in this channel."
+                .into(),
+            proof_type_ids: JsonType::from(vec![]),
+            status: shy_entities::entities::ShyChannelStatus::Normal,
+        },
     ];
 
     return channels;

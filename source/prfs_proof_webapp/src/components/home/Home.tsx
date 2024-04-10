@@ -24,7 +24,6 @@ import ProjectStatus from "./ProjectStatus";
 import Footer from "./Footer";
 import FeaturedApps from "./FeaturedApps";
 import UsageScenario from "./UsageScenario";
-import Separator from "./Separator";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -85,7 +84,6 @@ const Home: React.FC<HomeProps> = () => {
         <CallToAction />
         <UsageScenario />
         <FeatureList handleFocusSearchBar={handleFocusSearchBar} />
-        <Separator />
         <Specialties />
         <TutorialArea />
         <FeaturedApps />
