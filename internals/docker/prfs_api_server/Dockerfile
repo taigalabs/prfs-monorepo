@@ -8,8 +8,6 @@ ENV CI_CMD=$ci_cmd
 ARG git_commit_hash
 ENV GIT_COMMIT_HASH=${git_commit_hash}
 
-EXPOSE 4000
-
 WORKDIR /usr/prfs-monorepo
 
 COPY . .

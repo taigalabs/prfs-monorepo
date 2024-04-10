@@ -5,9 +5,7 @@ use prfs_common_server_state::ServerState;
 use prfs_db_driver::database2::Database2;
 use prfs_tree_server_task_queue::TreeServerTaskQueue;
 use prfs_web_fetcher::destinations::infura::{InfuraFetcher, InfuraFetcherOpt};
-use std::collections::HashMap;
 use std::sync::Arc;
-use tokio::sync::Mutex;
 
 use crate::{envs::ENVS, ApiServerError};
 
