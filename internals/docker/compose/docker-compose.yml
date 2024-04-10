@@ -15,6 +15,6 @@ services:
       context: ../../../
       dockerfile: ./internals/docker/prfs_api_server/Dockerfile
       args:
-        ci_cmd: ci start_prfs_api_server
+        ci_cmd: ci $CI_CMD
         rust_version: 1.77
         git_commit_hash: $GIT_COMMIT_HASH

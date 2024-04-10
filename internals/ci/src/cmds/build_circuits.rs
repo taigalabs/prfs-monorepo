@@ -8,6 +8,8 @@ use crate::{
     CiError,
 };
 
+pub const CMD_NAME: &str = "build_circuits";
+
 pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     let build_handle = BuildHandle {
         timestamp: timestamp.to_string(),

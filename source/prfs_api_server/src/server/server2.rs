@@ -16,7 +16,12 @@ pub async fn run_server() {
         Arc::new(s)
     };
 
-    let port = if cfg!(debug_assertions) { PORT_DEV } else { 80 };
+    let port = if cfg!(debug_assertions) {
+        PORT_DEV
+    } else {
+        let port = std::env::var("PRFS_API_SERVER_PORT").unwrap();
+        port.parse::<u16>().unwrap()
+    };
 
     // let server_state_clone = server_state.clone();
     let _ = tokio::join!(

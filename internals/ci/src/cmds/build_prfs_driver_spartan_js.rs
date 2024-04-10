@@ -10,6 +10,8 @@ use crate::{
     build_handle::BuildHandle,
 };
 
+pub const CMD_NAME: &str = "build_prfs_driver_spartan_js";
+
 pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     let build_handle = BuildHandle {
         timestamp: timestamp.to_string(),
