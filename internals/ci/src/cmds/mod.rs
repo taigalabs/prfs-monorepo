@@ -29,13 +29,6 @@ pub mod start_shy_webapp;
 
 // docker
 pub mod docker;
-pub mod docker_down_all;
-pub mod docker_run_api_server;
-pub mod docker_run_default;
-pub mod docker_run_default_debug;
-pub mod docker_run_default_local;
-pub mod docker_run_postgres;
-pub mod docker_run_prfs_proof_webapp;
 
 // seed
 pub mod seed_shy_api_data;
