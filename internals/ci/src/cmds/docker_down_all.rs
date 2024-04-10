@@ -18,7 +18,7 @@ pub fn run(matches: &ArgMatches) {
 fn run_docker(extra_args: Vec<&str>) {
     println!("extra_args: {:?}", extra_args);
 
-    let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
+    let docker_compose_yml_path = PATHS.internals__docker.join("compose/docker-compose.yml");
 
     let status = Command::new(deps::DOCKER)
         .args([

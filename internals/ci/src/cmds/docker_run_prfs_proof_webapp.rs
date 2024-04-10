@@ -20,7 +20,7 @@ pub fn run(matches: &ArgMatches) {
 fn run_docker(_extra_args: Vec<&str>) {
     let tag = "prfs_webapp_proof";
 
-    let df_path = PATHS.internals_docker.join("webapp_proof/Dockerfile");
+    let df_path = PATHS.internals__docker.join("webapp_proof/Dockerfile");
     println!("tag: {}, df_path: {:?}", tag, df_path);
 
     let status = Command::new(deps::DOCKER)
