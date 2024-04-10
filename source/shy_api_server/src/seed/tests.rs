@@ -10,7 +10,7 @@ use crate::{envs::ENVS, paths::PATHS};
 static ONCE: OnceCell<u32> = OnceCell::const_new();
 const NODE_PKG_MANAGER: &str = "pnpm";
 
-async fn prepare() {
+async fn _prepare() {
     ONCE.get_or_init(|| async {
         let status = Command::new(NODE_PKG_MANAGER)
             .current_dir(&PATHS.package_root)
@@ -45,9 +45,9 @@ mod seed_api1 {
 
     #[tokio::test]
     async fn seed_shy_channels() {
-        prepare().await;
         let db = get_db().await;
 
-        get_shy_channels_seed();
+        let channels = get_shy_channels_seed();
+        println!("ch: {:?}", channels);
     }
 }

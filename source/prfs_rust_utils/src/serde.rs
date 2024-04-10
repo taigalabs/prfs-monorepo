@@ -14,3 +14,8 @@ where
 
     Ok(json)
 }
+
+pub fn read_file_to_str(path: &PathBuf) -> Result<String, RustUtilsError> {
+    std::fs::read_to_string(path)
+        .map_err(|err| format!("Couldn't read file, path: {:?}, err: {}", path, err).into())
+}
