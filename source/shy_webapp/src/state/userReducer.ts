@@ -88,14 +88,14 @@ export const userSlice = createSlice({
 
       return {
         ...state,
-        cache,
+        shyCache: {},
       };
     },
     signOutShy: (state: UserState, _action: PayloadAction<void>) => {
       return {
         ...state,
         shyCredential: null,
-        cache: {},
+        shyCache: {},
       };
     },
   },

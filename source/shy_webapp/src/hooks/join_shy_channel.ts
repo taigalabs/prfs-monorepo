@@ -197,6 +197,7 @@ export function useHandleJoinShyChannel({ channel }: UseJoinShychannelArgs) {
               ts: Date.now(),
             }),
           );
+          router.push(url);
         } else {
           dispatch(
             setGlobalMsg({

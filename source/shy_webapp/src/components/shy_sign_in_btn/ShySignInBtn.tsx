@@ -27,6 +27,7 @@ import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import { SHY_APP_ID } from "@/app_id";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { removeLocalShyCache } from "@/storage/shy_cache";
 
 enum Status {
   InProgress,
@@ -119,6 +120,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
 
   const handleClickSignOut = React.useCallback(() => {
     removeLocalShyCredential();
+    removeLocalShyCache();
     dispatch(signOutShy());
     router.push(paths.__);
   }, [dispatch, router]);

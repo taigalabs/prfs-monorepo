@@ -31,3 +31,7 @@ export function persistShyCache(cache: LocalShyCache): LocalShyCache | null {
 
   return cache;
 }
+
+export function removeLocalShyCache() {
+  window.localStorage.removeItem(SHY_CACHE);
+}

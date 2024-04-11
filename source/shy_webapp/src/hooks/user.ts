@@ -7,11 +7,9 @@ import { loadLocalShyCache } from "@/storage/shy_cache";
 
 export function useSignedInShyUser() {
   const dispatch = useAppDispatch();
-  const { isCredentialInitialized, shyCredential, isFirstTime } = useAppSelector(state => ({
-    isCredentialInitialized: state.user.isCredentialInitialized,
-    shyCredential: state.user.shyCredential,
-    isFirstTime: state.user.isFirstTime,
-  }));
+  const { isCredentialInitialized, shyCredential, isFirstTime } = useAppSelector(
+    state => state.user,
+  );
 
   React.useEffect(() => {
     if (!isCredentialInitialized) {
@@ -31,6 +29,7 @@ export function useShyCache() {
   React.useEffect(() => {
     if (!isCacheInitialized) {
       const cache = loadLocalShyCache();
+      console.log("Loading local Shy cache", cache);
       dispatch(initShyCache(cache));
     }
   }, [isCacheInitialized]);

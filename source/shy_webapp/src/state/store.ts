@@ -5,10 +5,7 @@ import { userReducer } from "./userReducer";
 import { globalMsgReducer } from "./globalMsgReducer";
 
 const logger = createLogger({
-  level: {
-    prevState: false,
-    nextState: false,
-  },
+  level: "log",
 });
 
 export const store = configureStore({
