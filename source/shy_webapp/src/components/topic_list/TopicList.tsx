@@ -39,8 +39,6 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, 
       const cacheKey = makeEnterShyChannelCacheKey(channelId);
       const val = shyCache[cacheKey];
 
-      console.log(4, shyCache, val);
-
       if (val) {
         try {
           const token: EnterShyChannelToken = JSON.parse(shyCache[cacheKey]);
