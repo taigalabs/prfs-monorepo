@@ -37,11 +37,17 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, 
   React.useEffect(() => {
     if (shyCache) {
       const cacheKey = makeEnterShyChannelCacheKey(channelId);
-      try {
-        const token: EnterShyChannelToken = JSON.parse(shyCache[cacheKey]);
-        setToken(token);
-      } catch (err) {
-        dispatch(removeCacheItem(cacheKey));
+      const val = shyCache[cacheKey];
+
+      console.log(4, shyCache, val);
+
+      if (val) {
+        try {
+          const token: EnterShyChannelToken = JSON.parse(shyCache[cacheKey]);
+          setToken(token);
+        } catch (err) {
+          dispatch(removeCacheItem(cacheKey));
+        }
       }
     } else {
     }
