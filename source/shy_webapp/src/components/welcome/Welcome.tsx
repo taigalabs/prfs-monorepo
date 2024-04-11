@@ -17,7 +17,7 @@ import { useHandleScroll } from "@/hooks/scroll";
 import Loading from "@/components/loading/Loading";
 import Content from "./Welcome.mdx";
 import { urls } from "@/urls";
-import { paths, searchParamKeys } from "@/paths";
+import { paths } from "@/paths";
 import { useAppDispatch } from "@/state/hooks";
 import { setIsNotFirstTime } from "@/state/userReducer";
 

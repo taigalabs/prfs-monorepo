@@ -9,7 +9,6 @@ import { paths } from "@/paths";
 import { useIsFontReady } from "@/hooks/font";
 import Loading from "@/components/loading/Loading";
 import Channels from "@/components/channels/Channels";
-import { useAppDispatch } from "@/state/hooks";
 
 const Home: React.FC<HomeProps> = () => {
   const isFontReady = useIsFontReady();

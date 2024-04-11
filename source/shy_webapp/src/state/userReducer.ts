@@ -4,11 +4,12 @@ import { LocalShyCredential } from "@/storage/shy_credential";
 import { LocalShyCache, LocalShyCacheItem, persistShyCache } from "@/storage/shy_cache";
 
 export interface UserState {
+  // credential
   isFirstTime: boolean;
   isCredentialInitialized: boolean;
   shyCredential: LocalShyCredential | null;
 
-  //
+  // cache
   isCacheInitialized: boolean;
   shyCache: LocalShyCache | null;
 }
