@@ -17,7 +17,7 @@ import shy_api_error_codes from "@taigalabs/shy-api-error-codes";
 import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
-import { signInShy, signOutShy } from "@/state/userReducer";
+import { signInShy, signOutShy, signUpShy } from "@/state/userReducer";
 import {
   LocalShyCredential,
   persistShyCredential,
@@ -86,8 +86,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
               };
 
               persistShyCredential(credential);
-              dispatch(signInShy(credential));
-              router.push(paths.account__welcome);
+              dispatch(signUpShy(credential));
             } else {
               dispatch(
                 setGlobalMsg({
@@ -110,6 +109,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
           }
         }
       }
+
       setStatus(Status.InProgress);
       fn().then();
       setStatus(Status.Standby);

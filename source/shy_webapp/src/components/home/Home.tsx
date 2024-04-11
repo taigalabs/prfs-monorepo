@@ -9,17 +9,22 @@ import { paths } from "@/paths";
 import { useIsFontReady } from "@/hooks/font";
 import Loading from "@/components/loading/Loading";
 import Channels from "@/components/channels/Channels";
+import { useAppDispatch } from "@/state/hooks";
 
 const Home: React.FC<HomeProps> = () => {
   const isFontReady = useIsFontReady();
-  const { isCredentialInitialized, shyCredential } = useSignedInShyUser();
+  const { isCredentialInitialized, shyCredential, isFirstTime } = useSignedInShyUser();
   const router = useRouter();
 
   React.useEffect(() => {
     if (isCredentialInitialized && !shyCredential) {
       router.push(`${paths.account__sign_in}`);
     }
-  }, [isCredentialInitialized, router, shyCredential]);
+
+    if (isCredentialInitialized && isFirstTime) {
+      router.push(paths.account__welcome);
+    }
+  }, [isCredentialInitialized, router, shyCredential, isFirstTime]);
 
   return isFontReady && shyCredential ? (
     <Channels />

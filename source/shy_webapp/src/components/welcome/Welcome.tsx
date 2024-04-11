@@ -18,6 +18,8 @@ import Loading from "@/components/loading/Loading";
 import Content from "./Welcome.mdx";
 import { urls } from "@/urls";
 import { paths, searchParamKeys } from "@/paths";
+import { useAppDispatch } from "@/state/hooks";
+import { setIsNotFirstTime } from "@/state/userReducer";
 
 const Welcome: React.FC<WelcomeProps> = ({}) => {
   const router = useRouter();
@@ -25,14 +27,18 @@ const Welcome: React.FC<WelcomeProps> = ({}) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const { isCredentialInitialized, shyCredential } = useSignedInShyUser();
+  const dispatch = useAppDispatch();
   const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
 
   React.useEffect(() => {
     if (isCredentialInitialized && !shyCredential) {
-      const href = encodeURI(window.location.href);
-      router.push(`${paths.account__sign_in}?${searchParamKeys.continue}=${href}`);
+      router.push(paths.account__sign_in);
     }
   }, [isCredentialInitialized, router, shyCredential]);
+
+  React.useEffect(() => {
+    dispatch(setIsNotFirstTime());
+  }, [dispatch, router]);
 
   return isFontReady && shyCredential ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
