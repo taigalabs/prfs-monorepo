@@ -45,8 +45,6 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
       if (channel.type === "Closed") {
         e.preventDefault();
 
-        const proofTypeId = channel.proof_type_ids[0];
-        console.log(11, proofTypeId);
         const session_key = createSessionKey();
         const { sk, pkHex } = createRandomKeyPair();
         const json = JSON.stringify({
@@ -71,7 +69,7 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
           queries: [
             {
               name: PROOF,
-              proofTypeId,
+              proofTypeId: "nonce_seoul_v1",
               queryType: QueryType.CREATE_PROOF,
               presetVals,
               usePrfsRegistry: true,
@@ -107,7 +105,7 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
     [channel, router, url, setSk],
   );
 
-  const handleSucceedGetSession = React.useCallback(() => {}, []);
+  const handleSucceedGetSession = React.useCallback(() => {}, [sk]);
 
   return (
     <>

@@ -66,7 +66,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     sk,
     setSk,
   } = usePrfsIdSession();
-  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const [html, setHtml] = React.useState<string | null>(null);
   const { topicId, shortTopicId } = React.useMemo(() => {
     const hex = rand256Hex();

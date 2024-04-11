@@ -62,7 +62,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
     sk,
     setSk,
   } = usePrfsIdSession();
-  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [postId, setPostId] = React.useState<string | null>(null);
   const [html, setHtml] = React.useState<string | null>(null);

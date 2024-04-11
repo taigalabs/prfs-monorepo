@@ -111,7 +111,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     sk,
     setSk,
   } = usePrfsIdSession();
-  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];

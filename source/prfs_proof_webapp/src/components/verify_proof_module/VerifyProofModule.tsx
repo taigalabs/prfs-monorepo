@@ -47,7 +47,6 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
     sk,
     setSk,
   } = usePrfsIdSession();
-  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
 
   const handleClickVerify = React.useCallback(async () => {

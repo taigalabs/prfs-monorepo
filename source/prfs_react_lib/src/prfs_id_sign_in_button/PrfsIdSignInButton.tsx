@@ -44,7 +44,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     sk,
     setSk,
   } = usePrfsIdSession();
-  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
 
   const handleClickSignIn = React.useCallback(async () => {
     const { sk, pkHex } = createRandomKeyPair();

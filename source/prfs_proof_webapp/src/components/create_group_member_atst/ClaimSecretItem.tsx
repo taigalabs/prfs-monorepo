@@ -68,7 +68,6 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
     sk,
     setSk,
   } = usePrfsIdSession();
-  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
 
   const claimSecret = React.useMemo(() => {
