@@ -1,3 +1,4 @@
+use colored::Colorize;
 use log::LevelFilter;
 use sqlx::{
     postgres::{PgConnectOptions, PgPoolOptions},
@@ -22,8 +23,6 @@ impl Database2 {
             pg_username, pg_pw, pg_endpoint,
         );
 
-        println!("url: {}", url);
-
         let connect_options = PgConnectOptions::from_url(&url.parse().unwrap())
             .unwrap()
             .log_slow_statements(LevelFilter::Warn, Duration::from_secs(5));
@@ -34,7 +33,7 @@ impl Database2 {
             .await
             .unwrap();
 
-        println!("Postgres connected!");
+        println!("{} Postgres, url: {}", "Connected".green(), url);
 
         let d = Database2 { pool };
 

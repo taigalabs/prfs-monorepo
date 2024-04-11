@@ -72,14 +72,20 @@ WHERE channel_id=$1
     Ok(shy_channel)
 }
 
-pub async fn insert_shy_channel(
+pub async fn upsert_shy_channel(
     tx: &mut Transaction<'_, Postgres>,
     shy_channel: &ShyChannel,
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_channels
 (channel_id, label, proof_type_ids, locale, "desc", status)
-VALUES ($1, $2, $3, $4, $5)
+VALUES ($1, $2, $3, $4, $5, $6)
+ON CONFLICT (channel_id) DO UPDATE SET (
+label, proof_type_ids, locale, "desc", status, updated_at
+) = (
+excluded.label, excluded.proof_type_ids, excluded.locale, excluded.desc, excluded.status, 
+now()
+)
 RETURNING channel_id
 "#;
 

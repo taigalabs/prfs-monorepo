@@ -2,6 +2,7 @@ use crate::seed::data::get_shy_channels_seed;
 use prfs_db_driver::database2::Database2;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_rust_utils::serde::read_json_file;
+use shy_db_interface::shy;
 use std::process::Command;
 use tokio::sync::OnceCell;
 
@@ -44,10 +45,15 @@ mod seed_api1 {
     use super::*;
 
     #[tokio::test]
-    async fn seed_shy_channels() {
+    async fn seed_shy_channels_1() {
         let db = get_db().await;
+        let pool = &db.pool;
+        let mut tx = pool.begin().await.unwrap();
 
         let channels = get_shy_channels_seed();
-        println!("ch: {:?}", channels);
+        println!("ch: {:#?}", channels);
+        for ch in channels {
+            shy::upsert_shy_channel(&mut tx, &ch).await.unwrap();
+        }
     }
 }
