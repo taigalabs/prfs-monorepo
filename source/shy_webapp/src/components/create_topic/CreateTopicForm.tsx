@@ -22,12 +22,12 @@ import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyTopicRequest } from "@taigalabs/shy-entities/bindings/CreateShyTopicRequest";
-import { ShyProofAction } from "@taigalabs/shy-entities/bindings/ShyProofAction";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
+import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
@@ -119,7 +119,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
       const { sk, pkHex } = createRandomKeyPair();
       const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
 
-      const proofAction: ShyProofAction = {
+      const proofAction: ShyTopicProofAction = {
         type: "create_shy_topic",
         topic_id: topicId,
         channel_id: channel.channel_id,
@@ -251,13 +251,13 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         return;
       }
 
-      const shy_topic_proof_id = rand256Hex();
+      const shy_proof_id = rand256Hex();
       const { error } = await createShyTopic({
         title,
         topic_id: topicId,
         content: html,
         channel_id: channel.channel_id,
-        shy_topic_proof_id,
+        shy_proof_id,
         proof_identity_input: publicInputs.proofIdentityInput,
         proof: Array.from(proveReceipt.proof.proofBytes),
         public_inputs: proveReceipt.proof.publicInputSer,
