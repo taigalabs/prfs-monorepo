@@ -92,6 +92,7 @@ pub async fn create_shy_topic(
         public_key: input.author_public_key.to_string(),
         serial_no: input.serial_no,
         proof_identity_input: input.proof_identity_input.to_string(),
+        proof_type_id: input.proof_type_id,
     };
 
     let _proof_id = match shy::insert_shy_proof(&mut tx, &shy_proof).await {

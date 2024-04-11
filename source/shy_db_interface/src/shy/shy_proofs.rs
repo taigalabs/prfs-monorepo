@@ -9,8 +9,8 @@ pub async fn insert_shy_proof(
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_proofs
-(shy_proof_id, proof, public_inputs, public_key, serial_no, proof_identity_input)
-VALUES ($1, $2, $3, $4, $5, $6)
+(shy_proof_id, proof, public_inputs, public_key, serial_no, proof_identity_input, proof_type_id)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
 RETURNING shy_proof_id
 "#;
 
@@ -21,6 +21,7 @@ RETURNING shy_proof_id
         .bind(&shy_proof.public_key)
         .bind(&shy_proof.serial_no)
         .bind(&shy_proof.proof_identity_input)
+        .bind(&shy_proof.proof_type_id)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -47,6 +48,7 @@ WHERE public_key=$1
         public_key: row.try_get("public_key")?,
         serial_no: row.try_get("serial_no")?,
         proof_identity_input: row.try_get("proof_identity_input")?,
+        proof_type_id: row.try_get("proof_type_id")?,
     };
 
     Ok(shy_proof)

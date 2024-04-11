@@ -14,4 +14,5 @@ export type CreateShyPostWithProofRequest = {
   public_inputs: string;
   serial_no: string;
   sub_channel_id: string;
+  proof_type_id: string;
 };

@@ -266,6 +266,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         author_sig: proveReceipt.proofActionSig,
         author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
         sub_channel_id: subChannelId,
+        proof_type_id: channel.proof_type_ids[0],
       });
 
       if (error) {
@@ -282,7 +283,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
       router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
       setIsNavigating(true);
     },
-    [sk, dispatch, html, dispatch],
+    [sk, dispatch, html, dispatch, channel],
   );
 
   const footer = React.useMemo(() => {

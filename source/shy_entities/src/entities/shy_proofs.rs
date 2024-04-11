@@ -10,4 +10,5 @@ pub struct ShyProof {
     pub public_key: String,
     pub serial_no: String,
     pub proof_identity_input: String,
+    pub proof_type_id: String,
 }

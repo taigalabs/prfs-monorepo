@@ -10,7 +10,6 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import {
   JSONbigNative,
-  PrivateKey,
   createRandomKeyPair,
   decrypt,
   makeRandInt,
@@ -276,6 +275,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
           public_inputs: receipt_.proof.publicInputSer,
           serial_no: publicInputs.circuitPubInput.serialNo.toString(),
           sub_channel_id: subChannelId,
+          proof_type_id: channel.proof_type_ids[0],
         });
 
         if (error) {

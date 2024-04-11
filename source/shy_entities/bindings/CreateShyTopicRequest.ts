@@ -14,4 +14,5 @@ export type CreateShyTopicRequest = {
   author_sig: string;
   author_sig_msg: Array<number>;
   sub_channel_id: string;
+  proof_type_id: string;
 };

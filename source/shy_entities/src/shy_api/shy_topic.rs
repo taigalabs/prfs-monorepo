@@ -19,6 +19,7 @@ pub struct CreateShyTopicRequest {
     pub author_sig: String,
     pub author_sig_msg: Vec<u8>,
     pub sub_channel_id: String,
+    pub proof_type_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
