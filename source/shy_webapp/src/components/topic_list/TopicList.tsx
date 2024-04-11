@@ -7,6 +7,8 @@ import { shyApi2 } from "@taigalabs/shy-api-js";
 import dayjs from "dayjs";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
+import { EnterShyChannelToken } from "@taigalabs/shy-entities/bindings/EnterShyChannelToken";
+import { useRouter } from "next/navigation";
 
 import styles from "./TopicList.module.scss";
 import TopicRow from "./TopicRow";
@@ -16,12 +18,39 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
 import DiamondPlaceholder from "@/components/diamond_placeholder/DiamondPlaceholder";
+import { useAppDispatch } from "@/state/hooks";
+import { useShyCache } from "@/hooks/user";
+import { paths } from "@/paths";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { makeEnterShyChannelCacheKey } from "@/cache";
+import { removeCacheItem } from "@/state/userReducer";
 
 const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, placeholder }) => {
   const i18n = usePrfsI18N();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const [msg, setMsg] = React.useState(null);
+
+  const { shyCache, isCacheInitialized } = useShyCache();
+  const [token, setToken] = React.useState<EnterShyChannelToken | null>(null);
+
+  React.useEffect(() => {
+    if (shyCache) {
+      const cacheKey = makeEnterShyChannelCacheKey(channelId);
+      try {
+        const token: EnterShyChannelToken = JSON.parse(shyCache[cacheKey]);
+        setToken(token);
+      } catch (err) {
+        dispatch(removeCacheItem(cacheKey));
+      }
+    } else {
+    }
+  }, [shyCache, setMsg, dispatch, setToken]);
+
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_shy_topics", channelId],
+      enabled: !!token,
+      queryKey: ["get_shy_topics", channelId, token],
       queryFn: async ({ pageParam = 0 }) => {
         return await shyApi2({
           type: "get_shy_topics",

@@ -12,7 +12,6 @@ export function useSignedInShyUser() {
     shyCredential: state.user.shyCredential,
     isFirstTime: state.user.isFirstTime,
   }));
-  // const shyCredential = useAppSelector(state => state.user.shyCredential);
 
   React.useEffect(() => {
     if (!isCredentialInitialized) {

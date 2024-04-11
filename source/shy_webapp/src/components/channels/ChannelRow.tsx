@@ -39,237 +39,251 @@ import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { useGetShyProof } from "@/hooks/proof";
 import { useShyCache } from "@/hooks/user";
-import { setCacheItem } from "@/state/userReducer";
+import { removeCacheItem, setCacheItem } from "@/state/userReducer";
 import { makeEnterShyChannelCacheKey } from "@/cache";
 import { useJoinShyChannel } from "@/hooks/channel";
+import { useHandleJoinShyChannel } from "@/hooks/join_shy_channel";
 
 const ChannelRow: React.FC<RowProps> = ({ channel }) => {
   const router = useRouter();
   const { shyCache, isCacheInitialized } = useShyCache();
 
   const i18n = usePrfsI18N();
-  const {
-    openPrfsIdSession,
-    isPrfsDialogOpen,
-    setIsPrfsDialogOpen,
-    sessionKey,
-    setSessionKey,
-    sk,
-    setSk,
-  } = usePrfsIdSession();
-  const dispatch = useAppDispatch();
+  // const {
+  //   openPrfsIdSession,
+  //   isPrfsDialogOpen,
+  //   setIsPrfsDialogOpen,
+  //   sessionKey,
+  //   setSessionKey,
+  //   sk,
+  //   setSk,
+  // } = usePrfsIdSession();
   const url = React.useMemo(() => {
     return `${paths.c}/${channel.channel_id}`;
   }, [channel.channel_id]);
 
-  const { mutateAsync: getShyProof } = useGetShyProof();
-  const { mutateAsync: joinShyChannel } = useJoinShyChannel();
-  const nonce = 0;
+  // const { mutateAsync: getShyProof } = useGetShyProof();
+  // const { mutateAsync: joinShyChannel } = useJoinShyChannel();
+  // const nonce = 0;
+  const {
+    handleJoinShyChannel,
+    handleSucceedGetSession,
+    sessionKey,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+  } = useHandleJoinShyChannel({
+    channel,
+  });
 
   const handleClickRow = React.useCallback(
     async (e: React.MouseEvent) => {
       if (channel.type === "Closed") {
         e.preventDefault();
+        handleJoinShyChannel();
 
-        if (shyCache) {
-          const cacheKey = makeEnterShyChannelCacheKey(channel.channel_id);
-          const token = shyCache[cacheKey];
+        // if (shyCache) {
+        //   const cacheKey = makeEnterShyChannelCacheKey(channel.channel_id);
+        //   const token = shyCache[cacheKey];
 
-          const tokenObj: EnterShyChannelToken = JSON.parse(token);
+        //   try {
+        //     const tokenObj: EnterShyChannelToken = JSON.parse(token);
+        //     if (tokenObj) {
+        //       router.push(url);
+        //       return;
+        //     }
+        //   } catch (err) {
+        //     console.warn("Invalid cache item, key: %s", cacheKey);
+        //     dispatch(removeCacheItem(cacheKey));
+        //   }
+        // }
 
-          if (tokenObj) {
-            router.push(url);
-            return;
-          }
-        }
+        // const session_key = createSessionKey();
+        // const { sk, pkHex } = createRandomKeyPair();
+        // const json = JSON.stringify({
+        //   appId: SHY_APP_ID,
+        //   channel_id: channel.channel_id,
+        //   nonce,
+        // });
 
-        const session_key = createSessionKey();
-        const { sk, pkHex } = createRandomKeyPair();
-        const json = JSON.stringify({
-          appId: SHY_APP_ID,
-          channel_id: channel.channel_id,
-          nonce,
-        });
+        // const proofAction: ShyChannelProofAction = {
+        //   type: "enter_shy_channel",
+        //   channel_id: channel.channel_id,
+        //   nonce,
+        // };
 
-        const proofAction: ShyChannelProofAction = {
-          type: "enter_shy_channel",
-          channel_id: channel.channel_id,
-          nonce,
-        };
+        // const proofActionStr = JSON.stringify(proofAction);
+        // const presetVals: MerkleSigPosExactV1PresetVals = {
+        //   nonceRaw: json,
+        // };
+        // const proofGenArgs: ProofGenArgs = {
+        //   nonce: makeRandInt(1000000),
+        //   app_id: SHY_APP_ID,
+        //   queries: [
+        //     {
+        //       name: PROOF,
+        //       proofTypeId: "nonce_seoul_v1",
+        //       queryType: QueryType.CREATE_PROOF,
+        //       presetVals,
+        //       usePrfsRegistry: true,
+        //       proofAction: proofActionStr,
+        //     },
+        //   ],
+        //   public_key: pkHex,
+        //   session_key,
+        // };
 
-        const proofActionStr = JSON.stringify(proofAction);
-        const presetVals: MerkleSigPosExactV1PresetVals = {
-          nonceRaw: json,
-        };
-        const proofGenArgs: ProofGenArgs = {
-          nonce: makeRandInt(1000000),
-          app_id: SHY_APP_ID,
-          queries: [
-            {
-              name: PROOF,
-              proofTypeId: "nonce_seoul_v1",
-              queryType: QueryType.CREATE_PROOF,
-              presetVals,
-              usePrfsRegistry: true,
-              proofAction: proofActionStr,
-            },
-          ],
-          public_key: pkHex,
-          session_key,
-        };
+        // const searchParams = makeProofGenSearchParams(proofGenArgs);
+        // const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
-        const searchParams = makeProofGenSearchParams(proofGenArgs);
-        const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
+        // const popup = openPopup(endpoint);
+        // if (!popup) {
+        //   return;
+        // }
 
-        const popup = openPopup(endpoint);
-        if (!popup) {
-          return;
-        }
+        // const { payload: _ } = await openPrfsIdSession({
+        //   key: proofGenArgs.session_key,
+        //   value: null,
+        //   ticket: "TICKET",
+        // });
 
-        const { payload: _ } = await openPrfsIdSession({
-          key: proofGenArgs.session_key,
-          value: null,
-          ticket: "TICKET",
-        });
-
-        setIsPrfsDialogOpen(true);
-        setSessionKey(proofGenArgs.session_key);
-        setSk(sk);
+        // setIsPrfsDialogOpen(true);
+        // setSessionKey(proofGenArgs.session_key);
+        // setSk(sk);
       } else {
         router.push(url);
       }
     },
-    [channel, router, url, setSk, shyCache],
+    [channel, router, url, shyCache],
   );
 
-  const handleSucceedGetSession = React.useCallback(
-    async (session: PrfsIdSession) => {
-      if (!sk) {
-        dispatch(
-          setGlobalMsg({
-            variant: "error",
-            message: "Secret key is not set to decrypt Prfs ID session",
-          }),
-        );
-        return;
-      }
+  // const handleSucceedGetSession = React.useCallback(
+  //   async (session: PrfsIdSession) => {
+  //     if (!sk) {
+  //       dispatch(
+  //         setGlobalMsg({
+  //           variant: "error",
+  //           message: "Secret key is not set to decrypt Prfs ID session",
+  //         }),
+  //       );
+  //       return;
+  //     }
 
-      const buf = Buffer.from(session.value);
-      let decrypted: string;
-      try {
-        decrypted = decrypt(sk.secret, buf).toString();
-      } catch (err) {
-        dispatch(
-          setGlobalMsg({
-            variant: "error",
-            message: `Cannot decrypt payload, err: ${err}`,
-          }),
-        );
-        return;
-      }
+  //     const buf = Buffer.from(session.value);
+  //     let decrypted: string;
+  //     try {
+  //       decrypted = decrypt(sk.secret, buf).toString();
+  //     } catch (err) {
+  //       dispatch(
+  //         setGlobalMsg({
+  //           variant: "error",
+  //           message: `Cannot decrypt payload, err: ${err}`,
+  //         }),
+  //       );
+  //       return;
+  //     }
 
-      let payload: ProofGenSuccessPayload;
-      try {
-        payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-      } catch (err) {
-        dispatch(
-          setGlobalMsg({
-            variant: "error",
-            message: `Cannot parse proof payload, err: ${err}`,
-          }),
-        );
-        return;
-      }
+  //     let payload: ProofGenSuccessPayload;
+  //     try {
+  //       payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+  //     } catch (err) {
+  //       dispatch(
+  //         setGlobalMsg({
+  //           variant: "error",
+  //           message: `Cannot parse proof payload, err: ${err}`,
+  //         }),
+  //       );
+  //       return;
+  //     }
 
-      const receipt = payload.receipt[PROOF] as GenericProveReceipt;
-      if (receipt.type === "cached_prove_receipt") {
-        const { payload: getShyProofPayload } = await getShyProof({
-          public_key: receipt.proofPubKey,
-        });
+  //     const receipt = payload.receipt[PROOF] as GenericProveReceipt;
+  //     if (receipt.type === "cached_prove_receipt") {
+  //       const { payload: getShyProofPayload } = await getShyProof({
+  //         public_key: receipt.proofPubKey,
+  //       });
 
-        if (getShyProofPayload?.shy_proof) {
-          const shyProof = getShyProofPayload.shy_proof;
-          const enterShyChannelToken: EnterShyChannelToken = {
-            shy_proof_id: shyProof.shy_proof_id,
-            sig: receipt.proofActionSig,
-            sig_msg: Array.from(receipt.proofActionSigMsg),
-          };
+  //       if (getShyProofPayload?.shy_proof) {
+  //         const shyProof = getShyProofPayload.shy_proof;
+  //         const enterShyChannelToken: EnterShyChannelToken = {
+  //           shy_proof_id: shyProof.shy_proof_id,
+  //           sig: receipt.proofActionSig,
+  //           sig_msg: Array.from(receipt.proofActionSigMsg),
+  //         };
 
-          dispatch(
-            setCacheItem({
-              key: makeEnterShyChannelCacheKey(channel.channel_id),
-              val: JSON.stringify(enterShyChannelToken),
-              ts: Date.now(),
-            }),
-          );
-        } else {
-          dispatch(
-            setGlobalMsg({
-              variant: "error",
-              message: "Proof is not found and it's supposed to be found. Reach out to us",
-            }),
-          );
-        }
-      } else if (receipt.type === "prove_receipt") {
-        const shy_proof_id = rand256Hex();
-        const receipt_ = receipt as ProveReceipt;
-        console.log("receipt", receipt_);
+  //         dispatch(
+  //           setCacheItem({
+  //             key: makeEnterShyChannelCacheKey(channel.channel_id),
+  //             val: JSON.stringify(enterShyChannelToken),
+  //             ts: Date.now(),
+  //           }),
+  //         );
+  //       } else {
+  //         dispatch(
+  //           setGlobalMsg({
+  //             variant: "error",
+  //             message: "Proof is not found and it's supposed to be found. Reach out to us",
+  //           }),
+  //         );
+  //       }
+  //     } else if (receipt.type === "prove_receipt") {
+  //       const shy_proof_id = rand256Hex();
+  //       const receipt_ = receipt as ProveReceipt;
+  //       console.log("receipt", receipt_);
 
-        const publicInputs: MerkleSigPosExactV1PublicInputs = JSONbigNative.parse(
-          receipt_.proof.publicInputSer,
-        );
+  //       const publicInputs: MerkleSigPosExactV1PublicInputs = JSONbigNative.parse(
+  //         receipt_.proof.publicInputSer,
+  //       );
 
-        const { error } = await joinShyChannel({
-          nonce,
-          channel_id: channel.channel_id,
-          shy_proof_id,
-          author_public_key: receipt_.proof.proofPubKey,
-          author_sig: receipt_.proofActionSig,
-          author_sig_msg: Array.from(receipt_.proofActionSigMsg),
-          proof_identity_input: publicInputs.proofIdentityInput,
-          proof: Array.from(receipt.proof.proofBytes),
-          public_inputs: receipt_.proof.publicInputSer,
-          serial_no: publicInputs.circuitPubInput.serialNo.toString(),
-          proof_type_id: "merkle_sig_pos_exact_v1",
-        });
+  //       const { error } = await joinShyChannel({
+  //         nonce,
+  //         channel_id: channel.channel_id,
+  //         shy_proof_id,
+  //         author_public_key: receipt_.proof.proofPubKey,
+  //         author_sig: receipt_.proofActionSig,
+  //         author_sig_msg: Array.from(receipt_.proofActionSigMsg),
+  //         proof_identity_input: publicInputs.proofIdentityInput,
+  //         proof: Array.from(receipt.proof.proofBytes),
+  //         public_inputs: receipt_.proof.publicInputSer,
+  //         serial_no: publicInputs.circuitPubInput.serialNo.toString(),
+  //         proof_type_id: "merkle_sig_pos_exact_v1",
+  //       });
 
-        if (error) {
-          console.error(error);
-          dispatch(
-            setGlobalMsg({
-              variant: "error",
-              message: `Error joining shy channel, err: ${error}`,
-            }),
-          );
-          return;
-        }
+  //       if (error) {
+  //         console.error(error);
+  //         dispatch(
+  //           setGlobalMsg({
+  //             variant: "error",
+  //             message: `Error joining shy channel, err: ${error}`,
+  //           }),
+  //         );
+  //         return;
+  //       }
 
-        const enterShyChannelToken: EnterShyChannelToken = {
-          shy_proof_id,
-          sig: receipt.proofActionSig,
-          sig_msg: Array.from(receipt.proofActionSigMsg),
-        };
+  //       const enterShyChannelToken: EnterShyChannelToken = {
+  //         shy_proof_id,
+  //         sig: receipt.proofActionSig,
+  //         sig_msg: Array.from(receipt.proofActionSigMsg),
+  //       };
 
-        dispatch(
-          setCacheItem({
-            key: makeEnterShyChannelCacheKey(channel.channel_id),
-            val: JSON.stringify(enterShyChannelToken),
-            ts: Date.now(),
-          }),
-        );
-        router.push(url);
-      } else {
-        dispatch(
-          setGlobalMsg({
-            variant: "error",
-            message: `Unknown receipt type, receipt: ${(receipt as any).type}`,
-          }),
-        );
-        return;
-      }
-    },
-    [sk, dispatch, getShyProof, joinShyChannel, router, url],
-  );
+  //       dispatch(
+  //         setCacheItem({
+  //           key: makeEnterShyChannelCacheKey(channel.channel_id),
+  //           val: JSON.stringify(enterShyChannelToken),
+  //           ts: Date.now(),
+  //         }),
+  //       );
+  //       router.push(url);
+  //     } else {
+  //       dispatch(
+  //         setGlobalMsg({
+  //           variant: "error",
+  //           message: `Unknown receipt type, receipt: ${(receipt as any).type}`,
+  //         }),
+  //       );
+  //       return;
+  //     }
+  //   },
+  //   [sk, dispatch, getShyProof, joinShyChannel, router, url],
+  // );
 
   if (!isCacheInitialized) {
     return <Spinner />;
