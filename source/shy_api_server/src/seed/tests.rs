@@ -52,8 +52,11 @@ mod seed_api1 {
 
         let channels = get_shy_channels_seed();
         println!("ch: {:#?}", channels);
+
         for ch in channels {
             shy::upsert_shy_channel(&mut tx, &ch).await.unwrap();
         }
+
+        tx.commit().await.unwrap();
     }
 }
