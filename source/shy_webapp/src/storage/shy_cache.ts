@@ -23,25 +23,30 @@ export function loadLocalShyCache(): LocalShyCache | null {
   }
 }
 
-export function persistShyCacheItem(item: LocalShyCacheItem): LocalShyCache | null {
-  const val = window.localStorage.getItem(SHY_CACHE);
-
-  try {
-    if (val) {
-      const cache: LocalShyCache = JSON.parse(val);
-      const newCache = {
-        ...cache,
-        [item.key]: item.value,
-      };
-
-      const newCacheStr = JSON.stringify(newCache);
-      window.localStorage.setItem(SHY_CACHE, newCacheStr);
-
-      return newCache;
-    } else {
-      return null;
-    }
-  } catch (err) {
-    return null;
+export function persistShyCache(cache: LocalShyCache): LocalShyCache | null {
+  if (cache) {
+    const str = JSON.stringify(cache);
+    window.localStorage.setItem(SHY_CACHE, str);
   }
+
+  return cache;
+
+  // try {
+  //   if (val) {
+  //     const cache: LocalShyCache = JSON.parse(val);
+  //     const newCache = {
+  //       ...cache,
+  //       [item.key]: item.value,
+  //     };
+
+  //     const newCacheStr = JSON.stringify(newCache);
+  //     window.localStorage.setItem(SHY_CACHE, newCacheStr);
+
+  //     return newCache;
+  //   } else {
+  //     return null;
+  //   }
+  // } catch (err) {
+  //   return null;
+  // }
 }

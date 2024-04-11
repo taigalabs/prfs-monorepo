@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import { LocalShyCredential } from "@/storage/shy_credential";
-import { LocalShyCache, LocalShyCacheItem, persistShyCacheItem } from "@/storage/shy_cache";
+import { LocalShyCache, LocalShyCacheItem, persistShyCache } from "@/storage/shy_cache";
 
 export interface UserState {
   isCredentialInitialized: boolean;
@@ -32,7 +32,7 @@ export const userSlice = createSlice({
         shyCredential: action.payload,
       };
     },
-    initShyCache: (state: UserState, action: PayloadAction<LocalShyCache>) => {
+    initShyCache: (state: UserState, action: PayloadAction<LocalShyCache | null>) => {
       return {
         ...state,
         isCacheInitialized: true,
@@ -40,12 +40,25 @@ export const userSlice = createSlice({
       };
     },
     setCache: (state: UserState, action: PayloadAction<LocalShyCacheItem>) => {
-      const newCache = persistShyCacheItem(action.payload);
+      // const cache: LocalShyCache = JSON.parse(val);
+      const item = action.payload;
 
-      return {
-        ...state,
-        shyCache: newCache,
-      };
+      if (item) {
+        const newCache = {
+          ...state.shyCache,
+          [item.key]: item.value,
+        };
+
+        // side effect
+        persistShyCache(newCache);
+
+        return {
+          ...state,
+          shyCache: newCache,
+        };
+      } else {
+        return state;
+      }
     },
     removeCache: (state: UserState, action: PayloadAction<string>) => {
       const cache = state.shyCache ? state.shyCache : {};
@@ -54,8 +67,11 @@ export const userSlice = createSlice({
         delete cache[action.payload];
       }
 
+      persistShyCache(cache);
+
       return {
         ...state,
+        cache,
       };
     },
     signOutShy: (state: UserState, _action: PayloadAction<void>) => {
@@ -68,6 +84,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { signInShy, signOutShy } = userSlice.actions;
+export const { signInShy, signOutShy, initShyCache, setCache, removeCache } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
