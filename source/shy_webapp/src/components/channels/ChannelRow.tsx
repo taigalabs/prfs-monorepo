@@ -13,6 +13,7 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
 import { ShyChannelProofAction } from "@taigalabs/shy-entities/bindings/ShyChannelProofAction";
+import { EnterShyChannelToken } from "@taigalabs/shy-entities/bindings/EnterShyChannelToken";
 import { MerkleSigPosExactV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1PresetVals";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
@@ -31,6 +32,8 @@ import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { useGetShyProof } from "@/hooks/proof";
 import { useShyCache } from "@/hooks/user";
+import { setCacheItem } from "@/state/userReducer";
+import { make_enter_shy_channel_cache_key } from "@/cache";
 
 const ChannelRow: React.FC<RowProps> = ({ channel }) => {
   const router = useRouter();
@@ -158,16 +161,25 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
 
       const receipt = payload.receipt[PROOF] as GenericProveReceipt;
       if (receipt.type === "cached_prove_receipt") {
-        receipt.proofActionSigMsg;
-
         const { payload: getShyProofPayload } = await getShyProof({
           public_key: receipt.proofPubKey,
         });
 
         if (getShyProofPayload?.shy_proof) {
           const shyProof = getShyProofPayload.shy_proof;
+          const enterShyChannelToken: EnterShyChannelToken = {
+            shy_proof_id: shyProof.shy_proof_id,
+            sig: receipt.proofActionSig,
+            sig_msg: Array.from(receipt.proofActionSigMsg),
+          };
 
-          // proofActionSig
+          dispatch(
+            setCacheItem({
+              key: make_enter_shy_channel_cache_key(channel.channel_id),
+              val: JSON.stringify(enterShyChannelToken),
+              ts: Date.now(),
+            }),
+          );
         } else {
         }
       } else if (receipt.type === "prove_receipt") {

@@ -27,3 +27,25 @@ pub struct GetShyChannelRequest {
 pub struct GetShyChannelResponse {
     pub shy_channel: Option<ShyChannel>,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreateShyChannelEnterRequest {
+    pub nonce: u32,
+    pub channel_id: String,
+    pub shy_proof_id: String,
+    pub author_public_key: String,
+    pub author_sig: String,
+    pub author_sig_msg: Vec<u8>,
+    pub proof_identity_input: String,
+    pub proof: Vec<u8>,
+    pub public_inputs: String,
+    pub serial_no: String,
+    pub proof_type_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreateShyChannelEnterResponse {
+    pub shy_proof_id: String,
+}

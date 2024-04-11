@@ -39,14 +39,14 @@ export const userSlice = createSlice({
         shyCache: action.payload,
       };
     },
-    setCache: (state: UserState, action: PayloadAction<LocalShyCacheItem>) => {
+    setCacheItem: (state: UserState, action: PayloadAction<LocalShyCacheItem>) => {
       // const cache: LocalShyCache = JSON.parse(val);
       const item = action.payload;
 
       if (item) {
         const newCache = {
           ...state.shyCache,
-          [item.key]: item.value,
+          [item.key]: item.val,
         };
 
         // side effect
@@ -60,7 +60,7 @@ export const userSlice = createSlice({
         return state;
       }
     },
-    removeCache: (state: UserState, action: PayloadAction<string>) => {
+    removeCacheItem: (state: UserState, action: PayloadAction<string>) => {
       const cache = state.shyCache ? state.shyCache : {};
 
       if (action.payload) {
@@ -84,6 +84,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { signInShy, signOutShy, initShyCache, setCache, removeCache } = userSlice.actions;
+export const { signInShy, signOutShy, initShyCache, setCacheItem, removeCacheItem } =
+  userSlice.actions;
 
 export const userReducer = userSlice.reducer;

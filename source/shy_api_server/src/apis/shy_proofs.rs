@@ -5,12 +5,12 @@ use prfs_entities::entities::PrfsProofRecord;
 use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordResponse};
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::entities::{ShyPost, ShyTopic};
-use shy_entities::shy_api::{
+use shy_entities::{
     CreateShyTopicRequest, CreateShyTopicResponse, GetShyPostsOfTopicRequest, GetShyProofRequest,
     GetShyProofResponse, GetShyTopicRequest, GetShyTopicResponse, GetShyTopicsRequest,
     GetShyTopicsResponse,
 };
+use shy_entities::{ShyPost, ShyTopic};
 use std::sync::Arc;
 
 use crate::envs::ENVS;

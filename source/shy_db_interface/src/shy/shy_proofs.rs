@@ -1,5 +1,5 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use shy_entities::entities::ShyProof;
+use shy_entities::ShyProof;
 
 use crate::ShyDbInterfaceError;
 

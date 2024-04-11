@@ -6,12 +6,12 @@ use prfs_entities::{CreatePrfsProofRecordRequest, PrfsProofRecord};
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::entities::{ShyPost, ShyProof};
-use shy_entities::proof_action::{CreateShyPostAction, ShyPostProofAction};
-use shy_entities::shy_api::{
+use shy_entities::{CreateShyPostAction, ShyPostProofAction};
+use shy_entities::{
     CreateShyPostRequest, CreateShyPostResponse, CreateShyPostWithProofRequest,
     GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse,
 };
+use shy_entities::{ShyPost, ShyProof};
 use std::sync::Arc;
 
 use crate::envs::ENVS;
@@ -176,30 +176,32 @@ pub async fn create_shy_post_with_proof(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
-    let proof_starts_with: [u8; 8] = match input.proof[0..8].try_into() {
-        Ok(p) => p,
-        Err(err) => {
-            let resp = ApiResponse::new_error(
-                &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!(
-                    "Cannot slice proof, proof len: {}, err: {}",
-                    input.proof.len(),
-                    err
-                ),
-            );
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
-    let create_prfs_proof_record_req = CreatePrfsProofRecordRequest {
-        proof_record: PrfsProofRecord {
-            public_key: input.author_public_key.to_string(),
-            proof_starts_with,
-        },
-    };
+    // let proof_starts_with: [u8; 8] = match input.proof[0..8].try_into() {
+    //     Ok(p) => p,
+    //     Err(err) => {
+    //         let resp = ApiResponse::new_error(
+    //             &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
+    //             format!(
+    //                 "Cannot slice proof, proof len: {}, err: {}",
+    //                 input.proof.len(),
+    //                 err
+    //             ),
+    //         );
+    //         return (StatusCode::BAD_REQUEST, Json(resp));
+    //     }
+    // };
+    // let create_prfs_proof_record_req = CreatePrfsProofRecordRequest {
+    //     proof_record: PrfsProofRecord {
+    //         public_key: input.author_public_key.to_string(),
+    //         proof_starts_with,
+    //     },
+    // };
 
     let _proof_record_resp = match create_prfs_proof_record(
         &ENVS.prfs_api_server_endpoint,
-        &create_prfs_proof_record_req,
+        &input.proof,
+        &input.author_public_key,
+        // &create_prfs_proof_record_req,
     )
     .await
     {

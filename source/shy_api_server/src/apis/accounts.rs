@@ -6,8 +6,8 @@ use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_entities::entities::PrfsAccount;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::entities::ShyAccount;
-use shy_entities::shy_api::{
+use shy_entities::ShyAccount;
+use shy_entities::{
     SignInShyAccountRequest, SignInShyAccountResponse, SignUpShyAccountRequest,
     SignUpShyAccountResponse,
 };

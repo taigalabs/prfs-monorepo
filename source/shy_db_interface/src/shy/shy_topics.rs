@@ -1,5 +1,5 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use shy_entities::entities::{DateTimed, ShyTopic};
+use shy_entities::{DateTimed, ShyTopic};
 
 use crate::shy::queries::get_shy_topic_query;
 use crate::ShyDbInterfaceError;
