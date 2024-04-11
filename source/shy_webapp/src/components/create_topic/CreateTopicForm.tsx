@@ -22,12 +22,12 @@ import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyTopicRequest } from "@taigalabs/shy-entities/bindings/CreateShyTopicRequest";
-import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
+import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
@@ -57,9 +57,15 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   const dispatch = useAppDispatch();
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
-    usePrfsIdSession();
-  const [sk, setSk] = React.useState<PrivateKey | null>(null);
+  const {
+    openPrfsIdSession,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+    sessionKey,
+    setSessionKey,
+    sk,
+    setSk,
+  } = usePrfsIdSession();
   const [html, setHtml] = React.useState<string | null>(null);
   const { topicId, shortTopicId } = React.useMemo(() => {
     const hex = rand256Hex();
@@ -245,13 +251,13 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         return;
       }
 
-      const shy_topic_proof_id = rand256Hex();
+      const shy_proof_id = rand256Hex();
       const { error } = await createShyTopic({
         title,
         topic_id: topicId,
         content: html,
         channel_id: channel.channel_id,
-        shy_topic_proof_id,
+        shy_proof_id,
         proof_identity_input: publicInputs.proofIdentityInput,
         proof: Array.from(proveReceipt.proof.proofBytes),
         public_inputs: proveReceipt.proof.publicInputSer,
@@ -260,6 +266,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         author_sig: proveReceipt.proofActionSig,
         author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
         sub_channel_id: subChannelId,
+        proof_type_id: channel.proof_type_ids[0],
       });
 
       if (error) {
@@ -276,7 +283,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
       router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
       setIsNavigating(true);
     },
-    [sk, dispatch, html, dispatch],
+    [sk, dispatch, html, dispatch, channel],
   );
 
   const footer = React.useMemo(() => {

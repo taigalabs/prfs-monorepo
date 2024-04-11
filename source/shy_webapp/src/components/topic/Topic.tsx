@@ -29,7 +29,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
-  const { isInitialized, shyCredential } = useSignedInShyUser();
+  const { isCredentialInitialized, shyCredential } = useSignedInShyUser();
   const router = useRouter();
   const { data: channelData, isFetching: channelDataIsFetching } = useQuery({
     queryKey: ["get_shy_channel"],
@@ -41,11 +41,11 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
   const channel = channelData?.payload?.shy_channel;
 
   React.useEffect(() => {
-    if (isInitialized && !shyCredential) {
+    if (isCredentialInitialized && !shyCredential) {
       const href = encodeURI(window.location.href);
       router.push(`${paths.account__sign_in}?${searchParamKeys.continue}=${href}`);
     }
-  }, [isInitialized, router, shyCredential]);
+  }, [isCredentialInitialized, router, shyCredential]);
 
   const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
 

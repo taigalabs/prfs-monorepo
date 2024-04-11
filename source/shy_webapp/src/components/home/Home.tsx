@@ -12,14 +12,18 @@ import Channels from "@/components/channels/Channels";
 
 const Home: React.FC<HomeProps> = () => {
   const isFontReady = useIsFontReady();
-  const { isInitialized, shyCredential } = useSignedInShyUser();
+  const { isCredentialInitialized, shyCredential, isFirstTime } = useSignedInShyUser();
   const router = useRouter();
 
   React.useEffect(() => {
-    if (isInitialized && !shyCredential) {
+    if (isCredentialInitialized && !shyCredential) {
       router.push(`${paths.account__sign_in}`);
     }
-  }, [isInitialized, router, shyCredential]);
+
+    if (isCredentialInitialized && isFirstTime) {
+      router.push(paths.account__welcome);
+    }
+  }, [isCredentialInitialized, router, shyCredential, isFirstTime]);
 
   return isFontReady && shyCredential ? (
     <Channels />

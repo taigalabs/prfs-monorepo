@@ -11,10 +11,9 @@ use crate::{
         build_circuits, build_prfs_api_server, build_prfs_crypto_js, cargo_test,
         dev_prfs_api_server, dev_prfs_asset_server, dev_prfs_console_webapp, dev_prfs_docs_website,
         dev_prfs_id_webapp, dev_prfs_poll_webapp, dev_prfs_proof_webapp, dev_shy_webapp, docker,
-        seed_shy_api_data, start_prfs_api_server_blue, start_prfs_api_server_green,
-        start_prfs_asset_server, start_prfs_console_webapp, start_prfs_docs_website,
-        start_prfs_id_webapp, start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp,
-        tmux, vercel_deploy,
+        seed_shy_api_data, start_prfs_api_server, start_prfs_asset_server,
+        start_prfs_console_webapp, start_prfs_docs_website, start_prfs_id_webapp,
+        start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp, tmux, vercel_deploy,
     },
 };
 use chrono::prelude::*;
@@ -46,8 +45,7 @@ fn main() {
         .subcommand(command!(dev_prfs_api_server::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("dev_snap"))
         // prod mode
-        .subcommand(command!(start_prfs_api_server_blue::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!(start_prfs_api_server_green::CMD_NAME).arg(Arg::new("extra_args")))
+        .subcommand(command!(start_prfs_api_server::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_asset_server::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_console_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_proof_webapp::CMD_NAME).arg(Arg::new("extra_args")))
@@ -125,11 +123,8 @@ fn main() {
             cmds::dev_snap::run(sub_matches);
         }
         // prod mode
-        Some((start_prfs_api_server_blue::CMD_NAME, sub_matches)) => {
-            start_prfs_api_server_blue::run(sub_matches);
-        }
-        Some((start_prfs_api_server_green::CMD_NAME, sub_matches)) => {
-            start_prfs_api_server_green::run(sub_matches);
+        Some((start_prfs_api_server::CMD_NAME, sub_matches)) => {
+            start_prfs_api_server::run(sub_matches);
         }
         Some((start_prfs_asset_server::CMD_NAME, sub_matches)) => {
             start_prfs_asset_server::run(sub_matches);

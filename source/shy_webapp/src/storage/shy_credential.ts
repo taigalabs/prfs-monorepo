@@ -5,18 +5,18 @@ export interface LocalShyCredential {
   avatar_color: string;
 }
 
-const SHY_KEY = "shy";
+const SHY_CREDENTIAL = "shy_credential";
 
 export function persistShyCredential(credential: LocalShyCredential): LocalShyCredential {
   const value = JSON.stringify(credential);
 
   console.log("Persisting Shy credential", credential);
-  window.localStorage.setItem(SHY_KEY, value);
+  window.localStorage.setItem(SHY_CREDENTIAL, value);
   return credential;
 }
 
 export function loadLocalShyCredential(): LocalShyCredential | null {
-  const val = window.localStorage.getItem(SHY_KEY);
+  const val = window.localStorage.getItem(SHY_CREDENTIAL);
 
   try {
     if (val) {
@@ -55,5 +55,5 @@ export function checkSanity(obj: LocalShyCredential): boolean {
 }
 
 export function removeLocalShyCredential() {
-  window.localStorage.removeItem(SHY_KEY);
+  window.localStorage.removeItem(SHY_CREDENTIAL);
 }

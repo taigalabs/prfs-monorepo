@@ -6,12 +6,12 @@ use prfs_entities::{CreatePrfsProofRecordRequest, PrfsProofRecord};
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::entities::{ShyPost, ShyTopicProof};
-use shy_entities::proof_action::{CreateShyPostAction, ShyPostProofAction};
-use shy_entities::shy_api::{
+use shy_entities::{CreateShyPostAction, ShyPostProofAction};
+use shy_entities::{
     CreateShyPostRequest, CreateShyPostResponse, CreateShyPostWithProofRequest,
     GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse,
 };
+use shy_entities::{ShyPost, ShyProof};
 use std::sync::Arc;
 
 use crate::envs::ENVS;
@@ -51,23 +51,23 @@ pub async fn create_shy_post(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let topic_proof = match shy::get_shy_topic_proof(&pool, &input.author_public_key).await {
+    let shy_proof = match shy::get_shy_proof(&pool, &input.author_public_key).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(
-                &SHY_API_ERROR_CODES.TOPIC_PROOF_RETRIEVAL_FAIL,
+                &SHY_API_ERROR_CODES.SHY_PROOF_RETRIEVAL_FAIL,
                 err.to_string(),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
 
-    if topic_proof.public_key != input.author_public_key {
+    if shy_proof.public_key != input.author_public_key {
         let resp = ApiResponse::new_error(
             &SHY_API_ERROR_CODES.PUBLIC_KEY_NOT_MACHING,
             format!(
-                "topic proof pubkey:, {}, author_pk: {}",
-                topic_proof.public_key, input.author_public_key
+                "Shy proof pubkey:, {}, author_pk: {}",
+                shy_proof.public_key, input.author_public_key
             ),
         );
         return (StatusCode::BAD_REQUEST, Json(resp));
@@ -77,7 +77,7 @@ pub async fn create_shy_post(
         Ok(t) => t,
         Err(err) => {
             let resp = ApiResponse::new_error(
-                &SHY_API_ERROR_CODES.TOPIC_PROOF_RETRIEVAL_FAIL,
+                &SHY_API_ERROR_CODES.SHY_PROOF_RETRIEVAL_FAIL,
                 err.to_string(),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));
@@ -113,7 +113,7 @@ pub async fn create_shy_post(
         topic_id: input.topic_id,
         content: input.content,
         channel_id: input.channel_id,
-        shy_topic_proof_id: input.shy_topic_proof_id,
+        shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
         author_sig: "1".to_string(),
     };
@@ -176,30 +176,32 @@ pub async fn create_shy_post_with_proof(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
-    let proof_starts_with: [u8; 8] = match input.proof[0..8].try_into() {
-        Ok(p) => p,
-        Err(err) => {
-            let resp = ApiResponse::new_error(
-                &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!(
-                    "Cannot slice proof, proof len: {}, err: {}",
-                    input.proof.len(),
-                    err
-                ),
-            );
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
-    let create_prfs_proof_record_req = CreatePrfsProofRecordRequest {
-        proof_record: PrfsProofRecord {
-            public_key: input.author_public_key.to_string(),
-            proof_starts_with,
-        },
-    };
+    // let proof_starts_with: [u8; 8] = match input.proof[0..8].try_into() {
+    //     Ok(p) => p,
+    //     Err(err) => {
+    //         let resp = ApiResponse::new_error(
+    //             &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
+    //             format!(
+    //                 "Cannot slice proof, proof len: {}, err: {}",
+    //                 input.proof.len(),
+    //                 err
+    //             ),
+    //         );
+    //         return (StatusCode::BAD_REQUEST, Json(resp));
+    //     }
+    // };
+    // let create_prfs_proof_record_req = CreatePrfsProofRecordRequest {
+    //     proof_record: PrfsProofRecord {
+    //         public_key: input.author_public_key.to_string(),
+    //         proof_starts_with,
+    //     },
+    // };
 
     let _proof_record_resp = match create_prfs_proof_record(
         &ENVS.prfs_api_server_endpoint,
-        &create_prfs_proof_record_req,
+        &input.proof,
+        &input.author_public_key,
+        // &create_prfs_proof_record_req,
     )
     .await
     {
@@ -210,16 +212,17 @@ pub async fn create_shy_post_with_proof(
         }
     };
 
-    let shy_topic_proof = ShyTopicProof {
-        shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
+    let shy_proof = ShyProof {
+        shy_proof_id: input.shy_proof_id.to_string(),
         proof: input.proof,
         public_inputs: input.public_inputs.to_string(),
         public_key: input.author_public_key.to_string(),
         serial_no: input.serial_no,
         proof_identity_input: input.proof_identity_input.to_string(),
+        proof_type_id: input.proof_type_id,
     };
 
-    let _proof_id = match shy::insert_shy_topic_proof(&mut tx, &shy_topic_proof).await {
+    let _proof_id = match shy::insert_shy_proof(&mut tx, &shy_proof).await {
         Ok(i) => i,
         Err(err) => {
             let resp =
@@ -228,14 +231,12 @@ pub async fn create_shy_post_with_proof(
         }
     };
 
-    println!("111, {}, {:?}", _proof_id, shy_topic_proof);
-
     let shy_post = ShyPost {
         post_id: input.post_id,
         topic_id: input.topic_id,
         content: input.content,
         channel_id: input.channel_id,
-        shy_topic_proof_id: input.shy_topic_proof_id,
+        shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
         author_sig: input.author_sig.to_string(),
     };

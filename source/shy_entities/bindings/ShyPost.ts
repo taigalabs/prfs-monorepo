@@ -5,7 +5,7 @@ export type ShyPost = {
   topic_id: string;
   content: string;
   channel_id: string;
-  shy_topic_proof_id: string;
+  shy_proof_id: string;
   author_public_key: string;
   author_sig: string;
 };

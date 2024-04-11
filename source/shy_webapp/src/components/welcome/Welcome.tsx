@@ -17,22 +17,28 @@ import { useHandleScroll } from "@/hooks/scroll";
 import Loading from "@/components/loading/Loading";
 import Content from "./Welcome.mdx";
 import { urls } from "@/urls";
-import { paths, searchParamKeys } from "@/paths";
+import { paths } from "@/paths";
+import { useAppDispatch } from "@/state/hooks";
+import { setIsNotFirstTime } from "@/state/userReducer";
 
 const Welcome: React.FC<WelcomeProps> = ({}) => {
   const router = useRouter();
   const isFontReady = useIsFontReady();
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
-  const { isInitialized, shyCredential } = useSignedInShyUser();
+  const { isCredentialInitialized, shyCredential } = useSignedInShyUser();
+  const dispatch = useAppDispatch();
   const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
 
   React.useEffect(() => {
-    if (isInitialized && !shyCredential) {
-      const href = encodeURI(window.location.href);
-      router.push(`${paths.account__sign_in}?${searchParamKeys.continue}=${href}`);
+    if (isCredentialInitialized && !shyCredential) {
+      router.push(paths.account__sign_in);
     }
-  }, [isInitialized, router, shyCredential]);
+  }, [isCredentialInitialized, router, shyCredential]);
+
+  React.useEffect(() => {
+    dispatch(setIsNotFirstTime());
+  }, [dispatch, router]);
 
   return isFontReady && shyCredential ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>

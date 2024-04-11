@@ -3,7 +3,7 @@ use prfs_common_server_state::ServerState;
 use shy_api_error_codes::bindgen::make_shy_api_error_code_json_binding;
 use std::sync::Arc;
 
-use crate::apis::{accounts, channels, posts, topic_proofs, topics};
+use crate::apis::{accounts, channels, posts, shy_proofs, topics};
 
 pub const SHY_API_V0: &'static str = "/shy_api/v0";
 
@@ -18,14 +18,12 @@ pub fn make_shy_v0_router() -> Router<Arc<ServerState>> {
             "/create_shy_post_with_proof",
             post(posts::create_shy_post_with_proof),
         )
+        .route("/join_shy_channel", post(channels::join_shy_channel))
         .route("/sign_in_shy_account", post(accounts::sign_in_shy_account))
         .route("/sign_up_shy_account", post(accounts::sign_up_shy_account))
         .route("/get_shy_topics", post(topics::get_shy_topics))
         .route("/get_shy_topic", post(topics::get_shy_topic))
-        .route(
-            "/get_shy_topic_proof",
-            post(topic_proofs::get_shy_topic_proof),
-        )
+        .route("/get_shy_proof", post(shy_proofs::get_shy_proof))
         .route(
             "/get_shy_posts_of_topic",
             post(posts::get_shy_posts_of_topic),

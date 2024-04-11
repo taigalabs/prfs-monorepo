@@ -1,5 +1,5 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use shy_entities::entities::ShyChannel;
+use shy_entities::ShyChannel;
 
 use crate::ShyDbInterfaceError;
 
@@ -33,6 +33,7 @@ LIMIT $2
                 desc: row.try_get("desc")?,
                 proof_type_ids: row.try_get("proof_type_ids")?,
                 status: row.try_get("status")?,
+                r#type: row.try_get("type")?,
             })
         })
         .collect::<Result<Vec<ShyChannel>, ShyDbInterfaceError>>()?;
@@ -63,6 +64,7 @@ WHERE channel_id=$1
             desc: r.try_get("desc")?,
             proof_type_ids: r.try_get("proof_type_ids")?,
             status: r.try_get("status")?,
+            r#type: r.try_get("type")?,
         };
         Some(c)
     } else {
@@ -72,14 +74,20 @@ WHERE channel_id=$1
     Ok(shy_channel)
 }
 
-pub async fn insert_shy_channel(
+pub async fn upsert_shy_channel(
     tx: &mut Transaction<'_, Postgres>,
     shy_channel: &ShyChannel,
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_channels
-(channel_id, label, proof_type_ids, locale, "desc", status)
-VALUES ($1, $2, $3, $4, $5)
+(channel_id, label, proof_type_ids, locale, "desc", status, type)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
+ON CONFLICT (channel_id) DO UPDATE SET (
+label, proof_type_ids, locale, "desc", status, updated_at, type
+) = (
+excluded.label, excluded.proof_type_ids, excluded.locale, excluded.desc, excluded.status, 
+now(), excluded.type
+)
 RETURNING channel_id
 "#;
 
@@ -90,6 +98,7 @@ RETURNING channel_id
         .bind(&shy_channel.locale)
         .bind(&shy_channel.desc)
         .bind(&shy_channel.status)
+        .bind(&shy_channel.r#type)
         .fetch_one(&mut **tx)
         .await?;
 

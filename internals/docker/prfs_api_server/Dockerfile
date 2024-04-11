@@ -8,8 +8,8 @@ ENV CI_CMD=${ci_cmd}
 ARG git_commit_hash
 ENV GIT_COMMIT_HASH=${git_commit_hash}
 
-ARG prfs_api_server_port
-ENV PRFS_API_SERVER_PORT=${prfs_api_server_port}
+ARG server_group
+ENV SERVER_GROUP=${server_group}
 
 WORKDIR /usr/prfs-monorepo
 

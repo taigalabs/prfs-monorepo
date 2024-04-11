@@ -6,28 +6,28 @@ use prfs_circuit_interface::circuit_types::{
 use prfs_circuits_circom::CircuitBuildJson;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_entities::PrfsProofType;
+use prfs_rust_utils::{markdown::read_md_file, serde::read_json_file};
 use std::str::FromStr;
 
-const SIMPLE_HASH_1: &str = "SIMPLE_HASH_1";
-const CRYPTO_ASSET_SIZE_V1: &str = "CRYPTO_ASSET_SIZE_V1";
-const NONCE_SEOUL_1: &str = "NONCE_SEOUL_1";
-
-const SIMPLE_HASH_1_DESC: &str = include_str!("../../../data_seed/proof_types/SIMPLE_HASH_1.md");
-const CRYPTO_ASSET_SIZE_V1_DESC: &str =
-    include_str!("../../../data_seed/proof_types/CRYPTO_ASSET_SIZE_V1.md");
-const NONCE_SEOUL_1_DESC: &str = include_str!("../../../data_seed/proof_types/NONCE_SEOUL_1.md");
-
-const CIRCUITS_BUILD_JSON: &str = include_str!("../../../../prfs_circuits_circom/build/build.json");
+use crate::paths::PATHS;
 
 pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
-    let circuit_build_json: CircuitBuildJson = serde_json::from_str(CIRCUITS_BUILD_JSON).unwrap();
+    let simple_hash_1_desc =
+        read_md_file(&PATHS.data_seed.join("proof_types/SIMPLE_HASH_1.md")).unwrap();
+    let crypto_asset_size_v1_desc =
+        read_md_file(&PATHS.data_seed.join("proof_types/CRYPTO_ASSET_SIZE_V1.md")).unwrap();
+    let nonce_seoul_1_desc =
+        read_md_file(&PATHS.data_seed.join("proof_types/NONCE_SEOUL_1.md")).unwrap();
+
+    let circuit_build_json: CircuitBuildJson =
+        read_json_file(&prfs_circuits_circom::get_build_fs_path().join("build.json")).unwrap();
 
     let prfs_proof_types = vec![
         PrfsProofType {
-            proof_type_id: SIMPLE_HASH_1.into(),
+            proof_type_id: "simple_hash_v1".into(),
             label: "Simple hash".into(),
             author: "Prfs".into(),
-            desc: SIMPLE_HASH_1_DESC.into(),
+            desc: simple_hash_1_desc,
             expression: "Knows hash argument".into(),
             img_url: Some("https://d1w1533jipmvi2.cloudfront.net/hash.png".into()),
             img_caption: None,
@@ -40,10 +40,10 @@ pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
             experimental: false,
         },
         PrfsProofType {
-            proof_type_id: CRYPTO_ASSET_SIZE_V1.into(),
+            proof_type_id: "crypto_asset_size_v1".into(),
             label: "Cryto asset size claim".into(),
             author: "Prfs".into(),
-            desc: CRYPTO_ASSET_SIZE_V1_DESC.into(),
+            desc: crypto_asset_size_v1_desc,
             expression: "Has assets in crypto worth X USD".into(),
             img_url: Some("https://d1w1533jipmvi2.cloudfront.net/money_cash_1.webp".into()),
             img_caption: None,
@@ -105,10 +105,10 @@ pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
             experimental: false,
         },
         PrfsProofType {
-            proof_type_id: NONCE_SEOUL_1.into(),
+            proof_type_id: "nonce_seoul_v1".into(),
             label: "Nonce community Seoul".into(),
             author: "Prfs".into(),
-            desc: NONCE_SEOUL_1_DESC.into(),
+            desc: nonce_seoul_1_desc,
             expression: "Is a member of the group with some value".into(),
             img_url: Some("https://d1w1533jipmvi2.cloudfront.net/nonce.jpeg".into()),
             img_caption: None,

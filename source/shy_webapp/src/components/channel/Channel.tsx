@@ -31,7 +31,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const isFontReady = useIsFontReady();
-  const { isInitialized, shyCredential } = useSignedInShyUser();
+  const { isCredentialInitialized, shyCredential } = useSignedInShyUser();
   const router = useRouter();
 
   const {
@@ -47,11 +47,11 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
   const channel = channelData?.payload?.shy_channel;
 
   React.useEffect(() => {
-    if (isInitialized && !shyCredential) {
+    if (isCredentialInitialized && !shyCredential) {
       const href = encodeURI(window.location.href);
       router.push(`${paths.account__sign_in}?${searchParamKeys.continue}=${href}`);
     }
-  }, [isInitialized, router, shyCredential]);
+  }, [isCredentialInitialized, router, shyCredential]);
 
   React.useEffect(() => {
     if (error) {

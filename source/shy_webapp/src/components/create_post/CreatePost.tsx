@@ -10,7 +10,6 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import {
   JSONbigNative,
-  PrivateKey,
   createRandomKeyPair,
   decrypt,
   makeRandInt,
@@ -23,7 +22,7 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import { useRouter } from "next/navigation";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { GetShyTopicProofRequest } from "@taigalabs/shy-entities/bindings/GetShyTopicProofRequest";
+import { GetShyProofRequest } from "@taigalabs/shy-entities/bindings/GetShyProofRequest";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { CreateShyPostWithProofRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostWithProofRequest";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
@@ -40,6 +39,7 @@ import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { useGetShyProof } from "@/hooks/proof";
 
 const PROOF = "Proof";
 
@@ -53,18 +53,25 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const i18n = usePrfsI18N();
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
-    usePrfsIdSession();
-  const [sk, setSk] = React.useState<PrivateKey | null>(null);
+  const {
+    openPrfsIdSession,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+    sessionKey,
+    setSessionKey,
+    sk,
+    setSk,
+  } = usePrfsIdSession();
   const [error, setError] = React.useState<string | null>(null);
   const [postId, setPostId] = React.useState<string | null>(null);
   const [html, setHtml] = React.useState<string | null>(null);
 
-  const { mutateAsync: getShyTopicProof } = useMutation({
-    mutationFn: (req: GetShyTopicProofRequest) => {
-      return shyApi2({ type: "get_shy_topic_proof", ...req });
-    },
-  });
+  const { mutateAsync: getShyProof } = useGetShyProof();
+  // const { mutateAsync: getShyProof } = useMutation({
+  //   mutationFn: (req: GetShyProofRequest) => {
+  //     return shyApi2({ type: "get_shy_proof", ...req });
+  //   },
+  // });
 
   const { mutateAsync: createShyPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
@@ -153,7 +160,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
       router,
       handleSucceedPost,
       dispatch,
-      getShyTopicProof,
+      getShyProof,
       createShyPostWithProof,
       createShyPost,
       subChannelId,
@@ -229,16 +236,16 @@ const CreatePost: React.FC<CreatePostProps> = ({
       if (receipt.type === "cached_prove_receipt") {
         receipt.proofActionSigMsg;
 
-        const { payload: getShyTopicProofPayload } = await getShyTopicProof({
+        const { payload: getShyTopicProofPayload } = await getShyProof({
           public_key: receipt.proofPubKey,
         });
-        if (getShyTopicProofPayload?.shy_topic_proof) {
-          const topicProof = getShyTopicProofPayload.shy_topic_proof;
+        if (getShyTopicProofPayload?.shy_proof) {
+          const topicProof = getShyTopicProofPayload.shy_proof;
 
           const { payload: _createShyPostPayload } = await createShyPost({
             topic_id: topicId,
             channel_id: channel.channel_id,
-            shy_topic_proof_id: topicProof.shy_topic_proof_id,
+            shy_proof_id: topicProof.shy_proof_id,
             author_public_key: topicProof.public_key,
             post_id: postId,
             content: html,
@@ -248,7 +255,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
           handleSucceedPost();
         }
       } else if (receipt.type === "prove_receipt") {
-        const shy_topic_proof_id = rand256Hex();
+        const shy_proof_id = rand256Hex();
         const receipt_ = receipt as ProveReceipt;
         console.log("receipt", receipt_);
 
@@ -259,7 +266,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
         const { error } = await createShyPostWithProof({
           topic_id: topicId,
           channel_id: channel.channel_id,
-          shy_topic_proof_id,
+          shy_proof_id,
           author_public_key: receipt_.proof.proofPubKey,
           post_id: postId,
           content: html,
@@ -270,6 +277,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
           public_inputs: receipt_.proof.publicInputSer,
           serial_no: publicInputs.circuitPubInput.serialNo.toString(),
           sub_channel_id: subChannelId,
+          proof_type_id: channel.proof_type_ids[0],
         });
 
         if (error) {

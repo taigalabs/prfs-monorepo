@@ -1,4 +1,4 @@
-use shy_entities::proof_action::{CreateShyTopicAction, ShyTopicProofAction};
+use shy_entities::{CreateShyTopicAction, ShyTopicProofAction};
 
 #[test]
 fn test_proof_action_serialize() {

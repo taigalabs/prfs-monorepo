@@ -1,5 +1,4 @@
 import { ProveArgs, ProveResult, VerifyArgs } from "@taigalabs/prfs-driver-interface";
-// import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { MerkleSigPosExactV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1Inputs";
 import { bytesToNumberLE, poseidon_2_bigint_le, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { BN } from "bn.js";

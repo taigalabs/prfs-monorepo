@@ -17,16 +17,17 @@ import shy_api_error_codes from "@taigalabs/shy-api-error-codes";
 import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
-import { signInShy, signOutShy } from "@/state/userReducer";
+import { signInShy, signOutShy, signUpShy } from "@/state/userReducer";
 import {
   LocalShyCredential,
   persistShyCredential,
   removeLocalShyCredential,
-} from "@/storage/local_storage";
+} from "@/storage/shy_credential";
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import { SHY_APP_ID } from "@/app_id";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { removeLocalShyCache } from "@/storage/shy_cache";
 
 enum Status {
   InProgress,
@@ -38,7 +39,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
   const router = useRouter();
   const [status, setStatus] = React.useState(Status.Standby);
   const dispatch = useAppDispatch();
-  const { isInitialized, shyCredential } = useSignedInShyUser();
+  const { isCredentialInitialized, shyCredential } = useSignedInShyUser();
   const { mutateAsync: signInShyAccount } = useMutation({
     mutationFn: (req: SignInShyAccountRequest) => {
       return shyApi2({ type: "sign_in_shy_account", ...req });
@@ -86,8 +87,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
               };
 
               persistShyCredential(credential);
-              dispatch(signInShy(credential));
-              router.push(paths.account__welcome);
+              dispatch(signUpShy(credential));
             } else {
               dispatch(
                 setGlobalMsg({
@@ -110,6 +110,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
           }
         }
       }
+
       setStatus(Status.InProgress);
       fn().then();
       setStatus(Status.Standby);
@@ -119,6 +120,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
 
   const handleClickSignOut = React.useCallback(() => {
     removeLocalShyCredential();
+    removeLocalShyCache();
     dispatch(signOutShy());
     router.push(paths.__);
   }, [dispatch, router]);
@@ -139,7 +141,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
     [dispatch],
   );
 
-  if (!isInitialized) {
+  if (!isCredentialInitialized) {
     return <Spinner size={18} color="#5c5c5c" borderWidth={1} />;
   }
 

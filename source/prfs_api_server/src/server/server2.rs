@@ -8,7 +8,7 @@ use std::sync::Arc;
 use crate::router::router2;
 use crate::server::state::init_server_state;
 
-const PORT_DEV: u16 = 4000;
+const PORT: u16 = 4000;
 
 pub async fn run_server() {
     let server_state = {
@@ -16,18 +16,10 @@ pub async fn run_server() {
         Arc::new(s)
     };
 
-    let port = if cfg!(debug_assertions) {
-        PORT_DEV
-    } else {
-        let port = std::env::var("PRFS_API_SERVER_PORT").unwrap();
-        port.parse::<u16>().unwrap()
-    };
-
-    // let server_state_clone = server_state.clone();
     let _ = tokio::join!(
         serve(
             using_serve_dir_with_handler_as_service(server_state).await,
-            port
+            PORT
         ),
         // start_listening_to_prfs_id_session_db_events(server_state_clone)
     );

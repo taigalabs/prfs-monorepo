@@ -1,16 +1,26 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { LocalShyCredential } from "@/storage/local_storage";
+import { LocalShyCredential } from "@/storage/shy_credential";
+import { LocalShyCache, LocalShyCacheItem, persistShyCache } from "@/storage/shy_cache";
 
 export interface UserState {
-  isInitialized: boolean;
+  // credential
+  isFirstTime: boolean;
+  isCredentialInitialized: boolean;
   shyCredential: LocalShyCredential | null;
+
+  // cache
+  isCacheInitialized: boolean;
+  shyCache: LocalShyCache | null;
 }
 
 const makeInitialState: () => UserState = () => {
   return {
-    isInitialized: false,
+    isFirstTime: false,
+    isCredentialInitialized: false,
+    isCacheInitialized: false,
     shyCredential: null,
+    shyCache: {},
   };
 };
 
@@ -21,19 +31,84 @@ export const userSlice = createSlice({
     signInShy: (state: UserState, action: PayloadAction<LocalShyCredential | null>) => {
       return {
         ...state,
-        isInitialized: true,
+        isCredentialInitialized: true,
         shyCredential: action.payload,
+      };
+    },
+    signUpShy: (state: UserState, action: PayloadAction<LocalShyCredential>) => {
+      return {
+        ...state,
+        isFirstTime: true,
+        isCredentialInitialized: true,
+        shyCredential: action.payload,
+      };
+    },
+    setIsNotFirstTime: (state: UserState, action: PayloadAction<void>) => {
+      return {
+        ...state,
+        isFirstTime: false,
+      };
+    },
+    initShyCache: (state: UserState, action: PayloadAction<LocalShyCache | null>) => {
+      return {
+        ...state,
+        isCacheInitialized: true,
+        shyCache: action.payload,
+      };
+    },
+    setCacheItem: (state: UserState, action: PayloadAction<LocalShyCacheItem>) => {
+      // const cache: LocalShyCache = JSON.parse(val);
+      const item = action.payload;
+
+      if (item) {
+        const newCache = {
+          ...state.shyCache,
+          [item.key]: item.val,
+        };
+
+        // side effect
+        persistShyCache(newCache);
+
+        return {
+          ...state,
+          shyCache: newCache,
+        };
+      } else {
+        return state;
+      }
+    },
+    removeCacheItem: (state: UserState, action: PayloadAction<string>) => {
+      const cache = state.shyCache ? state.shyCache : {};
+
+      if (action.payload) {
+        delete cache[action.payload];
+      }
+
+      persistShyCache(cache);
+
+      return {
+        ...state,
+        shyCache: {},
       };
     },
     signOutShy: (state: UserState, _action: PayloadAction<void>) => {
       return {
         ...state,
         shyCredential: null,
+        shyCache: {},
       };
     },
   },
 });
 
-export const { signInShy, signOutShy } = userSlice.actions;
+export const {
+  signInShy,
+  signOutShy,
+  initShyCache,
+  setCacheItem,
+  removeCacheItem,
+  signUpShy,
+  setIsNotFirstTime,
+} = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

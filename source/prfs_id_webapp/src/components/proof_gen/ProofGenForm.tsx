@@ -93,7 +93,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
         dispatch(
           setGlobalMsg({
-            variant: "error",
+            variant: "warn",
             message: i18n.already_made_proof,
             notDismissible: true,
           }),

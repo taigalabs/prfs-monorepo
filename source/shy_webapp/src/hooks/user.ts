@@ -1,20 +1,38 @@
 import React from "react";
 
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { loadLocalShyCredential } from "@/storage/local_storage";
-import { signInShy } from "@/state/userReducer";
+import { loadLocalShyCredential } from "@/storage/shy_credential";
+import { initShyCache, signInShy } from "@/state/userReducer";
+import { loadLocalShyCache } from "@/storage/shy_cache";
 
 export function useSignedInShyUser() {
   const dispatch = useAppDispatch();
-  const isInitialized = useAppSelector(state => state.user.isInitialized);
-  const shyCredential = useAppSelector(state => state.user.shyCredential);
+  const { isCredentialInitialized, shyCredential, isFirstTime } = useAppSelector(
+    state => state.user,
+  );
 
   React.useEffect(() => {
-    if (!isInitialized) {
+    if (!isCredentialInitialized) {
       const credential = loadLocalShyCredential();
       dispatch(signInShy(credential));
     }
-  }, [isInitialized]);
+  }, [isCredentialInitialized]);
 
-  return { isInitialized, shyCredential };
+  return { isCredentialInitialized, shyCredential, isFirstTime };
+}
+
+export function useShyCache() {
+  const dispatch = useAppDispatch();
+  const isCacheInitialized = useAppSelector(state => state.user.isCacheInitialized);
+  const shyCache = useAppSelector(state => state.user.shyCache);
+
+  React.useEffect(() => {
+    if (!isCacheInitialized) {
+      const cache = loadLocalShyCache();
+      console.log("Loading local Shy cache", cache);
+      dispatch(initShyCache(cache));
+    }
+  }, [isCacheInitialized]);
+
+  return { isCacheInitialized, shyCache };
 }

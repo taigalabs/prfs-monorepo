@@ -35,9 +35,15 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   isLoading,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
-    usePrfsIdSession();
-  const [sk, setSk] = React.useState<PrivateKey | null>(null);
+  const {
+    openPrfsIdSession,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+    sessionKey,
+    setSessionKey,
+    sk,
+    setSk,
+  } = usePrfsIdSession();
 
   const handleClickSignIn = React.useCallback(async () => {
     const { sk, pkHex } = createRandomKeyPair();

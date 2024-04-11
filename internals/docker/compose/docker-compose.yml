@@ -10,11 +10,22 @@ services:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
 
-  prfs_api_server:
+  prfs_api_server_green:
     build:
       context: ../../../
       dockerfile: ./internals/docker/prfs_api_server/Dockerfile
       args:
-        ci_cmd: ci $CI_CMD
+        server_group: green
+        ci_cmd: ci start_prfs_api_server
+        rust_version: 1.77
+        git_commit_hash: $GIT_COMMIT_HASH
+
+  prfs_api_server_blue:
+    build:
+      context: ../../../
+      dockerfile: ./internals/docker/prfs_api_server/Dockerfile
+      args:
+        server_group: blue
+        ci_cmd: ci start_prfs_api_server
         rust_version: 1.77
         git_commit_hash: $GIT_COMMIT_HASH

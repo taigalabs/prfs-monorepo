@@ -13,6 +13,7 @@ pub struct ServerState {
     pub wallet: Wallet<SigningKey>,
     pub launch_time: DateTime<Utc>,
     pub commit_hash: String,
+    pub server_group: String,
 
     // prfs_atst_server
     pub infura_fetcher: InfuraFetcher,
@@ -30,6 +31,8 @@ pub async fn init_server_state_test() -> Result<ServerState, CommonServerStateEr
 
     let commit_hash =
         std::env::var("GIT_COMMIT_HASH").unwrap_or("GIT_COMMIT_HASH not provided".to_string());
+
+    let server_group = std::env::var("SERVER_GROUP").unwrap_or("NOT GIVEN".to_string());
 
     let db2 = {
         let pg_endpoint = &ENVS.postgres_endpoint;
@@ -62,6 +65,7 @@ pub async fn init_server_state_test() -> Result<ServerState, CommonServerStateEr
         db2,
         wallet,
         launch_time,
+        server_group,
         commit_hash,
         infura_fetcher,
         tree_server_task_queue,
