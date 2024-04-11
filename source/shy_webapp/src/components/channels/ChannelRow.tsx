@@ -28,6 +28,7 @@ import { PROOF } from "@/proof_gen_args";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { useGetShyProof } from "@/hooks/proof";
 
 const ChannelRow: React.FC<RowProps> = ({ channel }) => {
   const router = useRouter();
@@ -45,6 +46,8 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
   const url = React.useMemo(() => {
     return `${paths.c}/${channel.channel_id}`;
   }, [channel.channel_id]);
+
+  const { mutateAsync: getShyProof } = useGetShyProof();
 
   const handleClickRow = React.useCallback(
     async (e: React.MouseEvent) => {
@@ -153,26 +156,18 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
       if (receipt.type === "cached_prove_receipt") {
         receipt.proofActionSigMsg;
 
-        // const { payload: getShyTopicProofPayload } = await getShyTopicProof({
-        //   public_key: receipt.proofPubKey,
-        // });
-        // if (getShyTopicProofPayload?.shy_topic_proof) {
-        //   const topicProof = getShyTopicProofPayload.shy_topic_proof;
+        const { payload: getShyProofPayload } = await getShyProof({
+          public_key: receipt.proofPubKey,
+        });
 
-        //   const { payload: _createShyPostPayload } = await createShyPost({
-        //     topic_id: topicId,
-        //     channel_id: channel.channel_id,
-        //     shy_topic_proof_id: topicProof.shy_topic_proof_id,
-        //     author_public_key: topicProof.public_key,
-        //     post_id: postId,
-        //     content: html,
-        //     author_sig: receipt.proofActionSig,
-        //     author_sig_msg: Array.from(receipt.proofActionSigMsg),
-        //   });
-        //   handleSucceedPost();
-        // }
+        if (getShyProofPayload?.shy_proof) {
+          const shyProof = getShyProofPayload.shy_proof;
+
+          // proofActionSig
+        } else {
+        }
       } else if (receipt.type === "prove_receipt") {
-        const shy_topic_proof_id = rand256Hex();
+        const shy_proof_id = rand256Hex();
         const receipt_ = receipt as ProveReceipt;
         console.log("receipt", receipt_);
 
@@ -210,7 +205,7 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
         return;
       }
     },
-    [sk, dispatch],
+    [sk, dispatch, getShyProof],
   );
 
   return (

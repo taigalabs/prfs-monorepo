@@ -39,6 +39,7 @@ import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { useGetShyProof } from "@/hooks/proof";
 
 const PROOF = "Proof";
 
@@ -65,11 +66,12 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const [postId, setPostId] = React.useState<string | null>(null);
   const [html, setHtml] = React.useState<string | null>(null);
 
-  const { mutateAsync: getShyProof } = useMutation({
-    mutationFn: (req: GetShyProofRequest) => {
-      return shyApi2({ type: "get_shy_proof", ...req });
-    },
-  });
+  const { mutateAsync: getShyProof } = useGetShyProof();
+  // const { mutateAsync: getShyProof } = useMutation({
+  //   mutationFn: (req: GetShyProofRequest) => {
+  //     return shyApi2({ type: "get_shy_proof", ...req });
+  //   },
+  // });
 
   const { mutateAsync: createShyPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
