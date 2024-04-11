@@ -1,6 +1,6 @@
 import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 
-import { LocalShyCredential } from "@/storage/local_storage";
+import { LocalShyCredential } from "@/storage/shy_credential";
 
 export type LoadShyAccountPayload = {
   localPrfsAccount: LocalShyCredential | null;

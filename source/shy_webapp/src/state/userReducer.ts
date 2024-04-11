@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { LocalShyCredential } from "@/storage/local_storage";
+import { LocalShyCredential } from "@/storage/shy_credential";
 
 export interface UserState {
   isInitialized: boolean;

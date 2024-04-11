@@ -14,7 +14,7 @@ import {
 
 import styles from "./CredentialPopover.module.scss";
 import ShyCredentialModal from "./ShyCredentialModal";
-import { LocalShyCredential } from "@/storage/local_storage";
+import { LocalShyCredential } from "@/storage/shy_credential";
 
 const ShyCredentialPopover: React.FC<CredentialPopoverProps> = ({
   className,

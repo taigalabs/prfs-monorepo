@@ -4,7 +4,7 @@ import cn from "classnames";
 
 import styles from "./ShyCredentialModal.module.scss";
 import MyAvatar from "@/components/my_avatar/MyAvatar";
-import { LocalShyCredential } from "@/storage/local_storage";
+import { LocalShyCredential } from "@/storage/shy_credential";
 
 const ShyCredentialModal: React.FC<ModalProps> = ({ handleClickSignOut, credential }) => {
   const i18n = usePrfsI18N();

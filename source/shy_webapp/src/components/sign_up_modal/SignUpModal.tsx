@@ -13,7 +13,7 @@ import styles from "./SignUpModal.module.scss";
 import { paths } from "@/paths";
 import { useAppDispatch } from "@/state/hooks";
 import { signInShy } from "@/state/userReducer";
-import { LocalShyCredential, persistShyCredential } from "@/storage/local_storage";
+import { LocalShyCredential, persistShyCredential } from "@/storage/shy_credential";
 
 const SignUpModal: React.FC<SignUpModalProps> = ({ credential }) => {
   const router = useRouter();

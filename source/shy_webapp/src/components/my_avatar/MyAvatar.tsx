@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 
 import styles from "./MyAvatar.module.scss";
-import { LocalShyCredential } from "@/storage/local_storage";
+import { LocalShyCredential } from "@/storage/shy_credential";
 
 const MyAvatar: React.FC<MyAvatarProps> = ({ credential, handleClick, size, className }) => {
   const letter = React.useMemo(() => {

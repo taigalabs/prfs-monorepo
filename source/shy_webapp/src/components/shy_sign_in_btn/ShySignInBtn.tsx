@@ -22,7 +22,7 @@ import {
   LocalShyCredential,
   persistShyCredential,
   removeLocalShyCredential,
-} from "@/storage/local_storage";
+} from "@/storage/shy_credential";
 import { useSignedInShyUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import { SHY_APP_ID } from "@/app_id";

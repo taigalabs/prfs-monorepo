@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { loadLocalShyCredential } from "@/storage/local_storage";
+import { loadLocalShyCredential } from "@/storage/shy_credential";
 import { signInShy } from "@/state/userReducer";
 
 export function useSignedInShyUser() {
