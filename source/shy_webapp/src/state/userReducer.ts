@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import { LocalShyCredential } from "@/storage/shy_credential";
-import { LocalShyCache, LocalShyCacheItem } from "@/storage/shy_cache";
+import { LocalShyCache, LocalShyCacheItem, persistShyCacheItem } from "@/storage/shy_cache";
 
 export interface UserState {
   isCredentialInitialized: boolean;
@@ -9,7 +9,7 @@ export interface UserState {
 
   //
   isCacheInitialized: boolean;
-  shyCache: LocalShyCache;
+  shyCache: LocalShyCache | null;
 }
 
 const makeInitialState: () => UserState = () => {
@@ -40,12 +40,16 @@ export const userSlice = createSlice({
       };
     },
     setCache: (state: UserState, action: PayloadAction<LocalShyCacheItem>) => {
+      const newCache = persistShyCacheItem(action.payload);
+
       return {
         ...state,
+        shyCache: newCache,
       };
     },
     removeCache: (state: UserState, action: PayloadAction<string>) => {
-      const cache = state.shyCache;
+      const cache = state.shyCache ? state.shyCache : {};
+
       if (action.payload) {
         delete cache[action.payload];
       }
