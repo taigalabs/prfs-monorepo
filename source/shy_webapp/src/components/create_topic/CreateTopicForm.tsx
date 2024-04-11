@@ -41,6 +41,7 @@ import { SHY_APP_ID } from "@/app_id";
 import CreateTopicFooter from "./CreateTopicFooter";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import TextEditor2 from "../text_editor/Editor2";
 
 const PROOF = "Proof";
 
@@ -316,11 +317,12 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
           />
         </div>
         <div className={styles.editorRow}>
-          <TextEditor
-            footer={footer}
-            className={styles.editorWrapper}
-            editorClassName={styles.editor}
-          />
+          {/* <TextEditor */}
+          {/*   footer={footer} */}
+          {/*   className={styles.editorWrapper} */}
+          {/*   editorClassName={styles.editor} */}
+          {/* /> */}
+          <TextEditor2 />
         </div>
         {error && <div className={styles.error}>{error}</div>}
       </div>
