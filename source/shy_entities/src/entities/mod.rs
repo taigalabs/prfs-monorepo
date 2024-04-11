@@ -1,10 +1,12 @@
-pub mod shy_account;
-pub mod shy_channel;
-pub mod shy_post;
-pub mod shy_topic;
-pub mod shy_topic_proofs;
-pub mod utils;
+mod locale;
+mod shy_account;
+mod shy_channel;
+mod shy_post;
+mod shy_topic;
+mod shy_topic_proofs;
+mod utils;
 
+pub use locale::*;
 pub use shy_account::*;
 pub use shy_channel::*;
 pub use shy_post::*;

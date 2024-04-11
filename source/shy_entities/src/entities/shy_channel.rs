@@ -3,12 +3,14 @@ use sqlx::Type;
 use strum_macros::{Display, EnumString};
 use ts_rs::TS;
 
+use super::Locale;
+
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
 pub struct ShyChannel {
     pub channel_id: String,
     pub label: String,
-    pub locale: String,
+    pub locale: Locale,
     pub desc: String,
 
     #[ts(type = "string[]")]
