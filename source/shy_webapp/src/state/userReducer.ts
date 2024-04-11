@@ -45,7 +45,7 @@ export const userSlice = createSlice({
       };
     },
     removeCache: (state: UserState, action: PayloadAction<string>) => {
-      const cache = state.cache;
+      const cache = state.shyCache;
       if (action.payload) {
         delete cache[action.payload];
       }

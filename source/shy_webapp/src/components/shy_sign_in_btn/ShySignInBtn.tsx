@@ -38,7 +38,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
   const router = useRouter();
   const [status, setStatus] = React.useState(Status.Standby);
   const dispatch = useAppDispatch();
-  const { isInitialized, shyCredential } = useSignedInShyUser();
+  const { isCredentialInitialized, shyCredential } = useSignedInShyUser();
   const { mutateAsync: signInShyAccount } = useMutation({
     mutationFn: (req: SignInShyAccountRequest) => {
       return shyApi2({ type: "sign_in_shy_account", ...req });
@@ -139,7 +139,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
     [dispatch],
   );
 
-  if (!isInitialized) {
+  if (!isCredentialInitialized) {
     return <Spinner size={18} color="#5c5c5c" borderWidth={1} />;
   }
 
