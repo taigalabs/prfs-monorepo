@@ -1,16 +1,16 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::entities::ShyTopicProof;
+use crate::entities::ShyProof;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetShyTopicProofRequest {
+pub struct GetShyProofRequest {
     pub public_key: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetShyTopicProofResponse {
-    pub shy_topic_proof: ShyTopicProof,
+pub struct GetShyProofResponse {
+    pub shy_proof: ShyProof,
 }

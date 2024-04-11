@@ -14,7 +14,7 @@ SELECT
 p.*,
 f.proof_identity_input
 FROM shy_posts p
-INNER JOIN shy_topic_proofs f ON f.shy_topic_proof_id = p.shy_topic_proof_id
+INNER JOIN shy_proofs f ON f.shy_proof_id = p.shy_proof_id
 WHERE p.topic_id=$1
 ORDER BY p.updated_at ASC
 OFFSET $2
@@ -37,7 +37,7 @@ LIMIT $3
                     topic_id: row.try_get("topic_id")?,
                     content: row.try_get("content")?,
                     channel_id: row.try_get("channel_id")?,
-                    shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
+                    shy_proof_id: row.try_get("shy_proof_id")?,
                     author_public_key: row.try_get("author_public_key")?,
                     author_sig: row.try_get("author_sig")?,
                 },

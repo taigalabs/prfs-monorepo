@@ -5,7 +5,7 @@ use super::{
     CreateShyPostRequest, CreateShyPostResponse, CreateShyPostWithProofRequest,
     CreateShyTopicRequest, CreateShyTopicResponse, GetShyChannelResponse, GetShyChannelsRequest,
     GetShyChannelsResponse, GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse,
-    GetShyTopicProofRequest, GetShyTopicProofResponse, GetShyTopicRequest, GetShyTopicResponse,
+    GetShyProofRequest, GetShyProofResponse, GetShyTopicRequest, GetShyTopicResponse,
     GetShyTopicsRequest, GetShyTopicsResponse, SignInShyAccountRequest, SignInShyAccountResponse,
     SignUpShyAccountRequest, SignUpShyAccountResponse,
 };
@@ -24,7 +24,7 @@ pub enum ShyApiRequest {
     get_shy_channel(GetShyChannelsRequest),
     get_shy_topics(GetShyTopicsRequest),
     get_shy_topic(GetShyTopicRequest),
-    get_shy_topic_proof(GetShyTopicProofRequest),
+    get_shy_proof(GetShyProofRequest),
     get_shy_posts_of_topic(GetShyPostsOfTopicRequest),
 }
 
@@ -42,6 +42,6 @@ pub enum ShyApiResponse {
     get_shy_channel(GetShyChannelResponse),
     get_shy_topics(GetShyTopicsResponse),
     get_shy_topic(GetShyTopicResponse),
-    get_shy_topic_proof(GetShyTopicProofResponse),
+    get_shy_proof(GetShyProofResponse),
     get_shy_posts_of_topic(GetShyPostsOfTopicResponse),
 }

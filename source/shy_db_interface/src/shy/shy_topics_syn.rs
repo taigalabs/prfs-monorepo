@@ -12,7 +12,7 @@ pub async fn get_shy_topic_syn1s(
     let query = r#"
 SELECT t.*, f.*
 FROM shy_topics t 
-INNER JOIN shy_topic_proofs f ON f.shy_topic_proof_id = t.shy_topic_proof_id
+INNER JOIN shy_proofs f ON f.shy_proof_id = t.shy_proof_id
 WHERE t.channel_id=$1
 ORDER BY t.updated_at DESC
 OFFSET $2
@@ -37,7 +37,7 @@ LIMIT $3
                     author_public_key: row.try_get("author_public_key")?,
                     channel_id: row.try_get("channel_id")?,
                     total_reply_count: row.try_get("total_reply_count")?,
-                    shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
+                    shy_proof_id: row.try_get("shy_proof_id")?,
                     author_sig: row.try_get("author_sig")?,
                     participant_identity_inputs: row.try_get("participant_identity_inputs")?,
                     sub_channel_id: row.try_get("sub_channel_id")?,
@@ -66,7 +66,7 @@ pub async fn get_shy_topic_syn1(
     let query = r#"
 SELECT t.*, f.*
 FROM shy_topics t 
-INNER JOIN shy_topic_proofs f ON f.shy_topic_proof_id = t.shy_topic_proof_id
+INNER JOIN shy_proofs f ON f.shy_proof_id = t.shy_proof_id
 WHERE t.topic_id=$1
 "#;
 
@@ -80,7 +80,7 @@ WHERE t.topic_id=$1
             author_public_key: row.try_get("author_public_key")?,
             channel_id: row.try_get("channel_id")?,
             total_reply_count: row.try_get("total_reply_count")?,
-            shy_topic_proof_id: row.try_get("shy_topic_proof_id")?,
+            shy_proof_id: row.try_get("shy_proof_id")?,
             author_sig: row.try_get("author_sig")?,
             participant_identity_inputs: row.try_get("participant_identity_inputs")?,
             sub_channel_id: row.try_get("sub_channel_id")?,

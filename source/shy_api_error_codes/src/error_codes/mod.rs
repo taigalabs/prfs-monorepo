@@ -15,6 +15,6 @@ generate_api_error_codes! {
     (String::from("400000C1"), CANNOT_FIND_USER, "Can't find a user");
     (String::from("400000C2"), SIGN_UP_FAIL, "Sign up failed");
     (String::from("40000B00"), RECORD_INSERT_FAIL, "Unable to insert the record");
-    (String::from("40000B01"), TOPIC_PROOF_RETRIEVAL_FAIL, "Unable to retreive topic proof");
+    (String::from("40000B01"), SHY_PROOF_RETRIEVAL_FAIL, "Unable to retreive Shy proof");
     (String::from("40000C01"), PUBLIC_KEY_NOT_MACHING, "Public key not matching");
 }

@@ -9,7 +9,7 @@ pub async fn insert_shy_post(
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_posts
-(topic_id, content, post_id, channel_id, shy_topic_proof_id, author_public_key, author_sig)
+(topic_id, content, post_id, channel_id, shy_proof_id, author_public_key, author_sig)
 VALUES ($1, $2, $3, $4, $5, $6, $7)
 RETURNING post_id
 "#;
@@ -19,7 +19,7 @@ RETURNING post_id
         .bind(&shy_post.content)
         .bind(&shy_post.post_id)
         .bind(&shy_post.channel_id)
-        .bind(&shy_post.shy_topic_proof_id)
+        .bind(&shy_post.shy_proof_id)
         .bind(&shy_post.author_public_key)
         .bind(&shy_post.author_sig)
         .fetch_one(&mut **tx)

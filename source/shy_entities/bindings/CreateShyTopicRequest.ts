@@ -5,7 +5,7 @@ export type CreateShyTopicRequest = {
   topic_id: string;
   content: string;
   channel_id: string;
-  shy_topic_proof_id: string;
+  shy_proof_id: string;
   proof_identity_input: string;
   proof: Array<number>;
   public_inputs: string;

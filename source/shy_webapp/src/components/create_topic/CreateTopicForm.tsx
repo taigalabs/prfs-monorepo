@@ -22,7 +22,7 @@ import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyTopicRequest } from "@taigalabs/shy-entities/bindings/CreateShyTopicRequest";
-import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
+import { ShyProofAction } from "@taigalabs/shy-entities/bindings/ShyProofAction";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
@@ -119,7 +119,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
       const { sk, pkHex } = createRandomKeyPair();
       const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
 
-      const proofAction: ShyTopicProofAction = {
+      const proofAction: ShyProofAction = {
         type: "create_shy_topic",
         topic_id: topicId,
         channel_id: channel.channel_id,

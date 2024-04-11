@@ -3,7 +3,7 @@
 export type CreateShyPostWithProofRequest = {
   topic_id: string;
   channel_id: string;
-  shy_topic_proof_id: string;
+  shy_proof_id: string;
   post_id: string;
   content: string;
   author_public_key: string;

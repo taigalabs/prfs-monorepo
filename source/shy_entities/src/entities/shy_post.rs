@@ -8,7 +8,7 @@ pub struct ShyPost {
     pub topic_id: String,
     pub content: String,
     pub channel_id: String,
-    pub shy_topic_proof_id: String,
+    pub shy_proof_id: String,
     pub author_public_key: String,
     pub author_sig: String,
 }

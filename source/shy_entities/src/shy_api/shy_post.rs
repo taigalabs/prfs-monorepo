@@ -23,7 +23,7 @@ pub struct GetShyPostsOfTopicResponse {
 pub struct CreateShyPostRequest {
     pub topic_id: String,
     pub channel_id: String,
-    pub shy_topic_proof_id: String,
+    pub shy_proof_id: String,
     pub post_id: String,
     pub content: String,
     pub author_public_key: String,
@@ -36,7 +36,7 @@ pub struct CreateShyPostRequest {
 pub struct CreateShyPostWithProofRequest {
     pub topic_id: String,
     pub channel_id: String,
-    pub shy_topic_proof_id: String,
+    pub shy_proof_id: String,
     pub post_id: String,
     pub content: String,
     pub author_public_key: String,

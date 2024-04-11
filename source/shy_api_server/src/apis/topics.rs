@@ -8,7 +8,7 @@ use prfs_entities::prfs_api::{CreatePrfsProofRecordRequest, GetPrfsProofRecordRe
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::entities::{ShyTopic, ShyTopicProof};
+use shy_entities::entities::{ShyProof, ShyTopic};
 use shy_entities::proof_action::{CreateShyTopicAction, ShyTopicProofAction};
 use shy_entities::shy_api::{
     CreateShyTopicRequest, CreateShyTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
@@ -85,8 +85,8 @@ pub async fn create_shy_topic(
         }
     };
 
-    let shy_topic_proof = ShyTopicProof {
-        shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
+    let shy_proof = ShyProof {
+        shy_proof_id: input.shy_proof_id.to_string(),
         proof: input.proof,
         public_inputs: input.public_inputs.to_string(),
         public_key: input.author_public_key.to_string(),
@@ -94,7 +94,7 @@ pub async fn create_shy_topic(
         proof_identity_input: input.proof_identity_input.to_string(),
     };
 
-    let _proof_id = match shy::insert_shy_topic_proof(&mut tx, &shy_topic_proof).await {
+    let _proof_id = match shy::insert_shy_proof(&mut tx, &shy_proof).await {
         Ok(i) => i,
         Err(err) => {
             let resp =
@@ -109,7 +109,7 @@ pub async fn create_shy_topic(
         channel_id: input.channel_id.to_string(),
         total_reply_count: 0,
         content: input.content.to_string(),
-        shy_topic_proof_id: input.shy_topic_proof_id.to_string(),
+        shy_proof_id: input.shy_proof_id.to_string(),
         author_public_key: input.author_public_key.to_string(),
         author_sig: input.author_sig.to_string(),
         participant_identity_inputs: sqlx::types::Json(vec![input
