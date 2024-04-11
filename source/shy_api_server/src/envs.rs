@@ -1,5 +1,4 @@
 use colored::Colorize;
-use dotenvy::dotenv;
 use lazy_static::lazy_static;
 use serde::Deserialize;
 
