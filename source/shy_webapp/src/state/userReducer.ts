@@ -20,7 +20,7 @@ const makeInitialState: () => UserState = () => {
     isCredentialInitialized: false,
     isCacheInitialized: false,
     shyCredential: null,
-    shyCache: {},
+    shyCache: null,
   };
 };
 
@@ -53,7 +53,7 @@ export const userSlice = createSlice({
       return {
         ...state,
         isCacheInitialized: true,
-        shyCache: action.payload,
+        shyCache: action.payload || {},
       };
     },
     setCacheItem: (state: UserState, action: PayloadAction<LocalShyCacheItem>) => {

@@ -47,7 +47,6 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, 
           dispatch(removeCacheItem(cacheKey));
         }
       }
-    } else {
     }
   }, [shyCache, setMsg, dispatch, setToken]);
 
