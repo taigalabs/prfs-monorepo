@@ -35,7 +35,7 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, 
   const [token, setToken] = React.useState<EnterShyChannelToken | null>(null);
 
   React.useEffect(() => {
-    if (shyCache) {
+    if (isCacheInitialized && shyCache) {
       const cacheKey = makeEnterShyChannelCacheKey(channelId);
       const val = shyCache[cacheKey];
 
