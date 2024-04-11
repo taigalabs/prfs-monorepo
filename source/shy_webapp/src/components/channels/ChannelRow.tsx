@@ -40,7 +40,7 @@ import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { useGetShyProof } from "@/hooks/proof";
 import { useShyCache } from "@/hooks/user";
 import { setCacheItem } from "@/state/userReducer";
-import { make_enter_shy_channel_cache_key } from "@/cache";
+import { makeEnterShyChannelCacheKey } from "@/cache";
 import { useJoinShyChannel } from "@/hooks/channel";
 
 const ChannelRow: React.FC<RowProps> = ({ channel }) => {
@@ -194,7 +194,7 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
 
           dispatch(
             setCacheItem({
-              key: make_enter_shy_channel_cache_key(channel.channel_id),
+              key: makeEnterShyChannelCacheKey(channel.channel_id),
               val: JSON.stringify(enterShyChannelToken),
               ts: Date.now(),
             }),
@@ -249,7 +249,7 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
 
         dispatch(
           setCacheItem({
-            key: make_enter_shy_channel_cache_key(channel.channel_id),
+            key: makeEnterShyChannelCacheKey(channel.channel_id),
             val: JSON.stringify(enterShyChannelToken),
             ts: Date.now(),
           }),
