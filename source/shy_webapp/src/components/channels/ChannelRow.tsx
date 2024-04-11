@@ -46,6 +46,7 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
         e.preventDefault();
 
         const proofTypeId = channel.proof_type_ids[0];
+        console.log(11, proofTypeId);
         const session_key = createSessionKey();
         const { sk, pkHex } = createRandomKeyPair();
         const json = JSON.stringify({

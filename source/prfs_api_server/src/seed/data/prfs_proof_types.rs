@@ -24,7 +24,7 @@ pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
 
     let prfs_proof_types = vec![
         PrfsProofType {
-            proof_type_id: "SIMPLE_HASH_1".into(),
+            proof_type_id: "simple_hash_v1".into(),
             label: "Simple hash".into(),
             author: "Prfs".into(),
             desc: simple_hash_1_desc,
@@ -40,7 +40,7 @@ pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
             experimental: false,
         },
         PrfsProofType {
-            proof_type_id: "CRYPTO_ASSET_SIZE_V1".into(),
+            proof_type_id: "crypto_asset_size_v1".into(),
             label: "Cryto asset size claim".into(),
             author: "Prfs".into(),
             desc: crypto_asset_size_v1_desc,
@@ -105,7 +105,7 @@ pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
             experimental: false,
         },
         PrfsProofType {
-            proof_type_id: "NONCE_SEOUL_1".into(),
+            proof_type_id: "nonce_seoul_v1".into(),
             label: "Nonce community Seoul".into(),
             author: "Prfs".into(),
             desc: nonce_seoul_1_desc,

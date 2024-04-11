@@ -1,6 +1,6 @@
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_rust_utils::markdown::read_md_file;
-use shy_entities::entities::{Locale, ShyChannel};
+use shy_entities::entities::{Locale, ShyChannel, ShyChannelType};
 
 use crate::paths::PATHS;
 
@@ -24,6 +24,7 @@ pub fn get_shy_channels_seed() -> Vec<ShyChannel> {
             desc: korean_crypto_holders_desc,
             proof_type_ids: JsonType::from(vec![]),
             status: shy_entities::entities::ShyChannelStatus::Normal,
+            r#type: ShyChannelType::Open,
         },
         ShyChannel {
             channel_id: "0xb4f1fbe".into(),
@@ -32,6 +33,7 @@ pub fn get_shy_channels_seed() -> Vec<ShyChannel> {
             desc: crypto_holders_desc.into(),
             proof_type_ids: JsonType::from(vec![]),
             status: shy_entities::entities::ShyChannelStatus::Normal,
+            r#type: ShyChannelType::Open,
         },
         ShyChannel {
             channel_id: "0xa8482bb".into(),
@@ -40,6 +42,7 @@ pub fn get_shy_channels_seed() -> Vec<ShyChannel> {
             desc: nonce_seoul_md,
             proof_type_ids: JsonType::from(vec![]),
             status: shy_entities::entities::ShyChannelStatus::Normal,
+            r#type: ShyChannelType::Closed,
         },
     ];
 
