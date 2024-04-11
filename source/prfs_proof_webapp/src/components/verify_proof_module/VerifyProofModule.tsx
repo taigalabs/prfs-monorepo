@@ -38,9 +38,16 @@ export enum VerifyProofStatus {
 const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeId }) => {
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(VerifyProofStatus.Standby);
   const i18n = React.useContext(i18nContext);
-  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
-    usePrfsIdSession();
-  const [sk, setSk] = React.useState<PrivateKey | null>(null);
+  const {
+    openPrfsIdSession,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+    sessionKey,
+    setSessionKey,
+    sk,
+    setSk,
+  } = usePrfsIdSession();
+  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
 
   const handleClickVerify = React.useCallback(async () => {

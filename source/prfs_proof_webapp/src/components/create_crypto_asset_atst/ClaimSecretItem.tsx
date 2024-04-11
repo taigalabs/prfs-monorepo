@@ -54,9 +54,16 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   setWalletAddrEnc,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
-    usePrfsIdSession();
-  const [sk, setSk] = React.useState<PrivateKey | null>(null);
+  const {
+    openPrfsIdSession,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+    sessionKey,
+    setSessionKey,
+    sk,
+    setSk,
+  } = usePrfsIdSession();
+  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
 
   const claimSecret = React.useMemo(() => {

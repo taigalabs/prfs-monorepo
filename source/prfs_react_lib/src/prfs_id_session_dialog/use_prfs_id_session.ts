@@ -2,9 +2,11 @@ import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import { idSessionApi } from "@taigalabs/prfs-api-js";
 import { OpenPrfsIdSession2Request } from "@taigalabs/prfs-entities/bindings/OpenPrfsIdSession2Request";
+import { PrivateKey } from "@taigalabs/prfs-crypto-js";
 
 export function usePrfsIdSession() {
   const [sessionKey, setSessionKey] = React.useState<string | null>(null);
+  const [sk, setSk] = React.useState<PrivateKey | null>(null);
 
   const { mutateAsync: openPrfsIdSession } = useMutation({
     mutationFn: (req: OpenPrfsIdSession2Request) => {
@@ -20,6 +22,8 @@ export function usePrfsIdSession() {
     openPrfsIdSession,
     isPrfsDialogOpen,
     setIsPrfsDialogOpen,
+    sk,
+    setSk,
   };
 }
 

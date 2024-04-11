@@ -57,9 +57,16 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   const dispatch = useAppDispatch();
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
-    usePrfsIdSession();
-  const [sk, setSk] = React.useState<PrivateKey | null>(null);
+  const {
+    openPrfsIdSession,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+    sessionKey,
+    setSessionKey,
+    sk,
+    setSk,
+  } = usePrfsIdSession();
+  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const [html, setHtml] = React.useState<string | null>(null);
   const { topicId, shortTopicId } = React.useMemo(() => {
     const hex = rand256Hex();

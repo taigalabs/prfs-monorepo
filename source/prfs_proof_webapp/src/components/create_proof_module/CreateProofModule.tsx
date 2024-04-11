@@ -38,9 +38,16 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [status, setStatus] = React.useState(Status.Standby);
-  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
-    usePrfsIdSession();
-  const [sk, setSk] = React.useState<PrivateKey | null>(null);
+  const {
+    openPrfsIdSession,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+    sessionKey,
+    setSessionKey,
+    sk,
+    setSk,
+  } = usePrfsIdSession();
+  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
 
   const handleClickCreateProof = React.useCallback(async () => {

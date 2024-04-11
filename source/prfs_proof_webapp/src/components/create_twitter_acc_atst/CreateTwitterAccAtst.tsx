@@ -102,9 +102,16 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return atstApi({ type: "attest_twitter_acc", ...req });
     },
   });
-  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
-    usePrfsIdSession();
-  const [sk, setSk] = React.useState<PrivateKey | null>(null);
+  const {
+    openPrfsIdSession,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+    sessionKey,
+    setSessionKey,
+    sk,
+    setSk,
+  } = usePrfsIdSession();
+  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
@@ -171,7 +178,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(async () => {
-    console.log(111);
     const { sk, pkHex } = createRandomKeyPair();
     const session_key = createSessionKey();
     const proofGenArgs: ProofGenArgs = {

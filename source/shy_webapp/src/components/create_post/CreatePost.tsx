@@ -53,9 +53,16 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const i18n = usePrfsI18N();
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { openPrfsIdSession, isPrfsDialogOpen, setIsPrfsDialogOpen, sessionKey, setSessionKey } =
-    usePrfsIdSession();
-  const [sk, setSk] = React.useState<PrivateKey | null>(null);
+  const {
+    openPrfsIdSession,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+    sessionKey,
+    setSessionKey,
+    sk,
+    setSk,
+  } = usePrfsIdSession();
+  // const [sk, setSk] = React.useState<PrivateKey | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [postId, setPostId] = React.useState<string | null>(null);
   const [html, setHtml] = React.useState<string | null>(null);
