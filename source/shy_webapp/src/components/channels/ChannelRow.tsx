@@ -41,6 +41,7 @@ import { useGetShyProof } from "@/hooks/proof";
 import { useShyCache } from "@/hooks/user";
 import { setCacheItem } from "@/state/userReducer";
 import { make_enter_shy_channel_cache_key } from "@/cache";
+import { useJoinShyChannel } from "@/hooks/channel";
 
 const ChannelRow: React.FC<RowProps> = ({ channel }) => {
   const router = useRouter();
@@ -62,6 +63,8 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
   }, [channel.channel_id]);
 
   const { mutateAsync: getShyProof } = useGetShyProof();
+  const { mutateAsync: joinShyChannel } = useJoinShyChannel();
+  const nonce = 0;
 
   const handleClickRow = React.useCallback(
     async (e: React.MouseEvent) => {
@@ -73,13 +76,13 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
         const json = JSON.stringify({
           appId: SHY_APP_ID,
           channel_id: channel.channel_id,
-          nonce: 0,
+          nonce,
         });
 
         const proofAction: ShyChannelProofAction = {
           type: "enter_shy_channel",
           channel_id: channel.channel_id,
-          nonce: 0,
+          nonce,
         };
 
         const proofActionStr = JSON.stringify(proofAction);
@@ -204,24 +207,23 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
           receipt_.proof.publicInputSer,
         );
 
-        // const { error } = await createShyPostWithProof({
-        //   topic_id: topicId,
-        //   channel_id: channel.channel_id,
-        //   shy_topic_proof_id,
-        //   author_public_key: receipt_.proof.proofPubKey,
-        //   post_id: postId,
-        //   content: html,
-        //   author_sig: receipt_.proofActionSig,
-        //   author_sig_msg: Array.from(receipt_.proofActionSigMsg),
-        //   proof_identity_input: publicInputs.proofIdentityInput,
-        //   proof: Array.from(receipt.proof.proofBytes),
-        //   public_inputs: receipt_.proof.publicInputSer,
-        //   serial_no: publicInputs.circuitPubInput.serialNo.toString(),
-        //   sub_channel_id: subChannelId,
-        // });
+        const { error } = await joinShyChannel({
+          nonce,
+          channel_id: channel.channel_id,
+          shy_proof_id,
+          author_public_key: receipt_.proof.proofPubKey,
+          author_sig: receipt_.proofActionSig,
+          author_sig_msg: Array.from(receipt_.proofActionSigMsg),
+          proof_identity_input: publicInputs.proofIdentityInput,
+          proof: Array.from(receipt.proof.proofBytes),
+          public_inputs: receipt_.proof.publicInputSer,
+          serial_no: publicInputs.circuitPubInput.serialNo.toString(),
+          proof_type_id: "merkle_sig_pos_exact_v1",
+        });
 
-        // if (error) {
-        // }
+        if (error) {
+          console.error(error);
+        }
 
         // handleSucceedPost();
       } else {
@@ -234,7 +236,7 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
         return;
       }
     },
-    [sk, dispatch, getShyProof],
+    [sk, dispatch, getShyProof, joinShyChannel],
   );
 
   if (!isCacheInitialized) {

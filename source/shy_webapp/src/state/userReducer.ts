@@ -28,7 +28,7 @@ export const userSlice = createSlice({
     signInShy: (state: UserState, action: PayloadAction<LocalShyCredential | null>) => {
       return {
         ...state,
-        isInitialized: true,
+        isCredentialInitialized: true,
         shyCredential: action.payload,
       };
     },

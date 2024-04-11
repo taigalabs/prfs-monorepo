@@ -26,7 +26,7 @@ export function useShyCache() {
   const shyCache = useAppSelector(state => state.user.shyCache);
 
   React.useEffect(() => {
-    if (isCacheInitialized) {
+    if (!isCacheInitialized) {
       const cache = loadLocalShyCache();
       dispatch(initShyCache(cache));
     }
