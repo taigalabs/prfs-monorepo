@@ -9,8 +9,8 @@ use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
 use shy_entities::{
     EnterShyChannelAction, GetShyChannelRequest, GetShyChannelResponse, GetShyChannelsRequest,
-    GetShyChannelsResponse, JoinShyChannelRequest, JoinShyChannelResponse, ShyChannelProofAction,
-    ShyProof,
+    GetShyChannelsResponse, JoinShyChannelRequest, JoinShyChannelResponse, ShyChannelMember,
+    ShyChannelProofAction, ShyProof,
 };
 use std::sync::Arc;
 
@@ -106,7 +106,7 @@ pub async fn join_shy_channel(
         proof: input.proof,
         public_inputs: input.public_inputs.to_string(),
         public_key: input.author_public_key.to_string(),
-        serial_no: input.serial_no,
+        serial_no: input.serial_no.to_string(),
         proof_identity_input: input.proof_identity_input.to_string(),
         proof_type_id: input.proof_type_id,
     };
@@ -130,16 +130,20 @@ pub async fn join_shy_channel(
     //     author_sig: input.author_sig.to_string(),
     // };
 
-    // let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
-    //     Ok(i) => i,
-    //     Err(err) => {
-    //         let resp = ApiResponse::new_error(
-    //             &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
-    //             format!("Can't insert shy post, err: {}", err),
-    //         );
-    //         return (StatusCode::BAD_REQUEST, Json(resp));
-    //     }
-    // };
+    let shy_channel_member = ShyChannelMember {
+        serial_no: input.serial_no.to_string(),
+        channel_id: input.channel_id.to_string(),
+        shy_proof_id: input.shy_proof_id.to_string(),
+        public_key: input.author_public_key.to_string(),
+    };
+
+    match shy::upsert_shy_channel_member(&mut tx, &shy_channel_member).await {
+        Ok(_) => (),
+        Err(err) => {
+            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     bail_out_tx_commit!(tx, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
