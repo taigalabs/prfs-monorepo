@@ -8,8 +8,6 @@ use shy_entities::shy_api::{
 };
 use std::sync::Arc;
 
-// use crate::error_codes::API_ERROR_CODE;
-
 const LIMIT: i32 = 15;
 
 pub async fn get_shy_channels(
@@ -17,9 +15,13 @@ pub async fn get_shy_channels(
     Json(input): Json<GetShyChannelsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyChannelsResponse>>) {
     let pool = &state.db2.pool;
-    let rows = shy::get_shy_channels(pool, input.offset, LIMIT)
-        .await
-        .unwrap();
+    let rows = match shy::get_shy_channels(pool, input.offset, LIMIT).await {
+        Ok(r) => r,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
 
     let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
         None
@@ -39,12 +41,7 @@ pub async fn get_shy_channel(
     let shy_channel = match shy::get_shy_channel(pool, &input.channel_id).await {
         Ok(c) => c,
         Err(err) => {
-            tracing::error!("Error getting shy channel, err: {:?}", err);
-
-            let resp = ApiResponse::new_error(
-                &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!("Error getting shy channel"),
-            );
+            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };

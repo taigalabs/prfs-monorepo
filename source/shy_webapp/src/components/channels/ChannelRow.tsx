@@ -1,5 +1,6 @@
 import React from "react";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import { FiLock } from "@react-icons/all-files/fi/FiLock";
 import Link from "next/link";
 
 import styles from "./ChannelRow.module.scss";
@@ -11,6 +12,7 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
       <div className={styles.wrapper}>
         <div className={styles.labelRow}>
           <span className={styles.label}>{channel.label}</span>
+          {channel.type === "Closed" && <FiLock className={styles.lock} />}
           <span className={styles.locale}>{channel.locale}</span>
         </div>
         <div
