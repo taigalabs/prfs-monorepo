@@ -1,13 +1,15 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
+use crate::JoinShyChannelResponse;
+
 use super::{
     CreateShyPostRequest, CreateShyPostResponse, CreateShyPostWithProofRequest,
     CreateShyTopicRequest, CreateShyTopicResponse, GetShyChannelResponse, GetShyChannelsRequest,
     GetShyChannelsResponse, GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse,
     GetShyProofRequest, GetShyProofResponse, GetShyTopicRequest, GetShyTopicResponse,
-    GetShyTopicsRequest, GetShyTopicsResponse, SignInShyAccountRequest, SignInShyAccountResponse,
-    SignUpShyAccountRequest, SignUpShyAccountResponse,
+    GetShyTopicsRequest, GetShyTopicsResponse, JoinShyChannelRequest, SignInShyAccountRequest,
+    SignInShyAccountResponse, SignUpShyAccountRequest, SignUpShyAccountResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -26,6 +28,7 @@ pub enum ShyApiRequest {
     get_shy_topic(GetShyTopicRequest),
     get_shy_proof(GetShyProofRequest),
     get_shy_posts_of_topic(GetShyPostsOfTopicRequest),
+    join_shy_channel(JoinShyChannelRequest),
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -44,4 +47,5 @@ pub enum ShyApiResponse {
     get_shy_topic(GetShyTopicResponse),
     get_shy_proof(GetShyProofResponse),
     get_shy_posts_of_topic(GetShyPostsOfTopicResponse),
+    join_shy_channel(JoinShyChannelResponse),
 }

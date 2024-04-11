@@ -30,7 +30,7 @@ pub struct GetShyChannelResponse {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateShyChannelEnterRequest {
+pub struct JoinShyChannelRequest {
     pub nonce: u32,
     pub channel_id: String,
     pub shy_proof_id: String,
@@ -46,6 +46,6 @@ pub struct CreateShyChannelEnterRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateShyChannelEnterResponse {
+pub struct JoinShyChannelResponse {
     pub shy_proof_id: String,
 }

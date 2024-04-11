@@ -8,9 +8,9 @@ use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
 use shy_entities::{
-    CreateShyChannelEnterRequest, CreateShyChannelEnterResponse, EnterShyChannelAction,
-    GetShyChannelRequest, GetShyChannelResponse, GetShyChannelsRequest, GetShyChannelsResponse,
-    ShyChannelProofAction, ShyProof,
+    EnterShyChannelAction, GetShyChannelRequest, GetShyChannelResponse, GetShyChannelsRequest,
+    GetShyChannelsResponse, JoinShyChannelRequest, JoinShyChannelResponse, ShyChannelProofAction,
+    ShyProof,
 };
 use std::sync::Arc;
 
@@ -58,10 +58,10 @@ pub async fn get_shy_channel(
     return (StatusCode::OK, Json(resp));
 }
 
-pub async fn create_shy_channel_enter_proof(
+pub async fn join_shy_channel(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<CreateShyChannelEnterRequest>,
-) -> (StatusCode, Json<ApiResponse<CreateShyChannelEnterResponse>>) {
+    Json(input): Json<JoinShyChannelRequest>,
+) -> (StatusCode, Json<ApiResponse<JoinShyChannelResponse>>) {
     let pool = &state.db2.pool;
     let mut tx = bail_out_tx!(pool, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
@@ -87,32 +87,10 @@ pub async fn create_shy_channel_enter_proof(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
-    // let proof_starts_with: [u8; 8] = match input.proof[0..8].try_into() {
-    //     Ok(p) => p,
-    //     Err(err) => {
-    //         let resp = ApiResponse::new_error(
-    //             &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
-    //             format!(
-    //                 "Cannot slice proof, proof len: {}, err: {}",
-    //                 input.proof.len(),
-    //                 err
-    //             ),
-    //         );
-    //         return (StatusCode::BAD_REQUEST, Json(resp));
-    //     }
-    // };
-    // let create_prfs_proof_record_req = CreatePrfsProofRecordRequest {
-    //     proof_record: PrfsProofRecord {
-    //         public_key: input.author_public_key.to_string(),
-    //         proof_starts_with,
-    //     },
-    // };
-
     let _proof_record_resp = match create_prfs_proof_record(
         &ENVS.prfs_api_server_endpoint,
         &input.proof,
         &input.author_public_key,
-        // &create_prfs_proof_record_req,
     )
     .await
     {
@@ -165,7 +143,7 @@ pub async fn create_shy_channel_enter_proof(
 
     bail_out_tx_commit!(tx, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
-    let resp = ApiResponse::new_success(CreateShyChannelEnterResponse {
+    let resp = ApiResponse::new_success(JoinShyChannelResponse {
         shy_proof_id: input.shy_proof_id,
     });
     return (StatusCode::OK, Json(resp));

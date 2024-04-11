@@ -11,7 +11,13 @@ import {
   makeProofGenSearchParams,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { createRandomKeyPair, decrypt, makeRandInt, rand256Hex } from "@taigalabs/prfs-crypto-js";
+import {
+  JSONbigNative,
+  createRandomKeyPair,
+  decrypt,
+  makeRandInt,
+  rand256Hex,
+} from "@taigalabs/prfs-crypto-js";
 import { ShyChannelProofAction } from "@taigalabs/shy-entities/bindings/ShyChannelProofAction";
 import { EnterShyChannelToken } from "@taigalabs/shy-entities/bindings/EnterShyChannelToken";
 import { MerkleSigPosExactV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1PresetVals";
@@ -21,6 +27,7 @@ import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { MerkleSigPosExactV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1PublicInputs";
 import { useRouter } from "next/navigation";
 
 import styles from "./ChannelRow.module.scss";
@@ -181,15 +188,21 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
             }),
           );
         } else {
+          dispatch(
+            setGlobalMsg({
+              variant: "error",
+              message: "Proof is not found and it's supposed to be found. Reach out to us",
+            }),
+          );
         }
       } else if (receipt.type === "prove_receipt") {
         const shy_proof_id = rand256Hex();
         const receipt_ = receipt as ProveReceipt;
         console.log("receipt", receipt_);
 
-        // const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
-        //   receipt_.proof.publicInputSer,
-        // );
+        const publicInputs: MerkleSigPosExactV1PublicInputs = JSONbigNative.parse(
+          receipt_.proof.publicInputSer,
+        );
 
         // const { error } = await createShyPostWithProof({
         //   topic_id: topicId,

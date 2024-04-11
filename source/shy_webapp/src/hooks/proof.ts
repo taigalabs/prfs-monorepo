@@ -9,3 +9,11 @@ export function useGetShyProof() {
     },
   });
 }
+
+export function useJoinShyChannel() {
+  return useMutation({
+    mutationFn: (req: GetShyProofRequest) => {
+      return shyApi2({ type: "get_shy_proof", ...req });
+    },
+  });
+}

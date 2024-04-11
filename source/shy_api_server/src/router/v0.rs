@@ -18,6 +18,7 @@ pub fn make_shy_v0_router() -> Router<Arc<ServerState>> {
             "/create_shy_post_with_proof",
             post(posts::create_shy_post_with_proof),
         )
+        .route("/join_shy_channel", post(channels::join_shy_channel))
         .route("/sign_in_shy_account", post(accounts::sign_in_shy_account))
         .route("/sign_up_shy_account", post(accounts::sign_up_shy_account))
         .route("/get_shy_topics", post(topics::get_shy_topics))
