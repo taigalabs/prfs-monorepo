@@ -18,6 +18,7 @@ import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useRouter } from "next/navigation";
 
@@ -29,9 +30,12 @@ import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { useGetShyProof } from "@/hooks/proof";
+import { useShyCache } from "@/hooks/user";
 
 const ChannelRow: React.FC<RowProps> = ({ channel }) => {
   const router = useRouter();
+  const { shyCache, isCacheInitialized } = useShyCache();
+
   const i18n = usePrfsI18N();
   const {
     openPrfsIdSession,
@@ -207,6 +211,10 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
     },
     [sk, dispatch, getShyProof],
   );
+
+  if (!isCacheInitialized) {
+    return <Spinner />;
+  }
 
   return (
     <>

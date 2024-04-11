@@ -20,9 +20,10 @@ export function useSignedInShyUser() {
   return { isCredentialInitialized, shyCredential };
 }
 
-export function useLocalShyCache() {
+export function useShyCache() {
   const dispatch = useAppDispatch();
   const isCacheInitialized = useAppSelector(state => state.user.isCacheInitialized);
+  const shyCache = useAppSelector(state => state.user.shyCache);
 
   React.useEffect(() => {
     if (isCacheInitialized) {
@@ -30,4 +31,6 @@ export function useLocalShyCache() {
       dispatch(initShyCache(cache));
     }
   }, [isCacheInitialized]);
+
+  return { isCacheInitialized, shyCache };
 }

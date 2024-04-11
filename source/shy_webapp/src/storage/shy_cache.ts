@@ -30,23 +30,4 @@ export function persistShyCache(cache: LocalShyCache): LocalShyCache | null {
   }
 
   return cache;
-
-  // try {
-  //   if (val) {
-  //     const cache: LocalShyCache = JSON.parse(val);
-  //     const newCache = {
-  //       ...cache,
-  //       [item.key]: item.value,
-  //     };
-
-  //     const newCacheStr = JSON.stringify(newCache);
-  //     window.localStorage.setItem(SHY_CACHE, newCacheStr);
-
-  //     return newCache;
-  //   } else {
-  //     return null;
-  //   }
-  // } catch (err) {
-  //   return null;
-  // }
 }
