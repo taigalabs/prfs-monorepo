@@ -71,6 +71,15 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
       if (channel.type === "Closed") {
         e.preventDefault();
 
+        if (shyCache) {
+          const cacheKey = make_enter_shy_channel_cache_key(channel.channel_id);
+
+          if (shyCache[cacheKey]) {
+            router.push(url);
+            return;
+          }
+        }
+
         const session_key = createSessionKey();
         const { sk, pkHex } = createRandomKeyPair();
         const json = JSON.stringify({
@@ -127,7 +136,7 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
         router.push(url);
       }
     },
-    [channel, router, url, setSk],
+    [channel, router, url, setSk, shyCache],
   );
 
   const handleSucceedGetSession = React.useCallback(
@@ -223,9 +232,29 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
 
         if (error) {
           console.error(error);
+          dispatch(
+            setGlobalMsg({
+              variant: "error",
+              message: `Error joining shy channel, err: ${error}`,
+            }),
+          );
+          return;
         }
 
-        // handleSucceedPost();
+        const enterShyChannelToken: EnterShyChannelToken = {
+          shy_proof_id,
+          sig: receipt.proofActionSig,
+          sig_msg: Array.from(receipt.proofActionSigMsg),
+        };
+
+        dispatch(
+          setCacheItem({
+            key: make_enter_shy_channel_cache_key(channel.channel_id),
+            val: JSON.stringify(enterShyChannelToken),
+            ts: Date.now(),
+          }),
+        );
+        router.push(url);
       } else {
         dispatch(
           setGlobalMsg({
@@ -236,7 +265,7 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
         return;
       }
     },
-    [sk, dispatch, getShyProof, joinShyChannel],
+    [sk, dispatch, getShyProof, joinShyChannel, router, url],
   );
 
   if (!isCacheInitialized) {
