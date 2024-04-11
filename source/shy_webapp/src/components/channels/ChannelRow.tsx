@@ -72,9 +72,12 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
         e.preventDefault();
 
         if (shyCache) {
-          const cacheKey = make_enter_shy_channel_cache_key(channel.channel_id);
+          const cacheKey = makeEnterShyChannelCacheKey(channel.channel_id);
+          const token = shyCache[cacheKey];
 
-          if (shyCache[cacheKey]) {
+          const tokenObj: EnterShyChannelToken = JSON.parse(token);
+
+          if (tokenObj) {
             router.push(url);
             return;
           }
