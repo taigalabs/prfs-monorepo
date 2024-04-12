@@ -16,6 +16,7 @@ const MASTER_ACCOUNT_IDS: [&str; 5] = [
 #[inline]
 pub fn get_master_account_ids() -> [&'static str; 5] {
     let file_name = "master_account_ids.json";
+
     ONCE.get_or_init(|| {
         let file_path = PATHS.json_bindings.join(file_name);
         let mut file = File::create(file_path).unwrap();

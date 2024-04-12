@@ -47,6 +47,7 @@ export default {
   cancel: "Cancel",
   submit: "Submit",
   raw: "Raw",
+  calculate_values: "Calulate values",
   edit_raw: "Edit raw",
   put_address: "Put address",
   address: "Address",

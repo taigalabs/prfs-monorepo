@@ -18,6 +18,8 @@ import {
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
+import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
+import { useI18N } from "@/i18n/use_i18n";
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
@@ -80,6 +82,7 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
   credential,
   rerender,
 }) => {
+  const i18n = useI18N();
   const [isOpen, setIsOpen] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const { mutateAsync: computeCryptoTotalValuesRequest, isPending } = useMutation({
@@ -129,9 +132,15 @@ const ComputeTotalValueDialog: React.FC<ComputeTotalValueDialogProps> = ({
 
   const createBase = React.useCallback(() => {
     return (
-      <Button variant="circular_gray_1">
-        <div className={styles.inner}>
+      <Button
+        variant="transparent_blue_3"
+        noTransition
+        type="button"
+        disabled={!isMasterAccount(credential?.account_id)}
+      >
+        <div className={styles.btnContent}>
           <FaCalculator />
+          <span>{i18n.calculate_values}</span>
         </div>
       </Button>
     );

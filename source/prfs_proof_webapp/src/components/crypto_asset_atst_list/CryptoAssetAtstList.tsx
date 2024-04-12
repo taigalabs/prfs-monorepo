@@ -27,13 +27,20 @@ const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
       <AppHeader>
         <AppHeaderRow>
           <AppTitle className={styles.title}>{i18n.crypto_asset_attestations}</AppTitle>
-          <AppTopMenu className={styles.topMenu}>
-            {isMaster && (
-              <li>
-                <ComputeTotalValueDialog credential={prfsProofCredential!} rerender={rerender} />
-              </li>
-            )}
-          </AppTopMenu>
+          {/* <AppTopMenu className={styles.topMenu}> */}
+          {/*   {isMaster && ( */}
+          {/*     <li> */}
+          {/*       <ComputeTotalValueDialog credential={prfsProofCredential!} rerender={rerender} /> */}
+          {/*     </li> */}
+          {/*   )} */}
+          {/* </AppTopMenu> */}
+        </AppHeaderRow>
+        <AppHeaderRow>
+          <ul className={styles.topMenu}>
+            <li>
+              <ComputeTotalValueDialog credential={prfsProofCredential!} rerender={rerender} />
+            </li>
+          </ul>
         </AppHeaderRow>
         <AppHeaderRow>
           <AlertWrapper variant="warn" rounded>

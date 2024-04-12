@@ -37,16 +37,14 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
           </AppTitle>
         </AppHeaderRow>
         <AppHeaderRow className={styles.headerRow}>
-          {prfsSet && (
-            <ul className={styles.topMenu}>
-              <li>
-                <ImportSetElementsDialog rerender={rerender} prfsSet={prfsSet} />
-              </li>
-              <li>
-                <CreateTreeDialog rerender={rerender} set_id={set_id} />
-              </li>
-            </ul>
-          )}
+          <ul className={styles.topMenu}>
+            <li>
+              <ImportSetElementsDialog rerender={rerender} prfsSet={prfsSet} />
+            </li>
+            <li>
+              <CreateTreeDialog rerender={rerender} set_id={set_id} />
+            </li>
+          </ul>
           <LatestTree set_id={set_id} nonce={nonce} />
         </AppHeaderRow>
       </AppHeader>
