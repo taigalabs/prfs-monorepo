@@ -32,6 +32,7 @@ import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_d
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import TextEditor2 from "@taigalabs/prfs-react-lib/src/text_editor2/TextEditor2";
 
 import styles from "./CreateTopicForm.module.scss";
 import { pathParts, paths } from "@/paths";
@@ -41,7 +42,6 @@ import { SHY_APP_ID } from "@/app_id";
 import CreateTopicFooter from "./CreateTopicFooter";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
-import TextEditor2 from "../text_editor/Editor2";
 
 const PROOF = "Proof";
 
