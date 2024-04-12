@@ -6,8 +6,7 @@ import { signInPrfs } from "@/state/userReducer";
 
 export function useSignedInProofUser() {
   const dispatch = useAppDispatch();
-  const isInitialized = useAppSelector(state => state.user.isInitialized);
-  const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
+  const { isInitialized, prfsProofCredential } = useAppSelector(state => state.user);
 
   React.useEffect(() => {
     if (!isInitialized) {

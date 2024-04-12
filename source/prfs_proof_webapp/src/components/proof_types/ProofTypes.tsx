@@ -22,15 +22,6 @@ const ProofTypes: React.FC<ProofTypesProps> = ({ children }) => {
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
   const { isInitialized, prfsProofCredential } = useSignedInProofUser();
-  const router = useRouter();
-
-  React.useEffect(() => {
-    if (isInitialized) {
-      if (prfsProofCredential === null) {
-        router.push(paths.account);
-      }
-    }
-  }, [isInitialized, prfsProofCredential, router]);
 
   const handleClickShowLeftBar = React.useCallback(
     (open?: boolean) => {

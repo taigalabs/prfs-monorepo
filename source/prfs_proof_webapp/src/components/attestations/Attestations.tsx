@@ -23,15 +23,6 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
   const { isInitialized, prfsProofCredential } = useSignedInProofUser();
-  const router = useRouter();
-
-  React.useEffect(() => {
-    if (isInitialized) {
-      if (prfsProofCredential === null) {
-        router.push(paths.account);
-      }
-    }
-  }, [isInitialized, prfsProofCredential, router]);
 
   const handleClickShowLeftBar = React.useCallback(
     (open?: boolean) => {
@@ -59,7 +50,7 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
     <div className={styles.loading}>Loading...</div>;
   }
 
-  return prfsProofCredential ? (
+  return (
     <>
       <GlobalErrorDialog />
       <AttestationsMasthead
@@ -84,10 +75,6 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
         {children}
       </div>
     </>
-  ) : (
-    <div className={styles.loading}>
-      <Spinner size={32} color={colors.gray_32} />
-    </div>
   );
 };
 

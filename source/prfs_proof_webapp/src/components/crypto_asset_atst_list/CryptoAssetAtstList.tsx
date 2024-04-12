@@ -21,6 +21,7 @@ const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { prfsProofCredential } = useSignedInProofUser();
   const { nonce, rerender } = useRerender();
+
   const isMaster = React.useMemo(() => {
     return isMasterAccount(prfsProofCredential?.account_id);
   }, [prfsProofCredential]);

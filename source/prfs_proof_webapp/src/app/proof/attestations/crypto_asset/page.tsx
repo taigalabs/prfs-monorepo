@@ -1,8 +1,7 @@
 import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
-import DefaultLayout, { DefaultFooter } from "@/components/layouts/default_layout/DefaultLayout";
-import GlobalFooter from "@/components/global_footer/GlobalFooter";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import Attestations from "@/components/attestations/Attestations";
 import {
   AttestationsDefaultBody,
@@ -10,7 +9,6 @@ import {
   AttestationsMainInner,
 } from "@/components/attestations/AttestationComponents";
 import CryptoAssetAtstList from "@/components/crypto_asset_atst_list/CryptoAssetAtstList";
-import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
 
 const CryptoSizePage = () => {
   return (
