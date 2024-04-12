@@ -1,0 +1,78 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  /* border: 1px solid red; */
+}
+
+.topMenuRow {
+  height: 48px;
+  padding-left: 32px;
+}
+
+.avatarRow {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  align-items: center;
+  gap: 18px;
+
+  .avatar {
+    width: 40%;
+    height: 40%;
+    max-width: 162px;
+    max-height: 162px;
+    border-radius: 50%;
+    color: transparent;
+    background-color: var(--bright-gray-45);
+  }
+
+  .username {
+    text-align: center;
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+  }
+
+  .accountId {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .rightCol {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.metaRow {
+  .url {
+    color: var(--blue-19);
+  }
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .topMenuRow {
+    padding-left: 0;
+  }
+
+  .avatarRow {
+    display: flex;
+    flex-direction: row;
+    padding-left: 48px;
+    gap: 36px;
+
+    .avatar {
+      width: 162px;
+      height: 162px;
+      border-radius: 81px;
+    }
+  }
+
+  .metaRow {
+    padding-left: 0;
+
+    .box {
+      max-width: none;
+    }
+  }
+}

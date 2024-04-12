@@ -18,11 +18,7 @@ import { ValidateGroupMembershipRequest } from "@taigalabs/prfs-entities/binding
 import { GROUP_MEMBER } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CreateGroupMemberAtst.module.scss";
-import {
-  AttestationsHeader,
-  AttestationsHeaderRow,
-  AttestationsTitle,
-} from "@/components/attestations/AttestationComponents";
+import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
 import {
   AttestationFormBtnRow,
   AttestationListItem,
@@ -276,11 +272,11 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     <div className={styles.sidePadding}>{i18n.not_available}...</div>
   ) : (
     <>
-      <AttestationsHeader>
-        <AttestationsHeaderRow>
-          <AttestationsTitle>{i18n.create_group_member_attestation}</AttestationsTitle>
-        </AttestationsHeaderRow>
-      </AttestationsHeader>
+      <AppHeader>
+        <AppHeaderRow>
+          <AppTitle>{i18n.create_group_member_attestation}</AppTitle>
+        </AppHeaderRow>
+      </AppHeader>
       <div>
         <form>
           <ol>

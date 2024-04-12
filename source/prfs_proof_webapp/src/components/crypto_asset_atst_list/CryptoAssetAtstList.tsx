@@ -7,11 +7,7 @@ import { AlertContent, AlertWrapper } from "@taigalabs/prfs-react-lib/src/alert/
 import styles from "./CryptoAssetAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import CryptoSizeAtstTable from "./CryptoAssetAtstTable";
-import {
-  AttestationsHeader,
-  AttestationsHeaderRow,
-  AttestationsTitle,
-} from "@/components/attestations/AttestationComponents";
+import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
 import { AttestationsTopMenu } from "@/components/sets/SetComponents";
 import { useSignedInProofUser } from "@/hooks/user";
 import ComputeTotalValueDialog from "./ComputeTotalValue";
@@ -28,11 +24,9 @@ const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
 
   return (
     <>
-      <AttestationsHeader>
-        <AttestationsHeaderRow>
-          <AttestationsTitle className={styles.title}>
-            {i18n.crypto_asset_attestations}
-          </AttestationsTitle>
+      <AppHeader>
+        <AppHeaderRow>
+          <AppTitle className={styles.title}>{i18n.crypto_asset_attestations}</AppTitle>
           <AttestationsTopMenu>
             {isMaster && (
               <li>
@@ -40,8 +34,8 @@ const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
               </li>
             )}
           </AttestationsTopMenu>
-        </AttestationsHeaderRow>
-        <AttestationsHeaderRow>
+        </AppHeaderRow>
+        <AppHeaderRow>
           <AlertWrapper variant="warn" rounded>
             <AlertContent>
               Prfs attestation has been upgraded to version 0.2. Those that have created the older
@@ -49,8 +43,8 @@ const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
               it
             </AlertContent>
           </AlertWrapper>
-        </AttestationsHeaderRow>
-      </AttestationsHeader>
+        </AppHeaderRow>
+      </AppHeader>
       <div>
         <CryptoSizeAtstTable nonce={nonce} />
       </div>

@@ -1,33 +1,25 @@
 import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
-import DefaultLayout, { DefaultFooter } from "@/components/layouts/default_layout/DefaultLayout";
-import GlobalFooter from "@/components/global_footer/GlobalFooter";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import Attestations from "@/components/attestations/Attestations";
 import TwitterAccAtstList from "@/components/twitter_acc_atst_list/TwitterAccAtstList";
-import {
-  AttestationsDefaultBody,
-  AttestationsMain,
-  AttestationsMainInner,
-} from "@/components/attestations/AttestationComponents";
+import { AppDefaultBody, AppMain, AppMainInner } from "@/components/app_components/AppComponents";
 
 const TwitterAttestionPage = () => {
   return (
     <DefaultLayout>
-      <AttestationsDefaultBody>
+      <AppDefaultBody>
         <Suspense>
           <Attestations>
-            <AttestationsMain>
-              <AttestationsMainInner>
+            <AppMain>
+              <AppMainInner>
                 <TwitterAccAtstList />
-              </AttestationsMainInner>
-            </AttestationsMain>
+              </AppMainInner>
+            </AppMain>
           </Attestations>
         </Suspense>
-      </AttestationsDefaultBody>
-      {/* <DefaultFooter> */}
-      {/*   <GlobalFooter /> */}
-      {/* </DefaultFooter> */}
+      </AppDefaultBody>
     </DefaultLayout>
   );
 };

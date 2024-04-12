@@ -22,11 +22,7 @@ import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { CreatePrfsAttestationRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsAttestationRequest";
 
 import styles from "./CreateCryptoAssetAtst.module.scss";
-import {
-  AttestationsHeader,
-  AttestationsHeaderRow,
-  AttestationsTitle,
-} from "@/components/attestations/AttestationComponents";
+import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
 import {
   AttestationFormBtnRow,
   AttestationListItem,
@@ -287,11 +283,11 @@ const CreateCryptoAssetAtst: React.FC<CreateCryptoSizeAttestationProps> = () => 
     <div className={styles.sidePadding}>{i18n.not_available}...</div>
   ) : (
     <>
-      <AttestationsHeader>
-        <AttestationsHeaderRow>
-          <AttestationsTitle>{i18n.create_crypto_asset_attestation}</AttestationsTitle>
-        </AttestationsHeaderRow>
-      </AttestationsHeader>
+      <AppHeader>
+        <AppHeaderRow>
+          <AppTitle>{i18n.create_crypto_asset_attestation}</AppTitle>
+        </AppHeaderRow>
+      </AppHeader>
       <div>
         <form>
           <ol>

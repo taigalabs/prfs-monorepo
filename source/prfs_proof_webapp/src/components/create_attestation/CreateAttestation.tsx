@@ -5,20 +5,17 @@ import cn from "classnames";
 
 import styles from "./CreateAttestation.module.scss";
 import { i18nContext } from "@/i18n/context";
-import {
-  AttestationsMain,
-  AttestationsMainInner,
-} from "@/components/attestations/AttestationComponents";
+import { AppMain, AppMainInner } from "@/components/app_components/AppComponents";
 
 const CreateAttestation: React.FC<CreateAttestationProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <AttestationsMain>
-      <AttestationsMainInner>
+    <AppMain>
+      <AppMainInner>
         <div className={styles.wrapper}>{children}</div>
-      </AttestationsMainInner>
-    </AttestationsMain>
+      </AppMainInner>
+    </AppMain>
   );
 };
 

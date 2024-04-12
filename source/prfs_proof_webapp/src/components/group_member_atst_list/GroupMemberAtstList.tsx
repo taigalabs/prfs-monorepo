@@ -7,11 +7,7 @@ import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 
 import styles from "./GroupMemberAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
-import {
-  AttestationsHeader,
-  AttestationsHeaderRow,
-  AttestationsTitle,
-} from "@/components/attestations/AttestationComponents";
+import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
 import { AttestationsTopMenu } from "@/components/sets/SetComponents";
 import { useSignedInProofUser } from "@/hooks/user";
 import ComputeValueDialog from "./ComputeValueDialog";
@@ -25,11 +21,9 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id 
 
   return (
     <>
-      <AttestationsHeader>
-        <AttestationsHeaderRow>
-          <AttestationsTitle className={styles.title}>
-            {i18n.group_member_attestations}
-          </AttestationsTitle>
+      <AppHeader>
+        <AppHeaderRow>
+          <AppTitle className={styles.title}>{i18n.group_member_attestations}</AppTitle>
           <AttestationsTopMenu>
             {isMaster && (
               <li>
@@ -37,8 +31,8 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id 
               </li>
             )}
           </AttestationsTopMenu>
-        </AttestationsHeaderRow>
-        <AttestationsHeaderRow>
+        </AppHeaderRow>
+        <AppHeaderRow>
           <AlertWrapper variant="warn" rounded>
             <AlertContent>
               Prfs attestation has been upgraded to version 0.2. Those that have created the older
@@ -46,8 +40,8 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id 
               it
             </AlertContent>
           </AlertWrapper>
-        </AttestationsHeaderRow>
-      </AttestationsHeader>
+        </AppHeaderRow>
+      </AppHeader>
       <div>
         <GroupMemberAtstTable nonce={nonce} atst_group_id={atst_group_id} />
       </div>

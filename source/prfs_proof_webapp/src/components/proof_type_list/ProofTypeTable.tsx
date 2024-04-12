@@ -61,7 +61,6 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
     useInfiniteQuery({
       queryKey: ["get_prfs_proof_types"],
       queryFn: async ({ pageParam }) => {
-        // return prfsApi2("get_prfs_proof_types", { offset: pageParam as number });
         return prfsApi3({ type: "get_prfs_proof_types", offset: pageParam as number });
       },
       initialPageParam: 0,

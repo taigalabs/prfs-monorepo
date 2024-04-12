@@ -50,11 +50,7 @@ import {
   AttestationListItemDescTitle,
   AttestationFormBtnRow,
 } from "@/components/create_attestation/CreateAtstComponents";
-import {
-  AttestationsHeader,
-  AttestationsHeaderRow,
-  AttestationsTitle,
-} from "@/components/attestations/AttestationComponents";
+import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 
@@ -377,13 +373,11 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
 
   return (
     <>
-      <AttestationsHeader>
-        <AttestationsHeaderRow>
-          <AttestationsTitle className={styles.title}>
-            {i18n.create_twitter_acc_attestation}
-          </AttestationsTitle>
-        </AttestationsHeaderRow>
-      </AttestationsHeader>
+      <AppHeader>
+        <AppHeaderRow>
+          <AppTitle className={styles.title}>{i18n.create_twitter_acc_attestation}</AppTitle>
+        </AppHeaderRow>
+      </AppHeader>
       <div>
         <form>
           <ol>
