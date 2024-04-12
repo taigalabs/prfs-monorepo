@@ -31,7 +31,7 @@ const makeSlice = (initialState: GlobalMsgState) =>
   });
 
 interface GlobalMsg {
-  variant: "error" | "warn";
+  variant: "error" | "warn" | "info";
   message: string;
   notOverlay?: boolean;
   notDismissible?: boolean;

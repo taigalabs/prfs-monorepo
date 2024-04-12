@@ -23,8 +23,6 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
     return `${paths.c}/${channel.channel_id}`;
   }, [channel.channel_id]);
 
-  console.log(!1, styles);
-
   const {
     handleJoinShyChannel,
     handleSucceedGetSession,
