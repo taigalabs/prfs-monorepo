@@ -31,9 +31,9 @@ const HomeMasthead: React.FC<HomeMastheadProps> = () => {
         <MastheadRightGroupMenu className={styles.menu}>
           <PrfsAppsPopoverDefault disableMarkIsOpen />
         </MastheadRightGroupMenu>
-        <MastheadRightGroupMenu className={cn(styles.signInBtn, styles.menu)}>
-          <PrfsIdSignInBtn appId={PRFS_PROOF_APP_ID} />
-        </MastheadRightGroupMenu>
+        {/* <MastheadRightGroupMenu className={cn(styles.signInBtn, styles.menu)}> */}
+        {/*   <PrfsIdSignInBtn appId={PRFS_PROOF_APP_ID} /> */}
+        {/* </MastheadRightGroupMenu> */}
       </MastheadRightGroup>
     </MastheadWrapper>
   );

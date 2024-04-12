@@ -61,9 +61,9 @@ const AttestationsMasthead: React.FC<AttestationsMastheadProps> = ({
           >
             <PrfsAppsPopoverDefault />
           </MastheadRightGroupMenu>
-          <MastheadRightGroupMenu className={cn(styles.signInBtn)}>
-            <PrfsIdSignInBtn appId={PRFS_PROOF_APP_ID} />
-          </MastheadRightGroupMenu>
+          {/* <MastheadRightGroupMenu className={cn(styles.signInBtn)}> */}
+          {/*   <PrfsIdSignInBtn appId={PRFS_PROOF_APP_ID} /> */}
+          {/* </MastheadRightGroupMenu> */}
         </MastheadRightGroup>
       </MastheadMain>
     </MastheadWrapper>
