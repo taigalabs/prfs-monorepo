@@ -22,10 +22,7 @@ import { ShyChannelProofAction } from "@taigalabs/shy-entities/bindings/ShyChann
 import { EnterShyChannelToken } from "@taigalabs/shy-entities/bindings/EnterShyChannelToken";
 import { MerkleSigPosExactV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1PresetVals";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
-import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
-import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { MerkleSigPosExactV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1PublicInputs";
 import { useRouter } from "next/navigation";

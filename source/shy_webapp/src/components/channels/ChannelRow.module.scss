@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   padding: 14px 16px;
   border-bottom: 1px solid var(--bright-gray-32);
@@ -39,4 +41,20 @@
   color: var(--gray-30);
   font-size: 1.41em;
   vertical-align: middle;
+}
+
+.enterMenu {
+  padding-top: 12px;
+
+  > * {
+    display: inline-block;
+  }
+}
+
+.enterDesc {
+  padding-left: 14px;
+  color: var(--gray-40);
+}
+
+@media screen and (min-width: $big_display_min_width) {
 }

@@ -2,56 +2,28 @@ import React from "react";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { FiLock } from "@react-icons/all-files/fi/FiLock";
 import Link from "next/link";
-import {
-  API_PATH,
-  ProofGenArgs,
-  ProofGenSuccessPayload,
-  QueryType,
-  createSessionKey,
-  makeProofGenSearchParams,
-  openPopup,
-} from "@taigalabs/prfs-id-sdk-web";
-import {
-  JSONbigNative,
-  createRandomKeyPair,
-  decrypt,
-  makeRandInt,
-  rand256Hex,
-} from "@taigalabs/prfs-crypto-js";
-import { ShyChannelProofAction } from "@taigalabs/shy-entities/bindings/ShyChannelProofAction";
-import { EnterShyChannelToken } from "@taigalabs/shy-entities/bindings/EnterShyChannelToken";
-import { MerkleSigPosExactV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1PresetVals";
-import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
-import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { MerkleSigPosExactV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosExactV1PublicInputs";
 import { useRouter } from "next/navigation";
 
 import styles from "./ChannelRow.module.scss";
 import { paths } from "@/paths";
-import { SHY_APP_ID } from "@/app_id";
-import { PROOF } from "@/proof_gen_args";
-import { envs } from "@/envs";
-import { useAppDispatch } from "@/state/hooks";
-import { setGlobalMsg } from "@/state/globalMsgReducer";
-import { useGetShyProof } from "@/hooks/proof";
 import { useShyCache } from "@/hooks/user";
-import { removeCacheItem, setCacheItem } from "@/state/userReducer";
-import { makeEnterShyChannelCacheKey } from "@/cache";
-import { useJoinShyChannel } from "@/hooks/channel";
 import { useHandleJoinShyChannel } from "@/hooks/join_shy_channel";
+import Button from "../button/Button";
 
 const ChannelRow: React.FC<RowProps> = ({ channel }) => {
   const router = useRouter();
   const { shyCache, isCacheInitialized } = useShyCache();
   const i18n = usePrfsI18N();
+  const [showEnter, setShowEnter] = React.useState(false);
 
   const url = React.useMemo(() => {
     return `${paths.c}/${channel.channel_id}`;
   }, [channel.channel_id]);
+
+  console.log(!1, styles);
 
   const {
     handleJoinShyChannel,
@@ -67,12 +39,25 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
     async (e: React.MouseEvent) => {
       if (channel.type === "Closed") {
         e.preventDefault();
+        setShowEnter(v => !v);
+      } else {
+        router.push(url);
+      }
+    },
+    [channel, router, url, setShowEnter],
+  );
+
+  const handleClickEnter = React.useCallback(
+    async (e: React.MouseEvent) => {
+      if (channel.type === "Closed") {
+        e.preventDefault();
+        e.stopPropagation();
         handleJoinShyChannel();
       } else {
         router.push(url);
       }
     },
-    [channel, router, url, shyCache],
+    [channel, router, url],
   );
 
   if (!isCacheInitialized) {
@@ -94,6 +79,14 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
               __html: channel.desc,
             }}
           />
+          {showEnter && (
+            <div className={styles.enterMenu}>
+              <Button variant="green_1" handleClick={handleClickEnter}>
+                {i18n.enter}
+              </Button>
+              <p className={styles.enterDesc}>This channel requires proof to enter</p>
+            </div>
+          )}
         </div>
       </Link>
       <PrfsIdSessionDialog

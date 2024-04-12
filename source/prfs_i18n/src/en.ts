@@ -40,6 +40,7 @@ export default {
   member_id_commitment: "Member id commitment",
   encrypted_wallet_addr: "Encrypted wallet address",
   encrypted_member_id: "Encrypted member id",
+  enter: "Enter",
   total_value_usc: "Total value USc",
   claim_secret: "Claim secret",
   language: "Language",
