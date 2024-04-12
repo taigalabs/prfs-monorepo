@@ -9,7 +9,6 @@ members = [
   "externals/Spartan-secq",
   "externals/circuit_reader",
 
-
   # prfs lib
   "source/prfs_admin_credential",
   "source/prfs_rust_utils",
