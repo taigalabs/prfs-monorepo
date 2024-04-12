@@ -1251,6 +1251,9 @@ importers:
       '@lexical/mark':
         specifier: 0.14.3
         version: 0.14.3
+      '@lexical/markdown':
+        specifier: ^0.14.3
+        version: 0.14.3
       '@lexical/overflow':
         specifier: 0.14.3
         version: 0.14.3
@@ -1272,6 +1275,12 @@ importers:
       '@lexical/utils':
         specifier: 0.14.3
         version: 0.14.3
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
       katex:
         specifier: ^0.15.2
         version: 0.15.6
@@ -1281,6 +1290,9 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      next:
+        specifier: 14.1.4
+        version: 14.1.4(@babel/core@7.24.0)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
       prettier:
         specifier: ^2.3.2
         version: 2.7.1
@@ -22260,7 +22272,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       sass: 1.63.6
-      styled-jsx: 5.1.1(@babel/core@7.24.0)(react@18.2.0)
+      styled-jsx: 5.1.1(@babel/core@7.23.3)(react@18.2.0)
     optionalDependencies:
       '@next/swc-darwin-arm64': 14.1.4
       '@next/swc-darwin-x64': 14.1.4

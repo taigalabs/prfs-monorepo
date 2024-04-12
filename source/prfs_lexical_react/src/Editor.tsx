@@ -75,7 +75,7 @@ const skipCollaborationInit =
   // @ts-expect-error
   window.parent != null && window.parent.frames.right === window;
 
-export default function Editor(): JSX.Element {
+const Editor: React.FC = () => {
   const { historyState } = useSharedHistoryContext();
   const {
     settings: {
@@ -92,6 +92,8 @@ export default function Editor(): JSX.Element {
       tableCellBackgroundColor,
     },
   } = useSettings();
+
+  console.log(11, isCollab);
   const isEditable = useLexicalEditable();
   const text = isCollab
     ? "Enter some collaborative rich text..."
@@ -186,4 +188,6 @@ export default function Editor(): JSX.Element {
       {/* {showTreeView && <TreeViewPlugin />} */}
     </>
   );
-}
+};
+
+export default Editor;
