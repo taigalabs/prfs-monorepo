@@ -2,17 +2,12 @@
 
 import React from "react";
 import cn from "classnames";
-import { useRouter } from "next/navigation";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 
 import styles from "./Sets.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { consolePaths } from "@/paths";
 import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 import SetLeftBar from "./SetLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
-import { useSignedInProofUser } from "@/hooks/user";
 import AppLogo from "@/components/app_logo/AppLogo";
 import SetsMasthead from "@/components/sets_masthead/SetsMasthead";
 import { urls } from "@/urls";
@@ -21,16 +16,6 @@ const Sets: React.FC<SetsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
-  const { isInitialized, prfsProofCredential } = useSignedInProofUser();
-  const router = useRouter();
-
-  React.useEffect(() => {
-    if (isInitialized) {
-      if (prfsProofCredential === null) {
-        router.push(consolePaths.accounts);
-      }
-    }
-  }, [isInitialized, prfsProofCredential, router]);
 
   const handleClickShowLeftBar = React.useCallback(
     (open?: boolean) => {
@@ -54,11 +39,7 @@ const Sets: React.FC<SetsProps> = ({ children }) => {
     [setIsLeftBarDrawerVisible],
   );
 
-  if (!isInitialized) {
-    <div className={styles.loading}>Loading...</div>;
-  }
-
-  return prfsProofCredential ? (
+  return (
     <>
       <SetsMasthead
         handleClickShowLeftBar={handleClickShowLeftBar}
@@ -82,10 +63,6 @@ const Sets: React.FC<SetsProps> = ({ children }) => {
         {children}
       </div>
     </>
-  ) : (
-    <div className={styles.loading}>
-      <Spinner size={32} color={colors.gray_32} />
-    </div>
   );
 };
 
