@@ -62,9 +62,9 @@ const ProofTypeSelectedMasthead: React.FC<ProofTypeMastheadProps> = ({
           >
             <PrfsAppsPopoverDefault />
           </MastheadRightGroupMenu>
-          <MastheadRightGroupMenu className={cn(styles.signInBtn)}>
-            <PrfsIdSignInBtn appId={PRFS_PROOF_APP_ID} />
-          </MastheadRightGroupMenu>
+          {/* <MastheadRightGroupMenu className={cn(styles.signInBtn)}> */}
+          {/*   <PrfsIdSignInBtn appId={PRFS_PROOF_APP_ID} /> */}
+          {/* </MastheadRightGroupMenu> */}
         </MastheadRightGroup>
       </MastheadMain>
     </MastheadWrapper>
