@@ -6,7 +6,7 @@ import Link from "next/link";
 import { BsBook } from "@react-icons/all-files/bs/BsBook";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 
-import styles from "./ProofTypeMasthead.module.scss";
+import styles from "./AppMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 import PrfsAppsPopoverDefault from "@/components/prfs_apps_popover_default/PrfsAppsPopoverDefault";
@@ -22,7 +22,9 @@ import AppLogo from "@/components/app_logo/AppLogo";
 import { paths } from "@/paths";
 import { PRFS_PROOF_APP_ID } from "@/app_id";
 
-const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
+const AppMasthead: React.FC<AttestationsMastheadProps> = ({
+  appLabel,
+  appUrl,
   handleClickShowLeftBar,
   handleClickShowLeftBarDrawer,
 }) => {
@@ -31,17 +33,13 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   return (
     <MastheadWrapper smallPadding tallHeight>
       <div className={styles.leftBarBtn}>
-        <AppLogo
-          handleClickShowLeftBar={handleClickShowLeftBar}
-          url={paths.attestations}
-          label={i18n.attestations}
-        />
+        <AppLogo handleClickShowLeftBar={handleClickShowLeftBar} url={appUrl} label={appLabel} />
       </div>
       <div className={styles.leftBarDrawerBtn}>
         <AppLogo
           handleClickShowLeftBar={handleClickShowLeftBarDrawer}
-          url={paths.proof_types}
-          label={i18n.proof_types}
+          url={paths.attestations}
+          label={i18n.attestations}
         />
       </div>
       <MastheadMain>
@@ -61,18 +59,20 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
           >
             <PrfsAppsPopoverDefault />
           </MastheadRightGroupMenu>
-          <MastheadRightGroupMenu className={cn(styles.signInBtn)}>
-            <PrfsIdSignInBtn appId={PRFS_PROOF_APP_ID} />
-          </MastheadRightGroupMenu>
+          {/* <MastheadRightGroupMenu className={cn(styles.signInBtn)}> */}
+          {/*   <PrfsIdSignInBtn appId={PRFS_PROOF_APP_ID} /> */}
+          {/* </MastheadRightGroupMenu> */}
         </MastheadRightGroup>
       </MastheadMain>
     </MastheadWrapper>
   );
 };
 
-export default ProofTypeMasthead;
+export default AppMasthead;
 
-export interface ProofTypeMastheadProps {
+export interface AttestationsMastheadProps {
+  appLabel: string;
+  appUrl: string;
   handleClickShowLeftBar: (bool?: boolean) => void;
   handleClickShowLeftBarDrawer: (bool?: boolean) => void;
 }

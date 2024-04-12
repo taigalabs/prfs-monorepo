@@ -9,7 +9,7 @@ import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import styles from "./Attestations.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
+import AppMasthead from "@/components/app_masthead/AppMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 import AttestationLeftBar from "./AttestationLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
@@ -53,7 +53,9 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   return (
     <>
       <GlobalErrorDialog />
-      <AttestationsMasthead
+      <AppMasthead
+        appLabel={i18n.attestations}
+        appUrl={paths.attestations}
         handleClickShowLeftBar={handleClickShowLeftBar}
         handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
       />

@@ -9,7 +9,7 @@ use crate::{entities::PrfsProofType, PrfsProofTypeSyn1};
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsProofTypesRequest {
-    pub experimental: bool,
+    pub experimental: Option<bool>,
     pub offset: i32,
 }
 
