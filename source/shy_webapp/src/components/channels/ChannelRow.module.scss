@@ -46,7 +46,8 @@
 .enterMenu {
   padding-top: 12px;
 
-  > * {
+  > button,
+  p {
     display: inline-block;
   }
 }

@@ -79,7 +79,7 @@ const ChannelRow: React.FC<RowProps> = ({ channel }) => {
           />
           {showEnter && (
             <div className={styles.enterMenu}>
-              <Button variant="green_1" handleClick={handleClickEnter}>
+              <Button className={styles.enterBtn} variant="green_1" handleClick={handleClickEnter}>
                 {i18n.enter}
               </Button>
               <p className={styles.enterDesc}>This channel requires proof to enter</p>
