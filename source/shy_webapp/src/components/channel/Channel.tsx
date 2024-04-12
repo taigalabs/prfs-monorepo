@@ -87,7 +87,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
                   <ChannelMenu channelId={channel.channel_id} />
                   <TopicList
                     parentRef={parentRef}
-                    channelId={channel.channel_id}
+                    channel={channel}
                     placeholder={boardPlaceholderElem}
                   />
                 </>
