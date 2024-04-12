@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import Link from "next/link";
-import { FaBitcoin } from "@react-icons/all-files/fa/FaBitcoin";
+import { FaFolder } from "@react-icons/all-files/fa/FaFolder";
 import { usePathname } from "next/navigation";
 
 import styles from "./AttestationLeftBar.module.scss";
@@ -44,13 +44,13 @@ const SetLeftBar: React.FC<AttestationLeftBarProps> = () => {
         <LeftBarItem>
           <Link href={paths.sets__crypto_holders}>
             <LeftBarItemButton isHighlighted={name === CRYPTO_HOLDERS}>
-              <FaBitcoin />
+              <FaFolder />
               <span>{i18n.crypto_holders}</span>
             </LeftBarItemButton>
           </Link>
           <Link href={`${paths.sets}/${NONCE_SEOUL_1}`}>
             <LeftBarItemButton isHighlighted={name === NONCE_SEOUL_1}>
-              <FaBitcoin />
+              <FaFolder />
               <span>Nonce Seoul community</span>
             </LeftBarItemButton>
           </Link>
