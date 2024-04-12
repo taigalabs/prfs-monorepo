@@ -3,15 +3,15 @@
 import React from "react";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 import { AlertContent, AlertWrapper } from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
+import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 
 import styles from "./CryptoAssetAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import CryptoSizeAtstTable from "./CryptoAssetAtstTable";
 import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
-import { AttestationsTopMenu } from "@/components/sets/SetComponents";
+import { AppTopMenu } from "@/components/app_components/AppComponents";
 import { useSignedInProofUser } from "@/hooks/user";
 import ComputeTotalValueDialog from "./ComputeTotalValue";
-import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 
 const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -27,13 +27,13 @@ const CryptoAssetAtstList: React.FC<CryptoSizeAtstListProps> = () => {
       <AppHeader>
         <AppHeaderRow>
           <AppTitle className={styles.title}>{i18n.crypto_asset_attestations}</AppTitle>
-          <AttestationsTopMenu>
+          <AppTopMenu className={styles.topMenu}>
             {isMaster && (
               <li>
                 <ComputeTotalValueDialog credential={prfsProofCredential!} rerender={rerender} />
               </li>
             )}
-          </AttestationsTopMenu>
+          </AppTopMenu>
         </AppHeaderRow>
         <AppHeaderRow>
           <AlertWrapper variant="warn" rounded>

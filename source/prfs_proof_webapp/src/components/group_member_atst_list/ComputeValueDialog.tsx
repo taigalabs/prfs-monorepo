@@ -127,7 +127,9 @@ const ComputeValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential
   const createBase = React.useCallback(() => {
     return (
       <Button variant="circular_gray_1">
-        <FaCalculator />
+        <div className={styles.inner}>
+          <FaCalculator />
+        </div>
       </Button>
     );
   }, []);

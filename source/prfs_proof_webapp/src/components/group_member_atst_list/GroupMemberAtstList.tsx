@@ -8,7 +8,7 @@ import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 import styles from "./GroupMemberAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
-import { AttestationsTopMenu } from "@/components/sets/SetComponents";
+import { AppTopMenu } from "@/components/app_components/AppComponents";
 import { useSignedInProofUser } from "@/hooks/user";
 import ComputeValueDialog from "./ComputeValueDialog";
 import GroupMemberAtstTable from "./GroupMemberAtstTable";
@@ -24,13 +24,13 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id 
       <AppHeader>
         <AppHeaderRow>
           <AppTitle className={styles.title}>{i18n.group_member_attestations}</AppTitle>
-          <AttestationsTopMenu>
+          <AppTopMenu className={styles.topMenu}>
             {isMaster && (
               <li>
                 <ComputeValueDialog credential={prfsProofCredential!} rerender={rerender} />
               </li>
             )}
-          </AttestationsTopMenu>
+          </AppTopMenu>
         </AppHeaderRow>
         <AppHeaderRow>
           <AlertWrapper variant="warn" rounded>
