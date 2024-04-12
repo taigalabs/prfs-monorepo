@@ -14,6 +14,8 @@ import {
   $isRangeSelection,
   $createParagraphNode,
   $getNodeByKey,
+  BaseSelection,
+  LexicalEditor,
 } from "lexical";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { $isParentElementRTL, $wrapNodes, $isAtNodeEnd } from "@lexical/selection";
@@ -40,7 +42,7 @@ const LowPriority = 1;
 
 const supportedBlockTypes = new Set(["paragraph", "quote", "code", "h1", "h2", "ul", "ol"]);
 
-const blockTypeToBlockName = {
+const blockTypeToBlockName: any = {
   code: "Code Block",
   h1: "Large Heading",
   h2: "Small Heading",
@@ -57,7 +59,7 @@ function Divider() {
   return <div className="divider" />;
 }
 
-function positionEditorElement(editor, rect) {
+function positionEditorElement(editor: HTMLDivElement, rect: any) {
   if (rect === null) {
     editor.style.opacity = "0";
     editor.style.top = "-1000px";
@@ -71,13 +73,13 @@ function positionEditorElement(editor, rect) {
   }
 }
 
-function FloatingLinkEditor({ editor }) {
-  const editorRef = useRef(null);
-  const inputRef = useRef(null);
+const FloatingLinkEditor: React.FC<FloatingLinkEditorProps> = ({ editor }) => {
+  const editorRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const mouseDownRef = useRef(false);
   const [linkUrl, setLinkUrl] = useState("");
   const [isEditMode, setEditMode] = useState(false);
-  const [lastSelection, setLastSelection] = useState(null);
+  const [lastSelection, setLastSelection] = useState<BaseSelection | null>(null);
 
   const updateLinkEditor = useCallback(() => {
     const selection = $getSelection();
@@ -100,6 +102,10 @@ function FloatingLinkEditor({ editor }) {
       return;
     }
 
+    if (nativeSelection === null) {
+      return;
+    }
+
     const rootElement = editor.getRootElement();
     if (
       selection !== null &&
@@ -112,7 +118,7 @@ function FloatingLinkEditor({ editor }) {
       if (nativeSelection.anchorNode === rootElement) {
         let inner = rootElement;
         while (inner.firstElementChild != null) {
-          inner = inner.firstElementChild;
+          inner = inner.firstElementChild as any;
         }
         rect = inner.getBoundingClientRect();
       } else {
@@ -209,22 +215,22 @@ function FloatingLinkEditor({ editor }) {
       )}
     </div>
   );
-}
+};
 
-function Select({ onChange, className, options, value }) {
+const Select: React.FC<any> = ({ onChange, className, options, value }) => {
   return (
     <select className={className} onChange={onChange} value={value}>
       <option hidden={true} value="" />
-      {options.map(option => (
+      {options.map((option: any) => (
         <option key={option} value={option}>
           {option}
         </option>
       ))}
     </select>
   );
-}
+};
 
-function getSelectedNode(selection) {
+function getSelectedNode(selection: any) {
   const anchor = selection.anchor;
   const focus = selection.focus;
   const anchorNode = selection.anchor.getNode();
@@ -240,8 +246,13 @@ function getSelectedNode(selection) {
   }
 }
 
-function BlockOptionsDropdownList({ editor, blockType, toolbarRef, setShowBlockOptionsDropDown }) {
-  const dropDownRef = useRef(null);
+const BlockOptionsDropdownList: React.FC<BlockOptionsDropdownListProps> = ({
+  editor,
+  blockType,
+  toolbarRef,
+  setShowBlockOptionsDropDown,
+}) => {
+  const dropDownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const toolbar = toolbarRef.current;
@@ -259,13 +270,13 @@ function BlockOptionsDropdownList({ editor, blockType, toolbarRef, setShowBlockO
     const toolbar = toolbarRef.current;
 
     if (dropDown !== null && toolbar !== null) {
-      const handle = event => {
-        const target = event.target;
+      function handle(this: Document, event: MouseEvent) {
+        const target = event.target as any;
 
-        if (!dropDown.contains(target) && !toolbar.contains(target)) {
+        if (!dropDown!.contains(target) && !toolbar!.contains(target)) {
           setShowBlockOptionsDropDown(false);
         }
-      };
+      }
       document.addEventListener("click", handle);
 
       return () => {
@@ -315,18 +326,18 @@ function BlockOptionsDropdownList({ editor, blockType, toolbarRef, setShowBlockO
 
   const formatBulletList = () => {
     if (blockType !== "ul") {
-      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND);
+      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
     } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND);
+      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     }
     setShowBlockOptionsDropDown(false);
   };
 
   const formatNumberedList = () => {
     if (blockType !== "ol") {
-      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND);
+      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
     } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND);
+      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     }
     setShowBlockOptionsDropDown(false);
   };
@@ -396,15 +407,15 @@ function BlockOptionsDropdownList({ editor, blockType, toolbarRef, setShowBlockO
       </button>
     </div>
   );
-}
+};
 
 const ToolbarPlugin2 = () => {
   const [editor] = useLexicalComposerContext();
-  const toolbarRef = useRef(null);
+  const toolbarRef = useRef<HTMLDivElement | null>(null);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
   const [blockType, setBlockType] = useState("paragraph");
-  const [selectedElementKey, setSelectedElementKey] = useState(null);
+  const [selectedElementKey, setSelectedElementKey] = useState<string | null>(null);
   const [showBlockOptionsDropDown, setShowBlockOptionsDropDown] = useState(false);
   const [codeLanguage, setCodeLanguage] = useState("");
   const [isRTL, setIsRTL] = useState(false);
@@ -492,7 +503,7 @@ const ToolbarPlugin2 = () => {
 
   const codeLanguges = useMemo(() => getCodeLanguages(), []);
   const onCodeLanguageSelect = useCallback(
-    e => {
+    (e: any) => {
       editor.update(() => {
         if (selectedElementKey !== null) {
           const node = $getNodeByKey(selectedElementKey);
@@ -518,7 +529,7 @@ const ToolbarPlugin2 = () => {
       <button
         disabled={!canUndo}
         onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND);
+          editor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
         className="toolbar-item spaced"
         aria-label="Undo"
@@ -528,7 +539,7 @@ const ToolbarPlugin2 = () => {
       <button
         disabled={!canRedo}
         onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND);
+          editor.dispatchCommand(REDO_COMMAND, undefined);
         }}
         className="toolbar-item"
         aria-label="Redo"
@@ -669,3 +680,14 @@ const ToolbarPlugin2 = () => {
 };
 
 export default ToolbarPlugin2;
+
+export interface FloatingLinkEditorProps {
+  editor: LexicalEditor;
+}
+
+export interface BlockOptionsDropdownListProps {
+  editor: LexicalEditor;
+  blockType: string;
+  toolbarRef: React.MutableRefObject<HTMLDivElement | null>;
+  setShowBlockOptionsDropDown: any;
+}
