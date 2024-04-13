@@ -6,15 +6,10 @@ use crate::paths::PATHS;
 
 pub fn get_shy_channels_seed() -> Vec<ShyChannel> {
     let crypto_holders_desc =
-        read_md_file(&PATHS.data_seed.join("shy_channels/crypto_holders.md")).unwrap();
-    let korean_crypto_holders_desc = read_md_file(
-        &PATHS
-            .data_seed
-            .join("shy_channels/korean_crypto_holders.md"),
-    )
-    .unwrap();
-    let nonce_seoul_md =
-        read_md_file(&PATHS.data_seed.join("shy_channels/nonce_seoul.md")).unwrap();
+        read_md_file(&PATHS.data.join("shy_channels/crypto_holders.md")).unwrap();
+    let korean_crypto_holders_desc =
+        read_md_file(&PATHS.data.join("shy_channels/korean_crypto_holders.md")).unwrap();
+    let nonce_seoul_md = read_md_file(&PATHS.data.join("shy_channels/nonce_seoul.md")).unwrap();
 
     let channels = vec![
         ShyChannel {

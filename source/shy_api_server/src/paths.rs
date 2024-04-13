@@ -11,8 +11,7 @@ lazy_static! {
 #[derive(Debug)]
 pub struct Paths {
     pub package_root: PathBuf,
-    pub data_seed: PathBuf,
-    pub data_seed__json_bindings: PathBuf,
+    pub data: PathBuf,
 }
 
 impl Paths {
@@ -20,16 +19,9 @@ impl Paths {
         let project_root = get_project_root();
         let package_root = project_root.join("source/shy_api_server");
 
-        let data_seed = project_root.join("source/shy_api_server/data_seed");
+        let data = project_root.join("source/shy_api_server/data_seed");
 
-        #[allow(non_snake_case)]
-        let data_seed__json_bindings = data_seed.join("json_bindings");
-
-        let p = Paths {
-            package_root,
-            data_seed,
-            data_seed__json_bindings,
-        };
+        let p = Paths { package_root, data };
 
         println!(
             "{} paths, pkg: {}, Paths: {:#?}",
