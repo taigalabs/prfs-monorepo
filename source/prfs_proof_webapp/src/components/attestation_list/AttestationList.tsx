@@ -17,7 +17,6 @@ const AttestationList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) =
   const i18n = React.useContext(i18nContext);
   const { prfsProofCredential } = useSignedInProofUser();
   const { nonce, rerender } = useRerender();
-  const isMaster = isMasterAccount(prfsProofCredential?.account_id);
 
   return (
     <>

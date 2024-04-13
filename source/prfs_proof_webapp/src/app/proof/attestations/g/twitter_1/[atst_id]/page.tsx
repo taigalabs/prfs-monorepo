@@ -13,9 +13,7 @@ const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({
         <Suspense>
           <Attestations>
             <AppMain>
-              <AppMainInner>
-                <AccAtstDetail atst_id={params.atst_id} />
-              </AppMainInner>
+              <AppMainInner>{/* <AccAtstDetail atst_id={params.atst_id} /> */}</AppMainInner>
             </AppMain>
           </Attestations>
         </Suspense>

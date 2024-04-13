@@ -301,7 +301,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         }
 
         if (payload) {
-          router.push(paths.attestations__twitter);
+          router.push(`${paths.attestations}/g/twitter`);
         }
       }
     }

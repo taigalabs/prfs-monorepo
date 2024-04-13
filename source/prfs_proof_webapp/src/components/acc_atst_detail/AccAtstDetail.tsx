@@ -52,7 +52,7 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ atst_id }) => {
     atst && (
       <div className={styles.wrapper}>
         <AttestationDetailTopMenuRow>
-          <Link href={paths.attestations__twitter}>
+          <Link href={`${paths.attestations}/g/twitter`}>
             <ButtonCircleContainer>
               <FaArrowLeft />
             </ButtonCircleContainer>

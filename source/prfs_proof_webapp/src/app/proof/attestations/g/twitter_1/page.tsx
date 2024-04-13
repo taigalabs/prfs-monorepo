@@ -13,9 +13,7 @@ const TwitterAttestionPage = () => {
         <Suspense>
           <Attestations>
             <AppMain>
-              <AppMainInner>
-                <TwitterAccAtstList />
-              </AppMainInner>
+              <AppMainInner>{/* <TwitterAccAtstList /> */}</AppMainInner>
             </AppMain>
           </Attestations>
         </Suspense>

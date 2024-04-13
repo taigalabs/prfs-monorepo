@@ -43,7 +43,7 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
       </LeftBarTopMenu>
       <LeftBarMenu>
         <LeftBarItem>
-          <Link href={paths.attestations__crypto_asset}>
+          <Link href={`${paths.attestations}/g/crypto_1`}>
             <LeftBarItemButton isHighlighted={name === CRYPTO_ASSET}>
               <FaBitcoin />
               <span>{i18n.crypto_asset}</span>
@@ -51,7 +51,7 @@ const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
           </Link>
         </LeftBarItem>
         <LeftBarItem>
-          <Link href={paths.attestations__group_member}>
+          <Link href={`${paths.attestations}/g/nonce_seoul_1`}>
             <LeftBarItemButton isHighlighted={name === GROUP_MEMBER}>
               <MdGroup />
               <span>{i18n.group_member}</span>

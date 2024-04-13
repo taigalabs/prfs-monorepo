@@ -38,7 +38,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
 
   const handleClickRow = React.useCallback(() => {
     setIsNavigating(true);
-    router.push(`${paths.attestations__crypto_asset}/${atst.atst_id}`);
+    router.push(`${paths.attestations}/g/${atst.atst_group_id}/${atst.atst_id}`);
   }, [atst.atst_id, router, setIsNavigating]);
 
   const cryptoAssets = React.useMemo(() => {

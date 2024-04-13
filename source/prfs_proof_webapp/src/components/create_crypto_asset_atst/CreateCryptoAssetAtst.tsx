@@ -251,7 +251,7 @@ const CreateCryptoAssetAtst: React.FC<CreateCryptoSizeAttestationProps> = () => 
 
           if (payload) {
             setIsNavigating(true);
-            router.push(paths.attestations__crypto_asset);
+            router.push(`${paths.attestations}/g/crypto_1`);
           }
 
           await addPrfsIndexRequest({

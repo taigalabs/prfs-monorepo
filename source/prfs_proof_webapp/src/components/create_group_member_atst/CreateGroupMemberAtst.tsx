@@ -242,7 +242,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
 
         if (payload) {
           setIsNavigating(true);
-          router.push(paths.attestations__group_member);
+          router.push(`${paths.attestations}/g/nonce_seoul_1`);
         }
 
         await addPrfsIndexRequest({
