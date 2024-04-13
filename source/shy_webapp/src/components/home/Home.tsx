@@ -16,10 +16,9 @@ const Home: React.FC<HomeProps> = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    if (isCredentialInitialized && !shyCredential) {
-      router.push(`${paths.account__sign_in}`);
-    }
-
+    // if (isCredentialInitialized && !shyCredential) {
+    //   router.push(`${paths.account__sign_in}`);
+    // }
     if (isCredentialInitialized && isFirstTime) {
       router.push(paths.account__welcome);
     }
