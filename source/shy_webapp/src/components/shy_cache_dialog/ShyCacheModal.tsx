@@ -1,9 +1,9 @@
-import React, { useId } from "react";
+import React from "react";
+import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./ShyCacheModal.module.scss";
 import { LocalShyCache } from "@/storage/shy_cache";
-import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
-import Button from "../button/Button";
+import Button from "@/components/button/Button";
 
 const ShyCacheModal: React.FC<ShyCacheDialogProps> = ({
   shyCache,
