@@ -9,7 +9,7 @@ import { paths } from "@/paths";
 import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 import ProofTypeLeftBar from "./ProofTypeLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
-import { LeftBarContainer } from "@/components/left_bar/LeftBar";
+import { LeftBarContainer } from "@/components/left_bar/LeftBarComponents";
 import AppLogo from "@/components/app_logo/AppLogo";
 import AppMasthead from "@/components/app_masthead/AppMasthead";
 

@@ -14,7 +14,7 @@ import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 import AttestationLeftBar from "./AttestationLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInProofUser } from "@/hooks/user";
-import { LeftBarContainer } from "@/components/left_bar/LeftBar";
+import { LeftBarContainer } from "@/components/left_bar/LeftBarComponents";
 import AppLogo from "@/components/app_logo/AppLogo";
 import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
 
@@ -22,7 +22,7 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
-  const { isInitialized, prfsProofCredential } = useSignedInProofUser();
+  // const { isInitialized, prfsProofCredential } = useSignedInProofUser();
 
   const handleClickShowLeftBar = React.useCallback(
     (open?: boolean) => {
@@ -46,9 +46,9 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
     [setIsLeftBarDrawerVisible],
   );
 
-  if (!isInitialized) {
-    <div className={styles.loading}>Loading...</div>;
-  }
+  // if (!isInitialized) {
+  //   <div className={styles.loading}>Loading...</div>;
+  // }
 
   return (
     <>

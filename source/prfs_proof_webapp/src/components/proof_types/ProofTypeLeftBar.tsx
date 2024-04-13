@@ -14,7 +14,7 @@ import {
   LeftBarMenu,
   LeftBarTopMenu,
   LeftBarWrapper,
-} from "@/components/left_bar/LeftBar";
+} from "@/components/left_bar/LeftBarComponents";
 import ActiveLink from "@taigalabs/prfs-react-lib/src/active_link/ActiveLink";
 
 const ProofTypeLeftbar: React.FC<AttestationLeftBarProps> = () => {

@@ -14,7 +14,7 @@ import {
   LeftBarMenu,
   LeftBarTopMenu,
   LeftBarWrapper,
-} from "@/components/left_bar/LeftBar";
+} from "@/components/left_bar/LeftBarComponents";
 
 const AttestationLeftBar: React.FC<AttestationLeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);

@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./LeftBar.module.scss";
+import styles from "./LeftBarComponents.module.scss";
 
 export const LeftBarDrawerContainer: React.FC<LeftBarItemProps> = ({ children, className }) => {
   return <div className={cn(styles.leftBarDrawerContainer, className)}>{children}</div>;
@@ -34,18 +34,6 @@ export const LeftBarTopMenu: React.FC<LeftBarItemProps> = ({ children, className
 export const LeftBarItem: React.FC<LeftBarItemProps> = ({ children, className }) => {
   return <div className={cn(styles.item, className)}>{children}</div>;
 };
-
-// export const LeftBarItemButton: React.FC<LeftBarItemButtonProps> = ({
-//   children,
-//   className,
-//   disabled,
-// }) => {
-//   return (
-//     <button className={cn(styles.itemButton, className, {})} type="button" disabled={disabled}>
-//       {children}
-//     </button>
-//   );
-// };
 
 export const LeftBarMenu: React.FC<LeftBarItemProps> = ({ children, className, category }) => {
   return (
