@@ -22,7 +22,7 @@ import {
   AttestationTableCell,
   AttestationTableNoRecord,
   AttestationLoading,
-} from "@/components/attestations_table/AttestationsTable";
+} from "@/components/atst_table_components/AtstTableComponents";
 import { useI18N } from "@/i18n/use_i18n";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating }) => {
@@ -100,7 +100,7 @@ const CryptoAssetAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => 
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_prfs_attestations_by_atst_group_id", nonce],
+      queryKey: ["get_prfs_attestations_by_atst_type", nonce],
       queryFn: async ({ pageParam }) => {
         const req: GetPrfsAttestationsByAtstGroupIdRequest = {
           atst_group_id: "crypto_1",

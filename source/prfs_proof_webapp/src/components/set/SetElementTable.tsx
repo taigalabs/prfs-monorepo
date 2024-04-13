@@ -16,7 +16,7 @@ import {
   AttestationTableRow,
   AttestationTableBodyInner,
   AttestationTableCell,
-} from "@/components/attestations_table/AttestationsTable";
+} from "@/components/atst_table_components/AtstTableComponents";
 import { paths } from "@/paths";
 
 const Row: React.FC<RowProps> = ({ row, style, router }) => {

@@ -11,7 +11,7 @@ import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entitie
 import Link from "next/link";
 import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
 
-import styles from "./GroupMemberAtstTable.module.scss";
+import styles from "./AttestationTable.module.scss";
 import { paths } from "@/paths";
 import {
   AttestationTableBody,
@@ -22,7 +22,7 @@ import {
   AttestationTableCell,
   AttestationTableNoRecord,
   AttestationLoading,
-} from "@/components/attestations_table/AttestationsTable";
+} from "@/components/atst_table_components/AtstTableComponents";
 import { useI18N } from "@/i18n/use_i18n";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating }) => {

@@ -11,7 +11,7 @@ import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/A
 import { AppTopMenu } from "@/components/app_components/AppComponents";
 import { useSignedInProofUser } from "@/hooks/user";
 import ComputeValueDialog from "./ComputeValueDialog";
-import GroupMemberAtstTable from "./GroupMemberAtstTable";
+import AttestationTable from "./AttestationTable";
 
 const AttestationList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) => {
   const i18n = React.useContext(i18nContext);
@@ -26,13 +26,13 @@ const AttestationList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) =
           <AppTitle className={styles.title}>
             {i18n.attestations} ({atst_group_id})
           </AppTitle>
-          <AppTopMenu className={styles.topMenu}>
-            {isMaster && (
-              <li>
-                <ComputeValueDialog credential={prfsProofCredential!} rerender={rerender} />
-              </li>
-            )}
-          </AppTopMenu>
+        </AppHeaderRow>
+        <AppHeaderRow>
+          <ul className={styles.topMenu}>
+            <li>
+              <ComputeValueDialog credential={prfsProofCredential!} rerender={rerender} />
+            </li>
+          </ul>
         </AppHeaderRow>
         <AppHeaderRow>
           <AlertWrapper variant="warn" rounded>
@@ -45,7 +45,7 @@ const AttestationList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) =
         </AppHeaderRow>
       </AppHeader>
       <div>
-        <GroupMemberAtstTable nonce={nonce} atst_group_id={atst_group_id} />
+        <AttestationTable nonce={nonce} atst_group_id={atst_group_id} />
       </div>
     </>
   );

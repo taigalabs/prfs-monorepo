@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./AttestationsTable.module.scss";
+import styles from "./AtstTableComponents.module.scss";
 
 export const AttestationTableBody: React.FC<AttestationsProps> = ({
   children,

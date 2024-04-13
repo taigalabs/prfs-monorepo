@@ -5,7 +5,6 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { ComputeCryptoAssetTotalValuesRequest } from "@taigalabs/prfs-entities/bindings/ComputeCryptoAssetTotalValuesRequest";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 
 import styles from "./ComputeValueDialog.module.scss";
@@ -19,7 +18,6 @@ import {
   DefaultModalWrapper,
 } from "@/components/dialog_default/DialogComponents";
 import { CommonStatus } from "@/components/common_status/CommonStatus";
-import { useI18N } from "@/i18n/use_i18n";
 
 const Modal: React.FC<ModalProps> = ({
   setIsOpen,
@@ -79,7 +77,6 @@ const Modal: React.FC<ModalProps> = ({
 };
 
 const ComputeValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential, rerender }) => {
-  const i18n = useI18N();
   const [isOpen, setIsOpen] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const { mutateAsync: computeCryptoTotalValuesRequest, isPending } = useMutation({
@@ -129,19 +126,14 @@ const ComputeValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential
 
   const createBase = React.useCallback(() => {
     return (
-      <Button
-        variant="transparent_blue_3"
-        noTransition
-        type="button"
-        disabled={!isMasterAccount(credential?.account_id)}
-      >
-        <div className={styles.btnContent}>
+      <Button variant="circular_gray_1">
+        <div className={styles.inner}>
+          3333
           <FaCalculator />
-          <span>{i18n.calculate_values}</span>
         </div>
       </Button>
     );
-  }, [credential]);
+  }, []);
 
   React.useEffect(() => {
     if (isOpen) {

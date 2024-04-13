@@ -19,7 +19,7 @@ import {
   AttestationTableBodyInner,
   AttestationTableCell,
   AttestationLoading,
-} from "@/components/attestations_table/AttestationsTable";
+} from "@/components/atst_table_components/AtstTableComponents";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   const i18n = React.useContext(i18nContext);
