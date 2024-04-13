@@ -29,8 +29,6 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
   const i18n = usePrfsI18N();
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
-  const { isCredentialInitialized, shyCredential } = useSignedInShyUser();
-  const router = useRouter();
 
   const {
     data: channelData,
@@ -45,13 +43,6 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
   const channel = channelData?.payload?.shy_channel;
 
   React.useEffect(() => {
-    if (isCredentialInitialized && !shyCredential) {
-      const href = encodeURI(window.location.href);
-      router.push(`${paths.account__sign_in}?${searchParamKeys.continue}=${href}`);
-    }
-  }, [isCredentialInitialized, router, shyCredential]);
-
-  React.useEffect(() => {
     if (error) {
       console.error("err fetchin data: %o", error);
     }
@@ -63,7 +54,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
     return "No post has been made yet";
   }, []);
 
-  return shyCredential ? (
+  return (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
       <GlobalHeader />
       <InfiniteScrollInner>
@@ -98,10 +89,6 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
         <InfiniteScrollRight>{null}</InfiniteScrollRight>
       </InfiniteScrollInner>
     </InfiniteScrollWrapper>
-  ) : (
-    <>
-      <Loading>Loading</Loading>
-    </>
   );
 };
 

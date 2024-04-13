@@ -17,7 +17,6 @@ import {
   InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
-import { paths, searchParamKeys } from "@/paths";
 import ChannelMeta from "@/components/channel/ChannelMeta";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
@@ -38,16 +37,9 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
   const { rerender, nonce } = useRerender();
   const channel = channelData?.payload?.shy_channel;
 
-  React.useEffect(() => {
-    if (isCredentialInitialized && !shyCredential) {
-      const href = encodeURI(window.location.href);
-      router.push(`${paths.account__sign_in}?${searchParamKeys.continue}=${href}`);
-    }
-  }, [isCredentialInitialized, router, shyCredential]);
-
   const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
 
-  return shyCredential ? (
+  return (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
       <GlobalHeader />
       <InfiniteScrollInner>
@@ -81,13 +73,6 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
         <InfiniteScrollRight>{null}</InfiniteScrollRight>
       </InfiniteScrollInner>
     </InfiniteScrollWrapper>
-  ) : (
-    <>
-      <Loading centerAlign>
-        <Spinner />
-      </Loading>
-      <span className={styles.fontLoadText} />
-    </>
   );
 };
 

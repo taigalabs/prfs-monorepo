@@ -27,7 +27,7 @@ const Welcome: React.FC<WelcomeProps> = ({}) => {
 
   React.useEffect(() => {
     if (isCredentialInitialized && !shyCredential) {
-      router.push(paths.account__sign_in);
+      router.push(paths.__);
     }
   }, [isCredentialInitialized, router, shyCredential]);
 

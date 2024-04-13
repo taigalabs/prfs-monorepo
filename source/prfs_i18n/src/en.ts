@@ -60,6 +60,7 @@ export default {
   tweet_url: "Tweet URL",
   merkle_proof: "Merkle proof",
   sign: "Sign",
+  load_id: "Load ID",
   sign_in_with_prfs_id: "Sign in with Prfs ID",
   sign_in_up_with_prfs_id: "Sign in/up with Prfs ID",
   create_data_with_prfs_id: "Create data with Prfs ID",
