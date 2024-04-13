@@ -5,17 +5,27 @@ import cn from "classnames";
 
 import styles from "./ActiveLink.module.scss";
 
-const ActiveLink = ({ children, href, exact, activeClassName }: ActiveLinkProps & LinkProps) => {
-  const pathName = usePathname();
+const ActiveLink = ({
+  children,
+  href,
+  exact,
+  activeClassName,
+  className,
+}: ActiveLinkProps & LinkProps) => {
+  const pathname = usePathname();
+  const [isActive, setIsActive] = React.useState(false);
 
-  const isActive = exact ? pathName === href.toString() : pathName.startsWith(href.toString());
+  React.useEffect(() => {
+    const isActive = exact ? pathname === href.toString() : pathname.startsWith(href.toString());
+
+    setIsActive(isActive);
+  }, [pathname, setIsActive]);
 
   return (
     <Link
-      className={cn({
-        [styles.wrapper]: true,
+      className={cn(styles.wrapper, className, {
         [styles.active]: isActive,
-        ...(activeClassName && { [activeClassName]: isActive }),
+        [activeClassName || ""]: isActive,
       })}
       href={href}
     >
@@ -26,8 +36,14 @@ const ActiveLink = ({ children, href, exact, activeClassName }: ActiveLinkProps 
 
 export default ActiveLink;
 
-export interface ActiveLinkProps {
+export type ActiveLinkProps = LinkProps & {
   exact?: boolean;
   children: React.ReactNode;
   activeClassName?: string;
-}
+  className?: string;
+};
+
+// type ActiveLinkProps = LinkProps & {
+//   className?: string;
+//   activeClassName: string;
+// };

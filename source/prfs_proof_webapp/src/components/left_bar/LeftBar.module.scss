@@ -45,11 +45,6 @@ $leftbar_width: 284px;
     margin-right: 12px;
   }
 
-  &.isHighlighted {
-    font-weight: 700;
-    background-color: var(--light-blue-50);
-  }
-
   &:disabled {
     color: var(--gray-40);
     cursor: auto;
