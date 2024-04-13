@@ -17,7 +17,7 @@ import shy_api_error_codes from "@taigalabs/shy-api-error-codes";
 import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
-import { signInShy, signOutShy, signUpShy } from "@/state/userReducer";
+import { signInShy, signOutShy } from "@/state/userReducer";
 import {
   LocalShyCredential,
   persistShyCredential,
@@ -65,7 +65,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
             avatar_color,
           };
           persistShyCredential(credential);
-          dispatch(signUpShy(credential));
+          dispatch(signInShy(credential));
 
           // const { error, code } = await signInShyAccount({
           //   account_id: signInResult.account_id,

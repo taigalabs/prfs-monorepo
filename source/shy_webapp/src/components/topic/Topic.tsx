@@ -9,7 +9,6 @@ import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 import styles from "./Topic.module.scss";
 import { useSignedInShyUser } from "@/hooks/user";
-import { useIsFontReady } from "@/hooks/font";
 import {
   InfiniteScrollMain,
   InfiniteScrollRight,
@@ -28,7 +27,6 @@ import PostList from "@/components/post_list/PostList";
 const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
-  const isFontReady = useIsFontReady();
   const { isCredentialInitialized, shyCredential } = useSignedInShyUser();
   const router = useRouter();
   const { data: channelData, isFetching: channelDataIsFetching } = useQuery({
@@ -49,7 +47,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
 
   const handleScroll = useHandleScroll(parentRef, rightBarContainerRef);
 
-  return isFontReady && shyCredential ? (
+  return shyCredential ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
       <GlobalHeader />
       <InfiniteScrollInner>

@@ -5,7 +5,6 @@ import { LocalShyCache, LocalShyCacheItem, persistShyCache } from "@/storage/shy
 
 export interface UserState {
   // credential
-  isFirstTime: boolean;
   isCredentialInitialized: boolean;
   shyCredential: LocalShyCredential | null;
 
@@ -16,7 +15,6 @@ export interface UserState {
 
 const makeInitialState: () => UserState = () => {
   return {
-    isFirstTime: false,
     isCredentialInitialized: false,
     isCacheInitialized: false,
     shyCredential: null,
@@ -35,20 +33,18 @@ export const userSlice = createSlice({
         shyCredential: action.payload,
       };
     },
-    signUpShy: (state: UserState, action: PayloadAction<LocalShyCredential>) => {
-      return {
-        ...state,
-        isFirstTime: true,
-        isCredentialInitialized: true,
-        shyCredential: action.payload,
-      };
-    },
-    setIsNotFirstTime: (state: UserState, action: PayloadAction<void>) => {
-      return {
-        ...state,
-        isFirstTime: false,
-      };
-    },
+    // signUpShy: (state: UserState, action: PayloadAction<LocalShyCredential>) => {
+    //   return {
+    //     ...state,
+    //     isCredentialInitialized: true,
+    //     shyCredential: action.payload,
+    //   };
+    // },
+    // setIsNotFirstTime: (state: UserState, action: PayloadAction<void>) => {
+    //   return {
+    //     ...state,
+    //   };
+    // },
     initShyCache: (state: UserState, action: PayloadAction<LocalShyCache | null>) => {
       return {
         ...state,
@@ -101,14 +97,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const {
-  signInShy,
-  signOutShy,
-  initShyCache,
-  setCacheItem,
-  removeCacheItem,
-  signUpShy,
-  setIsNotFirstTime,
-} = userSlice.actions;
+export const { signInShy, signOutShy, initShyCache, setCacheItem, removeCacheItem } =
+  userSlice.actions;
 
 export const userReducer = userSlice.reducer;
