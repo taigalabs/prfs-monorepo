@@ -28,9 +28,7 @@ const GlobalHeader: React.FC<GlobalHeaderProps> = () => {
           </a>
           <p className={styles.gitHash}>{hash}</p>
         </div>
-        <div className={styles.rightGroup}>
-          <ShySignInBtn />
-        </div>
+        <div className={styles.rightGroup}>{/* <ShySignInBtn /> */}</div>
       </div>
     </div>
   );

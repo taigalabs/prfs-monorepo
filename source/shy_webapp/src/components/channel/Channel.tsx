@@ -8,7 +8,7 @@ import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./Channel.module.scss";
-import { useSignedInShyUser } from "@/hooks/user";
+import { useShyCache, useSignedInShyUser } from "@/hooks/user";
 import {
   InfiniteScrollMain,
   InfiniteScrollRight,
@@ -29,6 +29,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
   const i18n = usePrfsI18N();
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
+  const { shyCache, isCacheInitialized } = useShyCache();
 
   const {
     data: channelData,
@@ -54,7 +55,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
     return "No post has been made yet";
   }, []);
 
-  return (
+  return isCacheInitialized ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
       <GlobalHeader />
       <InfiniteScrollInner>
@@ -89,6 +90,8 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
         <InfiniteScrollRight>{null}</InfiniteScrollRight>
       </InfiniteScrollInner>
     </InfiniteScrollWrapper>
+  ) : (
+    <Loading />
   );
 };
 
