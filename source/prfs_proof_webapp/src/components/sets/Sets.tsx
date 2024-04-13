@@ -9,8 +9,9 @@ import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 import SetLeftBar from "./SetLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import AppLogo from "@/components/app_logo/AppLogo";
-import SetsMasthead from "@/components/sets_masthead/SetsMasthead";
 import { urls } from "@/urls";
+import { paths } from "@/paths";
+import AppMasthead from "@/components/app_masthead/AppMasthead";
 
 const Sets: React.FC<SetsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
@@ -41,7 +42,9 @@ const Sets: React.FC<SetsProps> = ({ children }) => {
 
   return (
     <>
-      <SetsMasthead
+      <AppMasthead
+        appLabel={i18n.sets}
+        appUrl={paths.sets}
         handleClickShowLeftBar={handleClickShowLeftBar}
         handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
       />
