@@ -4,7 +4,7 @@ import styles from "./page.module.scss";
 import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import Attestations from "@/components/attestations/Attestations";
 import { AppDefaultBody, AppMain, AppMainInner } from "@/components/app_components/AppComponents";
-import CryptoAssetAtstDetail from "@/components/crypto_asset_atst_detail/CryptoAssetAtstDetail";
+// import CryptoAssetAtstDetail from "@/components/crypto_asset_atst_detail/CryptoAssetAtstDetail";
 
 const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({ params }) => {
   return (
@@ -14,7 +14,7 @@ const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({
           <Attestations>
             <AppMain>
               <AppMainInner>
-                <CryptoAssetAtstDetail atst_id={params.atst_id} />
+                {/* <CryptoAssetAtstDetail atst_id={params.atst_id} /> */}
               </AppMainInner>
             </AppMain>
           </Attestations>

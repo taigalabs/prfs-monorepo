@@ -9,7 +9,7 @@ import { i18nContext } from "@/i18n/context";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import Link from "next/link";
 
-import styles from "./CryptoAssetAtstDetail.module.scss";
+import styles from "./AttestationDetail.module.scss";
 import { paths } from "@/paths";
 import {
   AttestationDetailBox,
@@ -20,7 +20,7 @@ import {
   AttestationDetailTopMenuRow,
 } from "@/components/atst_detail_components/AtstDetailComponents";
 
-const CryptoAssetAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_id }) => {
+const AttestationDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_id }) => {
   const i18n = React.useContext(i18nContext);
   const { isLoading, data, error } = useQuery({
     queryKey: ["get_prfs_attestation", atst_id],
@@ -123,7 +123,7 @@ const CryptoAssetAtstDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_
   );
 };
 
-export default CryptoAssetAtstDetail;
+export default AttestationDetail;
 
 export interface CryptoAssetSizeAtstDetailProps {
   atst_id: string;
