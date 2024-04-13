@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./AttestationDetail.module.scss";
+import styles from "./AtstDetailComponents.module.scss";
 
 export const AttestationDetailTopMenuRow: React.FC<AttestationDetailProps> = ({
   children,

@@ -18,7 +18,7 @@ import {
   AttestationDetailSectionRow,
   AttestationDetailSectionRowLabel,
   AttestationDetailTopMenuRow,
-} from "@/components/attestation_detail/AttestationDetail";
+} from "@/components/atst_detail_components/AtstDetailComponents";
 
 const ProofTypeDetail: React.FC<AccAtstDetailProps> = ({ proof_type_id }) => {
   const i18n = React.useContext(i18nContext);
