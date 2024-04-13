@@ -28,6 +28,7 @@ export function useShyCache() {
     if (!isCacheInitialized) {
       const cache = loadLocalShyCache();
       console.log("Loading local Shy cache", cache);
+
       dispatch(initShyCache(cache));
     }
   }, [isCacheInitialized]);

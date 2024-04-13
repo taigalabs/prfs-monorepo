@@ -16,9 +16,12 @@ import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import styles from "./ShyCacheDialog.module.scss";
 import { useShyCache } from "@/hooks/user";
 import ShyCacheModal from "./ShyCacheModal";
+import { useAppDispatch } from "@/state/hooks";
+import { emptyShyCache } from "@/state/userReducer";
 
 const ShyCacheDialog: React.FC<ShyCacheDialogProps> = () => {
   const { shyCache } = useShyCache();
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -39,6 +42,10 @@ const ShyCacheDialog: React.FC<ShyCacheDialogProps> = () => {
     setIsOpen(false);
   }, [setIsOpen]);
 
+  const handleClickEmptyCache = React.useCallback(() => {
+    dispatch(emptyShyCache());
+  }, [dispatch]);
+
   return (
     <>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
@@ -53,7 +60,11 @@ const ShyCacheDialog: React.FC<ShyCacheDialogProps> = () => {
             style={floatingStyles}
             {...getFloatingProps()}
           >
-            <ShyCacheModal shyCache={shyCache} handleCloseModal={handleCloseModal} />
+            <ShyCacheModal
+              shyCache={shyCache}
+              handleCloseModal={handleCloseModal}
+              handleClickEmptyCache={handleClickEmptyCache}
+            />
           </div>
         </FloatingFocusManager>
       )}

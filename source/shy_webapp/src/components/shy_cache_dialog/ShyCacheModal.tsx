@@ -5,7 +5,11 @@ import { LocalShyCache } from "@/storage/shy_cache";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import Button from "../button/Button";
 
-const ShyCacheModal: React.FC<ShyCacheDialogProps> = ({ shyCache, handleCloseModal }) => {
+const ShyCacheModal: React.FC<ShyCacheDialogProps> = ({
+  shyCache,
+  handleCloseModal,
+  handleClickEmptyCache,
+}) => {
   const i18n = usePrfsI18N();
 
   const elems = React.useMemo(() => {
@@ -35,6 +39,9 @@ const ShyCacheModal: React.FC<ShyCacheDialogProps> = ({ shyCache, handleCloseMod
         <Button variant="green_1" handleClick={handleCloseModal}>
           {i18n.close}
         </Button>
+        <Button variant="transparent_1" handleClick={handleClickEmptyCache}>
+          {i18n.empty_cache}
+        </Button>
       </div>
     </div>
   );
@@ -45,4 +52,5 @@ export default ShyCacheModal;
 export interface ShyCacheDialogProps {
   shyCache: LocalShyCache | null;
   handleCloseModal: () => void;
+  handleClickEmptyCache: () => void;
 }

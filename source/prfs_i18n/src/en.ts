@@ -1,5 +1,6 @@
 export default {
   close: "Close",
+  empty_cache: "Empty cache",
   done: "Done",
   close_and_return: "Close and return",
   close_window: "Close window",

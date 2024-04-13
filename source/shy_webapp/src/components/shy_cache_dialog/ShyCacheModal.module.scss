@@ -27,6 +27,8 @@
 
 .btnRow {
   padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
 }
 
 @media screen and (min-width: $big_display_min_width) {
