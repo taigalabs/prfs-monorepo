@@ -1,6 +1,5 @@
 import React from "react";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-import { FiLock } from "@react-icons/all-files/fi/FiLock";
 import Link from "next/link";
 import {
   API_PATH,
