@@ -37,7 +37,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
   }, [atst.cm]);
 
   const url = React.useMemo(() => {
-    return `${paths.attestations}/g/${atst.atst_group_id}/a/${atst.atst_id}`;
+    return `${paths.attestations}/g/${atst.atst_group_id}/${atst.atst_id}`;
   }, [atst]);
 
   const handleClickRow = React.useCallback(
