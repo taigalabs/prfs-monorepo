@@ -39,7 +39,7 @@ import { makeEnterShyChannelCacheKey } from "@/cache";
 import { useJoinShyChannel } from "./channel";
 
 export function useHandleJoinShyChannel({ channel }: UseJoinShychannelArgs) {
-  const { shyCache, isCacheInitialized } = useShyCache();
+  const { shyCache } = useShyCache();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const nonce = 0;

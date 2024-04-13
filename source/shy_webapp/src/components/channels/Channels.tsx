@@ -59,7 +59,7 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
     estimateSize: () => 100,
     overscan: 5,
   });
-  const { shyCache, isCacheInitialized } = useShyCache();
+  const { isCacheInitialized } = useShyCache();
 
   React.useEffect(() => {
     const [lastItem] = [...virtualizer.getVirtualItems()].reverse();
