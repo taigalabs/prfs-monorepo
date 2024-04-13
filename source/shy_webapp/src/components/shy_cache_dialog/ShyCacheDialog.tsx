@@ -35,6 +35,10 @@ const ShyCacheDialog: React.FC<ShyCacheDialogProps> = () => {
 
   const i18n = usePrfsI18N();
 
+  const handleCloseModal = React.useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
   return (
     <>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
@@ -49,7 +53,7 @@ const ShyCacheDialog: React.FC<ShyCacheDialogProps> = () => {
             style={floatingStyles}
             {...getFloatingProps()}
           >
-            <ShyCacheModal shyCache={shyCache} />
+            <ShyCacheModal shyCache={shyCache} handleCloseModal={handleCloseModal} />
           </div>
         </FloatingFocusManager>
       )}

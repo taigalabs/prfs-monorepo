@@ -220,6 +220,7 @@ export default {
   group_member_attestations: "Group member attestations",
   x_twitter: "X (Twitter)",
   all: "All",
+  local_cache_items: "Local cache items",
   uploading_proof: "Uploading proof",
   telegram: "Telegram",
   discord: "Discord",
