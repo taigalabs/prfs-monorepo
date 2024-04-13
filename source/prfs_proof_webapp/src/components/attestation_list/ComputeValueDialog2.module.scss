@@ -1,0 +1,26 @@
+.computeBtn {
+  padding: 10px 14px;
+}
+
+.inner {
+  display: grid;
+  place-items: center;
+}
+
+.computeMsg {
+  padding-top: 16px;
+  color: var(--black-10);
+
+  > p:not(:first-child) {
+    padding-top: 8px;
+  }
+}
+
+.btnContent {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 4px;
+  }
+}

@@ -21,7 +21,13 @@ pub async fn get_prfs_proof_types(
     Json(input): Json<GetPrfsProofTypesRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetPrfsProofTypesResponse>>) {
     let pool = &state.db2.pool;
-    let rows = match prfs::get_prfs_proof_types(pool, input.experimental, input.offset, LIMIT).await
+    let rows = match prfs::get_prfs_proof_types(
+        pool,
+        input.experimental.unwrap_or(false),
+        input.offset,
+        LIMIT,
+    )
+    .await
     {
         Ok(r) => r,
         Err(err) => {

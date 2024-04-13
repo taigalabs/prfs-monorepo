@@ -7,6 +7,7 @@ import ShyLogo from "@/components/shy_logo/ShyLogo";
 import ShySignInBtn from "@/components/shy_sign_in_btn/ShySignInBtn";
 import { paths } from "@/paths";
 import { envs } from "@/envs";
+import ShyCacheDialog from "@/components/shy_cache_dialog/ShyCacheDialog";
 
 export const GlobalHeaderPlaceholder = () => {
   return <div className={styles.placeholder} />;
@@ -29,7 +30,8 @@ const GlobalHeader: React.FC<GlobalHeaderProps> = () => {
           <p className={styles.gitHash}>{hash}</p>
         </div>
         <div className={styles.rightGroup}>
-          <ShySignInBtn noSignInBtn />
+          <ShyCacheDialog />
+          {/* <ShySignInBtn /> */}
         </div>
       </div>
     </div>

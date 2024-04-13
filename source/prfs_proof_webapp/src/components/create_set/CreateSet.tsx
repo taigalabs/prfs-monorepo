@@ -13,11 +13,7 @@ import { CreatePrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreatePr
 
 import styles from "./CreateSet.module.scss";
 import { i18nContext } from "@/i18n/context";
-import {
-  AttestationsHeader,
-  AttestationsHeaderRow,
-  AttestationsTitle,
-} from "@/components/attestations/AttestationComponents";
+import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
 import {
   AttestationFormBtnRow,
   AttestationListItem,
@@ -110,11 +106,11 @@ const CreateSet: React.FC<CreateSetProps> = () => {
     <div>Navigating...</div>
   ) : (
     <>
-      <AttestationsHeader>
-        <AttestationsHeaderRow>
-          <AttestationsTitle>{i18n.create_set}</AttestationsTitle>
-        </AttestationsHeaderRow>
-      </AttestationsHeader>
+      <AppHeader>
+        <AppHeaderRow>
+          <AppTitle>{i18n.create_set}</AppTitle>
+        </AppHeaderRow>
+      </AppHeader>
       <div>
         <form>
           <ol>

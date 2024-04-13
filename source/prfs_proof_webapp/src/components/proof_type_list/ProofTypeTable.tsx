@@ -18,7 +18,7 @@ import {
   AttestationTableRow,
   AttestationTableBodyInner,
   AttestationTableCell,
-} from "@/components/attestations_table/AttestationsTable";
+} from "@/components/atst_table_components/AtstTableComponents";
 
 const Row: React.FC<RowProps> = ({ row, style, router }) => {
   const i18n = React.useContext(i18nContext);
@@ -61,7 +61,6 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
     useInfiniteQuery({
       queryKey: ["get_prfs_proof_types"],
       queryFn: async ({ pageParam }) => {
-        // return prfsApi2("get_prfs_proof_types", { offset: pageParam as number });
         return prfsApi3({ type: "get_prfs_proof_types", offset: pageParam as number });
       },
       initialPageParam: 0,

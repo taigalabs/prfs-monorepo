@@ -17,7 +17,7 @@ import shy_api_error_codes from "@taigalabs/shy-api-error-codes";
 import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
-import { signInShy, signOutShy, signUpShy } from "@/state/userReducer";
+import { signInShy, signOutShy } from "@/state/userReducer";
 import {
   LocalShyCredential,
   persistShyCredential,
@@ -40,82 +40,26 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
   const [status, setStatus] = React.useState(Status.Standby);
   const dispatch = useAppDispatch();
   const { isCredentialInitialized, shyCredential } = useSignedInShyUser();
-  const { mutateAsync: signInShyAccount } = useMutation({
-    mutationFn: (req: SignInShyAccountRequest) => {
-      return shyApi2({ type: "sign_in_shy_account", ...req });
-    },
-  });
-  const { mutateAsync: signUpShyAccount } = useMutation({
-    mutationFn: (req: SignUpShyAccountRequest) => {
-      return shyApi2({ type: "sign_up_shy_account", ...req });
-    },
-  });
+
   const searchParams = useSearchParams();
 
-  const handleSucceedSignIn = React.useCallback(
+  const handleSucceedLoadId = React.useCallback(
     async (signInResult: AppSignInResult) => {
-      async function fn() {
-        if (signInResult) {
-          const avatar_color = makeColor(signInResult.account_id);
+      if (signInResult) {
+        setStatus(Status.InProgress);
+        const avatar_color = makeColor(signInResult.account_id);
 
-          const { error, code } = await signInShyAccount({
-            account_id: signInResult.account_id,
-          });
-
-          if (error) {
-            if (code === shy_api_error_codes.CANNOT_FIND_USER.code) {
-              const { error } = await signUpShyAccount({
-                account_id: signInResult.account_id,
-                public_key: signInResult.public_key,
-                avatar_color,
-              });
-
-              if (error) {
-                dispatch(
-                  setGlobalMsg({
-                    variant: "error",
-                    message: "Failed to sign up",
-                  }),
-                );
-                return;
-              }
-
-              const credential: LocalShyCredential = {
-                account_id: signInResult.account_id,
-                public_key: signInResult.public_key,
-                avatar_color,
-              };
-
-              persistShyCredential(credential);
-              dispatch(signUpShy(credential));
-            } else {
-              dispatch(
-                setGlobalMsg({
-                  variant: "error",
-                  message: "Failed to sign up",
-                }),
-              );
-              return;
-            }
-          } else {
-            const credential: LocalShyCredential = {
-              account_id: signInResult.account_id,
-              public_key: signInResult.public_key,
-              avatar_color,
-            };
-
-            persistShyCredential(credential);
-            dispatch(signInShy(credential));
-            router.push(paths.__);
-          }
-        }
+        const credential: LocalShyCredential = {
+          account_id: signInResult.account_id,
+          public_key: signInResult.public_key,
+          avatar_color,
+        };
+        persistShyCredential(credential);
+        dispatch(signInShy(credential));
+        setStatus(Status.Standby);
       }
-
-      setStatus(Status.InProgress);
-      fn().then();
-      setStatus(Status.Standby);
     },
-    [router, dispatch, signInShyAccount, searchParams, setStatus, router, signUpShyAccount],
+    [router, dispatch, searchParams, setStatus, router],
   );
 
   const handleClickSignOut = React.useCallback(() => {
@@ -158,10 +102,10 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
       {!noSignInBtn && (
         <PrfsIdSignInButton
           className={styles.signInBtn}
-          label={i18n.sign_in_with_prfs_id}
+          label={i18n.load_id}
           appId={SHY_APP_ID}
           handleSignInError={handleSignInError}
-          handleSucceedSignIn={handleSucceedSignIn}
+          handleSucceedSignIn={handleSucceedLoadId}
           prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
           isLoading={status === Status.InProgress}
         />

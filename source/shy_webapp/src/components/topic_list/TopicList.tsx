@@ -24,8 +24,9 @@ import { paths } from "@/paths";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { makeEnterShyChannelCacheKey } from "@/cache";
 import { removeCacheItem } from "@/state/userReducer";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
-const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, placeholder }) => {
+const TopicList: React.FC<TopicListProps> = ({ parentRef, channel, className, placeholder }) => {
   const i18n = usePrfsI18N();
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -35,8 +36,8 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, 
   const [token, setToken] = React.useState<EnterShyChannelToken | null>(null);
 
   React.useEffect(() => {
-    if (shyCache) {
-      const cacheKey = makeEnterShyChannelCacheKey(channelId);
+    if (isCacheInitialized && shyCache && channel.type === "Closed") {
+      const cacheKey = makeEnterShyChannelCacheKey(channel.channel_id);
       const val = shyCache[cacheKey];
 
       if (val) {
@@ -47,18 +48,17 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, 
           dispatch(removeCacheItem(cacheKey));
         }
       }
-    } else {
     }
   }, [shyCache, setMsg, dispatch, setToken]);
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      enabled: !!token,
-      queryKey: ["get_shy_topics", channelId, token],
+      enabled: (channel.type === "Closed" && !!token) || true,
+      queryKey: ["get_shy_topics", channel.channel_id, token],
       queryFn: async ({ pageParam = 0 }) => {
         return await shyApi2({
           type: "get_shy_topics",
-          channel_id: channelId,
+          channel_id: channel.channel_id,
           offset: pageParam,
         });
       },
@@ -147,7 +147,7 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channelId, className, 
                 ? hasNextPage
                   ? "Loading more..."
                   : "Nothing more to load"
-                : topic && <TopicRow topic={topic} now={now} channelId={channelId} />}
+                : topic && <TopicRow topic={topic} now={now} channelId={channel.channel_id} />}
             </div>
           );
         })}
@@ -161,7 +161,7 @@ export default TopicList;
 
 export interface TopicListProps {
   parentRef: React.MutableRefObject<HTMLDivElement | null>;
-  channelId: string;
+  channel: ShyChannel;
   className?: string;
   placeholder?: React.ReactNode;
 }

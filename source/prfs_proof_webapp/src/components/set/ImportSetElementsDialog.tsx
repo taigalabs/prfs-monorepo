@@ -151,7 +151,7 @@ const ImportPrfsSetElementsDialog: React.FC<ImportPrfsSetElementsDialogProps> = 
   const createBase = React.useCallback(() => {
     return (
       <Button
-        variant="transparent_blue_2"
+        variant="transparent_blue_3"
         noTransition
         type="button"
         disabled={!isMasterAccount(prfsProofCredential?.account_id)}

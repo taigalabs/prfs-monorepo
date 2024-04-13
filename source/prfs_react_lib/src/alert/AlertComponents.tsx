@@ -12,6 +12,7 @@ export const AlertWrapper: React.FC<AlertProps> = ({ children, variant, rounded,
       className={cn(styles.wrapper, className, {
         [styles.warn]: variant === "warn",
         [styles.error]: variant === "error",
+        [styles.info]: variant === "info",
         [styles.rounded]: rounded,
       })}
     >
@@ -32,7 +33,7 @@ export const AlertBtnGroup: React.FC<AlertBtnGroupProps> = ({ children }) => {
 export interface AlertProps {
   className?: string;
   children: React.ReactNode;
-  variant: "error" | "warn";
+  variant: "error" | "warn" | "info";
   rounded?: boolean;
 }
 

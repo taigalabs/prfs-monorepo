@@ -1,34 +1,25 @@
 import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
-import DefaultLayout, { DefaultFooter } from "@/components/layouts/default_layout/DefaultLayout";
-import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import Attestations from "@/components/attestations/Attestations";
-import {
-  AttestationsDefaultBody,
-  AttestationsMain,
-  AttestationsMainInner,
-} from "@/components/attestations/AttestationComponents";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
+import { AppDefaultBody, AppMain, AppMainInner } from "@/components/app_components/AppComponents";
 import SetElementDetail from "@/components/set_element_detail/SetElementDetail";
 import Sets from "@/components/sets/Sets";
 
 const SetElementPage: React.FC<SetElementPageProps> = ({ params }) => {
   return (
     <DefaultLayout>
-      <AttestationsDefaultBody>
+      <AppDefaultBody>
         <Suspense>
           <Sets>
-            <AttestationsMain>
-              <AttestationsMainInner>
+            <AppMain>
+              <AppMainInner>
                 <SetElementDetail element_label={params.element_label} set_id={params.set_id} />
-              </AttestationsMainInner>
-            </AttestationsMain>
+              </AppMainInner>
+            </AppMain>
           </Sets>
         </Suspense>
-      </AttestationsDefaultBody>
-      {/* <DefaultFooter> */}
-      {/*   <GlobalFooter /> */}
-      {/* </DefaultFooter> */}
+      </AppDefaultBody>
     </DefaultLayout>
   );
 };

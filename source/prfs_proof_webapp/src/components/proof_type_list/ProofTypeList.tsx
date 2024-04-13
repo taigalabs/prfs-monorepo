@@ -6,19 +6,16 @@ import cn from "classnames";
 import styles from "./ProofTypeList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import ProofTypeTable from "./ProofTypeTable";
-import {
-  AttestationsHeader,
-  AttestationsTitle,
-} from "@/components/attestations/AttestationComponents";
+import { AppHeader, AppTitle } from "@/components/app_components/AppComponents";
 
 const ProofTypeList: React.FC<ProofTypeListProps> = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
     <>
-      <AttestationsHeader>
-        <AttestationsTitle className={styles.title}>{i18n.proof_types}</AttestationsTitle>
-      </AttestationsHeader>
+      <AppHeader>
+        <AppTitle className={styles.title}>{i18n.proof_types}</AppTitle>
+      </AppHeader>
       <div>
         <ProofTypeTable />
       </div>

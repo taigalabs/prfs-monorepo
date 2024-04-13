@@ -87,7 +87,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
 
           persistPrfsProofCredential(credential);
           dispatch(signInPrfs(credential));
-          router.push(paths.account__welcome);
+          // router.push(paths.__);
         } else {
           dispatch(
             setGlobalMsg({

@@ -9,12 +9,12 @@ import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import styles from "./Attestations.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
+import AppMasthead from "@/components/app_masthead/AppMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 import AttestationLeftBar from "./AttestationLeftBar";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInProofUser } from "@/hooks/user";
-import { LeftBarContainer } from "@/components/left_bar/LeftBar";
+import { LeftBarContainer } from "@/components/left_bar/LeftBarComponents";
 import AppLogo from "@/components/app_logo/AppLogo";
 import GlobalErrorDialog from "@/components/global_error_dialog/GlobalErrorDialog";
 
@@ -22,16 +22,7 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
-  const { isInitialized, prfsProofCredential } = useSignedInProofUser();
-  const router = useRouter();
-
-  React.useEffect(() => {
-    if (isInitialized) {
-      if (prfsProofCredential === null) {
-        router.push(paths.account);
-      }
-    }
-  }, [isInitialized, prfsProofCredential, router]);
+  // const { isInitialized, prfsProofCredential } = useSignedInProofUser();
 
   const handleClickShowLeftBar = React.useCallback(
     (open?: boolean) => {
@@ -55,14 +46,16 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
     [setIsLeftBarDrawerVisible],
   );
 
-  if (!isInitialized) {
-    <div className={styles.loading}>Loading...</div>;
-  }
+  // if (!isInitialized) {
+  //   <div className={styles.loading}>Loading...</div>;
+  // }
 
-  return prfsProofCredential ? (
+  return (
     <>
       <GlobalErrorDialog />
-      <AttestationsMasthead
+      <AppMasthead
+        appLabel={i18n.attestations}
+        appUrl={paths.attestations}
         handleClickShowLeftBar={handleClickShowLeftBar}
         handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
       />
@@ -84,10 +77,6 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
         {children}
       </div>
     </>
-  ) : (
-    <div className={styles.loading}>
-      <Spinner size={32} color={colors.gray_32} />
-    </div>
   );
 };
 

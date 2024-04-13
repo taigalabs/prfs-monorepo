@@ -10,11 +10,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import styles from "./Set.module.scss";
 import { i18nContext } from "@/i18n/context";
 import SetElementTable from "./SetElementTable";
-import {
-  AttestationsHeader,
-  AttestationsHeaderRow,
-  AttestationsTitle,
-} from "@/components/attestations/AttestationComponents";
+import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
 import ImportSetElementsDialog from "./ImportSetElementsDialog";
 import CreateTreeDialog from "./CreateTreeDialog";
 import LatestTree from "./LatestTree";
@@ -34,26 +30,24 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
 
   return prfsSet ? (
     <>
-      <AttestationsHeader className={styles.header}>
-        <AttestationsHeaderRow>
-          <AttestationsTitle className={styles.title}>
+      <AppHeader className={styles.header}>
+        <AppHeaderRow>
+          <AppTitle className={styles.title}>
             {prfsSet.label} ({set_id})
-          </AttestationsTitle>
-        </AttestationsHeaderRow>
-        <AttestationsHeaderRow className={styles.headerRow}>
-          {prfsSet && (
-            <ul className={styles.topMenu}>
-              <li>
-                <ImportSetElementsDialog rerender={rerender} prfsSet={prfsSet} />
-              </li>
-              <li>
-                <CreateTreeDialog rerender={rerender} set_id={set_id} />
-              </li>
-            </ul>
-          )}
+          </AppTitle>
+        </AppHeaderRow>
+        <AppHeaderRow className={styles.headerRow}>
+          <ul className={styles.topMenu}>
+            <li>
+              <ImportSetElementsDialog rerender={rerender} prfsSet={prfsSet} />
+            </li>
+            <li>
+              <CreateTreeDialog rerender={rerender} set_id={set_id} />
+            </li>
+          </ul>
           <LatestTree set_id={set_id} nonce={nonce} />
-        </AttestationsHeaderRow>
-      </AttestationsHeader>
+        </AppHeaderRow>
+      </AppHeader>
       <div>
         <SetElementTable setId={set_id} nonce={nonce} />
       </div>

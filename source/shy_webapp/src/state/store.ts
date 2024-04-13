@@ -4,12 +4,18 @@ import { createLogger } from "redux-logger";
 import { userReducer } from "./userReducer";
 import { globalMsgReducer } from "./globalMsgReducer";
 
-const logger = createLogger({
-  level: {
-    prevState: false,
-    nextState: false,
-  },
-});
+const IS_DEBUG = false;
+
+const logger = createLogger(
+  IS_DEBUG
+    ? {}
+    : {
+        level: {
+          prevState: false,
+          nextState: false,
+        },
+      },
+);
 
 export const store = configureStore({
   reducer: {

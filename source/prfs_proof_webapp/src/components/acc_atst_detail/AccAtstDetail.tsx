@@ -18,7 +18,7 @@ import {
   AttestationDetailSectionRow,
   AttestationDetailSectionRowLabel,
   AttestationDetailTopMenuRow,
-} from "@/components/attestation_detail/AttestationDetail";
+} from "@/components/atst_detail_components/AtstDetailComponents";
 
 const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ atst_id }) => {
   const i18n = React.useContext(i18nContext);
@@ -52,7 +52,7 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ atst_id }) => {
     atst && (
       <div className={styles.wrapper}>
         <AttestationDetailTopMenuRow>
-          <Link href={paths.attestations__twitter}>
+          <Link href={`${paths.attestations}/g/twitter`}>
             <ButtonCircleContainer>
               <FaArrowLeft />
             </ButtonCircleContainer>

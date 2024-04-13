@@ -14,13 +14,13 @@ import {
   InfiniteScrollWrapper,
   InfiniteScrollInner,
   InfiniteScrollLeft,
-  InfiniteScrollRowWrapper,
   InfiniteScrollRowContainerOuter,
   InfiniteScrollRowContainerInner,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
 import ChannelMenu from "./ChannelMenu";
 import Loading from "@/components/loading/Loading";
+import { useShyCache } from "@/hooks/user";
 
 const Channels: React.FC<ChannelsProps> = ({}) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
@@ -59,6 +59,7 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
     estimateSize: () => 100,
     overscan: 5,
   });
+  const { isCacheInitialized } = useShyCache();
 
   React.useEffect(() => {
     const [lastItem] = [...virtualizer.getVirtualItems()].reverse();
@@ -83,7 +84,8 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
   }
 
   const items = virtualizer.getVirtualItems();
-  return (
+
+  return isCacheInitialized ? (
     <InfiniteScrollWrapper innerRef={parentRef}>
       <GlobalHeader />
       <InfiniteScrollInner>
@@ -134,6 +136,8 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
         <InfiniteScrollRight>{null}</InfiniteScrollRight>
       </InfiniteScrollInner>
     </InfiniteScrollWrapper>
+  ) : (
+    <Loading />
   );
 };
 

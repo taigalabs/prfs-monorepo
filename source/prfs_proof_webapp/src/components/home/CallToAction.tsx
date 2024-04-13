@@ -27,10 +27,12 @@ const CallToAction: React.FC<LogoContainerProps> = () => {
           </button>
         </p>
         <p className={styles.item}>
-          <button className={styles.brownBtn} type="button">
-            <Link href={paths.attestations}>{i18n.start_with_attestation}</Link>
-            <MdArrowForward />
-          </button>
+          <Link href={paths.attestations}>
+            <button className={styles.brownBtn} type="button">
+              {i18n.start_with_attestation}
+              <MdArrowForward />
+            </button>
+          </Link>
         </p>
       </div>
     </Area>

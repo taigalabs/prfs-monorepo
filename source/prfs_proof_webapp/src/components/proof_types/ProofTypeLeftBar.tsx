@@ -11,23 +11,14 @@ import { consolePaths, paths } from "@/paths";
 import CreateProofTypePopover from "./CreateProofTypePopover";
 import {
   LeftBarItem,
-  LeftBarItemButton,
   LeftBarMenu,
   LeftBarTopMenu,
   LeftBarWrapper,
-} from "@/components/left_bar/LeftBar";
+} from "@/components/left_bar/LeftBarComponents";
+import ActiveLink from "@taigalabs/prfs-react-lib/src/active_link/ActiveLink";
 
 const ProofTypeLeftbar: React.FC<AttestationLeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);
-  // const pathname = usePathname();
-  // const name = React.useMemo(() => {
-  //   const segments = pathname.split("/");
-
-  //   if (segments.length > 2) {
-  //     return segments[2];
-  //   }
-  //   return null;
-  // }, [pathname]);
 
   return (
     <LeftBarWrapper>
@@ -38,11 +29,13 @@ const ProofTypeLeftbar: React.FC<AttestationLeftBarProps> = () => {
       </LeftBarTopMenu>
       <LeftBarMenu>
         <LeftBarItem>
-          <Link href={paths.proof_types}>
-            <LeftBarItemButton isHighlighted={true}>
-              <span>{i18n.all}</span>
-            </LeftBarItemButton>
-          </Link>
+          <ActiveLink
+            className={styles.entry}
+            href={paths.proof_types}
+            activeClassName={styles.activeLink}
+          >
+            <span>{i18n.all}</span>
+          </ActiveLink>
         </LeftBarItem>
       </LeftBarMenu>
     </LeftBarWrapper>

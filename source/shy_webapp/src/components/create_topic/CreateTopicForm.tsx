@@ -12,7 +12,6 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import {
   JSONbigNative,
-  PrivateKey,
   createRandomKeyPair,
   decrypt,
   makeRandInt,

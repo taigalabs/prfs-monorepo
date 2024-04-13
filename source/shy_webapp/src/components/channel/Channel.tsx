@@ -8,8 +8,7 @@ import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./Channel.module.scss";
-import { useSignedInShyUser } from "@/hooks/user";
-import { useIsFontReady } from "@/hooks/font";
+import { useShyCache, useSignedInShyUser } from "@/hooks/user";
 import {
   InfiniteScrollMain,
   InfiniteScrollRight,
@@ -30,9 +29,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
   const i18n = usePrfsI18N();
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
-  const isFontReady = useIsFontReady();
-  const { isCredentialInitialized, shyCredential } = useSignedInShyUser();
-  const router = useRouter();
+  const { shyCache, isCacheInitialized } = useShyCache();
 
   const {
     data: channelData,
@@ -47,13 +44,6 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
   const channel = channelData?.payload?.shy_channel;
 
   React.useEffect(() => {
-    if (isCredentialInitialized && !shyCredential) {
-      const href = encodeURI(window.location.href);
-      router.push(`${paths.account__sign_in}?${searchParamKeys.continue}=${href}`);
-    }
-  }, [isCredentialInitialized, router, shyCredential]);
-
-  React.useEffect(() => {
     if (error) {
       console.error("err fetchin data: %o", error);
     }
@@ -65,7 +55,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
     return "No post has been made yet";
   }, []);
 
-  return isFontReady && shyCredential ? (
+  return isCacheInitialized ? (
     <InfiniteScrollWrapper innerRef={parentRef} handleScroll={handleScroll}>
       <GlobalHeader />
       <InfiniteScrollInner>
@@ -87,7 +77,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
                   <ChannelMenu channelId={channel.channel_id} />
                   <TopicList
                     parentRef={parentRef}
-                    channelId={channel.channel_id}
+                    channel={channel}
                     placeholder={boardPlaceholderElem}
                   />
                 </>
@@ -101,9 +91,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
       </InfiniteScrollInner>
     </InfiniteScrollWrapper>
   ) : (
-    <>
-      <Loading>Loading</Loading>
-    </>
+    <Loading />
   );
 };
 

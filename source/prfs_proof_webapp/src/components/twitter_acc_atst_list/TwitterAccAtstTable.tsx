@@ -19,7 +19,7 @@ import {
   AttestationTableBodyInner,
   AttestationTableCell,
   AttestationLoading,
-} from "@/components/attestations_table/AttestationsTable";
+} from "@/components/atst_table_components/AtstTableComponents";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   const i18n = React.useContext(i18nContext);
@@ -27,7 +27,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
     return `${atst.cm.substring(0, 26)}...`;
   }, [atst.cm]);
   const handleClick = React.useCallback(() => {
-    router.push(`${paths.attestations__twitter}/${atst.acc_atst_id}`);
+    router.push(`${paths.attestations}/g/${atst.acc_atst_id}`);
   }, [atst.acc_atst_id, router]);
 
   return (

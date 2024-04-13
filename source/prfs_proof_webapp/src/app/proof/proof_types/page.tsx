@@ -1,33 +1,25 @@
 import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
-import DefaultLayout, { DefaultFooter } from "@/components/layouts/default_layout/DefaultLayout";
-import GlobalFooter from "@/components/global_footer/GlobalFooter";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import ProofTypes from "@/components/proof_types/ProofTypes";
-import {
-  AttestationsDefaultBody,
-  AttestationsMain,
-  AttestationsMainInner,
-} from "@/components/attestations/AttestationComponents";
+import { AppDefaultBody, AppMain, AppMainInner } from "@/components/app_components/AppComponents";
 import ProofTypeList from "@/components/proof_type_list/ProofTypeList";
 
 const ProofTypesPage = () => {
   return (
     <DefaultLayout>
-      <AttestationsDefaultBody>
+      <AppDefaultBody>
         <Suspense>
           <ProofTypes>
-            <AttestationsMain>
-              <AttestationsMainInner>
+            <AppMain>
+              <AppMainInner>
                 <ProofTypeList />
-              </AttestationsMainInner>
-            </AttestationsMain>
+              </AppMainInner>
+            </AppMain>
           </ProofTypes>
         </Suspense>
-      </AttestationsDefaultBody>
-      <DefaultFooter>
-        <GlobalFooter />
-      </DefaultFooter>
+      </AppDefaultBody>
     </DefaultLayout>
   );
 };

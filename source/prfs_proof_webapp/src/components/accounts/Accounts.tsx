@@ -16,17 +16,17 @@ const Accounts: React.FC<AccountsProps> = ({ appId }) => {
   const { isInitialized, prfsProofCredential } = useSignedInProofUser();
   const router = useRouter();
 
-  React.useEffect(() => {
-    if (isInitialized) {
-      if (prfsProofCredential !== null) {
-        router.push(paths.__);
-      }
-    }
-  }, [isInitialized, prfsProofCredential, router]);
+  // React.useEffect(() => {
+  //   if (isInitialized) {
+  //     if (prfsProofCredential !== null) {
+  //       router.push(paths.__);
+  //     }
+  //   }
+  // }, [isInitialized, prfsProofCredential, router]);
 
-  if (!isInitialized) {
-    <div>Loading...</div>;
-  }
+  // if (!isInitialized) {
+  //   <div>Loading...</div>;
+  // }
 
   return (
     <div className={styles.wrapper}>
@@ -43,7 +43,6 @@ const Accounts: React.FC<AccountsProps> = ({ appId }) => {
             <PrfsIdSignInBtn
               className={styles.prfsIDSignInBtn}
               label={i18n.sign_in_with_prfs_id}
-              noCredential
               appId={appId}
             />
           </li>

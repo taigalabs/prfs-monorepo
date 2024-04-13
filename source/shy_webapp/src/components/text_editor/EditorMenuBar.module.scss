@@ -1,0 +1,26 @@
+.wrapper {
+  color: #878a8c;
+
+  button {
+    vertical-align: middle;
+    height: 32px;
+    width: 32px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(26, 26, 27, 0.1);
+    }
+  }
+
+  svg {
+    font-size: 20px;
+  }
+}
+
+.highlightBtn {
+  font-size: 15px;
+  font-weight: 600;
+}

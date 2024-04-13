@@ -9,6 +9,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 
 import styles from "./TextEditor.module.scss";
+import EditorMenuBar from "./EditorMenuBar";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -51,7 +52,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ footer, editorClassName, classN
             class: cn(styles.editor, editorClassName),
           },
         }}
-        // slotBefore={<EditorMenuBar />}
+        slotBefore={<EditorMenuBar />}
         slotAfter={footer}
         extensions={extensions}
         content={""}

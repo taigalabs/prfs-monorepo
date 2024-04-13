@@ -1,0 +1,35 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  width: 280px;
+  padding: 24px;
+  background-color: var(--white-100);
+}
+
+.title {
+  font-size: 16px;
+}
+
+.items {
+  padding-top: 20px;
+  word-break: break-all;
+  color: var(--gray-20);
+}
+
+.key {
+  font-weight: 500;
+}
+
+.value {
+  padding-top: 4px;
+  font-size: 13px;
+}
+
+.btnRow {
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (min-width: $big_display_min_width) {
+}
