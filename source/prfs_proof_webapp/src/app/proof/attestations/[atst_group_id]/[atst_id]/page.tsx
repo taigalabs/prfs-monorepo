@@ -4,9 +4,9 @@ import styles from "./page.module.scss";
 import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import Attestations from "@/components/attestations/Attestations";
 import { AppDefaultBody, AppMain, AppMainInner } from "@/components/app_components/AppComponents";
-import GroupMemberAtstList from "@/components/group_member_atst_list/GroupMemberAtstList";
+import CryptoAssetAtstDetail from "@/components/crypto_asset_atst_detail/CryptoAssetAtstDetail";
 
-const AtstGroupPage: React.FC<AtstGroupPageProps> = ({ params }) => {
+const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <AppDefaultBody>
@@ -14,8 +14,7 @@ const AtstGroupPage: React.FC<AtstGroupPageProps> = ({ params }) => {
           <Attestations>
             <AppMain>
               <AppMainInner>
-                <GroupMemberAtstList atst_group_id={params.atst_group_id} />
-                {/* <GroupMemberAtstDetail atst_id={params.atst_id} /> */}
+                <CryptoAssetAtstDetail atst_id={params.atst_id} />
               </AppMainInner>
             </AppMain>
           </Attestations>
@@ -25,10 +24,10 @@ const AtstGroupPage: React.FC<AtstGroupPageProps> = ({ params }) => {
   );
 };
 
-export default AtstGroupPage;
+export default TwitterAttestionDetailPage;
 
-interface AtstGroupPageProps {
+interface TwitterAttestionDetailPageProps {
   params: {
-    atst_group_id: string;
+    atst_id: string;
   };
 }

@@ -100,7 +100,7 @@ const CryptoAssetAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce }) => 
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_prfs_attestations_by_atst_type", nonce],
+      queryKey: ["get_prfs_attestations_by_atst_group_id", nonce],
       queryFn: async ({ pageParam }) => {
         const req: GetPrfsAttestationsByAtstGroupIdRequest = {
           atst_group_id: "crypto_1",

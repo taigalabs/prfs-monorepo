@@ -58,6 +58,10 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
     }
   }, [atst.cm]);
 
+  const value = React.useMemo(() => {
+    return JSON.stringify(atst.value);
+  }, [atst.value]);
+
   return (
     <Link href={url} onClick={handleClickRow}>
       <AttestationTableRow style={style}>
@@ -68,10 +72,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
           {cm}
         </AttestationTableCell>
         <AttestationTableCell className={cn(styles.valueNum, styles.w1024)}>
-          {atst.value.values.toString()}
-        </AttestationTableCell>
-        <AttestationTableCell className={cn(styles.valueRaw, styles.w1024)}>
-          {atst.value.values.toString()}
+          {value}
         </AttestationTableCell>
         <AttestationTableCell className={cn(styles.meta, styles.w480, styles.cell)}>
           <span>{meta}</span>
@@ -169,9 +170,6 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.valueNum, styles.w1024)}>
               {i18n.value}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.valueRaw, styles.w1024)}>
-              {i18n.value_raw}
             </AttestationTableHeaderCell>
             <AttestationTableHeaderCell className={cn(styles.meta, styles.w1320)}>
               {i18n.meta}

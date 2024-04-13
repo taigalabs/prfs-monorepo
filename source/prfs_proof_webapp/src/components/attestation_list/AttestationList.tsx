@@ -5,7 +5,7 @@ import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 import { AlertContent, AlertWrapper } from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
 import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 
-import styles from "./GroupMemberAtstList.module.scss";
+import styles from "./AttestationList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
 import { AppTopMenu } from "@/components/app_components/AppComponents";
@@ -13,7 +13,7 @@ import { useSignedInProofUser } from "@/hooks/user";
 import ComputeValueDialog from "./ComputeValueDialog";
 import GroupMemberAtstTable from "./GroupMemberAtstTable";
 
-const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) => {
+const AttestationList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) => {
   const i18n = React.useContext(i18nContext);
   const { prfsProofCredential } = useSignedInProofUser();
   const { nonce, rerender } = useRerender();
@@ -23,7 +23,9 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id 
     <>
       <AppHeader>
         <AppHeaderRow>
-          <AppTitle className={styles.title}>{i18n.group_member_attestations}</AppTitle>
+          <AppTitle className={styles.title}>
+            {i18n.attestations} ({atst_group_id})
+          </AppTitle>
           <AppTopMenu className={styles.topMenu}>
             {isMaster && (
               <li>
@@ -49,7 +51,7 @@ const GroupMemberAtstList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id 
   );
 };
 
-export default GroupMemberAtstList;
+export default AttestationList;
 
 export interface CryptoSizeAtstListProps {
   atst_group_id: string;
