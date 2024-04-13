@@ -17,7 +17,7 @@
   width: 1180px;
 }
 
-.lang {
+.left {
   flex-grow: 1;
 }
 
@@ -43,6 +43,10 @@
   li:not(:first-child) {
     margin-top: 14px;
   }
+}
+
+.commitHash {
+  color: var(--gray-80);
 }
 
 .item {

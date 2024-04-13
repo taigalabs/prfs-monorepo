@@ -8,11 +8,18 @@ import { envs } from "@/envs";
 const Footer: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();
 
+  const commitHash = React.useMemo(() => {
+    return envs.NEXT_PUBLIC_GIT_COMMIT_HASH.substring(0, 6);
+  }, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.inner}>
-        <div className={styles.lang}>
-          <p>{i18n.english}</p>
+        <div className={styles.left}>
+          <ul className={styles.list}>
+            <li>{i18n.english}</li>
+            <li className={styles.commitHash}>{commitHash}</li>
+          </ul>
         </div>
         <div className={styles.listContainer}>
           <div className={styles.col}>
