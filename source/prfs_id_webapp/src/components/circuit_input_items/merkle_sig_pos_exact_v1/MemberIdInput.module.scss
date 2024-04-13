@@ -9,15 +9,24 @@
   }
 }
 
-.inputWrapper {
-  height: 80px;
+.memberId {
+  .inputWrapper {
+    height: 80px;
 
-  .label {
-    transform: translateY(calc(-50% - 16px));
+    .label {
+      transform: translateY(calc(-50% - 16px));
+    }
+
+    .input {
+      transform: translateY(-16px);
+    }
   }
 
-  .input {
-    transform: translateY(-16px);
+  .hasValue,
+  .focus {
+    .label {
+      transform: translateY(-100%);
+    }
   }
 }
 

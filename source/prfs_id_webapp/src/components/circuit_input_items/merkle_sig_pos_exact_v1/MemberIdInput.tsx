@@ -39,12 +39,14 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
   return (
     <>
       <div className={styles.wrapper}>
-        <>
+        <div className={styles.memberId}>
           <InputWrapper
             className={styles.inputWrapper}
             isError={!!error.merkleProof}
             isFocused={isFocused}
             hasValue={abbrevMemberId.length > 0}
+            hasValueClassName={styles.hasValue}
+            focusClassName={styles.focus}
           >
             <Label name={""} className={styles.label}>
               {i18n.member_id}
@@ -59,7 +61,7 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
               readOnly
             />
           </InputWrapper>
-        </>
+        </div>
         <div className={styles.btnRow}>
           <CachedItemDialog handleChangeItem={handleChangeValue} prfsSet={prfsSet}>
             <FormInputButton type="button">{i18n.cache}</FormInputButton>
