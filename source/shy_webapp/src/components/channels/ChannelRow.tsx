@@ -11,7 +11,7 @@ import styles from "./ChannelRow.module.scss";
 import { paths } from "@/paths";
 import { useShyCache } from "@/hooks/user";
 import { useHandleJoinShyChannel } from "@/hooks/join_shy_channel";
-import Button from "../button/Button";
+import Button from "@/components/button/Button";
 
 const ChannelRow: React.FC<RowProps> = ({ channel }) => {
   const router = useRouter();
