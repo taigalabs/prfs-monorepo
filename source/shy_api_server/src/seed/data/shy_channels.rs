@@ -20,6 +20,7 @@ pub fn get_shy_channels_seed() -> Vec<ShyChannel> {
             proof_type_ids: JsonType::from(vec![]),
             status: ShyChannelStatus::Normal,
             r#type: ShyChannelType::Open,
+            assoc_proof_type_ids: JsonType::from(vec![]),
         },
         ShyChannel {
             channel_id: "0xb4f1fbe".into(),
@@ -29,6 +30,7 @@ pub fn get_shy_channels_seed() -> Vec<ShyChannel> {
             proof_type_ids: JsonType::from(vec![]),
             status: ShyChannelStatus::Normal,
             r#type: ShyChannelType::Open,
+            assoc_proof_type_ids: JsonType::from(vec![]),
         },
         ShyChannel {
             channel_id: "0xa8482bb".into(),
@@ -38,6 +40,7 @@ pub fn get_shy_channels_seed() -> Vec<ShyChannel> {
             proof_type_ids: JsonType::from(vec![]),
             status: ShyChannelStatus::Normal,
             r#type: ShyChannelType::Closed,
+            assoc_proof_type_ids: JsonType::from(vec![]),
         },
     ];
 

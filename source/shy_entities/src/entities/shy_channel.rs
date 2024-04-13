@@ -16,6 +16,9 @@ pub struct ShyChannel {
     #[ts(type = "string[]")]
     pub proof_type_ids: sqlx::types::Json<Vec<String>>,
 
+    #[ts(type = "Record<string, string>[]")]
+    pub assoc_proof_type_ids: sqlx::types::Json<Vec<AssocProofTypeId>>,
+
     pub status: ShyChannelStatus,
     pub r#type: ShyChannelType,
 }
@@ -40,4 +43,11 @@ pub enum ShyChannelStatus {
 pub enum ShyChannelType {
     Open,
     Closed,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Type, TS, PartialEq, Eq, Hash)]
+#[allow(non_camel_case_types)]
+#[ts(export)]
+pub struct AssocProofTypeId {
+    pub proof_type_id: String,
 }
