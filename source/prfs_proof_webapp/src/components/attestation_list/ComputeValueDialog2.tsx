@@ -128,7 +128,6 @@ const ComputeValueDialog: React.FC<ComputeTotalValueDialogProps> = ({ credential
     return (
       <Button variant="circular_gray_1">
         <div className={styles.inner}>
-          3333
           <FaCalculator />
         </div>
       </Button>
