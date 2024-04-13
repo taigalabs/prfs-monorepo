@@ -30,7 +30,8 @@ const AttestationDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_id }
     },
   });
   const atst = data?.prfs_attestation;
-  const cryptoAssets = React.useMemo(() => {
+
+  const meta = React.useMemo(() => {
     return atst && JSON.stringify(atst.meta);
   }, [atst?.meta]);
   const etherScanUrl = React.useMemo(() => {
@@ -84,10 +85,8 @@ const AttestationDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_id }
                 </div>
               </AttestationDetailSectionRow>
               <AttestationDetailSectionRow>
-                <AttestationDetailSectionRowLabel>
-                  {i18n.crypto_assets}
-                </AttestationDetailSectionRowLabel>
-                <div className={cn(styles.destination, styles.value)}>{cryptoAssets}</div>
+                <AttestationDetailSectionRowLabel>{i18n.meta}</AttestationDetailSectionRowLabel>
+                <div className={cn(styles.meta, styles.value)}>{meta}</div>
               </AttestationDetailSectionRow>
               <AttestationDetailSectionRow>
                 <AttestationDetailSectionRowLabel>
