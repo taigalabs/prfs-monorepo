@@ -119,12 +119,29 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     [setFirstProof],
   );
 
+  const handleSucceedAddOtherProofs = React.useCallback(
+    (proof: ProofBlob) => {
+      setOtherProofs(oldVal => [...oldVal, proof]);
+    },
+    [setOtherProofs],
+  );
+
+  const {
+    openPrfsIdSession,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+    sessionKey,
+    setSessionKey,
+    sk,
+    setSk,
+  } = usePrfsIdSession();
+
   const {
     handleAddProof,
     handleSucceedAddProofSession,
-    sessionKey,
-    isPrfsDialogOpen,
-    setIsPrfsDialogOpen,
+    // sessionKey,
+    // isPrfsDialogOpen,
+    // setIsPrfsDialogOpen,
   } = useAddProof({
     channel,
     setError,
@@ -132,6 +149,21 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     editor,
     setHtml,
     handleSucceedAddProof: handleSucceedAddFirstProof,
+  });
+
+  const {
+    handleAddProof: handleAddOtherProof,
+    handleSucceedAddProofSession: handleSucceedAddOtherProofSession,
+    // sessionKey,
+    // isPrfsDialogOpen,
+    // setIsPrfsDialogOpen,
+  } = useAddProof({
+    channel,
+    setError,
+    topicId,
+    editor,
+    setHtml,
+    handleSucceedAddProof: handleSucceedAddOtherProofs,
   });
 
   const { mutateAsync: createShyTopic } = useMutation({
@@ -410,7 +442,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
               </span>
               {assocProofTypes}
             </p>
-            <button onClick={() => {}} type="button">
+            <button onClick={handleAddOtherProof} type="button">
               <HoverableText>{i18n.add_proof_optional}</HoverableText>
             </button>
           </div>

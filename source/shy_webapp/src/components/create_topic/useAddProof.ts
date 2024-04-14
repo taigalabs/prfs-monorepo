@@ -50,6 +50,7 @@ export function useAddProof({
   handleSucceedAddProof,
 }: UseAddProofArgs) {
   const dispatch = useAppDispatch();
+
   const {
     openPrfsIdSession,
     isPrfsDialogOpen,
