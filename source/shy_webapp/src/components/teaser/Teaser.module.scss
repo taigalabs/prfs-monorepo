@@ -33,16 +33,16 @@
   flex-grow: 0;
 
   // border: 1px solid blue;
+
+  .logoText {
+    font-size: 32px;
+  }
 }
 
 .logo {
   > div {
     padding: 10px 5px 3px;
   }
-}
-
-.logoText {
-  font-size: 32px;
 }
 
 .main {
