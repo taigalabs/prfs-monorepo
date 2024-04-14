@@ -1,6 +1,7 @@
 import React from "react";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
+import { MdInfoOutline } from "@react-icons/all-files/md/MdInfoOutline";
 import {
   API_PATH,
   ProofGenArgs,
@@ -357,6 +358,13 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         </div>
         <div className={styles.editorRow}>
           {editor && <TextEditor editor={editor} className={styles.editorWrapper} />}
+        </div>
+        <div className={styles.btnRow}>
+          <MdInfoOutline className={styles.icon} />
+          <span>
+            Make sure you finish writing the contents before adding proofs. Otherwise, proofs will
+            be broken.
+          </span>
         </div>
         <div className={styles.btnRow}>
           <p className={styles.proofTypeGuide}>

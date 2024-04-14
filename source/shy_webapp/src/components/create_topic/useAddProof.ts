@@ -61,7 +61,6 @@ export function useAddProof({
   } = usePrfsIdSession();
 
   const handleAddProof = React.useCallback(async () => {
-    console.log(111);
     if (!editor) {
       return;
     }
