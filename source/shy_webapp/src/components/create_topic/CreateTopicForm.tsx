@@ -64,15 +64,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   const [error, setError] = React.useState<string | null>(null);
   const [firstProof, setFirstProof] = React.useState<ProofBlob | null>(null);
   const [otherProofs, setOtherProofs] = React.useState<ProofBlob[]>([]);
-  // const {
-  //   openPrfsIdSession,
-  //   isPrfsDialogOpen,
-  //   setIsPrfsDialogOpen,
-  //   sessionKey,
-  //   setSessionKey,
-  //   sk,
-  //   setSk,
-  // } = usePrfsIdSession();
   const { editor } = useTextEditor();
   const [html, setHtml] = React.useState<string | null>(null);
 
@@ -120,7 +111,9 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     } else {
       return null;
     }
-  }, [firstProof]);
+  }, [otherProofs]);
+
+  console.log(1, firstProof, otherProofs);
 
   // const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
 
