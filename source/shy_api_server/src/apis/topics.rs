@@ -64,6 +64,25 @@ pub async fn create_shy_topic(
         }
     };
 
+    let shy_proof = ShyProof {
+        shy_proof_id: input.shy_proof_id.to_string(),
+        proof: input.proof,
+        public_inputs: input.public_inputs.to_string(),
+        public_key: input.author_public_key.to_string(),
+        serial_no: input.serial_no,
+        proof_identity_input: input.proof_identity_input.to_string(),
+        proof_type_id: input.proof_type_id,
+    };
+
+    match shy::insert_shy_proof(&mut tx, &shy_proof).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&SHY_API_ERROR_CODES.RECORD_INSERT_FAIL, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
     let mut other_proof_ids = vec![];
     let mut author_proof_identity_inputs = vec![input.proof_identity_input.to_string()];
     for other_proof in input.other_proofs {
@@ -79,28 +98,45 @@ pub async fn create_shy_topic(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
 
+        let _proof_record_resp = match create_prfs_proof_record(
+            &ENVS.prfs_api_server_endpoint,
+            &other_proof.proof,
+            &other_proof.author_public_key,
+        )
+        .await
+        {
+            Ok(r) => r,
+            Err(err) => {
+                let resp =
+                    ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
+
+        let shy_proof = ShyProof {
+            shy_proof_id: other_proof.shy_proof_id.to_string(),
+            proof: other_proof.proof,
+            public_inputs: other_proof.public_inputs.to_string(),
+            public_key: other_proof.author_public_key.to_string(),
+            serial_no: other_proof.serial_no,
+            proof_identity_input: other_proof.proof_identity_input.to_string(),
+            proof_type_id: other_proof.proof_type_id,
+        };
+
+        match shy::insert_shy_proof(&mut tx, &shy_proof).await {
+            Ok(i) => i,
+            Err(err) => {
+                let resp = ApiResponse::new_error(
+                    &SHY_API_ERROR_CODES.RECORD_INSERT_FAIL,
+                    err.to_string(),
+                );
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
+
         other_proof_ids.push(other_proof.shy_proof_id);
         author_proof_identity_inputs.push(other_proof.proof_identity_input);
     }
-
-    let shy_proof = ShyProof {
-        shy_proof_id: input.shy_proof_id.to_string(),
-        proof: input.proof,
-        public_inputs: input.public_inputs.to_string(),
-        public_key: input.author_public_key.to_string(),
-        serial_no: input.serial_no,
-        proof_identity_input: input.proof_identity_input.to_string(),
-        proof_type_id: input.proof_type_id,
-    };
-
-    let _proof_id = match shy::insert_shy_proof(&mut tx, &shy_proof).await {
-        Ok(i) => i,
-        Err(err) => {
-            let resp =
-                ApiResponse::new_error(&SHY_API_ERROR_CODES.RECORD_INSERT_FAIL, err.to_string());
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
 
     let shy_topic = ShyTopic {
         title: input.title.to_string(),
