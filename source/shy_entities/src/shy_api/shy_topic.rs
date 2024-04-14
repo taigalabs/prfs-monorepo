@@ -20,6 +20,7 @@ pub struct CreateShyTopicRequest {
     pub author_sig_msg: Vec<u8>,
     pub sub_channel_id: String,
     pub proof_type_id: String,
+    pub other_proofs: Vec<ProofBlob>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -52,4 +53,18 @@ pub struct GetShyTopicRequest {
 #[ts(export)]
 pub struct GetShyTopicResponse {
     pub shy_topic_syn1: DateTimed<ShyTopicSyn1>,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct ProofBlob {
+    pub shy_proof_id: String,
+    pub proof_identity_input: String,
+    pub proof: Vec<u8>,
+    pub public_inputs: String,
+    pub serial_no: String,
+    pub author_public_key: String,
+    pub author_sig: String,
+    pub author_sig_msg: Vec<u8>,
+    pub proof_type_id: String,
 }
