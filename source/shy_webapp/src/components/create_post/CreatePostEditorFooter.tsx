@@ -1,5 +1,4 @@
 import React from "react";
-import { useCurrentEditor } from "@tiptap/react";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./CreatePostEditorFooter.module.scss";
@@ -10,16 +9,6 @@ const CreatePostEditorFooter: React.FC<EditorFooterProps> = ({
   handleClickReply,
 }) => {
   const i18n = usePrfsI18N();
-  const { editor } = useCurrentEditor();
-
-  const extendedHandleClickReply = React.useCallback(() => {
-    if (!editor) {
-      return null;
-    }
-
-    const html = editor.getHTML();
-    handleClickReply(html);
-  }, [handleClickReply, editor]);
 
   return (
     <ul className={styles.wrapper}>
@@ -29,7 +18,7 @@ const CreatePostEditorFooter: React.FC<EditorFooterProps> = ({
         </Button>
       </li>
       <li>
-        <Button variant="green_1" handleClick={extendedHandleClickReply}>
+        <Button variant="green_1" handleClick={handleClickReply}>
           {i18n.reply}
         </Button>
       </li>
@@ -41,5 +30,5 @@ export default CreatePostEditorFooter;
 
 export interface EditorFooterProps {
   handleClickCancel: () => void;
-  handleClickReply: (content: string) => void;
+  handleClickReply: () => void;
 }

@@ -22,7 +22,6 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import { useRouter } from "next/navigation";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { GetShyProofRequest } from "@taigalabs/shy-entities/bindings/GetShyProofRequest";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { CreateShyPostWithProofRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostWithProofRequest";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
@@ -40,7 +39,7 @@ import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { useGetShyProof } from "@/hooks/proof";
-import { useTextEditor } from "../text_editor/useTextEditor";
+import { useTextEditor } from "@/components/text_editor/useTextEditor";
 
 const PROOF = "Proof";
 
@@ -84,8 +83,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
 
   const handleClickReply = React.useCallback(async () => {
     setError(null);
-
-    console.log(123);
 
     if (!editor) {
       return;
@@ -300,15 +297,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
     [sk, dispatch, postId, html],
   );
 
-  // const footer = React.useMemo(() => {
-  //   return (
-  //     <CreatePostEditorFooter
-  //       handleClickCancel={handleClickCancel}
-  //       handleClickReply={handleClickReply}
-  //     />
-  //   );
-  // }, []);
-
   const handleClickClose = React.useCallback(() => {
     setError(null);
   }, [setError]);
@@ -318,7 +306,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
       <div className={styles.wrapper}>
         {error && <ErrorDialog handleClickClose={handleClickClose} error={error} />}
         <div className={styles.inner}>
-          {/* <TextEditor footer={footer} /> */}
           {editor && <TextEditor editor={editor} className={styles.editorWrapper} />}
           <CreatePostEditorFooter
             handleClickCancel={handleClickCancel}
