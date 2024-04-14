@@ -24,6 +24,7 @@ import {
 } from "@/components/default_module/DefaultModule";
 import { IdCreateForm, validateIdCreateForm } from "@/identity";
 import { useAppDispatch } from "@/state/hooks";
+import { envs } from "@/envs";
 
 const ID_CONFIRM = "id_confirm";
 const PASSWORD_1_CONFIRM = "password_1_confirm";
@@ -112,7 +113,7 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
             </div>
             <DefaultInputGuide>
               <Link
-                href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
+                href={`${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}/identity`}
                 target="_blank"
               >
                 {i18n.how_to_choose_right_id}

@@ -36,7 +36,7 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
   proofInstanceId,
   proofType,
   handleSelectProofType,
-  webappConsoleEndpoint,
+  proofWebappEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -111,7 +111,7 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
           >
             <ProofTypeModal
               handleSelectVal={extendedProofTypeClickHandler}
-              webappConsoleEndpoint={webappConsoleEndpoint}
+              proofWebappEndpoint={proofWebappEndpoint}
             />
           </div>
         </FloatingFocusManager>
@@ -128,5 +128,5 @@ export interface SearchProofDialogProps {
   proofInstanceId?: string | undefined;
   proofType: PrfsProofType | undefined;
   handleSelectProofType: (proofType: PrfsProofType) => void;
-  webappConsoleEndpoint: string;
+  proofWebappEndpoint: string;
 }

@@ -7,6 +7,7 @@ import { paths } from "@/paths";
 import LatestTimestamp from "@/components/latest_timestamp/LatestTimestamp";
 import { getI18N } from "@/i18n/get_i18n";
 import { urls } from "@/urls";
+import { envs } from "@/envs";
 
 const GlobalFooter: React.FC<GlobalFooterProps> = async ({ transparent }) => {
   const i18n = await getI18N();
@@ -24,13 +25,13 @@ const GlobalFooter: React.FC<GlobalFooterProps> = async ({ transparent }) => {
       </ul>
       <ul className={styles.rightList}>
         <li>
-          <Link href={process.env.NEXT_PUBLIC_CODE_REPOSITORY_URL}>{i18n.code}</Link>
+          <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>{i18n.code}</Link>
         </li>
         <li>
           <Link href={urls.privacy}>{i18n.privacy}</Link>
         </li>
         <li>
-          <Link href={process.env.NEXT_PUBLIC_TAIGALABS_ENDPOINT}>{i18n.taigalabs}</Link>
+          <Link href={envs.NEXT_PUBLIC_TAIGALABS_ENDPOINT}>{i18n.taigalabs}</Link>
         </li>
       </ul>
     </div>
