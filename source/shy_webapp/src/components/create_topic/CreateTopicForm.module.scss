@@ -54,6 +54,11 @@
   position: relative;
 }
 
+.proofTypeGuide {
+  color: var(--gray-20);
+  padding-bottom: 8px;
+}
+
 @media screen and (min-width: $big_display_min_width) {
   .wrapper {
     width: $form_width;

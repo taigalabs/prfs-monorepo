@@ -42,6 +42,7 @@ import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import Button from "@/components/button/Button";
 import { useTextEditor } from "@/components/text_editor/useTextEditor";
+import { useAddProof } from "./useAddProof";
 
 const PROOF = "Proof";
 
@@ -72,9 +73,15 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     const hex = rand256Hex();
     return { topicId: hex.substring(0, 22), shortTopicId: hex.substring(0, 8) };
   }, []);
+  const requiredProofTypes = React.useMemo(() => {
+    return channel.proof_type_ids.map(ty => {
+      return <span key={ty}>{ty}</span>;
+    });
+  }, [channel]);
 
   const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
   const { editor, extensions } = useTextEditor();
+  const { addProof } = useAddProof();
 
   const { mutateAsync: createShyTopic } = useMutation({
     mutationFn: (req: CreateShyTopicRequest) => {
@@ -171,6 +178,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
       value: null,
       ticket: "TICKET",
     });
+
     setIsPrfsDialogOpen(true);
     setSessionKey(proofGenArgs.session_key);
     setSk(sk);
@@ -316,13 +324,24 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
             onChange={handleChangeTitle}
           />
         </div>
-        <div className={styles.editorRow}>
-          {editor && <TextEditor editor={editor} className={styles.editorWrapper} />}
+        <>
+          <div className={styles.editorRow}>
+            {editor && <TextEditor editor={editor} className={styles.editorWrapper} />}
+          </div>
+          {error && <div className={styles.error}>{error}</div>}
+        </>
+        <div className={styles.btnRow}>
+          <p className={styles.proofTypeGuide}>
+            <span>This channel requires you to one or more proofs of the following types: </span>
+            {requiredProofTypes}
+          </p>
+          <Button variant="transparent_1" handleClick={addProof}>
+            {i18n.add_proof}
+          </Button>
         </div>
-        {error && <div className={styles.error}>{error}</div>}
         <div className={styles.btnRow}>
           <Button variant="green_1" handleClick={handleCreateTopic}>
-            {createInProgress ? <Spinner /> : i18n.post}
+            {createInProgress === Status.InProgress ? <Spinner /> : i18n.post}
           </Button>
         </div>
       </div>

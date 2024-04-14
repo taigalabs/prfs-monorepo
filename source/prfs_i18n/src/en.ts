@@ -72,6 +72,7 @@ export default {
   feedback: "Feedback",
   email_or_id_or_wallet_addr: "Email or Id or Wallet address",
   fetching_data_failed: "Oops, fetching data has failed",
+  add_proof: "Add a proof",
   already_made_proof:
     "You've already made the same proof. All good. Getting back to the app in seconds",
   no_channel_found: "No channel found for this channel id. Check out the channel id",
