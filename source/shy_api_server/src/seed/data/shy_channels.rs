@@ -1,6 +1,6 @@
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_rust_utils::markdown::read_md_file;
-use shy_entities::{Locale, ShyChannel, ShyChannelStatus, ShyChannelType};
+use shy_entities::{AssocProofTypeId, Locale, ShyChannel, ShyChannelStatus, ShyChannelType};
 
 use crate::paths::PATHS;
 
@@ -17,7 +17,7 @@ pub fn get_shy_channels_seed() -> Vec<ShyChannel> {
             label: "Korean crypto holders (한국 크립토 소유자)".into(),
             locale: Locale::ko,
             desc: korean_crypto_holders_desc,
-            proof_type_ids: JsonType::from(vec![]),
+            proof_type_ids: JsonType::from(vec!["crypto_asset_size_v1".into()]),
             status: ShyChannelStatus::Normal,
             r#type: ShyChannelType::Open,
             assoc_proof_type_ids: JsonType::from(vec![]),
@@ -27,7 +27,7 @@ pub fn get_shy_channels_seed() -> Vec<ShyChannel> {
             label: "Crypto holders".into(),
             locale: Locale::en,
             desc: crypto_holders_desc.into(),
-            proof_type_ids: JsonType::from(vec![]),
+            proof_type_ids: JsonType::from(vec!["crypto_asset_size_v1".into()]),
             status: ShyChannelStatus::Normal,
             r#type: ShyChannelType::Open,
             assoc_proof_type_ids: JsonType::from(vec![]),
@@ -37,10 +37,12 @@ pub fn get_shy_channels_seed() -> Vec<ShyChannel> {
             label: "Nonce community Seoul (논스)".into(),
             locale: Locale::ko,
             desc: nonce_seoul_md,
-            proof_type_ids: JsonType::from(vec![]),
+            proof_type_ids: JsonType::from(vec!["nonce_seoul_v1".into()]),
             status: ShyChannelStatus::Normal,
             r#type: ShyChannelType::Closed,
-            assoc_proof_type_ids: JsonType::from(vec![]),
+            assoc_proof_type_ids: JsonType::from(vec![AssocProofTypeId {
+                proof_type_id: "crypto_asset_size_v1".into(),
+            }]),
         },
     ];
 

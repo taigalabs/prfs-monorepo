@@ -19,7 +19,7 @@ impl Paths {
         let project_root = get_project_root();
         let package_root = project_root.join("source/shy_api_server");
 
-        let data = project_root.join("source/shy_api_server/data_seed");
+        let data = project_root.join("source/shy_api_server/data");
 
         let p = Paths { package_root, data };
 

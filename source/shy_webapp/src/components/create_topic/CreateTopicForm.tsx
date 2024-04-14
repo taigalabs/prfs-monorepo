@@ -39,7 +39,6 @@ import { pathParts, paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
 import { envs } from "@/envs";
 import { SHY_APP_ID } from "@/app_id";
-import CreateTopicFooter from "./CreateTopicFooter";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import Button from "@/components/button/Button";
@@ -112,8 +111,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     }
 
     const html = editor.getHTML();
-
-    console.log(11, html);
 
     if (title.length < 1) {
       setError("Title needs to be present");
