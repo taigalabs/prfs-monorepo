@@ -31,6 +31,16 @@
   }
 }
 
+.proofGuideRow {
+  padding: 24px 6px 6px;
+
+  .inner {
+    border-radius: 6px;
+    padding: 12px 12px 12px;
+    background-color: var(--bright-gray-50);
+  }
+}
+
 .icon {
   font-size: 18px;
   vertical-align: middle;

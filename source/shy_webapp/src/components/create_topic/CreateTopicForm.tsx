@@ -359,12 +359,14 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         <div className={styles.editorRow}>
           {editor && <TextEditor editor={editor} className={styles.editorWrapper} />}
         </div>
-        <div className={styles.btnRow}>
-          <MdInfoOutline className={styles.icon} />
-          <span>
-            Make sure you finish writing the contents before adding proofs. Otherwise, proofs will
-            be broken.
-          </span>
+        <div className={styles.proofGuideRow}>
+          <div className={styles.inner}>
+            <MdInfoOutline className={styles.icon} />
+            <span>
+              Make sure you finish writing the contents before adding proofs. Otherwise, proofs will
+              be broken.
+            </span>
+          </div>
         </div>
         <div className={styles.btnRow}>
           <p className={styles.proofTypeGuide}>
