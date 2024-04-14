@@ -397,7 +397,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
           </button>
           {firstProofIdAbbrev && (
             <div className={styles.proofId}>
-              <p>Added {firstProofIdAbbrev}</p>
+              <p>+ {firstProofIdAbbrev}</p>
             </div>
           )}
         </div>
