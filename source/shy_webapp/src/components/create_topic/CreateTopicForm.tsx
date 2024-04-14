@@ -21,6 +21,7 @@ import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyTopicRequest } from "@taigalabs/shy-entities/bindings/CreateShyTopicRequest";
+import { AssocProofTypeId } from "@taigalabs/shy-entities/bindings/AssocProofTypeId";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
@@ -31,6 +32,7 @@ import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_d
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./CreateTopicForm.module.scss";
 import { pathParts, paths } from "@/paths";
@@ -77,7 +79,13 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     return channel.proof_type_ids.map(ty => {
       return <span key={ty}>{ty}</span>;
     });
-  }, [channel]);
+  }, [channel.proof_type_ids]);
+  const assocProofTypes = React.useMemo(() => {
+    const ids = channel.assoc_proof_type_ids as AssocProofTypeId[];
+    return ids.map(id => {
+      return <span key={id.proof_type_id}>{id.proof_type_id}</span>;
+    });
+  }, [channel.assoc_proof_type_ids]);
 
   const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
   const { editor, extensions } = useTextEditor();
@@ -324,26 +332,40 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
             onChange={handleChangeTitle}
           />
         </div>
-        <>
-          <div className={styles.editorRow}>
-            {editor && <TextEditor editor={editor} className={styles.editorWrapper} />}
-          </div>
-          {error && <div className={styles.error}>{error}</div>}
-        </>
+        <div className={styles.editorRow}>
+          {editor && <TextEditor editor={editor} className={styles.editorWrapper} />}
+        </div>
         <div className={styles.btnRow}>
           <p className={styles.proofTypeGuide}>
-            <span>This channel requires you to one or more proofs of the following types: </span>
+            <span className={styles.guide}>
+              This channel <b>requires</b> you to add one or more proofs of the following types:
+            </span>
             {requiredProofTypes}
           </p>
-          <Button variant="transparent_1" handleClick={addProof}>
-            {i18n.add_proof}
-          </Button>
+          <button onClick={() => {}} type="button">
+            <HoverableText>{i18n.add_proof}</HoverableText>
+          </button>
         </div>
+        {channel.assoc_proof_type_ids.length > 0 && (
+          <div className={styles.btnRow}>
+            <p className={styles.proofTypeGuide}>
+              <span className={styles.guide}>
+                Additionally, this channel <b>allows</b> you to add one or more proofs of the
+                following types:
+              </span>
+              {assocProofTypes}
+            </p>
+            <button onClick={() => {}} type="button">
+              <HoverableText>{i18n.add_proof}</HoverableText>
+            </button>
+          </div>
+        )}
         <div className={styles.btnRow}>
           <Button variant="green_1" handleClick={handleCreateTopic}>
             {createInProgress === Status.InProgress ? <Spinner /> : i18n.post}
           </Button>
         </div>
+        {error && <div className={styles.error}>{error}</div>}
       </div>
       <PrfsIdSessionDialog
         sessionKey={sessionKey}

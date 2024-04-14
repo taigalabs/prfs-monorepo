@@ -57,6 +57,10 @@
 .proofTypeGuide {
   color: var(--gray-20);
   padding-bottom: 8px;
+
+  .guide {
+    margin-right: 4px;
+  }
 }
 
 @media screen and (min-width: $big_display_min_width) {
