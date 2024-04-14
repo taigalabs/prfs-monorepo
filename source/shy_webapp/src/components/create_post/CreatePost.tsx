@@ -40,6 +40,7 @@ import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { useGetShyProof } from "@/hooks/proof";
+import { useTextEditor } from "../text_editor/useTextEditor";
 
 const PROOF = "Proof";
 
@@ -65,6 +66,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const [error, setError] = React.useState<string | null>(null);
   const [postId, setPostId] = React.useState<string | null>(null);
   const [html, setHtml] = React.useState<string | null>(null);
+  const { editor } = useTextEditor();
 
   const { mutateAsync: getShyProof } = useGetShyProof();
 
@@ -80,93 +82,97 @@ const CreatePost: React.FC<CreatePostProps> = ({
     },
   });
 
-  const handleClickReply = React.useCallback(
-    async (html: string) => {
-      setError(null);
+  const handleClickReply = React.useCallback(async () => {
+    setError(null);
 
-      if (channel.proof_type_ids.length < 1) {
-        setError("Proof type does not exist");
-        return;
-      }
+    if (!editor) {
+      return;
+    }
 
-      if (html.length < 10) {
-        setError("Content needs to be longer");
-        return;
-      }
+    const html = editor.getHTML();
 
-      const proofTypeId = channel.proof_type_ids[0];
-      const session_key = createSessionKey();
-      const { sk, pkHex } = createRandomKeyPair();
-      const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
-      const postId = rand256Hex();
+    if (channel.proof_type_ids.length < 1) {
+      setError("Proof type does not exist");
+      return;
+    }
 
-      const proofAction: ShyPostProofAction = {
-        type: "create_shy_post",
-        topic_id: topicId,
-        post_id: postId,
-        content: html,
-      };
-      const proofActionStr = JSON.stringify(proofAction);
+    if (html.length < 10) {
+      setError("Content needs to be longer");
+      return;
+    }
 
-      const presetVals: MerkleSigPosRangeV1PresetVals = {
-        nonceRaw: json,
-      };
-      const proofGenArgs: ProofGenArgs = {
-        nonce: makeRandInt(1000000),
-        app_id: SHY_APP_ID,
-        queries: [
-          {
-            name: PROOF,
-            proofTypeId,
-            queryType: QueryType.CREATE_PROOF,
-            presetVals,
-            usePrfsRegistry: true,
-            proofAction: proofActionStr,
-          },
-        ],
-        public_key: pkHex,
-        session_key,
-      };
+    const proofTypeId = channel.proof_type_ids[0];
+    const session_key = createSessionKey();
+    const { sk, pkHex } = createRandomKeyPair();
+    const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
+    const postId = rand256Hex();
 
-      const searchParams = makeProofGenSearchParams(proofGenArgs);
-      const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
+    const proofAction: ShyPostProofAction = {
+      type: "create_shy_post",
+      topic_id: topicId,
+      post_id: postId,
+      content: html,
+    };
+    const proofActionStr = JSON.stringify(proofAction);
 
-      const popup = openPopup(endpoint);
-      if (!popup) {
-        console.error("Popup couldn't be open");
-        return;
-      }
+    const presetVals: MerkleSigPosRangeV1PresetVals = {
+      nonceRaw: json,
+    };
+    const proofGenArgs: ProofGenArgs = {
+      nonce: makeRandInt(1000000),
+      app_id: SHY_APP_ID,
+      queries: [
+        {
+          name: PROOF,
+          proofTypeId,
+          queryType: QueryType.CREATE_PROOF,
+          presetVals,
+          usePrfsRegistry: true,
+          proofAction: proofActionStr,
+        },
+      ],
+      public_key: pkHex,
+      session_key,
+    };
 
-      const { payload: _ } = await openPrfsIdSession({
-        key: proofGenArgs.session_key,
-        value: null,
-        ticket: "TICKET",
-      });
-      setIsPrfsDialogOpen(true);
-      setSessionKey(proofGenArgs.session_key);
-      setSk(sk);
-      setPostId(postId);
-      setHtml(html);
-    },
-    [
-      channel,
-      topicId,
-      setError,
-      router,
-      handleSucceedPost,
-      dispatch,
-      getShyProof,
-      createShyPostWithProof,
-      createShyPost,
-      subChannelId,
-      setSk,
-      setSessionKey,
-      setIsPrfsDialogOpen,
-      openPrfsIdSession,
-      setPostId,
-      setHtml,
-    ],
-  );
+    const searchParams = makeProofGenSearchParams(proofGenArgs);
+    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
+
+    const popup = openPopup(endpoint);
+    if (!popup) {
+      console.error("Popup couldn't be open");
+      return;
+    }
+
+    const { payload: _ } = await openPrfsIdSession({
+      key: proofGenArgs.session_key,
+      value: null,
+      ticket: "TICKET",
+    });
+    setIsPrfsDialogOpen(true);
+    setSessionKey(proofGenArgs.session_key);
+    setSk(sk);
+    setPostId(postId);
+    setHtml(html);
+  }, [
+    channel,
+    topicId,
+    setError,
+    router,
+    handleSucceedPost,
+    dispatch,
+    getShyProof,
+    createShyPostWithProof,
+    createShyPost,
+    subChannelId,
+    setSk,
+    setSessionKey,
+    setIsPrfsDialogOpen,
+    openPrfsIdSession,
+    setPostId,
+    setHtml,
+    editor,
+  ]);
 
   const handleSucceedGetSession = React.useCallback(
     async (session: PrfsIdSession) => {
@@ -292,14 +298,14 @@ const CreatePost: React.FC<CreatePostProps> = ({
     [sk, dispatch, postId, html],
   );
 
-  const footer = React.useMemo(() => {
-    return (
-      <CreatePostEditorFooter
-        handleClickCancel={handleClickCancel}
-        handleClickReply={handleClickReply}
-      />
-    );
-  }, []);
+  // const footer = React.useMemo(() => {
+  //   return (
+  //     <CreatePostEditorFooter
+  //       handleClickCancel={handleClickCancel}
+  //       handleClickReply={handleClickReply}
+  //     />
+  //   );
+  // }, []);
 
   const handleClickClose = React.useCallback(() => {
     setError(null);
@@ -310,7 +316,12 @@ const CreatePost: React.FC<CreatePostProps> = ({
       <div className={styles.wrapper}>
         {error && <ErrorDialog handleClickClose={handleClickClose} error={error} />}
         <div className={styles.inner}>
-          <TextEditor footer={footer} />
+          {/* <TextEditor footer={footer} /> */}
+          {editor && <TextEditor editor={editor} className={styles.editorWrapper} />}
+          <CreatePostEditorFooter
+            handleClickCancel={handleClickCancel}
+            handleClickReply={handleClickReply}
+          />
         </div>
       </div>
       <PrfsIdSessionDialog

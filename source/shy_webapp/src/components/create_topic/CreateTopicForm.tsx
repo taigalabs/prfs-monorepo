@@ -179,11 +179,10 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   const handleCreateTopic = React.useCallback(async () => {
     setError(null);
 
-    if (!editor) {
+    if (!html) {
+      setError("Content needs to be present");
       return;
     }
-
-    const html = editor.getHTML();
 
     if (title.length < 1) {
       setError("Title needs to be present");
@@ -271,6 +270,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     router,
     setStatus,
     setIsNavigating,
+    html,
     setIsPrfsDialogOpen,
     setHtml,
   ]);
