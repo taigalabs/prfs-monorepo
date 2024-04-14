@@ -36,7 +36,9 @@
 }
 
 .logo {
-  font-size: 40px;
+  span {
+    font-size: 32px;
+  }
 
   > div {
     padding: 10px 5px 3px;
