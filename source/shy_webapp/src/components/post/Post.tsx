@@ -15,7 +15,7 @@ const Post: React.FC<PostContentProps> = ({
   channel,
   author_public_key,
   content,
-  proof_identity_input,
+  author_proof_identity_inputs,
   updated_at,
   subChannelId,
   handleSucceedPost,
@@ -59,7 +59,7 @@ const Post: React.FC<PostContentProps> = ({
               <p className={styles.publicKey}>{publicKey}</p>
             </div>
             <div className={styles.item}>
-              <p className={styles.proofIdentityInput}>{proof_identity_input}</p>
+              <p className={styles.proofIdentityInput}>{author_proof_identity_inputs}</p>
             </div>
           </div>
           <div className={styles.right}>
@@ -95,7 +95,7 @@ export default Post;
 
 export interface PostContentProps {
   author_public_key: string;
-  proof_identity_input: string;
+  author_proof_identity_inputs: string;
   content: string;
   updated_at: string;
   channel: ShyChannel;

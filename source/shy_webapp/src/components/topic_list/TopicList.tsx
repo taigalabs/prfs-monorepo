@@ -75,7 +75,7 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channel, className, pl
   const allRows = data
     ? data.pages.flatMap(d => {
         if (d.payload) {
-          return d.payload.shy_topic_syn1s;
+          return d.payload.shy_topics;
         } else {
           [];
         }

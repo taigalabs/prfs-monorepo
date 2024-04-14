@@ -66,6 +66,7 @@ pub async fn create_shy_topic(
     };
 
     let mut other_proof_ids = vec![];
+    let mut author_proof_identity_inputs = vec![input.proof_identity_input.to_string()];
     for other_proof in input.other_proofs {
         if let Err(err) = verify_eth_sig_by_pk(
             &other_proof.author_sig,
@@ -80,6 +81,7 @@ pub async fn create_shy_topic(
         }
 
         other_proof_ids.push(other_proof.shy_proof_id);
+        author_proof_identity_inputs.push(other_proof.proof_identity_input);
     }
 
     let shy_proof = ShyProof {
@@ -109,6 +111,7 @@ pub async fn create_shy_topic(
         content: input.content.to_string(),
         shy_proof_id: input.shy_proof_id.to_string(),
         author_public_key: input.author_public_key.to_string(),
+        author_proof_identity_inputs: JsonType::from(author_proof_identity_inputs),
         author_sig: input.author_sig.to_string(),
         participant_identity_inputs: JsonType::from(vec![input.proof_identity_input.to_string()]),
         sub_channel_id: input.sub_channel_id.to_string(),
@@ -151,7 +154,7 @@ pub async fn get_shy_topics(
     };
 
     let resp = ApiResponse::new_success(GetShyTopicsResponse {
-        shy_topic_syn1s: rows,
+        shy_topics: rows,
         next_offset,
     });
     return (StatusCode::OK, Json(resp));
@@ -162,7 +165,7 @@ pub async fn get_shy_topic(
     Json(input): Json<GetShyTopicRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyTopicResponse>>) {
     let pool = &state.db2.pool;
-    let shy_topic_syn1 = match shy::get_shy_topic_syn1(pool, &input.topic_id).await {
+    let shy_topic = match shy::get_shy_topic_syn1(pool, &input.topic_id).await {
         Ok(t) => t,
         Err(err) => {
             let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
@@ -170,6 +173,6 @@ pub async fn get_shy_topic(
         }
     };
 
-    let resp = ApiResponse::new_success(GetShyTopicResponse { shy_topic_syn1 });
+    let resp = ApiResponse::new_success(GetShyTopicResponse { shy_topic });
     return (StatusCode::OK, Json(resp));
 }

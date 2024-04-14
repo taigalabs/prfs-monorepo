@@ -8,7 +8,7 @@ pub async fn get_shy_topic_syn1s(
     channel_id: &String,
     offset: i32,
     limit: i32,
-) -> Result<Vec<DateTimed<ShyTopicSyn1>>, ShyDbInterfaceError> {
+) -> Result<Vec<DateTimed<ShyTopic>>, ShyDbInterfaceError> {
     let query = r#"
 SELECT t.*, f.*
 FROM shy_topics t 
@@ -29,33 +29,31 @@ LIMIT $3
     let shy_topics = rows
         .iter()
         .map(|row| {
-            let topic_ = ShyTopicSyn1 {
-                shy_topic: ShyTopic {
-                    title: row.try_get("title")?,
-                    topic_id: row.try_get("topic_id")?,
-                    content: row.try_get("content")?,
-                    author_public_key: row.try_get("author_public_key")?,
-                    channel_id: row.try_get("channel_id")?,
-                    total_reply_count: row.try_get("total_reply_count")?,
-                    shy_proof_id: row.try_get("shy_proof_id")?,
-                    author_sig: row.try_get("author_sig")?,
-                    participant_identity_inputs: row.try_get("participant_identity_inputs")?,
-                    sub_channel_id: row.try_get("sub_channel_id")?,
-                    total_like_count: row.try_get("total_like_count")?,
-                    other_proof_ids: row.try_get("other_proof_ids")?,
-                },
-                proof_identity_input: row.try_get("proof_identity_input")?,
+            let shy_topic = ShyTopic {
+                title: row.try_get("title")?,
+                topic_id: row.try_get("topic_id")?,
+                content: row.try_get("content")?,
+                author_proof_identity_inputs: row.try_get("author_proof_identity_inputs")?,
+                author_public_key: row.try_get("author_public_key")?,
+                channel_id: row.try_get("channel_id")?,
+                total_reply_count: row.try_get("total_reply_count")?,
+                shy_proof_id: row.try_get("shy_proof_id")?,
+                author_sig: row.try_get("author_sig")?,
+                participant_identity_inputs: row.try_get("participant_identity_inputs")?,
+                sub_channel_id: row.try_get("sub_channel_id")?,
+                total_like_count: row.try_get("total_like_count")?,
+                other_proof_ids: row.try_get("other_proof_ids")?,
             };
 
             let topic = DateTimed {
-                inner: topic_,
+                inner: shy_topic,
                 created_at: row.try_get("created_at")?,
                 updated_at: row.try_get("updated_at")?,
             };
 
             return Ok(topic);
         })
-        .collect::<Result<Vec<DateTimed<ShyTopicSyn1>>, ShyDbInterfaceError>>()?;
+        .collect::<Result<Vec<DateTimed<ShyTopic>>, ShyDbInterfaceError>>()?;
 
     Ok(shy_topics)
 }
@@ -63,7 +61,7 @@ LIMIT $3
 pub async fn get_shy_topic_syn1(
     pool: &Pool<Postgres>,
     topic_id: &String,
-) -> Result<DateTimed<ShyTopicSyn1>, ShyDbInterfaceError> {
+) -> Result<DateTimed<ShyTopic>, ShyDbInterfaceError> {
     let query = r#"
 SELECT t.*, f.*
 FROM shy_topics t 
@@ -73,22 +71,20 @@ WHERE t.topic_id=$1
 
     let row = sqlx::query(&query).bind(topic_id).fetch_one(pool).await?;
 
-    let topic_ = ShyTopicSyn1 {
-        shy_topic: ShyTopic {
-            title: row.try_get("title")?,
-            topic_id: row.try_get("topic_id")?,
-            content: row.try_get("content")?,
-            author_public_key: row.try_get("author_public_key")?,
-            channel_id: row.try_get("channel_id")?,
-            total_reply_count: row.try_get("total_reply_count")?,
-            shy_proof_id: row.try_get("shy_proof_id")?,
-            author_sig: row.try_get("author_sig")?,
-            participant_identity_inputs: row.try_get("participant_identity_inputs")?,
-            sub_channel_id: row.try_get("sub_channel_id")?,
-            total_like_count: row.try_get("total_like_count")?,
-            other_proof_ids: row.try_get("other_proof_ids")?,
-        },
-        proof_identity_input: row.try_get("proof_identity_input")?,
+    let topic_ = ShyTopic {
+        title: row.try_get("title")?,
+        topic_id: row.try_get("topic_id")?,
+        content: row.try_get("content")?,
+        author_public_key: row.try_get("author_public_key")?,
+        author_proof_identity_inputs: row.try_get("author_proof_identity_inputs")?,
+        channel_id: row.try_get("channel_id")?,
+        total_reply_count: row.try_get("total_reply_count")?,
+        shy_proof_id: row.try_get("shy_proof_id")?,
+        author_sig: row.try_get("author_sig")?,
+        participant_identity_inputs: row.try_get("participant_identity_inputs")?,
+        sub_channel_id: row.try_get("sub_channel_id")?,
+        total_like_count: row.try_get("total_like_count")?,
+        other_proof_ids: row.try_get("other_proof_ids")?,
     };
 
     let topic = DateTimed {

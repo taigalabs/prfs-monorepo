@@ -16,6 +16,9 @@ pub struct ShyTopic {
     pub total_like_count: i64,
 
     #[ts(type = "string[]")]
+    pub author_proof_identity_inputs: sqlx::types::Json<Vec<String>>,
+
+    #[ts(type = "string[]")]
     pub participant_identity_inputs: sqlx::types::Json<Vec<String>>,
 
     #[ts(type = "string[]")]

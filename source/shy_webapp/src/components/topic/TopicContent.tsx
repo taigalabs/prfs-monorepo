@@ -18,8 +18,10 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
       return shyApi2({ type: "get_shy_topic", topic_id: topicId });
     },
   });
-  const topic = postData?.payload?.shy_topic_syn1;
-  const identity_inputs = topic?.inner.shy_topic.participant_identity_inputs.join(",");
+
+  const topic = postData?.payload?.shy_topic;
+  const participant_identity_inputs = topic?.inner.participant_identity_inputs.join(",");
+  const author_proof_identity_inputs = topic?.inner.author_proof_identity_inputs.join(",");
 
   return (
     <div className={styles.wrapper}>
@@ -27,11 +29,11 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
         <>
           <div className={styles.titleRow}>
             <div className={styles.inner}>
-              <p className={styles.title}>{topic.inner.shy_topic.title}</p>
+              <p className={styles.title}>{topic.inner.title}</p>
               <div className={styles.postMeta}>
                 <button className={styles.participants} type="button">
                   <MdGroup />
-                  <span>{identity_inputs ?? i18n.participants}</span>
+                  <span>{participant_identity_inputs ?? i18n.participants}</span>
                 </button>
               </div>
             </div>
@@ -39,9 +41,9 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
           <Post
             topicId={topicId}
             channel={channel}
-            author_public_key={topic.inner.shy_topic.author_public_key}
-            content={topic.inner.shy_topic.content}
-            proof_identity_input={topic.inner.proof_identity_input}
+            author_public_key={topic.inner.author_public_key}
+            author_proof_identity_inputs={author_proof_identity_inputs!}
+            content={topic.inner.content}
             updated_at={topic.updated_at}
             handleSucceedPost={rerender}
             subChannelId={subChannelId}
