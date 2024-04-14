@@ -54,17 +54,6 @@
   position: relative;
 }
 
-.editorWrapper {
-  :global(.ProseMirror-focused) {
-    border-bottom: 1px solid var(--gray-50);
-  }
-}
-
-.editor {
-  border-bottom: 1px solid var(--bright-gray-30);
-  min-height: 120px;
-}
-
 @media screen and (min-width: $big_display_min_width) {
   .wrapper {
     width: $form_width;

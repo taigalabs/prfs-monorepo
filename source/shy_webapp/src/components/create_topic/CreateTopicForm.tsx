@@ -317,14 +317,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
           />
         </div>
         <div className={styles.editorRow}>
-          {editor && (
-            <TextEditor
-              editor={editor}
-              extensions={extensions}
-              className={styles.editorWrapper}
-              editorClassName={styles.editor}
-            />
-          )}
+          {editor && <TextEditor editor={editor} className={styles.editorWrapper} />}
         </div>
         {error && <div className={styles.error}>{error}</div>}
         <div className={styles.btnRow}>
