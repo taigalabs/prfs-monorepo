@@ -2,44 +2,30 @@ import React from "react";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { MdInfoOutline } from "@react-icons/all-files/md/MdInfoOutline";
 import { rand256Hex } from "@taigalabs/prfs-crypto-js";
-import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-import { CreateShyTopicRequest } from "@taigalabs/shy-entities/bindings/CreateShyTopicRequest";
 import { AssocProofTypeId } from "@taigalabs/shy-entities/bindings/AssocProofTypeId";
-import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { shyApi2 } from "@taigalabs/shy-api-js";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./CreateTopicForm.module.scss";
-import { pathParts, paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
-import { useAppDispatch } from "@/state/hooks";
-import { setGlobalMsg } from "@/state/globalMsgReducer";
 import Button from "@/components/button/Button";
 import { useTextEditor } from "@/components/text_editor/useTextEditor";
 import { ProofBlob, useAddProof } from "./useAddProof";
-
-enum Status {
-  Standby,
-  InProgress,
-}
+import { Status, useCreateTopic } from "./useCreateTopic";
 
 const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId }) => {
   const i18n = usePrfsI18N();
-  const router = useRouter();
   const [title, setTitle] = React.useState<string>("");
   const [status, setStatus] = React.useState(Status.Standby);
-  const dispatch = useAppDispatch();
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [firstProof, setFirstProof] = React.useState<ProofBlob | null>(null);
   const [otherProofs, setOtherProofs] = React.useState<ProofBlob[]>([]);
   const { editor } = useTextEditor();
   const [html, setHtml] = React.useState<string | null>(null);
-  const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
 
   const { topicId, shortTopicId } = React.useMemo(() => {
     const hex = rand256Hex();
@@ -136,12 +122,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     handleSucceedAddProof: handleSucceedAddOtherProofs,
   });
 
-  const { mutateAsync: createShyTopic } = useMutation({
-    mutationFn: (req: CreateShyTopicRequest) => {
-      return shyApi2({ type: "create_shy_topic", ...req });
-    },
-  });
-
   const handleChangeTitle = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(ev.target.value);
@@ -149,209 +129,20 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     [setTitle],
   );
 
-  const handleCreateTopic = React.useCallback(async () => {
-    setError(null);
-
-    if (!html) {
-      setError("Content needs to be present");
-      return;
-    }
-
-    if (title.length < 1) {
-      setError("Title needs to be present");
-      return;
-    }
-
-    if (title.length < 8) {
-      setError("Title needs to be longer");
-      return;
-    }
-
-    if (title.length > 100) {
-      setError("Title needs to be shorter");
-      return;
-    }
-
-    if (html.length < 20) {
-      setError(`Content needs to be longer, current length: ${html.length}`);
-      return;
-    }
-
-    if (channel.proof_type_ids.length < 1) {
-      setError("Proof type does not exist");
-      return;
-    }
-
-    if (!firstProof) {
-      setError("Proof is not added");
-      return;
-    }
-
-    const {
-      shy_proof_id,
-      public_inputs,
-      proof_identity_input,
-      proof,
-      author_public_key,
-      serial_no,
-      author_sig,
-      author_sig_msg,
-      proof_type_id,
-    } = firstProof;
-
-    const { error } = await createShyTopic({
-      title,
-      topic_id: topicId,
-      content: html,
-      channel_id: channel.channel_id,
-      shy_proof_id,
-      proof_identity_input,
-      proof,
-      public_inputs,
-      author_public_key,
-      serial_no,
-      author_sig,
-      author_sig_msg,
-      sub_channel_id: subChannelId,
-      proof_type_id,
-      other_proofs: otherProofs,
-    });
-
-    if (error) {
-      dispatch(
-        setGlobalMsg({
-          variant: "error",
-          message: `Failed to create a topic, err: ${error}`,
-        }),
-      );
-      return;
-    }
-
-    setStatus(Status.Standby);
-    router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
-    setIsNavigating(true);
-  }, [
-    channel,
-    topicId,
-    editor,
+  const { handleCreateTopic } = useCreateTopic({
+    setError,
+    html,
     title,
     firstProof,
-    subChannelId,
     otherProofs,
-    setError,
-    createShyTopic,
-    router,
+    subChannelId,
     setStatus,
+    channel,
+    topicId,
     setIsNavigating,
-    html,
     setIsPrfsDialogOpen,
     setHtml,
-  ]);
-
-  // const handleSucceedGetSession = React.useCallback(
-  //   async (session: PrfsIdSession) => {
-  //     if (!sk) {
-  //       dispatch(
-  //         setGlobalMsg({
-  //           variant: "error",
-  //           message: "Secret key is not set to decrypt Prfs ID session",
-  //         }),
-  //       );
-  //       return;
-  //     }
-
-  //     if (!html) {
-  //       dispatch(
-  //         setGlobalMsg({
-  //           variant: "error",
-  //           message: "Post content does not exist",
-  //         }),
-  //       );
-  //       return;
-  //     }
-
-  //     const buf = Buffer.from(session.value);
-  //     let decrypted: string;
-  //     try {
-  //       decrypted = decrypt(sk.secret, buf).toString();
-  //     } catch (err) {
-  //       dispatch(
-  //         setGlobalMsg({
-  //           variant: "error",
-  //           message: `Cannot decrypt payload, err: ${err}`,
-  //         }),
-  //       );
-  //       return;
-  //     }
-
-  //     let payload: ProofGenSuccessPayload;
-  //     try {
-  //       payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-  //     } catch (err) {
-  //       dispatch(
-  //         setGlobalMsg({
-  //           variant: "error",
-  //           message: `Cannot parse proof payload, err: ${err}`,
-  //         }),
-  //       );
-  //       return;
-  //     }
-
-  //     const proveReceipt = payload.receipt[PROOF] as ProveReceipt;
-  //     const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
-  //       proveReceipt.proof.publicInputSer,
-  //     );
-  //     // console.log("proveReceipt: %o", proveReceipt);
-
-  //     const recoveredAddr = walletUtils.verifyMessage(
-  //       proveReceipt.proofActionSigMsg,
-  //       proveReceipt.proofActionSig,
-  //     );
-  //     const addr = computeAddress(publicInputs.proofPubKey);
-  //     if (recoveredAddr !== addr) {
-  //       dispatch(
-  //         setGlobalMsg({
-  //           variant: "error",
-  //           message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
-  //         }),
-  //       );
-  //       return;
-  //     }
-
-  //     const shy_proof_id = rand256Hex();
-  //     const { error } = await createShyTopic({
-  //       title,
-  //       topic_id: topicId,
-  //       content: html,
-  //       channel_id: channel.channel_id,
-  //       shy_proof_id,
-  //       proof_identity_input: publicInputs.proofIdentityInput,
-  //       proof: Array.from(proveReceipt.proof.proofBytes),
-  //       public_inputs: proveReceipt.proof.publicInputSer,
-  //       author_public_key: publicInputs.proofPubKey,
-  //       serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
-  //       author_sig: proveReceipt.proofActionSig,
-  //       author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
-  //       sub_channel_id: subChannelId,
-  //       proof_type_id: channel.proof_type_ids[0],
-  //     });
-
-  //     if (error) {
-  //       dispatch(
-  //         setGlobalMsg({
-  //           variant: "error",
-  //           message: `Failed to create a topic, err: ${error}`,
-  //         }),
-  //       );
-  //       return;
-  //     }
-
-  //     setStatus(Status.Standby);
-  //     router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
-  //     setIsNavigating(true);
-  //   },
-  //   [sk, dispatch, html, dispatch, channel],
-  // );
+  });
 
   return isNavigating ? (
     <div className={styles.navigating}>
@@ -422,7 +213,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         )}
         <div className={styles.btnRow}>
           <Button variant="green_1" handleClick={handleCreateTopic} disabled={!firstProof}>
-            {createInProgress === Status.InProgress ? <Spinner /> : i18n.post}
+            {status === Status.InProgress ? <Spinner /> : i18n.post}
           </Button>
         </div>
         {error && <div className={styles.error}>{error}</div>}

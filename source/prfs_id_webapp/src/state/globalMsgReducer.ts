@@ -9,11 +9,12 @@ const notice = `
 `;
 
 const initialState: GlobalMsgState = {
-  msg: {
-    variant: "warn",
-    message: notice,
-    notOverlay: true,
-  },
+  msg: null,
+  // {
+  //   variant: "warn",
+  //   message: notice,
+  //   notOverlay: true,
+  // },
 };
 
 const slice = makeGlobalMsgSlice(initialState);
