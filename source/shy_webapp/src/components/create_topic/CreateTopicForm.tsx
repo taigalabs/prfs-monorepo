@@ -60,15 +60,15 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   const dispatch = useAppDispatch();
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const {
-    openPrfsIdSession,
-    isPrfsDialogOpen,
-    setIsPrfsDialogOpen,
-    sessionKey,
-    setSessionKey,
-    sk,
-    setSk,
-  } = usePrfsIdSession();
+  // const {
+  //   openPrfsIdSession,
+  //   isPrfsDialogOpen,
+  //   setIsPrfsDialogOpen,
+  //   sessionKey,
+  //   setSessionKey,
+  //   sk,
+  //   setSk,
+  // } = usePrfsIdSession();
   const [html, setHtml] = React.useState<string | null>(null);
   const { topicId, shortTopicId } = React.useMemo(() => {
     const hex = rand256Hex();
@@ -76,19 +76,45 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   }, []);
   const requiredProofTypes = React.useMemo(() => {
     return channel.proof_type_ids.map(ty => {
-      return <span key={ty}>{ty}</span>;
+      return (
+        <span key={ty} className={styles.proofType}>
+          {ty}
+        </span>
+      );
     });
   }, [channel.proof_type_ids]);
   const assocProofTypes = React.useMemo(() => {
     const ids = channel.assoc_proof_type_ids as AssocProofTypeId[];
     return ids.map(id => {
-      return <span key={id.proof_type_id}>{id.proof_type_id}</span>;
+      return (
+        <span key={id.proof_type_id} className={styles.proofType}>
+          {id.proof_type_id}
+        </span>
+      );
     });
   }, [channel.assoc_proof_type_ids]);
 
   const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
   const { editor, extensions } = useTextEditor();
-  const { addProof } = useAddProof();
+
+  const handleSucceedAddProof = React.useCallback(() => {
+    console.log(123);
+  }, []);
+
+  const {
+    handleAddProof,
+    handleSucceedAddProofSession,
+    sessionKey,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
+  } = useAddProof({
+    channel,
+    setError,
+    topicId,
+    editor,
+    setHtml,
+    handleSucceedAddProof,
+  });
 
   const { mutateAsync: createShyTopic } = useMutation({
     mutationFn: (req: CreateShyTopicRequest) => {
@@ -103,211 +129,211 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     [setTitle],
   );
 
-  const handleCreateTopic = React.useCallback(async () => {
-    setError(null);
+  // const handleCreateTopic = React.useCallback(async () => {
+  //   setError(null);
 
-    if (!editor) {
-      return;
-    }
+  //   if (!editor) {
+  //     return;
+  //   }
 
-    const html = editor.getHTML();
+  //   const html = editor.getHTML();
 
-    if (title.length < 1) {
-      setError("Title needs to be present");
-      return;
-    }
+  //   if (title.length < 1) {
+  //     setError("Title needs to be present");
+  //     return;
+  //   }
 
-    if (title.length < 8) {
-      setError("Title needs to be longer");
-      return;
-    }
+  //   if (title.length < 8) {
+  //     setError("Title needs to be longer");
+  //     return;
+  //   }
 
-    if (title.length > 100) {
-      setError("Title needs to be shorter");
-      return;
-    }
+  //   if (title.length > 100) {
+  //     setError("Title needs to be shorter");
+  //     return;
+  //   }
 
-    if (html.length < 20) {
-      setError(`Content needs to be longer, current length: ${html.length}`);
-      return;
-    }
+  //   if (html.length < 20) {
+  //     setError(`Content needs to be longer, current length: ${html.length}`);
+  //     return;
+  //   }
 
-    if (channel.proof_type_ids.length < 1) {
-      setError("Proof type does not exist");
-      return;
-    }
+  //   if (channel.proof_type_ids.length < 1) {
+  //     setError("Proof type does not exist");
+  //     return;
+  //   }
 
-    const proofTypeId = channel.proof_type_ids[0];
-    const session_key = createSessionKey();
-    const { sk, pkHex } = createRandomKeyPair();
-    const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
+  //   const proofTypeId = channel.proof_type_ids[0];
+  //   const session_key = createSessionKey();
+  //   const { sk, pkHex } = createRandomKeyPair();
+  //   const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
 
-    const proofAction: ShyTopicProofAction = {
-      type: "create_shy_topic",
-      topic_id: topicId,
-      channel_id: channel.channel_id,
-      content: html,
-    };
+  //   const proofAction: ShyTopicProofAction = {
+  //     type: "create_shy_topic",
+  //     topic_id: topicId,
+  //     channel_id: channel.channel_id,
+  //     content: html,
+  //   };
 
-    const proofActionStr = JSON.stringify(proofAction);
-    const presetVals: MerkleSigPosRangeV1PresetVals = {
-      nonceRaw: json,
-    };
-    const proofGenArgs: ProofGenArgs = {
-      nonce: makeRandInt(1000000),
-      app_id: SHY_APP_ID,
-      queries: [
-        {
-          name: PROOF,
-          proofTypeId,
-          queryType: QueryType.CREATE_PROOF,
-          presetVals,
-          usePrfsRegistry: true,
-          proofAction: proofActionStr,
-        },
-      ],
-      public_key: pkHex,
-      session_key,
-    };
+  //   const proofActionStr = JSON.stringify(proofAction);
+  //   const presetVals: MerkleSigPosRangeV1PresetVals = {
+  //     nonceRaw: json,
+  //   };
+  //   const proofGenArgs: ProofGenArgs = {
+  //     nonce: makeRandInt(1000000),
+  //     app_id: SHY_APP_ID,
+  //     queries: [
+  //       {
+  //         name: PROOF,
+  //         proofTypeId,
+  //         queryType: QueryType.CREATE_PROOF,
+  //         presetVals,
+  //         usePrfsRegistry: true,
+  //         proofAction: proofActionStr,
+  //       },
+  //     ],
+  //     public_key: pkHex,
+  //     session_key,
+  //   };
 
-    const searchParams = makeProofGenSearchParams(proofGenArgs);
-    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
+  //   const searchParams = makeProofGenSearchParams(proofGenArgs);
+  //   const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
-    const popup = openPopup(endpoint);
-    if (!popup) {
-      return;
-    }
+  //   const popup = openPopup(endpoint);
+  //   if (!popup) {
+  //     return;
+  //   }
 
-    const { payload: _ } = await openPrfsIdSession({
-      key: proofGenArgs.session_key,
-      value: null,
-      ticket: "TICKET",
-    });
+  //   const { payload: _ } = await openPrfsIdSession({
+  //     key: proofGenArgs.session_key,
+  //     value: null,
+  //     ticket: "TICKET",
+  //   });
 
-    setIsPrfsDialogOpen(true);
-    setSessionKey(proofGenArgs.session_key);
-    setSk(sk);
-    setHtml(html);
-  }, [
-    channel,
-    topicId,
-    editor,
-    title,
-    setError,
-    createShyTopic,
-    router,
-    setStatus,
-    setIsNavigating,
-    setSk,
-    setSessionKey,
-    setIsPrfsDialogOpen,
-    setHtml,
-  ]);
+  //   setIsPrfsDialogOpen(true);
+  //   setSessionKey(proofGenArgs.session_key);
+  //   setSk(sk);
+  //   setHtml(html);
+  // }, [
+  //   channel,
+  //   topicId,
+  //   editor,
+  //   title,
+  //   setError,
+  //   createShyTopic,
+  //   router,
+  //   setStatus,
+  //   setIsNavigating,
+  //   setSk,
+  //   setSessionKey,
+  //   setIsPrfsDialogOpen,
+  //   setHtml,
+  // ]);
 
-  const handleSucceedGetSession = React.useCallback(
-    async (session: PrfsIdSession) => {
-      if (!sk) {
-        dispatch(
-          setGlobalMsg({
-            variant: "error",
-            message: "Secret key is not set to decrypt Prfs ID session",
-          }),
-        );
-        return;
-      }
+  // const handleSucceedGetSession = React.useCallback(
+  //   async (session: PrfsIdSession) => {
+  //     if (!sk) {
+  //       dispatch(
+  //         setGlobalMsg({
+  //           variant: "error",
+  //           message: "Secret key is not set to decrypt Prfs ID session",
+  //         }),
+  //       );
+  //       return;
+  //     }
 
-      if (!html) {
-        dispatch(
-          setGlobalMsg({
-            variant: "error",
-            message: "Post content does not exist",
-          }),
-        );
-        return;
-      }
+  //     if (!html) {
+  //       dispatch(
+  //         setGlobalMsg({
+  //           variant: "error",
+  //           message: "Post content does not exist",
+  //         }),
+  //       );
+  //       return;
+  //     }
 
-      const buf = Buffer.from(session.value);
-      let decrypted: string;
-      try {
-        decrypted = decrypt(sk.secret, buf).toString();
-      } catch (err) {
-        dispatch(
-          setGlobalMsg({
-            variant: "error",
-            message: `Cannot decrypt payload, err: ${err}`,
-          }),
-        );
-        return;
-      }
+  //     const buf = Buffer.from(session.value);
+  //     let decrypted: string;
+  //     try {
+  //       decrypted = decrypt(sk.secret, buf).toString();
+  //     } catch (err) {
+  //       dispatch(
+  //         setGlobalMsg({
+  //           variant: "error",
+  //           message: `Cannot decrypt payload, err: ${err}`,
+  //         }),
+  //       );
+  //       return;
+  //     }
 
-      let payload: ProofGenSuccessPayload;
-      try {
-        payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-      } catch (err) {
-        dispatch(
-          setGlobalMsg({
-            variant: "error",
-            message: `Cannot parse proof payload, err: ${err}`,
-          }),
-        );
-        return;
-      }
+  //     let payload: ProofGenSuccessPayload;
+  //     try {
+  //       payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+  //     } catch (err) {
+  //       dispatch(
+  //         setGlobalMsg({
+  //           variant: "error",
+  //           message: `Cannot parse proof payload, err: ${err}`,
+  //         }),
+  //       );
+  //       return;
+  //     }
 
-      const proveReceipt = payload.receipt[PROOF] as ProveReceipt;
-      const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
-        proveReceipt.proof.publicInputSer,
-      );
-      // console.log("proveReceipt: %o", proveReceipt);
+  //     const proveReceipt = payload.receipt[PROOF] as ProveReceipt;
+  //     const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
+  //       proveReceipt.proof.publicInputSer,
+  //     );
+  //     // console.log("proveReceipt: %o", proveReceipt);
 
-      const recoveredAddr = walletUtils.verifyMessage(
-        proveReceipt.proofActionSigMsg,
-        proveReceipt.proofActionSig,
-      );
-      const addr = computeAddress(publicInputs.proofPubKey);
-      if (recoveredAddr !== addr) {
-        dispatch(
-          setGlobalMsg({
-            variant: "error",
-            message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
-          }),
-        );
-        return;
-      }
+  //     const recoveredAddr = walletUtils.verifyMessage(
+  //       proveReceipt.proofActionSigMsg,
+  //       proveReceipt.proofActionSig,
+  //     );
+  //     const addr = computeAddress(publicInputs.proofPubKey);
+  //     if (recoveredAddr !== addr) {
+  //       dispatch(
+  //         setGlobalMsg({
+  //           variant: "error",
+  //           message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
+  //         }),
+  //       );
+  //       return;
+  //     }
 
-      const shy_proof_id = rand256Hex();
-      const { error } = await createShyTopic({
-        title,
-        topic_id: topicId,
-        content: html,
-        channel_id: channel.channel_id,
-        shy_proof_id,
-        proof_identity_input: publicInputs.proofIdentityInput,
-        proof: Array.from(proveReceipt.proof.proofBytes),
-        public_inputs: proveReceipt.proof.publicInputSer,
-        author_public_key: publicInputs.proofPubKey,
-        serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
-        author_sig: proveReceipt.proofActionSig,
-        author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
-        sub_channel_id: subChannelId,
-        proof_type_id: channel.proof_type_ids[0],
-      });
+  //     const shy_proof_id = rand256Hex();
+  //     const { error } = await createShyTopic({
+  //       title,
+  //       topic_id: topicId,
+  //       content: html,
+  //       channel_id: channel.channel_id,
+  //       shy_proof_id,
+  //       proof_identity_input: publicInputs.proofIdentityInput,
+  //       proof: Array.from(proveReceipt.proof.proofBytes),
+  //       public_inputs: proveReceipt.proof.publicInputSer,
+  //       author_public_key: publicInputs.proofPubKey,
+  //       serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
+  //       author_sig: proveReceipt.proofActionSig,
+  //       author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
+  //       sub_channel_id: subChannelId,
+  //       proof_type_id: channel.proof_type_ids[0],
+  //     });
 
-      if (error) {
-        dispatch(
-          setGlobalMsg({
-            variant: "error",
-            message: `Failed to create a topic, err: ${error}`,
-          }),
-        );
-        return;
-      }
+  //     if (error) {
+  //       dispatch(
+  //         setGlobalMsg({
+  //           variant: "error",
+  //           message: `Failed to create a topic, err: ${error}`,
+  //         }),
+  //       );
+  //       return;
+  //     }
 
-      setStatus(Status.Standby);
-      router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
-      setIsNavigating(true);
-    },
-    [sk, dispatch, html, dispatch, channel],
-  );
+  //     setStatus(Status.Standby);
+  //     router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
+  //     setIsNavigating(true);
+  //   },
+  //   [sk, dispatch, html, dispatch, channel],
+  // );
 
   return isNavigating ? (
     <div className={styles.navigating}>
@@ -339,7 +365,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
             </span>
             {requiredProofTypes}
           </p>
-          <button onClick={() => {}} type="button">
+          <button onClick={handleAddProof} type="button">
             <HoverableText>{i18n.add_proof}</HoverableText>
           </button>
         </div>
@@ -357,11 +383,11 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
             </button>
           </div>
         )}
-        <div className={styles.btnRow}>
-          <Button variant="green_1" handleClick={handleCreateTopic}>
-            {createInProgress === Status.InProgress ? <Spinner /> : i18n.post}
-          </Button>
-        </div>
+        {/* <div className={styles.btnRow}> */}
+        {/*   <Button variant="green_1" handleClick={handleCreateTopic}> */}
+        {/*     {createInProgress === Status.InProgress ? <Spinner /> : i18n.post} */}
+        {/*   </Button> */}
+        {/* </div> */}
         {error && <div className={styles.error}>{error}</div>}
       </div>
       <PrfsIdSessionDialog
@@ -369,7 +395,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         isPrfsDialogOpen={isPrfsDialogOpen}
         setIsPrfsDialogOpen={setIsPrfsDialogOpen}
         actionLabel={i18n.create_proof.toLowerCase()}
-        handleSucceedGetSession={handleSucceedGetSession}
+        handleSucceedGetSession={handleSucceedAddProofSession}
       />
     </>
   );

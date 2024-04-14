@@ -56,12 +56,17 @@
 }
 
 .proofTypeGuide {
-  color: var(--gray-20);
+  color: var(--gray-30);
   padding-bottom: 8px;
   word-break: break-all;
 
   .guide {
     margin-right: 4px;
+  }
+
+  .proofType {
+    font-weight: 500;
+    color: var(--gray-20);
   }
 }
 
