@@ -447,7 +447,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
           </div>
         )}
         <div className={styles.btnRow}>
-          <Button variant="green_1" handleClick={handleCreateTopic}>
+          <Button variant="green_1" handleClick={handleCreateTopic} disabled={!firstProof}>
             {createInProgress === Status.InProgress ? <Spinner /> : i18n.post}
           </Button>
         </div>

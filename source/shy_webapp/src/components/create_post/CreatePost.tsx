@@ -67,11 +67,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const [html, setHtml] = React.useState<string | null>(null);
 
   const { mutateAsync: getShyProof } = useGetShyProof();
-  // const { mutateAsync: getShyProof } = useMutation({
-  //   mutationFn: (req: GetShyProofRequest) => {
-  //     return shyApi2({ type: "get_shy_proof", ...req });
-  //   },
-  // });
 
   const { mutateAsync: createShyPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
