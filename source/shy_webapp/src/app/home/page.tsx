@@ -4,7 +4,7 @@ import { paths } from "@/paths";
 import Home from "@/components/home/Home";
 import Teaser from "@/components/teaser/Teaser";
 
-const IS_TEASER = true;
+const IS_TEASER = false;
 
 const HomePage: React.FC = () => {
   return IS_TEASER ? <Teaser /> : <Home />;
