@@ -33,6 +33,7 @@ import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_d
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./CreateTopicForm.module.scss";
@@ -45,7 +46,6 @@ import { setGlobalMsg } from "@/state/globalMsgReducer";
 import Button from "@/components/button/Button";
 import { useTextEditor } from "@/components/text_editor/useTextEditor";
 import { ProofBlob, useAddProof } from "./useAddProof";
-import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const PROOF = "Proof";
 
@@ -110,6 +110,18 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     }
   }, [firstProof]);
 
+  const otherProofIdsAbbrev = React.useMemo(() => {
+    if (otherProofs.length > 0) {
+      return otherProofs
+        .map(p => {
+          return abbrev7and5(p.shy_proof_id);
+        })
+        .join(", ");
+    } else {
+      return null;
+    }
+  }, [firstProof]);
+
   // const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
 
   const handleSucceedAddFirstProof = React.useCallback(
@@ -126,16 +138,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     [setOtherProofs],
   );
 
-  // const {
-  //   openPrfsIdSession,
-  //   isPrfsDialogOpen,
-  //   setIsPrfsDialogOpen,
-  //   sessionKey,
-  //   setSessionKey,
-  //   sk,
-  //   setSk,
-  // } = usePrfsIdSession();
-
   const {
     handleAddProof,
     handleSucceedAddProofSession,
@@ -143,7 +145,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     isPrfsDialogOpen,
     setIsPrfsDialogOpen,
   } = useAddProof({
-    channel,
+    channelId: channel.channel_id,
+    proofTypeId: channel.proof_type_ids[0],
     setError,
     topicId,
     editor,
@@ -154,11 +157,15 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   const {
     handleAddProof: handleAddOtherProof,
     handleSucceedAddProofSession: handleSucceedAddOtherProofSession,
-    // sessionKey,
-    // isPrfsDialogOpen,
-    // setIsPrfsDialogOpen,
+    sessionKey: sessionKey2,
+    isPrfsDialogOpen: isPrfsDialogOpen2,
+    setIsPrfsDialogOpen: setIsPrfsDialogOpen2,
   } = useAddProof({
-    channel,
+    channelId: channel.channel_id,
+    proofTypeId:
+      channel.assoc_proof_type_ids.length > 0
+        ? channel.assoc_proof_type_ids[0].proof_type_id
+        : null,
     setError,
     topicId,
     editor,
@@ -445,6 +452,11 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
             <button onClick={handleAddOtherProof} type="button">
               <HoverableText>{i18n.add_proof_optional}</HoverableText>
             </button>
+            {otherProofIdsAbbrev && (
+              <div className={styles.proofId}>
+                <p>+ {otherProofIdsAbbrev}</p>
+              </div>
+            )}
           </div>
         )}
         {/* <div className={styles.btnRow}> */}
@@ -460,6 +472,13 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         setIsPrfsDialogOpen={setIsPrfsDialogOpen}
         actionLabel={i18n.create_proof.toLowerCase()}
         handleSucceedGetSession={handleSucceedAddProofSession}
+      />
+      <PrfsIdSessionDialog
+        sessionKey={sessionKey2}
+        isPrfsDialogOpen={isPrfsDialogOpen2}
+        setIsPrfsDialogOpen={setIsPrfsDialogOpen2}
+        actionLabel={i18n.create_proof.toLowerCase()}
+        handleSucceedGetSession={handleSucceedAddOtherProofSession}
       />
     </>
   );

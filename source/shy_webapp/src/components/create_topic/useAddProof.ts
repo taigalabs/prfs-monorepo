@@ -42,7 +42,9 @@ import { envs } from "@/envs";
 const PROOF = "Proof";
 
 export function useAddProof({
-  channel,
+  // channel,
+  channelId,
+  proofTypeId,
   setError,
   topicId,
   editor,
@@ -66,14 +68,12 @@ export function useAddProof({
       return;
     }
 
-    const html = editor.getHTML();
-
-    if (channel.proof_type_ids.length < 1) {
-      setError("Proof type does not exist");
+    if (!proofTypeId) {
       return;
     }
 
-    const proofTypeId = channel.proof_type_ids[0];
+    const html = editor.getHTML();
+
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
     const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
@@ -81,7 +81,7 @@ export function useAddProof({
     const proofAction: ShyTopicProofAction = {
       type: "create_shy_topic",
       topic_id: topicId,
-      channel_id: channel.channel_id,
+      channel_id: channelId,
       content: html,
     };
 
@@ -124,10 +124,24 @@ export function useAddProof({
     setSessionKey(proofGenArgs.session_key);
     setSk(sk);
     setHtml(html);
-  }, [channel, topicId, editor, setError, setSk, setSessionKey, setIsPrfsDialogOpen, setHtml]);
+  }, [
+    proofTypeId,
+    channelId,
+    topicId,
+    editor,
+    setError,
+    setSk,
+    setSessionKey,
+    setIsPrfsDialogOpen,
+    setHtml,
+  ]);
 
   const handleSucceedAddProofSession = React.useCallback(
     async (session: PrfsIdSession) => {
+      if (!proofTypeId) {
+        return;
+      }
+
       if (!sk) {
         dispatch(
           setGlobalMsg({
@@ -195,7 +209,7 @@ export function useAddProof({
         serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
         author_sig: proveReceipt.proofActionSig,
         author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
-        proof_type_id: channel.proof_type_ids[0],
+        proof_type_id: proofTypeId,
       };
       handleSucceedAddProof(proof);
 
@@ -230,7 +244,7 @@ export function useAddProof({
       // router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
       // setIsNavigating(true);
     },
-    [sk, dispatch, dispatch, channel],
+    [sk, dispatch, dispatch, channelId, proofTypeId],
   );
 
   return {
@@ -244,7 +258,9 @@ export function useAddProof({
 }
 
 export interface UseAddProofArgs {
-  channel: ShyChannel;
+  // channel: ShyChannel;
+  channelId: string;
+  proofTypeId: string | null;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
   topicId: string;
   editor: Editor | null;
@@ -254,7 +270,7 @@ export interface UseAddProofArgs {
 
 export interface ProofBlob {
   shy_proof_id: string;
-  proof_identity_input: string;
+  proof_identity_input: string | null;
   proof: number[];
   public_inputs: string;
   serial_no: string;
