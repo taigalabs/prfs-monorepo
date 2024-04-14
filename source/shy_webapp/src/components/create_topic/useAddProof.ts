@@ -185,9 +185,19 @@ export function useAddProof({
         return;
       }
 
-      handleSucceedAddProof();
+      const shy_proof_id = rand256Hex();
+      const proof = {
+        shy_proof_id,
+        proof_identity_input: publicInputs.proofIdentityInput,
+        proof: Array.from(proveReceipt.proof.proofBytes),
+        public_inputs: proveReceipt.proof.publicInputSer,
+        serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
+        author_sig: proveReceipt.proofActionSig,
+        author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
+        proof_type_id: channel.proof_type_ids[0],
+      };
+      handleSucceedAddProof(proof);
 
-      // const shy_proof_id = rand256Hex();
       // const { error } = await createShyTopic({
       //   title,
       //   topic_id: topicId,
@@ -238,5 +248,16 @@ export interface UseAddProofArgs {
   topicId: string;
   editor: Editor | null;
   setHtml: React.Dispatch<React.SetStateAction<string | null>>;
-  handleSucceedAddProof: () => void;
+  handleSucceedAddProof: (proof: ProofBlob) => void;
+}
+
+export interface ProofBlob {
+  shy_proof_id: string;
+  proof_identity_input: string;
+  proof: number[];
+  public_inputs: string;
+  serial_no: string;
+  author_sig: string;
+  author_sig_msg: number[];
+  proof_type_id: string;
 }

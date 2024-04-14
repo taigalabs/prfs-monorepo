@@ -44,7 +44,7 @@ import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import Button from "@/components/button/Button";
 import { useTextEditor } from "@/components/text_editor/useTextEditor";
-import { useAddProof } from "./useAddProof";
+import { ProofBlob, useAddProof } from "./useAddProof";
 
 const PROOF = "Proof";
 
@@ -61,6 +61,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   const dispatch = useAppDispatch();
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [firstProof, setFirstProof] = React.useState<ProofBlob | null>(null);
+  const [otherProofs, setOtherProofs] = React.useState<ProofBlob[]>([]);
   // const {
   //   openPrfsIdSession,
   //   isPrfsDialogOpen,
@@ -95,12 +97,15 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     });
   }, [channel.assoc_proof_type_ids]);
 
-  const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
-  const { editor, extensions } = useTextEditor();
+  // const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
+  const { editor } = useTextEditor();
 
-  const handleSucceedAddProof = React.useCallback(() => {
-    console.log(123);
-  }, []);
+  const handleSucceedAddFirstProof = React.useCallback(
+    (proof: ProofBlob) => {
+      setFirstProof(proof);
+    },
+    [setFirstProof],
+  );
 
   const {
     handleAddProof,
@@ -114,7 +119,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     topicId,
     editor,
     setHtml,
-    handleSucceedAddProof,
+    handleSucceedAddProof: handleSucceedAddFirstProof,
   });
 
   const { mutateAsync: createShyTopic } = useMutation({
