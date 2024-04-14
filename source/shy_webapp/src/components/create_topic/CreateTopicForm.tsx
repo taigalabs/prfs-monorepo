@@ -45,6 +45,7 @@ import { setGlobalMsg } from "@/state/globalMsgReducer";
 import Button from "@/components/button/Button";
 import { useTextEditor } from "@/components/text_editor/useTextEditor";
 import { ProofBlob, useAddProof } from "./useAddProof";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const PROOF = "Proof";
 
@@ -72,11 +73,14 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   //   sk,
   //   setSk,
   // } = usePrfsIdSession();
+  const { editor } = useTextEditor();
   const [html, setHtml] = React.useState<string | null>(null);
+
   const { topicId, shortTopicId } = React.useMemo(() => {
     const hex = rand256Hex();
     return { topicId: hex.substring(0, 22), shortTopicId: hex.substring(0, 8) };
   }, []);
+
   const requiredProofTypes = React.useMemo(() => {
     return channel.proof_type_ids.map(ty => {
       return (
@@ -86,6 +90,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
       );
     });
   }, [channel.proof_type_ids]);
+
   const assocProofTypes = React.useMemo(() => {
     const ids = channel.assoc_proof_type_ids as AssocProofTypeId[];
     return ids.map(id => {
@@ -97,8 +102,15 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     });
   }, [channel.assoc_proof_type_ids]);
 
+  const firstProofIdAbbrev = React.useMemo(() => {
+    if (firstProof) {
+      return abbrev7and5(firstProof.shy_proof_id);
+    } else {
+      return null;
+    }
+  }, [firstProof]);
+
   // const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
-  const { editor } = useTextEditor();
 
   const handleSucceedAddFirstProof = React.useCallback(
     (proof: ProofBlob) => {
@@ -383,6 +395,11 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
           <button onClick={handleAddProof} type="button">
             <HoverableText>{i18n.add_required_proof}</HoverableText>
           </button>
+          {firstProofIdAbbrev && (
+            <div className={styles.proofId}>
+              <p>Added {firstProofIdAbbrev}</p>
+            </div>
+          )}
         </div>
         {channel.assoc_proof_type_ids.length > 0 && (
           <div className={styles.btnRow}>
