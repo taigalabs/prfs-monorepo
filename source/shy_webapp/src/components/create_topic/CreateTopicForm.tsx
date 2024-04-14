@@ -40,6 +40,8 @@ import { SHY_APP_ID } from "@/app_id";
 import CreateTopicFooter from "./CreateTopicFooter";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import Button from "@/components/button/Button";
+import { useTextEditor } from "@/components/text_editor/useTextEditor";
 
 const PROOF = "Proof";
 
@@ -71,6 +73,9 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     return { topicId: hex.substring(0, 22), shortTopicId: hex.substring(0, 8) };
   }, []);
 
+  const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
+  const { editor, extensions } = useTextEditor();
+
   const { mutateAsync: createShyTopic } = useMutation({
     mutationFn: (req: CreateShyTopicRequest) => {
       return shyApi2({ type: "create_shy_topic", ...req });
@@ -84,101 +89,107 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     [setTitle],
   );
 
-  const handleCreateTopic = React.useCallback(
-    async (html: string) => {
-      setError(null);
+  const handleCreateTopic = React.useCallback(async () => {
+    setError(null);
 
-      if (title.length < 1) {
-        setError("Title needs to be present");
-        return;
-      }
+    if (!editor) {
+      return;
+    }
 
-      if (title.length < 8) {
-        setError("Title needs to be longer");
-        return;
-      }
+    const html = editor.getHTML();
 
-      if (title.length > 100) {
-        setError("Title needs to be shorter");
-        return;
-      }
+    console.log(11, html);
 
-      if (html.length < 20) {
-        setError("Content needs to be longer");
-        return;
-      }
+    if (title.length < 1) {
+      setError("Title needs to be present");
+      return;
+    }
 
-      if (channel.proof_type_ids.length < 1) {
-        setError("Proof type does not exist");
-        return;
-      }
+    if (title.length < 8) {
+      setError("Title needs to be longer");
+      return;
+    }
 
-      const proofTypeId = channel.proof_type_ids[0];
-      const session_key = createSessionKey();
-      const { sk, pkHex } = createRandomKeyPair();
-      const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
+    if (title.length > 100) {
+      setError("Title needs to be shorter");
+      return;
+    }
 
-      const proofAction: ShyTopicProofAction = {
-        type: "create_shy_topic",
-        topic_id: topicId,
-        channel_id: channel.channel_id,
-        content: html,
-      };
+    if (html.length < 20) {
+      setError(`Content needs to be longer, current length: ${html.length}`);
+      return;
+    }
 
-      const proofActionStr = JSON.stringify(proofAction);
-      const presetVals: MerkleSigPosRangeV1PresetVals = {
-        nonceRaw: json,
-      };
-      const proofGenArgs: ProofGenArgs = {
-        nonce: makeRandInt(1000000),
-        app_id: SHY_APP_ID,
-        queries: [
-          {
-            name: PROOF,
-            proofTypeId,
-            queryType: QueryType.CREATE_PROOF,
-            presetVals,
-            usePrfsRegistry: true,
-            proofAction: proofActionStr,
-          },
-        ],
-        public_key: pkHex,
-        session_key,
-      };
+    if (channel.proof_type_ids.length < 1) {
+      setError("Proof type does not exist");
+      return;
+    }
 
-      const searchParams = makeProofGenSearchParams(proofGenArgs);
-      const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
+    const proofTypeId = channel.proof_type_ids[0];
+    const session_key = createSessionKey();
+    const { sk, pkHex } = createRandomKeyPair();
+    const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
 
-      const popup = openPopup(endpoint);
-      if (!popup) {
-        return;
-      }
+    const proofAction: ShyTopicProofAction = {
+      type: "create_shy_topic",
+      topic_id: topicId,
+      channel_id: channel.channel_id,
+      content: html,
+    };
 
-      const { payload: _ } = await openPrfsIdSession({
-        key: proofGenArgs.session_key,
-        value: null,
-        ticket: "TICKET",
-      });
-      setIsPrfsDialogOpen(true);
-      setSessionKey(proofGenArgs.session_key);
-      setSk(sk);
-      setHtml(html);
-    },
-    [
-      channel,
-      topicId,
-      title,
-      setError,
-      createShyTopic,
-      router,
-      setStatus,
-      setIsNavigating,
-      setSk,
-      setSessionKey,
-      setIsPrfsDialogOpen,
-      setHtml,
-    ],
-  );
+    const proofActionStr = JSON.stringify(proofAction);
+    const presetVals: MerkleSigPosRangeV1PresetVals = {
+      nonceRaw: json,
+    };
+    const proofGenArgs: ProofGenArgs = {
+      nonce: makeRandInt(1000000),
+      app_id: SHY_APP_ID,
+      queries: [
+        {
+          name: PROOF,
+          proofTypeId,
+          queryType: QueryType.CREATE_PROOF,
+          presetVals,
+          usePrfsRegistry: true,
+          proofAction: proofActionStr,
+        },
+      ],
+      public_key: pkHex,
+      session_key,
+    };
+
+    const searchParams = makeProofGenSearchParams(proofGenArgs);
+    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
+
+    const popup = openPopup(endpoint);
+    if (!popup) {
+      return;
+    }
+
+    const { payload: _ } = await openPrfsIdSession({
+      key: proofGenArgs.session_key,
+      value: null,
+      ticket: "TICKET",
+    });
+    setIsPrfsDialogOpen(true);
+    setSessionKey(proofGenArgs.session_key);
+    setSk(sk);
+    setHtml(html);
+  }, [
+    channel,
+    topicId,
+    editor,
+    title,
+    setError,
+    createShyTopic,
+    router,
+    setStatus,
+    setIsNavigating,
+    setSk,
+    setSessionKey,
+    setIsPrfsDialogOpen,
+    setHtml,
+  ]);
 
   const handleSucceedGetSession = React.useCallback(
     async (session: PrfsIdSession) => {
@@ -285,15 +296,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     [sk, dispatch, html, dispatch, channel],
   );
 
-  const footer = React.useMemo(() => {
-    return (
-      <CreateTopicFooter
-        handleClickTopic={handleCreateTopic}
-        inProgress={status === Status.InProgress}
-      />
-    );
-  }, [error, title, status]);
-
   return isNavigating ? (
     <div className={styles.navigating}>
       <Spinner variant="gray_1" />
@@ -315,13 +317,21 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
           />
         </div>
         <div className={styles.editorRow}>
-          <TextEditor
-            footer={footer}
-            className={styles.editorWrapper}
-            editorClassName={styles.editor}
-          />
+          {editor && (
+            <TextEditor
+              editor={editor}
+              extensions={extensions}
+              className={styles.editorWrapper}
+              editorClassName={styles.editor}
+            />
+          )}
         </div>
         {error && <div className={styles.error}>{error}</div>}
+        <div className={styles.btnRow}>
+          <Button variant="green_1" handleClick={handleCreateTopic}>
+            {createInProgress ? <Spinner /> : i18n.post}
+          </Button>
+        </div>
       </div>
       <PrfsIdSessionDialog
         sessionKey={sessionKey}

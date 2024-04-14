@@ -1,17 +1,29 @@
 .wrapper {
+  background-color: #edf2fa;
   color: #878a8c;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  padding: 0 10px;
+  margin-bottom: 8px;
 
   button {
     vertical-align: middle;
-    height: 32px;
-    width: 32px;
+    height: 28px;
+    width: 28px;
     display: inline-grid;
     place-items: center;
     border-radius: 4px;
     cursor: pointer;
+    padding: 4px;
 
     &:hover {
       background-color: rgba(26, 26, 27, 0.1);
+    }
+
+    &:not(:first-child) {
+      margin-left: 2px;
     }
   }
 

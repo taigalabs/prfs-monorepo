@@ -1,5 +1,5 @@
 import React from "react";
-import { useCurrentEditor } from "@tiptap/react";
+import { Editor, useCurrentEditor } from "@tiptap/react";
 import { FaBold } from "@react-icons/all-files/fa/FaBold";
 import { FaItalic } from "@react-icons/all-files/fa/FaItalic";
 import { FaStrikethrough } from "@react-icons/all-files/fa/FaStrikethrough";
@@ -10,12 +10,12 @@ import { FaRedo } from "@react-icons/all-files/fa/FaRedo";
 
 import styles from "./EditorMenuBar.module.scss";
 
-const EditorMenuBar: React.FC<EditorMenuBarProps> = ({}) => {
-  const { editor } = useCurrentEditor();
+const EditorMenuBar: React.FC<EditorMenuBarProps> = ({ editor }) => {
+  // const { editor } = useCurrentEditor();
 
-  if (!editor) {
-    return null;
-  }
+  // if (!editor) {
+  //   return null;
+  // }
 
   return (
     <div className={styles.wrapper}>
@@ -88,4 +88,6 @@ const EditorMenuBar: React.FC<EditorMenuBarProps> = ({}) => {
 
 export default EditorMenuBar;
 
-export interface EditorMenuBarProps {}
+export interface EditorMenuBarProps {
+  editor: Editor;
+}
