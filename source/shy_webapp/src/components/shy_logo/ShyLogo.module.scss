@@ -27,18 +27,18 @@
   display: flex;
   align-items: flex-end;
 
-  > span {
-    font-weight: 500;
-    letter-spacing: 0.005em;
-    font-size: 20px;
-    color: #fff;
-  }
-
   img {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
+}
+
+.text {
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  font-size: 20px;
+  color: #fff;
 }
 
 @media screen and (min-width: $big_display_min_width) {

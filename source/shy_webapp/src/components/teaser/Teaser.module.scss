@@ -36,13 +36,13 @@
 }
 
 .logo {
-  span {
-    font-size: 32px;
-  }
-
   > div {
     padding: 10px 5px 3px;
   }
+}
+
+.logoText {
+  font-size: 32px;
 }
 
 .main {
@@ -52,9 +52,6 @@
   flex-grow: 0;
 
   /* border: 1px solid red; */
-}
-
-.mainInner {
 }
 
 .intro {

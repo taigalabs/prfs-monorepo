@@ -15,7 +15,7 @@ const Teaser: React.FC<TeaserProps> = () => {
         <div className={styles.inner}>
           <div className={styles.logoPane}>
             <div className={styles.logoWrapper}>
-              <ShyLogo className={styles.logo} />
+              <ShyLogo className={styles.logo} textClassName={styles.logoText} />
             </div>
           </div>
           <div className={styles.main}>
