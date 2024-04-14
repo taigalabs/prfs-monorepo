@@ -381,7 +381,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
             {requiredProofTypes}
           </p>
           <button onClick={handleAddProof} type="button">
-            <HoverableText>{i18n.add_proof}</HoverableText>
+            <HoverableText>{i18n.add_required_proof}</HoverableText>
           </button>
         </div>
         {channel.assoc_proof_type_ids.length > 0 && (
@@ -394,7 +394,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
               {assocProofTypes}
             </p>
             <button onClick={() => {}} type="button">
-              <HoverableText>{i18n.add_proof}</HoverableText>
+              <HoverableText>{i18n.add_proof_optional}</HoverableText>
             </button>
           </div>
         )}
