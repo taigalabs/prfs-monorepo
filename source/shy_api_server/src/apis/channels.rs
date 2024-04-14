@@ -53,7 +53,6 @@ pub async fn get_shy_channel(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
-    println!("asdf: {:?}", shy_channel);
 
     let resp = ApiResponse::new_success(GetShyChannelResponse { shy_channel });
     return (StatusCode::OK, Json(resp));

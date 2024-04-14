@@ -207,6 +207,7 @@ export function useAddProof({
         proof: Array.from(proveReceipt.proof.proofBytes),
         public_inputs: proveReceipt.proof.publicInputSer,
         serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
+        author_public_key: publicInputs.proofPubKey,
         author_sig: proveReceipt.proofActionSig,
         author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
         proof_type_id: proofTypeId,
@@ -258,7 +259,6 @@ export function useAddProof({
 }
 
 export interface UseAddProofArgs {
-  // channel: ShyChannel;
   channelId: string;
   proofTypeId: string | null;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
@@ -270,10 +270,11 @@ export interface UseAddProofArgs {
 
 export interface ProofBlob {
   shy_proof_id: string;
-  proof_identity_input: string | null;
+  proof_identity_input: string;
   proof: number[];
   public_inputs: string;
   serial_no: string;
+  author_public_key: string;
   author_sig: string;
   author_sig_msg: number[];
   proof_type_id: string;

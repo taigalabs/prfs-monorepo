@@ -66,6 +66,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   const [otherProofs, setOtherProofs] = React.useState<ProofBlob[]>([]);
   const { editor } = useTextEditor();
   const [html, setHtml] = React.useState<string | null>(null);
+  const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
 
   const { topicId, shortTopicId } = React.useMemo(() => {
     const hex = rand256Hex();
@@ -112,10 +113,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
       return null;
     }
   }, [otherProofs]);
-
-  console.log(1, firstProof, otherProofs);
-
-  // const [createInProgress, setCreateInProgress] = React.useState(Status.Standby);
 
   const handleSucceedAddFirstProof = React.useCallback(
     (proof: ProofBlob) => {
@@ -179,106 +176,103 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     [setTitle],
   );
 
-  // const handleCreateTopic = React.useCallback(async () => {
-  //   setError(null);
+  const handleCreateTopic = React.useCallback(async () => {
+    setError(null);
 
-  //   if (!editor) {
-  //     return;
-  //   }
+    if (!editor) {
+      return;
+    }
 
-  //   const html = editor.getHTML();
+    const html = editor.getHTML();
 
-  //   if (title.length < 1) {
-  //     setError("Title needs to be present");
-  //     return;
-  //   }
+    if (title.length < 1) {
+      setError("Title needs to be present");
+      return;
+    }
 
-  //   if (title.length < 8) {
-  //     setError("Title needs to be longer");
-  //     return;
-  //   }
+    if (title.length < 8) {
+      setError("Title needs to be longer");
+      return;
+    }
 
-  //   if (title.length > 100) {
-  //     setError("Title needs to be shorter");
-  //     return;
-  //   }
+    if (title.length > 100) {
+      setError("Title needs to be shorter");
+      return;
+    }
 
-  //   if (html.length < 20) {
-  //     setError(`Content needs to be longer, current length: ${html.length}`);
-  //     return;
-  //   }
+    if (html.length < 20) {
+      setError(`Content needs to be longer, current length: ${html.length}`);
+      return;
+    }
 
-  //   if (channel.proof_type_ids.length < 1) {
-  //     setError("Proof type does not exist");
-  //     return;
-  //   }
+    if (channel.proof_type_ids.length < 1) {
+      setError("Proof type does not exist");
+      return;
+    }
 
-  //   const proofTypeId = channel.proof_type_ids[0];
-  //   const session_key = createSessionKey();
-  //   const { sk, pkHex } = createRandomKeyPair();
-  //   const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
+    if (!firstProof) {
+      setError("Proof is not added");
+      return;
+    }
 
-  //   const proofAction: ShyTopicProofAction = {
-  //     type: "create_shy_topic",
-  //     topic_id: topicId,
-  //     channel_id: channel.channel_id,
-  //     content: html,
-  //   };
+    const {
+      shy_proof_id,
+      public_inputs,
+      proof_identity_input,
+      proof,
+      author_public_key,
+      serial_no,
+      author_sig,
+      author_sig_msg,
+      proof_type_id,
+    } = firstProof;
 
-  //   const proofActionStr = JSON.stringify(proofAction);
-  //   const presetVals: MerkleSigPosRangeV1PresetVals = {
-  //     nonceRaw: json,
-  //   };
-  //   const proofGenArgs: ProofGenArgs = {
-  //     nonce: makeRandInt(1000000),
-  //     app_id: SHY_APP_ID,
-  //     queries: [
-  //       {
-  //         name: PROOF,
-  //         proofTypeId,
-  //         queryType: QueryType.CREATE_PROOF,
-  //         presetVals,
-  //         usePrfsRegistry: true,
-  //         proofAction: proofActionStr,
-  //       },
-  //     ],
-  //     public_key: pkHex,
-  //     session_key,
-  //   };
+    const { error } = await createShyTopic({
+      title,
+      topic_id: topicId,
+      content: html,
+      channel_id: channel.channel_id,
+      shy_proof_id,
+      proof_identity_input,
+      proof,
+      public_inputs,
+      author_public_key,
+      serial_no,
+      author_sig,
+      author_sig_msg,
+      sub_channel_id: subChannelId,
+      proof_type_id,
+    });
 
-  //   const searchParams = makeProofGenSearchParams(proofGenArgs);
-  //   const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
+    if (error) {
+      dispatch(
+        setGlobalMsg({
+          variant: "error",
+          message: `Failed to create a topic, err: ${error}`,
+        }),
+      );
+      return;
+    }
 
-  //   const popup = openPopup(endpoint);
-  //   if (!popup) {
-  //     return;
-  //   }
-
-  //   const { payload: _ } = await openPrfsIdSession({
-  //     key: proofGenArgs.session_key,
-  //     value: null,
-  //     ticket: "TICKET",
-  //   });
-
-  //   setIsPrfsDialogOpen(true);
-  //   setSessionKey(proofGenArgs.session_key);
-  //   setSk(sk);
-  //   setHtml(html);
-  // }, [
-  //   channel,
-  //   topicId,
-  //   editor,
-  //   title,
-  //   setError,
-  //   createShyTopic,
-  //   router,
-  //   setStatus,
-  //   setIsNavigating,
-  //   setSk,
-  //   setSessionKey,
-  //   setIsPrfsDialogOpen,
-  //   setHtml,
-  // ]);
+    setStatus(Status.Standby);
+    router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
+    setIsNavigating(true);
+  }, [
+    channel,
+    topicId,
+    editor,
+    title,
+    firstProof,
+    subChannelId,
+    otherProofs,
+    setError,
+    createShyTopic,
+    router,
+    setStatus,
+    setIsNavigating,
+    setIsPrfsDialogOpen,
+    setHtml,
+  ]);
 
   // const handleSucceedGetSession = React.useCallback(
   //   async (session: PrfsIdSession) => {
@@ -452,11 +446,11 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
             )}
           </div>
         )}
-        {/* <div className={styles.btnRow}> */}
-        {/*   <Button variant="green_1" handleClick={handleCreateTopic}> */}
-        {/*     {createInProgress === Status.InProgress ? <Spinner /> : i18n.post} */}
-        {/*   </Button> */}
-        {/* </div> */}
+        <div className={styles.btnRow}>
+          <Button variant="green_1" handleClick={handleCreateTopic}>
+            {createInProgress === Status.InProgress ? <Spinner /> : i18n.post}
+          </Button>
+        </div>
         {error && <div className={styles.error}>{error}</div>}
       </div>
       <PrfsIdSessionDialog
