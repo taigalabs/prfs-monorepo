@@ -126,22 +126,22 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     [setOtherProofs],
   );
 
-  const {
-    openPrfsIdSession,
-    isPrfsDialogOpen,
-    setIsPrfsDialogOpen,
-    sessionKey,
-    setSessionKey,
-    sk,
-    setSk,
-  } = usePrfsIdSession();
+  // const {
+  //   openPrfsIdSession,
+  //   isPrfsDialogOpen,
+  //   setIsPrfsDialogOpen,
+  //   sessionKey,
+  //   setSessionKey,
+  //   sk,
+  //   setSk,
+  // } = usePrfsIdSession();
 
   const {
     handleAddProof,
     handleSucceedAddProofSession,
-    // sessionKey,
-    // isPrfsDialogOpen,
-    // setIsPrfsDialogOpen,
+    sessionKey,
+    isPrfsDialogOpen,
+    setIsPrfsDialogOpen,
   } = useAddProof({
     channel,
     setError,
