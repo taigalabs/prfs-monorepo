@@ -14,6 +14,7 @@ use shy_entities::{
     GetShyTopicsRequest, GetShyTopicsResponse,
 };
 use shy_entities::{ShyProof, ShyTopic};
+use sqlx::types::Json as JsonType;
 use std::sync::Arc;
 
 use crate::envs::ENVS;
@@ -64,6 +65,23 @@ pub async fn create_shy_topic(
         }
     };
 
+    let mut other_proof_ids = vec![];
+    for other_proof in input.other_proofs {
+        if let Err(err) = verify_eth_sig_by_pk(
+            &other_proof.author_sig,
+            &msg,
+            &other_proof.author_public_key,
+        ) {
+            let resp = ApiResponse::new_error(
+                &SHY_API_ERROR_CODES.INVALID_SIG,
+                format!("sig: {}, err: {}", other_proof.author_sig, err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+
+        other_proof_ids.push(other_proof.shy_proof_id);
+    }
+
     let shy_proof = ShyProof {
         shy_proof_id: input.shy_proof_id.to_string(),
         proof: input.proof,
@@ -92,11 +110,10 @@ pub async fn create_shy_topic(
         shy_proof_id: input.shy_proof_id.to_string(),
         author_public_key: input.author_public_key.to_string(),
         author_sig: input.author_sig.to_string(),
-        participant_identity_inputs: sqlx::types::Json(vec![input
-            .proof_identity_input
-            .to_string()]),
+        participant_identity_inputs: JsonType::from(vec![input.proof_identity_input.to_string()]),
         sub_channel_id: input.sub_channel_id.to_string(),
         total_like_count: 0,
+        other_proof_ids: JsonType::from(other_proof_ids),
     };
 
     let topic_id = match shy::insert_shy_topic(&mut tx, &shy_topic).await {

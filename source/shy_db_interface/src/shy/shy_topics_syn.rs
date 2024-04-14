@@ -42,6 +42,7 @@ LIMIT $3
                     participant_identity_inputs: row.try_get("participant_identity_inputs")?,
                     sub_channel_id: row.try_get("sub_channel_id")?,
                     total_like_count: row.try_get("total_like_count")?,
+                    other_proof_ids: row.try_get("other_proof_ids")?,
                 },
                 proof_identity_input: row.try_get("proof_identity_input")?,
             };
@@ -85,6 +86,7 @@ WHERE t.topic_id=$1
             participant_identity_inputs: row.try_get("participant_identity_inputs")?,
             sub_channel_id: row.try_get("sub_channel_id")?,
             total_like_count: row.try_get("total_like_count")?,
+            other_proof_ids: row.try_get("other_proof_ids")?,
         },
         proof_identity_input: row.try_get("proof_identity_input")?,
     };

@@ -242,6 +242,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
       author_sig_msg,
       sub_channel_id: subChannelId,
       proof_type_id,
+      other_proofs: otherProofs,
     });
 
     if (error) {

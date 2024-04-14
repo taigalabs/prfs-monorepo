@@ -12,10 +12,14 @@ pub struct ShyTopic {
     pub shy_proof_id: String,
     pub author_public_key: String,
     pub author_sig: String,
-    #[ts(type = "string[]")]
-    pub participant_identity_inputs: sqlx::types::Json<Vec<String>>,
     pub sub_channel_id: String,
     pub total_like_count: i64,
+
+    #[ts(type = "string[]")]
+    pub participant_identity_inputs: sqlx::types::Json<Vec<String>>,
+
+    #[ts(type = "string[]")]
+    pub other_proof_ids: sqlx::types::Json<Vec<String>>,
 }
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
