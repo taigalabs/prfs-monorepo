@@ -1,6 +1,7 @@
 use prfs_api_rs::api::create_prfs_proof_record;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
+use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit};
 use prfs_common_server_state::ServerState;
 use prfs_db_driver::sqlx;
 use prfs_entities::entities::PrfsProofRecord;
@@ -26,7 +27,7 @@ pub async fn create_shy_topic(
     Json(input): Json<CreateShyTopicRequest>,
 ) -> (StatusCode, Json<ApiResponse<CreateShyTopicResponse>>) {
     let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+    let mut tx = bail_out_tx!(pool, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let action = ShyTopicProofAction::create_shy_topic(CreateShyTopicAction {
         topic_id: input.topic_id.to_string(),
@@ -111,9 +112,9 @@ pub async fn create_shy_topic(
         content: input.content.to_string(),
         shy_proof_id: input.shy_proof_id.to_string(),
         author_public_key: input.author_public_key.to_string(),
-        author_proof_identity_inputs: JsonType::from(author_proof_identity_inputs),
+        author_proof_identity_inputs: JsonType::from(author_proof_identity_inputs.clone()),
         author_sig: input.author_sig.to_string(),
-        participant_identity_inputs: JsonType::from(vec![input.proof_identity_input.to_string()]),
+        participant_identity_inputs: JsonType::from(author_proof_identity_inputs.clone()),
         sub_channel_id: input.sub_channel_id.to_string(),
         total_like_count: 0,
         other_proof_ids: JsonType::from(other_proof_ids),
@@ -128,7 +129,7 @@ pub async fn create_shy_topic(
         }
     };
 
-    tx.commit().await.unwrap();
+    bail_out_tx_commit!(tx, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let resp = ApiResponse::new_success(CreateShyTopicResponse { topic_id });
     return (StatusCode::OK, Json(resp));

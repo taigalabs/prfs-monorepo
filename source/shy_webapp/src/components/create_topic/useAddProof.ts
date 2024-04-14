@@ -1,6 +1,5 @@
 import React from "react";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import {
   API_PATH,
   ProofGenArgs,
@@ -18,21 +17,13 @@ import {
   rand256Hex,
 } from "@taigalabs/prfs-crypto-js";
 import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
-import { useRouter } from "next/navigation";
-import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-import { CreateShyTopicRequest } from "@taigalabs/shy-entities/bindings/CreateShyTopicRequest";
-import { AssocProofTypeId } from "@taigalabs/shy-entities/bindings/AssocProofTypeId";
-import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { shyApi2 } from "@taigalabs/shy-api-js";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
-import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
-import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
+
 import { SHY_APP_ID } from "@/app_id";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";

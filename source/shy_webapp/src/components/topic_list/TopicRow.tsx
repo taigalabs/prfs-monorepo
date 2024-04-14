@@ -16,7 +16,7 @@ const TopicRow: React.FC<RowProps> = ({ topic, now, channelId }) => {
     return toShortDate(topic.updated_at, now);
   }, [topic.updated_at]);
 
-  const author_proof_identity_inputs = topic.inner.author_proof_identity_inputs.join(",");
+  const author_proof_identity_inputs = topic.inner.author_proof_identity_inputs.join(", ");
 
   return (
     <div className={styles.wrapper}>

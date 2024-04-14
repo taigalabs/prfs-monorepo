@@ -20,8 +20,8 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
   });
 
   const topic = postData?.payload?.shy_topic;
-  const participant_identity_inputs = topic?.inner.participant_identity_inputs.join(",");
-  const author_proof_identity_inputs = topic?.inner.author_proof_identity_inputs.join(",");
+  const participant_identity_inputs = topic?.inner.participant_identity_inputs.join(", ");
+  const author_proof_identity_inputs = topic?.inner.author_proof_identity_inputs.join(", ");
 
   return (
     <div className={styles.wrapper}>

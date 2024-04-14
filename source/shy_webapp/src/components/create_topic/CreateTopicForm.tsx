@@ -1,53 +1,26 @@
 import React from "react";
-import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { MdInfoOutline } from "@react-icons/all-files/md/MdInfoOutline";
-import {
-  API_PATH,
-  ProofGenArgs,
-  ProofGenSuccessPayload,
-  QueryType,
-  createSessionKey,
-  makeProofGenSearchParams,
-  openPopup,
-} from "@taigalabs/prfs-id-sdk-web";
-import {
-  JSONbigNative,
-  createRandomKeyPair,
-  decrypt,
-  makeRandInt,
-  rand256Hex,
-} from "@taigalabs/prfs-crypto-js";
-import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
+import { rand256Hex } from "@taigalabs/prfs-crypto-js";
 import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyTopicRequest } from "@taigalabs/shy-entities/bindings/CreateShyTopicRequest";
 import { AssocProofTypeId } from "@taigalabs/shy-entities/bindings/AssocProofTypeId";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
-import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
-import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
-import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
-import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
-import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./CreateTopicForm.module.scss";
 import { pathParts, paths } from "@/paths";
 import TextEditor from "@/components/text_editor/TextEditor";
-import { envs } from "@/envs";
-import { SHY_APP_ID } from "@/app_id";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import Button from "@/components/button/Button";
 import { useTextEditor } from "@/components/text_editor/useTextEditor";
 import { ProofBlob, useAddProof } from "./useAddProof";
-
-const PROOF = "Proof";
 
 enum Status {
   Standby,

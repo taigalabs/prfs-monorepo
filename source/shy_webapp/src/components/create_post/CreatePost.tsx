@@ -85,6 +85,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const handleClickReply = React.useCallback(async () => {
     setError(null);
 
+    console.log(123);
+
     if (!editor) {
       return;
     }
