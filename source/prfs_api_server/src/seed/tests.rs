@@ -5,7 +5,6 @@ use prfs_entities::PlainDataAtstMeta;
 use prfs_entities::PlainDataValue;
 use prfs_entities::PrfsAtstGroupId;
 use prfs_entities::PrfsAtstMeta;
-use prfs_entities::PrfsProofType;
 use prfs_entities::{
     PrfsAtstGroupMember, PrfsAtstGroupMemberCodeType, PrfsAtstGroupMemberStatus, PrfsSet,
 };
