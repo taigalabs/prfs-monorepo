@@ -39,7 +39,7 @@ const AddressInput: React.FC<AddresseInputProps> = ({
   return (
     <>
       <div className={styles.wrapper}>
-        <>
+        <div className={styles.addressInput}>
           <InputWrapper
             className={styles.inputWrapper}
             isError={!!error.merkleProof}
@@ -59,7 +59,7 @@ const AddressInput: React.FC<AddresseInputProps> = ({
               readOnly
             />
           </InputWrapper>
-        </>
+        </div>
         <div className={styles.btnRow}>
           <CachedItemDialog handleChangeItem={handleChangeAddress} prfsSet={prfsSet}>
             <FormInputButton type="button">{i18n.cache}</FormInputButton>
