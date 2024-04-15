@@ -24,8 +24,7 @@ pub async fn get_shy_posts_of_topic(
 ) -> (StatusCode, Json<ApiResponse<GetShyPostsOfTopicResponse>>) {
     let pool = &state.db2.pool;
 
-    let rows = match shy::get_shy_posts_of_topic_syn1(&pool, &input.topic_id, input.offset, LIMIT)
-        .await
+    let rows = match shy::get_shy_posts_of_topic(&pool, &input.topic_id, input.offset, LIMIT).await
     {
         Ok(p) => p,
         Err(err) => {
@@ -108,6 +107,11 @@ pub async fn create_shy_post(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
+    let author_proof_identity_inputs = shy_proofs
+        .iter()
+        .map(|p| p.proof_identity_input.to_string())
+        .collect();
+
     let shy_post = ShyPost {
         post_id: input.post_id,
         topic_id: input.topic_id,
@@ -115,7 +119,8 @@ pub async fn create_shy_post(
         channel_id: input.channel_id,
         shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
-        author_sig: "1".to_string(),
+        author_sig: input.author_sig,
+        author_proof_identity_inputs,
     };
 
     let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
@@ -218,6 +223,7 @@ pub async fn create_shy_post_with_proof(
         shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
         author_sig: input.author_sig.to_string(),
+        author_proof_identity_inputs: vec![input.proof_identity_input.to_string()],
     };
 
     let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {

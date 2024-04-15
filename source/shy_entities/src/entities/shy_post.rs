@@ -11,11 +11,12 @@ pub struct ShyPost {
     pub shy_proof_id: String,
     pub author_public_key: String,
     pub author_sig: String,
+    pub author_proof_identity_inputs: Vec<String>,
 }
 
-#[derive(TS, Debug, Serialize, Deserialize, Clone)]
-#[ts(export)]
-pub struct ShyPostSyn1 {
-    pub shy_post: ShyPost,
-    pub proof_identity_input: String,
-}
+// #[derive(TS, Debug, Serialize, Deserialize, Clone)]
+// #[ts(export)]
+// pub struct ShyPostSyn1 {
+//     pub shy_post: ShyPost,
+//     pub proof_identity_input: String,
+// }

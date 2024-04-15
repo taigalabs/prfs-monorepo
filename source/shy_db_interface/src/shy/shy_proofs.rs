@@ -39,6 +39,7 @@ pub async fn get_shy_proofs(
 SELECT *
 FROM shy_proofs
 WHERE public_key=$1
+ORDER BY proof_idx ASC
 "#;
 
     let rows = sqlx::query(&query).bind(public_key).fetch_all(pool).await?;
