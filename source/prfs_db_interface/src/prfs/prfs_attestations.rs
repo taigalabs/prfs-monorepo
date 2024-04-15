@@ -99,7 +99,7 @@ OFFSET $3
 
     let rows = sqlx::query(query)
         .bind(atst_group_id)
-        .bind(limit)
+        .bind(limit + 1)
         .bind(offset)
         .fetch_all(pool)
         .await?;

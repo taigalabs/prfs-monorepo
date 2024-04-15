@@ -10,6 +10,7 @@ import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstGroupIdRequest";
 import Link from "next/link";
 import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
+import { ReactQueryDevtools } from "@taigalabs/prfs-react-lib/react_query_devtools";
 
 import styles from "./AttestationTable.module.scss";
 import { paths } from "@/paths";
@@ -147,6 +148,8 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
     rowVirtualizer.getVirtualItems(),
   ]);
 
+  console.log("all", rowVirtualizer.getVirtualItems(), allRows);
+
   return (
     <div className={styles.wrapper}>
       {isNavigating ? (
@@ -198,6 +201,8 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
                   return hasNextPage ? <div>Loading more...</div> : null;
                 }
 
+                console.log("row", virtualRow.index, row);
+
                 return (
                   <AtstRow
                     key={virtualRow.index}
@@ -217,6 +222,7 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
               })}
             </AttestationTableBodyInner>
           </AttestationTableBody>
+          <ReactQueryDevtools initialIsOpen />
         </>
       )}
     </div>
