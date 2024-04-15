@@ -254,9 +254,6 @@ proofs: ${proofs}`,
             return;
           }
 
-          proofs.sort((a, b) => a.proof_idx - b.proof_idx);
-          const author_proof_identity_inputs = proofs.map(p => p.proof_identity_input);
-
           const { payload: _createShyPostPayload } = await createShyPost({
             topic_id: topicId,
             channel_id: channel.channel_id,
@@ -266,7 +263,7 @@ proofs: ${proofs}`,
             content: html,
             author_sig: receipt.proofActionSig,
             author_sig_msg: Array.from(receipt.proofActionSigMsg),
-            author_proof_identity_inputs,
+            other_proofs: [],
           });
           handleSucceedPost();
         }
@@ -295,6 +292,7 @@ proofs: ${proofs}`,
           sub_channel_id: subChannelId,
           proof_type_id: channel.proof_type_ids[0],
           proof_idx: 0,
+          other_proofs: [],
         });
 
         if (error) {
