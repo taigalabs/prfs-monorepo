@@ -2,6 +2,7 @@ use prfs_api_rs::api::create_prfs_proof_record;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
+use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_entities::{CreatePrfsProofRecordRequest, PrfsProofRecord};
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
@@ -107,7 +108,7 @@ pub async fn create_shy_post(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
-    let author_proof_identity_inputs = shy_proofs
+    let author_proof_identity_inputs: Vec<String> = shy_proofs
         .iter()
         .map(|p| p.proof_identity_input.to_string())
         .collect();
@@ -120,7 +121,7 @@ pub async fn create_shy_post(
         shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
         author_sig: input.author_sig,
-        author_proof_identity_inputs,
+        author_proof_identity_inputs: JsonType::from(author_proof_identity_inputs),
     };
 
     let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
@@ -223,7 +224,7 @@ pub async fn create_shy_post_with_proof(
         shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
         author_sig: input.author_sig.to_string(),
-        author_proof_identity_inputs: vec![input.proof_identity_input.to_string()],
+        author_proof_identity_inputs: JsonType::from(vec![input.proof_identity_input.to_string()]),
     };
 
     let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
