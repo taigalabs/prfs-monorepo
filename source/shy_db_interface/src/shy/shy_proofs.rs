@@ -29,27 +29,34 @@ RETURNING shy_proof_id
     Ok(proof_id)
 }
 
-pub async fn get_shy_proof(
+pub async fn get_shy_proofs(
     pool: &Pool<Postgres>,
     public_key: &String,
-) -> Result<ShyProof, ShyDbInterfaceError> {
+) -> Result<Vec<ShyProof>, ShyDbInterfaceError> {
     let query = r#"
 SELECT *
 FROM shy_proofs
 WHERE public_key=$1
 "#;
 
-    let row = sqlx::query(&query).bind(public_key).fetch_one(pool).await?;
+    let rows = sqlx::query(&query).bind(public_key).fetch_all(pool).await?;
 
-    let shy_proof = ShyProof {
-        shy_proof_id: row.try_get("shy_proof_id")?,
-        proof: row.try_get("proof")?,
-        public_inputs: row.try_get("public_inputs")?,
-        public_key: row.try_get("public_key")?,
-        serial_no: row.try_get("serial_no")?,
-        proof_identity_input: row.try_get("proof_identity_input")?,
-        proof_type_id: row.try_get("proof_type_id")?,
-    };
+    let proofs = rows
+        .iter()
+        .map(|row| {
+            let proof = ShyProof {
+                shy_proof_id: row.try_get("shy_proof_id")?,
+                proof: row.try_get("proof")?,
+                public_inputs: row.try_get("public_inputs")?,
+                public_key: row.try_get("public_key")?,
+                serial_no: row.try_get("serial_no")?,
+                proof_identity_input: row.try_get("proof_identity_input")?,
+                proof_type_id: row.try_get("proof_type_id")?,
+            };
 
-    Ok(shy_proof)
+            return Ok(proof);
+        })
+        .collect::<Result<Vec<ShyProof>, ShyDbInterfaceError>>()?;
+
+    Ok(proofs)
 }

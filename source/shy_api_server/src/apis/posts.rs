@@ -51,7 +51,7 @@ pub async fn create_shy_post(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let shy_proof = match shy::get_shy_proof(&pool, &input.author_public_key).await {
+    let shy_proofs = match shy::get_shy_proofs(&pool, &input.author_public_key).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(
@@ -62,12 +62,12 @@ pub async fn create_shy_post(
         }
     };
 
-    if shy_proof.public_key != input.author_public_key {
+    if shy_proofs.len() < 1 {
         let resp = ApiResponse::new_error(
-            &SHY_API_ERROR_CODES.PUBLIC_KEY_NOT_MACHING,
+            &SHY_API_ERROR_CODES.SHY_PROOF_RETRIEVAL_FAIL,
             format!(
-                "Shy proof pubkey:, {}, author_pk: {}",
-                shy_proof.public_key, input.author_public_key
+                "Proof not found, author_pub_key: {}",
+                input.author_public_key
             ),
         );
         return (StatusCode::BAD_REQUEST, Json(resp));
@@ -176,32 +176,10 @@ pub async fn create_shy_post_with_proof(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
-    // let proof_starts_with: [u8; 8] = match input.proof[0..8].try_into() {
-    //     Ok(p) => p,
-    //     Err(err) => {
-    //         let resp = ApiResponse::new_error(
-    //             &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
-    //             format!(
-    //                 "Cannot slice proof, proof len: {}, err: {}",
-    //                 input.proof.len(),
-    //                 err
-    //             ),
-    //         );
-    //         return (StatusCode::BAD_REQUEST, Json(resp));
-    //     }
-    // };
-    // let create_prfs_proof_record_req = CreatePrfsProofRecordRequest {
-    //     proof_record: PrfsProofRecord {
-    //         public_key: input.author_public_key.to_string(),
-    //         proof_starts_with,
-    //     },
-    // };
-
     let _proof_record_resp = match create_prfs_proof_record(
         &ENVS.prfs_api_server_endpoint,
         &input.proof,
         &input.author_public_key,
-        // &create_prfs_proof_record_req,
     )
     .await
     {

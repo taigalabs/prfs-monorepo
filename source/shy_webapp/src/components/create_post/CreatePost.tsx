@@ -38,7 +38,7 @@ import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
-import { useGetShyProof } from "@/hooks/proof";
+import { useGetShyProofs } from "@/hooks/proof";
 import { useTextEditor } from "@/components/text_editor/useTextEditor";
 
 const PROOF = "Proof";
@@ -67,7 +67,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const [html, setHtml] = React.useState<string | null>(null);
   const { editor } = useTextEditor();
 
-  const { mutateAsync: getShyProof } = useGetShyProof();
+  const { mutateAsync: getShyProofs } = useGetShyProofs();
 
   const { mutateAsync: createShyPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
@@ -160,7 +160,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
     router,
     handleSucceedPost,
     dispatch,
-    getShyProof,
+    getShyProofs,
     createShyPostWithProof,
     createShyPost,
     subChannelId,
@@ -236,11 +236,11 @@ const CreatePost: React.FC<CreatePostProps> = ({
       if (receipt.type === "cached_prove_receipt") {
         receipt.proofActionSigMsg;
 
-        const { payload: getShyTopicProofPayload } = await getShyProof({
+        const { payload: getShyProofsPayload } = await getShyProofs({
           public_key: receipt.proofPubKey,
         });
-        if (getShyTopicProofPayload?.shy_proof) {
-          const topicProof = getShyTopicProofPayload.shy_proof;
+        if (getShyProofsPayload?.shy_proofs) {
+          const proofs = getShyProofsPayload.shy_proofs;
 
           const { payload: _createShyPostPayload } = await createShyPost({
             topic_id: topicId,
