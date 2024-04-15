@@ -20,7 +20,7 @@ pub struct CreateShyTopicRequest {
     pub author_sig_msg: Vec<u8>,
     pub sub_channel_id: String,
     pub proof_type_id: String,
-    pub proof_idx: i32,
+    pub proof_idx: i16,
     pub other_proofs: Vec<ProofBlob>,
 }
 
@@ -68,5 +68,5 @@ pub struct ProofBlob {
     pub author_sig: String,
     pub author_sig_msg: Vec<u8>,
     pub proof_type_id: String,
-    pub proof_idx: i32,
+    pub proof_idx: i16,
 }

@@ -42,7 +42,7 @@ pub struct JoinShyChannelRequest {
     pub public_inputs: String,
     pub serial_no: String,
     pub proof_type_id: String,
-    pub proof_idx: i32,
+    pub proof_idx: i16,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

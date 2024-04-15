@@ -48,7 +48,7 @@ pub struct CreateShyPostWithProofRequest {
     pub serial_no: String,
     pub sub_channel_id: String,
     pub proof_type_id: String,
-    pub proof_idx: i32,
+    pub proof_idx: i16,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
