@@ -216,7 +216,7 @@ const SignUp: React.FC<SignUpProps> = ({
               handleClick={handleClickSignUp}
               noShadow
             >
-              {i18n.sign_up}
+              {i18n.register}
             </Button>
           </DefaultModuleBtnRow>
         </Fade>
