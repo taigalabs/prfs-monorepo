@@ -9,8 +9,8 @@ const SignInPage: React.FC = () => {
   return (
     <SignInLayout>
       <Suspense>
-        <GlobalMsgHeader />
-        <SignIn />
+        {/* <GlobalMsgHeader /> */}
+        {/* <SignIn /> */}
       </Suspense>
     </SignInLayout>
   );

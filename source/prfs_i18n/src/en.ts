@@ -72,6 +72,8 @@ export default {
   feedback: "Feedback",
   email_or_id_or_wallet_addr: "Email or Id or Wallet address",
   fetching_data_failed: "Oops, fetching data has failed",
+  add_proof_optional: "(Optional) Add an additional proof",
+  add_required_proof: "Add the required proof",
   already_made_proof:
     "You've already made the same proof. All good. Getting back to the app in seconds",
   no_channel_found: "No channel found for this channel id. Check out the channel id",
@@ -260,7 +262,7 @@ export default {
   check_your_credential: "Check your credential and finish id creation",
   sign_in_with_your_id: "Try signing in with your new identity",
   create_a_strong_password:
-    "Create a strong password with a mix of upper/lower case lettters, numbers, and symbols. Each password has to be 15-character or longer. Your ID will be auto-generated based on your password",
+    "Create a strong password with a mix of upper/lower case lettters, numbers, and symbols. Each password has to be 20-character or longer. Your ID will be auto-generated based on your password",
   how_to_choose_right_id: "How to choose a right Id",
   how_is_the_password_generated: "How is the password generated",
   what_happens_when_signing_up: "What happens when signing up",
@@ -391,6 +393,7 @@ export default {
     "We currently support Metamask. Check out how you install install it if you haven't already",
   credential: "Credential",
   sign_up: "Sign up",
+  register: "Register",
   sign_up_desc:
     "Sign up for Prfs. To learn more about account registration, visit our upcoming blog",
   sign_out: "Sign out",

@@ -1,0 +1,87 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  /* border: 1px solid blue; */
+}
+
+.loading {
+  padding: 24px;
+}
+
+.upper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+
+  /* border: 1px solid black; */
+}
+
+.logoPane {
+  display: flex;
+  padding: 0 28px;
+  flex-grow: 0;
+}
+
+.logoWrapper {
+  display: flex;
+  max-width: none;
+  flex-grow: 0;
+
+  // border: 1px solid blue;
+
+  .logoText {
+    font-size: 32px;
+  }
+}
+
+.logo {
+  > div {
+    padding: 10px 5px 3px;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 0;
+
+  /* border: 1px solid red; */
+}
+
+.intro {
+  padding: 0 28px;
+
+  .label {
+    color: var(--shy-black-30);
+    max-width: none;
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: 0.018em;
+  }
+
+  .desc {
+    padding-top: 24px;
+    font-size: 20px;
+    color: var(--gray-20);
+  }
+}
+
+.footer {
+  padding: 12px 16px;
+  margin-top: auto;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .upper {
+    align-items: center;
+  }
+}

@@ -24,6 +24,7 @@ import ProjectStatus from "./ProjectStatus";
 import Footer from "./Footer";
 import FeaturedApps from "./FeaturedApps";
 import UsageScenario from "./UsageScenario";
+import { envs } from "@/envs";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -76,7 +77,7 @@ const Home: React.FC<HomeProps> = () => {
                 className={cn(roboto.className, styles.searchBar)}
                 proofType={undefined}
                 handleSelectProofType={handleSelectProofType}
-                webappConsoleEndpoint={process.env.NEXT_PUBLIC_PRFS_CONSOLE_WEBAPP_ENDPOINT}
+                proofWebappEndpoint={envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}
               />
             </div>
           </div>

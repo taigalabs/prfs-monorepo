@@ -22,7 +22,6 @@ import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface
 import { useRouter } from "next/navigation";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { GetShyProofRequest } from "@taigalabs/shy-entities/bindings/GetShyProofRequest";
 import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
 import { CreateShyPostWithProofRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostWithProofRequest";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
@@ -39,7 +38,8 @@ import { SHY_APP_ID } from "@/app_id";
 import ErrorDialog from "./ErrorDialog";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
-import { useGetShyProof } from "@/hooks/proof";
+import { useGetShyProofs } from "@/hooks/proof";
+import { useTextEditor } from "@/components/text_editor/useTextEditor";
 
 const PROOF = "Proof";
 
@@ -65,13 +65,9 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const [error, setError] = React.useState<string | null>(null);
   const [postId, setPostId] = React.useState<string | null>(null);
   const [html, setHtml] = React.useState<string | null>(null);
+  const { editor } = useTextEditor();
 
-  const { mutateAsync: getShyProof } = useGetShyProof();
-  // const { mutateAsync: getShyProof } = useMutation({
-  //   mutationFn: (req: GetShyProofRequest) => {
-  //     return shyApi2({ type: "get_shy_proof", ...req });
-  //   },
-  // });
+  const { mutateAsync: getShyProofs } = useGetShyProofs();
 
   const { mutateAsync: createShyPost } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
@@ -85,93 +81,97 @@ const CreatePost: React.FC<CreatePostProps> = ({
     },
   });
 
-  const handleClickReply = React.useCallback(
-    async (html: string) => {
-      setError(null);
+  const handleClickReply = React.useCallback(async () => {
+    setError(null);
 
-      if (channel.proof_type_ids.length < 1) {
-        setError("Proof type does not exist");
-        return;
-      }
+    if (!editor) {
+      return;
+    }
 
-      if (html.length < 10) {
-        setError("Content needs to be longer");
-        return;
-      }
+    const html = editor.getHTML();
 
-      const proofTypeId = channel.proof_type_ids[0];
-      const session_key = createSessionKey();
-      const { sk, pkHex } = createRandomKeyPair();
-      const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
-      const postId = rand256Hex();
+    if (channel.proof_type_ids.length < 1) {
+      setError("Proof type does not exist");
+      return;
+    }
 
-      const proofAction: ShyPostProofAction = {
-        type: "create_shy_post",
-        topic_id: topicId,
-        post_id: postId,
-        content: html,
-      };
-      const proofActionStr = JSON.stringify(proofAction);
+    if (html.length < 10) {
+      setError("Content needs to be longer");
+      return;
+    }
 
-      const presetVals: MerkleSigPosRangeV1PresetVals = {
-        nonceRaw: json,
-      };
-      const proofGenArgs: ProofGenArgs = {
-        nonce: makeRandInt(1000000),
-        app_id: SHY_APP_ID,
-        queries: [
-          {
-            name: PROOF,
-            proofTypeId,
-            queryType: QueryType.CREATE_PROOF,
-            presetVals,
-            usePrfsRegistry: true,
-            proofAction: proofActionStr,
-          },
-        ],
-        public_key: pkHex,
-        session_key,
-      };
+    const proofTypeId = channel.proof_type_ids[0];
+    const session_key = createSessionKey();
+    const { sk, pkHex } = createRandomKeyPair();
+    const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
+    const postId = rand256Hex();
 
-      const searchParams = makeProofGenSearchParams(proofGenArgs);
-      const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
+    const proofAction: ShyPostProofAction = {
+      type: "create_shy_post",
+      topic_id: topicId,
+      post_id: postId,
+      content: html,
+    };
+    const proofActionStr = JSON.stringify(proofAction);
 
-      const popup = openPopup(endpoint);
-      if (!popup) {
-        console.error("Popup couldn't be open");
-        return;
-      }
+    const presetVals: MerkleSigPosRangeV1PresetVals = {
+      nonceRaw: json,
+    };
+    const proofGenArgs: ProofGenArgs = {
+      nonce: makeRandInt(1000000),
+      app_id: SHY_APP_ID,
+      queries: [
+        {
+          name: PROOF,
+          proofTypeId,
+          queryType: QueryType.CREATE_PROOF,
+          presetVals,
+          usePrfsRegistry: true,
+          proofAction: proofActionStr,
+        },
+      ],
+      public_key: pkHex,
+      session_key,
+    };
 
-      const { payload: _ } = await openPrfsIdSession({
-        key: proofGenArgs.session_key,
-        value: null,
-        ticket: "TICKET",
-      });
-      setIsPrfsDialogOpen(true);
-      setSessionKey(proofGenArgs.session_key);
-      setSk(sk);
-      setPostId(postId);
-      setHtml(html);
-    },
-    [
-      channel,
-      topicId,
-      setError,
-      router,
-      handleSucceedPost,
-      dispatch,
-      getShyProof,
-      createShyPostWithProof,
-      createShyPost,
-      subChannelId,
-      setSk,
-      setSessionKey,
-      setIsPrfsDialogOpen,
-      openPrfsIdSession,
-      setPostId,
-      setHtml,
-    ],
-  );
+    const searchParams = makeProofGenSearchParams(proofGenArgs);
+    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
+
+    const popup = openPopup(endpoint);
+    if (!popup) {
+      console.error("Popup couldn't be open");
+      return;
+    }
+
+    const { payload: _ } = await openPrfsIdSession({
+      key: proofGenArgs.session_key,
+      value: null,
+      ticket: "TICKET",
+    });
+    setIsPrfsDialogOpen(true);
+    setSessionKey(proofGenArgs.session_key);
+    setSk(sk);
+    setPostId(postId);
+    setHtml(html);
+  }, [
+    channel,
+    topicId,
+    setError,
+    router,
+    handleSucceedPost,
+    dispatch,
+    getShyProofs,
+    createShyPostWithProof,
+    createShyPost,
+    subChannelId,
+    setSk,
+    setSessionKey,
+    setIsPrfsDialogOpen,
+    openPrfsIdSession,
+    setPostId,
+    setHtml,
+    editor,
+  ]);
 
   const handleSucceedGetSession = React.useCallback(
     async (session: PrfsIdSession) => {
@@ -236,21 +236,34 @@ const CreatePost: React.FC<CreatePostProps> = ({
       if (receipt.type === "cached_prove_receipt") {
         receipt.proofActionSigMsg;
 
-        const { payload: getShyTopicProofPayload } = await getShyProof({
+        const { payload: getShyProofsPayload } = await getShyProofs({
           public_key: receipt.proofPubKey,
         });
-        if (getShyTopicProofPayload?.shy_proof) {
-          const topicProof = getShyTopicProofPayload.shy_proof;
+        if (getShyProofsPayload?.shy_proofs) {
+          const proofs = getShyProofsPayload.shy_proofs;
+
+          const firstProof = proofs.find(p => p.proof_idx === 0);
+          if (!firstProof) {
+            dispatch(
+              setGlobalMsg({
+                variant: "error",
+                message: `Cannot find first proof that is supposed to have been made, \
+proofs: ${proofs}`,
+              }),
+            );
+            return;
+          }
 
           const { payload: _createShyPostPayload } = await createShyPost({
             topic_id: topicId,
             channel_id: channel.channel_id,
-            shy_proof_id: topicProof.shy_proof_id,
-            author_public_key: topicProof.public_key,
+            shy_proof_id: firstProof.shy_proof_id,
+            author_public_key: firstProof.public_key,
             post_id: postId,
             content: html,
             author_sig: receipt.proofActionSig,
             author_sig_msg: Array.from(receipt.proofActionSigMsg),
+            other_proofs: [],
           });
           handleSucceedPost();
         }
@@ -278,6 +291,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
           serial_no: publicInputs.circuitPubInput.serialNo.toString(),
           sub_channel_id: subChannelId,
           proof_type_id: channel.proof_type_ids[0],
+          proof_idx: 0,
+          other_proofs: [],
         });
 
         if (error) {
@@ -297,15 +312,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
     [sk, dispatch, postId, html],
   );
 
-  const footer = React.useMemo(() => {
-    return (
-      <CreatePostEditorFooter
-        handleClickCancel={handleClickCancel}
-        handleClickReply={handleClickReply}
-      />
-    );
-  }, []);
-
   const handleClickClose = React.useCallback(() => {
     setError(null);
   }, [setError]);
@@ -315,7 +321,11 @@ const CreatePost: React.FC<CreatePostProps> = ({
       <div className={styles.wrapper}>
         {error && <ErrorDialog handleClickClose={handleClickClose} error={error} />}
         <div className={styles.inner}>
-          <TextEditor footer={footer} />
+          {editor && <TextEditor editor={editor} className={styles.editorWrapper} />}
+          <CreatePostEditorFooter
+            handleClickCancel={handleClickCancel}
+            handleClickReply={handleClickReply}
+          />
         </div>
       </div>
       <PrfsIdSessionDialog

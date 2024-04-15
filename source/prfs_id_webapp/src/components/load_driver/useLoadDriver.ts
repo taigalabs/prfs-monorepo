@@ -5,7 +5,7 @@ import { initCircuitDriver } from "@taigalabs/prfs-proof-gen-js";
 import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-interface/bindings/SpartanCircomDriverProperties";
 import { interpolateSystemAssetEndpoint } from "@taigalabs/prfs-circuit-artifact-uri-resolver";
-import { O1jsDriverProperties } from "@taigalabs/prfs-driver-o1js";
+// import { O1jsDriverProperties } from "@taigalabs/prfs-driver-o1js";
 
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
@@ -115,21 +115,21 @@ export function useLoadDriver(proofType: PrfsProofTypeSyn1 | undefined) {
 
             break;
           }
-          case "o1js_v1": {
-            const driverProps: O1jsDriverProperties = {
-              transactionFee: "0.1",
-              zkAppAddr: "NONE",
-            };
+          // case "o1js_v1": {
+          //   const driverProps: O1jsDriverProperties = {
+          //     transactionFee: "0.1",
+          //     zkAppAddr: "NONE",
+          //   };
 
-            setLoadDriverStatus(LoadDriverStatus.InProgress);
-            const driver = await initCircuitDriver(
-              proofType.circuit_driver_id,
-              driverProps,
-              handleDriverEv,
-            );
-            setDriver(driver);
-            break;
-          }
+          //   setLoadDriverStatus(LoadDriverStatus.InProgress);
+          //   const driver = await initCircuitDriver(
+          //     proofType.circuit_driver_id,
+          //     driverProps,
+          //     handleDriverEv,
+          //   );
+          //   setDriver(driver);
+          //   break;
+          // }
           default:
             console.error("This circuit driver is not supported yet", circuit_driver_id);
         }

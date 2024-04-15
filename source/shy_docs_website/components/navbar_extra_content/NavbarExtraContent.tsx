@@ -3,6 +3,7 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import cn from "classnames";
 
 import styles from "./NavbarExtraContent.module.scss";
+import { envs } from "@/envs";
 
 const NavbarExtraContent: React.FC<NavbarExtraContentProps> = () => {
   return (
@@ -12,11 +13,11 @@ const NavbarExtraContent: React.FC<NavbarExtraContentProps> = () => {
         styles.wrapper,
       )}
     >
-      <a className={styles.link} href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
+      <a className={styles.link} href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
         <span>Prfs</span>
         <BiLinkExternal />
       </a>
-      <a className={styles.link} href={process.env.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
+      <a className={styles.link} href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
         <span>Code</span>
       </a>
     </div>

@@ -9,6 +9,10 @@
   font-size: 16px;
   font-weight: 400;
   border-radius: 0px;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .green_1 {
@@ -21,6 +25,10 @@
 
   &:active {
     background-color: var(--shy-green-30);
+  }
+
+  &:disabled {
+    background-color: var(--shy-green-20);
   }
 }
 

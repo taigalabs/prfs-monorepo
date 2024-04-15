@@ -5,12 +5,12 @@ use crate::entities::ShyProof;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetShyProofRequest {
+pub struct GetShyProofsRequest {
     pub public_key: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetShyProofResponse {
-    pub shy_proof: ShyProof,
+pub struct GetShyProofsResponse {
+    pub shy_proofs: Vec<ShyProof>,
 }

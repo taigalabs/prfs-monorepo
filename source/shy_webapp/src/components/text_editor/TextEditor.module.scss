@@ -1,12 +1,17 @@
 .wrapper {
-}
+  :global(.ProseMirror) {
+    outline: none;
+    width: 100%;
+    min-height: 90px;
+    padding: 0.5em 0.65em;
+    color: var(--shy-gray-20);
+    outline: none;
+    border-bottom: 1px solid var(--bright-gray-30);
+  }
 
-.editor {
-  width: 100%;
-  min-height: 70px;
-  padding: 0.5em 0.65em;
-  color: var(--shy-gray-20);
-  outline: none;
+  :global(.ProseMirror-focused) {
+    border-bottom: 1px solid var(--gray-50);
+  }
 }
 
 .menuBar {
@@ -28,6 +33,10 @@
   }
 }
 
+.editor {
+  font-size: 15px;
+}
+
 .isEditorEmpty:first-child::before {
   color: var(--shy-gray-20);
   opacity: 0.5;
@@ -35,15 +44,4 @@
   float: left;
   height: 0;
   pointer-events: none;
-}
-
-.footer {
-  padding-top: 8px;
-  margin-bottom: 0;
-  display: flex;
-  align-items: center;
-
-  button {
-    padding: 0.5em 0.65em;
-  }
 }

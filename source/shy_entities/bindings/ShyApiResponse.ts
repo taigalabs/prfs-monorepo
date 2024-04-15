@@ -4,7 +4,7 @@ import type { CreateShyTopicResponse } from "./CreateShyTopicResponse";
 import type { GetShyChannelResponse } from "./GetShyChannelResponse";
 import type { GetShyChannelsResponse } from "./GetShyChannelsResponse";
 import type { GetShyPostsOfTopicResponse } from "./GetShyPostsOfTopicResponse";
-import type { GetShyProofResponse } from "./GetShyProofResponse";
+import type { GetShyProofsResponse } from "./GetShyProofsResponse";
 import type { GetShyTopicResponse } from "./GetShyTopicResponse";
 import type { GetShyTopicsResponse } from "./GetShyTopicsResponse";
 import type { JoinShyChannelResponse } from "./JoinShyChannelResponse";
@@ -21,6 +21,6 @@ export type ShyApiResponse =
   | ({ type: "get_shy_channel" } & GetShyChannelResponse)
   | ({ type: "get_shy_topics" } & GetShyTopicsResponse)
   | ({ type: "get_shy_topic" } & GetShyTopicResponse)
-  | ({ type: "get_shy_proof" } & GetShyProofResponse)
+  | ({ type: "get_shy_proofs" } & GetShyProofsResponse)
   | ({ type: "get_shy_posts_of_topic" } & GetShyPostsOfTopicResponse)
   | ({ type: "join_shy_channel" } & JoinShyChannelResponse);

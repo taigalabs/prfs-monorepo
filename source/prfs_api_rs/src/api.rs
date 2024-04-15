@@ -10,26 +10,10 @@ pub async fn create_prfs_proof_record(
     prfs_api_server_endpoint: &String,
     proof: &Vec<u8>,
     public_key: &String,
-    // data: &CreatePrfsProofRecordRequest,
 ) -> Result<ApiResponse<CreatePrfsProofRecordResponse>, PrfsApiError> {
     let cli = Client::new();
 
     let proof_starts_with: [u8; 8] = proof[0..8].try_into()?;
-    //     {
-    //     Ok(p) => p,
-    //     Err(err) => {
-    //         let resp = ApiResponse::new_error(
-    //             &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
-    //             format!(
-    //                 "Cannot slice proof, proof len: {}, err: {}",
-    //                 input.proof.len(),
-    //                 err
-    //             ),
-    //         );
-    //         return (StatusCode::BAD_REQUEST, Json(resp));
-    //     }
-    // };
-
     let create_prfs_proof_record_req = CreatePrfsProofRecordRequest {
         proof_record: PrfsProofRecord {
             public_key: public_key.to_string(),

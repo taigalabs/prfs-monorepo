@@ -4,7 +4,7 @@ import type { CreateShyPostWithProofRequest } from "./CreateShyPostWithProofRequ
 import type { CreateShyTopicRequest } from "./CreateShyTopicRequest";
 import type { GetShyChannelsRequest } from "./GetShyChannelsRequest";
 import type { GetShyPostsOfTopicRequest } from "./GetShyPostsOfTopicRequest";
-import type { GetShyProofRequest } from "./GetShyProofRequest";
+import type { GetShyProofsRequest } from "./GetShyProofsRequest";
 import type { GetShyTopicRequest } from "./GetShyTopicRequest";
 import type { GetShyTopicsRequest } from "./GetShyTopicsRequest";
 import type { JoinShyChannelRequest } from "./JoinShyChannelRequest";
@@ -21,6 +21,6 @@ export type ShyApiRequest =
   | ({ type: "get_shy_channel" } & GetShyChannelsRequest)
   | ({ type: "get_shy_topics" } & GetShyTopicsRequest)
   | ({ type: "get_shy_topic" } & GetShyTopicRequest)
-  | ({ type: "get_shy_proof" } & GetShyProofRequest)
+  | ({ type: "get_shy_proofs" } & GetShyProofsRequest)
   | ({ type: "get_shy_posts_of_topic" } & GetShyPostsOfTopicRequest)
   | ({ type: "join_shy_channel" } & JoinShyChannelRequest);

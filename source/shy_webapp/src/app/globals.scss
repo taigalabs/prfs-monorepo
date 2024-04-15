@@ -8,6 +8,7 @@
 
   --shy-blue-50: #0066cc;
 
+  --shy-green-20: #59ab66;
   --shy-green-30: #0a5f17;
   --shy-green-40: #0c6d1a;
   --shy-green-50: #0e8420;
@@ -97,6 +98,7 @@ textarea {
   background-image: none;
   background-color: transparent;
   box-shadow: none;
+  font-family: inherit;
 }
 
 @media (prefers-color-scheme: dark) {

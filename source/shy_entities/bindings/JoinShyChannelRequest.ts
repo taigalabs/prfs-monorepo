@@ -12,4 +12,5 @@ export type JoinShyChannelRequest = {
   public_inputs: string;
   serial_no: string;
   proof_type_id: string;
+  proof_idx: number;
 };

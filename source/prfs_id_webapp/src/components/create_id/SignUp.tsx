@@ -34,6 +34,7 @@ import {
 import { useAppDispatch } from "@/state/hooks";
 import { persistPrfsIdCredentialEncrypted } from "@/storage/prfs_id_credential";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { envs } from "@/envs";
 
 export enum IdCreationStatus {
   Standby,
@@ -52,6 +53,7 @@ const SignUp: React.FC<SignUpProps> = ({
   const [status, setStatus] = React.useState(IdCreationStatus.Standby);
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = React.useState(false);
+
   const { mutateAsync: signUpPrfsIdentity } = useMutation({
     mutationFn: (req: SignUpPrfsIdentityRequest) => {
       return idApi({ type: "sign_up_prfs_identity", ...req });
@@ -172,10 +174,7 @@ const SignUp: React.FC<SignUpProps> = ({
             </div>
           </div>
           <DefaultInputGuide>
-            <Link
-              href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
-              target="_blank"
-            >
+            <Link href={`${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}/identity`} target="_blank">
               {i18n.how_is_the_password_generated}
             </Link>
           </DefaultInputGuide>
@@ -188,18 +187,12 @@ const SignUp: React.FC<SignUpProps> = ({
             </div>
           </div>
           <DefaultInputGuide>
-            <Link
-              href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
-              target="_blank"
-            >
+            <Link href={`${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}/identity`} target="_blank">
               {i18n.what_is_id}
             </Link>
           </DefaultInputGuide>
           <DefaultInputGuide>
-            <Link
-              href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
-              target="_blank"
-            >
+            <Link href={`${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}/identity`} target="_blank">
               {i18n.what_happens_when_signing_up}
             </Link>
           </DefaultInputGuide>
@@ -223,7 +216,7 @@ const SignUp: React.FC<SignUpProps> = ({
               handleClick={handleClickSignUp}
               noShadow
             >
-              {i18n.sign_up}
+              {i18n.register}
             </Button>
           </DefaultModuleBtnRow>
         </Fade>

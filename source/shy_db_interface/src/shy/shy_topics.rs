@@ -34,6 +34,7 @@ LIMIT $3
                 topic_id: row.try_get("topic_id")?,
                 channel_id: row.try_get("channel_id")?,
                 total_reply_count: row.try_get("total_reply_count")?,
+                author_proof_identity_inputs: row.try_get("author_proof_identity_inputs")?,
                 author_public_key: row.try_get("author_public_key")?,
                 content: row.try_get("content")?,
                 shy_proof_id: row.try_get("shy_proof_id")?,
@@ -41,6 +42,7 @@ LIMIT $3
                 participant_identity_inputs: row.try_get("participant_identity_inputs")?,
                 sub_channel_id: row.try_get("sub_channel_id")?,
                 total_like_count: row.try_get("total_like_count")?,
+                other_proof_ids: row.try_get("other_proof_ids")?,
             };
 
             let topic = DateTimed {
@@ -68,6 +70,7 @@ pub async fn get_shy_topic(
         topic_id: row.try_get("topic_id")?,
         channel_id: row.try_get("channel_id")?,
         total_reply_count: row.try_get("total_reply_count")?,
+        author_proof_identity_inputs: row.try_get("author_proof_identity_inputs")?,
         author_public_key: row.try_get("author_public_key")?,
         content: row.try_get("content")?,
         shy_proof_id: row.try_get("shy_proof_id")?,
@@ -75,6 +78,7 @@ pub async fn get_shy_topic(
         participant_identity_inputs: row.try_get("participant_identity_inputs")?,
         sub_channel_id: row.try_get("sub_channel_id")?,
         total_like_count: row.try_get("total_like_count")?,
+        other_proof_ids: row.try_get("other_proof_ids")?,
     };
     let topic = DateTimed {
         inner: topic,
@@ -102,6 +106,7 @@ pub async fn get_shy_topic__tx(
         topic_id: row.try_get("topic_id")?,
         channel_id: row.try_get("channel_id")?,
         total_reply_count: row.try_get("total_reply_count")?,
+        author_proof_identity_inputs: row.try_get("author_proof_identity_inputs")?,
         author_public_key: row.try_get("author_public_key")?,
         content: row.try_get("content")?,
         shy_proof_id: row.try_get("shy_proof_id")?,
@@ -109,6 +114,7 @@ pub async fn get_shy_topic__tx(
         participant_identity_inputs: row.try_get("participant_identity_inputs")?,
         sub_channel_id: row.try_get("sub_channel_id")?,
         total_like_count: row.try_get("total_like_count")?,
+        other_proof_ids: row.try_get("other_proof_ids")?,
     };
     let topic = DateTimed {
         inner: topic,
@@ -126,8 +132,9 @@ pub async fn insert_shy_topic(
     let query = r#"
 INSERT INTO shy_topics
 (topic_id, channel_id, title, author_public_key, total_reply_count, content, shy_proof_id, 
-author_sig, participant_identity_inputs, sub_channel_id, total_like_count)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+author_sig, participant_identity_inputs, sub_channel_id, total_like_count, other_proof_ids,
+author_proof_identity_inputs)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
 ON CONFLICT (topic_id) DO UPDATE SET (
 total_reply_count, title, content, updated_at
 ) = (
@@ -148,6 +155,8 @@ RETURNING topic_id
         .bind(&shy_topic.participant_identity_inputs)
         .bind(&shy_topic.sub_channel_id)
         .bind(&shy_topic.total_like_count)
+        .bind(&shy_topic.other_proof_ids)
+        .bind(&shy_topic.author_proof_identity_inputs)
         .fetch_one(&mut **tx)
         .await?;
 

@@ -9,6 +9,7 @@ export type ShyChannel = {
   locale: Locale;
   desc: string;
   proof_type_ids: string[];
+  assoc_proof_type_ids: Record<string, string>[];
   status: ShyChannelStatus;
   type: ShyChannelType;
 };

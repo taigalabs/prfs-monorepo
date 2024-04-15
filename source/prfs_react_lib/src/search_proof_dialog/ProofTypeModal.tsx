@@ -9,13 +9,13 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import styles from "./ProofTypeModal.module.scss";
 import CaptionedImg from "../captioned_img/CaptionedImg";
 
-const Row: React.FC<RowProps> = ({ proofType, handleSelectVal, webappConsoleEndpoint }) => {
-  const url = `${webappConsoleEndpoint}/proof_types/${proofType.proof_type_id}`;
+const Row: React.FC<RowProps> = ({ proofType, handleSelectVal, proofWebappEndpoint }) => {
+  const url = `${proofWebappEndpoint}/proof_types/${proofType.proof_type_id}`;
 
   const handleClickExternalLink = React.useCallback(
     (ev: React.MouseEvent) => {
       ev.stopPropagation();
-      window.open(url, "_blank");
+      // window.open(url, "_blank");
     },
     [url],
   );
@@ -46,7 +46,7 @@ const Row: React.FC<RowProps> = ({ proofType, handleSelectVal, webappConsoleEndp
 
 const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
   handleSelectVal,
-  webappConsoleEndpoint,
+  proofWebappEndpoint,
 }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -138,7 +138,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
                         <Row
                           proofType={proofType}
                           handleSelectVal={handleSelectVal}
-                          webappConsoleEndpoint={webappConsoleEndpoint}
+                          proofWebappEndpoint={proofWebappEndpoint}
                         />
                       )}
                 </div>
@@ -155,11 +155,11 @@ export default ProofTypeModal2;
 
 export interface ProofTypeModal2Props {
   handleSelectVal: (item: PrfsProofType) => void;
-  webappConsoleEndpoint: string;
+  proofWebappEndpoint: string;
 }
 
 export interface RowProps {
   proofType: PrfsProofType;
-  webappConsoleEndpoint: string;
+  proofWebappEndpoint: string;
   handleSelectVal: (item: PrfsProofType) => void;
 }

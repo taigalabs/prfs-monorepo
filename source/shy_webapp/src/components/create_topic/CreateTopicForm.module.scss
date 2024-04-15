@@ -31,12 +31,36 @@
   }
 }
 
+.proofGuideRow {
+  padding: 32px 12px 6px;
+  color: var(--gray-20);
+  line-height: 1.5em;
+
+  .inner {
+    border-radius: 6px;
+    padding: 12px 12px 12px;
+    background-color: var(--bright-gray-50);
+  }
+}
+
+.proofId {
+  padding-top: 8px;
+  color: var(--black-20);
+}
+
+.icon {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
 .editorRow {
-  padding: 0px 12px 6px;
+  padding: 24px 12px 6px;
 }
 
 .btnRow {
-  border-top: 1px solid var(--gray-30);
+  font-size: 15px;
+  padding: 24px 12px 6px;
 }
 
 .error {
@@ -54,15 +78,19 @@
   position: relative;
 }
 
-.editorWrapper {
-  :global(.ProseMirror-focused) {
-    border-bottom: 1px solid var(--gray-50);
-  }
-}
+.proofTypeGuide {
+  color: var(--gray-30);
+  padding-bottom: 8px;
+  word-break: break-all;
 
-.editor {
-  border-bottom: 1px solid var(--bright-gray-30);
-  min-height: 120px;
+  .guide {
+    margin-right: 4px;
+  }
+
+  .proofType {
+    font-weight: 500;
+    color: var(--gray-20);
+  }
 }
 
 @media screen and (min-width: $big_display_min_width) {

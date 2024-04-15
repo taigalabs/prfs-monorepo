@@ -13,7 +13,7 @@ const ShyCacheModal: React.FC<ShyCacheDialogProps> = ({
   const i18n = usePrfsI18N();
 
   const elems = React.useMemo(() => {
-    if (shyCache) {
+    if (shyCache && Object.keys(shyCache).length > 0) {
       const ret = [];
       for (const key in shyCache) {
         const val = shyCache[key];
