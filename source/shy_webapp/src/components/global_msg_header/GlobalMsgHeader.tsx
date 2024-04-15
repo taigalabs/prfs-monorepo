@@ -24,10 +24,9 @@ const GlobalMsgHeader: React.FC<GlobalErrorHeaderProps> = ({}) => {
 
   return (
     msg && (
-      <GlobalMsgHeaderWrapper>
+      <GlobalMsgHeaderWrapper className={styles.wrapper}>
         <AlertWrapper variant={msg.variant}>
           <AlertContent>
-            <IoMdWarning />
             <p>{msg.message}</p>
           </AlertContent>
           <AlertBtnGroup>

@@ -21,6 +21,7 @@ import GlobalHeader from "@/components/global_header/GlobalHeader";
 import ChannelMenu from "./ChannelMenu";
 import Loading from "@/components/loading/Loading";
 import { useShyCache } from "@/hooks/user";
+import GlobalMsgHeader from "@/components/global_msg_header/GlobalMsgHeader";
 
 const Channels: React.FC<ChannelsProps> = ({}) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
@@ -88,6 +89,7 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
   return isCacheInitialized ? (
     <InfiniteScrollWrapper innerRef={parentRef}>
       <GlobalHeader />
+      <GlobalMsgHeader />
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>

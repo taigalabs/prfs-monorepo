@@ -43,7 +43,9 @@ impl Envs {
         };
     }
 
-    pub fn check(&self) {}
+    pub fn check(&self) -> bool {
+        true
+    }
 }
 
 fn default_postgres_endpoint() -> String {
