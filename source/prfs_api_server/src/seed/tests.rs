@@ -97,7 +97,7 @@ mod seed_api3 {
 
         let db = get_db().await;
 
-        let csv_path = PATHS.data_seed.join("csv/nonce_seoul_1_20240415.csv");
+        let csv_path = PATHS.data_seed.join("csv/nonce_seoul_1_20240415_2.csv");
         let mut rdr = csv::Reader::from_path(csv_path).unwrap();
 
         let mut atst_group_members = vec![];
