@@ -11,6 +11,7 @@ import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entitie
 import Link from "next/link";
 import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
 import { ReactQueryDevtools } from "@taigalabs/prfs-react-lib/react_query_devtools";
+import { useWindowVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 
 import styles from "./AttestationTable.module.scss";
 import { paths } from "@/paths";
@@ -23,71 +24,21 @@ import {
   AttestationTableCell,
   AttestationTableNoRecord,
   AttestationLoading,
+  AttestationTableBody2,
 } from "@/components/atst_table_components/AtstTableComponents";
 import { useI18N } from "@/i18n/use_i18n";
+import AtstRow from "./AtstRow";
 
-const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating }) => {
-  const i18n = useI18N();
+// async function fetchServerPage(
+//   limit: number,
+//   offset: number = 0,
+// ): Promise<{ rows: string[]; nextOffset: number }> {
+//   const rows = new Array(limit).fill(0).map((e, i) => `Async loaded row #${i + offset * limit}`);
 
-  const label = React.useMemo(() => {
-    return abbrev7and5(atst.label);
-  }, [atst.label]);
+//   await new Promise(r => setTimeout(r, 500));
 
-  const cm = React.useMemo(() => {
-    return `${atst.cm.substring(0, 12)}...`;
-  }, [atst.cm]);
-
-  const url = React.useMemo(() => {
-    return `${paths.attestations}/g/${atst.atst_group_id}/${atst.atst_id}`;
-  }, [atst]);
-
-  const handleClickRow = React.useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
-
-      setIsNavigating(true);
-      router.push(url);
-    },
-    [url, router, setIsNavigating],
-  );
-
-  const meta = React.useMemo(() => {
-    if (typeof atst.meta === "object") {
-      return JSON.stringify(atst.meta);
-    } else {
-      return "";
-    }
-  }, [atst.cm]);
-
-  const value = React.useMemo(() => {
-    return JSON.stringify(atst.value);
-  }, [atst.value]);
-
-  return (
-    <Link href={url} onClick={handleClickRow}>
-      <AttestationTableRow style={style}>
-        <AttestationTableCell className={cn(styles.label, styles.cell)}>
-          <span>{label}</span>
-        </AttestationTableCell>
-        <AttestationTableCell className={cn(styles.commitment, styles.w1024)}>
-          {cm}
-        </AttestationTableCell>
-        <AttestationTableCell className={cn(styles.valueNum, styles.w1024)}>
-          {value}
-        </AttestationTableCell>
-        <AttestationTableCell className={cn(styles.meta, styles.w480, styles.cell)}>
-          <span>{meta}</span>
-        </AttestationTableCell>
-        <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
-          {i18n.not_available}
-        </AttestationTableCell>
-        <AttestationTableCell className={cn(styles.onChain, styles.w1320)}>
-          {i18n.not_available}
-        </AttestationTableCell>
-      </AttestationTableRow>
-    </Link>
-  );
-};
+//   return { rows, nextOffset: offset + 1 };
+// }
 
 const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_group_id }) => {
   const i18n = useI18N();
@@ -106,6 +57,7 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
           type: "get_prfs_attestations_by_atst_group_id",
           ...req,
         });
+        // return fetchServerPage(10, pageParam);
       },
       initialPageParam: 0,
       getNextPageParam: lastPage => {
@@ -115,6 +67,7 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
           return null;
         }
       },
+      // getNextPageParam: (_lastGroup, groups) => groups.length,
     });
 
   const allRows = data
@@ -122,6 +75,8 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
         return d.payload ? d.payload.rows : [];
       })
     : [];
+  // const allRows = data ? data.pages.flatMap(d => d.rows) : [];
+
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
@@ -148,85 +103,162 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
     rowVirtualizer.getVirtualItems(),
   ]);
 
-  console.log("all", rowVirtualizer.getVirtualItems(), allRows);
-
   return (
-    <div className={styles.wrapper}>
-      {isNavigating ? (
-        <AttestationLoading>{i18n.navigating}...</AttestationLoading>
-      ) : status === "pending" ? (
-        <AttestationLoading>{i18n.loading}...</AttestationLoading>
+    <div className={styles.wrapper} ref={parentRef}>
+      <AttestationTableHeader
+        className={cn({
+          [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
+        })}
+      >
+        <AttestationTableHeaderCell className={cn(styles.label, styles.w1024)}>
+          {i18n.label}
+        </AttestationTableHeaderCell>
+        <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
+          {i18n.commitment}
+        </AttestationTableHeaderCell>
+        <AttestationTableHeaderCell className={cn(styles.valueNum, styles.w1024)}>
+          {i18n.value}
+        </AttestationTableHeaderCell>
+        <AttestationTableHeaderCell className={cn(styles.meta, styles.w1320)}>
+          {i18n.meta}
+        </AttestationTableHeaderCell>
+        <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
+          {i18n.notarized}
+        </AttestationTableHeaderCell>
+        <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
+          {i18n.on_chain}
+        </AttestationTableHeaderCell>
+      </AttestationTableHeader>
+
+      {status === "pending" ? (
+        <p>Loading...</p>
       ) : status === "error" ? (
-        <AttestationLoading>Error: {(error as Error).message}</AttestationLoading>
+        <span>Error: {(error as Error).message}</span>
       ) : (
-        <>
-          <AttestationTableHeader
-            className={cn({
-              [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
-            })}
+        <AttestationTableBody2
+          innerRef={parentRef}
+          style={{
+            height: `500px`,
+            width: `100%`,
+            overflow: "auto",
+          }}
+        >
+          <div
+            style={{
+              height: `${rowVirtualizer.getTotalSize()}px`,
+              width: "100%",
+              position: "relative",
+            }}
           >
-            <AttestationTableHeaderCell className={cn(styles.label, styles.w1024)}>
-              {i18n.label}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
-              {i18n.commitment}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.valueNum, styles.w1024)}>
-              {i18n.value}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.meta, styles.w1320)}>
-              {i18n.meta}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
-              {i18n.notarized}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
-              {i18n.on_chain}
-            </AttestationTableHeaderCell>
-          </AttestationTableHeader>
-          <AttestationTableBody innerRef={parentRef}>
-            {rowVirtualizer.getVirtualItems().length === 0 && (
-              <AttestationTableNoRecord>{i18n.no_record_to_present}</AttestationTableNoRecord>
-            )}
-            <AttestationTableBodyInner
-              style={{
-                height: `${rowVirtualizer.getTotalSize()}px`,
-              }}
-            >
-              {rowVirtualizer.getVirtualItems().map(virtualRow => {
-                const isLoaderRow = virtualRow.index > allRows.length - 1;
-                const row = allRows[virtualRow.index];
+            {rowVirtualizer.getVirtualItems().map(row => {
+              const isLoaderRow = row.index > allRows.length - 1;
+              const atst = allRows[row.index];
 
-                if (isLoaderRow) {
-                  return hasNextPage ? <div>Loading more...</div> : null;
-                }
+              if (isLoaderRow) {
+                return hasNextPage ? <div key={row.key}>Loading more...</div> : null;
+              }
 
-                console.log("row", virtualRow.index, row);
-
-                return (
-                  <AtstRow
-                    key={virtualRow.index}
-                    atst={row}
-                    router={router}
-                    setIsNavigating={setIsNavigating}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: `${virtualRow.size}px`,
-                      transform: `translateY(${virtualRow.start}px)`,
-                    }}
-                  />
-                );
-              })}
-            </AttestationTableBodyInner>
-          </AttestationTableBody>
-          <ReactQueryDevtools initialIsOpen />
-        </>
+              return (
+                <AtstRow
+                  key={row.key}
+                  atst={atst}
+                  router={router}
+                  setIsNavigating={setIsNavigating}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: `${row.size}px`,
+                    transform: `translateY(${row.start}px)`,
+                  }}
+                />
+              );
+            })}
+          </div>
+        </AttestationTableBody2>
       )}
     </div>
   );
+
+  // return (
+  //   <div className={styles.wrapper}>
+  //     {isNavigating ? (
+  //       <AttestationLoading>{i18n.navigating}...</AttestationLoading>
+  //     ) : status === "pending" ? (
+  //       <AttestationLoading>{i18n.loading}...</AttestationLoading>
+  //     ) : status === "error" ? (
+  //       <AttestationLoading>Error: {(error as Error).message}</AttestationLoading>
+  //     ) : (
+  //       <>
+  //         <AttestationTableHeader
+  //           className={cn({
+  //             [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
+  //           })}
+  //         >
+  //           <AttestationTableHeaderCell className={cn(styles.label, styles.w1024)}>
+  //             {i18n.label}
+  //           </AttestationTableHeaderCell>
+  //           <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
+  //             {i18n.commitment}
+  //           </AttestationTableHeaderCell>
+  //           <AttestationTableHeaderCell className={cn(styles.valueNum, styles.w1024)}>
+  //             {i18n.value}
+  //           </AttestationTableHeaderCell>
+  //           <AttestationTableHeaderCell className={cn(styles.meta, styles.w1320)}>
+  //             {i18n.meta}
+  //           </AttestationTableHeaderCell>
+  //           <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
+  //             {i18n.notarized}
+  //           </AttestationTableHeaderCell>
+  //           <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
+  //             {i18n.on_chain}
+  //           </AttestationTableHeaderCell>
+  //         </AttestationTableHeader>
+  //         <AttestationTableBody innerRef={parentRef}>
+  //           {rowVirtualizer.getVirtualItems().length === 0 && (
+  //             <AttestationTableNoRecord>{i18n.no_record_to_present}</AttestationTableNoRecord>
+  //           )}
+  //           <AttestationTableBodyInner
+  //             style={{
+  //               height: `${rowVirtualizer.getTotalSize()}px`,
+  //             }}
+  //           >
+  //             {rowVirtualizer.getVirtualItems().map(virtualRow => {
+  //               const isLoaderRow = virtualRow.index > allRows.length - 1;
+  //               const row = allRows[virtualRow.index];
+
+  //               if (isLoaderRow) {
+  //                 return hasNextPage ? <div>Loading more...</div> : null;
+  //               }
+
+  //               console.log("row", virtualRow.index, row);
+
+  //               // return (
+  //               //   <AtstRow
+  //               //     key={virtualRow.index}
+  //               //     atst={row}
+  //               //     router={router}
+  //               //     setIsNavigating={setIsNavigating}
+  //               //     style={{
+  //               //       position: "absolute",
+  //               //       top: 0,
+  //               //       left: 0,
+  //               //       width: "100%",
+  //               //       height: `${virtualRow.size}px`,
+  //               //       transform: `translateY(${virtualRow.start}px)`,
+  //               //     }}
+  //               //   />
+  //               // );
+  //               return <div key={virtualRow.index}>{row.toString()}</div>;
+  //             })}
+  //           </AttestationTableBodyInner>
+  //         </AttestationTableBody>
+  //         <ReactQueryDevtools initialIsOpen />
+  //       </>
+  //     )}
+  //   </div>
+  // );
 };
 
 export default GroupMemberAtstTable;
@@ -234,11 +266,4 @@ export default GroupMemberAtstTable;
 export interface TwitterAccAtstTableProps {
   nonce: number;
   atst_group_id: string;
-}
-
-export interface AtstRowProps {
-  atst: PrfsAttestation;
-  style: React.CSSProperties;
-  router: AppRouterInstance;
-  setIsNavigating: React.Dispatch<React.SetStateAction<boolean>>;
 }
