@@ -15,10 +15,3 @@ pub struct ShyPost {
     #[ts(type = "string[]")]
     pub author_proof_identity_inputs: sqlx::types::Json<Vec<String>>,
 }
-
-// #[derive(TS, Debug, Serialize, Deserialize, Clone)]
-// #[ts(export)]
-// pub struct ShyPostSyn1 {
-//     pub shy_post: ShyPost,
-//     pub proof_identity_input: String,
-// }

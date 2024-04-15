@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use crate::{
-    entities::{DateTimed, ShyPost, ShyTopic},
+    entities::{DateTimed, ShyPost},
     ProofBlob,
 };
 
