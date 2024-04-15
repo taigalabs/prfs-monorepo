@@ -23,6 +23,7 @@ import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_
 import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { ProofBlob } from "@taigalabs/shy-entities/bindings/ProofBlob";
 
 import { SHY_APP_ID } from "@/app_id";
 import { useAppDispatch } from "@/state/hooks";
@@ -41,6 +42,7 @@ export function useAddProof({
   editor,
   setHtml,
   handleSucceedAddProof,
+  proofIdx,
 }: UseAddProofArgs) {
   const dispatch = useAppDispatch();
 
@@ -202,41 +204,11 @@ export function useAddProof({
         author_sig: proveReceipt.proofActionSig,
         author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
         proof_type_id: proofTypeId,
+        proof_idx: proofIdx,
       };
       handleSucceedAddProof(proof);
-
-      // const { error } = await createShyTopic({
-      //   title,
-      //   topic_id: topicId,
-      //   content: html,
-      //   channel_id: channel.channel_id,
-      //   shy_proof_id,
-      //   proof_identity_input: publicInputs.proofIdentityInput,
-      //   proof: Array.from(proveReceipt.proof.proofBytes),
-      //   public_inputs: proveReceipt.proof.publicInputSer,
-      //   author_public_key: publicInputs.proofPubKey,
-      //   serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
-      //   author_sig: proveReceipt.proofActionSig,
-      //   author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
-      //   sub_channel_id: subChannelId,
-      //   proof_type_id: channel.proof_type_ids[0],
-      // });
-
-      // if (error) {
-      //   dispatch(
-      //     setGlobalMsg({
-      //       variant: "error",
-      //       message: `Failed to create a topic, err: ${error}`,
-      //     }),
-      //   );
-      //   return;
-      // }
-
-      // setStatus(Status.Standby);
-      // router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
-      // setIsNavigating(true);
     },
-    [sk, dispatch, dispatch, channelId, proofTypeId],
+    [sk, dispatch, dispatch, channelId, proofTypeId, proofIdx],
   );
 
   return {
@@ -257,16 +229,5 @@ export interface UseAddProofArgs {
   editor: Editor | null;
   setHtml: React.Dispatch<React.SetStateAction<string | null>>;
   handleSucceedAddProof: (proof: ProofBlob) => void;
-}
-
-export interface ProofBlob {
-  shy_proof_id: string;
-  proof_identity_input: string;
-  proof: number[];
-  public_inputs: string;
-  serial_no: string;
-  author_public_key: string;
-  author_sig: string;
-  author_sig_msg: number[];
-  proof_type_id: string;
+  proofIdx: number;
 }

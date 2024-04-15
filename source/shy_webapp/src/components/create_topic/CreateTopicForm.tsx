@@ -7,13 +7,14 @@ import { AssocProofTypeId } from "@taigalabs/shy-entities/bindings/AssocProofTyp
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import { ProofBlob } from "@taigalabs/shy-entities/bindings/ProofBlob";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./CreateTopicForm.module.scss";
 import TextEditor from "@/components/text_editor/TextEditor";
 import Button from "@/components/button/Button";
 import { useTextEditor } from "@/components/text_editor/useTextEditor";
-import { ProofBlob, useAddProof } from "./useAddProof";
+import { useAddProof } from "./useAddProof";
 import { Status, useCreateTopic } from "./useCreateTopic";
 
 const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId }) => {
@@ -101,6 +102,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     editor,
     setHtml,
     handleSucceedAddProof: handleSucceedAddFirstProof,
+    proofIdx: 0,
   });
 
   const {
@@ -120,6 +122,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     editor,
     setHtml,
     handleSucceedAddProof: handleSucceedAddOtherProofs,
+    proofIdx: otherProofs.length + 1,
   });
 
   const handleChangeTitle = React.useCallback(

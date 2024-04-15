@@ -32,7 +32,7 @@ import { PROOF } from "@/proof_gen_args";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
-import { useGetShyProof } from "@/hooks/proof";
+import { useGetShyProofs } from "@/hooks/proof";
 import { useShyCache } from "@/hooks/user";
 import { removeCacheItem, setCacheItem } from "@/state/userReducer";
 import { makeEnterShyChannelCacheKey } from "@/cache";
@@ -43,7 +43,7 @@ export function useHandleJoinShyChannel({ channel }: UseJoinShychannelArgs) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const nonce = 0;
-  const { mutateAsync: getShyProof } = useGetShyProof();
+  const { mutateAsync: getShyProofs } = useGetShyProofs();
   const { mutateAsync: joinShyChannel } = useJoinShyChannel();
 
   const {
@@ -174,14 +174,25 @@ export function useHandleJoinShyChannel({ channel }: UseJoinShychannelArgs) {
 
       const receipt = payload.receipt[PROOF] as GenericProveReceipt;
       if (receipt.type === "cached_prove_receipt") {
-        const { payload: getShyProofPayload } = await getShyProof({
+        const { payload: getShyProofsPayload } = await getShyProofs({
           public_key: receipt.proofPubKey,
         });
 
-        if (getShyProofPayload?.shy_proof) {
-          const shyProof = getShyProofPayload.shy_proof;
+        const shyProofs = getShyProofsPayload?.shy_proofs;
+        if (shyProofs) {
+          const firstProof = shyProofs.find(p => p.proof_idx === 0);
+          if (!firstProof) {
+            dispatch(
+              setGlobalMsg({
+                variant: "error",
+                message: `Cannot find the first payload, shyProofs: ${shyProofs}`,
+              }),
+            );
+            return;
+          }
+
           const enterShyChannelToken: EnterShyChannelToken = {
-            shy_proof_id: shyProof.shy_proof_id,
+            shy_proof_id: firstProof.shy_proof_id,
             sig: receipt.proofActionSig,
             sig_msg: Array.from(receipt.proofActionSigMsg),
           };
@@ -223,6 +234,7 @@ export function useHandleJoinShyChannel({ channel }: UseJoinShychannelArgs) {
           public_inputs: receipt_.proof.publicInputSer,
           serial_no: publicInputs.circuitPubInput.serialNo.toString(),
           proof_type_id: "merkle_sig_pos_exact_v1",
+          proof_idx: 0,
         });
 
         if (error) {
@@ -260,7 +272,7 @@ export function useHandleJoinShyChannel({ channel }: UseJoinShychannelArgs) {
         return;
       }
     },
-    [sk, dispatch, getShyProof, joinShyChannel, router, url],
+    [sk, dispatch, getShyProofs, joinShyChannel, router, url],
   );
 
   return {

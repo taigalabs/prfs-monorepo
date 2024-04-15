@@ -109,6 +109,7 @@ pub async fn join_shy_channel(
         serial_no: input.serial_no.to_string(),
         proof_identity_input: input.proof_identity_input.to_string(),
         proof_type_id: input.proof_type_id,
+        proof_idx: input.proof_idx,
     };
 
     let _proof_id = match shy::insert_shy_proof(&mut tx, &shy_proof).await {
@@ -119,16 +120,6 @@ pub async fn join_shy_channel(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
-
-    // let shy_post = ShyPost {
-    //     post_id: input.post_id,
-    //     topic_id: input.topic_id,
-    //     content: input.content,
-    //     channel_id: input.channel_id,
-    //     shy_proof_id: input.shy_proof_id,
-    //     author_public_key: input.author_public_key,
-    //     author_sig: input.author_sig.to_string(),
-    // };
 
     let shy_channel_member = ShyChannelMember {
         serial_no: input.serial_no.to_string(),

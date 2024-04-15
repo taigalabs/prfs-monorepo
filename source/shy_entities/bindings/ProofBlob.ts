@@ -10,4 +10,5 @@ export type ProofBlob = {
   author_sig: string;
   author_sig_msg: Array<number>;
   proof_type_id: string;
+  proof_idx: number;
 };

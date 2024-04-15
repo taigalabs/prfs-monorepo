@@ -8,4 +8,5 @@ export type ShyProof = {
   serial_no: string;
   proof_identity_input: string;
   proof_type_id: string;
+  proof_idx: number;
 };

@@ -72,6 +72,7 @@ pub async fn create_shy_topic(
         serial_no: input.serial_no,
         proof_identity_input: input.proof_identity_input.to_string(),
         proof_type_id: input.proof_type_id,
+        proof_idx: input.proof_idx,
     };
 
     match shy::insert_shy_proof(&mut tx, &shy_proof).await {
@@ -121,6 +122,7 @@ pub async fn create_shy_topic(
             serial_no: other_proof.serial_no,
             proof_identity_input: other_proof.proof_identity_input.to_string(),
             proof_type_id: other_proof.proof_type_id,
+            proof_idx: other_proof.proof_idx,
         };
 
         match shy::insert_shy_proof(&mut tx, &shy_proof).await {

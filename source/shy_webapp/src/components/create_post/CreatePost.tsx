@@ -242,11 +242,23 @@ const CreatePost: React.FC<CreatePostProps> = ({
         if (getShyProofsPayload?.shy_proofs) {
           const proofs = getShyProofsPayload.shy_proofs;
 
+          const firstProof = proofs.find(p => p.proof_idx === 0);
+          if (!firstProof) {
+            dispatch(
+              setGlobalMsg({
+                variant: "error",
+                message: `Cannot find first proof that is supposed to have been made, \
+proofs: ${proofs}`,
+              }),
+            );
+            return;
+          }
+
           const { payload: _createShyPostPayload } = await createShyPost({
             topic_id: topicId,
             channel_id: channel.channel_id,
-            shy_proof_id: topicProof.shy_proof_id,
-            author_public_key: topicProof.public_key,
+            shy_proof_id: firstProof.shy_proof_id,
+            author_public_key: firstProof.public_key,
             post_id: postId,
             content: html,
             author_sig: receipt.proofActionSig,
@@ -278,6 +290,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
           serial_no: publicInputs.circuitPubInput.serialNo.toString(),
           sub_channel_id: subChannelId,
           proof_type_id: channel.proof_type_ids[0],
+          proof_idx: 0,
         });
 
         if (error) {

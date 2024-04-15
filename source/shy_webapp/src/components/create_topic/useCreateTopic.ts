@@ -3,12 +3,12 @@ import { useRouter } from "next/navigation";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { CreateShyTopicRequest } from "@taigalabs/shy-entities/bindings/CreateShyTopicRequest";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
+import { ProofBlob } from "@taigalabs/shy-entities/bindings/ProofBlob";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 
 import { pathParts, paths } from "@/paths";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
-import { ProofBlob } from "./useAddProof";
 
 export enum Status {
   Standby,
@@ -104,6 +104,7 @@ export function useCreateTopic({
       author_sig_msg,
       sub_channel_id: subChannelId,
       proof_type_id,
+      proof_idx: 0,
       other_proofs: otherProofs,
     });
 
