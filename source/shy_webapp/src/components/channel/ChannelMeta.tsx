@@ -10,6 +10,7 @@ import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import styles from "./ChannelMeta.module.scss";
 import Loading from "@/components/loading/Loading";
 import { paths } from "@/paths";
+import { envs } from "@/envs";
 
 const ChannelMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel, small }) => {
   const i18n = usePrfsI18N();
@@ -24,9 +25,11 @@ const ChannelMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel, 
   const proofTypesElem = React.useMemo(() => {
     if (channel) {
       return channel.proof_type_ids.map(id => (
-        <p className={styles.entry} key={id}>
-          {id}
-        </p>
+        <Link href={`${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/proof_types`}>
+          <p className={styles.entry} key={id}>
+            {id}
+          </p>
+        </Link>
       ));
     } else return null;
   }, [channel]);
