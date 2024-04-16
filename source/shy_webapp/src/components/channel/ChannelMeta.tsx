@@ -1,8 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import Link from "next/link";
-import { shyApi2 } from "@taigalabs/shy-api-js";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
