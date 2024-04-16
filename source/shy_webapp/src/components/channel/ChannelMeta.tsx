@@ -25,10 +25,8 @@ const ChannelMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel, 
   const proofTypesElem = React.useMemo(() => {
     if (channel) {
       return channel.proof_type_ids.map(id => (
-        <Link href={`${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/proof_types`}>
-          <p className={styles.entry} key={id}>
-            {id}
-          </p>
+        <Link href={`${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/proof_types`} key={id}>
+          <p className={styles.entry}>{id}</p>
         </Link>
       ));
     } else return null;
