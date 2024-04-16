@@ -1,13 +1,10 @@
 import React from "react";
 import cn from "classnames";
-import Link from "next/link";
-import { FaLinkedin } from "@react-icons/all-files/fa/FaLinkedin";
-import { FaBitcoin } from "@react-icons/all-files/fa/FaBitcoin";
-import { usePathname } from "next/navigation";
+import ActiveLink from "@taigalabs/prfs-react-lib/src/active_link/ActiveLink";
 
 import styles from "./ProofTypeLeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { consolePaths, paths } from "@/paths";
+import { paths } from "@/paths";
 import CreateProofTypePopover from "./CreateProofTypePopover";
 import {
   LeftBarItem,
@@ -15,7 +12,6 @@ import {
   LeftBarTopMenu,
   LeftBarWrapper,
 } from "@/components/left_bar/LeftBarComponents";
-import ActiveLink from "@taigalabs/prfs-react-lib/src/active_link/ActiveLink";
 
 const ProofTypeLeftbar: React.FC<AttestationLeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);
