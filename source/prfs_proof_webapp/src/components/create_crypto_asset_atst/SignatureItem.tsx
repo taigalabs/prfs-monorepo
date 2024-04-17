@@ -8,6 +8,13 @@ import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import { useSignMessage } from "@taigalabs/prfs-crypto-deps-js/wagmi";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
+import {
+  Fieldset,
+  InputElement,
+  InputWrapper,
+  Label,
+} from "@taigalabs/prfs-react-lib/src/input/InputComponent";
+import { useInput } from "@taigalabs/prfs-react-lib/src/input/useInput";
 
 import styles from "./SignatureItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -28,6 +35,7 @@ import {
   SIGNATURE,
   WALLET_ADDR,
 } from "./create_crypto_asset_atst";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, setIsSigValid }) => {
   const i18n = React.useContext(i18nContext);
@@ -38,6 +46,8 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
   const isDisabled = React.useMemo(() => {
     return formData[WALLET_ADDR]?.length < 1 || formData[CM]?.length < 1;
   }, [formData]);
+
+  const { isFocused, handleFocus, handleBlur } = useInput();
 
   const handleClickValidate = React.useCallback(async () => {
     setIsSigValid(false);
@@ -91,6 +101,11 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
     [setFormData],
   );
 
+  const abbrevSig = React.useMemo(() => {
+    const sig = formData[SIGNATURE];
+    return sig.length > 10 ? abbrev7and5(sig) : sig;
+  }, [formData.signature]);
+
   const handleClickSign = React.useCallback(async () => {
     const cm = formData[CM];
     if (cm) {
@@ -143,20 +158,53 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
                 </AttestationContentBoxBtnArea>
               </AttestationContentBox>
               <div className={styles.signBox}>
-                <div className={styles.inputBtnRow}>
-                  <button className={styles.inputBtn} type="button" onClick={handleClickSign}>
-                    <HoverableText>{i18n.sign}</HoverableText>
-                  </button>
-                  <span> or paste signature over the above message</span>
-                </div>
-                <Input
-                  className={cn(styles.input)}
-                  name={SIGNATURE}
-                  error={""}
-                  label={i18n.signature}
-                  value={formData.signature}
-                  handleChangeValue={handleChangeSig}
-                />
+                {/* <div className={styles.inputBtnRow}> */}
+                {/*   <button className={styles.inputBtn} type="button" onClick={handleClickSign}> */}
+                {/*     <HoverableText>{i18n.sign}</HoverableText> */}
+                {/*   </button> */}
+                {/*   <span> or paste signature over the above message</span> */}
+                {/* </div> */}
+                {/* <Input */}
+                {/*   className={cn(styles.input)} */}
+                {/*   name={SIGNATURE} */}
+                {/*   error={""} */}
+                {/*   label={i18n.signature} */}
+                {/*   value={formData.signature} */}
+                {/*   handleChangeValue={handleChangeSig} */}
+                {/* /> */}
+                <>
+                  <div className={styles.wrapper}>
+                    <div className={styles.addressInput}>
+                      <InputWrapper
+                        className={styles.inputWrapper}
+                        isError={false}
+                        isFocused={isFocused}
+                        hasValue={formData.signature.length > 0}
+                      >
+                        <Label name={""} className={styles.label}>
+                          {i18n.wallet}
+                        </Label>
+                        <Fieldset>{i18n.wallet}</Fieldset>
+                        <InputElement
+                          name={""}
+                          value={abbrevSig || ""}
+                          className={styles.input}
+                          onFocus={handleFocus}
+                          onBlur={handleBlur}
+                          readOnly
+                        />
+                      </InputWrapper>
+                    </div>
+                    <div className={styles.btnRow}>
+                      {/* <ConnectWallet handleChangeAddress={handleChangeAddress}> */}
+                      {/*   <FormInputButton>{i18n.connect}</FormInputButton> */}
+                      {/* </ConnectWallet> */}
+                      {/* <RawValueDialog handleChangeItem={handleChangeAddress} label={i18n.address}> */}
+                      {/*   <FormInputButton>{i18n.i_will_type}</FormInputButton> */}
+                      {/* </RawValueDialog> */}
+                    </div>
+                  </div>
+                </>
               </div>
               <div className={styles.btnRow}>
                 <button type="button" onClick={handleClickValidate}>
