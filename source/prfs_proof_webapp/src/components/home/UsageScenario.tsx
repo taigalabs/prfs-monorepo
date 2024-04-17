@@ -2,11 +2,8 @@ import React from "react";
 import cn from "classnames";
 
 import styles from "./UsageScenario.module.scss";
-import { useI18N } from "@/i18n/use_i18n";
 
 const UsageScenario: React.FC<LogoContainerProps> = () => {
-  const i18n = useI18N();
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
