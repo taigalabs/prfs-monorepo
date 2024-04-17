@@ -15,10 +15,16 @@
 
 .text {
   font-size: 18px;
-  font-variation-settings: "wght" 420;
+  font-variation-settings: "wght" 430;
   color: var(--black-20);
   line-height: 1.67em;
   text-align: start;
+}
+
+.text2 {
+  padding-top: 56px;
+  font-variation-settings: "wght" 360;
+  color: var(--black-20);
 }
 
 @media screen and (min-width: $display_w768) {
