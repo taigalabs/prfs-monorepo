@@ -166,16 +166,6 @@ const CreateCryptoAssetAtst: React.FC<CreateCryptoSizeAttestationProps> = () => 
     window.location.reload();
   }, [formData]);
 
-  const handleChangeAddress = React.useCallback(
-    (address: string) => {
-      setFormData(oldVal => ({
-        ...oldVal,
-        [WALLET_ADDR]: address,
-      }));
-    },
-    [setFormData],
-  );
-
   const isFormFilled = React.useMemo(() => {
     return checkIfFormIsFilled(formData);
   }, [formData]);
