@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import DiamondPlaceholder from "@taigalabs/prfs-react-lib/src/diamond_placeholder/DiamondPlaceholder";
 
 import styles from "./UsageScenario.module.scss";
 
@@ -12,6 +13,9 @@ const UsageScenario: React.FC<LogoContainerProps> = () => {
           effort - Prfs helps apps do it in days. Specifically, we help them specify which
           qualification they want to collect, preprocess cryptographic data, and allow their users
           to create anonymous proof.
+        </div>
+        <div>
+          <DiamondPlaceholder />
         </div>
         <div className={cn(styles.text, styles.text2)}>
           What if you can use a finance app, a dating app, or a social app without having to submit
