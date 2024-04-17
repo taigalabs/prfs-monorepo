@@ -1,0 +1,16 @@
+.wrapper {
+  font-weight: 500;
+  color: var(--blue-05);
+  cursor: pointer;
+  padding: 3px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--gray-70);
+
+  &:hover {
+    background-color: var(--bright-blue-60);
+  }
+
+  &:focus {
+    background-color: var(--bright-blue-50);
+  }
+}

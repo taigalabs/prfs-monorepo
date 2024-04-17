@@ -11,6 +11,7 @@ import {
   Label,
 } from "@taigalabs/prfs-react-lib/src/input/InputComponent";
 import { useInput } from "@taigalabs/prfs-react-lib/src/input/useInput";
+import RawValueDialog from "@taigalabs/prfs-react-lib/src/raw_value_dialog/RawValueDialog";
 
 import styles from "./MemberIdInput.module.scss";
 import { useI18N } from "@/i18n/context";
@@ -18,7 +19,6 @@ import { FormError } from "@/components/form_input/FormInput";
 import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 import CachedItemDialog from "@/components/cached_item_dialog/CachedItemDialog";
 import { FormErrors } from "@/components/circuit_input_items/formTypes";
-import RawValueDialog from "@/components/raw_value_dialog/RawValueDialog";
 
 const MemberIdInput: React.FC<MemberIdInputProps> = ({
   memberId,
@@ -69,7 +69,7 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
           <RawValueDialog
             className={styles.rawValueDialog}
             handleChangeItem={handleChangeValue}
-            prfsSet={prfsSet}
+            label={i18n.member_id}
           >
             <FormInputButton type="button">{i18n.i_will_type}</FormInputButton>
           </RawValueDialog>

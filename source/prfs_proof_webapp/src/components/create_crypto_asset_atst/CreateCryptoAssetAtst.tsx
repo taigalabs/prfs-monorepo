@@ -41,6 +41,7 @@ import {
 import SignatureItem from "./SignatureItem";
 import ClaimSecretItem from "./ClaimSecretItem";
 import { useI18N } from "@/i18n/use_i18n";
+import AddressInput from "./Addressinput";
 
 enum Status {
   Standby,
@@ -100,21 +101,12 @@ const CreateCryptoAssetAtst: React.FC<CreateCryptoSizeAttestationProps> = () => 
   });
 
   const handleChangeWalletAddr = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value, name } = e.target;
-
-      if (name === WALLET_ADDR) {
-        setFormData(_ => ({
-          [WALLET_ADDR]: value,
-          [SIGNATURE]: "",
-          [CM]: "",
-        }));
-      }
-
-      if (cryptoAssets) {
-        setCryptoAssets(null);
-        setFetchAssetMsg(null);
-      }
+    (addr: string) => {
+      setFormData(_ => ({
+        [WALLET_ADDR]: addr,
+        [SIGNATURE]: "",
+        [CM]: "",
+      }));
     },
     [setFormData, setCryptoAssets, cryptoAssets, setFetchAssetMsg],
   );
@@ -302,21 +294,27 @@ const CreateCryptoAssetAtst: React.FC<CreateCryptoSizeAttestationProps> = () => 
                 </AttestationListItemDesc>
                 <div className={styles.content}>
                   <div className={styles.inputBtnRow}>
-                    <ConnectWallet handleChangeAddress={handleChangeAddress}>
-                      <button className={styles.inputBtn} type="button">
-                        <HoverableText>{i18n.connect}</HoverableText>
-                      </button>
-                    </ConnectWallet>
-                    <span> or paste your wallet address</span>
+                    {/* <ConnectWallet handleChangeAddress={handleChangeAddress}> */}
+                    {/*   <button className={styles.inputBtn} type="button"> */}
+                    {/*     <HoverableText>{i18n.connect}</HoverableText> */}
+                    {/*   </button> */}
+                    {/* </ConnectWallet> */}
+                    {/* <span> or paste your wallet address</span> */}
+                    <AddressInput
+                      error={null}
+                      // label={i18n.wallet_address}
+                      walletAddr={formData.wallet_addr}
+                      handleChangeAddress={handleChangeWalletAddr}
+                    />
                   </div>
-                  <Input
-                    className={styles.input}
-                    name={WALLET_ADDR}
-                    error={""}
-                    label={i18n.wallet_address}
-                    value={formData.wallet_addr}
-                    handleChangeValue={handleChangeWalletAddr}
-                  />
+                  {/* <Input */}
+                  {/*   className={styles.input} */}
+                  {/*   name={WALLET_ADDR} */}
+                  {/*   error={""} */}
+                  {/*   label={i18n.wallet_address} */}
+                  {/*   value={formData.wallet_addr} */}
+                  {/*   handleChangeValue={handleChangeWalletAddr} */}
+                  {/* /> */}
                   <div className={styles.btnRow}>
                     <button type="button" onClick={handleClickFetchAsset} className={styles.btn}>
                       <HoverableText disabled={formData.wallet_addr.length === 0}>

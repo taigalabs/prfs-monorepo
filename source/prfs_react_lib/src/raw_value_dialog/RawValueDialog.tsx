@@ -11,7 +11,6 @@ import {
   FloatingOverlay,
   FloatingPortal,
 } from "@floating-ui/react";
-import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 import styles from "./RawValueDialog.module.scss";
 import RawValueModal from "./RawValueModal";
@@ -20,7 +19,7 @@ const RawValueDialog: React.FC<ConnectWalletProps> = ({
   className,
   handleChangeItem,
   children,
-  prfsSet,
+  label,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, context } = useFloating({
@@ -28,7 +27,7 @@ const RawValueDialog: React.FC<ConnectWalletProps> = ({
     onOpenChange: setIsOpen,
   });
   const click = useClick(context, {
-    enabled: !!prfsSet,
+    enabled: true,
   });
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
@@ -54,7 +53,7 @@ const RawValueDialog: React.FC<ConnectWalletProps> = ({
         {children}
       </div>
       <FloatingPortal>
-        {isOpen && prfsSet && (
+        {isOpen && (
           <FloatingOverlay className={styles.overlay}>
             <FloatingFocusManager context={context}>
               <div
@@ -64,9 +63,9 @@ const RawValueDialog: React.FC<ConnectWalletProps> = ({
                 {...getFloatingProps()}
               >
                 <RawValueModal
+                  label={label}
                   handleClickClose={handleClickClose}
                   handleClickSubmit={handleClickSubmit}
-                  prfsSet={prfsSet}
                 />
               </div>
             </FloatingFocusManager>
@@ -83,5 +82,5 @@ export interface ConnectWalletProps {
   className?: string;
   handleChangeItem: (item: string) => void;
   children: React.ReactNode;
-  prfsSet: PrfsSet | null;
+  label: string;
 }
