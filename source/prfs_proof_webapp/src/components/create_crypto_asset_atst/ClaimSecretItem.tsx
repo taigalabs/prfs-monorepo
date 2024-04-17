@@ -1,7 +1,8 @@
 import React from "react";
 import cn from "classnames";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
-import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import {
   CommitmentType,
   API_PATH,
@@ -43,7 +44,6 @@ import {
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
-import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   formData,
