@@ -10,6 +10,7 @@ export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
   password_1_confirm: "",
   password_2: "",
   password_2_confirm: "",
+  password_2_prefix: "",
 });
 
 export const makeEmptyIDCreateFormErrors: () => IdCreateForm = () => ({
@@ -19,6 +20,7 @@ export const makeEmptyIDCreateFormErrors: () => IdCreateForm = () => ({
   password_1_confirm: "",
   password_2: "",
   password_2_confirm: "",
+  password_2_prefix: "",
 });
 
 export interface IdCreateForm {
@@ -28,6 +30,7 @@ export interface IdCreateForm {
   password_1_confirm: string | null;
   password_2: string | null;
   password_2_confirm: string | null;
+  password_2_prefix: string | null;
 }
 
 function checkPassword(str: string | null): [boolean, string] {

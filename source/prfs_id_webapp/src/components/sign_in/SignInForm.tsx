@@ -47,11 +47,6 @@ const SignInForm: React.FC<InputCredentialProps> = ({
   const [status, setStatus] = React.useState(InputCredentialStatus.Standby);
   const dispatch = useAppDispatch();
   const { mutateAsync: signInPrfsIdentity } = useSignInPrfsIdentity();
-  // useMutation({
-  //   mutationFn: (req: SignInPrfsIdentityRequest) => {
-  //     return idApi({ type: "sign_in_prfs_identity", ...req });
-  //   },
-  // });
 
   const title = React.useMemo(() => {
     return `${i18n.sign_in} to ${appId}`;
@@ -113,7 +108,6 @@ const SignInForm: React.FC<InputCredentialProps> = ({
     });
 
     const { code, error } = await signInPrfsIdentity({ identity_id: credential.id });
-    console.log(123, code, error);
     if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
       dispatch(
         setGlobalMsg({

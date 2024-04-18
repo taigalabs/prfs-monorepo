@@ -2,20 +2,24 @@ import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { makeECCredential, poseidon_2, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { makeEncryptKey } from "@taigalabs/prfs-crypto-js";
 
+export const PW_PREFIX_LEN = 6;
 export const ID = "id";
 export const PASSWORD_1 = "password_1";
 export const PASSWORD_2 = "password_2";
+export const PASSWORD_2_PREFIX = "password_2_prefix";
 
 export async function makePrfsIdCredential(args: MakeCredentialArgs): Promise<PrfsIdCredential> {
   const { id: id_, password_1, password_2 } = args;
+  const pw2Prefix = password_2.substring(0, PW_PREFIX_LEN);
   const pw = `${id_}${password_1}${password_2}`;
   const pwBytes = keccak256(toUtf8Bytes(pw), "bytes");
-  const pw2Bytes = keccak256(toUtf8Bytes(password_2), "bytes");
+  // const pw2Bytes = keccak256(toUtf8Bytes(password_2), "bytes");
+  const pw2PrefixBytes = keccak256(toUtf8Bytes(pw2Prefix), "bytes");
 
   const pwHash = await poseidon_2(pwBytes);
   const { public_key, secret_key, id } = await makeECCredential(pwHash);
   const encryptKey = await makeEncryptKey(pwBytes);
-  const localEncryptKey = await makeEncryptKey(pw2Bytes);
+  const localEncryptKey = await makeEncryptKey(pw2PrefixBytes);
 
   return {
     secret_key,
