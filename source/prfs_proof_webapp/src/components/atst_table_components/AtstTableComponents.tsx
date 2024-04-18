@@ -15,6 +15,18 @@ export const AttestationTableBody: React.FC<AttestationsProps> = ({
   );
 };
 
+export const AttestationTableBody2: React.FC<AttestationsProps> = ({
+  children,
+  innerRef,
+  className,
+}) => {
+  return (
+    <div className={cn(styles.tableBody2, className)} ref={innerRef}>
+      {children}
+    </div>
+  );
+};
+
 export const AttestationTableNoRecord: React.FC<AttestationsProps> = ({ children, className }) => {
   return <div className={cn(styles.noRecord, className)}>{children}</div>;
 };

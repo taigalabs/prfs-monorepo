@@ -3,13 +3,17 @@ use prfs_common_server_state::ServerState;
 use shy_api_error_codes::bindgen::make_shy_api_error_code_json_binding;
 use std::sync::Arc;
 
-use crate::apis::{accounts, channels, posts, shy_proofs, topics};
+use crate::{
+    apis::{accounts, channels, posts, shy_proofs, topics},
+    envs::ENVS,
+};
 
 pub const SHY_API_V0: &'static str = "/shy_api/v0";
 
 pub fn make_shy_v0_router() -> Router<Arc<ServerState>> {
     // Adding a side effect until this server runs standalone
     make_shy_api_error_code_json_binding().unwrap();
+    ENVS.check();
 
     let router = Router::new() //
         .route("/create_shy_topic", post(topics::create_shy_topic))

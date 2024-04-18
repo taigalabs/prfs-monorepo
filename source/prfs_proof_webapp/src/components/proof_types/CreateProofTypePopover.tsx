@@ -60,10 +60,8 @@ const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = () => {
       contentClassName={styles.btnContent}
       disabled
     >
-      <a href="">
-        <HiPlus />
-        <span>{i18n.create_proof_type}</span>
-      </a>
+      <HiPlus />
+      <span>{i18n.create_proof_type}</span>
     </Button>
   );
 };

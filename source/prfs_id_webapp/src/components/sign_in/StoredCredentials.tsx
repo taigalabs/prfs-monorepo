@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { PASSWORD_2, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import { PASSWORD_2_PREFIX, PW_PREFIX_LEN, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { decrypt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
@@ -27,6 +27,8 @@ import {
 } from "@/storage/ephe_credential";
 import { useSignInPrfsIdentity } from "@/requests";
 
+const MAX_FAIL_COUNT = 3;
+
 export enum SignInStatus {
   Loading,
   Error,
@@ -46,6 +48,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
+  const [failCount, setFailCount] = React.useState(0);
   const { mutateAsync: signInPrfsIdentity } = useSignInPrfsIdentity();
 
   React.useEffect(() => {
@@ -54,12 +57,18 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     }
   }, [storedCredentials, handleClickUseAnotherId]);
 
-  const handleChangeValue = React.useCallback(
+  React.useEffect(() => {
+    if (failCount > MAX_FAIL_COUNT) {
+      handleClickForgetAllCredentials();
+    }
+  }, [failCount]);
+
+  const handleChangePw2Prefix = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       const name = ev.target.name;
       const val = ev.target.value;
 
-      if (name) {
+      if (name && val.length <= PW_PREFIX_LEN) {
         setFormData(oldVal => {
           return {
             ...oldVal,
@@ -90,19 +99,23 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     const credential = Object.values(storedCredentials).find(
       cred => cred.id === selectedCredentialId,
     );
-    const password_2 = formData.password_2;
+    const pw2Prefix = formData.password_2_prefix;
     setErrorMsg("");
 
-    if (credential && password_2) {
-      const pw2Bytes = keccak256(toUtf8Bytes(password_2), "bytes");
-      const decryptKey = await makeDecryptKey(pw2Bytes);
+    if (credential && pw2Prefix) {
+      const pw2PrefixBytes = keccak256(toUtf8Bytes(pw2Prefix), "bytes");
+      const decryptKey = await makeDecryptKey(pw2PrefixBytes);
       const msg = Buffer.from(credential.credential);
       let credentialStr;
       try {
         credentialStr = decrypt(decryptKey.secret, msg).toString();
       } catch (err) {
         console.error(err);
-        setErrorMsg("Can't decrypt persisted credential");
+        setErrorMsg(
+          `Can't decrypt persisted credential. Password may be wrong. \
+Failure count: ${failCount}/${MAX_FAIL_COUNT}`,
+        );
+        setFailCount(c => c + 1);
         return;
       }
 
@@ -152,7 +165,15 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
       persistEphemeralPrfsIdCredential(credentialObj);
       handleSucceedSignIn(credentialObj);
     }
-  }, [handleSucceedSignIn, formData, selectedCredentialId, setErrorMsg, signInPrfsIdentity]);
+  }, [
+    failCount,
+    handleSucceedSignIn,
+    formData,
+    selectedCredentialId,
+    setErrorMsg,
+    signInPrfsIdentity,
+    setFailCount,
+  ]);
 
   const handleKeyDown = React.useCallback(
     async (e: React.KeyboardEvent) => {
@@ -163,6 +184,10 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
     },
     [handleClickNextWithCredential],
   );
+
+  const pw2PrefixLabel = React.useMemo(() => {
+    return `Starting ${PW_PREFIX_LEN} letters of password 2`;
+  }, []);
 
   const content = React.useMemo(() => {
     const elems = Object.values(storedCredentials).map(cred => {
@@ -197,11 +222,11 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
                   <Input
                     className={styles.input}
                     type="password"
-                    name={PASSWORD_2}
-                    error={formErrors[PASSWORD_2]}
-                    label={i18n.password_2}
-                    value={formData[PASSWORD_2]}
-                    handleChangeValue={handleChangeValue}
+                    name={PASSWORD_2_PREFIX}
+                    error={formErrors[PASSWORD_2_PREFIX]}
+                    label={pw2PrefixLabel}
+                    value={formData[PASSWORD_2_PREFIX]}
+                    handleChangeValue={handleChangePw2Prefix}
                     handleKeyDown={handleKeyDown}
                   />
                   <Button
@@ -236,7 +261,7 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
   }, [
     selectedCredentialId,
     formData,
-    handleChangeValue,
+    handleChangePw2Prefix,
     handleClickNextWithCredential,
     errorMsg,
     handleClickUseAnotherId,

@@ -1,5 +1,32 @@
 @import "@/styles/layouts.module.scss";
 
+.wrapper {
+  position: relative;
+
+  .btnRow {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    width: 100%;
+    display: flex;
+    gap: 6px;
+  }
+}
+
+.sigInput {
+  .inputWrapper {
+    height: 80px;
+  }
+
+  .label {
+    transform: translateY(calc(-50% - 16px));
+  }
+
+  .input {
+    transform: translateY(-16px);
+  }
+}
+
 .section {
   width: auto;
 }
@@ -17,11 +44,7 @@
   color: var(--blue-120);
 }
 
-.input {
-  height: 40px;
-}
-
-.btnRow {
+.validateBtnRow {
   padding-top: 24px;
   display: flex;
   align-items: center;
@@ -42,6 +65,11 @@
 .error {
   color: var(--red-50);
   font-size: 13px;
+}
+
+.errorMsg {
+  color: var(--red-50);
+  padding-top: 8px;
 }
 
 @media screen and (min-width: $big_display_min_width) {

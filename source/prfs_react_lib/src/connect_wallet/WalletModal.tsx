@@ -55,9 +55,9 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
 
 const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChangeAddress }) => {
   const i18n = React.useContext(i18nContext);
+  const { connect, connectors, error } = useConnect();
   const { address, connector, isConnected } = useAccount();
   const { data: ensName } = useEnsName({ address });
-  const { connect, connectors, error } = useConnect();
   const { disconnect } = useDisconnect();
   const handleClickDisconnect = React.useCallback(() => {
     disconnect();

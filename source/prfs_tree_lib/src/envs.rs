@@ -2,8 +2,6 @@ use colored::Colorize;
 use lazy_static::lazy_static;
 use serde::Deserialize;
 
-use crate::paths::PATHS;
-
 lazy_static! {
     pub static ref ENVS: Envs = Envs::new();
 }

@@ -157,7 +157,7 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
             </div>
             <DefaultInputGuide>
               <Link
-                href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
+                href={`${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}/identity`}
                 target="_blank"
               >
                 {i18n.why_we_ask_for_two_passwords}

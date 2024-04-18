@@ -1,21 +1,17 @@
 import React from "react";
 import cn from "classnames";
-import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
-import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
 import styles from "./RawValueModal.module.scss";
-import { useI18N } from "@/i18n/context";
-import { useAppSelector } from "@/state/hooks";
+import Button from "../button/Button";
+import Input from "../input/Input";
+import { usePrfsReactI18N } from "../i18n/i18nContext";
 
 const RawValueModal: React.FC<CachedItemModalProps> = ({
-  prfsSet,
   handleClickClose,
   handleClickSubmit,
+  label,
 }) => {
-  const prfsIdCredential = useAppSelector(state => state.user.prfsIdCredential);
-  const i18n = useI18N();
+  const i18n = usePrfsReactI18N();
   const [value, setValue] = React.useState("");
 
   const extendedHandleChangeValue = React.useCallback(
@@ -35,14 +31,9 @@ const RawValueModal: React.FC<CachedItemModalProps> = ({
     handleClickSubmit(value);
   }, [handleClickSubmit, value]);
 
-  return prfsIdCredential ? (
+  return (
     <div className={styles.wrapper}>
-      <Input
-        name={""}
-        label={i18n.member_id}
-        value={value}
-        handleChangeValue={extendedHandleChangeValue}
-      />
+      <Input name={""} label={label} value={value} handleChangeValue={extendedHandleChangeValue} />
       <div className={styles.btnRow}>
         <Button variant="transparent_aqua_blue_1" handleClick={handleClickClose}>
           {i18n.close}
@@ -52,15 +43,13 @@ const RawValueModal: React.FC<CachedItemModalProps> = ({
         </Button>
       </div>
     </div>
-  ) : (
-    <div>Credential is empty. Something is wrong</div>
   );
 };
 
 export default RawValueModal;
 
 export interface CachedItemModalProps {
-  prfsSet: PrfsSet;
   handleClickClose: () => void;
   handleClickSubmit: (addr: string) => void;
+  label: string;
 }

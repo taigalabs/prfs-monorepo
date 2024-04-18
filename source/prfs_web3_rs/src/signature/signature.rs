@@ -12,8 +12,6 @@ pub fn verify_eth_sig_by_pk<S: AsRef<str>>(
     msg: &[u8],
     public_key: S,
 ) -> Result<H160, PrfsWeb3RsError> {
-    println!("sig: {}, public_key: {}", sig.as_ref(), public_key.as_ref());
-
     let sig_deserialized = Signature::from_str(&sig.as_ref()[2..])?;
     let addr1 = sig_deserialized.recover(msg)?;
 
@@ -32,18 +30,18 @@ pub fn verify_eth_sig_by_pk<S: AsRef<str>>(
     let hash = keccak256(&point_bytes[1..]);
 
     if &hash[12..] == addr1.as_bytes() {
-        return Ok(addr1);
+        Ok(addr1)
     } else {
         let addr1 = hex::encode(addr1.as_bytes());
         let addr2 = hex::encode(&hash[12..]);
 
-        return Err(format!(
+        Err(format!(
             "addrs are different, addr_recovered: {:?}, addr_public_key: {:?}, sig: {}",
             addr1,
             addr2,
             sig.as_ref()
         )
-        .into());
+        .into())
     }
 }
 

@@ -9,6 +9,8 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { EnterShyChannelToken } from "@taigalabs/shy-entities/bindings/EnterShyChannelToken";
 import { useRouter } from "next/navigation";
+import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import DiamondPlaceholder from "@taigalabs/prfs-react-lib/src/diamond_placeholder/DiamondPlaceholder";
 
 import styles from "./TopicList.module.scss";
 import TopicRow from "./TopicRow";
@@ -17,14 +19,10 @@ import {
   InfiniteScrollRowContainerInner,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
-import DiamondPlaceholder from "@/components/diamond_placeholder/DiamondPlaceholder";
 import { useAppDispatch } from "@/state/hooks";
 import { useShyCache } from "@/hooks/user";
-import { paths } from "@/paths";
-import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { makeEnterShyChannelCacheKey } from "@/cache";
 import { removeCacheItem } from "@/state/userReducer";
-import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 
 const TopicList: React.FC<TopicListProps> = ({ parentRef, channel, className, placeholder }) => {
   const i18n = usePrfsI18N();

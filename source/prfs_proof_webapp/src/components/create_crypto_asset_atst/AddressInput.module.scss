@@ -1,0 +1,63 @@
+.wrapper {
+  position: relative;
+
+  .btnRow {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    width: 100%;
+    display: flex;
+    gap: 6px;
+  }
+}
+
+.addressInput {
+  .inputWrapper {
+    height: 80px;
+  }
+
+  .label {
+    transform: translateY(calc(-50% - 16px));
+  }
+
+  .input {
+    transform: translateY(-16px);
+  }
+}
+
+.btnRow {
+  padding-top: 8px;
+  display: flex;
+  align-items: center;
+
+  .status {
+    padding-left: 16px;
+  }
+}
+
+.cryptoAsset {
+  padding-top: 18px;
+  font-size: 13px;
+  color: var(--gray-20);
+
+  .item {
+    flex-direction: column;
+
+    &:not(:first-child) {
+      padding-top: 4px;
+    }
+  }
+
+  .label {
+    font-weight: 500;
+    margin-right: 3px;
+  }
+}
+
+.success {
+  color: var(--green-60);
+}
+
+.msg {
+  padding-left: 6px;
+}

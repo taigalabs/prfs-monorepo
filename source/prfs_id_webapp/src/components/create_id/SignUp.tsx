@@ -193,7 +193,7 @@ const SignUp: React.FC<SignUpProps> = ({
           </DefaultInputGuide>
           <DefaultInputGuide>
             <Link href={`${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}/identity`} target="_blank">
-              {i18n.what_happens_when_signing_up}
+              {i18n.what_happens_when_registering_id}
             </Link>
           </DefaultInputGuide>
           <DefaultModuleBtnRow className={styles.btnRow} noSidePadding>

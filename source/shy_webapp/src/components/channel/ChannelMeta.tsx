@@ -1,8 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import Link from "next/link";
-import { shyApi2 } from "@taigalabs/shy-api-js";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
@@ -10,6 +8,7 @@ import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import styles from "./ChannelMeta.module.scss";
 import Loading from "@/components/loading/Loading";
 import { paths } from "@/paths";
+import { envs } from "@/envs";
 
 const ChannelMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel, small }) => {
   const i18n = usePrfsI18N();
@@ -24,9 +23,9 @@ const ChannelMeta: React.FC<BoardMetaProps> = ({ channel, noDesc, noSubChannel, 
   const proofTypesElem = React.useMemo(() => {
     if (channel) {
       return channel.proof_type_ids.map(id => (
-        <p className={styles.entry} key={id}>
-          {id}
-        </p>
+        <Link href={`${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/proof_types`} key={id}>
+          <p className={styles.entry}>{id}</p>
+        </Link>
       ));
     } else return null;
   }, [channel]);

@@ -3,7 +3,6 @@ use prfs_axum_lib::axum::{http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_driver::sqlx::types::Json as JsonType;
-use prfs_entities::entities::PrfsAccount;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
 use shy_entities::ShyAccount;
