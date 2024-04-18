@@ -36,6 +36,7 @@ import {
   WALLET_ADDR,
 } from "./create_crypto_asset_atst";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import { FormInputButton } from "../form_input_button/FormInputButton";
 
 const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, setIsSigValid }) => {
   const i18n = React.useContext(i18nContext);
@@ -174,7 +175,7 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
                 {/* /> */}
                 <>
                   <div className={styles.wrapper}>
-                    <div className={styles.addressInput}>
+                    <div className={styles.sigInput}>
                       <InputWrapper
                         className={styles.inputWrapper}
                         isError={false}
@@ -196,8 +197,8 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
                       </InputWrapper>
                     </div>
                     <div className={styles.btnRow}>
-                      <button className={styles.inputBtn} type="button" onClick={handleClickSign}>
-                        <HoverableText>{i18n.sign}</HoverableText>
+                      <button type="button" onClick={handleClickSign}>
+                        <FormInputButton>{i18n.sign}</FormInputButton>
                       </button>
                       {/* <ConnectWallet handleChangeAddress={handleChangeAddress}> */}
                       {/*   <FormInputButton>{i18n.connect}</FormInputButton> */}

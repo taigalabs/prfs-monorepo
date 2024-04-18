@@ -13,7 +13,6 @@ export async function makePrfsIdCredential(args: MakeCredentialArgs): Promise<Pr
   const pw2Prefix = password_2.substring(0, PW_PREFIX_LEN);
   const pw = `${id_}${password_1}${password_2}`;
   const pwBytes = keccak256(toUtf8Bytes(pw), "bytes");
-  // const pw2Bytes = keccak256(toUtf8Bytes(password_2), "bytes");
   const pw2PrefixBytes = keccak256(toUtf8Bytes(pw2Prefix), "bytes");
 
   const pwHash = await poseidon_2(pwBytes);

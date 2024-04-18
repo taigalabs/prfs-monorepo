@@ -1,5 +1,32 @@
 @import "@/styles/layouts.module.scss";
 
+.wrapper {
+  position: relative;
+
+  .btnRow {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    width: 100%;
+    display: flex;
+    gap: 6px;
+  }
+}
+
+.sigInput {
+  .inputWrapper {
+    height: 80px;
+  }
+
+  .label {
+    transform: translateY(calc(-50% - 16px));
+  }
+
+  .input {
+    transform: translateY(-16px);
+  }
+}
+
 .section {
   width: auto;
 }
