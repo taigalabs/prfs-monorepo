@@ -14,11 +14,11 @@ import {
   useInteractions,
   useRole,
 } from "@floating-ui/react";
+import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 
 import styles from "./AtstGroupSelect.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 import AtstGroupModal from "./AtstGroupModal";
-import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 
 const AtstGroupSelect: React.FC<ClaimSecretItemProps> = ({ atstGroup, setAtstGroup }) => {
   const i18n = useI18N();
