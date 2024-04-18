@@ -57,12 +57,14 @@ const CreateAtstPopover: React.FC<CreateAtstPopoverProps> = () => {
   );
 
   return (
-    <Popover
-      createBase={createBase}
-      createPopover={createPopover}
-      offset={4}
-      popoverClassName={styles.popoverWrapper}
-    />
+    <div className={styles.wrapper}>
+      <Popover
+        createBase={createBase}
+        createPopover={createPopover}
+        offset={4}
+        popoverClassName={styles.popoverWrapper}
+      />
+    </div>
   );
 };
 
