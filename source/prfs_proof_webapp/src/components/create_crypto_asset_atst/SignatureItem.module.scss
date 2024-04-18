@@ -48,7 +48,7 @@
   height: 40px;
 }
 
-.btnRow {
+.validateBtnRow {
   padding-top: 24px;
   display: flex;
   align-items: center;
@@ -69,6 +69,11 @@
 .error {
   color: var(--red-50);
   font-size: 13px;
+}
+
+.errorMsg {
+  color: var(--red-50);
+  padding-top: 8px;
 }
 
 @media screen and (min-width: $big_display_min_width) {

@@ -68,7 +68,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
       const name = ev.target.name;
       const val = ev.target.value;
 
-      if (name && val.length < PW_PREFIX_LEN) {
+      if (name && val.length <= PW_PREFIX_LEN) {
         setFormData(oldVal => {
           return {
             ...oldVal,

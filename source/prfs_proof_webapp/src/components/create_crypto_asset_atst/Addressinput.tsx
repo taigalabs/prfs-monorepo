@@ -3,7 +3,6 @@ import cn from "classnames";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
 import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
-import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 import RawValueDialog from "@taigalabs/prfs-react-lib/src/raw_value_dialog/RawValueDialog";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import {
@@ -25,7 +24,6 @@ import styles from "./AddressInput.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 import { FormInputButton } from "@/components/form_input_button/FormInputButton";
 import {
-  AttestationFormBtnRow,
   AttestationListItem,
   AttestationListItemDesc,
   AttestationListItemDescTitle,
@@ -38,12 +36,7 @@ enum Status {
   InProgress,
 }
 
-const AddressInput: React.FC<AddresseInputProps> = ({
-  walletAddr,
-  // handleChangeAddress,
-  error,
-  setFormData,
-}) => {
+const AddressInput: React.FC<AddresseInputProps> = ({ walletAddr, error, setFormData }) => {
   const i18n = useI18N();
   const { isFocused, handleFocus, handleBlur } = useInput();
   const [cryptoAssets, setCryptoAssets] = React.useState<CryptoAsset[] | null>(null);
