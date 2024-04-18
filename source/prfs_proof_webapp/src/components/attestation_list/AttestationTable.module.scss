@@ -1,6 +1,9 @@
 @import "styles/layouts.module.scss";
 
 .wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .label {

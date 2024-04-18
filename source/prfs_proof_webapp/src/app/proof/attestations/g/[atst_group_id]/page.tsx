@@ -8,7 +8,7 @@ import AttestationList from "@/components/attestation_list/AttestationList";
 
 const AtstGroupPage: React.FC<AtstGroupPageProps> = ({ params }) => {
   return (
-    <DefaultLayout>
+    <DefaultLayout viewportHeight>
       <AppDefaultBody>
         <Suspense>
           <Attestations>

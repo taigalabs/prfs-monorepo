@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
-import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import { createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import {
   CommitmentType,
   API_PATH,
@@ -16,12 +16,12 @@ import {
   CommitmentReceipt,
   EncryptedReceipt,
   makeGroupMemberAtstClaimSecret,
-  // makeAtstCmPreImageStr,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
+import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./ClaimSecretItem.module.scss";
 import common from "@/styles/common.module.scss";
@@ -47,7 +47,6 @@ import {
 import EncryptedMemberIdItem from "./EncryptedMemberIdItem";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
-import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   atstGroup,

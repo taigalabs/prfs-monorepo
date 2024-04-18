@@ -6,6 +6,11 @@
   flex-grow: 1;
 }
 
+.viewportHeight {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
 .body {
   flex-grow: 1;
   display: flex;
@@ -16,6 +21,10 @@
 .footer {
   margin-top: auto;
   margin-bottom: 0;
+}
+
+.overflowYHidden {
+  overflow-y: hidden;
 }
 
 @media screen and (min-width: $big2_display_min_width) {

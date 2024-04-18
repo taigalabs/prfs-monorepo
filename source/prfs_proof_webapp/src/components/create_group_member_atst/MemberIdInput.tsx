@@ -38,7 +38,7 @@ const MemberIdInput: React.FC<EncryptedWalletAddrItemProps> = ({
           </AttestationListItemDesc>
           <div className={styles.inputArea}>
             <div className={styles.row}>
-              <p className={styles.guide}>Member Id can be your name for example</p>
+              <p className={styles.guide}>Member Id can be your name for example, e.g., John Doe</p>
               <Input
                 name={MEMBER_ID}
                 label={i18n.member_id}
@@ -49,7 +49,7 @@ const MemberIdInput: React.FC<EncryptedWalletAddrItemProps> = ({
             </div>
             <div className={styles.row}>
               <p className={styles.guide}>
-                Did you get a code to become registered as a member of the group?
+                Member code is a secret value given to you. e.g., xxyyzz
               </p>
               <Input
                 name={MEMBER_CODE}
