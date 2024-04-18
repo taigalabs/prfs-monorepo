@@ -196,6 +196,9 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
                       </InputWrapper>
                     </div>
                     <div className={styles.btnRow}>
+                      <button className={styles.inputBtn} type="button" onClick={handleClickSign}>
+                        <HoverableText>{i18n.sign}</HoverableText>
+                      </button>
                       {/* <ConnectWallet handleChangeAddress={handleChangeAddress}> */}
                       {/*   <FormInputButton>{i18n.connect}</FormInputButton> */}
                       {/* </ConnectWallet> */}

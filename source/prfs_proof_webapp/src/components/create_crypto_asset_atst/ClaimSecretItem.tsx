@@ -35,12 +35,7 @@ import {
   AttestationListItemOverlay,
   AttestationListRightCol,
 } from "@/components/create_attestation/CreateAtstComponents";
-import {
-  CM,
-  CryptoAssetSizeAtstFormData,
-  ENCRYPT_WALLET_ADDR,
-  WALLET_ADDR,
-} from "./create_crypto_asset_atst";
+import { CM, CryptoAssetSizeAtstFormData, ENCRYPT_WALLET_ADDR } from "./create_crypto_asset_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
@@ -66,17 +61,17 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
   const dispatch = useAppDispatch();
 
   const claimSecret = React.useMemo(() => {
-    const walletAddr = formData[WALLET_ADDR];
+    const walletAddr = formData.wallet_addr;
     return walletAddr;
-  }, [formData[WALLET_ADDR]]);
+  }, [formData.wallet_addr]);
 
   const cmAbbrev = React.useMemo(() => {
-    if (formData[CM]) {
-      return abbrev7and5(formData[CM]);
+    if (formData.commitment) {
+      return abbrev7and5(formData.commitment);
     } else {
       return "";
     }
-  }, [formData[CM]]);
+  }, [formData.commitment]);
 
   const handleClickGenerate = React.useCallback(async () => {
     const cacheKeyQueries = makeCmCacheKeyQueries(WALLET_CACHE_KEY, 10);
@@ -88,7 +83,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
       app_id: "prfs_proof",
       queries: [
         {
-          name: CM,
+          name: "commitment",
           preImage: claimSecret,
           type: CommitmentType.SIG_POSEIDON_1,
           queryType: QueryType.COMMITMENT,
@@ -96,7 +91,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
         ...cacheKeyQueries,
         {
           name: ENCRYPT_WALLET_ADDR,
-          msg: formData[WALLET_ADDR],
+          msg: formData.wallet_addr,
           type: EncryptType.EC_SECP256K1,
           queryType: QueryType.ENCRYPT,
         },
@@ -200,7 +195,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
 
   return (
     <>
-      <AttestationListItem isDisabled={formData[WALLET_ADDR]?.length === 0}>
+      <AttestationListItem isDisabled={formData.wallet_addr?.length === 0}>
         <AttestationListItemOverlay />
         <AttestationListItemNo>2</AttestationListItemNo>
         <AttestationListRightCol>

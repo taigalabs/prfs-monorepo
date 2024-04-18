@@ -8,16 +8,6 @@
   padding: 1px 0 18px;
 }
 
-.btnRow {
-  padding-top: 8px;
-  display: flex;
-  align-items: center;
-
-  .status {
-    padding-left: 16px;
-  }
-}
-
 .section {
   width: auto;
 }
@@ -38,30 +28,6 @@
 .fetchBtn {
   > span + div {
     margin-left: 4px;
-  }
-}
-
-.msg {
-  padding-left: 10px;
-}
-
-.cryptoAsset {
-  padding-top: 18px;
-  font-size: 13px;
-  color: var(--gray-20);
-
-  .item {
-    // padding-bottom: 0;
-    flex-direction: column;
-
-    &:not(:first-child) {
-      padding-top: 4px;
-    }
-  }
-
-  .label {
-    font-weight: 500;
-    margin-right: 3px;
   }
 }
 
@@ -95,10 +61,6 @@
 
 .input {
   height: 40px;
-}
-
-.success {
-  color: var(--green-60);
 }
 
 .error {
