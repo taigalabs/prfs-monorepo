@@ -12,4 +12,7 @@
 
 .table {
   overflow-y: hidden;
+  > div {
+    height: 100%;
+  }
 }

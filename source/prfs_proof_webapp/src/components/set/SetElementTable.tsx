@@ -16,6 +16,7 @@ import {
   AttestationTableRow,
   AttestationTableBodyInner,
   AttestationTableCell,
+  AppTableWrapper,
 } from "@/components/atst_table_components/AtstTableComponents";
 import { paths } from "@/paths";
 
@@ -104,7 +105,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
   ]);
 
   return (
-    <div className={styles.wrapper}>
+    <AppTableWrapper>
       {status === "pending" ? (
         <p className={styles.loading}>Loading...</p>
       ) : status === "error" ? (
@@ -160,7 +161,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
           </AttestationTableBody>
         </>
       )}
-    </div>
+    </AppTableWrapper>
   );
 };
 
