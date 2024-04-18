@@ -193,9 +193,9 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
                         hasValue={formData.signature.length > 0}
                       >
                         <Label name={""} className={styles.label}>
-                          {i18n.wallet}
+                          {i18n.signature}
                         </Label>
-                        <Fieldset>{i18n.wallet}</Fieldset>
+                        <Fieldset>{i18n.signature}</Fieldset>
                         <InputElement
                           name={""}
                           value={abbrevSig || ""}
