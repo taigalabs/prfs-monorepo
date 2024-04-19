@@ -277,8 +277,8 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
           <AppTitle>{i18n.create_group_member_attestation}</AppTitle>
         </AppHeaderRow>
       </AppHeader>
-      <div>
-        <form>
+      <div className={styles.formWrapper}>
+        <form className={styles.form}>
           <ol>
             <AttestationListItem>
               <AttestationListItemNo>1</AttestationListItemNo>

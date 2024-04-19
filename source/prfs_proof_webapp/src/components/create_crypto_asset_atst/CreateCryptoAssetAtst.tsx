@@ -199,8 +199,8 @@ const CreateCryptoAssetAtst: React.FC<CreateCryptoSizeAttestationProps> = () => 
           <AppTitle>{i18n.create_crypto_asset_attestation}</AppTitle>
         </AppHeaderRow>
       </AppHeader>
-      <div>
-        <form>
+      <div className={styles.formWrapper}>
+        <form className={styles.form}>
           <ol>
             <AddressInput
               error={null}

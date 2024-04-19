@@ -1,11 +1,15 @@
 @import "@/styles/layouts.module.scss";
 
-.sidePadding {
-  padding: 0 16px;
+.formWrapper {
+  overflow-y: auto;
 }
 
-.row {
-  padding: 1px 0 18px;
+.form {
+  max-width: 680px;
+}
+
+.sidePadding {
+  padding: 0 16px;
 }
 
 .btnRow {
