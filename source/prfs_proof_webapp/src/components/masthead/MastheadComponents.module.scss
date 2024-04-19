@@ -44,6 +44,7 @@
 
 .placeholder {
   height: $masthead_height_w1920;
+  flex-shrink: 0;
 
   &.twoColumn {
     height: $masthead_two_column_height_w1120;

@@ -5,8 +5,6 @@ import styles from "./TitleArea.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 
 const TitleArea: React.FC<LogoContainerProps> = () => {
-  const i18n = useI18N();
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
