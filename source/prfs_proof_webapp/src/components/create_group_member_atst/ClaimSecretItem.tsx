@@ -229,7 +229,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
             <AttestationListItemDescTitle>
               {i18n.generate_a_cryptographic_claim}
             </AttestationListItemDescTitle>
-            <p>
+            <p className={styles.guide}>
               {i18n.claim_secret}: {claimSecret}
             </p>
           </AttestationListItemDesc>
