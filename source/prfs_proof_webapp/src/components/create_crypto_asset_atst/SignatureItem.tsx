@@ -169,20 +169,6 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
                 </AttestationContentBoxBtnArea>
               </AttestationContentBox>
               <div className={styles.signBox}>
-                {/* <div className={styles.inputBtnRow}> */}
-                {/*   <button className={styles.inputBtn} type="button" onClick={handleClickSign}> */}
-                {/*     <HoverableText>{i18n.sign}</HoverableText> */}
-                {/*   </button> */}
-                {/*   <span> or paste signature over the above message</span> */}
-                {/* </div> */}
-                {/* <Input */}
-                {/*   className={cn(styles.input)} */}
-                {/*   name={SIGNATURE} */}
-                {/*   error={""} */}
-                {/*   label={i18n.signature} */}
-                {/*   value={formData.signature} */}
-                {/*   handleChangeValue={handleChangeSig} */}
-                {/* /> */}
                 <>
                   <div className={styles.wrapper}>
                     <div className={styles.sigInput}>

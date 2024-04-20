@@ -307,6 +307,7 @@ export default {
   create_proof_with_prfs: "Create proof with Prfs",
   create_proof_form: "Create proof form",
   prove_success_msg: "Successfully created a proof!",
+  successfully_created_data: "Successfully created data!",
   upload: "Upload",
   upload_and_view_proof: "Upload and view proof",
   view_proof: "View proof",
