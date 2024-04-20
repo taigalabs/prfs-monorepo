@@ -38,6 +38,7 @@ export default {
     "Validation may take 7-30 secs depending on the network traffic. Try not to close the window.",
   commitment: "Commitment",
   encryption: "Encryption",
+  encrypt: "Encrypt",
   member_id_commitment: "Member id commitment",
   encrypted_wallet_addr: "Encrypted wallet address",
   encrypted_member_id: "Encrypted member id",
@@ -274,6 +275,7 @@ export default {
   create_dynamic_set_subtitle: "Dynamic sets allow you to build a table and modify it later",
   circuit_driver_search_guide: "Search circuit drivers",
   show_more: "Show more",
+  show_detail: "Show detail",
   some_functionalities_are_available_only_with_user_signed_in:
     "Some functionalities are availble only with the user signed in. Join today.",
   not_available: "Not available",

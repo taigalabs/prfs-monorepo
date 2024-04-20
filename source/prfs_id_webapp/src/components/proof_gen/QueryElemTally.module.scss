@@ -1,0 +1,19 @@
+.item {
+  font-size: 15px;
+  display: inline-block;
+
+  svg {
+    vertical-align: text-top;
+    margin-right: 3px;
+  }
+
+  &:not(:first-child) {
+    &::before {
+      content: ", ";
+    }
+  }
+}
+
+.btnRow {
+  padding-top: 8px;
+}
