@@ -2,7 +2,6 @@ import React from "react";
 import cn from "classnames";
 import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
-import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import { verifyMessage } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
@@ -29,7 +28,7 @@ import {
   AttestationListItemNo,
   AttestationListItemOverlay,
   AttestationListRightCol,
-} from "@/components/create_attestation/CreateAtstComponents";
+} from "@/components/create_atst_components/CreateAtstComponents";
 import {
   CM,
   CryptoAssetSizeAtstFormData,
@@ -169,20 +168,6 @@ const SignatureItem: React.FC<SigantureItemProps> = ({ formData, setFormData, se
                 </AttestationContentBoxBtnArea>
               </AttestationContentBox>
               <div className={styles.signBox}>
-                {/* <div className={styles.inputBtnRow}> */}
-                {/*   <button className={styles.inputBtn} type="button" onClick={handleClickSign}> */}
-                {/*     <HoverableText>{i18n.sign}</HoverableText> */}
-                {/*   </button> */}
-                {/*   <span> or paste signature over the above message</span> */}
-                {/* </div> */}
-                {/* <Input */}
-                {/*   className={cn(styles.input)} */}
-                {/*   name={SIGNATURE} */}
-                {/*   error={""} */}
-                {/*   label={i18n.signature} */}
-                {/*   value={formData.signature} */}
-                {/*   handleChangeValue={handleChangeSig} */}
-                {/* /> */}
                 <>
                   <div className={styles.wrapper}>
                     <div className={styles.sigInput}>

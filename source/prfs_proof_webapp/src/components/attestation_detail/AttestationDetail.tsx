@@ -34,6 +34,7 @@ const AttestationDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_id }
   const meta = React.useMemo(() => {
     return atst && JSON.stringify(atst.meta);
   }, [atst?.meta]);
+
   const etherScanUrl = React.useMemo(() => {
     return atst && `https://etherscan.io/address/${atst.label.toLowerCase()}`;
   }, [atst?.label]);

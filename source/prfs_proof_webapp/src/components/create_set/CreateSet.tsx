@@ -20,7 +20,7 @@ import {
   AttestationListItemDesc,
   AttestationListItemDescTitle,
   AttestationListItemUnordered,
-} from "@/components/create_attestation/CreateAtstComponents";
+} from "@/components/create_atst_components/CreateAtstComponents";
 import { useSignedInProofUser } from "@/hooks/user";
 import { paths } from "@/paths";
 

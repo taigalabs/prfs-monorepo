@@ -29,7 +29,7 @@ import {
   AttestationListItemDescTitle,
   AttestationListItemNo,
   AttestationListRightCol,
-} from "@/components/create_attestation/CreateAtstComponents";
+} from "@/components/create_atst_components/CreateAtstComponents";
 
 enum Status {
   Standby,
@@ -139,9 +139,9 @@ const AddressInput: React.FC<AddresseInputProps> = ({ walletAddr, error, setForm
                   <ConnectWallet handleChangeAddress={handleChangeWalletAddr}>
                     <FormInputButton>{i18n.connect}</FormInputButton>
                   </ConnectWallet>
-                  <RawValueDialog handleChangeItem={handleChangeWalletAddr} label={i18n.address}>
-                    <FormInputButton>{i18n.i_will_type}</FormInputButton>
-                  </RawValueDialog>
+                  {/* <RawValueDialog handleChangeItem={handleChangeWalletAddr} label={i18n.address}> */}
+                  {/*   <FormInputButton>{i18n.i_will_type}</FormInputButton> */}
+                  {/* </RawValueDialog> */}
                 </div>
               </div>
             </>

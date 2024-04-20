@@ -44,6 +44,7 @@
 
 .placeholder {
   height: $masthead_height_w1920;
+  flex-shrink: 0;
 
   &.twoColumn {
     height: $masthead_two_column_height_w1120;
@@ -86,9 +87,11 @@
   position: absolute;
   top: 6px;
   left: 10px;
+  height: 30px;
 }
 
 .rightGroup {
+  height: 30px;
   display: flex;
   flex: 1;
   align-items: center;

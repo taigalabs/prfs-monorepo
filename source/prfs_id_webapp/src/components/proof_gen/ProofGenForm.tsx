@@ -12,6 +12,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { JSONbigNative, encrypt } from "@taigalabs/prfs-crypto-js";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import PrfsIdSessionErrorCodes from "@taigalabs/prfs-id-session-api-error-codes";
+import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./ProofGenForm.module.scss";
@@ -33,6 +34,9 @@ import AppCredential from "@/components/app_sign_in/AppCredential";
 import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { QueryElemTallyType } from "./query_elem";
+import QueryElemTally from "./QueryElemTally";
+import QueryElemDetail from "./QueryElemDetail";
 
 enum Status {
   InProgress,
@@ -51,6 +55,13 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const dispatch = useAppDispatch();
   const [status, setStatus] = React.useState(Status.InProgress);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
+  const [showQueryDetail, setShowQueryDetail] = React.useState(false);
+  const [queryElemTally, setQueryElemTally] = React.useState<QueryElemTallyType>({
+    commitment: 0,
+    encrypt: 0,
+    app_sign_in: 0,
+    rand_key_pair: 0,
+  });
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
   const { mutateAsync: putSessionValueRequest } = usePutSessionValue();
   const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>({});
@@ -114,7 +125,14 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     async function fn() {
       try {
         if (proofGenArgs) {
-          let elems = [];
+          const elems = [];
+          const queryElemTally: QueryElemTallyType = {
+            commitment: 0,
+            encrypt: 0,
+            app_sign_in: 0,
+            rand_key_pair: 0,
+          };
+
           for (const query of proofGenArgs.queries) {
             switch (query.queryType) {
               case QueryType.CREATE_PROOF: {
@@ -130,6 +148,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                 elems.push(elem);
                 continue;
               }
+
               case QueryType.COMMITMENT: {
                 const elem = (
                   <CommitmentView
@@ -140,8 +159,10 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
+                queryElemTally.commitment += 1;
                 continue;
               }
+
               case QueryType.ENCRYPT: {
                 const elem = (
                   <EncryptView
@@ -152,8 +173,10 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
+                queryElemTally.encrypt += 1;
                 continue;
               }
+
               case QueryType.APP_SIGN_IN: {
                 const elem = (
                   <AppCredential
@@ -165,8 +188,10 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
+                queryElemTally.app_sign_in += 1;
                 continue;
               }
+
               case QueryType.RAND_KEY_PAIR: {
                 const elem = (
                   <RandKeyPairView
@@ -177,8 +202,10 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                   />
                 );
                 elems.push(elem);
+                queryElemTally.rand_key_pair += 1;
                 continue;
               }
+
               default:
                 console.error("unsupported query type", query);
                 dispatch(
@@ -192,6 +219,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           }
 
           setQueryElems(elems);
+          setQueryElemTally(queryElemTally);
           setStatus(Status.Standby);
         }
       } catch (err) {
@@ -199,7 +227,15 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
     }
     fn().then();
-  }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus, handleSkip]);
+  }, [
+    searchParams,
+    setReceipt,
+    setQueryElems,
+    proofGenArgs,
+    setStatus,
+    handleSkip,
+    setQueryElemTally,
+  ]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && status === Status.Standby) {
@@ -280,7 +316,18 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         <div className={cn(styles.prfsId, styles.sidePadding)}>
           <p>{abbrevId}</p>
         </div>
-        <QueryItemList sidePadding>{queryElems}</QueryItemList>
+        <QueryItemList sidePadding>
+          <QueryElemDetail
+            queryElems={queryElems}
+            setShowQueryDetail={setShowQueryDetail}
+            showQueryDetail={showQueryDetail}
+          />
+          <QueryElemTally
+            queryElemTally={queryElemTally}
+            setShowQueryDetail={setShowQueryDetail}
+            showQueryDetail={showQueryDetail}
+          />
+        </QueryItemList>
         <div className={cn(styles.dataWarning, styles.sidePadding)}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.app_id} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>

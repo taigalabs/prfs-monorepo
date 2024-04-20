@@ -9,3 +9,10 @@
     align-items: flex-start;
   }
 }
+
+.table {
+  overflow-y: hidden;
+  > div {
+    height: 100%;
+  }
+}

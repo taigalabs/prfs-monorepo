@@ -48,7 +48,7 @@ const Set: React.FC<SetProps> = ({ set_id }) => {
           <LatestTree set_id={set_id} nonce={nonce} />
         </AppHeaderRow>
       </AppHeader>
-      <div>
+      <div className={styles.table}>
         <SetElementTable setId={set_id} nonce={nonce} />
       </div>
     </>

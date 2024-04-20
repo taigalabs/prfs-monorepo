@@ -3,6 +3,14 @@ import cn from "classnames";
 
 import styles from "./AtstTableComponents.module.scss";
 
+export const AppTableWrapper: React.FC<AttestationsProps> = ({ children, innerRef, className }) => {
+  return (
+    <div className={cn(styles.wrapper, className)} ref={innerRef}>
+      {children}
+    </div>
+  );
+};
+
 export const AttestationTableBody: React.FC<AttestationsProps> = ({
   children,
   innerRef,

@@ -46,10 +46,6 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
     [setIsLeftBarDrawerVisible],
   );
 
-  // if (!isInitialized) {
-  //   <div className={styles.loading}>Loading...</div>;
-  // }
-
   return (
     <>
       <GlobalErrorDialog />

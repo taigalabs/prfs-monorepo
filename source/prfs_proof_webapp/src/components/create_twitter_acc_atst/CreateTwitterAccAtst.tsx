@@ -49,7 +49,7 @@ import {
   AttestationListItemOverlay,
   AttestationListItemDescTitle,
   AttestationFormBtnRow,
-} from "@/components/create_attestation/CreateAtstComponents";
+} from "@/components/create_atst_components/CreateAtstComponents";
 import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";

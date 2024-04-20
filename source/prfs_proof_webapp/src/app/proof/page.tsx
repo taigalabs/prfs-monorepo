@@ -22,9 +22,6 @@ const HomePage = () => {
           <Home />
         </Suspense>
       </DefaultBody>
-      {/* <DefaultFooter> */}
-      {/*   <GlobalFooter /> */}
-      {/* </DefaultFooter> */}
     </DefaultLayout>
   );
 };

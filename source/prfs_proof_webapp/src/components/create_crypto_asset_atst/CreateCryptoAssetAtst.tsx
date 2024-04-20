@@ -3,32 +3,21 @@
 import React from "react";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { atstApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { useRouter } from "next/navigation";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { FetchCryptoAssetRequest } from "@taigalabs/prfs-entities/bindings/FetchCryptoAssetRequest";
-import { CryptoAsset } from "@taigalabs/prfs-entities/bindings/CryptoAsset";
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";
 import { AddPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/AddPrfsIndexRequest";
-import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 import { toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { CreatePrfsAttestationRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsAttestationRequest";
 
 import styles from "./CreateCryptoAssetAtst.module.scss";
 import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
-import {
-  AttestationFormBtnRow,
-  AttestationListItem,
-  AttestationListItemDesc,
-  AttestationListItemDescTitle,
-  AttestationListItemNo,
-  AttestationListRightCol,
-} from "@/components/create_attestation/CreateAtstComponents";
+import { AttestationFormBtnRow } from "@/components/create_atst_components/CreateAtstComponents";
 import { paths } from "@/paths";
 import {
   CryptoAssetSizeAtstFormData,
@@ -210,8 +199,8 @@ const CreateCryptoAssetAtst: React.FC<CreateCryptoSizeAttestationProps> = () => 
           <AppTitle>{i18n.create_crypto_asset_attestation}</AppTitle>
         </AppHeaderRow>
       </AppHeader>
-      <div>
-        <form>
+      <div className={styles.formWrapper}>
+        <form className={styles.form}>
           <ol>
             <AddressInput
               error={null}

@@ -19,6 +19,7 @@ import {
   AttestationTableNoRecord,
   AttestationLoading,
   AttestationTableBody2,
+  AppTableWrapper,
 } from "@/components/atst_table_components/AtstTableComponents";
 import { useI18N } from "@/i18n/use_i18n";
 import AtstRow from "./AtstRow";
@@ -98,7 +99,7 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
   ]);
 
   return (
-    <div className={styles.wrapper} ref={parentRef}>
+    <AppTableWrapper innerRef={parentRef}>
       <AttestationTableHeader
         className={cn({
           [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
@@ -172,87 +173,8 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
           </div>
         </AttestationTableBody2>
       )}
-    </div>
+    </AppTableWrapper>
   );
-
-  // return (
-  //   <div className={styles.wrapper}>
-  //     {isNavigating ? (
-  //       <AttestationLoading>{i18n.navigating}...</AttestationLoading>
-  //     ) : status === "pending" ? (
-  //       <AttestationLoading>{i18n.loading}...</AttestationLoading>
-  //     ) : status === "error" ? (
-  //       <AttestationLoading>Error: {(error as Error).message}</AttestationLoading>
-  //     ) : (
-  //       <>
-  //         <AttestationTableHeader
-  //           className={cn({
-  //             [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
-  //           })}
-  //         >
-  //           <AttestationTableHeaderCell className={cn(styles.label, styles.w1024)}>
-  //             {i18n.label}
-  //           </AttestationTableHeaderCell>
-  //           <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
-  //             {i18n.commitment}
-  //           </AttestationTableHeaderCell>
-  //           <AttestationTableHeaderCell className={cn(styles.valueNum, styles.w1024)}>
-  //             {i18n.value}
-  //           </AttestationTableHeaderCell>
-  //           <AttestationTableHeaderCell className={cn(styles.meta, styles.w1320)}>
-  //             {i18n.meta}
-  //           </AttestationTableHeaderCell>
-  //           <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
-  //             {i18n.notarized}
-  //           </AttestationTableHeaderCell>
-  //           <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
-  //             {i18n.on_chain}
-  //           </AttestationTableHeaderCell>
-  //         </AttestationTableHeader>
-  //         <AttestationTableBody innerRef={parentRef}>
-  //           {rowVirtualizer.getVirtualItems().length === 0 && (
-  //             <AttestationTableNoRecord>{i18n.no_record_to_present}</AttestationTableNoRecord>
-  //           )}
-  //           <AttestationTableBodyInner
-  //             style={{
-  //               height: `${rowVirtualizer.getTotalSize()}px`,
-  //             }}
-  //           >
-  //             {rowVirtualizer.getVirtualItems().map(virtualRow => {
-  //               const isLoaderRow = virtualRow.index > allRows.length - 1;
-  //               const row = allRows[virtualRow.index];
-
-  //               if (isLoaderRow) {
-  //                 return hasNextPage ? <div>Loading more...</div> : null;
-  //               }
-
-  //               console.log("row", virtualRow.index, row);
-
-  //               // return (
-  //               //   <AtstRow
-  //               //     key={virtualRow.index}
-  //               //     atst={row}
-  //               //     router={router}
-  //               //     setIsNavigating={setIsNavigating}
-  //               //     style={{
-  //               //       position: "absolute",
-  //               //       top: 0,
-  //               //       left: 0,
-  //               //       width: "100%",
-  //               //       height: `${virtualRow.size}px`,
-  //               //       transform: `translateY(${virtualRow.start}px)`,
-  //               //     }}
-  //               //   />
-  //               // );
-  //               return <div key={virtualRow.index}>{row.toString()}</div>;
-  //             })}
-  //           </AttestationTableBodyInner>
-  //         </AttestationTableBody>
-  //         <ReactQueryDevtools initialIsOpen />
-  //       </>
-  //     )}
-  //   </div>
-  // );
 };
 
 export default GroupMemberAtstTable;

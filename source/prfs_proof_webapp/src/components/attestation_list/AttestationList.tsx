@@ -43,7 +43,7 @@ const AttestationList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) =
           </AlertWrapper>
         </AppHeaderRow>
       </AppHeader>
-      <div>
+      <div className={styles.table}>
         <AttestationTable nonce={nonce} atst_group_id={atst_group_id} />
       </div>
     </>

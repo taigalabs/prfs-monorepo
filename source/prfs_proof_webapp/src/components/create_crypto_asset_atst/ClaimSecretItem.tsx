@@ -34,7 +34,7 @@ import {
   AttestationListItemNo,
   AttestationListItemOverlay,
   AttestationListRightCol,
-} from "@/components/create_attestation/CreateAtstComponents";
+} from "@/components/create_atst_components/CreateAtstComponents";
 import { CM, CryptoAssetSizeAtstFormData, ENCRYPT_WALLET_ADDR } from "./create_crypto_asset_atst";
 import EncryptedWalletAddrItem from "./EncryptedWalletAddrItem";
 import { useAppDispatch } from "@/state/hooks";
@@ -203,7 +203,7 @@ const ClaimSecretItem: React.FC<ClaimSecretItemProps> = ({
             <AttestationListItemDescTitle>
               {i18n.generate_a_cryptographic_claim}
             </AttestationListItemDescTitle>
-            <p>
+            <p className={styles.guide}>
               {i18n.claim_secret}: {claimSecret}
             </p>
           </AttestationListItemDesc>

@@ -1,49 +1,15 @@
 @import "@/styles/layouts.module.scss";
 
+.formWrapper {
+  overflow-y: auto;
+}
+
+.form {
+  max-width: 680px;
+}
+
 .sidePadding {
   padding: 0 16px;
-}
-
-.row {
-  padding: 1px 0 18px;
-}
-
-.section {
-  width: auto;
-}
-
-.sectionBtnRow {
-  display: flex;
-  align-items: center;
-
-  > p {
-    padding-left: 16px;
-  }
-
-  a {
-    color: var(--blue-120);
-  }
-}
-
-.fetchBtn {
-  > span + div {
-    margin-left: 4px;
-  }
-}
-
-.inputBtnRow {
-  padding-bottom: 9px;
-}
-
-.inputBtn {
-  cursor: pointer;
-  color: var(--blue-120);
-}
-
-.guideRow {
-  font-size: 13px;
-  color: var(--gray-30);
-  padding-bottom: 8px;
 }
 
 .createBtnRow {
@@ -59,22 +25,9 @@
   }
 }
 
-.input {
-  height: 40px;
-}
-
 .error {
   color: var(--red-50);
   margin-top: 18px;
-}
-
-.spinner {
-  margin-left: 3px;
-
-  div {
-    border-width: 2px;
-    border-top-color: inherit;
-  }
 }
 
 .createBtn {
@@ -92,22 +45,6 @@
 }
 
 @media screen and (min-width: $big_display_min_width) {
-  .section {
-    width: 480px;
-  }
-
-  .cryptoAsset {
-    .item {
-      flex-direction: row;
-    }
-  }
-
-  .claimCm {
-    .value {
-      width: 300px;
-    }
-  }
-
   .createBtnRow {
     padding-left: 24px;
     padding-right: 24px;

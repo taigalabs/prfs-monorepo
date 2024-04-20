@@ -5,6 +5,14 @@
   color: var(--gray-20);
 }
 
+.valueDetail {
+  display: none;
+
+  &.display {
+    display: block;
+  }
+}
+
 .content {
   font-size: 13px;
 }

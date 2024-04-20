@@ -1,14 +1,17 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
+  display: flex;
+  flex-direction: column;
   width: auto;
-  max-width: 680px;
+  overflow-y: hidden;
+  /* max-width: 680px; */
   flex-grow: 1;
 }
 
 @media screen and (min-width: $big_display_min_width) {
   .wrapper {
-    width: 680px;
+    /* width: 680px; */
 
     /* border: 1px solid red; */
   }

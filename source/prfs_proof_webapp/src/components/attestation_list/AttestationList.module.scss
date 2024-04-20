@@ -1,3 +1,11 @@
-.topMenu {
-  /* margin-left: auto; */
+@import "styles/layouts.module.scss";
+
+.table {
+  overflow-y: hidden;
+  > div {
+    height: 100%;
+  }
+}
+
+@media not screen and (min-width: $big_display_min_width) {
 }

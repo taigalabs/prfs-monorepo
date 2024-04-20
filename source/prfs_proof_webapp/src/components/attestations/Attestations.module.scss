@@ -5,6 +5,7 @@ $leftbar_width: 284px;
 .wrapper {
   display: flex;
   flex-grow: 1;
+  overflow-y: hidden;
 
   /* border: 1px solid red; */
 }

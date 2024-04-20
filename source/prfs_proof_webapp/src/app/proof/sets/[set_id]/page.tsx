@@ -8,7 +8,7 @@ import Sets from "@/components/sets/Sets";
 
 const SetPage: React.FC<SetPageProps> = ({ params }) => {
   return (
-    <DefaultLayout>
+    <DefaultLayout viewportHeight>
       <AppDefaultBody>
         <Suspense>
           <Sets>

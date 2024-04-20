@@ -16,6 +16,7 @@ import {
   AttestationTableRow,
   AttestationTableBodyInner,
   AttestationTableCell,
+  AppTableWrapper,
 } from "@/components/atst_table_components/AtstTableComponents";
 import { paths } from "@/paths";
 
@@ -27,9 +28,11 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
       row.label;
     }
   }, [row.label]);
+
   const data = React.useMemo(() => {
     return JSON.stringify(row.data);
   }, [row.data]);
+
   const handleClick = React.useCallback(() => {
     router.push(`${paths.sets}/${row.set_id}/${row.label}`);
   }, [router, row]);
@@ -102,7 +105,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
   ]);
 
   return (
-    <div className={styles.wrapper}>
+    <AppTableWrapper>
       {status === "pending" ? (
         <p className={styles.loading}>Loading...</p>
       ) : status === "error" ? (
@@ -135,7 +138,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
                 const row = allRows[virtualRow.index];
 
                 if (isLoaderRow) {
-                  return hasNextPage ? <div>Loading more...</div> : null;
+                  return hasNextPage ? <div key={virtualRow.key}>Loading more...</div> : null;
                 }
 
                 return (
@@ -158,7 +161,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
           </AttestationTableBody>
         </>
       )}
-    </div>
+    </AppTableWrapper>
   );
 };
 

@@ -6,7 +6,7 @@ import { DefaultBody } from "@/components/layouts/default_layout/DefaultLayout";
 
 export const AppDefaultBody: React.FC<AttestationsProps> = ({ children, className }) => {
   return (
-    <DefaultBody noMinWidth className={cn(styles.defaultBody, className)}>
+    <DefaultBody className={cn(styles.defaultBody, className)} noMinWidth overflowYHidden>
       {children}
     </DefaultBody>
   );

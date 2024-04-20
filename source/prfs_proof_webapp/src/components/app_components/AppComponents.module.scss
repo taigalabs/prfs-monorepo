@@ -33,6 +33,8 @@
   flex-grow: 1;
   background-color: var(--white-100);
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .title {
@@ -42,13 +44,11 @@
 
 @media screen and (min-width: $big_display_min_width) {
   .main {
-    /* padding: 16px 16px 20px; */
     padding: 16px 18px 16px 0;
   }
 
   .mainInner {
     border-radius: 24px;
-    padding: 16px 16px 20px;
   }
 
   .title {

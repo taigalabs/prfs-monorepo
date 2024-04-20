@@ -7,7 +7,7 @@ import {
   AttestationListItemNo,
   AttestationListItemOverlay,
   AttestationListRightCol,
-} from "@/components/create_attestation/CreateAtstComponents";
+} from "@/components/create_atst_components/CreateAtstComponents";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
@@ -38,7 +38,7 @@ const MemberIdInput: React.FC<EncryptedWalletAddrItemProps> = ({
           </AttestationListItemDesc>
           <div className={styles.inputArea}>
             <div className={styles.row}>
-              <p className={styles.guide}>Member Id can be your name for example</p>
+              <p className={styles.guide}>Member Id can be your name for example, e.g., John Doe</p>
               <Input
                 name={MEMBER_ID}
                 label={i18n.member_id}
@@ -49,7 +49,7 @@ const MemberIdInput: React.FC<EncryptedWalletAddrItemProps> = ({
             </div>
             <div className={styles.row}>
               <p className={styles.guide}>
-                Did you get a code to become registered as a member of the group?
+                Member code is a secret value given to you. e.g., xxyyzz
               </p>
               <Input
                 name={MEMBER_CODE}

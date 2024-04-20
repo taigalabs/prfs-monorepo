@@ -1,21 +1,19 @@
 import React from "react";
 import cn from "classnames";
-// import { MdNoteAdd } from "@react-icons/all-files/md/MdNoteAdd";
 import { FaKey } from "@react-icons/all-files/fa/FaKey";
 import { RandKeyPairType } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./RandKeyPairItem.module.scss";
-import { i18nContext } from "@/i18n/context";
+import { useI18N } from "@/i18n/context";
 import {
   QueryItem,
   QueryItemLeftCol,
   QueryItemMeta,
   QueryItemRightCol,
 } from "@/components/default_module/QueryItem";
-import { PrivateKey } from "@taigalabs/prfs-crypto-js";
 
 const RandKeyPairItem: React.FC<RandKeyPairItemProps> = ({ name, skHex, pkHex, val, type }) => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = useI18N();
 
   return (
     <QueryItem sidePadding>
