@@ -2,17 +2,18 @@ import React from "react";
 import cn from "classnames";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
-import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
 import styles from "./EncryptedWalletAddrItem.module.scss";
 import { i18nContext } from "@/i18n/context";
+import { useShowDetail } from "@/components/show_detail/use_show_detail";
+import ShowDetail from "@/components/show_detail/ShowDetail";
 
 const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
   walletCacheKeys,
   walletAddrEnc,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [showDetail, setShowDetail] = React.useState(false);
+  const { showDetail, setShowDetail } = useShowDetail();
 
   const walletCacheKeyElems = React.useMemo(() => {
     if (walletCacheKeys) {
@@ -29,10 +30,6 @@ const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
       return null;
     }
   }, [walletCacheKeys]);
-
-  const toggleShowDetail = React.useCallback(() => {
-    setShowDetail(v => !v);
-  }, [setShowDetail]);
 
   return (
     <div className={styles.wrapper}>
@@ -59,11 +56,7 @@ const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
         <FaCheck className={styles.green} />
         <span>{i18n.successfully_created_data}</span>
       </div>
-      <div className={styles.showDetailBtnRow}>
-        <button type="button" onClick={toggleShowDetail}>
-          <HoverableText>{showDetail ? i18n.hide_detail : i18n.show_detail}</HoverableText>
-        </button>
-      </div>
+      <ShowDetail showDetail={showDetail} setShowDetail={setShowDetail} />
     </div>
   );
 };

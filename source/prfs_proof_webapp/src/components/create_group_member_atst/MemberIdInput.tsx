@@ -7,7 +7,7 @@ import {
   AttestationListItemNo,
   AttestationListItemOverlay,
   AttestationListRightCol,
-} from "@/components/create_attestation/CreateAtstComponents";
+} from "@/components/create_atst_components/CreateAtstComponents";
 import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";

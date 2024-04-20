@@ -17,7 +17,7 @@ import { CreatePrfsAttestationRequest } from "@taigalabs/prfs-entities/bindings/
 
 import styles from "./CreateCryptoAssetAtst.module.scss";
 import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
-import { AttestationFormBtnRow } from "@/components/create_attestation/CreateAtstComponents";
+import { AttestationFormBtnRow } from "@/components/create_atst_components/CreateAtstComponents";
 import { paths } from "@/paths";
 import {
   CryptoAssetSizeAtstFormData,

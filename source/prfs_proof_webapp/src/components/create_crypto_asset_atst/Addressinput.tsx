@@ -29,7 +29,7 @@ import {
   AttestationListItemDescTitle,
   AttestationListItemNo,
   AttestationListRightCol,
-} from "@/components/create_attestation/CreateAtstComponents";
+} from "@/components/create_atst_components/CreateAtstComponents";
 
 enum Status {
   Standby,

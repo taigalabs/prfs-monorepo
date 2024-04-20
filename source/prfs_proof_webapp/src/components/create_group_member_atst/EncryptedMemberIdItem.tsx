@@ -1,9 +1,12 @@
 import React from "react";
 import cn from "classnames";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
+import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 
 import styles from "./EncryptedMemberId.module.scss";
 import { i18nContext } from "@/i18n/context";
+import ShowDetail from "@/components/show_detail/ShowDetail";
+import { useShowDetail } from "@/components/show_detail/use_show_detail";
 
 const EncryptedMemberIdItem: React.FC<EncryptedWalletAddrItemProps> = ({
   memberIdCacheKeys,
@@ -11,6 +14,7 @@ const EncryptedMemberIdItem: React.FC<EncryptedWalletAddrItemProps> = ({
   memberIdEnc,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const { showDetail, setShowDetail } = useShowDetail();
 
   const elems = React.useMemo(() => {
     if (memberIdCacheKeys) {
@@ -57,6 +61,11 @@ const EncryptedMemberIdItem: React.FC<EncryptedWalletAddrItemProps> = ({
           </div>
         )}
       </div>
+      <div className={styles.successMsgRow}>
+        <FaCheck className={styles.green} />
+        <span>{i18n.successfully_created_data}</span>
+      </div>
+      <ShowDetail showDetail={showDetail} setShowDetail={setShowDetail} />
     </div>
   );
 };

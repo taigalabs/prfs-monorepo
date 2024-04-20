@@ -26,7 +26,7 @@ import {
   AttestationListItemDescTitle,
   AttestationListItemNo,
   AttestationListRightCol,
-} from "@/components/create_attestation/CreateAtstComponents";
+} from "@/components/create_atst_components/CreateAtstComponents";
 import { paths } from "@/paths";
 import {
   CM,
