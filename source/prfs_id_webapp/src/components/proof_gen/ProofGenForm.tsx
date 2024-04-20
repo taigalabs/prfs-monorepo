@@ -53,7 +53,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const dispatch = useAppDispatch();
   const [status, setStatus] = React.useState(Status.InProgress);
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
-  const [showQueryAbbrev, setShowQueryAbbrev] = React.useState(true);
+  const [showQueryDetail, setShowQueryDetail] = React.useState(false);
   const [queryElemTally, setQueryElemTally] = React.useState<QueryElemTallyType>({
     commitment: 0,
     encrypt: 0,
@@ -315,7 +315,14 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           <p>{abbrevId}</p>
         </div>
         <QueryItemList sidePadding>
-          {showQueryAbbrev ? <QueryElemTally queryElemTally={queryElemTally} /> : queryElems}
+          {showQueryDetail ? (
+            queryElems
+          ) : (
+            <QueryElemTally
+              queryElemTally={queryElemTally}
+              setShowQueryDetail={setShowQueryDetail}
+            />
+          )}
         </QueryItemList>
         <div className={cn(styles.dataWarning, styles.sidePadding)}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.app_id} app</p>

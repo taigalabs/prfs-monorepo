@@ -9,7 +9,7 @@ import { useI18N } from "@/i18n/context";
 import { QueryElemTallyType } from "./query_elem";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
-const QueryElemTally: React.FC<QueryElemTallyProps> = ({ queryElemTally }) => {
+const QueryElemTally: React.FC<QueryElemTallyProps> = ({ queryElemTally, setShowQueryDetail }) => {
   const i18n = useI18N();
 
   const elems = React.useMemo(() => {
@@ -71,4 +71,5 @@ export default QueryElemTally;
 
 export interface QueryElemTallyProps {
   queryElemTally: QueryElemTallyType;
+  setShowQueryDetail: React.Dispatch<React.SetStateAction<boolean>>;
 }
