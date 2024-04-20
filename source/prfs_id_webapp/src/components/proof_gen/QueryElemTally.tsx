@@ -9,7 +9,11 @@ import { useI18N } from "@/i18n/context";
 import { QueryElemTallyType } from "./query_elem";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
-const QueryElemTally: React.FC<QueryElemTallyProps> = ({ queryElemTally, setShowQueryDetail }) => {
+const QueryElemTally: React.FC<QueryElemTallyProps> = ({
+  queryElemTally,
+  setShowQueryDetail,
+  showQueryDetail,
+}) => {
   const i18n = useI18N();
 
   const handleClickShowDetail = React.useCallback(() => {
@@ -60,20 +64,23 @@ const QueryElemTally: React.FC<QueryElemTallyProps> = ({ queryElemTally, setShow
   }, [queryElemTally]);
 
   return (
-    <div className={styles.wrapper}>
-      <div>{elems}</div>
-      <div className={styles.btnRow}>
-        <button type="button" onClick={handleClickShowDetail}>
-          <HoverableText>{i18n.show_detail}</HoverableText>
-        </button>
+    !showQueryDetail && (
+      <div className={styles.wrapper}>
+        <div>{elems}</div>
+        <div className={styles.btnRow}>
+          <button type="button" onClick={handleClickShowDetail}>
+            <HoverableText>{i18n.show_detail}</HoverableText>
+          </button>
+        </div>
       </div>
-    </div>
+    )
   );
 };
 
 export default QueryElemTally;
 
 export interface QueryElemTallyProps {
+  showQueryDetail: boolean;
   queryElemTally: QueryElemTallyType;
   setShowQueryDetail: React.Dispatch<React.SetStateAction<boolean>>;
 }

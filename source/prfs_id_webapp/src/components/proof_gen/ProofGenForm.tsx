@@ -36,6 +36,7 @@ import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { QueryElemTallyType } from "./query_elem";
 import QueryElemTally from "./QueryElemTally";
+import QueryElemDetail from "./QueryElemDetail";
 
 enum Status {
   InProgress,
@@ -67,10 +68,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
     <div className={styles.sidePadding}>Loading...</div>,
   );
-
-  const hideQueryElemDetail = React.useCallback(() => {
-    setShowQueryDetail(false);
-  }, [setShowQueryDetail]);
 
   const handleSkip = React.useCallback(
     async (arg: Record<string, any>) => {
@@ -320,21 +317,16 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           <p>{abbrevId}</p>
         </div>
         <QueryItemList sidePadding>
-          {showQueryDetail ? (
-            <>
-              {queryElems}
-              <div className={styles.hideDetailBtnRow}>
-                <button type="button" onClick={hideQueryElemDetail}>
-                  <HoverableText>{i18n.hide_detail}</HoverableText>
-                </button>
-              </div>
-            </>
-          ) : (
-            <QueryElemTally
-              queryElemTally={queryElemTally}
-              setShowQueryDetail={setShowQueryDetail}
-            />
-          )}
+          <QueryElemDetail
+            queryElems={queryElems}
+            setShowQueryDetail={setShowQueryDetail}
+            showQueryDetail={showQueryDetail}
+          />
+          <QueryElemTally
+            queryElemTally={queryElemTally}
+            setShowQueryDetail={setShowQueryDetail}
+            showQueryDetail={showQueryDetail}
+          />
         </QueryItemList>
         <div className={cn(styles.dataWarning, styles.sidePadding)}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.app_id} app</p>
