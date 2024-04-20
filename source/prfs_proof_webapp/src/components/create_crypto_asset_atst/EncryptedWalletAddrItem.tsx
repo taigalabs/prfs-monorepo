@@ -7,6 +7,7 @@ import styles from "./EncryptedWalletAddrItem.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useShowDetail } from "@/components/show_detail/use_show_detail";
 import ShowDetail from "@/components/show_detail/ShowDetail";
+import CreateDataSuccess from "../create_attestation/CreateDataSuccess";
 
 const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
   walletCacheKeys,
@@ -33,6 +34,7 @@ const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
 
   return (
     <div className={styles.wrapper}>
+      <CreateDataSuccess />
       <div className={cn(styles.valueDetail, { [styles.display]: showDetail })}>
         <div>{i18n.save_wallet_address_in_cache_for_future_use} (automatic)</div>
         <div className={styles.content}>
@@ -51,10 +53,6 @@ const EncryptedWalletAddrItem: React.FC<EncryptedWalletAddrItemProps> = ({
             </div>
           )}
         </div>
-      </div>
-      <div className={styles.successMsgRow}>
-        <FaCheck className={styles.green} />
-        <span>{i18n.successfully_created_data}</span>
       </div>
       <ShowDetail showDetail={showDetail} setShowDetail={setShowDetail} />
     </div>
