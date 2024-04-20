@@ -353,6 +353,7 @@ export default {
   choose_a_cached_item: "Choose a cached item",
   choose_account: "Choose an account",
   choose_your_id_to_create_data: "Choose your ID to create data",
+  hide_detail: "Hide detail",
   choose_type: "Choose type",
   choose_proof_type: "Choose a proof type",
   console: "Console",

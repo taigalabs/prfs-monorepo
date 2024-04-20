@@ -12,6 +12,10 @@ import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/Hoverabl
 const QueryElemTally: React.FC<QueryElemTallyProps> = ({ queryElemTally, setShowQueryDetail }) => {
   const i18n = useI18N();
 
+  const handleClickShowDetail = React.useCallback(() => {
+    setShowQueryDetail(true);
+  }, [setShowQueryDetail]);
+
   const elems = React.useMemo(() => {
     const el = [];
     const tally = queryElemTally;
@@ -59,7 +63,7 @@ const QueryElemTally: React.FC<QueryElemTallyProps> = ({ queryElemTally, setShow
     <div className={styles.wrapper}>
       <div>{elems}</div>
       <div className={styles.btnRow}>
-        <button type="button">
+        <button type="button" onClick={handleClickShowDetail}>
           <HoverableText>{i18n.show_detail}</HoverableText>
         </button>
       </div>

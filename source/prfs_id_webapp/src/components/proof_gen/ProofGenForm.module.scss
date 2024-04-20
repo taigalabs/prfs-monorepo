@@ -40,6 +40,10 @@
   font-size: 16px;
 }
 
+.hideDetailBtnRow {
+  padding-top: 8px;
+}
+
 .dataWarning {
   .title {
     font-size: 16px;
@@ -53,11 +57,6 @@
     font-size: 15px;
     color: var(--gray-34);
   }
-}
-
-.submitBtn {
-  /* padding-left: 14px; */
-  /* padding-right: 14px; */
 }
 
 .submitBtnContent {

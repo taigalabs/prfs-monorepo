@@ -12,6 +12,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { JSONbigNative, encrypt } from "@taigalabs/prfs-crypto-js";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import PrfsIdSessionErrorCodes from "@taigalabs/prfs-id-session-api-error-codes";
+import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./ProofGenForm.module.scss";
@@ -66,6 +67,10 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
     <div className={styles.sidePadding}>Loading...</div>,
   );
+
+  const hideQueryElemDetail = React.useCallback(() => {
+    setShowQueryDetail(false);
+  }, [setShowQueryDetail]);
 
   const handleSkip = React.useCallback(
     async (arg: Record<string, any>) => {
@@ -316,7 +321,14 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         </div>
         <QueryItemList sidePadding>
           {showQueryDetail ? (
-            queryElems
+            <>
+              {queryElems}
+              <div className={styles.hideDetailBtnRow}>
+                <button type="button" onClick={hideQueryElemDetail}>
+                  <HoverableText>{i18n.hide_detail}</HoverableText>
+                </button>
+              </div>
+            </>
           ) : (
             <QueryElemTally
               queryElemTally={queryElemTally}
