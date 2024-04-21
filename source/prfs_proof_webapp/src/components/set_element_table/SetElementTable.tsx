@@ -21,34 +21,7 @@ import {
   AppTableCell,
 } from "@/components/app_table_components/AppTableCellComponents";
 import { paths } from "@/paths";
-
-const Row: React.FC<RowProps> = ({ row, style, router }) => {
-  const name = React.useMemo(() => {
-    if (row.label.length > 12) {
-      return row.label.substring(0, 12) + "...";
-    } else {
-      row.label;
-    }
-  }, [row.label]);
-
-  const data = React.useMemo(() => {
-    return JSON.stringify(row.data);
-  }, [row.data]);
-
-  const handleClick = React.useCallback(() => {
-    router.push(`${paths.sets}/${row.set_id}/${row.label}`);
-  }, [router, row]);
-
-  return (
-    <AppTableRow style={style} handleClick={handleClick}>
-      <AppTableCell className={cn(styles.name)}>
-        <span>{name}</span>
-      </AppTableCell>
-      <AppTableCell className={cn(styles.data, styles.w1024)}>{data}</AppTableCell>
-      <AppTableCell className={cn(styles.ref, styles.w1320)}>{row.ref}</AppTableCell>
-    </AppTableRow>
-  );
-};
+import SetElementTableRow from "./SetElementTableRow";
 
 function fetchPrfsSetElements(set_id: string, nonce: number) {
   return useInfiniteQuery({
@@ -117,13 +90,16 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <AppTableHeaderCell className={cn(styles.name)}>{i18n.name}</AppTableHeaderCell>
-            <AppTableHeaderCell className={cn(styles.data, styles.w1024)}>
+            <AppTableHeaderCell className={cn(styles.name)} alwaysRender>
+              {i18n.name}
+            </AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.data)} w1024>
               {i18n.data}
             </AppTableHeaderCell>
-            <AppTableHeaderCell className={cn(styles.ref, styles.w1320)}>
+            <AppTableHeaderCell className={cn(styles.ref)} w1280>
               {i18n.ref}
             </AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.ref)} flexGrow />
           </AppTableHeader>
           <AppTableBody innerRef={parentRef}>
             <AppTableBodyInner
@@ -140,7 +116,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
                 }
 
                 return (
-                  <Row
+                  <SetElementTableRow
                     key={virtualRow.index}
                     row={row}
                     router={router}
@@ -168,10 +144,4 @@ export default SetElementTable;
 export interface SetElementTableProps {
   setId: string;
   nonce: number;
-}
-
-export interface RowProps {
-  row: PrfsSetElement;
-  style: React.CSSProperties;
-  router: AppRouterInstance;
 }

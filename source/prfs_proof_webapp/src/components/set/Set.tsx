@@ -9,7 +9,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./Set.module.scss";
 import { i18nContext } from "@/i18n/context";
-import SetElementTable from "./SetElementTable";
+import SetElementTable from "@/components/set_element_table/SetElementTable";
 import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
 import ImportSetElementsDialog from "./ImportSetElementsDialog";
 import CreateTreeDialog from "./CreateTreeDialog";
