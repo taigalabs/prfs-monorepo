@@ -49,8 +49,7 @@
 }
 
 .tableHeaderCell {
-  /* padding: 4px 0; */
-  display: flex;
+  display: none;
   align-items: center;
   color: var(--gray-23);
   font-weight: 500;
@@ -64,11 +63,16 @@
 }
 
 .tableCell {
+  display: none;
   padding: 0 4px;
 
   &:first-child {
     padding: 4px 10px 4px 16px;
   }
+}
+
+.alwaysRender {
+  display: flex;
 }
 
 .tableBody {
@@ -126,5 +130,29 @@
     &:first-child {
       padding: 4px 10px 4px 10px;
     }
+  }
+}
+
+@media screen and (min-width: $display_w320) {
+  .w320 {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: $display_w480) {
+  .w480 {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: $display_w1024) {
+  .w1024 {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: $display_w1280) {
+  .w1280 {
+    display: flex;
   }
 }

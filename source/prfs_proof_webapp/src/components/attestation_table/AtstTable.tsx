@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstGroupIdRequest";
 import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
 
-import styles from "./AttestationTable.module.scss";
+import styles from "./AtstTable.module.scss";
 import {
   AppTableHeader,
   AppTableHeaderCell,
@@ -87,22 +87,22 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
           [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
         })}
       >
-        <AppTableHeaderCell className={cn(styles.label, styles.w1024)}>
+        <AppTableHeaderCell className={cn(styles.label)} alwaysRender>
           {i18n.label}
         </AppTableHeaderCell>
-        <AppTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
+        <AppTableHeaderCell className={cn(styles.commitment)} w320>
           {i18n.commitment}
         </AppTableHeaderCell>
-        <AppTableHeaderCell className={cn(styles.valueNum, styles.w1024)}>
+        <AppTableHeaderCell className={cn(styles.valueNum)} w480>
           {i18n.value}
         </AppTableHeaderCell>
-        <AppTableHeaderCell className={cn(styles.meta, styles.w1320)}>
+        <AppTableHeaderCell className={cn(styles.meta)} w1024>
           {i18n.meta}
         </AppTableHeaderCell>
-        <AppTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
+        <AppTableHeaderCell className={cn(styles.notarized)} w1280>
           {i18n.notarized}
         </AppTableHeaderCell>
-        <AppTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
+        <AppTableHeaderCell className={cn(styles.onChain)} w1280>
           {i18n.on_chain}
         </AppTableHeaderCell>
       </AppTableHeader>

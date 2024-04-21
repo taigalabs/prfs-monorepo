@@ -5,7 +5,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Link from "next/link";
 
-import styles from "./AppTableRow.module.scss";
+import styles from "./AtstTableRow.module.scss";
 import { paths } from "@/paths";
 import { AppTableRow, AppTableCell } from "@/components/app_table_components/AppTableComponents";
 
@@ -19,7 +19,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
   }, [atst.label]);
 
   const cm = React.useMemo(() => {
-    return `${atst.cm.substring(0, 12)}...`;
+    return atst.cm.length > 12 ? `${abbrev7and5(atst.cm)}` : atst.cm;
   }, [atst.cm]);
 
   const url = React.useMemo(() => {
@@ -51,18 +51,22 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
   return (
     <Link href={url} onClick={handleClickRow}>
       <AppTableRow style={style}>
-        <AppTableCell className={cn(styles.label, styles.cell)}>
+        <AppTableCell className={cn(styles.label, styles.cell)} alwaysRender>
           <span>{label}</span>
         </AppTableCell>
-        <AppTableCell className={cn(styles.commitment, styles.w1024)}>{cm}</AppTableCell>
-        <AppTableCell className={cn(styles.valueNum, styles.w1024)}>{value}</AppTableCell>
-        <AppTableCell className={cn(styles.meta, styles.w480, styles.cell)}>
+        <AppTableCell className={cn(styles.commitment)} w320>
+          {cm}
+        </AppTableCell>
+        <AppTableCell className={cn(styles.valueNum)} w480>
+          {value}
+        </AppTableCell>
+        <AppTableCell className={cn(styles.meta, styles.cell)} w1024>
           <span>{meta}</span>
         </AppTableCell>
-        <AppTableCell className={cn(styles.notarized, styles.w1320)}>
+        <AppTableCell className={cn(styles.notarized)} w1280>
           {i18n.not_available}
         </AppTableCell>
-        <AppTableCell className={cn(styles.onChain, styles.w1320)}>
+        <AppTableCell className={cn(styles.onChain)} w1280>
           {i18n.not_available}
         </AppTableCell>
       </AppTableRow>
