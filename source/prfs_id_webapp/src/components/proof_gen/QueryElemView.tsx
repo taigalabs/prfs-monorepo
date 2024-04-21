@@ -1,24 +1,17 @@
 import React from "react";
+import cn from "classnames";
 import { MdNoteAdd } from "@react-icons/all-files/md/MdNoteAdd";
 import { MdEnhancedEncryption } from "@react-icons/all-files/md/MdEnhancedEncryption";
 import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 import { FaKey } from "@react-icons/all-files/fa/FaKey";
-
-import styles from "./QueryElemTally.module.scss";
-import { useI18N } from "@/i18n/context";
-import { QueryElemTallyType } from "./query_elem";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
-const QueryElemTally: React.FC<QueryElemTallyProps> = ({
-  queryElemTally,
-  setShowQueryDetail,
-  showQueryDetail,
-}) => {
-  const i18n = useI18N();
+import styles from "./QueryElemView.module.scss";
+import { useI18N } from "@/i18n/context";
+import { QueryElemTallyType } from "./query_elem";
 
-  const handleClickShowDetail = React.useCallback(() => {
-    setShowQueryDetail(true);
-  }, [setShowQueryDetail]);
+const QueryElemTally: React.FC<QueryElemTallyProps> = ({ queryElemTally }) => {
+  const i18n = useI18N();
 
   const elems = React.useMemo(() => {
     const el = [];
@@ -63,13 +56,55 @@ const QueryElemTally: React.FC<QueryElemTallyProps> = ({
     return el;
   }, [queryElemTally]);
 
+  return <div className={styles.wrapper}>{elems}</div>;
+};
+
+export interface QueryElemTallyProps {
+  queryElemTally: QueryElemTallyType;
+}
+
+const QueryElemView: React.FC<QueryElemViewProps> = ({
+  queryElems,
+  queryElemTally,
+  showQueryDetail,
+  setShowQueryDetail,
+}) => {
+  const i18n = useI18N();
+
+  const toggleShowDetail = React.useCallback(() => {
+    setShowQueryDetail(v => !v);
+  }, [setShowQueryDetail]);
+
+  const hasNoFoldableElems = React.useMemo(() => {
+    for (const key in queryElemTally) {
+      if (queryElemTally[key as keyof QueryElemTallyType]) {
+        return false;
+      }
+    }
+
+    return true;
+  }, [queryElemTally]);
+
   return (
-    !showQueryDetail && (
-      <div className={styles.wrapper}>
-        <div>{elems}</div>
+    !hasNoFoldableElems && (
+      <div className={cn(styles.wrapper)}>
+        <div
+          className={cn(styles.foldable, {
+            [styles.display]: !showQueryDetail,
+          })}
+        >
+          <QueryElemTally queryElemTally={queryElemTally} />
+        </div>
+        <div
+          className={cn(styles.foldable, {
+            [styles.display]: showQueryDetail,
+          })}
+        >
+          {queryElems}
+        </div>
         <div className={styles.btnRow}>
-          <button type="button" onClick={handleClickShowDetail}>
-            <HoverableText>{i18n.show_detail}</HoverableText>
+          <button type="button" onClick={toggleShowDetail}>
+            <HoverableText>{showQueryDetail ? i18n.hide_detail : i18n.show_detail}</HoverableText>
           </button>
         </div>
       </div>
@@ -77,10 +112,11 @@ const QueryElemTally: React.FC<QueryElemTallyProps> = ({
   );
 };
 
-export default QueryElemTally;
+export default QueryElemView;
 
-export interface QueryElemTallyProps {
+export interface QueryElemViewProps {
   showQueryDetail: boolean;
   queryElemTally: QueryElemTallyType;
+  queryElems: React.ReactNode;
   setShowQueryDetail: React.Dispatch<React.SetStateAction<boolean>>;
 }

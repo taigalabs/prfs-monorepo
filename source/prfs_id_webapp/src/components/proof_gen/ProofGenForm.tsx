@@ -35,8 +35,7 @@ import RandKeyPairView from "@/components/rand_key_pair/RandKeyPairView";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { QueryElemTallyType } from "./query_elem";
-import QueryElemTally from "./QueryElemTally";
-import QueryElemDetail from "./QueryElemDetail";
+import QueryElemView from "./QueryElemView";
 
 enum Status {
   InProgress,
@@ -299,19 +298,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     putSessionValueRequest,
   ]);
 
-  const hasNoFoldableElems = React.useMemo(() => {
-    console.log(123, queryElemTally);
-    for (const key in queryElemTally) {
-      console.log(44, queryElemTally, key);
-      if (queryElemTally[key as keyof QueryElemTallyType]) {
-        console.log(223);
-        return false;
-      }
-    }
-
-    return true;
-  }, [queryElemTally]);
-
   const abbrevId = React.useMemo(() => {
     return abbrev7and5(credential.id);
   }, [credential.id]);
@@ -332,17 +318,13 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           <p>{abbrevId}</p>
         </div>
         <QueryItemList sidePadding>
-          <QueryElemTally
+          <QueryElemView
             queryElemTally={queryElemTally}
             setShowQueryDetail={setShowQueryDetail}
             showQueryDetail={showQueryDetail}
-          />
-          <QueryElemDetail
             queryElems={queryElems}
-            proofGenElems={proofGenElems}
-            setShowQueryDetail={setShowQueryDetail}
-            showQueryDetail={showQueryDetail}
           />
+          <div>{proofGenElems}</div>
         </QueryItemList>
         <div className={cn(styles.dataWarning, styles.sidePadding)}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.app_id} app</p>
