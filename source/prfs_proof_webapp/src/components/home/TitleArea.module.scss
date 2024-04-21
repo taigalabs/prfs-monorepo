@@ -42,12 +42,12 @@
   font-variation-settings: "wght" 525;
 }
 
-@media screen and (min-width: $big_display_min_width) {
+@media screen and (min-width: $display_w1024) {
   .wrapper {
-    margin-top: 0px;
-    height: 20vh;
-    min-height: 120px;
-    max-height: 210px;
+    margin-top: 100px;
+    /* height: 20vh; */
+    /* min-height: 120px; */
+    /* max-height: 210px; */
   }
 
   .title {

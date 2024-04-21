@@ -1,5 +1,9 @@
 @import "@/styles/layouts.module.scss";
 
+.inner {
+  max-width: 1180px;
+}
+
 .area {
   width: 100%;
   max-width: 1180px;

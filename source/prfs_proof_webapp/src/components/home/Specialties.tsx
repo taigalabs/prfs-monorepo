@@ -3,7 +3,7 @@ import cn from "classnames";
 
 import styles from "./Specialties.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
-import { Area, Title } from "./IntroComponents";
+import { Area, Title } from "./HomeComponents";
 
 const Specialties: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();

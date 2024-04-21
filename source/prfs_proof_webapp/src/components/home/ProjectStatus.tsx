@@ -4,7 +4,7 @@ import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/Hoverabl
 
 import styles from "./ProjectStatus.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
-import { Area, Subtitle } from "./IntroComponents";
+import { Area, Subtitle } from "./HomeComponents";
 
 const ProjectStatus: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();

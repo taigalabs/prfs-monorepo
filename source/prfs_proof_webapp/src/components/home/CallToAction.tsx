@@ -8,7 +8,7 @@ import styles from "./CallToAction.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
 import { urls } from "@/urls";
 import { paths } from "@/paths";
-import { Area } from "./IntroComponents";
+import { Area } from "./HomeComponents";
 
 const CallToAction: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();
