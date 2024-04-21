@@ -10,7 +10,7 @@ const DemoVideo: React.FC<LogoContainerProps> = ({}) => {
 
   return (
     <div className={styles.wrapper}>
-      <HomeInner>
+      <HomeInner className={styles.inner}>
         <div
           className={styles.video}
           style={{
