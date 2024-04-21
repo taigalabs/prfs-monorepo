@@ -4,17 +4,16 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  padding: 0 24px;
+  padding: 32px 24px 0;
 }
 
 .video {
   width: 100%;
   max-width: 1180px;
   border-radius: 10px;
-  border: 1px solid black;
+  border: 1px solid var(--black-30);
   overflow: hidden;
 
-  /* border: 1px solid black; */
   iframe {
     border: none;
   }

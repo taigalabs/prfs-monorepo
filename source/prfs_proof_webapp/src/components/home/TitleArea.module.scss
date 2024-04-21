@@ -12,7 +12,7 @@
 
 .title {
   text-align: center;
-  font-size: 45px;
+  font-size: 40px;
   font-variation-settings: "wght" 669;
   line-height: 1.02em;
   padding: 0 24px;
@@ -31,8 +31,10 @@
   color: var(--black-25);
 }
 
-@media screen and (min-width: $display_w480) {
+@media screen and (min-width: $display_w768) {
   .title {
+    font-size: 48px;
+
     br {
       display: block;
     }
@@ -42,9 +44,6 @@
 @media screen and (min-width: $display_w1024) {
   .wrapper {
     margin-top: 100px;
-    /* height: 20vh; */
-    /* min-height: 120px; */
-    /* max-height: 210px; */
   }
 
   .title {

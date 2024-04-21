@@ -11,13 +11,11 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
     <div className={styles.wrapper}>
       <div className={cn(styles.item)}>
         <div className={styles.itemContent}>
-          <div className={styles.inner}>
-            <p className={styles.title}>Create a zero-knowledge proof on your own</p>
-            <p className={styles.desc}>
-              It is important that you are able to create a proof with minimal reliance on others.
-              Prfs is designed to allow you to make an anonymous claim by yourself.
-            </p>
-          </div>
+          <p className={styles.title}>Create a zero-knowledge proof on your own</p>
+          <p className={styles.desc}>
+            It is important that you are able to create a proof with minimal reliance on others.
+            Prfs is designed to allow you to make an anonymous claim by yourself.
+          </p>
         </div>
         <div className={styles.image}>
           <img

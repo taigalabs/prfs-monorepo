@@ -2,13 +2,13 @@
 
 .wrapper {
   width: 100%;
-  padding-top: 100px;
+  padding-top: 24px;
 }
 
 .item {
   display: flex;
   flex-direction: column;
-  align-content: center;
+  align-items: center;
   font-size: 14px;
   font-variation-settings: "wght" 456;
   line-height: 19px;
@@ -28,8 +28,10 @@
 }
 
 .itemContent {
-  display: flex;
-  align-items: center;
+  text-align: center;
+  max-width: 80%;
+  /* display: flex; */
+  /* align-items: center; */
   /* justify-content: center; */
 }
 
@@ -97,12 +99,6 @@
     padding: 120px 16px;
   }
 
-  .itemContent {
-    .inner {
-      width: 400px;
-    }
-  }
-
   .image {
     img {
       max-width: 400px;
@@ -118,6 +114,6 @@
   }
 
   .title {
-    font-size: 42px;
+    font-size: 32px;
   }
 }
