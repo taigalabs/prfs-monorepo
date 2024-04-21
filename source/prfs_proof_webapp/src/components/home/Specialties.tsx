@@ -6,17 +6,15 @@ import { useI18N } from "@/i18n/use_i18n";
 import { Area, Title } from "./HomeComponents";
 
 const Specialties: React.FC<LogoContainerProps> = () => {
-  const i18n = useI18N();
-
   return (
     <div className={styles.wrapper}>
-      <div className={styles.sectionTitle}>
-        <Title className={styles.titleContent}>
-          Build with the latest innovation, <br className={styles.newLine} />
-          never letting go practicality
-        </Title>
-      </div>
       <div className={styles.inner}>
+        <div className={styles.sectionTitle}>
+          <Title className={styles.titleContent}>
+            Build with the latest innovation, <br className={styles.newLine} />
+            never letting go practicality
+          </Title>
+        </div>
         <ul className={styles.itemContainer}>
           <li className={styles.item}>
             <p className={styles.title}>Universality</p>

@@ -16,12 +16,12 @@
   line-height: 19px;
   letter-spacing: 0.10125px;
   border-radius: 5px;
-  padding: 60px 16px 60px;
+  padding: 80px 16px 0px;
   transition: background-color 0.5s;
   max-width: 1150px;
 
-  &.isHighlighted {
-    background-color: var(--bright-gray-45);
+  &:first-child {
+    padding: 0px 16px 0px;
   }
 }
 
@@ -71,7 +71,7 @@
   }
 
   .item {
-    padding: 60px 16px;
+    padding: 120px 16px 0px;
   }
 
   .title {
