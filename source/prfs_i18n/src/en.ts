@@ -263,7 +263,7 @@ export default {
   check_your_credential: "Check your credential and finish id creation",
   sign_in_with_your_id: "Try signing in with your new identity",
   create_a_strong_password:
-    "Create a strong password with a mix of upper/lower case lettters, numbers, and symbols. Each password has to be 20-character or longer. Your ID will be auto-generated based on your password",
+    "Create a strong password with a mix of upper/lower case lettters, numbers, and symbols. Each password has to be 20-character or longer.",
   how_to_choose_right_id: "How to choose a right Id",
   how_is_the_password_generated: "How is the password generated",
   what_happens_when_registering_id: "What happens when registering identity",
