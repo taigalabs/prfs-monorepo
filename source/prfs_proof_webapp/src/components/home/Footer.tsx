@@ -16,10 +16,12 @@ const Footer: React.FC<LogoContainerProps> = () => {
     <div className={styles.wrapper}>
       <div className={styles.inner}>
         <div className={styles.left}>
-          <ul className={styles.list}>
-            <li>{i18n.english}</li>
-            <li className={styles.commitHash}>{commitHash}</li>
-          </ul>
+          <div className={styles.col}>
+            <ul className={styles.list}>
+              <li>{i18n.english}</li>
+              <li className={styles.commitHash}>{commitHash}</li>
+            </ul>
+          </div>
         </div>
         <div className={styles.listContainer}>
           <div className={styles.col}>

@@ -80,10 +80,7 @@
   display: inline-block;
 }
 
-@media screen and (min-width: $display_w480) {
-  .wrapper {
-  }
-
+@media screen and (min-width: $display_w768) {
   .inner {
     flex-direction: row;
   }
