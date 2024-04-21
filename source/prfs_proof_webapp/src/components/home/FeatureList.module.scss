@@ -5,14 +5,10 @@
   padding-top: 100px;
 }
 
-.itemContainer {
-  padding: 36px 0px 10px;
-  width: 100%;
-}
-
 .item {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-content: center;
   font-size: 14px;
   font-variation-settings: "wght" 456;
   line-height: 19px;
