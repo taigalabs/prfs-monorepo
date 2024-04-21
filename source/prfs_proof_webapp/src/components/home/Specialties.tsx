@@ -10,8 +10,8 @@ const Specialties: React.FC<LogoContainerProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.background}>
-        <Title className={styles.titleComponent}>
+      <div className={styles.sectionTitle}>
+        <Title className={styles.titleContent}>
           Build with the latest innovation, <br className={styles.newLine} />
           never letting go practicality
         </Title>
