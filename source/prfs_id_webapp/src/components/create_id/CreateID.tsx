@@ -7,10 +7,10 @@ import styles from "./PrfsIdCreateID.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { IdCreateForm, makeEmptyIDCreateFormErrors, makeEmptyIdCreateForm } from "@/identity";
 import SignUp from "./SignUp";
-import SignUpForm from "./SignUpForm";
+import CreateIdForm from "./CreateIdForm";
 
 enum CreateIDStep {
-  SignUpForm,
+  CreateIdForm,
   SignUp,
 }
 
@@ -18,7 +18,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  const [step, setStep] = React.useState(CreateIDStep.SignUpForm);
+  const [step, setStep] = React.useState(CreateIDStep.CreateIdForm);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   const handleChangeValue = React.useCallback(
@@ -43,14 +43,14 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
   }, [formData, setFormErrors, setStep]);
 
   const handleGotoInputCredential = React.useCallback(() => {
-    setStep(CreateIDStep.SignUpForm);
+    setStep(CreateIDStep.CreateIdForm);
   }, [setStep]);
 
   const content = React.useMemo(() => {
     switch (step) {
-      case CreateIDStep.SignUpForm: {
+      case CreateIDStep.CreateIdForm: {
         return (
-          <SignUpForm
+          <CreateIdForm
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
