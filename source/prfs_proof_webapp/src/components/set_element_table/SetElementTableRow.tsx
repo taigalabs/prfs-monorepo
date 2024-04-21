@@ -28,7 +28,7 @@ export const SetElementTableHeaderRow: React.FC<{}> = ({}) => {
       <AppTableHeaderCell className={cn(styles.ref)} w1280>
         {i18n.ref}
       </AppTableHeaderCell>
-      <AppTableHeaderCell className={cn(styles.ref)} flexGrow />
+      <AppTableHeaderCell flexGrow />
     </AppTableHeader>
   );
 };
@@ -61,7 +61,7 @@ const SetElementTableRow: React.FC<RowProps> = ({ row, style, router }) => {
       <AppTableCell className={cn(styles.ref)} w1280>
         {row.ref}
       </AppTableCell>
-      <AppTableCell className={cn(styles.ref)} flexGrow />
+      <AppTableCell flexGrow />
     </AppTableRow>
   );
 };
