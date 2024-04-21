@@ -3,13 +3,35 @@ import cn from "classnames";
 import { PrfsSetElement } from "@taigalabs/prfs-entities/bindings/PrfsSetElement";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-import styles from "./SetElementTable.module.scss";
+import styles from "./SetElementTableRow.module.scss";
 import { AppTableRow } from "@/components/app_table_components/AppTableComponents";
+import { AppTableHeader } from "@/components/app_table_components/AppTableComponents";
 import {
   AppTableCell,
+  AppTableHeaderCell,
   AppTableCellInner,
 } from "@/components/app_table_components/AppTableCellComponents";
 import { paths } from "@/paths";
+import { useI18N } from "@/i18n/use_i18n";
+
+export const SetElementTableHeaderRow: React.FC<{}> = ({}) => {
+  const i18n = useI18N();
+
+  return (
+    <AppTableHeader>
+      <AppTableHeaderCell className={cn(styles.name)} alwaysRender>
+        {i18n.name}
+      </AppTableHeaderCell>
+      <AppTableHeaderCell className={cn(styles.data)} w1024>
+        {i18n.data}
+      </AppTableHeaderCell>
+      <AppTableHeaderCell className={cn(styles.ref)} w1280>
+        {i18n.ref}
+      </AppTableHeaderCell>
+      <AppTableHeaderCell className={cn(styles.ref)} flexGrow />
+    </AppTableHeader>
+  );
+};
 
 const SetElementTableRow: React.FC<RowProps> = ({ row, style, router }) => {
   const name = React.useMemo(() => {

@@ -4,23 +4,17 @@ import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { treeApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
-import { PrfsSetElement } from "@taigalabs/prfs-entities/bindings/PrfsSetElement";
 import { useRouter } from "next/navigation";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 import styles from "./SetElementTable.module.scss";
 import {
   AppTableBody,
   AppTableHeader,
-  AppTableRow,
   AppTableBodyInner,
   AppTableWrapper,
+  AppTableLoading,
 } from "@/components/app_table_components/AppTableComponents";
-import {
-  AppTableHeaderCell,
-  AppTableCell,
-} from "@/components/app_table_components/AppTableCellComponents";
-import { paths } from "@/paths";
+import { AppTableHeaderCell } from "@/components/app_table_components/AppTableCellComponents";
 import SetElementTableRow from "./SetElementTableRow";
 
 function fetchPrfsSetElements(set_id: string, nonce: number) {
@@ -80,7 +74,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
   return (
     <AppTableWrapper>
       {status === "pending" ? (
-        <p className={styles.loading}>Loading...</p>
+        <AppTableLoading>Loading...</AppTableLoading>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
