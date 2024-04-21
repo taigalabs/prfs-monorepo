@@ -89,7 +89,7 @@ const Home: React.FC<HomeProps> = () => {
         <FeatureList handleFocusSearchBar={handleFocusSearchBar} />
         <Specialties />
         {/* <TutorialArea /> */}
-        <FeaturedApps />
+        {/* <FeaturedApps /> */}
         <ProjectStatus />
         <Footer />
       </div>
