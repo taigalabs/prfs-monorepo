@@ -39,7 +39,7 @@ export const AtstHeaderRow = () => {
       <AppTableHeaderCell className={cn(styles.onChain)} w1280>
         {i18n.on_chain}
       </AppTableHeaderCell>
-      <AppTableHeaderCell className={cn(styles.onChain)} flexGrow></AppTableHeaderCell>
+      <AppTableHeaderCell flexGrow></AppTableHeaderCell>
     </AppTableHeader>
   );
 };
@@ -102,7 +102,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
         <AppTableCell className={cn(styles.onChain)} w1280>
           {i18n.not_available}
         </AppTableCell>
-        <AppTableCell className={cn(styles.onChain)} flexGrow />
+        <AppTableCell flexGrow />
       </AppTableRow>
     </Link>
   );
