@@ -11,7 +11,7 @@ const ProjectStatus: React.FC<LogoContainerProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Area>
+      <Area className={styles.area}>
         <Subtitle>
           <div>
             We are currently participating in the{" "}

@@ -54,12 +54,16 @@
 }
 
 .item {
-  line-height: 1.4em;
+  line-height: 1.53em;
 
   .title {
-    font-size: 18px;
+    font-size: 24px;
     font-variation-settings: "wght" 636;
     padding-bottom: 8px;
+  }
+
+  .desc {
+    font-size: 20px;
   }
 }
 
