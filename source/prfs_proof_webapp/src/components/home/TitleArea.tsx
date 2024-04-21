@@ -10,13 +10,12 @@ const TitleArea: React.FC<LogoContainerProps> = () => {
     <div className={styles.wrapper}>
       <HomeInner>
         <div className={styles.title}>
-          Universal and performant interface for building client-side zero-knowledge proofs.
-          {/* <span>Create anonymous</span> */}
-          {/* <br className={styles.lineBreak} /> */}
-          {/* <span className={styles.proofs}>proofs</span> */}
+          General-purpose client-side <br />
+          zk-proof interface
         </div>
         <div className={styles.subtitle}>
-          Universal and performant interface for building client-side zero-knowledge proofs.
+          Data attestation, cryptographic preprocessing, and proof-spec publishing in one place.
+          Designed for apps and individuals that need to collect or create anonymous proof.
         </div>
       </HomeInner>
     </div>

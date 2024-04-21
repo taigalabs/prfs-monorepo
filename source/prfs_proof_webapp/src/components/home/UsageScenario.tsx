@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames";
-import DiamondPlaceholder from "@taigalabs/prfs-react-lib/src/diamond_placeholder/DiamondPlaceholder";
 
 import styles from "./UsageScenario.module.scss";
 
@@ -9,15 +8,6 @@ const UsageScenario: React.FC<LogoContainerProps> = () => {
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.text}>
-          Integrating zk-proof functionality into existing applications takes a great time and
-          effort - Prfs helps apps do it in days. Specifically, we help them specify which
-          qualification they want to collect, preprocess cryptographic data, and allow their users
-          to create anonymous proof.
-        </div>
-        <div>
-          <DiamondPlaceholder />
-        </div>
-        <div className={cn(styles.text, styles.text2)}>
           What if you can use a finance app, a dating app, or a social app without having to submit
           your data while still being able to say you are undeniably eligible to use their services?
         </div>
