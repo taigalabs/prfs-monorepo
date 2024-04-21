@@ -3,7 +3,6 @@ import cn from "classnames";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { i18nContext } from "@/i18n/context";
 import { useRouter } from "next/navigation";
 
 import styles from "./ProofTypeTable.module.scss";
@@ -14,7 +13,6 @@ import {
 import ProofTypeTableRow, { ProofTypeTableHeaderRow } from "./ProofTypeTableRow";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
-  const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
