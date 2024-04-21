@@ -12,13 +12,13 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import styles from "./ProofTypeTable.module.scss";
 import { paths } from "@/paths";
 import {
-  AttestationTableBody,
-  AttestationTableHeader,
-  AttestationTableHeaderCell,
-  AttestationTableRow,
-  AttestationTableBodyInner,
-  AttestationTableCell,
-} from "@/components/atst_table_components/AtstTableComponents";
+  AppTableBody,
+  AppTableHeader,
+  AppTableHeaderCell,
+  AppTableRow,
+  AppTableBodyInner,
+  AppTableCell,
+} from "@/components/app_table_components/AppTableComponents";
 
 const Row: React.FC<RowProps> = ({ row, style, router }) => {
   const i18n = React.useContext(i18nContext);
@@ -36,21 +36,17 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
   // }, [atst.acc_atst_id, router]);
 
   return (
-    <AttestationTableRow style={style}>
-      <AttestationTableCell className={cn(styles.label)}>
+    <AppTableRow style={style}>
+      <AppTableCell className={cn(styles.label)}>
         <span>{label}</span>
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.desc, styles.w1024)}>{desc}</AttestationTableCell>
-      <AttestationTableCell className={cn(styles.circuitId, styles.w1024)}>
-        {circuitId}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
+      </AppTableCell>
+      <AppTableCell className={cn(styles.desc, styles.w1024)}>{desc}</AppTableCell>
+      <AppTableCell className={cn(styles.circuitId, styles.w1024)}>{circuitId}</AppTableCell>
+      <AppTableCell className={cn(styles.notarized, styles.w1320)}>
         {i18n.not_available}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.onChain, styles.w1320)}>
-        {i18n.not_available}
-      </AttestationTableCell>
-    </AttestationTableRow>
+      </AppTableCell>
+      <AppTableCell className={cn(styles.onChain, styles.w1320)}>{i18n.not_available}</AppTableCell>
+    </AppTableRow>
   );
 };
 
@@ -112,29 +108,27 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
         <span>Error: {(error as Error).message}</span>
       ) : (
         <>
-          <AttestationTableHeader
+          <AppTableHeader
             className={cn({
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <AttestationTableHeaderCell className={cn(styles.label)}>
-              {i18n.label}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.desc, styles.w1024)}>
+            <AppTableHeaderCell className={cn(styles.label)}>{i18n.label}</AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.desc, styles.w1024)}>
               {i18n.description}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.circuitId, styles.w1320)}>
+            </AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.circuitId, styles.w1320)}>
               {i18n.circuit_id}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
+            </AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
               {i18n.notarized}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
+            </AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
               {i18n.on_chain}
-            </AttestationTableHeaderCell>
-          </AttestationTableHeader>
-          <AttestationTableBody innerRef={parentRef}>
-            <AttestationTableBodyInner
+            </AppTableHeaderCell>
+          </AppTableHeader>
+          <AppTableBody innerRef={parentRef}>
+            <AppTableBodyInner
               style={{
                 height: `${rowVirtualizer.getTotalSize()}px`,
               }}
@@ -163,8 +157,8 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
                   />
                 );
               })}
-            </AttestationTableBodyInner>
-          </AttestationTableBody>
+            </AppTableBodyInner>
+          </AppTableBody>
         </>
       )}
     </div>

@@ -10,14 +10,14 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 import styles from "./SetElementTable.module.scss";
 import {
-  AttestationTableBody,
-  AttestationTableHeader,
-  AttestationTableHeaderCell,
-  AttestationTableRow,
-  AttestationTableBodyInner,
-  AttestationTableCell,
+  AppTableBody,
+  AppTableHeader,
+  AppTableHeaderCell,
+  AppTableRow,
+  AppTableBodyInner,
+  AppTableCell,
   AppTableWrapper,
-} from "@/components/atst_table_components/AtstTableComponents";
+} from "@/components/app_table_components/AppTableComponents";
 import { paths } from "@/paths";
 
 const Row: React.FC<RowProps> = ({ row, style, router }) => {
@@ -38,15 +38,13 @@ const Row: React.FC<RowProps> = ({ row, style, router }) => {
   }, [router, row]);
 
   return (
-    <AttestationTableRow style={style} handleClick={handleClick}>
-      <AttestationTableCell className={cn(styles.name)}>
+    <AppTableRow style={style} handleClick={handleClick}>
+      <AppTableCell className={cn(styles.name)}>
         <span>{name}</span>
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.data, styles.w1024)}>{data}</AttestationTableCell>
-      <AttestationTableCell className={cn(styles.ref, styles.w1320)}>
-        {row.ref}
-      </AttestationTableCell>
-    </AttestationTableRow>
+      </AppTableCell>
+      <AppTableCell className={cn(styles.data, styles.w1024)}>{data}</AppTableCell>
+      <AppTableCell className={cn(styles.ref, styles.w1320)}>{row.ref}</AppTableCell>
+    </AppTableRow>
   );
 };
 
@@ -112,23 +110,21 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
         <span>Error: {(error as Error).message}</span>
       ) : (
         <>
-          <AttestationTableHeader
+          <AppTableHeader
             className={cn({
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <AttestationTableHeaderCell className={cn(styles.name)}>
-              {i18n.name}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.data, styles.w1024)}>
+            <AppTableHeaderCell className={cn(styles.name)}>{i18n.name}</AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.data, styles.w1024)}>
               {i18n.data}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.ref, styles.w1320)}>
+            </AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.ref, styles.w1320)}>
               {i18n.ref}
-            </AttestationTableHeaderCell>
-          </AttestationTableHeader>
-          <AttestationTableBody innerRef={parentRef}>
-            <AttestationTableBodyInner
+            </AppTableHeaderCell>
+          </AppTableHeader>
+          <AppTableBody innerRef={parentRef}>
+            <AppTableBodyInner
               style={{
                 height: `${rowVirtualizer.getTotalSize()}px`,
               }}
@@ -157,8 +153,8 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
                   />
                 );
               })}
-            </AttestationTableBodyInner>
-          </AttestationTableBody>
+            </AppTableBodyInner>
+          </AppTableBody>
         </>
       )}
     </AppTableWrapper>

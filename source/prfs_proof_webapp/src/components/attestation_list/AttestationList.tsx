@@ -9,7 +9,7 @@ import { i18nContext } from "@/i18n/context";
 import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
 import { useSignedInProofUser } from "@/hooks/user";
 import ComputeValueDialog from "./ComputeValueDialog";
-import AttestationTable from "@/components/attestation_table/AttestationTable";
+import AtstTable from "@/components/attestation_table/AtstTable";
 
 const AttestationList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) => {
   const i18n = React.useContext(i18nContext);
@@ -42,7 +42,7 @@ const AttestationList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) =
         </AppHeaderRow>
       </AppHeader>
       <div className={styles.table}>
-        <AttestationTable nonce={nonce} atst_group_id={atst_group_id} />
+        <AtstTable nonce={nonce} atst_group_id={atst_group_id} />
       </div>
     </>
   );

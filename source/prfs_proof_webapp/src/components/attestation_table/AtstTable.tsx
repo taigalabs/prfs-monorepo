@@ -9,13 +9,13 @@ import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup
 
 import styles from "./AttestationTable.module.scss";
 import {
-  AttestationTableHeader,
-  AttestationTableHeaderCell,
-  AttestationTableBody2,
+  AppTableHeader,
+  AppTableHeaderCell,
+  AppTableBody2,
   AppTableWrapper,
-} from "@/components/atst_table_components/AtstTableComponents";
+} from "@/components/app_table_components/AppTableComponents";
 import { useI18N } from "@/i18n/use_i18n";
-import AtstRow from "./AtstRow";
+import AtstTableRow from "./AtstTableRow";
 
 const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_group_id }) => {
   const i18n = useI18N();
@@ -82,37 +82,37 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
 
   return (
     <AppTableWrapper innerRef={parentRef}>
-      <AttestationTableHeader
+      <AppTableHeader
         className={cn({
           [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
         })}
       >
-        <AttestationTableHeaderCell className={cn(styles.label, styles.w1024)}>
+        <AppTableHeaderCell className={cn(styles.label, styles.w1024)}>
           {i18n.label}
-        </AttestationTableHeaderCell>
-        <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
+        </AppTableHeaderCell>
+        <AppTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
           {i18n.commitment}
-        </AttestationTableHeaderCell>
-        <AttestationTableHeaderCell className={cn(styles.valueNum, styles.w1024)}>
+        </AppTableHeaderCell>
+        <AppTableHeaderCell className={cn(styles.valueNum, styles.w1024)}>
           {i18n.value}
-        </AttestationTableHeaderCell>
-        <AttestationTableHeaderCell className={cn(styles.meta, styles.w1320)}>
+        </AppTableHeaderCell>
+        <AppTableHeaderCell className={cn(styles.meta, styles.w1320)}>
           {i18n.meta}
-        </AttestationTableHeaderCell>
-        <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
+        </AppTableHeaderCell>
+        <AppTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
           {i18n.notarized}
-        </AttestationTableHeaderCell>
-        <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
+        </AppTableHeaderCell>
+        <AppTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
           {i18n.on_chain}
-        </AttestationTableHeaderCell>
-      </AttestationTableHeader>
+        </AppTableHeaderCell>
+      </AppTableHeader>
 
       {status === "pending" ? (
         <p>Loading...</p>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
-        <AttestationTableBody2
+        <AppTableBody2
           innerRef={parentRef}
           style={{
             height: `500px`,
@@ -136,7 +136,7 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
               }
 
               return (
-                <AtstRow
+                <AtstTableRow
                   key={row.key}
                   atst={atst}
                   router={router}
@@ -153,7 +153,7 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
               );
             })}
           </div>
-        </AttestationTableBody2>
+        </AppTableBody2>
       )}
     </AppTableWrapper>
   );

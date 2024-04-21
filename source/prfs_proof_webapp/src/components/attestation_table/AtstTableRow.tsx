@@ -5,12 +5,9 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 import Link from "next/link";
 
-import styles from "./AtstRow.module.scss";
+import styles from "./AppTableRow.module.scss";
 import { paths } from "@/paths";
-import {
-  AttestationTableRow,
-  AttestationTableCell,
-} from "@/components/atst_table_components/AtstTableComponents";
+import { AppTableRow, AppTableCell } from "@/components/app_table_components/AppTableComponents";
 
 import { useI18N } from "@/i18n/use_i18n";
 
@@ -53,26 +50,22 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
 
   return (
     <Link href={url} onClick={handleClickRow}>
-      <AttestationTableRow style={style}>
-        <AttestationTableCell className={cn(styles.label, styles.cell)}>
+      <AppTableRow style={style}>
+        <AppTableCell className={cn(styles.label, styles.cell)}>
           <span>{label}</span>
-        </AttestationTableCell>
-        <AttestationTableCell className={cn(styles.commitment, styles.w1024)}>
-          {cm}
-        </AttestationTableCell>
-        <AttestationTableCell className={cn(styles.valueNum, styles.w1024)}>
-          {value}
-        </AttestationTableCell>
-        <AttestationTableCell className={cn(styles.meta, styles.w480, styles.cell)}>
+        </AppTableCell>
+        <AppTableCell className={cn(styles.commitment, styles.w1024)}>{cm}</AppTableCell>
+        <AppTableCell className={cn(styles.valueNum, styles.w1024)}>{value}</AppTableCell>
+        <AppTableCell className={cn(styles.meta, styles.w480, styles.cell)}>
           <span>{meta}</span>
-        </AttestationTableCell>
-        <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
+        </AppTableCell>
+        <AppTableCell className={cn(styles.notarized, styles.w1320)}>
           {i18n.not_available}
-        </AttestationTableCell>
-        <AttestationTableCell className={cn(styles.onChain, styles.w1320)}>
+        </AppTableCell>
+        <AppTableCell className={cn(styles.onChain, styles.w1320)}>
           {i18n.not_available}
-        </AttestationTableCell>
-      </AttestationTableRow>
+        </AppTableCell>
+      </AppTableRow>
     </Link>
   );
 };

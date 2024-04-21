@@ -1,9 +1,9 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./AtstTableComponents.module.scss";
+import styles from "./AppTableComponents.module.scss";
 
-export const AppTableWrapper: React.FC<AttestationsProps> = ({ children, innerRef, className }) => {
+export const AppTableWrapper: React.FC<AppTableProps> = ({ children, innerRef, className }) => {
   return (
     <div className={cn(styles.wrapper, className)} ref={innerRef}>
       {children}
@@ -11,11 +11,7 @@ export const AppTableWrapper: React.FC<AttestationsProps> = ({ children, innerRe
   );
 };
 
-export const AttestationTableBody: React.FC<AttestationsProps> = ({
-  children,
-  innerRef,
-  className,
-}) => {
+export const AppTableBody: React.FC<AppTableProps> = ({ children, innerRef, className }) => {
   return (
     <div className={cn(styles.tableBody, className)} ref={innerRef}>
       {children}
@@ -23,11 +19,7 @@ export const AttestationTableBody: React.FC<AttestationsProps> = ({
   );
 };
 
-export const AttestationTableBody2: React.FC<AttestationsProps> = ({
-  children,
-  innerRef,
-  className,
-}) => {
+export const AppTableBody2: React.FC<AppTableProps> = ({ children, innerRef, className }) => {
   return (
     <div className={cn(styles.tableBody2, className)} ref={innerRef}>
       {children}
@@ -35,15 +27,11 @@ export const AttestationTableBody2: React.FC<AttestationsProps> = ({
   );
 };
 
-export const AttestationTableNoRecord: React.FC<AttestationsProps> = ({ children, className }) => {
+export const AppTableNoRecord: React.FC<AppTableProps> = ({ children, className }) => {
   return <div className={cn(styles.noRecord, className)}>{children}</div>;
 };
 
-export const AttestationTableBodyInner: React.FC<AttestationsProps> = ({
-  children,
-  style,
-  className,
-}) => {
+export const AppTableBodyInner: React.FC<AppTableProps> = ({ children, style, className }) => {
   return (
     <div className={cn(styles.tableBodyInner, className)} style={style}>
       {children}
@@ -51,26 +39,23 @@ export const AttestationTableBodyInner: React.FC<AttestationsProps> = ({
   );
 };
 
-export const AttestationLoading: React.FC<AttestationsProps> = ({ children, className }) => {
+export const AppTableLoading: React.FC<AppTableProps> = ({ children, className }) => {
   return <div className={cn(styles.loading, className)}>{children}</div>;
 };
 
-export const AttestationTableHeader: React.FC<AttestationsProps> = ({ children, className }) => {
+export const AppTableHeader: React.FC<AppTableProps> = ({ children, className }) => {
   return <div className={cn(styles.tableHeader, className)}>{children}</div>;
 };
 
-export const AttestationTableHeaderCell: React.FC<AttestationsProps> = ({
-  children,
-  className,
-}) => {
+export const AppTableHeaderCell: React.FC<AppTableProps> = ({ children, className }) => {
   return <div className={cn(styles.tableHeaderCell, className)}>{children}</div>;
 };
 
-export const AttestationTableCell: React.FC<AttestationsProps> = ({ children, className }) => {
+export const AppTableCell: React.FC<AppTableProps> = ({ children, className }) => {
   return <div className={cn(styles.tableCell, className)}>{children}</div>;
 };
 
-export const AttestationTableRow: React.FC<AttestationsTableRowProps> = ({
+export const AppTableRow: React.FC<AppTableRowProps> = ({
   children,
   className,
   style,
@@ -83,14 +68,14 @@ export const AttestationTableRow: React.FC<AttestationsTableRowProps> = ({
   );
 };
 
-export interface AttestationsProps {
+export interface AppTableProps {
   children: React.ReactNode;
   className?: string;
   innerRef?: React.MutableRefObject<HTMLDivElement | null>;
   style?: React.CSSProperties;
 }
 
-export interface AttestationsTableRowProps {
+export interface AppTableRowProps {
   children: React.ReactNode;
   className?: string;
   handleClick?: () => void;

@@ -12,14 +12,14 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import styles from "./TwitterAccAtstTable.module.scss";
 import { paths } from "@/paths";
 import {
-  AttestationTableBody,
-  AttestationTableHeader,
-  AttestationTableHeaderCell,
-  AttestationTableRow,
-  AttestationTableBodyInner,
-  AttestationTableCell,
-  AttestationLoading,
-} from "@/components/atst_table_components/AtstTableComponents";
+  AppTableBody,
+  AppTableHeader,
+  AppTableHeaderCell,
+  AppTableRow,
+  AppTableBodyInner,
+  AppTableCell,
+  AppTableLoading,
+} from "@/components/app_table_components/AppTableComponents";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   const i18n = React.useContext(i18nContext);
@@ -31,30 +31,24 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   }, [atst.acc_atst_id, router]);
 
   return (
-    <AttestationTableRow style={style} handleClick={handleClick}>
-      <AttestationTableCell className={cn(styles.username)}>
+    <AppTableRow style={style} handleClick={handleClick}>
+      <AppTableCell className={cn(styles.username)}>
         <img src={atst.avatar_url} crossOrigin="" />
         <span>{atst.username}</span>
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.accountId, styles.w1024)}>
-        {atst.account_id}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.commitment, styles.w1320)}>
-        {cm}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.document, styles.cell, styles.w480)}>
+      </AppTableCell>
+      <AppTableCell className={cn(styles.accountId, styles.w1024)}>{atst.account_id}</AppTableCell>
+      <AppTableCell className={cn(styles.commitment, styles.w1320)}>{cm}</AppTableCell>
+      <AppTableCell className={cn(styles.document, styles.cell, styles.w480)}>
         <a href={atst.document_url} target="_blank">
           <span>{i18n.tweet}</span>
           <BiLinkExternal />
         </a>
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.notarized, styles.w1320)}>
+      </AppTableCell>
+      <AppTableCell className={cn(styles.notarized, styles.w1320)}>
         {i18n.not_available}
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.onChain, styles.w1320)}>
-        {i18n.not_available}
-      </AttestationTableCell>
-    </AttestationTableRow>
+      </AppTableCell>
+      <AppTableCell className={cn(styles.onChain, styles.w1320)}>{i18n.not_available}</AppTableCell>
+    </AppTableRow>
   );
 };
 
@@ -111,37 +105,35 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
   return (
     <div className={styles.wrapper}>
       {status === "pending" ? (
-        <AttestationLoading>Loading...</AttestationLoading>
+        <AppTableLoading>Loading...</AppTableLoading>
       ) : status === "error" ? (
-        <AttestationLoading>Error: {(error as Error).message}</AttestationLoading>
+        <AppTableLoading>Error: {(error as Error).message}</AppTableLoading>
       ) : (
         <>
-          <AttestationTableHeader
+          <AppTableHeader
             className={cn({
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <AttestationTableHeaderCell className={cn(styles.username)}>
-              {i18n.username}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.accountId, styles.w1024)}>
+            <AppTableHeaderCell className={cn(styles.username)}>{i18n.username}</AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.accountId, styles.w1024)}>
               {i18n.account_id}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1320)}>
+            </AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.commitment, styles.w1320)}>
               {i18n.commitment}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.document, styles.w480)}>
+            </AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.document, styles.w480)}>
               {i18n.document}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
+            </AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
               {i18n.notarized}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
+            </AppTableHeaderCell>
+            <AppTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
               {i18n.on_chain}
-            </AttestationTableHeaderCell>
-          </AttestationTableHeader>
-          <AttestationTableBody innerRef={parentRef}>
-            <AttestationTableBodyInner
+            </AppTableHeaderCell>
+          </AppTableHeader>
+          <AppTableBody innerRef={parentRef}>
+            <AppTableBodyInner
               style={{
                 height: `${rowVirtualizer.getTotalSize()}px`,
               }}
@@ -170,8 +162,8 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
                   />
                 );
               })}
-            </AttestationTableBodyInner>
-          </AttestationTableBody>
+            </AppTableBodyInner>
+          </AppTableBody>
         </>
       )}
     </div>
