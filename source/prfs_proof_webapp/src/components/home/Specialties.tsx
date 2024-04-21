@@ -10,15 +10,15 @@ const Specialties: React.FC<LogoContainerProps> = () => {
     <div className={styles.wrapper}>
       <div className={styles.inner}>
         <div className={styles.sectionTitle}>
-          <Title className={styles.titleContent}>
-            Build with the latest innovation, <br className={styles.newLine} />
+          <p className={styles.titleContent}>
+            Build with the latest innovation, <br />
             never letting go practicality
-          </Title>
+          </p>
         </div>
         <ul className={styles.itemContainer}>
           <li className={styles.item}>
             <p className={styles.title}>Universality</p>
-            <p>
+            <p className={styles.desc}>
               An interface that is not tied to any specific blockchain, zk-dsl, or proof systems.
               Prfs enables different finite fields or proof algorithms to run on the system.
             </p>
