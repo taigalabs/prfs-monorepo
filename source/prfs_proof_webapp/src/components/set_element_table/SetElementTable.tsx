@@ -3,19 +3,17 @@ import cn from "classnames";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { treeApi } from "@taigalabs/prfs-api-js";
-import { i18nContext } from "@/i18n/context";
 import { useRouter } from "next/navigation";
 
 import styles from "./SetElementTable.module.scss";
 import {
   AppTableBody,
-  AppTableHeader,
   AppTableBodyInner,
   AppTableWrapper,
   AppTableLoading,
 } from "@/components/app_table_components/AppTableComponents";
-import { AppTableHeaderCell } from "@/components/app_table_components/AppTableCellComponents";
-import SetElementTableRow from "./SetElementTableRow";
+import SetElementTableRow, { SetElementTableHeaderRow } from "./SetElementTableRow";
+import { useI18N } from "@/i18n/use_i18n";
 
 function fetchPrfsSetElements(set_id: string, nonce: number) {
   return useInfiniteQuery({
@@ -35,7 +33,7 @@ function fetchPrfsSetElements(set_id: string, nonce: number) {
 }
 
 const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = useI18N();
   const router = useRouter();
   const { status, data, error, isFetchingNextPage, fetchNextPage, hasNextPage } =
     fetchPrfsSetElements(setId, nonce);
@@ -79,22 +77,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
         <span>Error: {(error as Error).message}</span>
       ) : (
         <>
-          <AppTableHeader
-            className={cn({
-              [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
-            })}
-          >
-            <AppTableHeaderCell className={cn(styles.name)} alwaysRender>
-              {i18n.name}
-            </AppTableHeaderCell>
-            <AppTableHeaderCell className={cn(styles.data)} w1024>
-              {i18n.data}
-            </AppTableHeaderCell>
-            <AppTableHeaderCell className={cn(styles.ref)} w1280>
-              {i18n.ref}
-            </AppTableHeaderCell>
-            <AppTableHeaderCell className={cn(styles.ref)} flexGrow />
-          </AppTableHeader>
+          <SetElementTableHeaderRow />
           <AppTableBody innerRef={parentRef}>
             <AppTableBodyInner
               style={{
