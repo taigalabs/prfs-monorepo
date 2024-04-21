@@ -14,12 +14,14 @@ import { paths } from "@/paths";
 import {
   AppTableBody,
   AppTableHeader,
-  AppTableHeaderCell,
   AppTableRow,
   AppTableBodyInner,
-  AppTableCell,
   AppTableLoading,
 } from "@/components/app_table_components/AppTableComponents";
+import {
+  AppTableHeaderCell,
+  AppTableCell,
+} from "@/components/app_table_components/AppTableCellComponents";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   const i18n = React.useContext(i18nContext);

@@ -47,58 +47,6 @@ export const AppTableHeader: React.FC<AppTableProps> = ({ children, className })
   return <div className={cn(styles.tableHeader, className)}>{children}</div>;
 };
 
-export const AppTableHeaderCell: React.FC<AppTableCellProps> = ({
-  children,
-  className,
-  alwaysRender,
-  w320,
-  w480,
-  w720,
-  w1024,
-  w1280,
-}) => {
-  return (
-    <div
-      className={cn(styles.tableHeaderCell, className, {
-        [styles.alwaysRender]: alwaysRender,
-        [styles.w320]: w320,
-        [styles.w480]: w480,
-        [styles.w720]: w720,
-        [styles.w1024]: w1024,
-        [styles.w1280]: w1280,
-      })}
-    >
-      {children}
-    </div>
-  );
-};
-
-export const AppTableCell: React.FC<AppTableCellProps> = ({
-  children,
-  className,
-  alwaysRender,
-  w320,
-  w480,
-  w720,
-  w1024,
-  w1280,
-}) => {
-  return (
-    <div
-      className={cn(styles.tableCell, className, {
-        [styles.alwaysRender]: alwaysRender,
-        [styles.w320]: w320,
-        [styles.w480]: w480,
-        [styles.w720]: w720,
-        [styles.w1024]: w1024,
-        [styles.w1280]: w1280,
-      })}
-    >
-      {children}
-    </div>
-  );
-};
-
 export const AppTableRow: React.FC<AppTableRowProps> = ({
   children,
   className,
@@ -120,7 +68,7 @@ export interface AppTableProps {
 }
 
 export interface AppTableCellProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   alwaysRender?: boolean;
   w320?: boolean;
@@ -128,6 +76,7 @@ export interface AppTableCellProps {
   w720?: boolean;
   w1024?: boolean;
   w1280?: boolean;
+  flexGrow?: boolean;
 }
 
 export interface AppTableRowProps {

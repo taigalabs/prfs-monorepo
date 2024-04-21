@@ -10,10 +10,10 @@ import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup
 import styles from "./AtstTable.module.scss";
 import {
   AppTableHeader,
-  AppTableHeaderCell,
   AppTableBody2,
   AppTableWrapper,
 } from "@/components/app_table_components/AppTableComponents";
+import { AppTableHeaderCell } from "@/components/app_table_components/AppTableCellComponents";
 import { useI18N } from "@/i18n/use_i18n";
 import AtstTableRow from "./AtstTableRow";
 
@@ -105,6 +105,7 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
         <AppTableHeaderCell className={cn(styles.onChain)} w1280>
           {i18n.on_chain}
         </AppTableHeaderCell>
+        <AppTableHeaderCell className={cn(styles.onChain)} flexGrow></AppTableHeaderCell>
       </AppTableHeader>
 
       {status === "pending" ? (

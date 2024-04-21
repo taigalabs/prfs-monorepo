@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
-import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
+import { treeApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { PrfsSetElement } from "@taigalabs/prfs-entities/bindings/PrfsSetElement";
 import { useRouter } from "next/navigation";
@@ -12,12 +12,14 @@ import styles from "./SetElementTable.module.scss";
 import {
   AppTableBody,
   AppTableHeader,
-  AppTableHeaderCell,
   AppTableRow,
   AppTableBodyInner,
-  AppTableCell,
   AppTableWrapper,
 } from "@/components/app_table_components/AppTableComponents";
+import {
+  AppTableHeaderCell,
+  AppTableCell,
+} from "@/components/app_table_components/AppTableCellComponents";
 import { paths } from "@/paths";
 
 const Row: React.FC<RowProps> = ({ row, style, router }) => {

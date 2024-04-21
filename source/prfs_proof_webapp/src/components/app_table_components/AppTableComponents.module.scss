@@ -48,33 +48,6 @@
   }
 }
 
-.tableHeaderCell {
-  display: none;
-  align-items: center;
-  color: var(--gray-23);
-  font-weight: 500;
-  height: 100%;
-  border-bottom: 1px solid var(--gray-60);
-  padding: 0 4px;
-
-  &:first-child {
-    padding: 0px 10px 0 16px;
-  }
-}
-
-.tableCell {
-  display: none;
-  padding: 0 4px;
-
-  &:first-child {
-    padding: 4px 10px 4px 16px;
-  }
-}
-
-.alwaysRender {
-  display: flex;
-}
-
 .tableBody {
   width: 100%;
   overflow: auto;

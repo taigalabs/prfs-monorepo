@@ -5,7 +5,6 @@ import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
@@ -14,11 +13,13 @@ import { paths } from "@/paths";
 import {
   AppTableBody,
   AppTableHeader,
-  AppTableHeaderCell,
   AppTableRow,
   AppTableBodyInner,
-  AppTableCell,
 } from "@/components/app_table_components/AppTableComponents";
+import {
+  AppTableHeaderCell,
+  AppTableCell,
+} from "@/components/app_table_components/AppTableCellComponents";
 
 const Row: React.FC<RowProps> = ({ row, style, router }) => {
   const i18n = React.useContext(i18nContext);

@@ -7,7 +7,8 @@ import Link from "next/link";
 
 import styles from "./AtstTableRow.module.scss";
 import { paths } from "@/paths";
-import { AppTableRow, AppTableCell } from "@/components/app_table_components/AppTableComponents";
+import { AppTableRow } from "@/components/app_table_components/AppTableComponents";
+import { AppTableCell } from "@/components/app_table_components/AppTableCellComponents";
 
 import { useI18N } from "@/i18n/use_i18n";
 
@@ -55,10 +56,10 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
           <span>{label}</span>
         </AppTableCell>
         <AppTableCell className={cn(styles.commitment)} w320>
-          {cm}
+          <span>{cm}</span>
         </AppTableCell>
         <AppTableCell className={cn(styles.valueNum)} w480>
-          {value}
+          <span>{value}</span>
         </AppTableCell>
         <AppTableCell className={cn(styles.meta, styles.cell)} w1024>
           <span>{meta}</span>
@@ -69,6 +70,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
         <AppTableCell className={cn(styles.onChain)} w1280>
           {i18n.not_available}
         </AppTableCell>
+        <AppTableCell className={cn(styles.onChain)} flexGrow />
       </AppTableRow>
     </Link>
   );
