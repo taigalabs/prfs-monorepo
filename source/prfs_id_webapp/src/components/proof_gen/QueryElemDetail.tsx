@@ -30,11 +30,11 @@ const QueryElemDetail: React.FC<QueryElemTallyProps> = ({
         })}
       >
         {queryElems}
-        <div className={styles.hideDetailBtnRow}>
-          <button type="button" onClick={hideQueryElemDetail}>
-            <HoverableText>{i18n.hide_detail}</HoverableText>
-          </button>
-        </div>
+        {/* <div className={styles.hideDetailBtnRow}> */}
+        {/*   <button type="button" onClick={hideQueryElemDetail}> */}
+        {/*     <HoverableText>{i18n.hide_detail}</HoverableText> */}
+        {/*   </button> */}
+        {/* </div> */}
       </div>
       <div>{proofGenElems}</div>
     </div>

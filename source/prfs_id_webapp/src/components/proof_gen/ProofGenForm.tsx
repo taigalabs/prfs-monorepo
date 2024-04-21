@@ -65,8 +65,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
   const { mutateAsync: putSessionValueRequest } = usePutSessionValue();
   const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>({});
-  const [queryElems, setQueryElems] = React.useState<React.ReactNode>(<div>Loading...</div>);
-  const [proofGenElems, setProofGenElems] = React.useState<React.ReactNode>();
+  const [queryElems, setQueryElems] = React.useState<React.ReactNode>(null);
+  const [proofGenElems, setProofGenElems] = React.useState<React.ReactNode>(<div>Loading...</div>);
 
   const handleSkip = React.useCallback(
     async (arg: Record<string, any>) => {
@@ -298,6 +298,19 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     setCreateProofStatus,
     putSessionValueRequest,
   ]);
+
+  const hasNoFoldableElems = React.useMemo(() => {
+    console.log(123, queryElemTally);
+    for (const key in queryElemTally) {
+      console.log(44, queryElemTally, key);
+      if (queryElemTally[key as keyof QueryElemTallyType]) {
+        console.log(223);
+        return false;
+      }
+    }
+
+    return true;
+  }, [queryElemTally]);
 
   const abbrevId = React.useMemo(() => {
     return abbrev7and5(credential.id);
