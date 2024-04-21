@@ -12,10 +12,11 @@ import {
   AppTableHeader,
   AppTableBody2,
   AppTableWrapper,
+  AppTableLoading,
 } from "@/components/app_table_components/AppTableComponents";
 import { AppTableHeaderCell } from "@/components/app_table_components/AppTableCellComponents";
 import { useI18N } from "@/i18n/use_i18n";
-import AtstTableRow from "./AtstTableRow";
+import AtstTableRow, { AtstHeaderRow } from "./AtstTableRow";
 
 const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_group_id }) => {
   const i18n = useI18N();
@@ -82,34 +83,10 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
 
   return (
     <AppTableWrapper innerRef={parentRef}>
-      <AppTableHeader
-        className={cn({
-          [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
-        })}
-      >
-        <AppTableHeaderCell className={cn(styles.label)} alwaysRender>
-          {i18n.label}
-        </AppTableHeaderCell>
-        <AppTableHeaderCell className={cn(styles.commitment)} w320>
-          {i18n.commitment}
-        </AppTableHeaderCell>
-        <AppTableHeaderCell className={cn(styles.valueNum)} w480>
-          {i18n.value}
-        </AppTableHeaderCell>
-        <AppTableHeaderCell className={cn(styles.meta)} w1024>
-          {i18n.meta}
-        </AppTableHeaderCell>
-        <AppTableHeaderCell className={cn(styles.notarized)} w1280>
-          {i18n.notarized}
-        </AppTableHeaderCell>
-        <AppTableHeaderCell className={cn(styles.onChain)} w1280>
-          {i18n.on_chain}
-        </AppTableHeaderCell>
-        <AppTableHeaderCell className={cn(styles.onChain)} flexGrow></AppTableHeaderCell>
-      </AppTableHeader>
+      <AtstHeaderRow />
 
       {status === "pending" ? (
-        <p>Loading...</p>
+        <AppTableLoading>Loading...</AppTableLoading>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (

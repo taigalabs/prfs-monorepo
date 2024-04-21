@@ -12,8 +12,37 @@ import {
   AppTableCell,
   AppTableCellInner,
 } from "@/components/app_table_components/AppTableCellComponents";
-
 import { useI18N } from "@/i18n/use_i18n";
+import { AppTableHeader } from "@/components/app_table_components/AppTableComponents";
+import { AppTableHeaderCell } from "@/components/app_table_components/AppTableCellComponents";
+
+export const AtstHeaderRow = () => {
+  const i18n = useI18N();
+
+  return (
+    <AppTableHeader>
+      <AppTableHeaderCell className={cn(styles.label)} alwaysRender>
+        {i18n.label}
+      </AppTableHeaderCell>
+      <AppTableHeaderCell className={cn(styles.commitment)} w320>
+        {i18n.commitment}
+      </AppTableHeaderCell>
+      <AppTableHeaderCell className={cn(styles.valueNum)} w480>
+        {i18n.value}
+      </AppTableHeaderCell>
+      <AppTableHeaderCell className={cn(styles.meta)} w1024>
+        {i18n.meta}
+      </AppTableHeaderCell>
+      <AppTableHeaderCell className={cn(styles.notarized)} w1280>
+        {i18n.notarized}
+      </AppTableHeaderCell>
+      <AppTableHeaderCell className={cn(styles.onChain)} w1280>
+        {i18n.on_chain}
+      </AppTableHeaderCell>
+      <AppTableHeaderCell className={cn(styles.onChain)} flexGrow></AppTableHeaderCell>
+    </AppTableHeader>
+  );
+};
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating }) => {
   const i18n = useI18N();
