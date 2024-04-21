@@ -6,12 +6,12 @@ import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import styles from "./PrfsIdCreateID.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { IdCreateForm, makeEmptyIDCreateFormErrors, makeEmptyIdCreateForm } from "@/identity";
-import SignUp from "./SignUp";
+import CreateIdSummary from "./CreateIdSummary";
 import CreateIdForm from "./CreateIdForm";
 
 enum CreateIDStep {
   CreateIdForm,
-  SignUp,
+  CreateIdSummary,
 }
 
 const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSignIn }) => {
@@ -39,7 +39,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
   );
 
   const handleGotoCreateIdSuccess = React.useCallback(() => {
-    setStep(CreateIDStep.SignUp);
+    setStep(CreateIDStep.CreateIdSummary);
   }, [formData, setFormErrors, setStep]);
 
   const handleGotoInputCredential = React.useCallback(() => {
@@ -61,10 +61,10 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
           />
         );
       }
-      case CreateIDStep.SignUp: {
+      case CreateIDStep.CreateIdSummary: {
         return (
           credential && (
-            <SignUp
+            <CreateIdSummary
               credential={credential}
               formData={formData}
               handleClickPrev={handleGotoInputCredential}

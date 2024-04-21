@@ -21,7 +21,7 @@ import {
   PASSWORD_2,
 } from "@taigalabs/prfs-id-sdk-web";
 
-import styles from "./SignUp.module.scss";
+import styles from "./CreateIdSummary.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   DefaultInnerPadding,
@@ -42,7 +42,7 @@ export enum IdCreationStatus {
   Error,
 }
 
-const SignUp: React.FC<SignUpProps> = ({
+const CreateIdSummary: React.FC<SignUpProps> = ({
   formData,
   handleClickPrev,
   handleSucceedSignIn,
@@ -225,7 +225,7 @@ const SignUp: React.FC<SignUpProps> = ({
   );
 };
 
-export default SignUp;
+export default CreateIdSummary;
 
 export interface SignUpProps {
   formData: IdCreateForm;
