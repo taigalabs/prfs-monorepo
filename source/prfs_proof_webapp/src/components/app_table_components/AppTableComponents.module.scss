@@ -71,12 +71,6 @@
   transition: 0.1s all;
   cursor: pointer;
 
-  > div {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
   &:hover {
     background-color: var(--bright-gray-521);
   }

@@ -7,7 +7,7 @@
   font-weight: 500;
   height: 100%;
   border-bottom: 1px solid var(--gray-60);
-  padding: 0 4px;
+  padding-right: 5px;
 
   &:first-child {
     padding: 0px 10px 0 16px;
@@ -16,7 +16,7 @@
 
 .tableCell {
   display: none;
-  padding: 0 4px;
+  padding-right: 5px;
 
   &:first-child {
     padding: 4px 10px 4px 16px;
@@ -30,6 +30,12 @@
 .flexGrow {
   display: flex;
   flex-grow: 1;
+}
+
+.tableCellInner {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media screen and (min-width: $display_w320) {

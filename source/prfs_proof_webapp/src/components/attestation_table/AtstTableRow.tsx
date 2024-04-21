@@ -8,7 +8,10 @@ import Link from "next/link";
 import styles from "./AtstTableRow.module.scss";
 import { paths } from "@/paths";
 import { AppTableRow } from "@/components/app_table_components/AppTableComponents";
-import { AppTableCell } from "@/components/app_table_components/AppTableCellComponents";
+import {
+  AppTableCell,
+  AppTableCellInner,
+} from "@/components/app_table_components/AppTableCellComponents";
 
 import { useI18N } from "@/i18n/use_i18n";
 
@@ -53,16 +56,16 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
     <Link href={url} onClick={handleClickRow}>
       <AppTableRow style={style}>
         <AppTableCell className={cn(styles.label, styles.cell)} alwaysRender>
-          <span>{label}</span>
+          <AppTableCellInner>{label}</AppTableCellInner>
         </AppTableCell>
         <AppTableCell className={cn(styles.commitment)} w320>
-          <span>{cm}</span>
+          <AppTableCellInner>{cm}</AppTableCellInner>
         </AppTableCell>
         <AppTableCell className={cn(styles.valueNum)} w480>
-          <span>{value}</span>
+          <AppTableCellInner>{value}</AppTableCellInner>
         </AppTableCell>
         <AppTableCell className={cn(styles.meta, styles.cell)} w1024>
-          <span>{meta}</span>
+          <AppTableCellInner>{meta}</AppTableCellInner>
         </AppTableCell>
         <AppTableCell className={cn(styles.notarized)} w1280>
           {i18n.not_available}

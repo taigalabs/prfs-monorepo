@@ -59,6 +59,10 @@ export const AppTableCell: React.FC<AppTableCellProps> = ({
   );
 };
 
+export const AppTableCellInner: React.FC<AppTableCellInnerProps> = ({ children, className }) => {
+  return <div className={cn(styles.tableCellInner, className, {})}>{children}</div>;
+};
+
 export interface AppTableCellProps {
   children?: React.ReactNode;
   className?: string;
@@ -69,4 +73,9 @@ export interface AppTableCellProps {
   w1024?: boolean;
   w1280?: boolean;
   flexGrow?: boolean;
+}
+
+export interface AppTableCellInnerProps {
+  children?: React.ReactNode;
+  className?: string;
 }
