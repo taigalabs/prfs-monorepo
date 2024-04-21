@@ -65,9 +65,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const [errorMsg, setErrorMsg] = React.useState<React.ReactNode | null>(null);
   const { mutateAsync: putSessionValueRequest } = usePutSessionValue();
   const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>({});
-  const [queryElems, setQueryElems] = React.useState<React.ReactNode>(
-    <div className={styles.sidePadding}>Loading...</div>,
-  );
+  const [queryElems, setQueryElems] = React.useState<React.ReactNode>(<div>Loading...</div>);
+  const [proofGenElems, setProofGenElems] = React.useState<React.ReactNode>();
 
   const handleSkip = React.useCallback(
     async (arg: Record<string, any>) => {
@@ -126,6 +125,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       try {
         if (proofGenArgs) {
           const elems = [];
+          const proofGenElems_ = [];
           const queryElemTally: QueryElemTallyType = {
             commitment: 0,
             encrypt: 0,
@@ -145,7 +145,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                     handleSkip={handleSkip}
                   />
                 );
-                elems.push(elem);
+                proofGenElems_.push(elem);
                 continue;
               }
 
@@ -220,6 +220,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
           setQueryElems(elems);
           setQueryElemTally(queryElemTally);
+          setProofGenElems(proofGenElems_);
           setStatus(Status.Standby);
         }
       } catch (err) {
@@ -235,6 +236,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     setStatus,
     handleSkip,
     setQueryElemTally,
+    setProofGenElems,
   ]);
 
   const handleClickSubmit = React.useCallback(async () => {
@@ -317,13 +319,14 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           <p>{abbrevId}</p>
         </div>
         <QueryItemList sidePadding>
-          <QueryElemDetail
-            queryElems={queryElems}
+          <QueryElemTally
+            queryElemTally={queryElemTally}
             setShowQueryDetail={setShowQueryDetail}
             showQueryDetail={showQueryDetail}
           />
-          <QueryElemTally
-            queryElemTally={queryElemTally}
+          <QueryElemDetail
+            queryElems={queryElems}
+            proofGenElems={proofGenElems}
             setShowQueryDetail={setShowQueryDetail}
             showQueryDetail={showQueryDetail}
           />

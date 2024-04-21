@@ -12,6 +12,7 @@ import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/Hoverabl
 
 const QueryElemDetail: React.FC<QueryElemTallyProps> = ({
   queryElems,
+  proofGenElems,
   showQueryDetail,
   setShowQueryDetail,
 }) => {
@@ -22,17 +23,20 @@ const QueryElemDetail: React.FC<QueryElemTallyProps> = ({
   }, [setShowQueryDetail]);
 
   return (
-    <div
-      className={cn(styles.wrapper, {
-        [styles.display]: showQueryDetail,
-      })}
-    >
-      {queryElems}
-      <div className={styles.hideDetailBtnRow}>
-        <button type="button" onClick={hideQueryElemDetail}>
-          <HoverableText>{i18n.hide_detail}</HoverableText>
-        </button>
+    <div className={cn(styles.wrapper)}>
+      <div
+        className={cn(styles.foldable, {
+          [styles.display]: showQueryDetail,
+        })}
+      >
+        {queryElems}
+        <div className={styles.hideDetailBtnRow}>
+          <button type="button" onClick={hideQueryElemDetail}>
+            <HoverableText>{i18n.hide_detail}</HoverableText>
+          </button>
+        </div>
       </div>
+      <div>{proofGenElems}</div>
     </div>
   );
 };
@@ -42,5 +46,6 @@ export default QueryElemDetail;
 export interface QueryElemTallyProps {
   showQueryDetail: boolean;
   queryElems: React.ReactNode;
+  proofGenElems: React.ReactNode;
   setShowQueryDetail: React.Dispatch<React.SetStateAction<boolean>>;
 }
