@@ -8,32 +8,14 @@ import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entitie
 import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
 
 import styles from "./AttestationTable.module.scss";
-import { paths } from "@/paths";
 import {
-  AttestationTableBody,
   AttestationTableHeader,
   AttestationTableHeaderCell,
-  AttestationTableRow,
-  AttestationTableBodyInner,
-  AttestationTableCell,
-  AttestationTableNoRecord,
-  AttestationLoading,
   AttestationTableBody2,
   AppTableWrapper,
 } from "@/components/atst_table_components/AtstTableComponents";
 import { useI18N } from "@/i18n/use_i18n";
 import AtstRow from "./AtstRow";
-
-// async function fetchServerPage(
-//   limit: number,
-//   offset: number = 0,
-// ): Promise<{ rows: string[]; nextOffset: number }> {
-//   const rows = new Array(limit).fill(0).map((e, i) => `Async loaded row #${i + offset * limit}`);
-
-//   await new Promise(r => setTimeout(r, 500));
-
-//   return { rows, nextOffset: offset + 1 };
-// }
 
 const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_group_id }) => {
   const i18n = useI18N();

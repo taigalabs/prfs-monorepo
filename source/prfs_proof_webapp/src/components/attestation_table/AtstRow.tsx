@@ -1,28 +1,15 @@
 import React from "react";
 import cn from "classnames";
-import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
-import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
-import { atstApi } from "@taigalabs/prfs-api-js";
 import { PrfsAttestation } from "@taigalabs/prfs-entities/bindings/PrfsAttestation";
-import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
-import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstGroupIdRequest";
 import Link from "next/link";
-import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
-import { ReactQueryDevtools } from "@taigalabs/prfs-react-lib/react_query_devtools";
 
 import styles from "./AtstRow.module.scss";
 import { paths } from "@/paths";
 import {
-  AttestationTableBody,
-  AttestationTableHeader,
-  AttestationTableHeaderCell,
   AttestationTableRow,
-  AttestationTableBodyInner,
   AttestationTableCell,
-  AttestationTableNoRecord,
-  AttestationLoading,
 } from "@/components/atst_table_components/AtstTableComponents";
 
 import { useI18N } from "@/i18n/use_i18n";
