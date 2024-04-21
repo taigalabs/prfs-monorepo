@@ -2,53 +2,18 @@ import React from "react";
 import cn from "classnames";
 import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
-import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
-import { i18nContext } from "@/i18n/context";
-import { PrfsSetElement } from "@taigalabs/prfs-entities/bindings/PrfsSetElement";
+import { treeApi } from "@taigalabs/prfs-api-js";
 import { useRouter } from "next/navigation";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 import styles from "./SetElementTable.module.scss";
 import {
-  AttestationTableBody,
-  AttestationTableHeader,
-  AttestationTableHeaderCell,
-  AttestationTableRow,
-  AttestationTableBodyInner,
-  AttestationTableCell,
+  AppTableBody,
+  AppTableBodyInner,
   AppTableWrapper,
-} from "@/components/atst_table_components/AtstTableComponents";
-import { paths } from "@/paths";
-
-const Row: React.FC<RowProps> = ({ row, style, router }) => {
-  const name = React.useMemo(() => {
-    if (row.label.length > 12) {
-      return row.label.substring(0, 12) + "...";
-    } else {
-      row.label;
-    }
-  }, [row.label]);
-
-  const data = React.useMemo(() => {
-    return JSON.stringify(row.data);
-  }, [row.data]);
-
-  const handleClick = React.useCallback(() => {
-    router.push(`${paths.sets}/${row.set_id}/${row.label}`);
-  }, [router, row]);
-
-  return (
-    <AttestationTableRow style={style} handleClick={handleClick}>
-      <AttestationTableCell className={cn(styles.name)}>
-        <span>{name}</span>
-      </AttestationTableCell>
-      <AttestationTableCell className={cn(styles.data, styles.w1024)}>{data}</AttestationTableCell>
-      <AttestationTableCell className={cn(styles.ref, styles.w1320)}>
-        {row.ref}
-      </AttestationTableCell>
-    </AttestationTableRow>
-  );
-};
+  AppTableLoading,
+} from "@/components/app_table_components/AppTableComponents";
+import SetElementTableRow, { SetElementTableHeaderRow } from "./SetElementTableRow";
+import { useI18N } from "@/i18n/use_i18n";
 
 function fetchPrfsSetElements(set_id: string, nonce: number) {
   return useInfiniteQuery({
@@ -68,7 +33,7 @@ function fetchPrfsSetElements(set_id: string, nonce: number) {
 }
 
 const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = useI18N();
   const router = useRouter();
   const { status, data, error, isFetchingNextPage, fetchNextPage, hasNextPage } =
     fetchPrfsSetElements(setId, nonce);
@@ -107,28 +72,14 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
   return (
     <AppTableWrapper>
       {status === "pending" ? (
-        <p className={styles.loading}>Loading...</p>
+        <AppTableLoading>Loading...</AppTableLoading>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
         <>
-          <AttestationTableHeader
-            className={cn({
-              [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
-            })}
-          >
-            <AttestationTableHeaderCell className={cn(styles.name)}>
-              {i18n.name}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.data, styles.w1024)}>
-              {i18n.data}
-            </AttestationTableHeaderCell>
-            <AttestationTableHeaderCell className={cn(styles.ref, styles.w1320)}>
-              {i18n.ref}
-            </AttestationTableHeaderCell>
-          </AttestationTableHeader>
-          <AttestationTableBody innerRef={parentRef}>
-            <AttestationTableBodyInner
+          <SetElementTableHeaderRow />
+          <AppTableBody innerRef={parentRef}>
+            <AppTableBodyInner
               style={{
                 height: `${rowVirtualizer.getTotalSize()}px`,
               }}
@@ -142,7 +93,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
                 }
 
                 return (
-                  <Row
+                  <SetElementTableRow
                     key={virtualRow.index}
                     row={row}
                     router={router}
@@ -157,8 +108,8 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, nonce }) => {
                   />
                 );
               })}
-            </AttestationTableBodyInner>
-          </AttestationTableBody>
+            </AppTableBodyInner>
+          </AppTableBody>
         </>
       )}
     </AppTableWrapper>
@@ -170,10 +121,4 @@ export default SetElementTable;
 export interface SetElementTableProps {
   setId: string;
   nonce: number;
-}
-
-export interface RowProps {
-  row: PrfsSetElement;
-  style: React.CSSProperties;
-  router: AppRouterInstance;
 }

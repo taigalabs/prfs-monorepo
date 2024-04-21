@@ -1,7 +1,11 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./IntroComponents.module.scss";
+import styles from "./HomeComponents.module.scss";
+
+export const HomeInner: React.FC<TitleProps> = ({ children, className }) => {
+  return <div className={cn(styles.inner, className)}>{children}</div>;
+};
 
 export const Area: React.FC<TitleProps> = ({ children, className }) => {
   return <div className={cn(styles.area, className)}>{children}</div>;

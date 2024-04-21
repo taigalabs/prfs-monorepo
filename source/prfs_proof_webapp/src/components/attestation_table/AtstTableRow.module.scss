@@ -1,0 +1,45 @@
+@import "styles/layouts.module.scss";
+
+.wrapper {
+}
+
+.label {
+  width: 140px;
+  display: flex;
+  align-items: center;
+}
+
+.commitment {
+  width: 140px;
+}
+
+.valueNum {
+  width: 200px;
+
+  /* border: 1px solid black; */
+}
+
+.valueRaw {
+  width: 150px;
+}
+
+.meta {
+  width: 200px;
+
+  > a {
+    display: flex;
+    align-items: center;
+
+    > span {
+      padding-right: 2px;
+    }
+  }
+}
+
+.notarized {
+  width: 110px;
+}
+
+.onChain {
+  width: 110px;
+}

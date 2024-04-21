@@ -31,23 +31,3 @@
 .onChain {
   width: 110px;
 }
-
-.wrapper {
-  @media not screen and (min-width: 1320px) {
-    .w1320 {
-      display: none;
-    }
-  }
-
-  @media not screen and (min-width: $big_display_min_width) {
-    .w1024 {
-      display: none;
-    }
-  }
-
-  @media not screen and (min-width: 480px) {
-    .w480 {
-      display: none;
-    }
-  }
-}

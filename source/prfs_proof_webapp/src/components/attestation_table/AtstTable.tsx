@@ -7,33 +7,16 @@ import { useRouter } from "next/navigation";
 import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstGroupIdRequest";
 import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
 
-import styles from "./AttestationTable.module.scss";
-import { paths } from "@/paths";
+import styles from "./AtstTable.module.scss";
 import {
-  AttestationTableBody,
-  AttestationTableHeader,
-  AttestationTableHeaderCell,
-  AttestationTableRow,
-  AttestationTableBodyInner,
-  AttestationTableCell,
-  AttestationTableNoRecord,
-  AttestationLoading,
-  AttestationTableBody2,
+  AppTableHeader,
+  AppTableBody2,
   AppTableWrapper,
-} from "@/components/atst_table_components/AtstTableComponents";
+  AppTableLoading,
+} from "@/components/app_table_components/AppTableComponents";
+import { AppTableHeaderCell } from "@/components/app_table_components/AppTableCellComponents";
 import { useI18N } from "@/i18n/use_i18n";
-import AtstRow from "./AtstRow";
-
-// async function fetchServerPage(
-//   limit: number,
-//   offset: number = 0,
-// ): Promise<{ rows: string[]; nextOffset: number }> {
-//   const rows = new Array(limit).fill(0).map((e, i) => `Async loaded row #${i + offset * limit}`);
-
-//   await new Promise(r => setTimeout(r, 500));
-
-//   return { rows, nextOffset: offset + 1 };
-// }
+import AtstTableRow, { AtstHeaderRow } from "./AtstTableRow";
 
 const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_group_id }) => {
   const i18n = useI18N();
@@ -100,37 +83,14 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
 
   return (
     <AppTableWrapper innerRef={parentRef}>
-      <AttestationTableHeader
-        className={cn({
-          [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
-        })}
-      >
-        <AttestationTableHeaderCell className={cn(styles.label, styles.w1024)}>
-          {i18n.label}
-        </AttestationTableHeaderCell>
-        <AttestationTableHeaderCell className={cn(styles.commitment, styles.w1024)}>
-          {i18n.commitment}
-        </AttestationTableHeaderCell>
-        <AttestationTableHeaderCell className={cn(styles.valueNum, styles.w1024)}>
-          {i18n.value}
-        </AttestationTableHeaderCell>
-        <AttestationTableHeaderCell className={cn(styles.meta, styles.w1320)}>
-          {i18n.meta}
-        </AttestationTableHeaderCell>
-        <AttestationTableHeaderCell className={cn(styles.notarized, styles.w1320)}>
-          {i18n.notarized}
-        </AttestationTableHeaderCell>
-        <AttestationTableHeaderCell className={cn(styles.onChain, styles.w1320)}>
-          {i18n.on_chain}
-        </AttestationTableHeaderCell>
-      </AttestationTableHeader>
+      <AtstHeaderRow />
 
       {status === "pending" ? (
-        <p>Loading...</p>
+        <AppTableLoading>Loading...</AppTableLoading>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
-        <AttestationTableBody2
+        <AppTableBody2
           innerRef={parentRef}
           style={{
             height: `500px`,
@@ -154,7 +114,7 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
               }
 
               return (
-                <AtstRow
+                <AtstTableRow
                   key={row.key}
                   atst={atst}
                   router={router}
@@ -171,7 +131,7 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
               );
             })}
           </div>
-        </AttestationTableBody2>
+        </AppTableBody2>
       )}
     </AppTableWrapper>
   );

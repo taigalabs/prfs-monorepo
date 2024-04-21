@@ -4,7 +4,7 @@ import { MdArrowForward } from "@react-icons/all-files/md/MdArrowForward";
 
 import styles from "./FeaturedApps.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
-import { Area, Subtitle, Title } from "./IntroComponents";
+import { Area, Subtitle, Title } from "./HomeComponents";
 
 const FeaturedApps: React.FC<LogoContainerProps> = () => {
   const i18n = useI18N();

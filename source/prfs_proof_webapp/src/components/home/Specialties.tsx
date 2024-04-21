@@ -3,43 +3,42 @@ import cn from "classnames";
 
 import styles from "./Specialties.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
-import { Area, Title } from "./IntroComponents";
+import { Area, Title } from "./HomeComponents";
 
 const Specialties: React.FC<LogoContainerProps> = () => {
-  const i18n = useI18N();
-
   return (
     <div className={styles.wrapper}>
-      <div className={styles.background}>
-        <Title className={styles.titleComponent}>
-          Build with the latest innovation, <br className={styles.newLine} />
-          never letting go practicality
-        </Title>
-      </div>
       <div className={styles.inner}>
+        <div className={styles.sectionTitle}>
+          <p className={styles.titleContent}>
+            Build with the latest innovation, <br />
+            never letting go practicality
+          </p>
+        </div>
         <ul className={styles.itemContainer}>
           <li className={styles.item}>
             <p className={styles.title}>Universality</p>
-            <p>
+            <p className={styles.desc}>
               An interface that is not tied to any specific blockchain, zk-dsl, or proof systems.
-              Prfs enables different finite fields or proof algorithms to run on the system.
+              Prfs enables different finite fields and proof algorithms to run.
             </p>
           </li>
           <li className={styles.item}>
             <p className={styles.title}>Client-side</p>
-            <p>
-              We believe a user should be able to do the critical operation on her data by herself.
-            </p>
+            <p className={styles.desc}>A user does the critical operation on her data.</p>
           </li>
           <li className={styles.item}>
             <p className={styles.title}>Pragmatic</p>
-            <p>Verifiable computing in a resource-constrained environment of edge devices.</p>
+            <p className={styles.desc}>
+              Verifiable computing optimized enough to run in a resource-constrained environment of
+              consumer devices.
+            </p>
           </li>
           <li className={styles.item}>
             <p className={styles.title}>Performant</p>
-            <p>
-              With data pre-processing and proof system optimzation, we enable proving that can run
-              reasonably fast.
+            <p className={styles.desc}>
+              Leveraging the latest techniques in optimization, we enable a reasonably fast and
+              secure proving operation
             </p>
           </li>
         </ul>

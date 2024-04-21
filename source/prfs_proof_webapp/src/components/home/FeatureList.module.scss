@@ -2,93 +2,66 @@
 
 .wrapper {
   width: 100%;
-  padding-top: 100px;
-}
-
-.itemContainer {
-  padding: 36px 0px 10px;
-  width: 100%;
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .item {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   font-size: 14px;
-  font-variation-settings: "wght" 456;
   line-height: 19px;
   letter-spacing: 0.10125px;
   border-radius: 5px;
-  padding: 60px 24px 100px;
+  padding: 80px 16px 0px;
   transition: background-color 0.5s;
+  max-width: 1150px;
 
-  &.isHighlighted {
-    background-color: var(--bright-gray-45);
+  &:first-child {
+    padding: 0px 16px 0px;
   }
 }
 
-.box {
-  display: grid;
-  row-gap: 24px;
-}
-
 .itemContent {
-  display: flex;
-  align-items: center;
-  /* justify-content: center; */
-}
-
-.gray {
-  background-color: var(--bright-gray-523);
+  text-align: center;
 }
 
 .title {
   line-height: 1.24em;
-  font-size: 28px;
-  font-variation-settings: "wght" 569;
+  font-size: 24px;
+  font-variation-settings: "wght" 582;
 }
 
 .desc {
-  font-size: 19px;
+  font-size: 20px;
   line-height: 1.4em;
-  padding-top: 28px;
-  font-variation-settings: "wght" 350;
+  padding-top: 24px;
+  font-variation-settings: "wght" 390;
   color: var(--black-20);
 }
 
-.callToAction {
-  margin-top: auto;
-  font-size: 13.5px;
-  font-variation-settings: "wght" 619;
-
-  > p {
-    display: inline-block;
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  svg {
-    margin-left: 0.15em;
-    vertical-align: middle;
-  }
-}
-
 .image {
-  padding: 24px;
-  display: flex;
-  justify-content: center;
+  padding-top: 24px;
 
   img {
+    border: 1px solid var(--black-30);
+    border-radius: 10px;
+    overflow: hidden;
     width: 100%;
-    height: 100%;
-    max-width: 520px;
     object-fit: contain;
 
     &.isHighlighted {
       opacity: 1;
     }
+  }
+}
+
+@media screen and (min-width: $display_w768) {
+  .itemContent {
+    max-width: 80%;
   }
 }
 
@@ -98,30 +71,10 @@
   }
 
   .item {
-    padding: 120px 16px;
-  }
-
-  .itemContent {
-    .inner {
-      width: 400px;
-    }
-  }
-
-  .image {
-    img {
-      max-width: 400px;
-    }
-  }
-
-  .box {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: none;
-    max-width: 1180px;
-    column-gap: 140px;
+    padding: 120px 16px 0px;
   }
 
   .title {
-    font-size: 42px;
+    font-size: 32px;
   }
 }

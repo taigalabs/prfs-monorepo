@@ -25,6 +25,7 @@ import Footer from "./Footer";
 import FeaturedApps from "./FeaturedApps";
 import UsageScenario from "./UsageScenario";
 import { envs } from "@/envs";
+import DemoVideo from "./DemoVideo";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -83,11 +84,12 @@ const Home: React.FC<HomeProps> = () => {
           </div>
         </div>
         <CallToAction />
-        <UsageScenario />
+        {/* <UsageScenario /> */}
+        <DemoVideo />
         <FeatureList handleFocusSearchBar={handleFocusSearchBar} />
         <Specialties />
-        <TutorialArea />
-        <FeaturedApps />
+        {/* <TutorialArea /> */}
+        {/* <FeaturedApps /> */}
         <ProjectStatus />
         <Footer />
       </div>

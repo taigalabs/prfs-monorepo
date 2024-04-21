@@ -3,15 +3,13 @@
 import React from "react";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 import { AlertContent, AlertWrapper } from "@taigalabs/prfs-react-lib/src/alert/AlertComponents";
-import { isMasterAccount } from "@taigalabs/prfs-admin-credential";
 
 import styles from "./AttestationList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AppHeader, AppHeaderRow, AppTitle } from "@/components/app_components/AppComponents";
-import { AppTopMenu } from "@/components/app_components/AppComponents";
 import { useSignedInProofUser } from "@/hooks/user";
 import ComputeValueDialog from "./ComputeValueDialog";
-import AttestationTable from "./AttestationTable";
+import AtstTable from "@/components/attestation_table/AtstTable";
 
 const AttestationList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) => {
   const i18n = React.useContext(i18nContext);
@@ -44,7 +42,7 @@ const AttestationList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) =
         </AppHeaderRow>
       </AppHeader>
       <div className={styles.table}>
-        <AttestationTable nonce={nonce} atst_group_id={atst_group_id} />
+        <AtstTable nonce={nonce} atst_group_id={atst_group_id} />
       </div>
     </>
   );
