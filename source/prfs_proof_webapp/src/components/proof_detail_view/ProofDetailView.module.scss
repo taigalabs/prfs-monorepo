@@ -131,10 +131,17 @@
 
 .proofDataViewWrapper {
   padding-top: 18px;
+  max-width: 480px;
 }
 
-@media screen and (min-width: $display_w1024) {
+@media screen and (min-width: $display_w1120) {
   .content {
+  }
+
+  .main {
+    .content {
+      justify-content: flex-start;
+    }
   }
 
   .meta {
