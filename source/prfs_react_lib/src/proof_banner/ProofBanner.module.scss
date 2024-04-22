@@ -15,10 +15,10 @@
 }
 
 .imgContainer {
-  display: flex;
-  align-items: center;
-  margin-right: 12px;
-  width: 50px;
+  display: grid;
+  place-items: center;
+  margin-right: 6px;
+  width: 40px;
 }
 
 .content {
@@ -28,19 +28,9 @@
   padding: 7px 0;
 }
 
-.prioritizedValues {
-  margin-top: 6px;
-  width: 100%;
-  max-width: 300px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 .proofLabel {
   align-items: center;
   display: flex;
-  margin-left: 12px;
 
   svg {
     margin-right: 2px;
@@ -48,13 +38,13 @@
 }
 
 .title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
 }
 
 .subtitle {
   margin-top: auto;
-  font-size: 13px;
+  font-size: 16px;
   color: var(--gray-30);
   display: flex;
 
@@ -68,18 +58,12 @@
   position: absolute;
   top: 12px;
   right: 10px;
-  color: var(--gray-50);
+  color: var(--black-30);
 
   svg {
     cursor: pointer;
     &:hover {
       color: var(--black-00);
     }
-  }
-}
-
-@media screen and (max-width: 1120px) {
-  .wrapper {
-    max-width: 340px;
   }
 }

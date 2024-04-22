@@ -59,6 +59,10 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
     return null;
   }, [data, setPayloadError]);
 
+  const proofUrl = React.useMemo(() => {
+    return `${envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}/p/${prfsProofId}`;
+  }, [data]);
+
   const prfsProof = data?.payload?.prfs_proof;
 
   return isPending ? (
@@ -91,12 +95,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
         <div className={styles.content}>
           <div className={styles.meta}>
             <div className={styles.bannerContainer}>
-              {prfsProof && (
-                <ProofBanner
-                  prfsProof={prfsProof}
-                  webappProofEndpoint={envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}
-                />
-              )}
+              {prfsProof && <ProofBanner prfsProof={prfsProof} proofUrl={proofUrl} />}
             </div>
             <div className={styles.proofDetailContainer}></div>
           </div>

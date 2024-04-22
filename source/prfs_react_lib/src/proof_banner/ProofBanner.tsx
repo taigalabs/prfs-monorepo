@@ -10,9 +10,7 @@ import styles from "./ProofBanner.module.scss";
 import QRDialog from "./QRDialog";
 import { PrfsProofSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofSyn1";
 
-const ProofBanner: React.FC<ProofBannerProps> = ({ prfsProof, webappProofEndpoint, noBorder }) => {
-  console.log(123, prfsProof);
-
+const ProofBanner: React.FC<ProofBannerProps> = ({ prfsProof, proofUrl, noBorder }) => {
   return (
     <div className={cn(styles.wrapper, { [styles.noBorder]: noBorder })}>
       <div className={styles.imgContainer}>
@@ -26,7 +24,9 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ prfsProof, webappProofEndpoin
           </div>
         </div>
       </div>
-      <div className={styles.menu}>{/* <QRDialog data={shortUrl} /> */}</div>
+      <div className={styles.menu}>
+        <QRDialog data={proofUrl} />
+      </div>
     </div>
   );
 };
@@ -35,6 +35,6 @@ export default ProofBanner;
 
 export interface ProofBannerProps {
   prfsProof: PrfsProofSyn1;
-  webappProofEndpoint: string;
+  proofUrl: string;
   noBorder?: boolean;
 }

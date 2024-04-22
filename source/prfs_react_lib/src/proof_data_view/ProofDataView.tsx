@@ -11,11 +11,8 @@ import { usePrfsReactI18N } from "../i18n/i18nContext";
 const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, isCard }) => {
   const i18n = usePrfsReactI18N();
 
-  console.log(11, proof);
-
   const publicInputElems = React.useMemo(() => {
     const obj = JSONbigNative.parse(proof.publicInputSer);
-    console.log(22, obj);
     const elems: React.ReactNode[] = [];
 
     function loopThroughJSON(obj: Record<string, any>, count: number) {
