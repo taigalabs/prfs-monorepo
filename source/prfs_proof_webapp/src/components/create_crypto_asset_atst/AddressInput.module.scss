@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   position: relative;
 
@@ -60,4 +62,10 @@
 
 .msg {
   padding-left: 6px;
+}
+
+@media screen and (min-width: $big_display_min_width) {
+  .content {
+    width: 480px;
+  }
 }
