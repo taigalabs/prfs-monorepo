@@ -21,7 +21,7 @@ import { useSelectProofType } from "@/hooks/proofType";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 
-const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) => {
+const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
   const i18n = React.useContext(i18nContext);
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
   const handleSelectProofType = useSelectProofType();
@@ -34,18 +34,17 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 
   React.useEffect(() => {
     async function fn() {
-      const proof_instance_id = decodeURIComponent(proofInstanceId);
-      try {
-        const { payload } = await getPrfsProofInstanceByInstanceIdRequest({
-          proof_instance_id,
-        });
-
-        if (payload) {
-          setProofInstance(payload.prfs_proof_instance_syn1);
-        }
-      } catch (err) {
-        console.error("Proof instance is not found, invalid access");
-      }
+      // const proof_instance_id = decodeURIComponent(proofInstanceId);
+      // try {
+      //   const { payload } = await getPrfsProofInstanceByInstanceIdRequest({
+      //     proof_instance_id,
+      //   });
+      //   if (payload) {
+      //     setProofInstance(payload.prfs_proof_instance_syn1);
+      //   }
+      // } catch (err) {
+      //   console.error("Proof instance is not found, invalid access");
+      // }
     }
 
     fn().then();
@@ -84,7 +83,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     <>
       <ProofTypeSelectedMasthead
         isActivated
-        proofInstanceId={proofInstanceId}
+        prfsProofId={prfsProofId}
         proofType={undefined}
         handleSelectProofType={handleSelectProofType}
       />
@@ -140,5 +139,5 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 export default ProofDetailView;
 
 export interface ProofDetailViewProps {
-  proofInstanceId: string;
+  prfsProofId: string;
 }

@@ -8,6 +8,7 @@ export const paths = {
   attestations__create__crypto_asset: "/attestations/create/crypto_asset",
   attestations__create__group_member: "/attestations/create/group_member",
 
+  p: "/p",
   proofs: "/proofs",
   updates: "/updates",
   privacy: "/privacy",

@@ -33,7 +33,7 @@ const SearchIcon = () => {
 const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
   className,
   isActivated,
-  proofInstanceId,
+  prfsProofId,
   proofType,
   handleSelectProofType,
   proofWebappEndpoint,
@@ -79,14 +79,14 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
             </div>
           </div>
         ) : (
-          <div className={cn(styles.placeholderBtn, { [styles.empty]: !proofInstanceId })}>
+          <div className={cn(styles.placeholderBtn, { [styles.empty]: !prfsProofId })}>
             {isOpen && <SearchIcon />}
             <div
               className={cn(styles.placeholder, {
-                [inter.className]: !proofInstanceId,
+                [inter.className]: !prfsProofId,
               })}
             >
-              {proofInstanceId ?? (
+              {prfsProofId ?? (
                 <div className={styles.findWhatToProve}>
                   <span>{i18n.find_what_to_prove}</span>
                   <FaArrowRight />
@@ -125,7 +125,7 @@ export default SearchProofDialog;
 export interface SearchProofDialogProps {
   className?: string;
   isActivated?: boolean;
-  proofInstanceId?: string | undefined;
+  prfsProofId: string | undefined;
   proofType: PrfsProofType | undefined;
   handleSelectProofType: (proofType: PrfsProofType) => void;
   proofWebappEndpoint: string;

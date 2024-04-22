@@ -70,7 +70,7 @@ const CreateProofForm: React.FC = () => {
   return (
     <>
       <ProofTypeSelectedMasthead
-        proofInstanceId={undefined}
+        prfsProofId={undefined}
         proofType={proofType}
         handleSelectProofType={handleSelectProofType}
       />

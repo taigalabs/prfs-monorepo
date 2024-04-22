@@ -90,7 +90,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
         });
 
         if (payload) {
-          router.push(`${paths.proofs}/${payload.prfs_proof_id}`);
+          router.push(`${paths.p}/${payload.prfs_proof_id}`);
         }
       } catch (err: any) {
         console.error(err);
