@@ -4,7 +4,6 @@ import React from "react";
 import cn from "classnames";
 import { useRouter } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 
 import styles from "./Attestations.module.scss";
 import { i18nContext } from "@/i18n/context";

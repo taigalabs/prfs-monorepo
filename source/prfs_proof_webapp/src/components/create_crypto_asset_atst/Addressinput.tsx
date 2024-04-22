@@ -12,7 +12,7 @@ import {
   Label,
 } from "@taigalabs/prfs-react-lib/src/input/InputComponent";
 import { useInput } from "@taigalabs/prfs-react-lib/src/input/useInput";
-import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
+import colors from "@taigalabs/prfs-react-lib/src/styles/colors.module.scss";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";

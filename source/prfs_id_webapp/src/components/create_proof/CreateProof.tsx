@@ -4,7 +4,7 @@ import React from "react";
 import { CachedProveReceipt, CreateProofEvent } from "@taigalabs/prfs-driver-interface";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import cn from "classnames";
-import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
+import colors from "@taigalabs/prfs-react-lib/src/styles/colors.module.scss";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";

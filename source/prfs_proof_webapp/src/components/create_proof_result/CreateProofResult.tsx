@@ -10,7 +10,7 @@ import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/binding
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import ProofDataView from "@taigalabs/prfs-react-lib/src/proof_data_view/ProofDataView";
-import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
+import colors from "@taigalabs/prfs-react-lib/src/styles/colors.module.scss";
 import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 import { JSONbigNative, rand256Hex } from "@taigalabs/prfs-crypto-js";
 import { CreatePrfsProofRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofRequest";

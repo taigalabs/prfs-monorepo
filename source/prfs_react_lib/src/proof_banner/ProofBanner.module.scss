@@ -1,11 +1,13 @@
+@import "../styles/layouts.module.scss";
+
 .wrapper {
   padding: 6px 7px;
   display: flex;
   align-items: center;
   position: relative;
   max-width: 390px;
-  border-radius: 5px;
-  border: 1px solid var(--bright-gray-31);
+  border-radius: 10px;
+  border: 1px solid var(--black-30);
 
   &.noBorder {
     border: 1px solid transparent;
