@@ -80,9 +80,9 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
           proof: Array.from(proveReceipt.proof.proofBytes),
           public_inputs: proveReceipt.proof.publicInputSer,
           serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
-          author_public_key: publicInputs.proofPubKey,
-          author_sig: proveReceipt.proofActionSig,
-          author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
+          proof_public_key: publicInputs.proofPubKey,
+          proof_sig: proveReceipt.proofActionSig,
+          proof_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
           proof_type_id: proofType.proof_type_id,
           nonce: proofAction.nonce,
         });

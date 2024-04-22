@@ -6,9 +6,9 @@ export type CreatePrfsProofRequest = {
   proof: Array<number>;
   public_inputs: string;
   serial_no: string;
-  author_public_key: string;
-  author_sig: string;
-  author_sig_msg: Array<number>;
   proof_type_id: string;
   nonce: string;
+  proof_public_key: string;
+  proof_sig: string;
+  proof_sig_msg: Array<number>;
 };
