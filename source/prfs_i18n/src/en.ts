@@ -56,6 +56,7 @@ export default {
   fetch_cached_address: "Fetch cached addresses",
   fetch_addresses: "Fetch addresses",
   cache: "Cache",
+  saved_items: "Saved items",
   i_will_type: "I will type",
   create_attestation: "Create attestation",
   twitter_handle: "Twitter handle",
