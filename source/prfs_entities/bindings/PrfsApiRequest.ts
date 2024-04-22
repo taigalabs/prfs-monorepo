@@ -4,6 +4,7 @@ import type { CreatePrfsDynamicSetElementRequest } from "./CreatePrfsDynamicSetE
 import type { CreatePrfsPollRequest } from "./CreatePrfsPollRequest";
 import type { CreatePrfsProofInstanceRequest } from "./CreatePrfsProofInstanceRequest";
 import type { CreatePrfsProofRecordRequest } from "./CreatePrfsProofRecordRequest";
+import type { CreatePrfsProofRequest } from "./CreatePrfsProofRequest";
 import type { CreatePrfsProofTypeRequest } from "./CreatePrfsProofTypeRequest";
 import type { CreatePrfsSetRequest } from "./CreatePrfsSetRequest";
 import type { GetLeastRecentPrfsIndexRequest } from "./GetLeastRecentPrfsIndexRequest";
@@ -48,6 +49,7 @@ export type PrfsApiRequest =
   | ({ type: "get_prfs_proof_instance_by_instance_id" } & GetPrfsProofInstanceByInstanceIdRequest)
   | ({ type: "get_prfs_proof_instance_by_short_id" } & GetPrfsProofInstanceByShortIdRequest)
   | ({ type: "create_prfs_proof_instance" } & CreatePrfsProofInstanceRequest)
+  | ({ type: "create_prfs_proof" } & CreatePrfsProofRequest)
   | ({ type: "get_prfs_proof_types" } & GetPrfsProofTypesRequest)
   | ({ type: "get_prfs_proof_type_by_proof_type_id" } & GetPrfsProofTypeByProofTypeIdRequest)
   | ({ type: "CreatePrfsProofType" } & CreatePrfsProofTypeRequest)

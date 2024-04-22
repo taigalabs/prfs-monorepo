@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
+use crate::{CreatePrfsProofRequest, CreatePrfsProofResponse};
+
 use super::{
     AddPrfsIndexRequest, AddPrfsIndexResponse, CreatePrfsDynamicSetElementRequest,
     CreatePrfsDynamicSetElementResponse, CreatePrfsPollRequest, CreatePrfsPollResponse,
@@ -49,6 +51,7 @@ pub enum PrfsApiRequest {
     get_prfs_proof_instance_by_instance_id(GetPrfsProofInstanceByInstanceIdRequest),
     get_prfs_proof_instance_by_short_id(GetPrfsProofInstanceByShortIdRequest),
     create_prfs_proof_instance(CreatePrfsProofInstanceRequest),
+    create_prfs_proof(CreatePrfsProofRequest),
     get_prfs_proof_types(GetPrfsProofTypesRequest),
     get_prfs_proof_type_by_proof_type_id(GetPrfsProofTypeByProofTypeIdRequest),
     CreatePrfsProofType(CreatePrfsProofTypeRequest),
@@ -84,6 +87,7 @@ pub enum PrfsApiResponse {
     get_prfs_proof_instance_by_instance_id(GetPrfsProofInstanceByInstanceIdResponse),
     get_prfs_proof_instance_by_short_id(GetPrfsProofInstanceByShortIdResponse),
     create_prfs_proof_instance(CreatePrfsProofInstanceResponse),
+    create_prfs_proof(CreatePrfsProofResponse),
     get_prfs_proof_types(GetPrfsProofTypesResponse),
     get_prfs_proof_type_by_proof_type_id(GetPrfsProofTypeByProofTypeIdResponse),
     CreatePrfsProofType(CreatePrfsProofTypeResponse),

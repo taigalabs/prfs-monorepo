@@ -13,11 +13,13 @@ import ProofDataView from "@taigalabs/prfs-react-lib/src/proof_data_view/ProofDa
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 import { JSONbigNative, rand256Hex } from "@taigalabs/prfs-crypto-js";
+import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 
 import styles from "./CreateProofResult.module.scss";
 import { i18nContext } from "@/i18n/context";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import Loading from "@/components/loading/Loading";
+import { CreatePrfsProofRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofRequest";
 
 const CreateProofResult: React.FC<CreateProofResultProps> = ({
   proveReceipt,
@@ -29,12 +31,11 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
   const router = useRouter();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(true);
 
-  const { mutateAsync: createPrfsProofInstance, isPending: isCreatePrfsProofInstancePending } =
-    useMutation({
-      mutationFn: (req: CreatePrfsProofInstanceRequest) => {
-        return prfsApi3({ type: "create_prfs_proof_instance", ...req });
-      },
-    });
+  const { mutateAsync: createPrfsProof, isPending: isCreatePrfsProofPending } = useMutation({
+    mutationFn: (req: CreatePrfsProofRequest) => {
+      return prfsApi3({ type: "create_prfs_proof", ...req });
+    },
+  });
 
   const handleClickVerify = React.useCallback(() => {
     setIsVerifyOpen(s => !s);
@@ -44,33 +45,45 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
     if (proveReceipt) {
       const { proof, proofAction, proofActionSig, proofActionSigMsg } = proveReceipt;
       const { proofBytes, publicInputSer } = proof;
-      const public_inputs = JSONbigNative.parse(publicInputSer);
-      const proof_instance_id = rand256Hex();
+      const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(publicInputSer);
+      const prfs_proof_id = rand256Hex();
 
       console.log(11, proveReceipt);
 
-      // try {
-      //   const { payload } = await createPrfsProofInstance({
-      //     proof_instance_id,
-      //     account_id: null,
-      //     proof_type_id: proofType.proof_type_id,
-      //     proof: Array.from(proofBytes),
-      //     public_inputs,
-      //   });
-      //   const params = searchParams.toString();
-      //   if (payload) {
-      //     router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
-      //   }
-      // } catch (err: any) {
-      //   console.error(err);
-      //   return;
-      // }
+      try {
+        await createPrfsProof({
+          prfs_proof_id,
+          proof_identity_input: publicInputs.proofIdentityInput,
+          proof: Array.from(proveReceipt.proof.proofBytes),
+          public_inputs: proveReceipt.proof.publicInputSer,
+          serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
+          author_public_key: publicInputs.proofPubKey,
+          author_sig: proveReceipt.proofActionSig,
+          author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
+          proof_type_id: proofType.proof_type_id,
+        });
+
+        // const { payload } = await createPrfsProofInstance({
+        //   proof_instance_id,
+        //   account_id: null,
+        //   proof_type_id: proofType.proof_type_id,
+        //   proof: Array.from(proofBytes),
+        //   public_inputs,
+        // });
+        // const params = searchParams.toString();
+        // if (payload) {
+        //   router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
+        // }
+      } catch (err: any) {
+        console.error(err);
+        return;
+      }
     }
-  }, [proveReceipt, searchParams, createPrfsProofInstance]);
+  }, [proveReceipt, searchParams, createPrfsProof]);
 
   return (
     <div className={styles.wrapper}>
-      {isCreatePrfsProofInstancePending ? (
+      {isCreatePrfsProofPending ? (
         <Loading />
       ) : (
         <>
@@ -107,13 +120,11 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
                   variant="blue_3"
                   handleClick={handleClickUpload}
                   className={cn(styles.uploadBtn, {
-                    [styles.inProgress]: isCreatePrfsProofInstancePending,
+                    [styles.inProgress]: isCreatePrfsProofPending,
                   })}
-                  disabled={isCreatePrfsProofInstancePending}
+                  disabled={isCreatePrfsProofPending}
                 >
-                  {isCreatePrfsProofInstancePending && (
-                    <Spinner color={colors.bright_gray_33} size={20} />
-                  )}
+                  {isCreatePrfsProofPending && <Spinner color={colors.bright_gray_33} size={20} />}
                   <span>{i18n.upload}</span>
                 </Button>
               </li>

@@ -22,6 +22,7 @@ const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofTypeSyn1>();
   const proofTypeIdRef = React.useRef<string | null>(null);
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt | null>(null);
+  const [proofAction, setProofAction] = React.useState(null);
   const searchParams = useSearchParams();
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
