@@ -143,7 +143,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
           </div>
           <div className={cn(styles.verifyProofFormRow)}>
             <ProofDataView proof={proveReceipt.proof} />
-            <div className={styles.verifyProofModuleWrapper}>
+            <div className={styles.btnRow}>
               <VerifyProofModule proof={proveReceipt.proof} proofTypeId={proofType.proof_type_id} />
             </div>
           </div>

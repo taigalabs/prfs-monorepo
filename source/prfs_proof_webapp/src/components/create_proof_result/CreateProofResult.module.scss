@@ -1,8 +1,8 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  padding: 0px 21px;
-  margin: 34px 0;
+  padding: 0px 10px;
+  width: 100%;
   flex-grow: 1;
   flex-shrink: 1;
   max-width: 560px;
@@ -98,34 +98,17 @@
 }
 
 .verifyProofFormRow {
-  /* border-top: 1px solid var(--bright-gray-30); */
-  /* border-bottom: 1px solid var(--bright-gray-30); */
-  margin: 38px 0 0;
-  padding: 12px 18px;
-}
+  padding: 24px 18px 12px;
 
-.verifyProofFormWrapper {
-  padding: 0px 4px;
-  overflow: hidden;
-  transition: all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-    opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 225ms;
-
-  .verifyProofModuleWrapper {
+  .btnRow {
     padding: 22px 0 5px;
+    border-top: 1px solid var(--bright-gray-31);
   }
 }
 
-.isVerifyOpen {
-  .verifyBtn {
-    svg {
-      transform: rotate(180deg);
-    }
-  }
-}
-
-@media screen and (max-width: 1120px) {
+@media screen and (min-width: $display_w1024) {
   .wrapper {
-    padding: 0px 10px;
-    width: 100%;
+    padding: 0px 21px;
+    margin: 34px 0;
   }
 }
