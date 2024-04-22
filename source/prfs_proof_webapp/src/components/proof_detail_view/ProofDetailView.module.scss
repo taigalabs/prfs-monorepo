@@ -1,53 +1,60 @@
+@import "@/styles/layouts.module.scss";
+
 .topRow {
   display: flex;
+  padding: 0 10px;
   height: 47px;
   border-bottom: 1px solid var(--bright-gray-36);
 
   /* border: 1px solid blue; */
+}
 
-  .content {
-    display: flex;
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 1158px;
+.content {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 1158px;
 
-    /* border: 1px solid green; */
+  /* border: 1px solid green; */
+}
+
+.mainMenu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+  min-width: 510px;
+  max-width: 640px;
+
+  width: 100%;
+  margin-left: 0;
+
+  /* border: 1px solid gray; */
+}
+
+.leftMenu {
+  display: flex;
+
+  li:not(:first-child) {
+    margin-left: 18px;
   }
+}
 
-  .mainMenu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-grow: 1;
-    min-width: 510px;
-    max-width: 640px;
+.link {
+  display: flex;
+  align-items: center;
+  color: var(--aqua-blue-50);
 
-    /* border: 1px solid gray; */
+  svg {
+    margin-left: 3px;
   }
+}
 
-  ul {
-    display: flex;
+.rightPadding {
+  width: 370px;
+  display: none;
 
-    li:not(:first-child) {
-      margin-left: 18px;
-    }
-  }
-
-  .link {
-    display: flex;
-    align-items: center;
-    color: var(--aqua-blue-50);
-
-    svg {
-      margin-left: 3px;
-    }
-  }
-
-  .rightPadding {
-    width: 370px;
-
-    /* border: 1px solid blue; */
-  }
+  /* border: 1px solid blue; */
 }
 
 .main {
@@ -62,9 +69,10 @@
 
   /* border: 1px solid blue; */
 
-  > .content {
+  .content {
+    width: 100%;
+    justify-content: center;
     display: flex;
-    flex-direction: row;
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: 1158px;
@@ -73,48 +81,43 @@
   }
 }
 
-.upperRow {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  height: 42px;
-}
-
 .meta {
   margin-top: 40px;
   flex-grow: 1;
   flex-shrink: 1;
   min-width: 510px;
   max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  /* border: 1px solid red; */
+.bannerContainer {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 480px;
+  padding: 0 12px;
+}
 
-  .bannerContainer {
-    display: inline-flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 640px;
+.content {
+  word-break: break-all;
+  word-wrap: break-word;
+
+  .label {
+    font-weight: 500;
+    font-size: 1.5em;
+    margin-bottom: 8px;
   }
 
-  .content {
-    word-break: break-all;
-    word-wrap: break-word;
-
-    .label {
-      font-weight: 500;
-      font-size: 1.5em;
-      margin-bottom: 8px;
-    }
-
-    .desc {
-      line-height: 1.49;
-    }
+  .desc {
+    line-height: 1.49;
   }
+}
 
-  .proofDetailContainer {
-    margin-top: 32px;
-    /* border: 1px solid black; */
-  }
+.proofDetailContainer {
+  margin-top: 32px;
+  /* border: 1px solid black; */
 }
 
 .proofDataContainer {
@@ -127,66 +130,26 @@
   padding: 0 30px;
 }
 
-@media screen and (max-width: 1120px) {
-  .topRow {
-    padding: 0 10px;
-    height: 39px;
+.proofDataViewWrapper {
+  width: 480px;
+}
 
-    .mainMenu {
-      width: 100%;
-      margin-left: 0;
-      min-width: 0;
-      max-width: none;
-    }
-
-    .rightPadding {
-      display: none;
-    }
-  }
-
-  .main {
-    > .content {
-      width: 100%;
-      flex-direction: column;
-    }
-  }
-
-  .headerLabel {
-    font-size: 16px;
+@media screen and (min-width: $display_w1024) {
+  .content {
   }
 
   .meta {
-    flex-grow: 0;
-    display: flex;
-    flex-direction: column;
-    margin-left: 0px;
-    align-items: center;
+    min-width: 0;
     max-width: none;
-    min-width: 0px;
-    padding: 0 16px;
-    margin-top: 20px;
-
-    .proofDetailContainer {
-      display: flex;
-      max-width: 630px;
-      width: 100%;
-      margin-top: 20px;
-
-      /* border: 1px solid blue; */
-    }
+    align-items: flex-start;
   }
 
-  .proofDataContainer {
-    display: flex;
-    justify-content: center;
-    margin-left: 0px;
-    border-left: none;
-    margin-top: 0;
+  .mainMenu {
+    min-width: 0;
     max-width: none;
-    padding: 0 16px;
+  }
 
-    > div {
-      max-width: 630px;
-    }
+  .rightPadding {
+    display: block;
   }
 }

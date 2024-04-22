@@ -97,7 +97,11 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
             <div className={styles.bannerContainer}>
               {prfsProof && <ProofBanner prfsProof={prfsProof} proofUrl={proofUrl} />}
             </div>
-            {proof && <ProofDataView proof={proof} />}
+            {proof && (
+              <div className={styles.proofDataViewWrapper}>
+                <ProofDataView proof={proof} />
+              </div>
+            )}
           </div>
         </div>
       </div>
