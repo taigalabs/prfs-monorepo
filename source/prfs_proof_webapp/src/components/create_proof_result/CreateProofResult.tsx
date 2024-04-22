@@ -20,8 +20,10 @@ import { i18nContext } from "@/i18n/context";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import Loading from "@/components/loading/Loading";
 import { CreatePrfsProofRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofRequest";
+import { CreatePrfsProofAction } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofAction";
 
 const CreateProofResult: React.FC<CreateProofResultProps> = ({
+  proofAction,
   proveReceipt,
   proofType,
   handleClickStartOver,
@@ -42,9 +44,9 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
   }, [setIsVerifyOpen]);
 
   const handleClickUpload = React.useCallback(async () => {
-    if (proveReceipt) {
-      const { proof, proofAction, proofActionSig, proofActionSigMsg } = proveReceipt;
-      const { proofBytes, publicInputSer } = proof;
+    if (proveReceipt && proofAction) {
+      const { proof } = proveReceipt;
+      const { publicInputSer } = proof;
       const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(publicInputSer);
       const prfs_proof_id = rand256Hex();
 
@@ -61,6 +63,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
           author_sig: proveReceipt.proofActionSig,
           author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
           proof_type_id: proofType.proof_type_id,
+          nonce: proofAction.nonce,
         });
 
         // const { payload } = await createPrfsProofInstance({
@@ -79,7 +82,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
         return;
       }
     }
-  }, [proveReceipt, searchParams, createPrfsProof]);
+  }, [proveReceipt, searchParams, createPrfsProof, proofAction]);
 
   return (
     <div className={styles.wrapper}>
@@ -156,6 +159,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
 export default CreateProofResult;
 
 export interface CreateProofResultProps {
+  proofAction: CreatePrfsProofAction | null;
   proofType: PrfsProofTypeSyn1;
   proveReceipt: ProveReceipt;
   handleClickStartOver: () => void;

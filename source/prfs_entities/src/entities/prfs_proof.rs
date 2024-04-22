@@ -11,5 +11,4 @@ pub struct PrfsProof {
     pub serial_no: String,
     pub proof_identity_input: String,
     pub proof_type_id: String,
-    pub proof_idx: i16,
 }

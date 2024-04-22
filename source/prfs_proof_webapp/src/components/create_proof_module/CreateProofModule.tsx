@@ -10,7 +10,13 @@ import {
   createSessionKey,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import {
+  PrivateKey,
+  createRandomKeyPair,
+  decrypt,
+  makeRandInt,
+  rand256,
+} from "@taigalabs/prfs-crypto-js";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
@@ -23,6 +29,7 @@ import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { CreatePrfsProofAction } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofAction";
 
 const PROOF = "Proof";
 
@@ -34,6 +41,7 @@ enum Status {
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   proofType,
   handleCreateProofResult,
+  setProofAction,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
@@ -52,6 +60,11 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const handleClickCreateProof = React.useCallback(async () => {
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
+    const nonce = rand256();
+    const proofAction: CreatePrfsProofAction = {
+      nonce,
+    };
+
     const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
       app_id: "prfs_proof",
@@ -80,6 +93,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       value: null,
       ticket: "TICKET",
     });
+
+    setProofAction(proofAction);
     setIsPrfsDialogOpen(true);
     setSessionKey(proofGenArgs.session_key);
     setSk(sk);
@@ -92,6 +107,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     setIsPrfsDialogOpen,
     setSessionKey,
     setSk,
+    setProofAction,
   ]);
 
   const handleSucceedGetSession = React.useCallback(
@@ -192,6 +208,7 @@ export default CreateProofModule;
 export interface CreateProofModuleProps {
   proofType: PrfsProofTypeSyn1;
   handleCreateProofResult: (proveReceipt: ProveReceipt) => void;
+  setProofAction: React.Dispatch<React.SetStateAction<CreatePrfsProofAction | null>>;
 }
 
 export interface LoadDriverProgressProps {

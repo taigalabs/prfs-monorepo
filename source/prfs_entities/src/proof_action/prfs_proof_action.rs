@@ -12,5 +12,5 @@ pub enum PrfsProofAction {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreatePrfsProofAction {
-    nonce: String,
+    pub nonce: String,
 }

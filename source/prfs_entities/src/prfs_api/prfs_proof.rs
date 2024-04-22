@@ -13,6 +13,7 @@ pub struct CreatePrfsProofRequest {
     pub author_sig: String,
     pub author_sig_msg: Vec<u8>,
     pub proof_type_id: String,
+    pub nonce: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
