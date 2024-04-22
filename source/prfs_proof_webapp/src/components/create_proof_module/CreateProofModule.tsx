@@ -33,6 +33,7 @@ import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { PrfsProofAction } from "@taigalabs/prfs-entities/bindings/PrfsProofAction";
 import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 
 const PROOF = "Proof";
 
@@ -155,25 +156,26 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       }
 
       const proveReceipt = payload.receipt[PROOF] as ProveReceipt;
-      // const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
-      //   proveReceipt.proof.publicInputSer,
-      // );
-      // console.log("proveReceipt: %o", proveReceipt);
+      const publicInputs = JSONbigNative.parse(proveReceipt.proof.publicInputSer);
 
-      // const recoveredAddr = walletUtils.verifyMessage(
-      //   proveReceipt.proofActionSigMsg,
-      //   proveReceipt.proofActionSig,
-      // );
-      // const addr = computeAddress(publicInputs.proofPubKey);
-      // if (recoveredAddr !== addr) {
-      //   dispatch(
-      //     setGlobalMsg({
-      //       variant: "error",
-      //       message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
-      //     }),
-      //   );
-      //   return;
-      // }
+      if (publicInputs.proofPubKey) {
+        const recoveredAddr = walletUtils.verifyMessage(
+          proveReceipt.proofActionSigMsg,
+          proveReceipt.proofActionSig,
+        );
+        const addr = computeAddress(publicInputs.proofPubKey);
+        if (recoveredAddr !== addr) {
+          dispatch(
+            setGlobalMsg({
+              variant: "error",
+              message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
+            }),
+          );
+          return;
+        }
+      } else {
+        console.warn("Skip signature checking, proof pub key does not exist");
+      }
 
       const proof = payload.receipt[PROOF] as ProveReceipt;
       if (proof) {
@@ -234,7 +236,7 @@ export default CreateProofModule;
 export interface CreateProofModuleProps {
   proofType: PrfsProofTypeSyn1;
   handleCreateProofResult: (proveReceipt: ProveReceipt) => void;
-  setProofAction: React.Dispatch<React.SetStateAction<CreatePrfsProofAction | null>>;
+  setProofAction: React.Dispatch<React.SetStateAction<PrfsProofAction | null>>;
 }
 
 export interface LoadDriverProgressProps {
