@@ -7,6 +7,7 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct SimpleHashV1Inputs {
     hashData: HashData,
+    proofPubKey: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

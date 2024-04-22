@@ -67,6 +67,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     const proofAction: CreatePrfsProofAction = {
       nonce,
     };
+    const proofActionStr = JSON.stringify(proofAction);
 
     const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
@@ -76,7 +77,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           name: PROOF,
           proofTypeId: proofType.proof_type_id,
           queryType: QueryType.CREATE_PROOF,
-          proofAction,
+          proofAction: proofActionStr,
         },
       ],
       public_key: pkHex,

@@ -13,14 +13,16 @@ import ProofDataView from "@taigalabs/prfs-react-lib/src/proof_data_view/ProofDa
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 import { JSONbigNative, rand256Hex } from "@taigalabs/prfs-crypto-js";
+import { CreatePrfsProofRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofRequest";
+import { CreatePrfsProofAction } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofAction";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
+import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 
 import styles from "./CreateProofResult.module.scss";
 import { i18nContext } from "@/i18n/context";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import Loading from "@/components/loading/Loading";
-import { CreatePrfsProofRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofRequest";
-import { CreatePrfsProofAction } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofAction";
+import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 const CreateProofResult: React.FC<CreateProofResultProps> = ({
   proofAction,
@@ -45,15 +47,33 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && proofAction) {
+      console.log(11, proveReceipt);
+
       const { proof } = proveReceipt;
       const { publicInputSer } = proof;
       const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(publicInputSer);
       const prfs_proof_id = rand256Hex();
 
-      console.log(11, proveReceipt);
+      // console.log("proveReceipt: %o", proveReceipt);
+
+      const recoveredAddr = walletUtils.verifyMessage(
+        proveReceipt.proofActionSigMsg,
+        proveReceipt.proofActionSig,
+      );
+      const addr = computeAddress(publicInputs.proofPubKey);
+      if (recoveredAddr !== addr) {
+        console.log(111);
+        // dispatch(
+        //   setGlobalMsg({
+        //     variant: "error",
+        //     message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
+        //   }),
+        // );
+        return;
+      }
 
       try {
-        await createPrfsProof({
+        const { payload } = await createPrfsProof({
           prfs_proof_id,
           proof_identity_input: publicInputs.proofIdentityInput,
           proof: Array.from(proveReceipt.proof.proofBytes),
