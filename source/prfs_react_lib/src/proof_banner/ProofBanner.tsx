@@ -1,14 +1,10 @@
 import React from "react";
+import { PrfsProofSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofSyn1";
 import cn from "classnames";
-import { ProofPublicInput } from "@taigalabs/prfs-driver-interface";
-import { PrfsProof } from "@taigalabs/prfs-entities/bindings/PrfsProof";
-import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
-import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 import CaptionedImg from "../captioned_img/CaptionedImg";
 import styles from "./ProofBanner.module.scss";
 import QRDialog from "./QRDialog";
-import { PrfsProofSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofSyn1";
 
 const ProofBanner: React.FC<ProofBannerProps> = ({ prfsProof, proofUrl, noBorder }) => {
   return (
