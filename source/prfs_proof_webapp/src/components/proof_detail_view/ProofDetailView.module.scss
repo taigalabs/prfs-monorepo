@@ -64,7 +64,6 @@
   flex-grow: 1;
   flex-shrink: 1;
   min-width: 0px;
-  padding-bottom: 32px;
   overflow-x: auto;
 
   /* border: 1px solid blue; */
@@ -82,7 +81,7 @@
 }
 
 .meta {
-  margin-top: 40px;
+  padding-top: 24px;
   flex-grow: 1;
   flex-shrink: 1;
   display: flex;
