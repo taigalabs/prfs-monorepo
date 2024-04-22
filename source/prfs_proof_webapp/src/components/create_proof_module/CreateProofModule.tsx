@@ -2,6 +2,7 @@ import React from "react";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import cn from "classnames";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
+import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
 import {
   API_PATH,
@@ -11,6 +12,7 @@ import {
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
 import {
+  JSONbigNative,
   PrivateKey,
   createRandomKeyPair,
   decrypt,
@@ -30,6 +32,7 @@ import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { CreatePrfsProofAction } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofAction";
+import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 const PROOF = "Proof";
 
@@ -73,7 +76,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           name: PROOF,
           proofTypeId: proofType.proof_type_id,
           queryType: QueryType.CREATE_PROOF,
-          proofAction: "PROOF_ACTION",
+          proofAction,
         },
       ],
       public_key: pkHex,
@@ -148,6 +151,27 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         );
         return;
       }
+
+      const proveReceipt = payload.receipt[PROOF] as ProveReceipt;
+      // const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(
+      //   proveReceipt.proof.publicInputSer,
+      // );
+      // console.log("proveReceipt: %o", proveReceipt);
+
+      // const recoveredAddr = walletUtils.verifyMessage(
+      //   proveReceipt.proofActionSigMsg,
+      //   proveReceipt.proofActionSig,
+      // );
+      // const addr = computeAddress(publicInputs.proofPubKey);
+      // if (recoveredAddr !== addr) {
+      //   dispatch(
+      //     setGlobalMsg({
+      //       variant: "error",
+      //       message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
+      //     }),
+      //   );
+      //   return;
+      // }
 
       const proof = payload.receipt[PROOF] as ProveReceipt;
       if (proof) {
