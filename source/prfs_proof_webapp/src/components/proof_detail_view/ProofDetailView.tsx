@@ -1,6 +1,7 @@
+"use client";
+
 import React from "react";
 import cn from "classnames";
-import { JSONbigNative } from "@taigalabs/prfs-crypto-js";
 import ProofBanner from "@taigalabs/prfs-react-lib/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-lib/src/social_share_popover/SocialSharePopover";
 import SaveProofPopover from "@taigalabs/prfs-react-lib/src/save_proof_popover/SaveProofPopover";
