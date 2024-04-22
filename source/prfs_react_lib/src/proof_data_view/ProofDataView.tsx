@@ -5,11 +5,11 @@ import { toHex } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { JSONbigNative } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./ProofDataView.module.scss";
-import { i18nContext } from "@/i18n/context";
 import ProofRawDialog from "./ProofRawDialog";
+import { usePrfsReactI18N } from "../i18n/i18nContext";
 
 const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, isCard }) => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = usePrfsReactI18N();
 
   const publicInputElems = React.useMemo(() => {
     const obj = JSONbigNative.parse(proof.publicInputSer);

@@ -32,10 +32,9 @@ import {
   useCachedProveReceiptCreator,
   useMerkleSigPosExactFormHandler,
 } from "./use_merkle_sig_pos_exact_form_handler";
-import { useHandleChangeMemberId } from "./use_handle_change_member_id";
+import { useChangeMemberId } from "./use_change_member_id";
 import MemberIdInput from "./MemberIdInput";
 import ExactValueInput, { ExactValueType } from "./ExactValueInput";
-import { useAppDispatch } from "@/state/hooks";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -165,7 +164,7 @@ const MerkleSigPosExactInput: React.FC<MerkleSigPosExactInputProps> = ({
     fn().then();
   }, [circuitTypeData, setPrfsSet, getPrfsSetBySetId, setPrfsTree]);
 
-  const handleChangeMemberId = useHandleChangeMemberId({
+  const handleChangeMemberId = useChangeMemberId({
     credential,
     prfsSet,
     prfsTree,

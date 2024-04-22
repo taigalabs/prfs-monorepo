@@ -33,7 +33,7 @@ import {
   useCachedProveReceiptCreator,
   useMerkleSigPosRangeFormHandler,
 } from "./use_merkle_sig_pos_range_form_handler";
-import { useHandleChangeAddress } from "./use_handle_change_address";
+import { useChangeAddress } from "./use_change_address";
 import AddressInput from "./AddressInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
@@ -161,7 +161,7 @@ const MerkleSigPosRangeInput: React.FC<MerkleSigPosRangeInputProps> = ({
     fn().then();
   }, [circuitTypeData, setPrfsSet, getPrfsSetBySetId, setPrfsTree]);
 
-  const handleChangeAddress = useHandleChangeAddress({
+  const handleChangeAddress = useChangeAddress({
     credential,
     prfsSet,
     prfsTree,

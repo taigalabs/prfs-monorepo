@@ -9,15 +9,15 @@ import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
+import ProofDataView from "@taigalabs/prfs-react-lib/src/proof_data_view/ProofDataView";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
+import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
+import { JSONbigNative, rand256Hex } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CreateProofResult.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
-import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import Loading from "@/components/loading/Loading";
-import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 
 const CreateProofResult: React.FC<CreateProofResultProps> = ({
   proveReceipt,
@@ -29,28 +29,25 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
   const router = useRouter();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(true);
 
-  const {
-    mutateAsync: createPrfsProofInstance,
-    isPending: isCreatePrfsProofInstancePending,
-    isSuccess: isCreatePrfsProofInstanceSuccess,
-  } = useMutation({
-    mutationFn: (req: CreatePrfsProofInstanceRequest) => {
-      return prfsApi3({ type: "create_prfs_proof_instance", ...req });
-    },
-  });
+  const { mutateAsync: createPrfsProofInstance, isPending: isCreatePrfsProofInstancePending } =
+    useMutation({
+      mutationFn: (req: CreatePrfsProofInstanceRequest) => {
+        return prfsApi3({ type: "create_prfs_proof_instance", ...req });
+      },
+    });
 
   const handleClickVerify = React.useCallback(() => {
     setIsVerifyOpen(s => !s);
   }, [setIsVerifyOpen]);
 
   const handleClickUpload = React.useCallback(async () => {
-    if (proveReceipt && proofType) {
-      return;
+    if (proveReceipt) {
+      const { proof, proofAction, proofActionSig, proofActionSigMsg } = proveReceipt;
+      const { proofBytes, publicInputSer } = proof;
+      const public_inputs = JSONbigNative.parse(publicInputSer);
+      const proof_instance_id = rand256Hex();
 
-      // const { proof } = proveReceipt;
-      // const { proofBytes, publicInputSer } = proof;
-      // const public_inputs = JSONbigNative.parse(publicInputSer);
-      // const proof_instance_id = uuidv4();
+      console.log(11, proveReceipt);
 
       // try {
       //   const { payload } = await createPrfsProofInstance({
@@ -61,7 +58,6 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
       //     public_inputs,
       //   });
       //   const params = searchParams.toString();
-
       //   if (payload) {
       //     router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
       //   }
@@ -70,11 +66,11 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
       //   return;
       // }
     }
-  }, [proveReceipt, searchParams]);
+  }, [proveReceipt, searchParams, createPrfsProofInstance]);
 
   return (
     <div className={styles.wrapper}>
-      {isCreatePrfsProofInstanceSuccess ? (
+      {isCreatePrfsProofInstancePending ? (
         <Loading />
       ) : (
         <>
@@ -113,8 +109,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
                   className={cn(styles.uploadBtn, {
                     [styles.inProgress]: isCreatePrfsProofInstancePending,
                   })}
-                  // disabled={isCreatePrfsProofInstancePending}
-                  disabled={true}
+                  disabled={isCreatePrfsProofInstancePending}
                 >
                   {isCreatePrfsProofInstancePending && (
                     <Spinner color={colors.bright_gray_33} size={20} />

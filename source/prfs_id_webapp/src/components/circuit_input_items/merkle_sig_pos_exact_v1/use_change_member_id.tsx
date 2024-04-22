@@ -33,7 +33,7 @@ import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { ExactValueType } from "./ExactValueInput";
 
-export function useHandleChangeMemberId({
+export function useChangeMemberId({
   credential,
   prfsSet,
   prfsTree,

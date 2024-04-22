@@ -8,5 +8,5 @@ export type ShyPost = {
   shy_proof_id: string;
   author_public_key: string;
   author_sig: string;
-  author_proof_identity_inputs: Array<string>;
+  author_proof_identity_inputs: string[];
 };
