@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
+use crate::{PrfsProof, PrfsProofSyn1};
+
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreatePrfsProofRequest {
@@ -20,4 +22,16 @@ pub struct CreatePrfsProofRequest {
 #[ts(export)]
 pub struct CreatePrfsProofResponse {
     pub prfs_proof_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsProofByProofIdRequest {
+    pub prfs_proof_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsProofByProofIdResponse {
+    pub prfs_proof: PrfsProofSyn1,
 }

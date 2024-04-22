@@ -125,8 +125,8 @@ export default SearchProofDialog;
 export interface SearchProofDialogProps {
   className?: string;
   isActivated?: boolean;
-  prfsProofId: string | undefined;
-  proofType: PrfsProofType | undefined;
+  prfsProofId: string | null;
+  proofType: PrfsProofType | null;
   handleSelectProofType: (proofType: PrfsProofType) => void;
   proofWebappEndpoint: string;
 }

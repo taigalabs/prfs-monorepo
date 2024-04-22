@@ -66,6 +66,10 @@ pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
             post(prfs_proof_instances::get_prfs_proof_instance_by_short_id),
         )
         .route("/create_prfs_proof", post(prfs_proofs::create_prfs_proof))
+        .route(
+            "/get_prfs_proof_by_proof_id",
+            post(prfs_proofs::get_prfs_proof_by_proof_id),
+        )
         .route("/create_prfs_set", post(prfs_sets::create_prfs_set))
         .route("/get_prfs_sets", post(prfs_sets::get_prfs_sets))
         .route(

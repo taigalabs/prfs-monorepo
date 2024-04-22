@@ -73,7 +73,7 @@ export default ProofTypeSelectedMasthead;
 
 export interface ProofTypeMastheadProps {
   isActivated?: boolean;
-  prfsProofId: string | undefined;
-  proofType: PrfsProofType | undefined;
+  prfsProofId: string | null;
+  proofType: PrfsProofType | null;
   handleSelectProofType: (proofType: PrfsProofType) => void;
 }

@@ -20,7 +20,7 @@ import LeftPadding from "@/components/left_padding/LeftPadding";
 import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 
 const CreateProofForm: React.FC = () => {
-  const [proofType, setProofType] = React.useState<PrfsProofTypeSyn1>();
+  const [proofType, setProofType] = React.useState<PrfsProofTypeSyn1 | null>(null);
   const proofTypeIdRef = React.useRef<string | null>(null);
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt | null>(null);
   const [proofAction, setProofAction] = React.useState<PrfsProofAction | null>(null);
@@ -70,7 +70,7 @@ const CreateProofForm: React.FC = () => {
   return (
     <>
       <ProofTypeSelectedMasthead
-        prfsProofId={undefined}
+        prfsProofId={null}
         proofType={proofType}
         handleSelectProofType={handleSelectProofType}
       />

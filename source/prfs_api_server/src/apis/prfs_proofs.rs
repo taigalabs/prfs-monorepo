@@ -15,7 +15,10 @@ use prfs_entities::prfs_api::{
     GetPrfsProofInstancesRequest, GetPrfsProofInstancesResponse,
 };
 use prfs_entities::proof_action::{CreatePrfsProofAction, PrfsProofAction};
-use prfs_entities::{CreatePrfsProofRequest, CreatePrfsProofResponse, PrfsProof};
+use prfs_entities::{
+    CreatePrfsProofRequest, CreatePrfsProofResponse, GetPrfsProofByProofIdRequest,
+    GetPrfsProofByProofIdResponse, PrfsProof,
+};
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use std::sync::Arc;
 
@@ -81,5 +84,22 @@ pub async fn create_prfs_proof(
     bail_out_tx_commit!(tx, &PRFS_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let resp = ApiResponse::new_success(CreatePrfsProofResponse { prfs_proof_id });
+    return (StatusCode::OK, Json(resp));
+}
+
+pub async fn get_prfs_proof_by_proof_id(
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsProofByProofIdRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsProofByProofIdResponse>>) {
+    let pool = &state.db2.pool;
+    let prfs_proof = match prfs::get_prfs_proof_by_proof_id(pool, &input.prfs_proof_id).await {
+        Ok(t) => t,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&PRFS_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
+    let resp = ApiResponse::new_success(GetPrfsProofByProofIdResponse { prfs_proof });
     return (StatusCode::OK, Json(resp));
 }

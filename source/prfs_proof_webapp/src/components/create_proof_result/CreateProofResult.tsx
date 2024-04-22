@@ -15,6 +15,7 @@ import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTy
 import { JSONbigNative, rand256Hex } from "@taigalabs/prfs-crypto-js";
 import { CreatePrfsProofRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofRequest";
 import { CreatePrfsProofAction } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofAction";
+import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 
@@ -22,7 +23,6 @@ import styles from "./CreateProofResult.module.scss";
 import { i18nContext } from "@/i18n/context";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import Loading from "@/components/loading/Loading";
-import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { paths } from "@/paths";
@@ -38,6 +38,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(true);
+  const [isNavigating, setIsNavigating] = React.useState(false);
 
   const { mutateAsync: createPrfsProof, isPending: isCreatePrfsProofPending } = useMutation({
     mutationFn: (req: CreatePrfsProofRequest) => {
@@ -51,13 +52,10 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && proofAction) {
-      console.log(11, proveReceipt);
-
       const { proof } = proveReceipt;
       const { publicInputSer } = proof;
       const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(publicInputSer);
       const prfs_proof_id = rand256Hex().substring(0, 14);
-
       // console.log("proveReceipt: %o", proveReceipt);
 
       const recoveredAddr = walletUtils.verifyMessage(
@@ -90,6 +88,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
         });
 
         if (payload) {
+          setIsNavigating(true);
           router.push(`${paths.p}/${payload.prfs_proof_id}`);
         }
       } catch (err: any) {
@@ -97,12 +96,12 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
         return;
       }
     }
-  }, [proveReceipt, searchParams, createPrfsProof, proofAction, dispatch]);
+  }, [proveReceipt, searchParams, createPrfsProof, proofAction, dispatch, setIsNavigating]);
 
   return (
     <div className={styles.wrapper}>
-      {isCreatePrfsProofPending ? (
-        <Loading />
+      {isNavigating ? (
+        <span>Successfully uploaded proof. Navigating...</span>
       ) : (
         <>
           <div className={styles.header}>

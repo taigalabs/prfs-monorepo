@@ -17,6 +17,7 @@ import type { GetPrfsCircuitsResponse } from "./GetPrfsCircuitsResponse";
 import type { GetPrfsIndicesResponse } from "./GetPrfsIndicesResponse";
 import type { GetPrfsPollByPollIdResponse } from "./GetPrfsPollByPollIdResponse";
 import type { GetPrfsPollsResponse } from "./GetPrfsPollsResponse";
+import type { GetPrfsProofByProofIdResponse } from "./GetPrfsProofByProofIdResponse";
 import type { GetPrfsProofInstanceByInstanceIdResponse } from "./GetPrfsProofInstanceByInstanceIdResponse";
 import type { GetPrfsProofInstanceByShortIdResponse } from "./GetPrfsProofInstanceByShortIdResponse";
 import type { GetPrfsProofInstancesResponse } from "./GetPrfsProofInstancesResponse";
@@ -50,6 +51,7 @@ export type PrfsApiResponse =
   | ({ type: "get_prfs_proof_instance_by_short_id" } & GetPrfsProofInstanceByShortIdResponse)
   | ({ type: "create_prfs_proof_instance" } & CreatePrfsProofInstanceResponse)
   | ({ type: "create_prfs_proof" } & CreatePrfsProofResponse)
+  | ({ type: "get_prfs_proof_by_proof_id" } & GetPrfsProofByProofIdResponse)
   | ({ type: "get_prfs_proof_types" } & GetPrfsProofTypesResponse)
   | ({ type: "get_prfs_proof_type_by_proof_type_id" } & GetPrfsProofTypeByProofTypeIdResponse)
   | ({ type: "CreatePrfsProofType" } & CreatePrfsProofTypeResponse)

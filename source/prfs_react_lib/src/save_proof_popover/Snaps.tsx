@@ -1,6 +1,7 @@
 import React from "react";
 import { MdRefresh } from "@react-icons/all-files/md/MdRefresh";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
+import { PrfsProof } from "@taigalabs/prfs-entities/bindings/PrfsProof";
 
 import styles from "./Snaps.module.scss";
 import {
@@ -23,7 +24,7 @@ import { MetamaskActions, usePrfsSnap } from "../hooks/use_prfs_snap";
  * @param props.children - React component to be wrapped by the Provider.
  * @returns JSX.
  */
-const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance, setIsOpen }) => {
+const Snaps: React.FC<SnapsProps> = ({ prfsProof, setIsOpen }) => {
   const i18n = React.useContext(i18nContext);
 
   const { state, dispatch } = usePrfsSnap();
@@ -46,11 +47,10 @@ const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance, setIsOpen }
 
   const handleClickSave = React.useCallback(async () => {
     try {
-      console.log("Save to Snap", proofShortUrl, proofInstance);
+      console.log("Save to Snap", prfsProof);
 
       await addProof({
-        proof_label: proofInstance.proof_type_label,
-        proof_short_url: proofShortUrl,
+        proof_label: prfsProof.proof_type_id,
       });
 
       setIsOpen(false);
@@ -59,7 +59,7 @@ const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance, setIsOpen }
       console.error(error);
       dispatch({ type: MetamaskActions.SetError, payload: error });
     }
-  }, [proofShortUrl, proofInstance, setIsOpen]);
+  }, [prfsProof, setIsOpen]);
 
   // console.log(111, state);
 
@@ -87,7 +87,6 @@ const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance, setIsOpen }
 export default Snaps;
 
 export interface SnapsProps {
-  proofShortUrl: string;
-  proofInstance: PrfsProofInstanceSyn1;
+  prfsProof: PrfsProof;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }

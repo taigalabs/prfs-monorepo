@@ -76,7 +76,8 @@ const Home: React.FC<HomeProps> = () => {
             <div className={styles.proofTypeRow}>
               <SearchProofDialog
                 className={cn(roboto.className, styles.searchBar)}
-                proofType={undefined}
+                prfsProofId={null}
+                proofType={null}
                 handleSelectProofType={handleSelectProofType}
                 proofWebappEndpoint={envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}
               />
