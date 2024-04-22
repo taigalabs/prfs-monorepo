@@ -41,25 +41,6 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
   const { isPending, data, error } = useGetPrfsProof(prfsProofId);
   const [payloadError, setPayloadError] = React.useState<React.ReactNode>(null);
 
-  console.log(22, data);
-
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     try {
-  //       const { payload } = await getPrfsProofInstanceByInstanceIdRequest({
-  //         proof_instance_id,
-  //       });
-  //       if (payload) {
-  //         setProofInstance(payload.prfs_proof_instance_syn1);
-  //       }
-  //     } catch (err) {
-  //       console.error("Proof instance is not found, invalid access");
-  //     }
-  //   }
-
-  //   fn().then();
-  // }, [setProofInstance, getPrfsProofInstanceByInstanceIdRequest, prfsProofId]);
-
   const proof = React.useMemo(() => {
     if (data && data.payload) {
       const { payload, error } = data;
@@ -70,13 +51,13 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
         return null;
       }
 
-      // const proof: Proof = {
-      //   proofBytes: new Uint8Array(prfs_proof.proof),
-      //   publicInputSer: JSONbigNative.stringify(prfs_proof.public_inputs),
-      //   // proofPubKey: prfs_proof.proof
-      // };
+      const proof: Proof = {
+        proofBytes: new Uint8Array(prfs_proof.proof),
+        publicInputSer: JSONbigNative.stringify(prfs_proof.public_inputs),
+        proofPubKey: prfs_proof.public_key,
+      };
 
-      // return proof;
+      return proof;
     }
 
     return null;
