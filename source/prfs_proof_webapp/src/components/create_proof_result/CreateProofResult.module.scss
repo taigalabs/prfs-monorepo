@@ -98,19 +98,17 @@
 }
 
 .verifyProofFormRow {
-  border-top: 1px solid var(--bright-gray-30);
-  border-bottom: 1px solid var(--bright-gray-30);
+  /* border-top: 1px solid var(--bright-gray-30); */
+  /* border-bottom: 1px solid var(--bright-gray-30); */
   margin: 38px 0 0;
   padding: 12px 18px;
 }
 
 .verifyProofFormWrapper {
   padding: 0px 4px;
-  max-height: 0;
   overflow: hidden;
   transition: all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
     opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 225ms;
-  opacity: 0;
 
   .verifyProofModuleWrapper {
     padding: 22px 0 5px;
@@ -122,12 +120,6 @@
     svg {
       transform: rotate(180deg);
     }
-  }
-
-  .verifyProofFormWrapper {
-    /* padding-top: 14px; */
-    max-height: 1200px;
-    opacity: 1;
   }
 }
 

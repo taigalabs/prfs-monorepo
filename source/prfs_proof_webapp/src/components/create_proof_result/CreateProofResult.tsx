@@ -6,7 +6,6 @@ import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import ProofDataView from "@taigalabs/prfs-react-lib/src/proof_data_view/ProofDataView";
@@ -37,7 +36,6 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
   const searchParams = useSearchParams();
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [isVerifyOpen, setIsVerifyOpen] = React.useState(true);
   const [isNavigating, setIsNavigating] = React.useState(false);
 
   const { mutateAsync: createPrfsProof, isPending: isCreatePrfsProofPending } = useMutation({
@@ -46,17 +44,12 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
     },
   });
 
-  const handleClickVerify = React.useCallback(() => {
-    setIsVerifyOpen(s => !s);
-  }, [setIsVerifyOpen]);
-
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && proofAction) {
       const { proof } = proveReceipt;
       const { publicInputSer } = proof;
       const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(publicInputSer);
       const prfs_proof_id = rand256Hex().substring(0, 14);
-      console.log(22, publicInputSer);
       // console.log("proveReceipt: %o", proveReceipt);
 
       const recoveredAddr = walletUtils.verifyMessage(
@@ -148,21 +141,10 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
               </li>
             </ul>
           </div>
-          <div className={cn(styles.verifyProofFormRow, { [styles.isVerifyOpen]: isVerifyOpen })}>
-            <div>
-              <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
-                <span>{i18n.verify}</span>
-                <IoIosArrowDown />
-              </button>
-            </div>
-            <div className={styles.verifyProofFormWrapper}>
-              <ProofDataView proof={proveReceipt.proof} isCard />
-              <div className={styles.verifyProofModuleWrapper}>
-                <VerifyProofModule
-                  proof={proveReceipt.proof}
-                  proofTypeId={proofType.proof_type_id}
-                />
-              </div>
+          <div className={cn(styles.verifyProofFormRow)}>
+            <ProofDataView proof={proveReceipt.proof} />
+            <div className={styles.verifyProofModuleWrapper}>
+              <VerifyProofModule proof={proveReceipt.proof} proofTypeId={proofType.proof_type_id} />
             </div>
           </div>
         </>
