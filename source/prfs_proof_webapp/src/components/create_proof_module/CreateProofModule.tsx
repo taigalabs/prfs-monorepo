@@ -31,7 +31,7 @@ import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
-import { CreatePrfsProofAction } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofAction";
+import { PrfsProofAction } from "@taigalabs/prfs-entities/bindings/PrfsProofAction";
 import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 const PROOF = "Proof";
@@ -64,7 +64,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
     const nonce = rand256();
-    const proofAction: CreatePrfsProofAction = {
+    const proofAction: PrfsProofAction = {
+      type: "create_prfs_proof",
       nonce,
     };
     const proofActionStr = JSON.stringify(proofAction);
