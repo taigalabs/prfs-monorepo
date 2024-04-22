@@ -13,7 +13,6 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import {
   JSONbigNative,
-  PrivateKey,
   createRandomKeyPair,
   decrypt,
   makeRandInt,
@@ -23,6 +22,8 @@ import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers"
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
+import { PrfsProofAction } from "@taigalabs/prfs-entities/bindings/PrfsProofAction";
+import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 
 import styles from "./CreateProofModule.module.scss";
@@ -31,9 +32,6 @@ import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
-import { PrfsProofAction } from "@taigalabs/prfs-entities/bindings/PrfsProofAction";
-import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
-import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 
 const PROOF = "Proof";
 
