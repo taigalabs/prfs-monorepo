@@ -1,15 +1,11 @@
-"use client";
-
 import React from "react";
-import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import cn from "classnames";
 import { JSONbigNative } from "@taigalabs/prfs-crypto-js";
 import ProofBanner from "@taigalabs/prfs-react-lib/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-lib/src/social_share_popover/SocialSharePopover";
 import SaveProofPopover from "@taigalabs/prfs-react-lib/src/save_proof_popover/SaveProofPopover";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
-import { useMutation, useQuery } from "@taigalabs/prfs-react-lib/react_query";
-import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
+import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import ProofDataView from "@taigalabs/prfs-react-lib/src/proof_data_view/ProofDataView";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 
@@ -36,7 +32,6 @@ function useGetPrfsProof(prfsProofId: string) {
 
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
   const i18n = React.useContext(i18nContext);
-  // const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
   const handleSelectProofType = useSelectProofType();
   const { isPending, data, error } = useGetPrfsProof(prfsProofId);
   const [payloadError, setPayloadError] = React.useState<React.ReactNode>(null);
@@ -53,7 +48,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
 
       const proof: Proof = {
         proofBytes: new Uint8Array(prfs_proof.proof),
-        publicInputSer: JSONbigNative.stringify(prfs_proof.public_inputs),
+        publicInputSer: prfs_proof.public_inputs,
         proofPubKey: prfs_proof.public_key,
       };
 

@@ -56,6 +56,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
       const { publicInputSer } = proof;
       const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(publicInputSer);
       const prfs_proof_id = rand256Hex().substring(0, 14);
+      console.log(22, publicInputSer);
       // console.log("proveReceipt: %o", proveReceipt);
 
       const recoveredAddr = walletUtils.verifyMessage(
