@@ -1,7 +1,5 @@
 import React, { Suspense } from "react";
-import { redirect } from "next/navigation";
 
-import { paths } from "@/paths";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import DefaultLayout, {

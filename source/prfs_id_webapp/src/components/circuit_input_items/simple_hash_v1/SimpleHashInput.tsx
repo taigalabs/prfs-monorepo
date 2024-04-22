@@ -137,6 +137,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
       return {
         isValid: true,
         proofAction,
+        proofPubKey: pkHex,
         proofActionSig: sig,
         proofActionSigMsg: Array.from(proofActionSigMsg),
       };

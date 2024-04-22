@@ -60,7 +60,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
   //   fn().then();
   // }, [setProofInstance, getPrfsProofInstanceByInstanceIdRequest, prfsProofId]);
 
-  const prfsProof = React.useMemo(() => {
+  const proof = React.useMemo(() => {
     if (data && data.payload) {
       const { payload, error } = data;
       const { prfs_proof } = payload;
@@ -70,20 +70,19 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
         return null;
       }
 
-      return prfs_proof;
-
-      // const ret = {
-      //   proof: {
-      //     proofBytes: new Uint8Array(prfs_proof.proof),
-      //     publicInputSer: JSONbigNative.stringify(prfs_proof.public_inputs),
-      //   } as Proof,
+      // const proof: Proof = {
+      //   proofBytes: new Uint8Array(prfs_proof.proof),
+      //   publicInputSer: JSONbigNative.stringify(prfs_proof.public_inputs),
+      //   // proofPubKey: prfs_proof.proof
       // };
 
-      // return ret;
+      // return proof;
     }
 
     return null;
   }, [data, setPayloadError]);
+
+  const prfsProof = data?.payload?.prfs_proof;
 
   return isPending ? (
     <Loading />
@@ -124,7 +123,9 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
             </div>
             <div className={styles.proofDetailContainer}></div>
           </div>
-          <div className={styles.proofDataContainer}>{/* <ProofDataView proof={proof} /> */}</div>
+          <div className={styles.proofDataContainer}>
+            {proof && <ProofDataView proof={proof} />}
+          </div>
         </div>
       </div>
     </>
