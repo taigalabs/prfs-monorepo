@@ -23,6 +23,9 @@ import { i18nContext } from "@/i18n/context";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import Loading from "@/components/loading/Loading";
 import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { useAppDispatch } from "@/state/hooks";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { paths } from "@/paths";
 
 const CreateProofResult: React.FC<CreateProofResultProps> = ({
   proofAction,
@@ -33,6 +36,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(true);
 
   const { mutateAsync: createPrfsProof, isPending: isCreatePrfsProofPending } = useMutation({
@@ -52,7 +56,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
       const { proof } = proveReceipt;
       const { publicInputSer } = proof;
       const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(publicInputSer);
-      const prfs_proof_id = rand256Hex();
+      const prfs_proof_id = rand256Hex().substring(0, 14);
 
       // console.log("proveReceipt: %o", proveReceipt);
 
@@ -62,13 +66,12 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
       );
       const addr = computeAddress(publicInputs.proofPubKey);
       if (recoveredAddr !== addr) {
-        console.log(111);
-        // dispatch(
-        //   setGlobalMsg({
-        //     variant: "error",
-        //     message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
-        //   }),
-        // );
+        dispatch(
+          setGlobalMsg({
+            variant: "error",
+            message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
+          }),
+        );
         return;
       }
 
@@ -86,23 +89,15 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
           nonce: proofAction.nonce,
         });
 
-        // const { payload } = await createPrfsProofInstance({
-        //   proof_instance_id,
-        //   account_id: null,
-        //   proof_type_id: proofType.proof_type_id,
-        //   proof: Array.from(proofBytes),
-        //   public_inputs,
-        // });
-        // const params = searchParams.toString();
-        // if (payload) {
-        //   router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
-        // }
+        if (payload) {
+          router.push(`${paths.proofs}/${payload.prfs_proof_id}`);
+        }
       } catch (err: any) {
         console.error(err);
         return;
       }
     }
-  }, [proveReceipt, searchParams, createPrfsProof, proofAction]);
+  }, [proveReceipt, searchParams, createPrfsProof, proofAction, dispatch]);
 
   return (
     <div className={styles.wrapper}>

@@ -8,8 +8,8 @@ import { useSearchParams } from "next/navigation";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-import { CreatePrfsProofAction } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofAction";
 import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
+import { PrfsProofAction } from "@taigalabs/prfs-entities/bindings/PrfsProofAction";
 
 import styles from "./CreateProofForm.module.scss";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
@@ -23,7 +23,7 @@ const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofTypeSyn1>();
   const proofTypeIdRef = React.useRef<string | null>(null);
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt | null>(null);
-  const [proofAction, setProofAction] = React.useState<CreatePrfsProofAction | null>(null);
+  const [proofAction, setProofAction] = React.useState<PrfsProofAction | null>(null);
   const searchParams = useSearchParams();
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {

@@ -49,7 +49,7 @@ const Home: React.FC<HomeProps> = () => {
     async (proofType: PrfsProofType) => {
       setFormStatus(SearchProofTypeFormStatus.Loading);
       const params = searchParams.toString();
-      router.push(`${paths.create}?proof_type_id=${proofType.proof_type_id}&${params}`);
+      router.push(`${paths.proof__create}?proof_type_id=${proofType.proof_type_id}&${params}`);
     },
     [getPrfsProofTypeByProofTypeIdRequest, router, searchParams, setFormStatus],
   );

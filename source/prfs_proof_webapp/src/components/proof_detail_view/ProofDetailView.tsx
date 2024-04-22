@@ -10,11 +10,11 @@ import SaveProofPopover from "@taigalabs/prfs-react-lib/src/save_proof_popover/S
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
+import ProofDataView from "@taigalabs/prfs-react-lib/src/proof_data_view/ProofDataView";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/i18n/context";
-import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { envs } from "@/envs";
 import ProofTypeSelectedMasthead from "@/components/proof_type_selected_masthead/ProofTypeSelectedMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
@@ -78,7 +78,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     );
   }
 
-  const { consoleUrl, proof } = proofData;
+  const { proof } = proofData;
 
   return (
     <>
