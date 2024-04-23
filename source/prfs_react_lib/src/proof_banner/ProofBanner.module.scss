@@ -39,7 +39,7 @@
 }
 
 .title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
 
   text-overflow: ellipsis;
@@ -70,5 +70,11 @@
     &:hover {
       color: var(--black-00);
     }
+  }
+}
+
+@media screen and (min-width: $display_w480) {
+  .title {
+    font-size: 20px;
   }
 }
