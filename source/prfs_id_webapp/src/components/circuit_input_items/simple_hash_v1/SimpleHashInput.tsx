@@ -3,9 +3,9 @@ import cn from "classnames";
 import { bytesLeToBigInt, poseidon_2_bigint_le, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
+import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
 import { HashData } from "@taigalabs/prfs-circuit-interface/bindings/HashData";
 import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
-import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
 import { PrfsIdCredential, QueryPresetVals, deriveProofKey } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SimpleHashInput.module.scss";
@@ -19,6 +19,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
+import { useSimpleHashFormHandler } from "./use_simple_hash_form_handler";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -105,44 +106,51 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
     } else return "";
   }, [value?.hashData]);
 
-  React.useEffect(() => {
-    setFormHandler(() => async (formValues: FormValues<SimpleHashV1Inputs>) => {
-      const val = formValues as SimpleHashV1Inputs | undefined;
+  useSimpleHashFormHandler({
+    setFormHandler,
+    setFormErrors,
+    credential,
+    proofAction,
+  });
 
-      if (!val?.hashData) {
-        setFormErrors(oldVal => ({
-          ...oldVal,
-          hashData: "Input is empty",
-        }));
-        return { isValid: false as const };
-      } else {
-        const { msgRaw, msgRawInt, msgHash } = val.hashData;
+  // React.useEffect(() => {
+  //   setFormHandler(() => async (formValues: FormValues<SimpleHashV1Inputs>) => {
+  //     const val = formValues as SimpleHashV1Inputs | undefined;
 
-        if (!msgRaw || !msgRawInt || !msgHash) {
-          setFormErrors(oldVal => ({
-            ...oldVal,
-            hashData: "Hashed outcome should be provided. Have you hashed the input?",
-          }));
-          return { isValid: false as const };
-        }
-      }
+  //     if (!val?.hashData) {
+  //       setFormErrors(oldVal => ({
+  //         ...oldVal,
+  //         hashData: "Input is empty",
+  //       }));
+  //       return { isValid: false as const };
+  //     } else {
+  //       const { msgRaw, msgRawInt, msgHash } = val.hashData;
 
-      const { pkHex, skHex } = await deriveProofKey(credential.secret_key, val.hashData.msgRaw);
-      val.proofPubKey = pkHex;
+  //       if (!msgRaw || !msgRawInt || !msgHash) {
+  //         setFormErrors(oldVal => ({
+  //           ...oldVal,
+  //           hashData: "Hashed outcome should be provided. Have you hashed the input?",
+  //         }));
+  //         return { isValid: false as const };
+  //       }
+  //     }
 
-      const proofActionSigMsg = toUtf8Bytes(proofAction);
-      const wallet = new Wallet(skHex);
-      const sig = await wallet.signMessage(proofActionSigMsg);
+  //     const { pkHex, skHex } = await deriveProofKey(credential.secret_key, val.hashData.msgRaw);
+  //     val.proofPubKey = pkHex;
 
-      return {
-        isValid: true,
-        proofAction,
-        proofPubKey: pkHex,
-        proofActionSig: sig,
-        proofActionSigMsg: Array.from(proofActionSigMsg),
-      };
-    });
-  }, [setFormHandler, setFormErrors, proofAction]);
+  //     const proofActionSigMsg = toUtf8Bytes(proofAction);
+  //     const wallet = new Wallet(skHex);
+  //     const sig = await wallet.signMessage(proofActionSigMsg);
+
+  //     return {
+  //       isValid: true,
+  //       proofAction,
+  //       proofPubKey: pkHex,
+  //       proofActionSig: sig,
+  //       proofActionSigMsg: Array.from(proofActionSigMsg),
+  //     };
+  //   });
+  // }, [setFormHandler, setFormErrors, proofAction]);
 
   return (
     <FormInput>
