@@ -130,13 +130,11 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
                 <Button
                   variant="blue_3"
                   handleClick={handleClickUpload}
-                  className={cn(styles.uploadBtn, {
-                    [styles.inProgress]: isCreatePrfsProofPending,
-                  })}
+                  contentClassName={styles.btnContent}
                   disabled={isCreatePrfsProofPending}
                 >
-                  {isCreatePrfsProofPending && <Spinner color={colors.bright_gray_33} size={20} />}
                   <span>{i18n.upload}</span>
+                  {isCreatePrfsProofPending && <Spinner color={colors.bright_gray_33} size={20} />}
                 </Button>
               </li>
             </ul>

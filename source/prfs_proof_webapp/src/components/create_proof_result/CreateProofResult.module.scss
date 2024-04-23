@@ -56,12 +56,6 @@
   line-height: 21px;
 }
 
-.uploadBtn.inProgress {
-  span {
-    margin-left: 4px;
-  }
-}
-
 .postCreateBtnGroup {
   display: flex;
   justify-content: space-between;
@@ -82,27 +76,20 @@
   }
 }
 
-.verifyBtn {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  /* font-size: 13px; */
-  align-items: center;
-  cursor: pointer;
-  border-radius: 5px;
-  color: var(--black-20);
-
-  svg {
-    transition: all 0.25s ease-out;
-  }
-}
-
 .verifyProofFormRow {
   padding: 24px 18px 12px;
 
   .btnRow {
     padding: 22px 0 5px;
     border-top: 1px solid var(--bright-gray-31);
+  }
+}
+
+.btnContent {
+  display: flex;
+
+  span + div {
+    margin-left: 3px;
   }
 }
 
