@@ -42,5 +42,9 @@
 
 .data {
   font-size: 13px;
+  padding: 0 6px;
   overflow: hidden;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
