@@ -14,7 +14,7 @@
   background-color: white;
   border-radius: 5px;
   overflow: hidden;
-  max-width: 520px;
+  width: 230px;
 }
 
 .QRContainer {
@@ -38,4 +38,9 @@
       border-radius: 14px;
     }
   }
+}
+
+.data {
+  font-size: 13px;
+  overflow: hidden;
 }

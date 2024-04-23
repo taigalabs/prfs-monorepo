@@ -61,6 +61,7 @@ const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
                         </button>
                       </div>
                       <QRCodeView data={data} size={210} />
+                      <p className={styles.data}>{data}</p>
                     </div>
                   </div>
                 </FloatingFocusManager>
