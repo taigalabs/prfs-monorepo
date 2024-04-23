@@ -7,7 +7,7 @@ import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { atstApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { useRouter } from "next/navigation";
-import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
+import colors from "@taigalabs/prfs-react-lib/src/styles/colors.module.scss";
 import { ErrorBox } from "@taigalabs/prfs-react-lib/src/error_box/ErrorBox";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { GetLeastRecentPrfsIndexRequest } from "@taigalabs/prfs-entities/bindings/GetLeastRecentPrfsIndexRequest";

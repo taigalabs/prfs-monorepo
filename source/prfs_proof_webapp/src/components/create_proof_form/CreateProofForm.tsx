@@ -9,6 +9,7 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
+import { PrfsProofAction } from "@taigalabs/prfs-entities/bindings/PrfsProofAction";
 
 import styles from "./CreateProofForm.module.scss";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
@@ -19,9 +20,10 @@ import LeftPadding from "@/components/left_padding/LeftPadding";
 import { MastheadPlaceholder } from "@/components/masthead/MastheadComponents";
 
 const CreateProofForm: React.FC = () => {
-  const [proofType, setProofType] = React.useState<PrfsProofTypeSyn1>();
+  const [proofType, setProofType] = React.useState<PrfsProofTypeSyn1 | null>(null);
   const proofTypeIdRef = React.useRef<string | null>(null);
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt | null>(null);
+  const [proofAction, setProofAction] = React.useState<PrfsProofAction | null>(null);
   const searchParams = useSearchParams();
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -68,7 +70,7 @@ const CreateProofForm: React.FC = () => {
   return (
     <>
       <ProofTypeSelectedMasthead
-        proofInstanceId={undefined}
+        prfsProofId={null}
         proofType={proofType}
         handleSelectProofType={handleSelectProofType}
       />
@@ -81,6 +83,7 @@ const CreateProofForm: React.FC = () => {
             {proveReceipt ? (
               <Fade>
                 <CreateProofResult
+                  proofAction={proofAction}
                   proveReceipt={proveReceipt}
                   proofType={proofType}
                   handleClickStartOver={handleClickStartOver}
@@ -91,6 +94,7 @@ const CreateProofForm: React.FC = () => {
                 <CreateProofModule
                   proofType={proofType}
                   handleCreateProofResult={handleCreateProofResult}
+                  setProofAction={setProofAction}
                 />
               </Fade>
             )}

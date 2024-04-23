@@ -1,8 +1,8 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  padding: 0px 21px;
-  margin: 34px 0;
+  padding: 0px 10px;
+  width: 100%;
   flex-grow: 1;
   flex-shrink: 1;
   max-width: 560px;
@@ -56,12 +56,6 @@
   line-height: 21px;
 }
 
-.uploadBtn.inProgress {
-  span {
-    margin-left: 4px;
-  }
-}
-
 .postCreateBtnGroup {
   display: flex;
   justify-content: space-between;
@@ -82,58 +76,26 @@
   }
 }
 
-.verifyBtn {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  /* font-size: 13px; */
-  align-items: center;
-  cursor: pointer;
-  border-radius: 5px;
-  color: var(--black-20);
-
-  svg {
-    transition: all 0.25s ease-out;
-  }
-}
-
 .verifyProofFormRow {
-  border-top: 1px solid var(--bright-gray-30);
-  border-bottom: 1px solid var(--bright-gray-30);
-  margin: 38px 0 0;
-  padding: 12px 18px;
-}
+  padding: 24px 18px 12px;
 
-.verifyProofFormWrapper {
-  padding: 0px 4px;
-  max-height: 0;
-  overflow: hidden;
-  transition: all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-    opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 225ms;
-  opacity: 0;
-
-  .verifyProofModuleWrapper {
+  .btnRow {
     padding: 22px 0 5px;
+    border-top: 1px solid var(--bright-gray-31);
   }
 }
 
-.isVerifyOpen {
-  .verifyBtn {
-    svg {
-      transform: rotate(180deg);
-    }
-  }
+.btnContent {
+  display: flex;
 
-  .verifyProofFormWrapper {
-    /* padding-top: 14px; */
-    max-height: 1200px;
-    opacity: 1;
+  span + div {
+    margin-left: 3px;
   }
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (min-width: $display_w1024) {
   .wrapper {
-    padding: 0px 10px;
-    width: 100%;
+    padding: 0px 21px;
+    margin: 34px 0;
   }
 }

@@ -64,7 +64,7 @@ const MemberIdInput: React.FC<MemberIdInputProps> = ({
         </div>
         <div className={styles.btnRow}>
           <CachedItemDialog handleChangeItem={handleChangeValue} prfsSet={prfsSet}>
-            <FormInputButton type="button">{i18n.cache}</FormInputButton>
+            <FormInputButton type="button">{i18n.saved_items}</FormInputButton>
           </CachedItemDialog>
           <RawValueDialog
             className={styles.rawValueDialog}

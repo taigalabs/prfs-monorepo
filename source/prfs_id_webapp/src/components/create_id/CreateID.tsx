@@ -6,19 +6,19 @@ import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import styles from "./PrfsIdCreateID.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { IdCreateForm, makeEmptyIDCreateFormErrors, makeEmptyIdCreateForm } from "@/identity";
-import SignUp from "./SignUp";
-import SignUpForm from "./SignUpForm";
+import CreateIdSummary from "./CreateIdSummary";
+import CreateIdForm from "./CreateIdForm";
 
 enum CreateIDStep {
-  SignUpForm,
-  SignUp,
+  CreateIdForm,
+  CreateIdSummary,
 }
 
 const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSignIn }) => {
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  const [step, setStep] = React.useState(CreateIDStep.SignUpForm);
+  const [step, setStep] = React.useState(CreateIDStep.CreateIdForm);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   const handleChangeValue = React.useCallback(
@@ -39,18 +39,18 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
   );
 
   const handleGotoCreateIdSuccess = React.useCallback(() => {
-    setStep(CreateIDStep.SignUp);
+    setStep(CreateIDStep.CreateIdSummary);
   }, [formData, setFormErrors, setStep]);
 
   const handleGotoInputCredential = React.useCallback(() => {
-    setStep(CreateIDStep.SignUpForm);
+    setStep(CreateIDStep.CreateIdForm);
   }, [setStep]);
 
   const content = React.useMemo(() => {
     switch (step) {
-      case CreateIDStep.SignUpForm: {
+      case CreateIDStep.CreateIdForm: {
         return (
-          <SignUpForm
+          <CreateIdForm
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
@@ -61,10 +61,10 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
           />
         );
       }
-      case CreateIDStep.SignUp: {
+      case CreateIDStep.CreateIdSummary: {
         return (
           credential && (
-            <SignUp
+            <CreateIdSummary
               credential={credential}
               formData={formData}
               handleClickPrev={handleGotoInputCredential}

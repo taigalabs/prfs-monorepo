@@ -2,6 +2,7 @@ import React from "react";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import cn from "classnames";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
+import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
 import {
   API_PATH,
@@ -10,11 +11,19 @@ import {
   createSessionKey,
   openPopup,
 } from "@taigalabs/prfs-id-sdk-web";
-import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
+import {
+  JSONbigNative,
+  createRandomKeyPair,
+  decrypt,
+  makeRandInt,
+  rand256,
+} from "@taigalabs/prfs-crypto-js";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
+import { PrfsProofAction } from "@taigalabs/prfs-entities/bindings/PrfsProofAction";
+import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
 
 import styles from "./CreateProofModule.module.scss";
@@ -34,6 +43,7 @@ enum Status {
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   proofType,
   handleCreateProofResult,
+  setProofAction,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
@@ -52,6 +62,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const handleClickCreateProof = React.useCallback(async () => {
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
+    const nonce = rand256();
+    const proofAction: PrfsProofAction = {
+      type: "create_prfs_proof",
+      nonce,
+    };
+    const proofActionStr = JSON.stringify(proofAction);
+
     const proofGenArgs: ProofGenArgs = {
       nonce: makeRandInt(1000000),
       app_id: "prfs_proof",
@@ -60,7 +77,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           name: PROOF,
           proofTypeId: proofType.proof_type_id,
           queryType: QueryType.CREATE_PROOF,
-          proofAction: "PROOF_ACTION",
+          proofAction: proofActionStr,
         },
       ],
       public_key: pkHex,
@@ -80,6 +97,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       value: null,
       ticket: "TICKET",
     });
+
+    setProofAction(proofAction);
     setIsPrfsDialogOpen(true);
     setSessionKey(proofGenArgs.session_key);
     setSk(sk);
@@ -92,6 +111,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     setIsPrfsDialogOpen,
     setSessionKey,
     setSk,
+    setProofAction,
   ]);
 
   const handleSucceedGetSession = React.useCallback(
@@ -131,6 +151,28 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           }),
         );
         return;
+      }
+
+      const proveReceipt = payload.receipt[PROOF] as ProveReceipt;
+      const publicInputs = JSONbigNative.parse(proveReceipt.proof.publicInputSer);
+
+      if (publicInputs.proofPubKey) {
+        const recoveredAddr = walletUtils.verifyMessage(
+          proveReceipt.proofActionSigMsg,
+          proveReceipt.proofActionSig,
+        );
+        const addr = computeAddress(publicInputs.proofPubKey);
+        if (recoveredAddr !== addr) {
+          dispatch(
+            setGlobalMsg({
+              variant: "error",
+              message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
+            }),
+          );
+          return;
+        }
+      } else {
+        console.warn("Skip signature checking, proof pub key does not exist");
       }
 
       const proof = payload.receipt[PROOF] as ProveReceipt;
@@ -192,6 +234,7 @@ export default CreateProofModule;
 export interface CreateProofModuleProps {
   proofType: PrfsProofTypeSyn1;
   handleCreateProofResult: (proveReceipt: ProveReceipt) => void;
+  setProofAction: React.Dispatch<React.SetStateAction<PrfsProofAction | null>>;
 }
 
 export interface LoadDriverProgressProps {

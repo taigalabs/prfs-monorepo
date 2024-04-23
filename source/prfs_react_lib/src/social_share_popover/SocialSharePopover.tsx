@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import { FaCopy } from "@react-icons/all-files/fa/FaCopy";
 import {
   offset as offset_fn,
   useFloating,
@@ -32,6 +33,11 @@ function SocialSharePopover({ placement, offset, variant }: SocialSharePopoverPr
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
+  const handleClickCopyURL = React.useCallback(() => {
+    navigator.clipboard.writeText(window.location.href);
+    setIsOpen(false);
+  }, [setIsOpen]);
+
   return (
     <>
       <div
@@ -53,11 +59,9 @@ function SocialSharePopover({ placement, offset, variant }: SocialSharePopoverPr
           {...getFloatingProps()}
         >
           <ul className={styles.menuList}>
-            <p className={styles.notSupported}>{i18n.not_supported}</p>
-            {/*   <li> */}
-            {/*     <AiFillTwitterSquare /> */}
-            {/*     <span>Twitter</span> */}
-            {/*   </li> */}
+            <li onClick={handleClickCopyURL}>
+              <span>Copy URL</span>
+            </li>
             {/*   <li> */}
             {/*     <FaTelegram /> */}
             {/*     <span>Telegram</span> */}

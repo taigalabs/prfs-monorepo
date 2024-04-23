@@ -78,6 +78,7 @@ export function useMerkleSigPosRangeFormHandler({
 
       return {
         isValid: true,
+        proofPubKey: pkHex,
         proofAction,
         proofActionSig: sig,
         proofActionSigMsg: Array.from(proofActionSigMsg),

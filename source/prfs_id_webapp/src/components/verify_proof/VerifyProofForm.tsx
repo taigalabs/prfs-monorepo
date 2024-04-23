@@ -10,7 +10,7 @@ import { idSessionApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
-import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
+import colors from "@taigalabs/prfs-react-lib/src/styles/colors.module.scss";
 import { toUtf8String } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 
 import styles from "./VerifyProofForm.module.scss";

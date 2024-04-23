@@ -24,6 +24,10 @@ use super::{
     SignInPrfsAccountRequest, SignInPrfsAccountResponse, SignUpPrfsAccountRequest,
     SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse,
 };
+use crate::{
+    CreatePrfsProofRequest, CreatePrfsProofResponse, GetPrfsProofByProofIdRequest,
+    GetPrfsProofByProofIdResponse,
+};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[allow(non_camel_case_types)]
@@ -49,6 +53,8 @@ pub enum PrfsApiRequest {
     get_prfs_proof_instance_by_instance_id(GetPrfsProofInstanceByInstanceIdRequest),
     get_prfs_proof_instance_by_short_id(GetPrfsProofInstanceByShortIdRequest),
     create_prfs_proof_instance(CreatePrfsProofInstanceRequest),
+    create_prfs_proof(CreatePrfsProofRequest),
+    get_prfs_proof_by_proof_id(GetPrfsProofByProofIdRequest),
     get_prfs_proof_types(GetPrfsProofTypesRequest),
     get_prfs_proof_type_by_proof_type_id(GetPrfsProofTypeByProofTypeIdRequest),
     CreatePrfsProofType(CreatePrfsProofTypeRequest),
@@ -84,6 +90,8 @@ pub enum PrfsApiResponse {
     get_prfs_proof_instance_by_instance_id(GetPrfsProofInstanceByInstanceIdResponse),
     get_prfs_proof_instance_by_short_id(GetPrfsProofInstanceByShortIdResponse),
     create_prfs_proof_instance(CreatePrfsProofInstanceResponse),
+    create_prfs_proof(CreatePrfsProofResponse),
+    get_prfs_proof_by_proof_id(GetPrfsProofByProofIdResponse),
     get_prfs_proof_types(GetPrfsProofTypesResponse),
     get_prfs_proof_type_by_proof_type_id(GetPrfsProofTypeByProofTypeIdResponse),
     CreatePrfsProofType(CreatePrfsProofTypeResponse),

@@ -6,6 +6,7 @@ pub mod id_entities;
 pub mod id_session;
 pub mod id_session_api;
 pub mod prfs_api;
+pub mod proof_action;
 pub mod snap;
 pub mod tree_api;
 

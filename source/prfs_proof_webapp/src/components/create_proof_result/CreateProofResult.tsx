@@ -6,20 +6,28 @@ import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
-import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
+import ProofDataView from "@taigalabs/prfs-react-lib/src/proof_data_view/ProofDataView";
+import colors from "@taigalabs/prfs-react-lib/src/styles/colors.module.scss";
+import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
+import { JSONbigNative, rand256Hex } from "@taigalabs/prfs-crypto-js";
+import { CreatePrfsProofRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofRequest";
+import { CreatePrfsProofAction } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofAction";
+import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
+import { utils as walletUtils } from "@taigalabs/prfs-crypto-deps-js/ethers";
 
 import styles from "./CreateProofResult.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
-import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import Loading from "@/components/loading/Loading";
-import { PrfsProofTypeSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofTypeSyn1";
+import { useAppDispatch } from "@/state/hooks";
+import { setGlobalMsg } from "@/state/globalMsgReducer";
+import { paths } from "@/paths";
 
 const CreateProofResult: React.FC<CreateProofResultProps> = ({
+  proofAction,
   proveReceipt,
   proofType,
   handleClickStartOver,
@@ -27,55 +35,67 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [isVerifyOpen, setIsVerifyOpen] = React.useState(true);
+  const dispatch = useAppDispatch();
+  const [isNavigating, setIsNavigating] = React.useState(false);
 
-  const {
-    mutateAsync: createPrfsProofInstance,
-    isPending: isCreatePrfsProofInstancePending,
-    isSuccess: isCreatePrfsProofInstanceSuccess,
-  } = useMutation({
-    mutationFn: (req: CreatePrfsProofInstanceRequest) => {
-      return prfsApi3({ type: "create_prfs_proof_instance", ...req });
+  const { mutateAsync: createPrfsProof, isPending: isCreatePrfsProofPending } = useMutation({
+    mutationFn: (req: CreatePrfsProofRequest) => {
+      return prfsApi3({ type: "create_prfs_proof", ...req });
     },
   });
 
-  const handleClickVerify = React.useCallback(() => {
-    setIsVerifyOpen(s => !s);
-  }, [setIsVerifyOpen]);
-
   const handleClickUpload = React.useCallback(async () => {
-    if (proveReceipt && proofType) {
-      return;
+    if (proveReceipt && proofAction) {
+      const { proof } = proveReceipt;
+      const { publicInputSer } = proof;
+      const publicInputs: MerkleSigPosRangeV1PublicInputs = JSONbigNative.parse(publicInputSer);
+      const prfs_proof_id = rand256Hex().substring(0, 14);
+      // console.log("proveReceipt: %o", proveReceipt);
 
-      // const { proof } = proveReceipt;
-      // const { proofBytes, publicInputSer } = proof;
-      // const public_inputs = JSONbigNative.parse(publicInputSer);
-      // const proof_instance_id = uuidv4();
+      const recoveredAddr = walletUtils.verifyMessage(
+        proveReceipt.proofActionSigMsg,
+        proveReceipt.proofActionSig,
+      );
+      const addr = computeAddress(publicInputs.proofPubKey);
+      if (recoveredAddr !== addr) {
+        dispatch(
+          setGlobalMsg({
+            variant: "error",
+            message: `Signature does not match, recovered: ${recoveredAddr}, addr: ${addr}`,
+          }),
+        );
+        return;
+      }
 
-      // try {
-      //   const { payload } = await createPrfsProofInstance({
-      //     proof_instance_id,
-      //     account_id: null,
-      //     proof_type_id: proofType.proof_type_id,
-      //     proof: Array.from(proofBytes),
-      //     public_inputs,
-      //   });
-      //   const params = searchParams.toString();
+      try {
+        const { payload } = await createPrfsProof({
+          prfs_proof_id,
+          proof_identity_input: publicInputs.proofIdentityInput,
+          proof: Array.from(proveReceipt.proof.proofBytes),
+          public_inputs: proveReceipt.proof.publicInputSer,
+          serial_no: JSONbigNative.stringify(publicInputs.circuitPubInput.serialNo),
+          proof_public_key: publicInputs.proofPubKey,
+          proof_sig: proveReceipt.proofActionSig,
+          proof_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
+          proof_type_id: proofType.proof_type_id,
+          nonce: proofAction.nonce,
+        });
 
-      //   if (payload) {
-      //     router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
-      //   }
-      // } catch (err: any) {
-      //   console.error(err);
-      //   return;
-      // }
+        if (payload) {
+          setIsNavigating(true);
+          router.push(`${paths.p}/${payload.prfs_proof_id}`);
+        }
+      } catch (err: any) {
+        console.error(err);
+        return;
+      }
     }
-  }, [proveReceipt, searchParams]);
+  }, [proveReceipt, searchParams, createPrfsProof, proofAction, dispatch, setIsNavigating]);
 
   return (
     <div className={styles.wrapper}>
-      {isCreatePrfsProofInstanceSuccess ? (
-        <Loading />
+      {isNavigating ? (
+        <span>Successfully uploaded proof. Navigating...</span>
       ) : (
         <>
           <div className={styles.header}>
@@ -110,35 +130,19 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
                 <Button
                   variant="blue_3"
                   handleClick={handleClickUpload}
-                  className={cn(styles.uploadBtn, {
-                    [styles.inProgress]: isCreatePrfsProofInstancePending,
-                  })}
-                  // disabled={isCreatePrfsProofInstancePending}
-                  disabled={true}
+                  contentClassName={styles.btnContent}
+                  disabled={isCreatePrfsProofPending}
                 >
-                  {isCreatePrfsProofInstancePending && (
-                    <Spinner color={colors.bright_gray_33} size={20} />
-                  )}
                   <span>{i18n.upload}</span>
+                  {isCreatePrfsProofPending && <Spinner color={colors.bright_gray_33} size={20} />}
                 </Button>
               </li>
             </ul>
           </div>
-          <div className={cn(styles.verifyProofFormRow, { [styles.isVerifyOpen]: isVerifyOpen })}>
-            <div>
-              <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
-                <span>{i18n.verify}</span>
-                <IoIosArrowDown />
-              </button>
-            </div>
-            <div className={styles.verifyProofFormWrapper}>
-              <ProofDataView proof={proveReceipt.proof} isCard />
-              <div className={styles.verifyProofModuleWrapper}>
-                <VerifyProofModule
-                  proof={proveReceipt.proof}
-                  proofTypeId={proofType.proof_type_id}
-                />
-              </div>
+          <div className={cn(styles.verifyProofFormRow)}>
+            <ProofDataView proof={proveReceipt.proof} />
+            <div className={styles.btnRow}>
+              <VerifyProofModule proof={proveReceipt.proof} proofTypeId={proofType.proof_type_id} />
             </div>
           </div>
         </>
@@ -150,6 +154,7 @@ const CreateProofResult: React.FC<CreateProofResultProps> = ({
 export default CreateProofResult;
 
 export interface CreateProofResultProps {
+  proofAction: CreatePrfsProofAction | null;
   proofType: PrfsProofTypeSyn1;
   proveReceipt: ProveReceipt;
   handleClickStartOver: () => void;

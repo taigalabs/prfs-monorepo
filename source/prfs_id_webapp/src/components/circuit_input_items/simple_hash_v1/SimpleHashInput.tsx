@@ -1,10 +1,12 @@
 import React from "react";
 import cn from "classnames";
-import { bytesLeToBigInt, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
+import { bytesLeToBigInt, poseidon_2_bigint_le, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
 import { HashData } from "@taigalabs/prfs-circuit-interface/bindings/HashData";
-import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
+import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
+import { PrfsIdCredential, QueryPresetVals, deriveProofKey } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SimpleHashInput.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -16,13 +18,11 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
-import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
 import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
     if (value && value.msgHash && value.msgRawInt) {
-      // const msgRawInt = "Msg: " + value.msgRawInt.toString().substring(0, 8) + "...";
       const msgHash = "Msg hash: " + value.msgHash.toString().substring(0, 20) + "...";
 
       return `${msgHash}`;
@@ -36,11 +36,13 @@ const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
 
 const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
   circuitTypeData,
+  credential,
   value,
   error,
   setFormErrors,
   setFormValues,
   setFormHandler,
+  proofAction,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [isPresetAssigned, setIsPresetAssigned] = React.useState(false);
@@ -125,14 +127,22 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
         }
       }
 
+      const { pkHex, skHex } = await deriveProofKey(credential.secret_key, val.hashData.msgRaw);
+      val.proofPubKey = pkHex;
+
+      const proofActionSigMsg = toUtf8Bytes(proofAction);
+      const wallet = new Wallet(skHex);
+      const sig = await wallet.signMessage(proofActionSigMsg);
+
       return {
         isValid: true,
-        proofAction: "0",
-        proofActionSig: "0",
-        proofActionSigMsg: new Uint8Array([0]),
+        proofAction,
+        proofPubKey: pkHex,
+        proofActionSig: sig,
+        proofActionSigMsg: Array.from(proofActionSigMsg),
       };
     });
-  }, [setFormHandler, setFormErrors]);
+  }, [setFormHandler, setFormErrors, proofAction]);
 
   return (
     <FormInput>
@@ -158,6 +168,7 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
 export default SimpleHashInput;
 
 export interface SimpleHashInputProps {
+  proofAction: string;
   circuitTypeData: SimpleHashV1Data;
   value: FormValues<SimpleHashV1Inputs>;
   error: FormErrors<SimpleHashV1Inputs> | undefined;

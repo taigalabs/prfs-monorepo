@@ -1,19 +1,18 @@
 import React, { Suspense } from "react";
 
-import styles from "./page.module.scss";
+import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import DefaultLayout, {
   DefaultBody,
   DefaultFooter,
 } from "@/components/layouts/default_layout/DefaultLayout";
-import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 
-const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
+const PrfsProofPage: React.FC<PrfsProofPageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <DefaultBody>
         <Suspense>
-          <ProofDetailView proofInstanceId={params.proof_instance_id} />
+          <ProofDetailView prfsProofId={params.prfs_proof_id} />;
         </Suspense>
       </DefaultBody>
       <DefaultFooter>
@@ -23,10 +22,10 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   );
 };
 
-export default ProofInstancePage;
+export default PrfsProofPage;
 
-interface ProofInstancePageProps {
+export interface PrfsProofPageProps {
   params: {
-    proof_instance_id: string;
+    prfs_proof_id: string;
   };
 }

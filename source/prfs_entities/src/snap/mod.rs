@@ -5,5 +5,4 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct PrfsProofSnapItem {
     pub proof_label: String,
-    pub proof_short_url: String,
 }

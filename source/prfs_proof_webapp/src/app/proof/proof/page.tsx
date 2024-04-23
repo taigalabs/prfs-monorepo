@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 
 import { paths } from "@/paths";
 
-const ProofsPage: React.FC = () => {
+const ProofPage: React.FC = () => {
   redirect(paths.__);
 };
 
-export default ProofsPage;
+export default ProofPage;

@@ -25,7 +25,7 @@ import styles from "./MerkleSigPosRangeInput.module.scss";
 import { FormErrors } from "@/components/circuit_input_items/formTypes";
 import { envs } from "@/envs";
 
-export function useHandleChangeAddress({
+export function useChangeAddress({
   credential,
   prfsSet,
   prfsTree,

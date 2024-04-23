@@ -13,10 +13,10 @@ import {
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./ProofRawDialog.module.scss";
-import { i18nContext } from "@/i18n/context";
+import { usePrfsReactI18N } from "../i18n/i18nContext";
 
 const ProofRawDialog: React.FC<ProofRawDialogProps> = ({ proofRaw, children }) => {
-  const i18n = React.useContext(i18nContext);
+  const i18n = usePrfsReactI18N();
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, context } = useFloating({
     open: isOpen,

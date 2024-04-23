@@ -72,18 +72,13 @@
 
 .itemContainer {
   padding-top: 16px;
-  /* display: flex; */
-  /* justify-content: center; */
 }
 
 .item {
   display: inline-block;
 }
 
-@media screen and (min-width: $display_w480) {
-  .wrapper {
-  }
-
+@media screen and (min-width: $display_w768) {
   .inner {
     flex-direction: row;
   }

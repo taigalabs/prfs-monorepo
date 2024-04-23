@@ -117,6 +117,7 @@ const AddrMembershipInput: React.FC<MerkleProofInputProps> = ({
 
       return {
         isValid: true,
+        proofPubKey: "",
         proofAction: "",
         proofActionSig: "",
         proofActionSigMsg: new Uint8Array(),

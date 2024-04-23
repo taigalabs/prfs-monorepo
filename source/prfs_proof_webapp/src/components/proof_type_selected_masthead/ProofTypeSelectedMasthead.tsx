@@ -24,7 +24,7 @@ import { envs } from "@/envs";
 
 const ProofTypeSelectedMasthead: React.FC<ProofTypeMastheadProps> = ({
   isActivated,
-  proofInstanceId,
+  prfsProofId,
   proofType,
   handleSelectProofType,
 }) => {
@@ -41,7 +41,7 @@ const ProofTypeSelectedMasthead: React.FC<ProofTypeMastheadProps> = ({
         <div className={styles.searchArea}>
           <SearchProofDialog
             isActivated={isActivated}
-            proofInstanceId={proofInstanceId}
+            prfsProofId={prfsProofId}
             proofType={proofType}
             handleSelectProofType={handleSelectProofType}
             proofWebappEndpoint={envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}
@@ -73,7 +73,7 @@ export default ProofTypeSelectedMasthead;
 
 export interface ProofTypeMastheadProps {
   isActivated?: boolean;
-  proofInstanceId: string | undefined;
-  proofType: PrfsProofType | undefined;
+  prfsProofId: string | null;
+  proofType: PrfsProofType | null;
   handleSelectProofType: (proofType: PrfsProofType) => void;
 }

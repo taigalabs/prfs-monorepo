@@ -1,0 +1,95 @@
+@import "../styles/layouts.module.scss";
+
+.wrapper {
+  transition: height 0.4s ease-out;
+  border-radius: 10px;
+  border-left: none;
+}
+
+.publicInputSection {
+  box-shadow: none;
+  position: relative;
+  border-radius: 3px;
+  word-break: break-all;
+  padding: 0px 12px 18px;
+
+  .data {
+    width: 100%;
+  }
+}
+
+.publicInputRow {
+  font-size: 13px;
+
+  &:not(:first-child) {
+    margin-top: 16px;
+  }
+
+  > p:first-child {
+    margin-bottom: 4px;
+  }
+}
+
+.label {
+  font-weight: 500;
+  font-size: inherit;
+  font-size: 1.12em;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.proofRawSection {
+  font-size: 13px;
+  position: relative;
+  box-shadow: none;
+  border-top: 1px solid var(--bright-gray-31);
+  padding: 18px 12px;
+
+  .row {
+    margin-bottom: 14px;
+    .label {
+      font-weight: 500;
+    }
+  }
+
+  .data {
+    width: 100%;
+    word-break: break-word;
+    overflow-y: auto;
+  }
+
+  .seeMore {
+    margin-left: 5px;
+    color: var(--blue-11);
+    cursor: pointer;
+  }
+}
+
+.title {
+  align-items: stretch;
+  height: auto;
+  font-size: 20px;
+  font-weight: 400;
+
+  padding-bottom: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.data {
+  padding: 0px 0px;
+  overflow-y: hidden;
+}
+
+.footer {
+  display: none;
+}
+
+.driverSection {
+  margin-top: 24px;
+}
+
+@media screen and (min-width: $display_w1024) {
+  .wrapper {
+  }
+}

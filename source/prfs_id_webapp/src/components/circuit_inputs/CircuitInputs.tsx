@@ -81,6 +81,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
             setFormErrors={setFormErrors as any}
             presetVals={presetVals}
             credential={credential}
+            proofAction={proofAction}
           />
         );
       }

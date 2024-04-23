@@ -5,7 +5,7 @@ use std::sync::Arc;
 
 use crate::apis::{
     prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_indices,
-    prfs_polls, prfs_proof_instances, prfs_proof_records, prfs_proof_types, prfs_sets,
+    prfs_polls, prfs_proof_instances, prfs_proof_records, prfs_proof_types, prfs_proofs, prfs_sets,
 };
 
 pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
@@ -65,30 +65,11 @@ pub fn make_api_v0_router() -> Router<Arc<ServerState>> {
             "/get_prfs_proof_instance_by_short_id",
             post(prfs_proof_instances::get_prfs_proof_instance_by_short_id),
         )
-        // .route(
-        //     "/get_prfs_tree_nodes_by_pos",
-        //     post(prfs_tree_nodes::get_prfs_tree_nodes_by_pos),
-        // )
-        // .route(
-        //     "/get_prfs_tree_leaf_nodes_by_set_id",
-        //     post(prfs_tree_nodes::get_prfs_tree_leaf_nodes_by_set_id),
-        // )
-        // .route(
-        //     "/get_prfs_tree_leaf_indices",
-        //     post(prfs_tree_nodes::get_prfs_tree_leaf_indices),
-        // )
-        // .route(
-        //     "/update_prfs_tree_node",
-        //     post(prfs_tree_nodes::update_prfs_tree_node),
-        // )
-        // .route(
-        //     "/create_prfs_tree_by_prfs_set",
-        //     post(prfs_trees::create_prfs_tree_by_prfs_set),
-        // )
-        // .route(
-        //     "/get_latest_prfs_tree_by_set_id",
-        //     post(prfs_trees::get_latest_prfs_tree_by_set_id),
-        // )
+        .route("/create_prfs_proof", post(prfs_proofs::create_prfs_proof))
+        .route(
+            "/get_prfs_proof_by_proof_id",
+            post(prfs_proofs::get_prfs_proof_by_proof_id),
+        )
         .route("/create_prfs_set", post(prfs_sets::create_prfs_set))
         .route("/get_prfs_sets", post(prfs_sets::get_prfs_sets))
         .route(

@@ -29,6 +29,20 @@
   text-align: center;
 }
 
+.imgLabel {
+  display: flex;
+  justify-content: center;
+
+  p {
+    border-top: 1px solid var(--black-20);
+    border-left: 1px solid var(--black-20);
+    border-right: 1px solid var(--black-20);
+    border-radius: 10px 10px 0 0;
+    padding: 7px 10px;
+    font-size: 16px;
+  }
+}
+
 .title {
   line-height: 1.24em;
   font-size: 24px;
@@ -52,10 +66,7 @@
     overflow: hidden;
     width: 100%;
     object-fit: contain;
-
-    &.isHighlighted {
-      opacity: 1;
-    }
+    vertical-align: top;
   }
 }
 

@@ -49,7 +49,7 @@ const Home: React.FC<HomeProps> = () => {
     async (proofType: PrfsProofType) => {
       setFormStatus(SearchProofTypeFormStatus.Loading);
       const params = searchParams.toString();
-      router.push(`${paths.create}?proof_type_id=${proofType.proof_type_id}&${params}`);
+      router.push(`${paths.proof__create}?proof_type_id=${proofType.proof_type_id}&${params}`);
     },
     [getPrfsProofTypeByProofTypeIdRequest, router, searchParams, setFormStatus],
   );
@@ -76,7 +76,8 @@ const Home: React.FC<HomeProps> = () => {
             <div className={styles.proofTypeRow}>
               <SearchProofDialog
                 className={cn(roboto.className, styles.searchBar)}
-                proofType={undefined}
+                prfsProofId={null}
+                proofType={null}
                 handleSelectProofType={handleSelectProofType}
                 proofWebappEndpoint={envs.NEXT_PUBLIC_PRFS_PROOF_WEBAPP_ENDPOINT}
               />

@@ -62,7 +62,7 @@ const AddressInput: React.FC<AddresseInputProps> = ({
         </div>
         <div className={styles.btnRow}>
           <CachedItemDialog handleChangeItem={handleChangeAddress} prfsSet={prfsSet}>
-            <FormInputButton type="button">{i18n.cache}</FormInputButton>
+            <FormInputButton type="button">{i18n.saved_items}</FormInputButton>
           </CachedItemDialog>
           <span className={styles.or}> or </span>
           <ConnectWallet handleChangeAddress={handleChangeAddress}>

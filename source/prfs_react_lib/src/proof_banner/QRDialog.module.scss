@@ -1,6 +1,4 @@
 .dialogOverlay {
-  // display: grid;
-  // place-items: center;
   z-index: 11;
 }
 
@@ -12,47 +10,42 @@
   place-items: center;
 }
 
-.dialog {
+.modal {
   background-color: white;
   border-radius: 5px;
   overflow: hidden;
-  max-width: 520px;
+  width: 230px;
 }
 
 .QRContainer {
   position: relative;
   padding: 8px;
+}
+
+.topBtnRow {
+  display: flex;
+  justify-content: flex-end;
 
   .closeBtn {
+    font-size: 24px;
     cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin-top: 4px;
-    margin-right: 4px;
     padding: 4px;
     display: flex;
     align-items: center;
 
     &:hover {
-      background-color: var(--gray-70);
+      background-color: var(--bright-gray-30);
       border-radius: 14px;
     }
   }
 }
 
-.btnRow {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-
-  button {
-    color: var(--gray-30);
-    cursor: pointer;
-    font-size: 22px;
-
-    &:hover {
-      color: var(--black-00);
-    }
-  }
+.data {
+  font-size: 13px;
+  color: var(--gray-20);
+  padding: 0 6px;
+  overflow: hidden;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

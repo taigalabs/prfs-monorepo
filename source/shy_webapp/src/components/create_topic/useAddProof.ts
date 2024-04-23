@@ -34,7 +34,6 @@ import { envs } from "@/envs";
 const PROOF = "Proof";
 
 export function useAddProof({
-  // channel,
   channelId,
   proofTypeId,
   setError,

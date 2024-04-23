@@ -14,8 +14,8 @@ const TitleArea: React.FC<LogoContainerProps> = () => {
           zk-proof interface
         </div>
         <div className={styles.subtitle}>
-          Data attestation, cryptographic preprocessing, and proof-spec publishing in one place.
-          Designed for apps and individuals that need to collect or create anonymous proof.
+          Data attestation, cryptographic preprocessing, and proof creation in one place. Designed
+          for apps and individuals that need to collect or create anonymous proof.
         </div>
       </HomeInner>
     </div>

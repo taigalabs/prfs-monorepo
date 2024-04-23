@@ -18,5 +18,17 @@
   "NO_POLICY_ATTACHED": {
     "code": "40000003",
     "phrase": "User has no policy attached"
+  },
+  "NOT_MACHING_SIG_MSG": {
+    "code": "400000A0",
+    "phrase": "Signature might have been made on an invalid msg"
+  },
+  "INVALID_SIG": {
+    "code": "400000A1",
+    "phrase": "Signature is invalid"
+  },
+  "RECORD_INSERT_FAIL": {
+    "code": "40000B00",
+    "phrase": "Unable to insert the record"
   }
 }
