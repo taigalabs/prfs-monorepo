@@ -20,6 +20,7 @@ import {
 } from "@/components/form_input/FormInput";
 import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
 import { useSimpleHashFormHandler } from "./use_simple_hash_form_handler";
+import { useClickHash } from "./use_click_hash";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -46,7 +47,11 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
   proofAction,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [isPresetAssigned, setIsPresetAssigned] = React.useState(false);
+  const handleClickHash = useClickHash({
+    value,
+    setFormValues,
+    setFormErrors,
+  });
 
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,31 +80,6 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
     [setFormValues, value, setFormErrors],
   );
 
-  const handleClickHash = React.useCallback(async () => {
-    if (value.hashData?.msgRaw) {
-      const msgRaw = value.hashData.msgRaw;
-      const msgRawInt = stringToBigInt(msgRaw);
-      const bytes = await poseidon_2_bigint_le([msgRawInt, BigInt(0)]);
-      const msgHash = bytesLeToBigInt(bytes);
-
-      setFormValues(oldVals => ({
-        ...oldVals,
-        hashData: {
-          msgRaw,
-          msgRawInt,
-          msgHash,
-        },
-      }));
-    } else {
-      const hashDataError = <span>Type some input to get hash result</span>;
-
-      setFormErrors((oldVals: any) => ({
-        ...oldVals,
-        hashData: hashDataError,
-      }));
-    }
-  }, [value, setFormValues]);
-
   const msgRaw = React.useMemo(() => {
     if (value?.hashData) {
       return value.hashData.msgRaw.toString();
@@ -112,45 +92,6 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
     credential,
     proofAction,
   });
-
-  // React.useEffect(() => {
-  //   setFormHandler(() => async (formValues: FormValues<SimpleHashV1Inputs>) => {
-  //     const val = formValues as SimpleHashV1Inputs | undefined;
-
-  //     if (!val?.hashData) {
-  //       setFormErrors(oldVal => ({
-  //         ...oldVal,
-  //         hashData: "Input is empty",
-  //       }));
-  //       return { isValid: false as const };
-  //     } else {
-  //       const { msgRaw, msgRawInt, msgHash } = val.hashData;
-
-  //       if (!msgRaw || !msgRawInt || !msgHash) {
-  //         setFormErrors(oldVal => ({
-  //           ...oldVal,
-  //           hashData: "Hashed outcome should be provided. Have you hashed the input?",
-  //         }));
-  //         return { isValid: false as const };
-  //       }
-  //     }
-
-  //     const { pkHex, skHex } = await deriveProofKey(credential.secret_key, val.hashData.msgRaw);
-  //     val.proofPubKey = pkHex;
-
-  //     const proofActionSigMsg = toUtf8Bytes(proofAction);
-  //     const wallet = new Wallet(skHex);
-  //     const sig = await wallet.signMessage(proofActionSigMsg);
-
-  //     return {
-  //       isValid: true,
-  //       proofAction,
-  //       proofPubKey: pkHex,
-  //       proofActionSig: sig,
-  //       proofActionSigMsg: Array.from(proofActionSigMsg),
-  //     };
-  //   });
-  // }, [setFormHandler, setFormErrors, proofAction]);
 
   return (
     <FormInput>
