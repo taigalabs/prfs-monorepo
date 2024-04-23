@@ -1,19 +1,9 @@
 import React from "react";
-import { PrfsIdCredential, deriveProofKey } from "@taigalabs/prfs-id-sdk-web";
-import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
-import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
-import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
-import { HashData } from "@taigalabs/prfs-circuit-interface/bindings/HashData";
-import { bytesLeToBigInt, poseidon_2_bigint_le, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
+import { bytesLeToBigInt, poseidon_2_bigint_le } from "@taigalabs/prfs-crypto-js";
 import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
 
-import {
-  FormErrors,
-  FormHandler,
-  FormValues,
-  HandleSkipCreateProof,
-} from "@/components/circuit_input_items/formTypes";
+import { FormErrors, FormValues } from "@/components/circuit_input_items/formTypes";
 
 export function useClickHash({ value, setFormValues, setFormErrors }: UseClickHashArgs) {
   return React.useCallback(async () => {

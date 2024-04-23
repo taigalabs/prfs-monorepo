@@ -1,18 +1,10 @@
 import React from "react";
 import { toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { PrfsIdCredential, deriveProofKey } from "@taigalabs/prfs-id-sdk-web";
-import { MerkleSigPosRangeV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1Inputs";
 import { Wallet } from "@taigalabs/prfs-crypto-deps-js/ethers";
 import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Inputs";
-import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
-import { HashData } from "@taigalabs/prfs-circuit-interface/bindings/HashData";
 
-import {
-  FormErrors,
-  FormHandler,
-  FormValues,
-  HandleSkipCreateProof,
-} from "@/components/circuit_input_items/formTypes";
+import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
 
 export function useSimpleHashFormHandler({
   setFormHandler,
