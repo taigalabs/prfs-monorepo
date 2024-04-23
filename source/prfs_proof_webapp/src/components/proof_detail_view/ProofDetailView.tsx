@@ -84,7 +84,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ prfsProofId }) => {
               <li>
                 <SocialSharePopover />
               </li>
-              <li>{prfsProof && <SaveProofPopover prfsProof={prfsProof} />}</li>
+              {/* <li>{prfsProof && <SaveProofPopover prfsProof={prfsProof} />}</li> */}
             </ul>
           </div>
           <div className={styles.rightPadding} />
