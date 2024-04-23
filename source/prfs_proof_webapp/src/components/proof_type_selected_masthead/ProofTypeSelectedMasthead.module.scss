@@ -1,11 +1,15 @@
+@import "@/styles/layouts.module.scss";
+
 .searchArea {
-  min-width: 610px;
-  flex-basis: 630px;
+  flex-grow: 1;
   flex-shrink: 1;
-  /* border: 1px solid red; */
+  margin-top: 44px;
+  min-width: 0px;
+  display: flex;
+  justify-content: center;
 
   > div {
-    max-width: 648px;
+    max-width: none;
   }
 }
 
@@ -53,24 +57,24 @@
 }
 
 .bigScreen {
-  display: flex;
-  align-items: center;
+  display: none;
 }
 
-@media screen and (max-width: 1120px) {
-  .bigScreen {
-    display: none;
-  }
-
+@media screen and (min-width: $display_w1120) {
   .searchArea {
-    flex: 1;
-    margin-top: 50px;
-    min-width: 0px;
-    display: flex;
-    justify-content: center;
+    min-width: 610px;
+    flex-basis: 630px;
+    flex-shrink: 1;
+    flex-grow: 0;
+    margin-top: 0;
 
     > div {
-      max-width: none;
+      max-width: 648px;
     }
+  }
+
+  .bigScreen {
+    display: flex;
+    align-items: center;
   }
 }
