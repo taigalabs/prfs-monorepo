@@ -103,38 +103,40 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
       <FormInputTitleRow>
         <FormInputTitle>{circuitTypeData.label}</FormInputTitle>
       </FormInputTitleRow>
-      <div className={styles.hashDataInput}>
-        <div className={styles.hashData}>
-          <InputWrapper
-            className={styles.inputWrapper}
-            isError={!!error?.hashData}
-            isFocused={isFocused}
-            hasValue={msgRaw.length > 0}
-            hasValueClassName={styles.hasValue}
-            focusClassName={styles.focus}
-          >
-            <Label name={""} className={styles.label}>
-              {i18n.data}
-            </Label>
-            <Fieldset>{i18n.data}</Fieldset>
-            <InputElement
-              name={""}
-              value={msgRaw || ""}
-              className={styles.input}
-              onChange={handleChangeRaw}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-          </InputWrapper>
-        </div>
-        <div className={styles.btnRow}>
-          <FormInputButton handleClick={handleClickHash} type="button">
-            {i18n.hash}
-          </FormInputButton>
+      <div className={styles.row}>
+        <div className={styles.hashDataInput}>
+          <div className={styles.hashData}>
+            <InputWrapper
+              className={styles.inputWrapper}
+              isError={!!error?.hashData}
+              isFocused={isFocused}
+              hasValue={msgRaw.length > 0}
+              hasValueClassName={styles.hasValue}
+              focusClassName={styles.focus}
+            >
+              <Label name={""} className={styles.label}>
+                {i18n.data}
+              </Label>
+              <Fieldset>{i18n.data}</Fieldset>
+              <InputElement
+                name={""}
+                value={msgRaw || ""}
+                className={styles.input}
+                onChange={handleChangeRaw}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+            </InputWrapper>
+          </div>
+          <div className={styles.btnRow}>
+            <FormInputButton handleClick={handleClickHash} type="button">
+              {i18n.hash}
+            </FormInputButton>
+          </div>
+          {value?.hashData && <ComputedValue value={value.hashData} />}
+          {error?.hashData && <FormError>{error.hashData}</FormError>}
         </div>
       </div>
-      {value?.hashData && <ComputedValue value={value.hashData} />}
-      {error?.hashData && <FormError>{error.hashData}</FormError>}
     </FormInput>
   );
 };
