@@ -73,9 +73,7 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
         {proofType ? (
           <div className={styles.proofTypeBtn}>
             <CaptionedImg img_url={proofType.img_url} size={32} />
-            <p className={styles.label}>
-              po aweflkj awlefkj alwekfj awlkef alwkejf lawkjef lawekf{proofType.label}
-            </p>
+            <p className={styles.label}>{proofType.label}</p>
             <div className={styles.searchBtn}>
               <IoIosSearch />
             </div>
