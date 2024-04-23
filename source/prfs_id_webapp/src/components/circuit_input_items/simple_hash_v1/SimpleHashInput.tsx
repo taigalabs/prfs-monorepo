@@ -4,20 +4,26 @@ import { SimpleHashV1Inputs } from "@taigalabs/prfs-circuit-interface/bindings/S
 import { SimpleHashV1Data } from "@taigalabs/prfs-circuit-interface/bindings/SimpleHashV1Data";
 import { HashData } from "@taigalabs/prfs-circuit-interface/bindings/HashData";
 import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import {
+  Fieldset,
+  InputElement,
+  InputWrapper,
+  Label,
+} from "@taigalabs/prfs-react-lib/src/input/InputComponent";
+import { useInput } from "@taigalabs/prfs-react-lib/src/input/useInput";
 
 import styles from "./SimpleHashInput.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   FormError,
   FormInput,
-  FormInputBtnRow,
   FormInputTitle,
   FormInputTitleRow,
-  InputWrapper,
 } from "@/components/form_input/FormInput";
 import { FormErrors, FormHandler, FormValues } from "@/components/circuit_input_items/formTypes";
 import { useSimpleHashFormHandler } from "./use_simple_hash_form_handler";
 import { useClickHash } from "./use_click_hash";
+import { FormInputButton } from "@/components/circuit_inputs/CircuitInputComponents";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -44,6 +50,8 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
   proofAction,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const { isFocused, handleFocus, handleBlur } = useInput();
+
   const handleClickHash = useClickHash({
     value,
     setFormValues,
@@ -94,17 +102,37 @@ const SimpleHashInput: React.FC<SimpleHashInputProps> = ({
     <FormInput>
       <FormInputTitleRow>
         <FormInputTitle>{circuitTypeData.label}</FormInputTitle>
-        <FormInputBtnRow>
-          <button className={styles.hashBtn} onClick={handleClickHash} type="button">
-            {i18n.hash}
-          </button>
-        </FormInputBtnRow>
       </FormInputTitleRow>
-      <InputWrapper>
-        <div className={styles.interactiveArea}>
-          <input placeholder={i18n.message_to_hash} value={msgRaw} onChange={handleChangeRaw} />
+      <div className={styles.hashDataInput}>
+        <div className={styles.hashData}>
+          <InputWrapper
+            className={styles.inputWrapper}
+            isError={!!error?.hashData}
+            isFocused={isFocused}
+            hasValue={msgRaw.length > 0}
+            hasValueClassName={styles.hasValue}
+            focusClassName={styles.focus}
+          >
+            <Label name={""} className={styles.label}>
+              {i18n.data}
+            </Label>
+            <Fieldset>{i18n.data}</Fieldset>
+            <InputElement
+              name={""}
+              value={msgRaw || ""}
+              className={styles.input}
+              onChange={handleChangeRaw}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+          </InputWrapper>
         </div>
-      </InputWrapper>
+        <div className={styles.btnRow}>
+          <FormInputButton handleClick={handleClickHash} type="button">
+            {i18n.hash}
+          </FormInputButton>
+        </div>
+      </div>
       {value?.hashData && <ComputedValue value={value.hashData} />}
       {error?.hashData && <FormError>{error.hashData}</FormError>}
     </FormInput>
