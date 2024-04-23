@@ -18,6 +18,9 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
           </p>
         </div>
         <div className={styles.image}>
+          <div className={styles.imgLabel}>
+            <p>Prfs Proof generate</p>
+          </div>
           <img
             src="https://d1w1533jipmvi2.cloudfront.net/prfs_proof_1.png"
             crossOrigin="anonymous"
@@ -34,6 +37,9 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
           </p>
         </div>
         <div className={styles.image}>
+          <div className={styles.imgLabel}>
+            <p>Prfs Attestation</p>
+          </div>
           <img
             src="https://d1w1533jipmvi2.cloudfront.net/prfs_attestation_1.png"
             crossOrigin="anonymous"
@@ -51,6 +57,9 @@ const FeatureList: React.FC<LogoContainerProps> = ({ handleFocusSearchBar }) => 
           </p>
         </div>
         <div className={styles.image}>
+          <div className={styles.imgLabel}>
+            <p>Prfs Identity</p>
+          </div>
           <img
             src="https://d1w1533jipmvi2.cloudfront.net/prfs_id_1.png"
             crossOrigin="anonymous"
