@@ -48,7 +48,11 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating 
   const i18n = useI18N();
 
   const label = React.useMemo(() => {
-    return abbrev7and5(atst.label);
+    if (atst.label.length > 12) {
+      return abbrev7and5(atst.label);
+    } else {
+      return atst.label;
+    }
   }, [atst.label]);
 
   const cm = React.useMemo(() => {
