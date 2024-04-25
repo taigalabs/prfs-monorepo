@@ -223,7 +223,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
         const member_id_enc = formData[MEMBER_ID_ENC];
         const atst_id = `${GROUP_MEMBER}_${atstGroup.atst_group_id}_${member_code}`;
 
-        const { payload: createGroupMemberAtstPayload, error: createGroupMemberAtstError } =
+        const { payload: _createGroupMemberAtstPayload, error: createGroupMemberAtstError } =
           await createGroupMemberAttestation({
             atst_id,
             label: member_id_cm,
