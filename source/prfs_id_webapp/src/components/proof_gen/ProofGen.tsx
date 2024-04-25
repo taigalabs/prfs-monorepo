@@ -52,6 +52,12 @@ const ProofGen: React.FC = () => {
       const args = parseProofGenSearchParams(searchParams as URLSearchParams);
       return args;
     } catch (err: any) {
+      dispatch(
+        setGlobalMsg({
+          variant: "error",
+          message: `Failed to parse arguments, err: ${err}`,
+        }),
+      );
       return null;
     }
   }, [searchParams]);
