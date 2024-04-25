@@ -223,33 +223,39 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
         const member_id_enc = formData[MEMBER_ID_ENC];
         const atst_id = `${GROUP_MEMBER}_${atstGroup.atst_group_id}_${member_code}`;
 
-        const { payload, error } = await createGroupMemberAttestation({
-          atst_id,
-          label: member_id_cm,
-          serial_no: "empty",
-          cm,
-          atst_group_id: atstGroup.atst_group_id,
-          member_code,
-        });
+        const { payload: createGroupMemberAtstPayload, error: createGroupMemberAtstError } =
+          await createGroupMemberAttestation({
+            atst_id,
+            label: member_id_cm,
+            serial_no: "empty",
+            cm,
+            atst_group_id: atstGroup.atst_group_id,
+            member_code,
+          });
 
-        setCreateStatus(Status.Standby);
-
-        if (error) {
-          setError(<span>{error.toString()}</span>);
+        if (createGroupMemberAtstError) {
+          setError(<span>{createGroupMemberAtstError.toString()}</span>);
           setCreateStatus(Status.Standby);
           return;
         }
 
-        if (payload) {
+        const { error: addPrfsIndexError, payload: addPrfsIndexPayload } =
+          await addPrfsIndexRequest({
+            key: prfs_index,
+            value: member_id_enc,
+            serial_no: "empty",
+          });
+
+        if (addPrfsIndexError) {
+          setError(<span>{createGroupMemberAtstError.toString()}</span>);
+          setCreateStatus(Status.Standby);
+          return;
+        }
+
+        if (addPrfsIndexPayload) {
           setIsNavigating(true);
           router.push(`${paths.attestations}/g/nonce_seoul_1`);
         }
-
-        await addPrfsIndexRequest({
-          key: prfs_index,
-          value: member_id_enc,
-          serial_no: "empty",
-        });
       } catch (err: any) {
         setError(<span>{err.toString()}</span>);
         setCreateStatus(Status.Standby);
