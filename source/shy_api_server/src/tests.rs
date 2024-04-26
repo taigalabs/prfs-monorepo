@@ -17,6 +17,7 @@ fn test_proof_action_serialize() {
     let action = ShyTopicProofAction::create_shy_topic(CreateShyTopicAction {
         topic_id: "power 11".to_string(),
         channel_id: " pork 1".to_string(),
+        title: "title 2".to_string(),
         content: " af foo ".to_string(),
     });
 

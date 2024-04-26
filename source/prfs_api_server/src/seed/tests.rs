@@ -106,7 +106,7 @@ mod seed_api3 {
 
             let m = PrfsAtstGroupMember {
                 atst_group_id: PrfsAtstGroupId::nonce_seoul_1,
-                member_id: record.member_id,
+                label: record.label,
                 member_code: record.member_code,
                 meta: JsonType::from(PrfsAtstMeta::plain_data(PlainDataAtstMeta {
                     values: vec![PlainDataValue {
