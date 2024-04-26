@@ -15,7 +15,9 @@ const ChannelNotice: React.FC<ChannelNoticeProps> = ({}) => {
         <div className={styles.section}>
           <p>In order to use Shy, you need to have your data attested.</p>
           <div className={styles.sectionRow}>
-            <button className={styles.btn}>Start with attestation</button>
+            <a href="https://www.prfs.xyz/">
+              <button className={styles.atstBtn}>Start with attestation</button>
+            </a>
           </div>
         </div>
       </div>

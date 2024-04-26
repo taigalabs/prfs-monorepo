@@ -27,6 +27,13 @@
   padding-top: 10px;
 }
 
+.atstBtn {
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid var(--gray-40);
+  padding: 6px;
+}
+
 @media screen and (min-width: $display_w768) {
   .row {
     flex-direction: row;
