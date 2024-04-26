@@ -8,6 +8,7 @@ use crate::PrfsAtstGroupId;
 pub struct CreateGroupMemberAtstRequest {
     pub atst_id: String,
     pub atst_group_id: PrfsAtstGroupId,
+    pub label: String,
     pub serial_no: String,
     pub cm: String,
     pub member_code: String,

@@ -35,19 +35,20 @@ export const SetElementTableHeaderRow: React.FC<{}> = ({}) => {
 
 const SetElementTableRow: React.FC<RowProps> = ({ row, style, router }) => {
   const name = React.useMemo(() => {
-    if (row.label.length > 12) {
-      return row.label.substring(0, 12) + "...";
+    const element_id = row.element_id;
+    if (element_id.length > 12) {
+      return element_id.substring(0, 12) + "...";
     } else {
-      row.label;
+      element_id;
     }
-  }, [row.label]);
+  }, [row.element_id]);
 
   const data = React.useMemo(() => {
     return JSON.stringify(row.data);
   }, [row.data]);
 
   const handleClick = React.useCallback(() => {
-    router.push(`${paths.sets}/${row.set_id}/${row.label}`);
+    router.push(`${paths.sets}/${row.set_id}/${row.element_id}`);
   }, [router, row]);
 
   return (

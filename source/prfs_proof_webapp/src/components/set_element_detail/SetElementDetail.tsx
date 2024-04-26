@@ -4,13 +4,13 @@ import React from "react";
 import cn from "classnames";
 import { FaArrowLeft } from "@react-icons/all-files/fa/FaArrowLeft";
 import ButtonCircleContainer from "@taigalabs/prfs-react-lib/src/button_circle_container/ButtonCircleContainer";
-import { prfsApi3, treeApi } from "@taigalabs/prfs-api-js";
+import { treeApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import Link from "next/link";
 
 import styles from "./SetElementDetail.module.scss";
-import { consolePaths, paths } from "@/paths";
+import { paths } from "@/paths";
 import {
   AttestationDetailBox,
   AttestationDetailBoxInner,
@@ -59,7 +59,7 @@ const SetElementDetail: React.FC<SetElementDetailProps> = ({ element_label, set_
       </AttestationDetailTopMenuRow>
       <div className={styles.avatarRow}>
         <div className={styles.rightCol}>
-          <div className={styles.walletAddr}>{setElement.label}</div>
+          <div className={styles.walletAddr}>{setElement.element_id}</div>
         </div>
       </div>
       <AttestationDetailSection className={styles.metaRow}>

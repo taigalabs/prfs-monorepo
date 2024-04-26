@@ -69,7 +69,7 @@ pub async fn create_group_member_atst(
     let prfs_attestation = PrfsAttestation {
         atst_id: input.atst_id,
         atst_group_id: input.atst_group_id.clone(),
-        label: member.member_id.to_string(),
+        label: input.label.to_string(),
         cm: input.cm,
         meta: member.meta.clone(),
         status: PrfsAtstStatus::Valid,

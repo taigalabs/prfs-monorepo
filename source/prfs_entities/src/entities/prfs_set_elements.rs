@@ -7,7 +7,7 @@ use ts_rs::TS;
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct PrfsSetElement {
-    pub label: String,
+    pub element_id: String,
     pub set_id: String,
     #[ts(type = "Record<string, string>")]
     pub data: sqlx::types::Json<PrfsSetElementData>,

@@ -33,6 +33,7 @@ import {
   GroupMemberAtstFormData,
   MEMBER_CODE,
   MEMBER_ID,
+  MEMBER_ID_CM,
   MEMBER_ID_ENC,
 } from "./create_group_member_atst";
 import ClaimSecretItem from "./ClaimSecretItem";
@@ -46,6 +47,9 @@ enum Status {
 }
 
 function checkIfFormIsFilled(formData: GroupMemberAtstFormData) {
+  if (!formData[MEMBER_ID_CM]) {
+    return false;
+  }
   if (!formData[CM]) {
     return false;
   }
@@ -64,6 +68,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     [MEMBER_ID]: "",
     [MEMBER_CODE]: "",
     [CM]: "",
+    [MEMBER_ID_CM]: "",
     [MEMBER_ID_ENC]: "",
   });
   const [memberIdCacheKeys, setMemberIdCacheKeys] = React.useState<Record<string, string> | null>(
@@ -173,6 +178,18 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     [setFormData],
   );
 
+  const handleChangeMemberIdCm = React.useCallback(
+    (val: string) => {
+      if (val) {
+        setFormData(oldVal => ({
+          ...oldVal,
+          [MEMBER_ID_CM]: val,
+        }));
+      }
+    },
+    [setFormData],
+  );
+
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
   }, [formData]);
@@ -208,12 +225,14 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
         const cm = formData[CM];
         const member_code = formData[MEMBER_CODE];
         const member_id_enc = formData[MEMBER_ID_ENC];
+        const member_id_cm = formData[MEMBER_ID_CM];
         const atst_id = `${GROUP_MEMBER}_${atstGroup.atst_group_id}_${member_code}`;
 
         const { payload: _createGroupMemberAtstPayload, error: createGroupMemberAtstError } =
           await createGroupMemberAttestation({
             atst_id,
             serial_no: "empty",
+            label: member_id_cm,
             cm,
             atst_group_id: atstGroup.atst_group_id,
             member_code,
@@ -299,6 +318,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
               setMemberIdCacheKeys={setMemberIdCacheKeys}
               handleChangeCm={handleChangeCm}
               handleChangeMemberIdEnc={handleChangeMemberIdEnc}
+              handleChangeMemberIdCm={handleChangeMemberIdCm}
             />
           </ol>
           <AttestationFormBtnRow>
