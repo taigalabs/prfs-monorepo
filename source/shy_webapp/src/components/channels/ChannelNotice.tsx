@@ -13,7 +13,10 @@ const ChannelNotice: React.FC<ChannelNoticeProps> = ({}) => {
       <div className={styles.row}>
         <div className={styles.section}></div>
         <div className={styles.section}>
-          <p>In order to use Shy, you need to have your data attested.</p> Start with attestation
+          <p>In order to use Shy, you need to have your data attested.</p>
+          <div className={styles.sectionRow}>
+            <button className={styles.btn}>Start with attestation</button>
+          </div>
         </div>
       </div>
     </div>

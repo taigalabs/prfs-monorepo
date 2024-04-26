@@ -23,6 +23,10 @@
   /* border: 1px solid black; */
 }
 
+.sectionRow {
+  padding-top: 10px;
+}
+
 @media screen and (min-width: $display_w768) {
   .row {
     flex-direction: row;
