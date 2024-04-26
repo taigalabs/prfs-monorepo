@@ -9,7 +9,7 @@ use rust_decimal::Decimal;
 use super::queries::get_prfs_set_elements_query;
 use crate::DbInterfaceError;
 
-pub async fn insert_asset_atsts_as_prfs_set_elements(
+pub async fn insert_atsts_as_prfs_set_elements(
     tx: &mut Transaction<'_, Postgres>,
     prfs_set_elements: Vec<PrfsSetElement>,
 ) -> Result<u64, DbInterfaceError> {

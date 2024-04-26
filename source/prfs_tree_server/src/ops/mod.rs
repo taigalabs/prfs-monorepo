@@ -57,8 +57,9 @@ pub async fn _import_prfs_attestations_to_prfs_set(
         prfs_set_elements.push(elem);
     }
 
-    let rows_affected =
-        prfs::insert_asset_atsts_as_prfs_set_elements(tx, prfs_set_elements).await?;
+    let rows_affected = prfs::insert_atsts_as_prfs_set_elements(tx, prfs_set_elements)
+        .await
+        .map_err(|err| format!("Error inserting atsts as Prfs attestations, err: {}", err))?;
 
     return Ok((dest_set_id.to_string(), rows_affected));
 }
