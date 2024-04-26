@@ -16,7 +16,7 @@ import {
   QueryItemLeftCol,
   QueryItemMeta,
   QueryItemRightCol,
-} from "@/components/default_module/QueryItem";
+} from "@/components/query_item/QueryItemComponents";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 
 const SignInInputs: React.FC<SignInInputsProps> = ({

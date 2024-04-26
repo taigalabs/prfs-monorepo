@@ -20,7 +20,7 @@ import {
   QueryItemMeta,
   QueryItemRightCol,
   QueryName,
-} from "@/components/default_module/QueryItem";
+} from "@/components/query_item/QueryItemComponents";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 import { useAppDispatch } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
@@ -191,31 +191,29 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             )}
           </QueryItemRightCol>
         </QueryItemMeta>
-        <div className={styles.inner}>
-          <div className={styles.rightCol}>
-            {loadDriverStatus === LoadDriverStatus.InProgress && (
-              <div className={styles.overlay}>
-                <Spinner size={24} color={colors.blue_12} />
-              </div>
-            )}
-            <div className={styles.form}>
-              <CircuitInputs
-                proofType={proofType}
-                formValues={formValues}
-                setFormValues={setFormValues}
-                setFormHandler={setFormHandler}
-                formErrors={formErrors}
-                setFormErrors={setFormErrors}
-                presetVals={query.presetVals}
-                credential={credential}
-                proofAction={query.proofAction}
-                usePrfsRegistry={query.usePrfsRegistry}
-                handleSkipCreateProof={handleSkipCreateProof}
-              />
+        <div className={styles.content}>
+          {loadDriverStatus === LoadDriverStatus.InProgress && (
+            <div className={styles.overlay}>
+              <Spinner size={24} color={colors.blue_12} />
             </div>
-            {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
-            {errorMsg && <div className={cn(styles.systemMsg, styles.red)}>{errorMsg}</div>}
+          )}
+          <div className={styles.form}>
+            <CircuitInputs
+              proofType={proofType}
+              formValues={formValues}
+              setFormValues={setFormValues}
+              setFormHandler={setFormHandler}
+              formErrors={formErrors}
+              setFormErrors={setFormErrors}
+              presetVals={query.presetVals}
+              credential={credential}
+              proofAction={query.proofAction}
+              usePrfsRegistry={query.usePrfsRegistry}
+              handleSkipCreateProof={handleSkipCreateProof}
+            />
           </div>
+          {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
+          {errorMsg && <div className={cn(styles.systemMsg, styles.red)}>{errorMsg}</div>}
         </div>
       </QueryItem>
     </>
