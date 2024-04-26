@@ -11,7 +11,7 @@ use std::str::FromStr;
 
 use crate::paths::PATHS;
 
-pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
+pub fn load_prfs_proof_types() -> Vec<PrfsProofType> {
     let simple_hash_1_desc =
         read_md_file(&PATHS.data_seed.join("proof_types/SIMPLE_HASH_1.md")).unwrap();
     let crypto_asset_size_v1_desc =

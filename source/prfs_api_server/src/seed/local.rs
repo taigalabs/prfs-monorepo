@@ -135,32 +135,16 @@ pub fn load_circuit_input_types() -> HashMap<String, PrfsCircuitInputType> {
     return m;
 }
 
-// pub fn load_proof_types() -> HashMap<String, PrfsProofType> {
-//     println!("\n{} proof types", "Loading".green());
-
-//     let json_path = PATHS.data_seed__json_bindings.join("prfs_proof_types.json");
-//     let proof_types: Vec<PrfsProofType> = read_json_file(&json_path).unwrap();
+// pub fn load_prfs_atst_groups() -> HashMap<String, PrfsAtstGroup> {
+//     let json_path = PATHS.data_seed__json_bindings.join("prfs_atst_groups.json");
+//     let rows: Vec<PrfsAtstGroup> = read_json_file(&json_path).unwrap();
 
 //     let mut m = HashMap::new();
-//     for proof_type in proof_types {
-//         println!("Reading proof type, name: {}", proof_type.proof_type_id);
+//     for row in rows {
+//         println!("Reading row, name: {}", row.atst_group_id);
 
-//         m.insert(proof_type.proof_type_id.to_string(), proof_type.clone());
+//         m.insert(row.atst_group_id.to_string(), row.clone());
 //     }
 
 //     m
 // }
-
-pub fn load_prfs_atst_groups() -> HashMap<String, PrfsAtstGroup> {
-    let json_path = PATHS.data_seed__json_bindings.join("prfs_atst_groups.json");
-    let rows: Vec<PrfsAtstGroup> = read_json_file(&json_path).unwrap();
-
-    let mut m = HashMap::new();
-    for row in rows {
-        println!("Reading row, name: {}", row.atst_group_id);
-
-        m.insert(row.atst_group_id.to_string(), row.clone());
-    }
-
-    m
-}

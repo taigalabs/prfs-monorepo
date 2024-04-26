@@ -1,3 +1,4 @@
+use crate::seed::data::load_prfs_atst_groups;
 use prfs_db_driver::database2::Database2;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_db_interface::prfs;
@@ -13,7 +14,7 @@ use std::process::Command;
 use tokio::sync::OnceCell;
 
 use super::upload::{upload_prfs_circuits, upload_prfs_proof_types};
-use crate::seed::data::get_prfs_proof_types;
+use crate::seed::data::load_prfs_proof_types;
 use crate::seed::{
     csv::GroupMemberRecord,
     upload::{upload_prfs_atst_group_members, upload_prfs_atst_groups},
@@ -69,13 +70,14 @@ mod seed_api1 {
         prepare().await;
         let db = get_db().await;
 
-        let proof_types = get_prfs_proof_types();
+        let proof_types = load_prfs_proof_types();
         println!("proof_types: {:#?}", proof_types);
         upload_prfs_proof_types(&db, &proof_types).await;
     }
 }
 
 mod seed_api2 {
+
     use super::*;
 
     #[tokio::test]
@@ -83,7 +85,10 @@ mod seed_api2 {
         prepare().await;
         let db = get_db().await;
 
-        upload_prfs_atst_groups(&db).await;
+        // upload_prfs_atst_groups(&db).await;
+        let proof_types = load_prfs_atst_groups();
+        // println!("proof_types: {:#?}", proof_types);
+        // upload_prfs_atst_groups(&db, &proof_types).await;
     }
 }
 

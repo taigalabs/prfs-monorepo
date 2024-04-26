@@ -24,6 +24,9 @@ export const AtstHeaderRow = () => {
       <AppTableHeaderCell className={cn(styles.label)} alwaysRender>
         {i18n.label}
       </AppTableHeaderCell>
+      <AppTableHeaderCell className={cn(styles.label)} alwaysRender>
+        {i18n.member_label}
+      </AppTableHeaderCell>
       <AppTableHeaderCell className={cn(styles.commitment)} w320>
         {i18n.commitment}
       </AppTableHeaderCell>
