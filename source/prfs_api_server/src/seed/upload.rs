@@ -150,22 +150,6 @@ pub async fn upload_prfs_atst_groups(db: &Database2, atst_groups: &Vec<PrfsAtstG
     tx.commit().await.unwrap();
 }
 
-// pub async fn upload_prfs_atst_groups(db: &Database2) {
-//     let pool = &db.pool;
-//     let mut tx = pool.begin().await.unwrap();
-
-//     let atst_groups = load_prfs_atst_groups();
-//     println!("atst_groups: {:#?}", atst_groups);
-
-//     for atst_group in atst_groups.values() {
-//         prfs::upsert_prfs_atst_group(&mut tx, atst_group)
-//             .await
-//             .unwrap();
-//     }
-
-//     tx.commit().await.unwrap();
-// }
-
 pub async fn upload_prfs_atst_group_members(
     db: &Database2,
     atst_group_members: &Vec<PrfsAtstGroupMember>,
