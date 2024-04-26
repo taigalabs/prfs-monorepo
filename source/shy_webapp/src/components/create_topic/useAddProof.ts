@@ -23,6 +23,7 @@ import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_
 import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { computeAddress, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { ProofBlob } from "@taigalabs/shy-entities/bindings/ProofBlob";
 
 import { SHY_APP_ID } from "@/app_id";
@@ -30,7 +31,6 @@ import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { Editor } from "@tiptap/react";
 import { envs } from "@/envs";
-import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 
 const PROOF = "Proof";
 
