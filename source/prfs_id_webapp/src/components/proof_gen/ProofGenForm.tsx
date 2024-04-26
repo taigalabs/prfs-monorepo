@@ -26,7 +26,7 @@ import {
 } from "@/components/default_module/DefaultModule";
 import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
-import { QueryItemList } from "@/components/default_module/QueryItem";
+import { QueryItemList } from "@/components/query_item/QueryItemComponents";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 import EncryptView from "@/components/encrypt/EncryptView";
 import { usePutSessionValue } from "@/hooks/session";
