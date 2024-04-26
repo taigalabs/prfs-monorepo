@@ -31,7 +31,8 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
   const i18n = useI18N();
   const router = useRouter();
   const [isNavigating, setIsNavigating] = React.useState(false);
-  const { data: prfsAtstGroupData } = usePrfsAtstGroup(atst_group_id);
+  const { data: prfsAtstGroupData, isPending: prfsAtstGroupDataIsPending } =
+    usePrfsAtstGroup(atst_group_id);
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -63,7 +64,6 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
         return d.payload ? d.payload.rows : [];
       })
     : [];
-  // const allRows = data ? data.pages.flatMap(d => d.rows) : [];
 
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rowVirtualizer = useVirtualizer({
@@ -91,11 +91,13 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
     rowVirtualizer.getVirtualItems(),
   ]);
 
+  const atstGroup = prfsAtstGroupData?.payload?.atst_group;
+
   return (
     <AppTableWrapper innerRef={parentRef}>
-      <AtstHeaderRow atstGroup={prfsAtstGroupData?.payload?.atst_group} />
+      <AtstHeaderRow atstGroup={atstGroup} />
 
-      {status === "pending" ? (
+      {status === "pending" || prfsAtstGroupDataIsPending ? (
         <AppTableLoading>Loading...</AppTableLoading>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
@@ -124,20 +126,23 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
               }
 
               return (
-                <AtstTableRow
-                  key={row.key}
-                  atst={atst}
-                  router={router}
-                  setIsNavigating={setIsNavigating}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: `${row.size}px`,
-                    transform: `translateY(${row.start}px)`,
-                  }}
-                />
+                atstGroup && (
+                  <AtstTableRow
+                    key={row.key}
+                    atstGroup={atstGroup}
+                    atst={atst}
+                    router={router}
+                    setIsNavigating={setIsNavigating}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: `${row.size}px`,
+                      transform: `translateY(${row.start}px)`,
+                    }}
+                  />
+                )
               );
             })}
           </div>

@@ -87,6 +87,7 @@ pub async fn create_crypto_asset_atst(
             meta: None,
         }]),
         atst_version: PrfsAtstVersion::v0_2,
+        member_label: None,
     };
 
     let atst_id = match prfs::insert_prfs_attestation(&mut tx, &prfs_attestation).await {
