@@ -6,11 +6,19 @@
 
 .row {
   display: flex;
+  flex-direction: column;
   column-gap: 24px;
+  row-gap: 18px;
 }
 
 .section {
   flex-grow: 1;
 
   border: 1px solid black;
+}
+
+@media screen and (min-width: $display_w768) {
+  .row {
+    flex-direction: row;
+  }
 }
