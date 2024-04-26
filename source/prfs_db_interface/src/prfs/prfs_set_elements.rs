@@ -1,29 +1,25 @@
 use prfs_db_driver::bind_limit::BIND_LIMIT;
 use prfs_db_driver::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
-use prfs_entities::atst_entities::PrfsAttestation;
-use prfs_entities::entities::{PrfsSetElement, PrfsSetElementData};
-use prfs_entities::{PrfsAtstGroupId, PrfsSetElementStatus};
-use rust_decimal::prelude::FromPrimitive;
-use rust_decimal::Decimal;
+use prfs_entities::entities::PrfsSetElement;
 
 use super::queries::get_prfs_set_elements_query;
 use crate::DbInterfaceError;
 
-pub async fn insert_asset_atsts_as_prfs_set_elements(
+pub async fn insert_atsts_as_prfs_set_elements(
     tx: &mut Transaction<'_, Postgres>,
     prfs_set_elements: Vec<PrfsSetElement>,
 ) -> Result<u64, DbInterfaceError> {
     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
         r#"
 INSERT INTO prfs_set_elements 
-(label, data, ref, set_id, element_idx, status)
+(element_id, data, ref, set_id, element_idx, status)
 "#,
     );
 
     query_builder.push_values(
         prfs_set_elements.iter().take(BIND_LIMIT / 5).enumerate(),
         |mut b, (_, elem)| {
-            b.push_bind(&elem.label)
+            b.push_bind(&elem.element_id)
                 .push_bind(&elem.data)
                 .push_bind(&elem.r#ref)
                 .push_bind(&elem.set_id)
@@ -34,9 +30,9 @@ INSERT INTO prfs_set_elements
 
     query_builder.push(
         r#"
-ON CONFLICT (set_id, "label") DO UPDATE SET (
-data, ref, element_idx, status
-) = (excluded.data, excluded.ref, excluded.element_idx, excluded.status)
+ON CONFLICT (set_id, element_id) DO UPDATE SET (
+element_id, data, ref, element_idx, status
+) = (excluded.element_id, excluded.data, excluded.ref, excluded.element_idx, excluded.status)
     "#,
     );
 
@@ -51,18 +47,18 @@ pub async fn insert_prfs_set_element(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_set_elements
-(label, set_id, ref, data, status)
+(element_id, set_id, ref, data, status)
 VALUES ($1, $2, $3, $4)
-ON CONFLICT (label, set_id) DO UPDATE SET (
-label, set_id, ref, data, status, updated_at
+ON CONFLICT (element_id, set_id) DO UPDATE SET (
+element_id, set_id, ref, data, status, updated_at
 ) = (
-excluded.label, excluded.set_id, excluded.ref, excluded.data, excluded.status
+excluded.element_id, excluded.set_id, excluded.ref, excluded.data, excluded.status
 now()
 )
 RETURNING atst_id"#;
 
     let row = sqlx::query(query)
-        .bind(&set_element.label)
+        .bind(&set_element.element_id)
         .bind(&set_element.set_id)
         .bind(&set_element.r#ref)
         .bind(&set_element.data)
@@ -70,9 +66,9 @@ RETURNING atst_id"#;
         .fetch_one(&mut **tx)
         .await?;
 
-    let label: String = row.try_get("label")?;
+    let element_id: String = row.try_get("element_id")?;
 
-    return Ok(label);
+    return Ok(element_id);
 }
 
 pub async fn get_prfs_set_elements(
@@ -94,7 +90,7 @@ pub async fn get_prfs_set_elements(
         .iter()
         .map(|row| {
             Ok(PrfsSetElement {
-                label: row.try_get("label")?,
+                element_id: row.try_get("element_id")?,
                 data: row.try_get("data")?,
                 r#ref: row.try_get("ref")?,
                 status: row.try_get("status")?,
@@ -127,7 +123,7 @@ pub async fn get_prfs_set_elements__tx(
         .iter()
         .map(|row| {
             Ok(PrfsSetElement {
-                label: row.try_get("label")?,
+                element_id: row.try_get("element_id")?,
                 data: row.try_get("data")?,
                 r#ref: row.try_get("ref")?,
                 status: row.try_get("status")?,
@@ -143,23 +139,23 @@ pub async fn get_prfs_set_elements__tx(
 pub async fn get_prfs_set_element(
     pool: &Pool<Postgres>,
     set_id: &String,
-    label: &String,
+    element_id: &String,
 ) -> Result<PrfsSetElement, DbInterfaceError> {
     let query = r#"
 SELECT *
 FROM prfs_set_elements
 WHERE set_id=$1 
-AND label=$2
+AND element_id=$2
 "#;
 
     let row = sqlx::query(query)
         .bind(&set_id)
-        .bind(&label)
+        .bind(&element_id)
         .fetch_one(pool)
         .await?;
 
     let atst = PrfsSetElement {
-        label: row.try_get("label")?,
+        element_id: row.try_get("element_id")?,
         data: row.try_get("data")?,
         r#ref: row.try_get("ref")?,
         status: row.try_get("status")?,

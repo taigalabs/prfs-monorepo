@@ -45,6 +45,8 @@ const AddressInput: React.FC<AddresseInputProps> = ({
             isError={!!error.merkleProof}
             isFocused={isFocused}
             hasValue={abbrevWalletAddr.length > 0}
+            hasValueClassName={styles.hasValue}
+            focusClassName={styles.focus}
           >
             <Label name={""} className={styles.label}>
               {i18n.wallet}

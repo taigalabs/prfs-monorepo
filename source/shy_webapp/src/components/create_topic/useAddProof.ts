@@ -22,7 +22,8 @@ import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interfa
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicProofAction";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
-import { computeAddress } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { computeAddress, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
+import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
 import { ProofBlob } from "@taigalabs/shy-entities/bindings/ProofBlob";
 
 import { SHY_APP_ID } from "@/app_id";
@@ -39,6 +40,7 @@ export function useAddProof({
   setError,
   topicId,
   editor,
+  title,
   setHtml,
   handleSucceedAddProof,
   proofIdx,
@@ -66,6 +68,9 @@ export function useAddProof({
 
     const html = editor.getHTML();
 
+    const titleHash = keccak256(toUtf8Bytes(title));
+    const htmlHash = keccak256(toUtf8Bytes(html));
+
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
     const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
@@ -74,7 +79,8 @@ export function useAddProof({
       type: "create_shy_topic",
       topic_id: topicId,
       channel_id: channelId,
-      content: html,
+      title_hash: titleHash,
+      content_hash: htmlHash,
     };
 
     const proofActionStr = JSON.stringify(proofAction);
@@ -118,6 +124,7 @@ export function useAddProof({
     setHtml(html);
   }, [
     proofTypeId,
+    title,
     channelId,
     topicId,
     editor,
@@ -226,6 +233,7 @@ export interface UseAddProofArgs {
   setError: React.Dispatch<React.SetStateAction<string | null>>;
   topicId: string;
   editor: Editor | null;
+  title: string;
   setHtml: React.Dispatch<React.SetStateAction<string | null>>;
   handleSucceedAddProof: (proof: ProofBlob) => void;
   proofIdx: number;

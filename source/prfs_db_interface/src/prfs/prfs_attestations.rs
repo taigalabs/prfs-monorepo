@@ -12,14 +12,14 @@ pub async fn insert_prfs_attestation(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_attestations
-(atst_id, label, cm, meta, status, atst_version, atst_group_id, value)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+(atst_id, label, cm, meta, status, atst_version, atst_group_id, value, member_label)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 ON CONFLICT (atst_id) DO UPDATE SET (
-label, cm, meta, updated_at, status, atst_version, atst_group_id, value
+label, cm, meta, updated_at, status, atst_version, atst_group_id, value, member_label
 ) = (
 excluded.label, excluded.cm, excluded.meta,
 now(), excluded.status, excluded.atst_version, excluded.atst_group_id,
-excluded.value
+excluded.value, excluded.member_label
 )
 RETURNING atst_id"#;
 
@@ -32,6 +32,7 @@ RETURNING atst_id"#;
         .bind(&prfs_attestation.atst_version)
         .bind(&prfs_attestation.atst_group_id)
         .bind(&prfs_attestation.value)
+        .bind(&prfs_attestation.member_label)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -47,7 +48,7 @@ pub async fn upsert_prfs_attestations(
     let mut query_builder: QueryBuilder<_> = QueryBuilder::new(
         r#"
 INSERT INTO prfs_attestations
-(atst_id, label, cm, meta, status, atst_version, atst_group_id, value)
+(atst_id, label, cm, meta, status, atst_version, atst_group_id, value, member_label)
 "#,
     );
 
@@ -61,7 +62,8 @@ INSERT INTO prfs_attestations
                 .push_bind(&atst.status)
                 .push_bind(&atst.atst_version)
                 .push_bind(&atst.atst_group_id)
-                .push_bind(&atst.value);
+                .push_bind(&atst.value)
+                .push_bind(&atst.member_label);
         },
     );
 
@@ -116,6 +118,7 @@ OFFSET $3
                 atst_version: row.try_get("atst_version")?,
                 atst_group_id: row.try_get("atst_group_id")?,
                 value: row.try_get("value")?,
+                member_label: row.try_get("member_label")?,
             })
         })
         .collect::<Result<Vec<PrfsAttestation>, DbInterfaceError>>()?;
@@ -151,6 +154,7 @@ pub async fn get_prfs_attestations_by_atst_group_id__tx(
                 status: row.try_get("status")?,
                 atst_version: row.try_get("atst_version")?,
                 atst_group_id: row.try_get("atst_group_id")?,
+                member_label: row.try_get("member_label")?,
             })
         })
         .collect::<Result<Vec<PrfsAttestation>, DbInterfaceError>>()?;
@@ -179,6 +183,7 @@ WHERE atst_id=$1
         atst_version: row.try_get("atst_version")?,
         atst_group_id: row.try_get("atst_group_id")?,
         value: row.try_get("value")?,
+        member_label: row.try_get("member_label")?,
     };
 
     Ok(atst)

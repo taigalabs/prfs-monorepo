@@ -23,17 +23,24 @@ pub async fn do_update_prfs_tree_by_new_atst_task(
         if **atst_group_id == PrfsAtstGroupId::crypto_1 {
             let resp =
                 atst_api_ops::compute_crypto_asset_total_values(&mut tx, &state.infura_fetcher)
-                    .await?;
+                    .await
+                    .map_err(|err| {
+                        format!("Error computing crypto asset total values, err: {}", err)
+                    })?;
             tracing::info!("Computed crypto asset payload: {:?}", resp);
         } else if **atst_group_id == PrfsAtstGroupId::nonce_seoul_1 {
-            let resp = atst_api_ops::compute_group_member_atst_value(&mut tx).await?;
+            let resp = atst_api_ops::compute_group_member_atst_value(&mut tx)
+                .await
+                .map_err(|err| format!("Error computing gorup member atst value, err: {}", err))?;
             tracing::info!("Computed group member value: {:?}", resp);
         }
 
         let prfs_sets = prfs::get_prfs_sets_by_atst_group_id__tx(&mut tx, &atst_group_id).await?;
         for set in prfs_sets {
             let (dest_set_id, import_count) =
-                _import_prfs_attestations_to_prfs_set(&mut tx, &atst_group_id, &set.set_id).await?;
+                _import_prfs_attestations_to_prfs_set(&mut tx, &atst_group_id, &set.set_id)
+                    .await
+                    .map_err(|err| format!("Error importing Prfs attestations, err: {}", err))?;
 
             tracing::info!(
                 "Imported attestations into set, dest_set_id: {}, import_count: {}",
@@ -46,7 +53,9 @@ pub async fn do_update_prfs_tree_by_new_atst_task(
 
             let tree_label = format!("{}__tree__{}", &set.set_id, &tree_id);
             let (tree, _leaves_count) =
-                _create_prfs_tree_by_prfs_set(&mut tx, &set.set_id, &tree_label, &tree_id).await?;
+                _create_prfs_tree_by_prfs_set(&mut tx, &set.set_id, &tree_label, &tree_id)
+                    .await
+                    .map_err(|err| format!("Error creating Prfs tree by Prfs set, err: {}", err))?;
 
             tree_ids.push(tree.tree_id);
         }

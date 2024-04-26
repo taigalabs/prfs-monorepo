@@ -7,16 +7,18 @@ import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 
 import styles from "./AtstGroupModal.module.scss";
 import { useI18N } from "@/i18n/use_i18n";
+import { GetPrfsAtstGroupsByGroupTypeRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAtstGroupsByGroupTypeRequest";
 
 const AtstGroupModal: React.FC<AtstGroupModalProps> = ({ handleSelectGroup, setIsOpen }) => {
   const i18n = useI18N();
   const { data, isFetching, error } = useQuery({
     queryKey: ["get_prfs_atst_groups"],
     queryFn: async () => {
-      const req: GetPrfsAtstGroupsRequest = {
+      const req: GetPrfsAtstGroupsByGroupTypeRequest = {
+        group_type: "group_member_v1",
         offset: 0,
       };
-      return atstApi({ type: "get_prfs_atst_groups", ...req });
+      return atstApi({ type: "get_prfs_atst_groups_by_group_type", ...req });
     },
   });
 

@@ -78,7 +78,8 @@
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 1158px;
-  /* flex-direction: column; */
+  padding: 3px;
+  width: 100%;
 
   /* border: 1px solid red; */
 }
@@ -126,11 +127,7 @@
   position: static;
 }
 
-@media screen and (min-width: $mid_display_min_width) {
-  .wrapper {
-    /* min-width: 0px; */
-  }
-
+@media screen and (min-width: $display_w480) {
   .rightGroup {
     .bigScreen {
       display: flex;
@@ -138,7 +135,7 @@
   }
 }
 
-@media screen and (min-width: $big2_display_min_width) {
+@media screen and (min-width: $display_w1120) {
   .wrapper {
     &.twoColumn {
       width: auto;
@@ -169,7 +166,7 @@
     display: flex;
     justify-content: flex-end;
     min-width: 110px;
-    max-width: 230px;
+    max-width: 210px;
     flex-grow: 1;
     flex-shrink: 1;
 

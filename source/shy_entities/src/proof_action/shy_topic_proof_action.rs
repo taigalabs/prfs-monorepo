@@ -14,5 +14,6 @@ pub enum ShyTopicProofAction {
 pub struct CreateShyTopicAction {
     pub topic_id: String,
     pub channel_id: String,
-    pub content: String,
+    pub title_hash: String,
+    pub content_hash: String,
 }

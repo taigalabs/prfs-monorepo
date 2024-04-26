@@ -1,31 +1,43 @@
 @import "@/styles/layouts.module.scss";
 
-.interactiveArea {
-  display: flex;
-  align-items: center;
+.row {
+  padding-bottom: 6px;
+}
+
+.hashDataInput {
   position: relative;
-  width: 100%;
 
-  button {
-    cursor: pointer;
-    color: var(--aqua-blue-50);
+  .btnRow {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    width: 100%;
   }
 }
 
-.hashBtn {
-  color: var(--aqua-blue-50);
-  cursor: pointer;
-  font-weight: 500;
+.hashData {
+  .inputWrapper {
+    height: 80px;
 
-  &:hover {
-    color: var(--aqua-blue-40);
+    .label {
+      transform: translateY(calc(-50% - 16px));
+    }
+
+    .input {
+      transform: translateY(-16px);
+    }
+  }
+
+  .hasValue,
+  .focus {
+    .label {
+      transform: translateY(-100%);
+    }
   }
 }
 
-.isInputValid {
-  input {
-    color: var(--black-00);
-  }
+.btnRow {
+  display: flex;
 }
 
 .computedValue {

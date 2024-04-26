@@ -27,7 +27,6 @@ export function useCreateTopic({
   topicId,
   setIsNavigating,
   setIsPrfsDialogOpen,
-  setHtml,
 }: UseCreateTopicArgs) {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -51,17 +50,17 @@ export function useCreateTopic({
       return;
     }
 
-    if (title.length < 8) {
+    if (title.length < 4) {
       setError("Title needs to be longer");
       return;
     }
 
-    if (title.length > 100) {
+    if (title.length > 110) {
       setError("Title needs to be shorter");
       return;
     }
 
-    if (html.length < 20) {
+    if (html.length < 4) {
       setError(`Content needs to be longer, current length: ${html.length}`);
       return;
     }
@@ -135,7 +134,6 @@ export function useCreateTopic({
     setIsNavigating,
     html,
     setIsPrfsDialogOpen,
-    setHtml,
   ]);
 
   return { handleCreateTopic };
@@ -153,5 +151,4 @@ export interface UseCreateTopicArgs {
   topicId: string;
   setIsNavigating: React.Dispatch<React.SetStateAction<boolean>>;
   setIsPrfsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setHtml: React.Dispatch<React.SetStateAction<string | null>>;
 }

@@ -31,15 +31,15 @@ const AttestationList: React.FC<CryptoSizeAtstListProps> = ({ atst_group_id }) =
             </li>
           </ul>
         </AppHeaderRow>
-        <AppHeaderRow>
-          <AlertWrapper variant="warn" rounded>
-            <AlertContent>
-              Prfs attestation has been upgraded to version 0.2. Those that have created the older
-              version (prior to 2024 Apr 03) should create an attestation again to continue to use
-              it
-            </AlertContent>
-          </AlertWrapper>
-        </AppHeaderRow>
+        {/* <AppHeaderRow> */}
+        {/*   <AlertWrapper variant="warn" rounded> */}
+        {/*     <AlertContent> */}
+        {/*       Prfs attestation has been upgraded to version 0.2. Those that have created the older */}
+        {/*       version (prior to 2024 Apr 03) should create an attestation again to continue to use */}
+        {/*       it */}
+        {/*     </AlertContent> */}
+        {/*   </AlertWrapper> */}
+        {/* </AppHeaderRow> */}
       </AppHeader>
       <div className={styles.table}>
         <AtstTable nonce={nonce} atst_group_id={atst_group_id} />

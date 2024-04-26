@@ -7,6 +7,7 @@ export type PrfsAttestation = {
   atst_id: string;
   atst_group_id: PrfsAtstGroupId;
   label: string;
+  member_label: string | null;
   cm: string;
   meta: Record<string, string>;
   status: PrfsAtstStatus;

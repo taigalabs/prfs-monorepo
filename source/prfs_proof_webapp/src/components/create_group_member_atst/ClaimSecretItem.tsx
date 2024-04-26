@@ -181,12 +181,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
       const cm: CommitmentReceipt = payload.receipt[CM];
       const memberIdEncrypted: EncryptedReceipt = payload.receipt[ENCRYPTED_MEMBER_ID];
       const memberIdCm: CommitmentReceipt = payload.receipt[MEMBER_ID_CM];
-      const {
-        [CM]: _cm,
-        [ENCRYPTED_MEMBER_ID]: _memberId,
-        [MEMBER_ID_CM]: _memberIdCm,
-        ...rest
-      } = payload.receipt;
+      const { [CM]: _cm, [ENCRYPTED_MEMBER_ID]: _memberId, ...rest } = payload.receipt;
 
       const rest_: Record<string, CommitmentReceipt> = rest;
       const memberIdCacheKeys: Record<string, string> = {};
@@ -194,7 +189,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         memberIdCacheKeys[key] = rest_[key].commitment;
       }
 
-      if (cm?.commitment && memberIdEncrypted?.encrypted && _memberIdCm) {
+      if (cm?.commitment && memberIdEncrypted?.encrypted && memberIdCm) {
         setMemberIdCacheKeys(memberIdCacheKeys);
         handleChangeCm(cm.commitment);
         handleChangeMemberIdEnc(memberIdEncrypted.encrypted);
@@ -243,7 +238,6 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
           {memberIdCacheKeys && (
             <EncryptedMemberIdItem
               memberIdCacheKeys={memberIdCacheKeys}
-              memberIdCm={formData[MEMBER_ID_CM]}
               memberIdEnc={formData[MEMBER_ID_ENC]}
             />
           )}

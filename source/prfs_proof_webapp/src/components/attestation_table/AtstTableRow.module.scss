@@ -5,7 +5,6 @@
 
 .label {
   width: 140px;
-  display: flex;
   align-items: center;
 }
 
@@ -42,4 +41,16 @@
 
 .onChain {
   width: 110px;
+}
+
+@media screen and (min-width: $display_w320) {
+  .w320 {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: $display_w480) {
+  .w480 {
+    display: flex;
+  }
 }

@@ -101,6 +101,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     topicId,
     editor,
     setHtml,
+    title,
     handleSucceedAddProof: handleSucceedAddFirstProof,
     proofIdx: 0,
   });
@@ -119,6 +120,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
         : null,
     setError,
     topicId,
+    title,
     editor,
     setHtml,
     handleSucceedAddProof: handleSucceedAddOtherProofs,
@@ -144,7 +146,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     topicId,
     setIsNavigating,
     setIsPrfsDialogOpen,
-    setHtml,
   });
 
   return isNavigating ? (

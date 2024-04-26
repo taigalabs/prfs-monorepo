@@ -80,6 +80,7 @@ pub async fn create_group_member_atst(
             meta: None,
         }]),
         atst_version: PrfsAtstVersion::v0_2,
+        member_label: Some(member.label.to_string()),
     };
 
     member.status = PrfsAtstGroupMemberStatus::Registered;

@@ -1,8 +1,8 @@
 use prfs_db_driver::sqlx::types::Json as JsonType;
-use prfs_db_driver::sqlx::{Pool, Postgres, Transaction};
+use prfs_db_driver::sqlx::{Postgres, Transaction};
 use prfs_db_interface::prfs;
 use prfs_entities::atst_api::ComputeCryptoAssetTotalValuesResponse;
-use prfs_entities::{PrfsAtstGroupId, PrfsAtstMeta, PrfsAtstValue, PrfsSetElementData};
+use prfs_entities::{PrfsAtstGroupId, PrfsAtstMeta, PrfsAtstValue};
 use prfs_web_fetcher::destinations::coinbase;
 use prfs_web_fetcher::destinations::infura::InfuraFetcher;
 use rust_decimal::prelude::FromPrimitive;

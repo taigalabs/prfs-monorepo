@@ -11,6 +11,7 @@ pub struct PrfsAttestation {
     pub atst_id: String,
     pub atst_group_id: PrfsAtstGroupId,
     pub label: String,
+    pub member_label: Option<String>,
     pub cm: String,
 
     #[ts(type = "Record<string, string>")]

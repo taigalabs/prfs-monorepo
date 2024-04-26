@@ -4,8 +4,9 @@ use prfs_axum_lib::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    GetPrfsAtstGroupsRequest, GetPrfsAtstGroupsResponse, PrfsAtstGroupMemberStatus,
-    ValidateGroupMembershipRequest, ValidateGroupMembershipResponse,
+    GetPrfsAtstGroupByGroupIdRequest, GetPrfsAtstGroupByGroupIdResponse,
+    GetPrfsAtstGroupsByGroupTypeRequest, GetPrfsAtstGroupsRequest, GetPrfsAtstGroupsResponse,
+    PrfsAtstGroupMemberStatus, ValidateGroupMembershipRequest, ValidateGroupMembershipResponse,
 };
 use std::sync::Arc;
 
@@ -33,6 +34,60 @@ pub async fn get_prfs_atst_groups(
     };
 
     let resp = ApiResponse::new_success(GetPrfsAtstGroupsResponse { rows, next_offset });
+    return (StatusCode::OK, Json(resp));
+}
+
+pub async fn get_prfs_atst_groups_by_group_type(
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsAtstGroupsByGroupTypeRequest>,
+) -> (StatusCode, Json<ApiResponse<GetPrfsAtstGroupsResponse>>) {
+    let pool = &state.db2.pool;
+
+    let rows = match prfs::get_prfs_atst_groups_by_group_type(
+        &pool,
+        &input.group_type,
+        input.offset,
+        LIMIT,
+    )
+    .await
+    {
+        Ok(r) => r,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
+    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
+        None
+    } else {
+        Some(input.offset + LIMIT)
+    };
+
+    let resp = ApiResponse::new_success(GetPrfsAtstGroupsResponse { rows, next_offset });
+    return (StatusCode::OK, Json(resp));
+}
+
+pub async fn get_prfs_atst_group_by_group_id(
+    State(state): State<Arc<ServerState>>,
+    Json(input): Json<GetPrfsAtstGroupByGroupIdRequest>,
+) -> (
+    StatusCode,
+    Json<ApiResponse<GetPrfsAtstGroupByGroupIdResponse>>,
+) {
+    let pool = &state.db2.pool;
+
+    let atst_group = match prfs::get_prfs_atst_group_by_group_id(&pool, input.atst_group_id).await {
+        Ok(r) => r,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&PRFS_ATST_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
+    let resp = ApiResponse::new_success(GetPrfsAtstGroupByGroupIdResponse { atst_group });
     return (StatusCode::OK, Json(resp));
 }
 
@@ -75,6 +130,7 @@ pub async fn validate_group_membership(
     } else {
         let resp = ApiResponse::new_success(ValidateGroupMembershipResponse {
             is_valid: true,
+            label: member.label,
             error: None,
         });
         return (StatusCode::OK, Json(resp));

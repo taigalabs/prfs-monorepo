@@ -7,24 +7,28 @@
     left: 10px;
     width: 100%;
   }
+}
 
-  .addressInput {
-    .inputWrapper {
-      height: 80px;
+.addressInput {
+  /* padding: 12px 14px 42px; */
+  transition: none;
+
+  .inputWrapper {
+    height: 80px;
+
+    .label {
+      transform: translateY(calc(-50% - 16px));
+    }
+
+    .input {
+      transform: translateY(-16px);
     }
   }
-}
 
-.label {
-  transform: translateY(calc(-50% - 16px));
-}
-
-.input {
-  transform: translateY(-16px);
-}
-
-.addrInput {
-  padding: 12px 14px 42px;
-  transition: none;
-  /* margin-bottom: 14px; */
+  .hasValue,
+  .focus {
+    .label {
+      transform: translateY(-100%);
+    }
+  }
 }

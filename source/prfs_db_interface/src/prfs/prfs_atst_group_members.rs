@@ -20,7 +20,7 @@ pub async fn get_prfs_atst_group_member(
 
     let m = PrfsAtstGroupMember {
         atst_group_id: row.try_get("atst_group_id")?,
-        member_id: row.try_get("member_id")?,
+        label: row.try_get("label")?,
         member_code: row.try_get("member_code")?,
         code_type: row.try_get("code_type")?,
         status: row.try_get("status")?,
@@ -46,7 +46,7 @@ pub async fn get_prfs_atst_group_member__tx(
 
     let m = PrfsAtstGroupMember {
         atst_group_id: row.try_get("atst_group_id")?,
-        member_id: row.try_get("member_id")?,
+        label: row.try_get("label")?,
         member_code: row.try_get("member_code")?,
         code_type: row.try_get("code_type")?,
         status: row.try_get("status")?,
@@ -63,13 +63,13 @@ pub async fn upsert_prfs_atst_group_members(
     let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
         r#"
 INSERT INTO prfs_atst_group_members 
-(atst_group_id, member_id, member_code, code_type, status, meta)
+(atst_group_id, label, member_code, code_type, status, meta)
 "#,
     );
 
     query_builder.push_values(atst_group_members, |mut b, m| {
         b.push_bind(&m.atst_group_id)
-            .push_bind(&m.member_id)
+            .push_bind(&m.label)
             .push_bind(&m.member_code)
             .push_bind(&m.code_type)
             .push_bind(&m.status)
@@ -79,9 +79,9 @@ INSERT INTO prfs_atst_group_members
     query_builder.push(" ON CONFLICT (atst_group_id, member_code)");
     query_builder.push(
         r#" 
-DO UPDATE SET (atst_group_id, member_id, member_code, status, meta, updated_at) 
+DO UPDATE SET (atst_group_id, label, member_code, status, meta, updated_at) 
 = (
-excluded.atst_group_id, excluded.member_id, excluded.member_code, excluded.status, excluded.meta,
+excluded.atst_group_id, excluded.label, excluded.member_code, excluded.status, excluded.meta,
 now()
 )
 "#,
