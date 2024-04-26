@@ -9,6 +9,7 @@ pub struct CreateShyTopicRequest {
     pub title: String,
     pub topic_id: String,
     pub content: String,
+    // pub content_hash: String,
     pub channel_id: String,
     pub shy_proof_id: String,
     pub proof_identity_input: String,

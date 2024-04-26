@@ -67,6 +67,8 @@ export function useAddProof({
     }
 
     const html = editor.getHTML();
+
+    const titleHash = keccak256(toUtf8Bytes(title));
     const htmlHash = keccak256(toUtf8Bytes(html));
 
     const session_key = createSessionKey();
@@ -77,8 +79,8 @@ export function useAddProof({
       type: "create_shy_topic",
       topic_id: topicId,
       channel_id: channelId,
-      title,
-      content: htmlHash,
+      title_hash: titleHash,
+      content_hash: htmlHash,
     };
 
     const proofActionStr = JSON.stringify(proofAction);

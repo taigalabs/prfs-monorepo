@@ -3,6 +3,8 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit};
 use prfs_common_server_state::ServerState;
+use prfs_crypto::ethers_core::utils::keccak256;
+use prfs_crypto::hex;
 use prfs_db_driver::sqlx;
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
@@ -27,11 +29,21 @@ pub async fn create_shy_topic(
     let pool = &state.db2.pool;
     let mut tx = bail_out_tx!(pool, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
+    let title_hash = {
+        let k = keccak256(input.title.as_bytes());
+        format!("0x{}", hex::encode(k))
+    };
+
+    let content_hash = {
+        let k = keccak256(input.content.as_bytes());
+        format!("0x{}", hex::encode(k))
+    };
+
     let action = ShyTopicProofAction::create_shy_topic(CreateShyTopicAction {
         topic_id: input.topic_id.to_string(),
         channel_id: input.channel_id.to_string(),
-        title: input.title.to_string(),
-        content: input.content.to_string(),
+        title_hash,
+        content_hash,
     });
 
     let msg = serde_json::to_vec(&action).unwrap();

@@ -3,6 +3,6 @@
 export type CreateShyTopicAction = {
   topic_id: string;
   channel_id: string;
-  title: string;
-  content: string;
+  title_hash: string;
+  content_hash: string;
 };

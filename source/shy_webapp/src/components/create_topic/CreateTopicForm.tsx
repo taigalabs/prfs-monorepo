@@ -146,7 +146,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     topicId,
     setIsNavigating,
     setIsPrfsDialogOpen,
-    setHtml,
   });
 
   return isNavigating ? (

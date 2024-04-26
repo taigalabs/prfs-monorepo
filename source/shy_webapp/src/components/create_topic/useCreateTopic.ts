@@ -27,7 +27,6 @@ export function useCreateTopic({
   topicId,
   setIsNavigating,
   setIsPrfsDialogOpen,
-  setHtml,
 }: UseCreateTopicArgs) {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -135,7 +134,6 @@ export function useCreateTopic({
     setIsNavigating,
     html,
     setIsPrfsDialogOpen,
-    setHtml,
   ]);
 
   return { handleCreateTopic };
@@ -153,5 +151,4 @@ export interface UseCreateTopicArgs {
   topicId: string;
   setIsNavigating: React.Dispatch<React.SetStateAction<boolean>>;
   setIsPrfsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setHtml: React.Dispatch<React.SetStateAction<string | null>>;
 }
