@@ -22,6 +22,7 @@ import ChannelMenu from "./ChannelMenu";
 import Loading from "@/components/loading/Loading";
 import { useShyCache } from "@/hooks/user";
 import GlobalMsgHeader from "@/components/global_msg_header/GlobalMsgHeader";
+import ChannelNotice from "./ChannelNotice";
 
 const Channels: React.FC<ChannelsProps> = ({}) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
@@ -93,7 +94,8 @@ const Channels: React.FC<ChannelsProps> = ({}) => {
       <InfiniteScrollInner>
         <InfiniteScrollLeft>{null}</InfiniteScrollLeft>
         <InfiniteScrollMain>
-          <ChannelMenu />
+          {/* <ChannelMenu /> */}
+          <ChannelNotice />
           {status === "pending" ? (
             <Loading centerAlign>
               <Spinner />

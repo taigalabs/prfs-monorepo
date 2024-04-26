@@ -1,0 +1,16 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  padding: 14px 16px;
+}
+
+.row {
+  display: flex;
+  column-gap: 24px;
+}
+
+.section {
+  flex-grow: 1;
+
+  border: 1px solid black;
+}
