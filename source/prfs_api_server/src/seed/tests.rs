@@ -77,7 +77,6 @@ mod seed_api1 {
 }
 
 mod seed_api2 {
-
     use super::*;
 
     #[tokio::test]
@@ -85,10 +84,9 @@ mod seed_api2 {
         prepare().await;
         let db = get_db().await;
 
-        // upload_prfs_atst_groups(&db).await;
-        let proof_types = load_prfs_atst_groups();
-        // println!("proof_types: {:#?}", proof_types);
-        // upload_prfs_atst_groups(&db, &proof_types).await;
+        let groups = load_prfs_atst_groups();
+        println!("groups: {:#?}", groups);
+        upload_prfs_atst_groups(&db, &groups).await;
     }
 }
 
