@@ -11,6 +11,5 @@ export type GroupMemberAtstFormData = {
   [MEMBER_CODE]: string;
   [MEMBER_ID]: string;
   [CM]: string;
-  [MEMBER_ID_CM]: string;
   [MEMBER_ID_ENC]: string;
 };

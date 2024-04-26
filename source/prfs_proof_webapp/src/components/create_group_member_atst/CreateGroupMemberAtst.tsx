@@ -33,7 +33,6 @@ import {
   GroupMemberAtstFormData,
   MEMBER_CODE,
   MEMBER_ID,
-  MEMBER_ID_CM,
   MEMBER_ID_ENC,
 } from "./create_group_member_atst";
 import ClaimSecretItem from "./ClaimSecretItem";
@@ -47,9 +46,6 @@ enum Status {
 }
 
 function checkIfFormIsFilled(formData: GroupMemberAtstFormData) {
-  if (!formData[MEMBER_ID_CM]) {
-    return false;
-  }
   if (!formData[CM]) {
     return false;
   }
@@ -68,7 +64,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
     [MEMBER_ID]: "",
     [MEMBER_CODE]: "",
     [CM]: "",
-    [MEMBER_ID_CM]: "",
     [MEMBER_ID_ENC]: "",
   });
   const [memberIdCacheKeys, setMemberIdCacheKeys] = React.useState<Record<string, string> | null>(
@@ -172,18 +167,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
         setFormData(oldVal => ({
           ...oldVal,
           [MEMBER_ID_ENC]: val,
-        }));
-      }
-    },
-    [setFormData],
-  );
-
-  const handleChangeMemberIdCm = React.useCallback(
-    (val: string) => {
-      if (val) {
-        setFormData(oldVal => ({
-          ...oldVal,
-          [MEMBER_ID_CM]: val,
         }));
       }
     },
@@ -316,7 +299,6 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
               setMemberIdCacheKeys={setMemberIdCacheKeys}
               handleChangeCm={handleChangeCm}
               handleChangeMemberIdEnc={handleChangeMemberIdEnc}
-              handleChangeMemberIdCm={handleChangeMemberIdCm}
             />
           </ol>
           <AttestationFormBtnRow>

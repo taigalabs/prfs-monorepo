@@ -54,7 +54,6 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
   setMemberIdCacheKeys,
   handleChangeCm,
   handleChangeMemberIdEnc,
-  handleChangeMemberIdCm,
 }) => {
   const i18n = React.useContext(i18nContext);
   const {
@@ -195,14 +194,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         return;
       }
     },
-    [
-      sk,
-      dispatch,
-      handleChangeCm,
-      setMemberIdCacheKeys,
-      handleChangeMemberIdEnc,
-      handleChangeMemberIdCm,
-    ],
+    [sk, dispatch, handleChangeCm, setMemberIdCacheKeys, handleChangeMemberIdEnc],
   );
 
   return (
@@ -229,7 +221,6 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
           {memberIdCacheKeys && (
             <EncryptedMemberIdItem
               memberIdCacheKeys={memberIdCacheKeys}
-              memberIdCm={formData[MEMBER_ID_CM]}
               memberIdEnc={formData[MEMBER_ID_ENC]}
             />
           )}
@@ -255,5 +246,4 @@ export interface MemberCodeInputProps {
   memberIdCacheKeys: Record<string, string> | null;
   setMemberIdCacheKeys: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
   handleChangeMemberIdEnc: (val: string) => void;
-  handleChangeMemberIdCm: (val: string) => void;
 }
