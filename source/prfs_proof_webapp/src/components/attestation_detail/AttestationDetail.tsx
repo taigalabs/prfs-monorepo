@@ -20,7 +20,10 @@ import {
   AttestationDetailTopMenuRow,
 } from "@/components/atst_detail_components/AtstDetailComponents";
 
-const AttestationDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_id }) => {
+const AttestationDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({
+  atst_id,
+  atst_group_id,
+}) => {
   const i18n = React.useContext(i18nContext);
   const { isLoading, data, error } = useQuery({
     queryKey: ["get_prfs_attestation", atst_id],
@@ -55,7 +58,7 @@ const AttestationDetail: React.FC<CryptoAssetSizeAtstDetailProps> = ({ atst_id }
     atst && (
       <div className={styles.wrapper}>
         <AttestationDetailTopMenuRow>
-          <Link href={`${paths.attestations}/g/crypto_1`}>
+          <Link href={`${paths.attestations}/g/${atst_group_id}`}>
             <ButtonCircleContainer>
               <FaArrowLeft />
             </ButtonCircleContainer>
@@ -127,4 +130,5 @@ export default AttestationDetail;
 
 export interface CryptoAssetSizeAtstDetailProps {
   atst_id: string;
+  atst_group_id: string;
 }

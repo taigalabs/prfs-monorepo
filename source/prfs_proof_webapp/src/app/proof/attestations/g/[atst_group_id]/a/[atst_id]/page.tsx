@@ -14,7 +14,7 @@ const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({
           <Attestations>
             <AppMain>
               <AppMainInner>
-                <AttestationDetail atst_id={params.atst_id} />
+                <AttestationDetail atst_id={params.atst_id} atst_group_id={params.atst_group_id} />
               </AppMainInner>
             </AppMain>
           </Attestations>
@@ -29,5 +29,6 @@ export default TwitterAttestionDetailPage;
 interface TwitterAttestionDetailPageProps {
   params: {
     atst_id: string;
+    atst_group_id: string;
   };
 }
