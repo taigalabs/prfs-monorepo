@@ -26,7 +26,7 @@ export const AtstHeaderRow: React.FC<AtstHeaderRowProps> = ({ atstGroup }) => {
         {i18n.label}
       </AppTableHeaderCell>
       {atstGroup?.group_type === "group_member_v1" && (
-        <AppTableHeaderCell className={cn(styles.label)} alwaysRender>
+        <AppTableHeaderCell className={cn(styles.label)} w480>
           {i18n.member_label}
         </AppTableHeaderCell>
       )}
@@ -40,6 +40,9 @@ export const AtstHeaderRow: React.FC<AtstHeaderRowProps> = ({ atstGroup }) => {
         {i18n.meta}
       </AppTableHeaderCell>
       <AppTableHeaderCell className={cn(styles.onChain)} w1280>
+        {i18n.notarized}
+      </AppTableHeaderCell>
+      <AppTableHeaderCell className={cn(styles.onChain)} w1440>
         {i18n.on_chain}
       </AppTableHeaderCell>
       <AppTableHeaderCell flexGrow></AppTableHeaderCell>
@@ -105,7 +108,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating,
         </AppTableCell>
 
         {atstGroup.group_type === "group_member_v1" && (
-          <AppTableCell className={cn(styles.label, styles.cell)} alwaysRender>
+          <AppTableCell className={cn(styles.label, styles.cell)} w480>
             <AppTableCellInner>{memberLabel}</AppTableCellInner>
           </AppTableCell>
         )}
@@ -120,6 +123,9 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating,
           <AppTableCellInner>{meta}</AppTableCellInner>
         </AppTableCell>
         <AppTableCell className={cn(styles.onChain)} w1280>
+          {i18n.not_available}
+        </AppTableCell>
+        <AppTableCell className={cn(styles.onChain)} w1440>
           {i18n.not_available}
         </AppTableCell>
         <AppTableCell flexGrow />

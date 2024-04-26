@@ -52,6 +52,12 @@
   }
 }
 
+@media screen and (min-width: $display_w768) {
+  .w768 {
+    display: flex;
+  }
+}
+
 @media screen and (min-width: $display_w1024) {
   .w1024 {
     display: flex;
@@ -72,6 +78,12 @@
 
 @media screen and (min-width: $display_w1280) {
   .w1280 {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: $display_w1440) {
+  .w1440 {
     display: flex;
   }
 }
