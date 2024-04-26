@@ -37,6 +37,31 @@ OFFSET $2
     Ok(atsts)
 }
 
+pub async fn get_prfs_atst_group_by_group_id(
+    pool: &Pool<Postgres>,
+    atst_group_id: String,
+) -> Result<PrfsAtstGroup, DbInterfaceError> {
+    let query = r#"
+SELECT *
+FROM prfs_atst_groups
+WHERE atst_group_id=$1
+"#;
+
+    let row = sqlx::query(query)
+        .bind(atst_group_id)
+        .fetch_one(pool)
+        .await?;
+
+    let group = PrfsAtstGroup {
+        atst_group_id: row.try_get("atst_group_id")?,
+        label: row.try_get("label")?,
+        desc: row.try_get("desc")?,
+        group_type: row.try_get("group_type")?,
+    };
+
+    Ok(group)
+}
+
 pub async fn upsert_prfs_atst_group(
     tx: &mut Transaction<'_, Postgres>,
     atst_group: &PrfsAtstGroup,

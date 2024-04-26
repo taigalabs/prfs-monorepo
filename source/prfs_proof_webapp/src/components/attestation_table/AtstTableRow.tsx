@@ -15,8 +15,9 @@ import {
 import { useI18N } from "@/i18n/use_i18n";
 import { AppTableHeader } from "@/components/app_table_components/AppTableComponents";
 import { AppTableHeaderCell } from "@/components/app_table_components/AppTableCellComponents";
+import { PrfsAtstGroup } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroup";
 
-export const AtstHeaderRow = () => {
+export const AtstHeaderRow: React.FC<AtstHeaderRowProps> = ({ atstGroup }) => {
   const i18n = useI18N();
 
   return (
@@ -122,4 +123,8 @@ export interface AtstRowProps {
   style: React.CSSProperties;
   router: AppRouterInstance;
   setIsNavigating: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface AtstHeaderRowProps {
+  atstGroup: PrfsAtstGroup | undefined;
 }

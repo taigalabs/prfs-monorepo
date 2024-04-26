@@ -30,3 +30,15 @@ pub struct ValidateGroupMembershipResponse {
     pub label: String,
     pub error: Option<String>,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsAtstGroupByGroupIdRequest {
+    pub atst_group_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsAtstGroupByGroupIdResponse {
+    pub atst_group: PrfsAtstGroup,
+}

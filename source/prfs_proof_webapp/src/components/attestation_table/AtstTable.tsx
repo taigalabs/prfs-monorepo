@@ -1,8 +1,8 @@
 import React from "react";
 import cn from "classnames";
-import { useInfiniteQuery } from "@taigalabs/prfs-react-lib/react_query";
+import { useInfiniteQuery, useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useVirtualizer } from "@taigalabs/prfs-react-lib/react_virtual";
-import { atstApi } from "@taigalabs/prfs-api-js";
+import { atstApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useRouter } from "next/navigation";
 import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstGroupIdRequest";
 import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
@@ -18,10 +18,20 @@ import { AppTableHeaderCell } from "@/components/app_table_components/AppTableCe
 import { useI18N } from "@/i18n/use_i18n";
 import AtstTableRow, { AtstHeaderRow } from "./AtstTableRow";
 
+function usePrfsAtstGroup(atst_group_id: string) {
+  return useQuery({
+    queryKey: ["get_prfs_atst_group_by_group_id", atst_group_id],
+    queryFn: async () => {
+      return atstApi({ type: "get_prfs_atst_group_by_group_id", atst_group_id });
+    },
+  });
+}
+
 const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_group_id }) => {
   const i18n = useI18N();
   const router = useRouter();
   const [isNavigating, setIsNavigating] = React.useState(false);
+  const { data: prfsAtstGroupData } = usePrfsAtstGroup(atst_group_id);
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -83,7 +93,7 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
 
   return (
     <AppTableWrapper innerRef={parentRef}>
-      <AtstHeaderRow />
+      <AtstHeaderRow atstGroup={prfsAtstGroupData?.payload?.atst_group} />
 
       {status === "pending" ? (
         <AppTableLoading>Loading...</AppTableLoading>

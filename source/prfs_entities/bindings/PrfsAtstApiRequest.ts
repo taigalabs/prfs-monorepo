@@ -4,6 +4,7 @@ import type { ComputeCryptoAssetTotalValuesRequest } from "./ComputeCryptoAssetT
 import type { CreateGroupMemberAtstRequest } from "./CreateGroupMemberAtstRequest";
 import type { CreatePrfsAttestationRequest } from "./CreatePrfsAttestationRequest";
 import type { FetchCryptoAssetRequest } from "./FetchCryptoAssetRequest";
+import type { GetPrfsAtstGroupByGroupIdRequest } from "./GetPrfsAtstGroupByGroupIdRequest";
 import type { GetPrfsAtstGroupsRequest } from "./GetPrfsAtstGroupsRequest";
 import type { GetPrfsAttestationRequest } from "./GetPrfsAttestationRequest";
 import type { GetPrfsAttestationsByAtstGroupIdRequest } from "./GetPrfsAttestationsByAtstGroupIdRequest";
@@ -20,6 +21,7 @@ export type PrfsAtstApiRequest =
   | ({ type: "get_prfs_attestations_by_atst_group_id" } & GetPrfsAttestationsByAtstGroupIdRequest)
   | ({ type: "get_prfs_attestation" } & GetPrfsAttestationRequest)
   | ({ type: "get_prfs_atst_groups" } & GetPrfsAtstGroupsRequest)
+  | ({ type: "get_prfs_atst_group_by_group_id" } & GetPrfsAtstGroupByGroupIdRequest)
   | ({ type: "create_group_member_atst" } & CreateGroupMemberAtstRequest)
   | ({ type: "validate_group_membership" } & ValidateGroupMembershipRequest)
   | ({ type: "validate_twitter_acc" } & ValidateTwitterAccRequest)

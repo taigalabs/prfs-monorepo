@@ -9,9 +9,10 @@ use super::{
 };
 use crate::{
     CreateGroupMemberAtstRequest, CreatePrfsAttestationRequest, CreatePrfsAttestationResponse,
-    GetPrfsAtstGroupsRequest, GetPrfsAtstGroupsResponse, GetPrfsAttestationRequest,
-    GetPrfsAttestationResponse, GetPrfsAttestationsByAtstGroupIdRequest,
-    GetPrfsAttestationsResponse, ValidateGroupMembershipRequest, ValidateGroupMembershipResponse,
+    GetPrfsAtstGroupByGroupIdRequest, GetPrfsAtstGroupByGroupIdResponse, GetPrfsAtstGroupsRequest,
+    GetPrfsAtstGroupsResponse, GetPrfsAttestationRequest, GetPrfsAttestationResponse,
+    GetPrfsAttestationsByAtstGroupIdRequest, GetPrfsAttestationsResponse,
+    ValidateGroupMembershipRequest, ValidateGroupMembershipResponse,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -26,6 +27,7 @@ pub enum PrfsAtstApiRequest {
     get_prfs_attestations_by_atst_group_id(GetPrfsAttestationsByAtstGroupIdRequest),
     get_prfs_attestation(GetPrfsAttestationRequest),
     get_prfs_atst_groups(GetPrfsAtstGroupsRequest),
+    get_prfs_atst_group_by_group_id(GetPrfsAtstGroupByGroupIdRequest),
     create_group_member_atst(CreateGroupMemberAtstRequest),
     validate_group_membership(ValidateGroupMembershipRequest),
     validate_twitter_acc(ValidateTwitterAccRequest),
@@ -46,6 +48,7 @@ pub enum PrfsAtstApiResponse {
     get_prfs_attestations_by_atst_group_id(GetPrfsAttestationsResponse),
     get_prfs_attestation(GetPrfsAttestationResponse),
     get_prfs_atst_groups(GetPrfsAtstGroupsResponse),
+    get_prfs_atst_group_by_group_id(GetPrfsAtstGroupByGroupIdResponse),
     create_group_member_atst(CreatePrfsAttestationResponse),
     validate_group_membership(ValidateGroupMembershipResponse),
     validate_twitter_acc(ValidateTwitterAccResponse),
