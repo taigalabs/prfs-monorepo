@@ -11,9 +11,9 @@ const ChannelNotice: React.FC<ChannelNoticeProps> = ({}) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.row}>
-        <div className={styles.section}>1</div>
+        <div className={styles.section}></div>
         <div className={styles.section}>
-          In order to use Shy, you need to have your data attested. Start with attestation
+          <p>In order to use Shy, you need to have your data attested.</p> Start with attestation
         </div>
       </div>
     </div>

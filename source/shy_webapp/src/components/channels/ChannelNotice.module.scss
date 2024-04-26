@@ -2,9 +2,11 @@
 
 .wrapper {
   padding: 14px 16px;
+  /* overflow: hidden; */
 }
 
 .row {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   column-gap: 24px;
@@ -12,9 +14,13 @@
 }
 
 .section {
-  flex-grow: 1;
+  flex: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  word-break: break-all;
+  overflow: hidden;
 
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 @media screen and (min-width: $display_w768) {
