@@ -75,6 +75,7 @@ pub async fn validate_group_membership(
     } else {
         let resp = ApiResponse::new_success(ValidateGroupMembershipResponse {
             is_valid: true,
+            member_id: member.member_id,
             error: None,
         });
         return (StatusCode::OK, Json(resp));

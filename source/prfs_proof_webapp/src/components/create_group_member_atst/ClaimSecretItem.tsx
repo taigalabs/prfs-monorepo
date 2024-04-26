@@ -41,7 +41,6 @@ import {
   ENCRYPTED_MEMBER_ID,
   GroupMemberAtstFormData,
   MEMBER_ID,
-  MEMBER_ID_CM,
   MEMBER_ID_ENC,
 } from "./create_group_member_atst";
 import EncryptedMemberIdItem from "./EncryptedMemberIdItem";
@@ -101,12 +100,6 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         {
           name: CM,
           preImage: claimSecret,
-          type: CommitmentType.SIG_POSEIDON_1,
-          queryType: QueryType.COMMITMENT,
-        },
-        {
-          name: MEMBER_ID_CM,
-          preImage: formData[MEMBER_ID],
           type: CommitmentType.SIG_POSEIDON_1,
           queryType: QueryType.COMMITMENT,
         },
@@ -180,13 +173,7 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
 
       const cm: CommitmentReceipt = payload.receipt[CM];
       const memberIdEncrypted: EncryptedReceipt = payload.receipt[ENCRYPTED_MEMBER_ID];
-      const memberIdCm: CommitmentReceipt = payload.receipt[MEMBER_ID_CM];
-      const {
-        [CM]: _cm,
-        [ENCRYPTED_MEMBER_ID]: _memberId,
-        [MEMBER_ID_CM]: _memberIdCm,
-        ...rest
-      } = payload.receipt;
+      const { [CM]: _cm, [ENCRYPTED_MEMBER_ID]: _memberId, ...rest } = payload.receipt;
 
       const rest_: Record<string, CommitmentReceipt> = rest;
       const memberIdCacheKeys: Record<string, string> = {};
@@ -194,11 +181,10 @@ const ClaimSecretItem: React.FC<MemberCodeInputProps> = ({
         memberIdCacheKeys[key] = rest_[key].commitment;
       }
 
-      if (cm?.commitment && memberIdEncrypted?.encrypted && _memberIdCm) {
+      if (cm?.commitment && memberIdEncrypted?.encrypted) {
         setMemberIdCacheKeys(memberIdCacheKeys);
         handleChangeCm(cm.commitment);
         handleChangeMemberIdEnc(memberIdEncrypted.encrypted);
-        handleChangeMemberIdCm(memberIdCm.commitment);
       } else {
         dispatch(
           setGlobalMsg({

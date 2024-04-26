@@ -10,7 +10,6 @@ import CreateDataSuccess from "../create_attestation/CreateDataSuccess";
 
 const EncryptedMemberIdItem: React.FC<EncryptedWalletAddrItemProps> = ({
   memberIdCacheKeys,
-  memberIdCm,
   memberIdEnc,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -56,12 +55,6 @@ const EncryptedMemberIdItem: React.FC<EncryptedWalletAddrItemProps> = ({
               <p>{memberIdEnc}</p>
             </div>
           )}
-          {memberIdCm && (
-            <div className={styles.item}>
-              <p className={styles.label}>{i18n.member_id_commitment}</p>
-              <p>{memberIdCm}</p>
-            </div>
-          )}
         </div>
       </div>
       <ShowDetail showDetail={showDetail} setShowDetail={setShowDetail} />
@@ -73,6 +66,5 @@ export default EncryptedMemberIdItem;
 
 export interface EncryptedWalletAddrItemProps {
   memberIdCacheKeys: Record<string, string> | null;
-  memberIdCm: string | null;
   memberIdEnc: string | null;
 }

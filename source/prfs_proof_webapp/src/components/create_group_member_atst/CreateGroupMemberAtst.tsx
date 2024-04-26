@@ -144,7 +144,12 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
       }
 
       if (payload?.is_valid) {
-        setValidationMsg(<FaCheck className={styles.success} />);
+        setValidationMsg(
+          <>
+            <FaCheck className={styles.success} />
+            <span>{payload.member_id}</span>
+          </>,
+        );
       }
     }
   }, [formData, atstGroup, setValidationMsg, validateGroupMembership]);
@@ -219,14 +224,12 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
 
         const cm = formData[CM];
         const member_code = formData[MEMBER_CODE];
-        const member_id_cm = formData[MEMBER_ID_CM];
         const member_id_enc = formData[MEMBER_ID_ENC];
         const atst_id = `${GROUP_MEMBER}_${atstGroup.atst_group_id}_${member_code}`;
 
         const { payload: _createGroupMemberAtstPayload, error: createGroupMemberAtstError } =
           await createGroupMemberAttestation({
             atst_id,
-            label: member_id_cm,
             serial_no: "empty",
             cm,
             atst_group_id: atstGroup.atst_group_id,
