@@ -5,7 +5,7 @@ import type { PrfsAtstGroupMemberStatus } from "./PrfsAtstGroupMemberStatus";
 
 export type PrfsAtstGroupMember = {
   atst_group_id: PrfsAtstGroupId;
-  member_id: string;
+  label: string;
   member_code: string;
   code_type: PrfsAtstGroupMemberCodeType;
   status: PrfsAtstGroupMemberStatus;

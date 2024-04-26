@@ -27,6 +27,6 @@ pub struct ValidateGroupMembershipRequest {
 #[ts(export)]
 pub struct ValidateGroupMembershipResponse {
     pub is_valid: bool,
-    pub member_id: String,
+    pub label: String,
     pub error: Option<String>,
 }

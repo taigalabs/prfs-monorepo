@@ -2,6 +2,6 @@
 
 export type ValidateGroupMembershipResponse = {
   is_valid: boolean;
-  member_id: string;
+  label: string;
   error: string | null;
 };

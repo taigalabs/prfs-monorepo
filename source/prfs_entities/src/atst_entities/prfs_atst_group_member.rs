@@ -9,7 +9,7 @@ use crate::{PrfsAtstGroupId, PrfsAtstMeta};
 #[ts(export)]
 pub struct PrfsAtstGroupMember {
     pub atst_group_id: PrfsAtstGroupId,
-    pub member_id: String,
+    pub label: String,
     pub member_code: String,
     pub code_type: PrfsAtstGroupMemberCodeType,
     pub status: PrfsAtstGroupMemberStatus,

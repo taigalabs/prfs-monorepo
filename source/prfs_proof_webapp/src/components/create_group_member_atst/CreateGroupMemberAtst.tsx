@@ -147,7 +147,7 @@ const CreateGroupMemberAtst: React.FC<CreateMemberAtstProps> = () => {
         setValidationMsg(
           <>
             <FaCheck className={styles.success} />
-            <span>{payload.member_id}</span>
+            <span>{payload.label}</span>
           </>,
         );
       }
