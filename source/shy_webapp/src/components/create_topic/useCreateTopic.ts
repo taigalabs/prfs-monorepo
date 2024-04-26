@@ -51,17 +51,17 @@ export function useCreateTopic({
       return;
     }
 
-    if (title.length < 8) {
+    if (title.length < 4) {
       setError("Title needs to be longer");
       return;
     }
 
-    if (title.length > 100) {
+    if (title.length > 110) {
       setError("Title needs to be shorter");
       return;
     }
 
-    if (html.length < 20) {
+    if (html.length < 4) {
       setError(`Content needs to be longer, current length: ${html.length}`);
       return;
     }

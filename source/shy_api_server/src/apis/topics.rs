@@ -30,6 +30,7 @@ pub async fn create_shy_topic(
     let action = ShyTopicProofAction::create_shy_topic(CreateShyTopicAction {
         topic_id: input.topic_id.to_string(),
         channel_id: input.channel_id.to_string(),
+        title: input.title.to_string(),
         content: input.content.to_string(),
     });
 
