@@ -1,5 +1,5 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use prfs_entities::{PrfsAtstGroup, PrfsAtstGroupId};
+use prfs_entities::{PrfsAtstGroup, PrfsAtstGroupId, PrfsAtstGroupType};
 
 use crate::DbInterfaceError;
 
@@ -19,6 +19,44 @@ OFFSET $2
     let rows = sqlx::query(query)
         .bind(limit)
         .bind(offset)
+        .fetch_all(pool)
+        .await?;
+
+    let atsts = rows
+        .iter()
+        .map(|row| {
+            Ok(PrfsAtstGroup {
+                atst_group_id: row.try_get("atst_group_id")?,
+                label: row.try_get("label")?,
+                desc: row.try_get("desc")?,
+                group_type: row.try_get("group_type")?,
+            })
+        })
+        .collect::<Result<Vec<PrfsAtstGroup>, DbInterfaceError>>()?;
+
+    Ok(atsts)
+}
+
+pub async fn get_prfs_atst_groups_by_group_type(
+    pool: &Pool<Postgres>,
+    group_type: &PrfsAtstGroupType,
+    offset: i32,
+    limit: i32,
+) -> Result<Vec<PrfsAtstGroup>, DbInterfaceError> {
+    let query = r#"
+SELECT *
+FROM prfs_atst_groups
+WHERE group_type=$1
+ORDER BY created_at
+LIMIT $2
+OFFSET $3
+"#;
+
+    let rows = sqlx::query(query)
+        .bind(group_type)
+        .bind(limit)
+        .bind(offset)
+        .bind(group_type)
         .fetch_all(pool)
         .await?;
 

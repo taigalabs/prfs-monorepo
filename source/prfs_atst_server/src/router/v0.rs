@@ -29,6 +29,10 @@ pub fn make_atst_v0_router() -> Router<Arc<ServerState>> {
             post(prfs_atst_groups::get_prfs_atst_groups),
         )
         .route(
+            "/get_prfs_atst_groups_by_group_type",
+            post(prfs_atst_groups::get_prfs_atst_groups_by_group_type),
+        )
+        .route(
             "/get_prfs_atst_group_by_group_id",
             post(prfs_atst_groups::get_prfs_atst_group_by_group_id),
         )

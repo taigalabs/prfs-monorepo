@@ -20,6 +20,7 @@ export type PrfsAtstApiResponse =
   | ({ type: "get_prfs_attestations_by_atst_group_id" } & GetPrfsAttestationsResponse)
   | ({ type: "get_prfs_attestation" } & GetPrfsAttestationResponse)
   | ({ type: "get_prfs_atst_groups" } & GetPrfsAtstGroupsResponse)
+  | ({ type: "get_prfs_atst_groups_by_group_type" } & GetPrfsAtstGroupsResponse)
   | ({ type: "get_prfs_atst_group_by_group_id" } & GetPrfsAtstGroupByGroupIdResponse)
   | ({ type: "create_group_member_atst" } & CreatePrfsAttestationResponse)
   | ({ type: "validate_group_membership" } & ValidateGroupMembershipResponse)
