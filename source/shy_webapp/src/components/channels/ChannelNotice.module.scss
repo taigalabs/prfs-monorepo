@@ -16,7 +16,7 @@
 .section {
   flex: 1;
   flex-shrink: 1;
-  flex-basis: 0;
+  flex-basis: auto;
   word-break: break-all;
   overflow: hidden;
 
@@ -37,5 +37,9 @@
 @media screen and (min-width: $display_w768) {
   .row {
     flex-direction: row;
+  }
+
+  .section {
+    flex-basis: 0;
   }
 }
