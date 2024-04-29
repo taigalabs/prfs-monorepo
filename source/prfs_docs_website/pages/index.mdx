@@ -1,35 +1,30 @@
 # Prfs documentation (in-construction)
 
-Prfs is a software-as-a-service enabling users and businesses to easily benefit from **client-side
-verifiable computing**.
+Prfs is a general-purpose interface for creating and verifying zero-knowledge proofs in the 
+client-side.
 
-[Verifiable computing](/verifiable_computing) is a cryptographic method for an agent to argue that 
-she knows all the values to be calculated leading up to the solution of a **mathematical 
-function**. Values that are submitted as part of an argument are compressed and encrypted so that 
-verifiers **cannot obtain more knowledge** other than if the argument is valid.
+Zero-knowledge proof is a technique being developed and actively investigated from a branch of 
+study called Verifiable computing.
 
-Depending on the choice of a *function*, it opens up a possibilitiy of some unseen behaviors of an 
-agent. Whether an individual or institution, an agent can say, for example,
+[Verifiable computing](/verifiable_computing) seeks a cryptographic method for an agent to argue 
+that she has done certain computation correctly. In addition to proving that one has done the
+computation, it also allows to hide the computational detail of the operation including a part or
+all of the inputs that were used for the computation.
 
-- I know the password of an account (without revealing the password)
-- I processed a long sequence of data and the aggregated result is this. (computation
+Depending on the choice of a *program*, it opens up a possibility of making an argument such as the
+following. 
+
+- I know the password of an account (account ownership verification without revealing secret)
+- I processed a long sequence of data and the processed result is this. (computation
 outsouring)
 - I am someone in the qualified group (without revealing who exactly she is)
 
-Interesting as it seems, such mathematical proofs don't get created as fast as we imagine
-especially in a consumer grade machine, Speed aside, it entails mathematical concepts that are not 
+Interesting as it seems, such mathematical proofs cannot be made as fast as we imagine
+especially in a consumer-grade machine. And, it entails mathematical concepts that are not 
 readily comprehensible.
 
-Prfs is designed to abstract away the **mathematical inner workings** of such a cryptographic
-primitive and runs **reasonably fast** in the client side. 
+Prfs is designed to abstract away the **mathematical inner workings** of such cryptographic
+primitives and conduct the task of creating a proof **reasonably fast** in the client side. 
 
-In this documentation, we will walk you through the core concepts and functionalities Prfs provide.
-
-## Applications
-Prfs provides different applications to streamline 
-
-- Proof
-- Console
-
-### Prfs Proof
-
+In this document, we will go through the theoretical underpinning of the noble technology, how and
+why Prfs works.
