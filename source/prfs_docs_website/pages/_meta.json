@@ -1,8 +1,8 @@
 {
   "index": "Introduction",
-  "getting_started": "Getting started",
   "creating_first_proof": "Creating first proof",
   "core_concepts": "Core concepts",
+  "privacy": "Privacy",
   "prfs": "Prfs",
   "prfs_id": "Prfs ID",
   "identity": "Identity",
