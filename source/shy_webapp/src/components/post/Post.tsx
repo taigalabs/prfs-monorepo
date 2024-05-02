@@ -15,6 +15,8 @@ const Post: React.FC<PostContentProps> = ({
   topicId,
   channel,
   author_public_key,
+  imgUrl,
+  expression,
   content,
   author_proof_identity_inputs,
   updated_at,
@@ -50,6 +52,8 @@ const Post: React.FC<PostContentProps> = ({
     const now = dayjs();
     return toShortDate(updated_at, now);
   }, [updated_at]);
+
+  console.log(12, imgUrl, expression, topicId);
 
   return (
     <PostWrapper>
@@ -100,4 +104,6 @@ export interface PostContentProps {
   topicId: string;
   handleSucceedPost: React.DispatchWithoutAction;
   subChannelId: string;
+  imgUrl: string;
+  expression: string;
 }

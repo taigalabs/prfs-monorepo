@@ -54,7 +54,7 @@ pub struct GetShyTopicRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyTopicResponse {
-    pub shy_topic: DateTimed<ShyTopic>,
+    pub shy_topic: DateTimed<ShyTopicSyn1>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

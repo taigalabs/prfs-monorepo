@@ -3,7 +3,7 @@ use ts_rs::TS;
 
 use crate::{
     entities::{DateTimed, ShyPost},
-    ProofBlob,
+    ProofBlob, ShyPostSyn1,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -17,7 +17,7 @@ pub struct GetShyPostsOfTopicRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyPostsOfTopicResponse {
-    pub rows: Vec<DateTimed<ShyPost>>,
+    pub rows: Vec<DateTimed<ShyPostSyn1>>,
     pub next_offset: Option<i32>,
 }
 

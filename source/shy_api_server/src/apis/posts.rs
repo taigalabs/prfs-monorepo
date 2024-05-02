@@ -24,7 +24,8 @@ pub async fn get_shy_posts_of_topic(
 ) -> (StatusCode, Json<ApiResponse<GetShyPostsOfTopicResponse>>) {
     let pool = &state.db2.pool;
 
-    let rows = match shy::get_shy_posts_of_topic(&pool, &input.topic_id, input.offset, LIMIT).await
+    let rows = match shy::get_shy_posts_syn1_of_topic(&pool, &input.topic_id, input.offset, LIMIT)
+        .await
     {
         Ok(p) => p,
         Err(err) => {
