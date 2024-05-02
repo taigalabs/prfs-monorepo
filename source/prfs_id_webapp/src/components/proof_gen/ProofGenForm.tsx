@@ -12,7 +12,6 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { JSONbigNative, encrypt } from "@taigalabs/prfs-crypto-js";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import PrfsIdSessionErrorCodes from "@taigalabs/prfs-id-session-api-error-codes";
-import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
 
 import styles from "./ProofGenForm.module.scss";
@@ -247,6 +246,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
       try {
         setCreateProofStatus(Status.InProgress);
+
         await delay(500);
         const processedReceipt = await processReceipt(receipt);
         const payload: ProofGenSuccessPayload = {
