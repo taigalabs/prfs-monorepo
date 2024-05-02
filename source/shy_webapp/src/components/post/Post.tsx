@@ -9,6 +9,7 @@ import { toShortDate } from "@/utils/time";
 import { PostWrapper, PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
 import CreatePost from "@/components/create_post/CreatePost";
+import { PostMarkdown } from "./PostMarkdown";
 
 const Post: React.FC<PostContentProps> = ({
   topicId,
@@ -66,12 +67,9 @@ const Post: React.FC<PostContentProps> = ({
             <p className={styles.date}>{date}</p>
           </div>
         </div>
-        <div
-          className={styles.content}
-          dangerouslySetInnerHTML={{
-            __html: content,
-          }}
-        />
+        <div className={styles.content}>
+          <PostMarkdown className={styles.content} html={content} />
+        </div>
         <PostMenu
           content={content}
           originalPostAuthorPubkey={publicKey}
