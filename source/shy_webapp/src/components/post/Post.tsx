@@ -10,6 +10,7 @@ import { PostWrapper, PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
 import CreatePost from "@/components/create_post/CreatePost";
 import { PostMarkdown } from "./PostMarkdown";
+import ProofImage from "../proof_image/ProofImage";
 
 const Post: React.FC<PostContentProps> = ({
   topicId,
@@ -64,7 +65,10 @@ const Post: React.FC<PostContentProps> = ({
               <p className={styles.publicKey}>{publicKey}</p>
             </div>
             <div className={styles.item}>
-              <p className={styles.proofIdentityInput}>{author_proof_identity_inputs}</p>
+              <div className={styles.proofIdentity}>
+                <ProofImage className={styles.proofImage} imgUrl={imgUrl} />
+                <p className={styles.proofIdentityInput}>{author_proof_identity_inputs}</p>
+              </div>
             </div>
           </div>
           <div className={styles.right}>
