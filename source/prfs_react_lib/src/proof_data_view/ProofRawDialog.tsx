@@ -49,7 +49,6 @@ const ProofRawDialog: React.FC<ProofRawDialogProps> = ({ proofRaw, children }) =
                   <h1>{i18n.proof_raw}</h1>
                   <button
                     onClick={() => {
-                      console.log("Deleted.");
                       setIsOpen(false);
                     }}
                   >

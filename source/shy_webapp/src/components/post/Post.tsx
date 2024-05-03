@@ -12,6 +12,7 @@ import CreatePost from "@/components/create_post/CreatePost";
 import { PostMarkdown } from "./PostMarkdown";
 import ProofImage from "../proof_image/ProofImage";
 import ProofDialog from "./ProofDialog";
+import { Proof } from "@taigalabs/prfs-driver-interface";
 
 const Post: React.FC<PostContentProps> = ({
   topicId,
@@ -24,6 +25,7 @@ const Post: React.FC<PostContentProps> = ({
   updated_at,
   subChannelId,
   handleSucceedPost,
+  proof,
 }) => {
   const i18n = usePrfsI18N();
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
@@ -67,6 +69,7 @@ const Post: React.FC<PostContentProps> = ({
               <ProofDialog
                 imgUrl={imgUrl}
                 author_proof_identity_inputs={author_proof_identity_inputs}
+                proof={proof}
               />
               {/* <div className={styles.proofIdentity}> */}
               {/*   <ProofImage className={styles.proofImage} imgUrl={imgUrl} /> */}
@@ -113,4 +116,5 @@ export interface PostContentProps {
   subChannelId: string;
   imgUrl: string;
   expression: string;
+  proof: Proof;
 }

@@ -1,6 +1,7 @@
 import React, { useId } from "react";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { FaReply } from "@react-icons/all-files/fa/FaReply";
+import ProofDataView from "@taigalabs/prfs-react-lib/src/proof_data_view/ProofDataView";
 import {
   FloatingFocusManager,
   FloatingOverlay,
@@ -14,10 +15,14 @@ import {
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./ProofDialog.module.scss";
-import Button from "@/components/button/Button";
-import ProofImage from "../proof_image/ProofImage";
+import ProofImage from "@/components/proof_image/ProofImage";
+import { Proof } from "@taigalabs/prfs-driver-interface";
 
-const ProofDialog: React.FC<PostContentProps> = ({ imgUrl, author_proof_identity_inputs }) => {
+const ProofDialog: React.FC<PostContentProps> = ({
+  imgUrl,
+  author_proof_identity_inputs,
+  proof,
+}) => {
   const i18n = usePrfsI18N();
 
   const [isOpen, setIsOpen] = React.useState(false);
@@ -55,14 +60,13 @@ const ProofDialog: React.FC<PostContentProps> = ({ imgUrl, author_proof_identity
                   <h1>{i18n.proof_raw}</h1>
                   <button
                     onClick={() => {
-                      console.log("Deleted.");
                       setIsOpen(false);
                     }}
                   >
                     <AiOutlineClose />
                   </button>
                 </div>
-                {/* <div className={styles.data}>{proofRaw}</div> */}
+                {proof && <ProofDataView proof={proof} />}
               </div>
             </FloatingFocusManager>
           </FloatingOverlay>
@@ -77,4 +81,5 @@ export default ProofDialog;
 export interface PostContentProps {
   imgUrl: string;
   author_proof_identity_inputs: string;
+  proof: Proof;
 }

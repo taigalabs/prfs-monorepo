@@ -9,6 +9,7 @@ import { MdGroup } from "@react-icons/all-files/md/MdGroup";
 import styles from "./TopicContent.module.scss";
 import Post from "@/components/post/Post";
 import Loading from "@/components/loading/Loading";
+import { Proof } from "@taigalabs/prfs-driver-interface";
 
 const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, subChannelId }) => {
   const i18n = usePrfsI18N();
@@ -20,15 +21,27 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
   });
 
   const topic = postData?.payload?.shy_topic;
-  const participant_identity_inputs = topic?.inner.shy_topic.participant_identity_inputs.join(", ");
-  const author_proof_identity_inputs =
-    topic?.inner.shy_topic.author_proof_identity_inputs.join(", ");
+  const participant_identity_inputs = React.useMemo(() => {
+    return topic?.inner.shy_topic.participant_identity_inputs.join(", ");
+  }, [topic]);
+  const author_proof_identity_inputs = React.useMemo(() => {
+    return topic?.inner.shy_topic.author_proof_identity_inputs.join(", ");
+  }, [topic]);
 
-  console.log(33, topic);
+  const proof = React.useMemo(() => {
+    if (topic) {
+      const proof: Proof = {
+        proofBytes: topic.inner.proof,
+        publicInputSer: topic.inner.public_inputs,
+        proofPubKey: topic.inner.proof_public_key,
+      };
+      return proof;
+    }
+  }, [topic]);
 
   return (
     <div className={styles.wrapper}>
-      {topic ? (
+      {topic && proof ? (
         <>
           <div className={styles.titleRow}>
             <div className={styles.inner}>
@@ -52,6 +65,7 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
             subChannelId={subChannelId}
             imgUrl={topic.inner.img_url}
             expression={topic.inner.expression}
+            proof={proof}
           />
         </>
       ) : (
