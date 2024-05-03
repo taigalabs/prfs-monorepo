@@ -22,4 +22,6 @@ pub struct ShyPostSyn1 {
     pub shy_post: ShyPost,
     pub img_url: String,
     pub expression: String,
+    pub public_inputs: String,
+    pub proof: Vec<u8>,
 }

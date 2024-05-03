@@ -31,4 +31,6 @@ pub struct ShyTopicSyn1 {
     pub shy_topic: ShyTopic,
     pub img_url: String,
     pub expression: String,
+    pub public_inputs: String,
+    pub proof: Vec<u8>,
 }

@@ -1,0 +1,12 @@
+.proofIdentity {
+  display: flex;
+  align-items: center;
+  padding: 2px 6px;
+  border: 1px solid var(--gray-80);
+  border-radius: 12px;
+
+  .proofImage {
+    width: 18px;
+    margin-right: 2px;
+  }
+}
