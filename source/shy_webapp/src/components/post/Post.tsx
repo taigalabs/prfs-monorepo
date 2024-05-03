@@ -26,6 +26,7 @@ const Post: React.FC<PostContentProps> = ({
   subChannelId,
   handleSucceedPost,
   proof,
+  proof_type_id,
 }) => {
   const i18n = usePrfsI18N();
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
@@ -70,6 +71,7 @@ const Post: React.FC<PostContentProps> = ({
                 imgUrl={imgUrl}
                 author_proof_identity_inputs={author_proof_identity_inputs}
                 proof={proof}
+                proof_type_id={proof_type_id}
               />
               {/* <div className={styles.proofIdentity}> */}
               {/*   <ProofImage className={styles.proofImage} imgUrl={imgUrl} /> */}
@@ -117,4 +119,5 @@ export interface PostContentProps {
   imgUrl: string;
   expression: string;
   proof: Proof;
+  proof_type_id: string;
 }

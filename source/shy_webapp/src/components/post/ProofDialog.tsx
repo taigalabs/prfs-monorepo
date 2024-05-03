@@ -70,7 +70,7 @@ const ProofDialog: React.FC<PostContentProps> = ({
                 </div>
                 {proof && <ProofDataView proof={proof} />}
                 <div>
-                  <VerifyProofDialog proof={proof} />
+                  <VerifyProofDialog proof={proof} proofTypeId={proof_type_id} />
                 </div>
               </div>
             </FloatingFocusManager>
@@ -87,4 +87,5 @@ export interface PostContentProps {
   imgUrl: string;
   author_proof_identity_inputs: string;
   proof: Proof;
+  proof_type_id: string;
 }

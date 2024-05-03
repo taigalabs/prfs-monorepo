@@ -28,6 +28,7 @@ import { envs } from "@/envs";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
+import { SHY_APP_ID } from "@/app_id";
 
 export enum VerifyProofStatus {
   Standby,
@@ -52,11 +53,15 @@ const VerifyProofDialog: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
 
   const handleClickVerify = React.useCallback(async () => {
     try {
+      if (!proofTypeId) {
+        return;
+      }
+
       const { sk, pkHex } = createRandomKeyPair();
       const session_key = createSessionKey();
       const verifyProofArgs: VerifyProofArgs = {
         nonce: makeRandInt(1000000),
-        app_id: "prfs_proof",
+        app_id: SHY_APP_ID,
         public_key: pkHex,
         proof_type_id: proofTypeId,
         session_key,

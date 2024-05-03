@@ -66,6 +66,7 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
             imgUrl={topic.inner.img_url}
             expression={topic.inner.expression}
             proof={proof}
+            proof_type_id={topic.inner.proof_type_id}
           />
         </>
       ) : (
