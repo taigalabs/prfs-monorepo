@@ -7,4 +7,5 @@ export type ShyTopicSyn1 = {
   expression: string;
   public_inputs: string;
   proof: Array<number>;
+  proof_public_key: string;
 };

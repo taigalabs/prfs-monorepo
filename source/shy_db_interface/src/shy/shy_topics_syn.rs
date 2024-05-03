@@ -50,6 +50,7 @@ LIMIT $3
                 expression: row.try_get("expression")?,
                 public_inputs: row.try_get("public_inputs")?,
                 proof: row.try_get("proof")?,
+                proof_public_key: row.try_get("public_key")?,
             };
 
             let topic = DateTimed {
@@ -99,6 +100,7 @@ WHERE t.topic_id=$1
         expression: row.try_get("expression")?,
         public_inputs: row.try_get("public_inputs")?,
         proof: row.try_get("proof")?,
+        proof_public_key: row.try_get("public_key")?,
     };
 
     let topic = DateTimed {

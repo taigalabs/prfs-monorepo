@@ -33,4 +33,5 @@ pub struct ShyTopicSyn1 {
     pub expression: String,
     pub public_inputs: String,
     pub proof: Vec<u8>,
+    pub proof_public_key: String,
 }

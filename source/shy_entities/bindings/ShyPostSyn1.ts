@@ -7,4 +7,5 @@ export type ShyPostSyn1 = {
   expression: string;
   public_inputs: string;
   proof: Array<number>;
+  proof_public_key: string;
 };
