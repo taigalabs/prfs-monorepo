@@ -13,11 +13,11 @@ import {
   useRole,
 } from "@floating-ui/react";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
+import { Proof } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./ProofDialog.module.scss";
 import ProofImage from "@/components/proof_image/ProofImage";
-import { Proof } from "@taigalabs/prfs-driver-interface";
-import VerifyProofDialog from "../verify_proof_dialog/VerifyProofDialog";
+import VerifyProofDialog from "@/components/verify_proof_dialog/VerifyProofDialog";
 
 const ProofDialog: React.FC<PostContentProps> = ({
   imgUrl,
