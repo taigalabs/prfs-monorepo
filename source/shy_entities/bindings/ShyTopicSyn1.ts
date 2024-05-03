@@ -8,4 +8,5 @@ export type ShyTopicSyn1 = {
   public_inputs: string;
   proof: Array<number>;
   proof_public_key: string;
+  proof_type_id: string;
 };

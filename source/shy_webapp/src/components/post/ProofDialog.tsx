@@ -17,11 +17,13 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import styles from "./ProofDialog.module.scss";
 import ProofImage from "@/components/proof_image/ProofImage";
 import { Proof } from "@taigalabs/prfs-driver-interface";
+import VerifyProofDialog from "../verify_proof_dialog/VerifyProofDialog";
 
 const ProofDialog: React.FC<PostContentProps> = ({
   imgUrl,
   author_proof_identity_inputs,
   proof,
+  proof_type_id,
 }) => {
   const i18n = usePrfsI18N();
 
@@ -67,6 +69,9 @@ const ProofDialog: React.FC<PostContentProps> = ({
                   </button>
                 </div>
                 {proof && <ProofDataView proof={proof} />}
+                <div>
+                  <VerifyProofDialog proof={proof} />
+                </div>
               </div>
             </FloatingFocusManager>
           </FloatingOverlay>

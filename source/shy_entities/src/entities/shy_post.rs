@@ -25,4 +25,5 @@ pub struct ShyPostSyn1 {
     pub public_inputs: String,
     pub proof: Vec<u8>,
     pub proof_public_key: String,
+    pub proof_type_id: String,
 }
