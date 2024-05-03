@@ -42,7 +42,7 @@
 .videoWrapper {
   display: flex;
   justify-content: center;
-  max-width: 240px;
+  max-width: 380px;
   width: 100%;
 
   display: flex;
@@ -68,5 +68,9 @@
 
   .section {
     flex-basis: 0;
+  }
+
+  .videoWrapper {
+    max-width: 240px;
   }
 }
