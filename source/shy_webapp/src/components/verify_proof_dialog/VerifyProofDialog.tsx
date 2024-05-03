@@ -77,16 +77,16 @@ const VerifyProofDialog: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
       const data = JSON.stringify(prf);
       const bytes = toUtf8Bytes(data);
 
-      const popup = openPopup(endpoint);
-      if (!popup) {
-        return;
-      }
-
       const { payload: _ } = await openPrfsIdSession({
         key: verifyProofArgs.session_key,
         value: Array.from(bytes),
         ticket: "TICKET",
       });
+
+      const popup = openPopup(endpoint);
+      if (!popup) {
+        return;
+      }
       setIsPrfsDialogOpen(true);
       setSessionKey(verifyProofArgs.session_key);
       setSk(sk);
