@@ -3,44 +3,6 @@ use shy_entities::{ShyChannel, ShyChannelMember};
 
 use crate::ShyDbInterfaceError;
 
-// pub async fn get_shy_channels(
-//     pool: &Pool<Postgres>,
-//     offset: i32,
-//     limit: i32,
-// ) -> Result<Vec<ShyChannel>, ShyDbInterfaceError> {
-//     let query = r#"
-// SELECT *
-// FROM shy_channels
-// WHERE status='Normal'
-// ORDER BY updated_at DESC
-// OFFSET $1
-// LIMIT $2
-// "#;
-
-//     let rows = sqlx::query(&query)
-//         .bind(offset)
-//         .bind(limit)
-//         .fetch_all(pool)
-//         .await?;
-
-//     let shy_channels: Vec<ShyChannel> = rows
-//         .iter()
-//         .map(|row| {
-//             Ok(ShyChannel {
-//                 channel_id: row.try_get("channel_id")?,
-//                 label: row.try_get("label")?,
-//                 locale: row.try_get("locale")?,
-//                 desc: row.try_get("desc")?,
-//                 proof_type_ids: row.try_get("proof_type_ids")?,
-//                 status: row.try_get("status")?,
-//                 r#type: row.try_get("type")?,
-//             })
-//         })
-//         .collect::<Result<Vec<ShyChannel>, ShyDbInterfaceError>>()?;
-
-//     Ok(shy_channels)
-// }
-
 pub async fn upsert_shy_channel_member(
     tx: &mut Transaction<'_, Postgres>,
     channel_member: &ShyChannelMember,
