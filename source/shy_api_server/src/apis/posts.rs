@@ -1,6 +1,7 @@
 use prfs_api_rs::api::create_prfs_proof_record;
 use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
+use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit};
 use prfs_common_server_state::ServerState;
 use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
@@ -49,7 +50,7 @@ pub async fn create_shy_post(
     Json(input): Json<CreateShyPostRequest>,
 ) -> (StatusCode, Json<ApiResponse<CreateShyPostResponse>>) {
     let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+    let mut tx = bail_out_tx!(pool, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let shy_proofs = match shy::get_shy_proofs(&pool, &input.author_public_key).await {
         Ok(i) => i,
@@ -146,7 +147,7 @@ pub async fn create_shy_post(
         }
     };
 
-    tx.commit().await.unwrap();
+    bail_out_tx_commit!(tx, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let resp = ApiResponse::new_success(CreateShyPostResponse { post_id });
     return (StatusCode::OK, Json(resp));
@@ -157,7 +158,7 @@ pub async fn create_shy_post_with_proof(
     Json(input): Json<CreateShyPostWithProofRequest>,
 ) -> (StatusCode, Json<ApiResponse<CreateShyPostResponse>>) {
     let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+    let mut tx = bail_out_tx!(pool, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let action = ShyPostProofAction::create_shy_post(CreateShyPostAction {
         topic_id: input.topic_id.to_string(),
@@ -165,7 +166,14 @@ pub async fn create_shy_post_with_proof(
         content: input.content.to_string(),
     });
 
-    let msg = serde_json::to_vec(&action).unwrap();
+    let msg = match serde_json::to_vec(&action) {
+        Ok(m) => m,
+        Err(err) => {
+            let resp =
+                ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, format!("err: {}", err));
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
     if msg != input.author_sig_msg {
         let resp = ApiResponse::new_error(
             &SHY_API_ERROR_CODES.NOT_MACHING_SIG_MSG,
@@ -216,6 +224,18 @@ pub async fn create_shy_post_with_proof(
         }
     };
 
+    let mut topic = match shy::get_shy_topic__tx(&mut tx, &input.topic_id).await {
+        Ok(t) => t,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &SHY_API_ERROR_CODES.SHY_PROOF_RETRIEVAL_FAIL,
+                err.to_string(),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+    topic.inner.total_reply_count += 1;
+
     let shy_post = ShyPost {
         post_id: input.post_id,
         topic_id: input.topic_id,
@@ -238,7 +258,18 @@ pub async fn create_shy_post_with_proof(
         }
     };
 
-    tx.commit().await.unwrap();
+    match shy::insert_shy_topic(&mut tx, &topic.inner).await {
+        Ok(i) => i,
+        Err(err) => {
+            let resp = ApiResponse::new_error(
+                &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
+                format!("Can't insert shy post, err: {}", err),
+            );
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
+    bail_out_tx_commit!(tx, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
     let resp = ApiResponse::new_success(CreateShyPostResponse { post_id });
     return (StatusCode::OK, Json(resp));
