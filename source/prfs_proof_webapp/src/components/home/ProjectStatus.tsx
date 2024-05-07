@@ -14,11 +14,11 @@ const ProjectStatus: React.FC<LogoContainerProps> = () => {
       <Area className={styles.area}>
         <Subtitle>
           <div>
-            We are currently participating in the{" "}
+            Participated in the{" "}
             <a href="https://consensys.io/fellowship" target="_blank">
               <HoverableText>Consensys fellowship program</HoverableText>
             </a>{" "}
-            ('23-Present)
+            (2023)
           </div>
         </Subtitle>
         <div className={styles.links}>
@@ -26,11 +26,6 @@ const ProjectStatus: React.FC<LogoContainerProps> = () => {
             className={styles.appLogo}
             src="https://d1w1533jipmvi2.cloudfront.net/Consensys_logo_2023.svg.png"
           />
-          <div className={styles.tweet}>
-            <a href="https://x.com/Consensys/status/1721602564775395502?s=20" target="_blank">
-              <HoverableText>[Tweet]</HoverableText>
-            </a>
-          </div>
         </div>
       </Area>
     </div>
