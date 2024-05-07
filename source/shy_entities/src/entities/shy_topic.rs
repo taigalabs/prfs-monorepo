@@ -29,5 +29,10 @@ pub struct ShyTopic {
 #[ts(export)]
 pub struct ShyTopicSyn1 {
     pub shy_topic: ShyTopic,
-    pub proof_identity_input: String,
+    pub img_url: String,
+    pub expression: String,
+    pub public_inputs: String,
+    pub proof: Vec<u8>,
+    pub proof_public_key: String,
+    pub proof_type_id: String,
 }

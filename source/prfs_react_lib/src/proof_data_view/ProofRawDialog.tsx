@@ -29,6 +29,10 @@ const ProofRawDialog: React.FC<ProofRawDialogProps> = ({ proofRaw, children }) =
   const headingId = useId();
   const descriptionId = useId();
 
+  const handleClickClose = React.useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
   return (
     <>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
@@ -47,12 +51,7 @@ const ProofRawDialog: React.FC<ProofRawDialogProps> = ({ proofRaw, children }) =
               >
                 <div className={styles.header}>
                   <h1>{i18n.proof_raw}</h1>
-                  <button
-                    onClick={() => {
-                      console.log("Deleted.");
-                      setIsOpen(false);
-                    }}
-                  >
+                  <button onClick={handleClickClose}>
                     <AiOutlineClose />
                   </button>
                 </div>

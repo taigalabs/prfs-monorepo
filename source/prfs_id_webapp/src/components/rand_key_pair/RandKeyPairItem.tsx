@@ -10,7 +10,7 @@ import {
   QueryItemLeftCol,
   QueryItemMeta,
   QueryItemRightCol,
-} from "@/components/default_module/QueryItem";
+} from "@/components/query_item/QueryItemComponents";
 
 const RandKeyPairItem: React.FC<RandKeyPairItemProps> = ({ name, skHex, pkHex, val, type }) => {
   const i18n = useI18N();

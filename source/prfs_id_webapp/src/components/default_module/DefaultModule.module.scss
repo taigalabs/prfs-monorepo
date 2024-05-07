@@ -150,12 +150,7 @@
 
 .footer {
   margin-top: auto;
-  padding: 0 14px;
-  height: 48px;
-}
-
-.footerPlaceholder {
-  height: 48px;
+  padding-top: 24px;
 }
 
 .error {
@@ -164,7 +159,7 @@
   word-break: break-all;
 }
 
-@media screen and (min-width: $mid_display_min_width) {
+@media screen and (min-width: $display_w480) {
   .wrapper {
     justify-content: center;
     width: 476px;
@@ -194,11 +189,7 @@
 
   .footer {
     margin-top: 0;
-    padding: 0 0px;
-  }
-
-  .footerPlaceholder {
-    display: none;
+    padding-top: 12px;
   }
 
   .btnRow {

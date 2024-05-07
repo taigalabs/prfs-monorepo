@@ -29,7 +29,7 @@ import {
   QueryItemMeta,
   QueryItemRightCol,
   QueryName,
-} from "@/components/default_module/QueryItem";
+} from "@/components/query_item/QueryItemComponents";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
 import { usePutSessionValue } from "@/hooks/session";

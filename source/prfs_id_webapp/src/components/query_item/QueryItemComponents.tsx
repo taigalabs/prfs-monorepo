@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./QueryItem.module.scss";
+import styles from "./QueryItemComponents.module.scss";
 
 export const QueryItemList: React.FC<QueryItemProps> = ({ children, sidePadding }) => {
   return <ul className={cn(styles.list, { [styles.sidePadding]: sidePadding })}>{children}</ul>;

@@ -41,7 +41,7 @@ pub struct GetShyTopicsRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyTopicsResponse {
-    pub shy_topics: Vec<DateTimed<ShyTopic>>,
+    pub shy_topics: Vec<DateTimed<ShyTopicSyn1>>,
     pub next_offset: Option<i32>,
 }
 
@@ -54,7 +54,7 @@ pub struct GetShyTopicRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyTopicResponse {
-    pub shy_topic: DateTimed<ShyTopic>,
+    pub shy_topic: DateTimed<ShyTopicSyn1>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

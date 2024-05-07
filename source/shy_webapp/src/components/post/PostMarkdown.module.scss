@@ -1,0 +1,18 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  line-height: 1.5;
+  font-size: 14px;
+
+  a {
+    color: var(--blue-05);
+    position: relative;
+  }
+
+  p {
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (max-width: $display_w1024) {
+}

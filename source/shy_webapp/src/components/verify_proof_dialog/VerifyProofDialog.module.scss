@@ -1,0 +1,32 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  /* padding: 10px 0; */
+
+  button {
+    border: 1px solid var(--bright-gray-30);
+    height: 36px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.verifyBtnContent {
+  display: flex;
+  color: var(--gray-20);
+  align-items: center;
+
+  > svg {
+    margin-right: 4px;
+  }
+}
+
+.green {
+  color: var(--green-51);
+}
+
+.red {
+  color: var(--red-50);
+}

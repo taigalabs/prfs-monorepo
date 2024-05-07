@@ -7,7 +7,11 @@ pub async fn get_prfs_identity_by_id(
     pool: &Pool<Postgres>,
     identity_id: &String,
 ) -> Result<PrfsIdentity, DbInterfaceError> {
-    let query = "SELECT * from prfs_identities where identity_id=$1";
+    let query = r#"
+SELECT * 
+FROM prfs_identities 
+WHERE identity_id=$1
+"#;
 
     let row = sqlx::query(query)
         .bind(&identity_id)

@@ -9,16 +9,24 @@ import { toShortDate } from "@/utils/time";
 import { PostWrapper, PostInner } from "./PostComponent";
 import PostMenu from "./PostMenu";
 import CreatePost from "@/components/create_post/CreatePost";
+import { PostMarkdown } from "./PostMarkdown";
+import ProofImage from "../proof_image/ProofImage";
+import ProofDialog from "./ProofDialog";
+import { Proof } from "@taigalabs/prfs-driver-interface";
 
 const Post: React.FC<PostContentProps> = ({
   topicId,
   channel,
   author_public_key,
+  imgUrl,
+  expression,
   content,
   author_proof_identity_inputs,
   updated_at,
   subChannelId,
   handleSucceedPost,
+  proof,
+  proof_type_id,
 }) => {
   const i18n = usePrfsI18N();
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
@@ -59,19 +67,25 @@ const Post: React.FC<PostContentProps> = ({
               <p className={styles.publicKey}>{publicKey}</p>
             </div>
             <div className={styles.item}>
-              <p className={styles.proofIdentityInput}>{author_proof_identity_inputs}</p>
+              <ProofDialog
+                imgUrl={imgUrl}
+                author_proof_identity_inputs={author_proof_identity_inputs}
+                proof={proof}
+                proof_type_id={proof_type_id}
+              />
+              {/* <div className={styles.proofIdentity}> */}
+              {/*   <ProofImage className={styles.proofImage} imgUrl={imgUrl} /> */}
+              {/*   <p className={styles.proofIdentityInput}>{author_proof_identity_inputs}</p> */}
+              {/* </div> */}
             </div>
           </div>
           <div className={styles.right}>
             <p className={styles.date}>{date}</p>
           </div>
         </div>
-        <div
-          className={styles.content}
-          dangerouslySetInnerHTML={{
-            __html: content,
-          }}
-        />
+        <div className={styles.content}>
+          <PostMarkdown className={styles.content} html={content} />
+        </div>
         <PostMenu
           content={content}
           originalPostAuthorPubkey={publicKey}
@@ -102,4 +116,8 @@ export interface PostContentProps {
   topicId: string;
   handleSucceedPost: React.DispatchWithoutAction;
   subChannelId: string;
+  imgUrl: string;
+  expression: string;
+  proof: Proof;
+  proof_type_id: string;
 }

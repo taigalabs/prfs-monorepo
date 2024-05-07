@@ -11,7 +11,7 @@ import {
   QueryItemLeftCol,
   QueryItemMeta,
   QueryItemRightCol,
-} from "@/components/default_module/QueryItem";
+} from "@/components/query_item/QueryItemComponents";
 
 const EncryptItem: React.FC<EncryptItemProps> = ({ name, val, type, encrypted }) => {
   const i18n = React.useContext(i18nContext);

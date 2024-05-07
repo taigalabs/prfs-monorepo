@@ -50,7 +50,7 @@ $header_height_big: 61px;
   color: var(--gray-40);
 }
 
-@media screen and (min-width: $big_display_min_width) {
+@media screen and (min-width: $display_w1024) {
   .placeholder {
     height: $header_height_big;
   }

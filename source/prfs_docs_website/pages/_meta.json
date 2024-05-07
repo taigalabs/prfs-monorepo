@@ -1,8 +1,16 @@
 {
   "index": "Introduction",
-  "getting_started": "Getting started",
   "creating_first_proof": "Creating first proof",
   "core_concepts": "Core concepts",
-  "api_references": "API references",
-  "identity": "Identity"
+  "privacy": "Privacy",
+  "prfs": "Prfs",
+  "prfs_id": "Prfs ID",
+  "identity": "Identity",
+  "attestation": "Attestation",
+  "set": "Set",
+  "commitment": "Commitment",
+  "proof_systems": "Proof systems",
+  "circuit_drivers": "Circuit drivers",
+  "circuit_types": "Circuit types",
+  "proof_types": "Proof types"
 }

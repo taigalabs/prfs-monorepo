@@ -9,6 +9,7 @@ import { MdGroup } from "@react-icons/all-files/md/MdGroup";
 import styles from "./TopicContent.module.scss";
 import Post from "@/components/post/Post";
 import Loading from "@/components/loading/Loading";
+import { Proof } from "@taigalabs/prfs-driver-interface";
 
 const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, subChannelId }) => {
   const i18n = usePrfsI18N();
@@ -20,16 +21,31 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
   });
 
   const topic = postData?.payload?.shy_topic;
-  const participant_identity_inputs = topic?.inner.participant_identity_inputs.join(", ");
-  const author_proof_identity_inputs = topic?.inner.author_proof_identity_inputs.join(", ");
+  const participant_identity_inputs = React.useMemo(() => {
+    return topic?.inner.shy_topic.participant_identity_inputs.join(", ");
+  }, [topic]);
+  const author_proof_identity_inputs = React.useMemo(() => {
+    return topic?.inner.shy_topic.author_proof_identity_inputs.join(", ");
+  }, [topic]);
+
+  const proof = React.useMemo(() => {
+    if (topic) {
+      const proof: Proof = {
+        proofBytes: topic.inner.proof,
+        publicInputSer: topic.inner.public_inputs,
+        proofPubKey: topic.inner.proof_public_key,
+      };
+      return proof;
+    }
+  }, [topic]);
 
   return (
     <div className={styles.wrapper}>
-      {topic ? (
+      {topic && proof ? (
         <>
           <div className={styles.titleRow}>
             <div className={styles.inner}>
-              <p className={styles.title}>{topic.inner.title}</p>
+              <p className={styles.title}>{topic.inner.shy_topic.title}</p>
               <div className={styles.postMeta}>
                 <button className={styles.participants} type="button">
                   <MdGroup />
@@ -41,12 +57,16 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
           <Post
             topicId={topicId}
             channel={channel}
-            author_public_key={topic.inner.author_public_key}
+            author_public_key={topic.inner.shy_topic.author_public_key}
             author_proof_identity_inputs={author_proof_identity_inputs!}
-            content={topic.inner.content}
+            content={topic.inner.shy_topic.content}
             updated_at={topic.updated_at}
             handleSucceedPost={rerender}
             subChannelId={subChannelId}
+            imgUrl={topic.inner.img_url}
+            expression={topic.inner.expression}
+            proof={proof}
+            proof_type_id={topic.inner.proof_type_id}
           />
         </>
       ) : (

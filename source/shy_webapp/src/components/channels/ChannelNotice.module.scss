@@ -1,0 +1,76 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  padding: 14px 16px;
+  /* overflow: hidden; */
+}
+
+.row {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  column-gap: 24px;
+  row-gap: 18px;
+}
+
+.section {
+  flex: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  word-break: break-all;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* border: 1px solid black; */
+}
+
+.sectionRow {
+  padding-top: 10px;
+}
+
+.atstBtn {
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid var(--gray-40);
+  padding: 6px;
+}
+
+.videoWrapper {
+  display: flex;
+  justify-content: center;
+  max-width: 380px;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid var(--black-30);
+  overflow: hidden;
+
+  iframe {
+    border: none;
+  }
+}
+
+@media screen and (min-width: $display_w768) {
+  .row {
+    flex-direction: row;
+  }
+
+  .section {
+    flex-basis: 0;
+  }
+
+  .videoWrapper {
+    max-width: 240px;
+  }
+}
