@@ -1,6 +1,5 @@
 import React, { useId } from "react";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
-import { FaReply } from "@react-icons/all-files/fa/FaReply";
 import ProofDataView from "@taigalabs/prfs-react-lib/src/proof_data_view/ProofDataView";
 import {
   FloatingFocusManager,
@@ -39,6 +38,10 @@ const ProofDialog: React.FC<PostContentProps> = ({
   const headingId = useId();
   const descriptionId = useId();
 
+  const handleClickClose = React.useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
   return (
     <>
       <div ref={refs.setReference} {...getReferenceProps()}>
@@ -60,11 +63,7 @@ const ProofDialog: React.FC<PostContentProps> = ({
               >
                 <div className={styles.header}>
                   <h1>{i18n.proof_raw}</h1>
-                  <button
-                    onClick={() => {
-                      setIsOpen(false);
-                    }}
-                  >
+                  <button onClick={handleClickClose}>
                     <AiOutlineClose />
                   </button>
                 </div>
