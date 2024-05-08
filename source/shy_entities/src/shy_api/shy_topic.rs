@@ -72,4 +72,5 @@ pub struct ProofBlob {
     pub author_sig_msg: Vec<u8>,
     pub proof_type_id: String,
     pub proof_idx: i16,
+    pub is_required: bool,
 }

@@ -23,8 +23,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   const [status, setStatus] = React.useState(Status.Standby);
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [firstProof, setFirstProof] = React.useState<ProofBlob | null>(null);
-  const [otherProofs, setOtherProofs] = React.useState<ProofBlob[]>([]);
+  // const [firstProof, setFirstProof] = React.useState<ProofBlob | null>(null);
+  const [proofs, setProofs] = React.useState<ProofBlob[]>([]);
   const { editor } = useTextEditor();
   const [html, setHtml] = React.useState<string | null>(null);
 
@@ -54,16 +54,17 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     });
   }, [channel.assoc_proof_type_ids]);
 
-  const firstProofIdAbbrev = React.useMemo(() => {
-    if (firstProof) {
-      return abbrev7and5(firstProof.shy_proof_id);
+  const requiredProofIdsAbbrev = React.useMemo(() => {
+    proofs.filter(p => p.required);
+    if (proofs.length > 0) {
+      return abbrev7and5(proofs[0].shy_proof_id);
     } else {
       return null;
     }
-  }, [firstProof]);
+  }, [proofs]);
 
   const otherProofIdsAbbrev = React.useMemo(() => {
-    if (otherProofs.length > 0) {
+    if (proofs.length > 1) {
       return otherProofs
         .map(p => {
           return abbrev7and5(p.shy_proof_id);
