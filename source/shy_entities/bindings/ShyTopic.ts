@@ -8,6 +8,6 @@ export type ShyTopic = {
   content: string;
   sub_channel_id: string;
   total_like_count: bigint;
-  author_proof_identities: string[];
-  participant_proof_identities: string[];
+  author_proof_identities: Record<string, any>[];
+  participant_proof_identities: Record<string, any>[];
 };

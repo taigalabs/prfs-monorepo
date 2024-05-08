@@ -48,10 +48,10 @@ LIMIT $3
                 },
                 img_url: row.try_get("img_url")?,
                 expression: row.try_get("expression")?,
-                public_inputs: row.try_get("public_inputs")?,
-                proof: row.try_get("proof")?,
-                proof_public_key: row.try_get("public_key")?,
-                proof_type_id: row.try_get("proof_type_id")?,
+                // public_inputs: row.try_get("public_inputs")?,
+                // proof: row.try_get("proof")?,
+                // proof_public_key: row.try_get("public_key")?,
+                // proof_type_id: row.try_get("proof_type_id")?,
             };
 
             let topic = DateTimed {
@@ -99,10 +99,10 @@ WHERE t.topic_id=$1
         },
         img_url: row.try_get("img_url")?,
         expression: row.try_get("expression")?,
-        public_inputs: row.try_get("public_inputs")?,
-        proof: row.try_get("proof")?,
-        proof_public_key: row.try_get("public_key")?,
-        proof_type_id: row.try_get("proof_type_id")?,
+        // public_inputs: row.try_get("public_inputs")?,
+        // proof: row.try_get("proof")?,
+        // proof_public_key: row.try_get("public_key")?,
+        // proof_type_id: row.try_get("proof_type_id")?,
     };
 
     let topic = DateTimed {

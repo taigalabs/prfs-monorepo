@@ -4,6 +4,7 @@ import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import { ProofIdentity } from "@taigalabs/shy-entities/bindings/ProofIdentity";
 import { MdGroup } from "@react-icons/all-files/md/MdGroup";
 
 import styles from "./TopicContent.module.scss";
@@ -22,8 +23,14 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
 
   const topic = postData?.payload?.shy_topic;
   const participant_identity_inputs = React.useMemo(() => {
-    return topic?.inner.shy_topic.participant_identity_inputs.join(", ");
+    if (topic) {
+      const ids = topic?.inner.shy_topic.participant_proof_identities as ProofIdentity[];
+      return ids.map(pid => {
+        return pid.proof_identity_input;
+      });
+    }
   }, [topic]);
+
   const author_proof_identity_inputs = React.useMemo(() => {
     return topic?.inner.shy_topic.author_proof_identity_inputs.join(", ");
   }, [topic]);
