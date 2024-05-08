@@ -9,20 +9,29 @@ pub struct ShyTopic {
     pub channel_id: String,
     pub total_reply_count: i32,
     pub content: String,
-    pub shy_proof_id: String,
-    pub author_public_key: String,
-    pub author_sig: String,
+    // pub shy_proof_id: String,
+    // pub author_public_key: String,
+    // pub author_sig: String,
     pub sub_channel_id: String,
     pub total_like_count: i64,
 
     #[ts(type = "string[]")]
-    pub author_proof_identity_inputs: sqlx::types::Json<Vec<String>>,
+    pub author_proof_identities: sqlx::types::Json<Vec<ProofIdentity>>,
 
     #[ts(type = "string[]")]
-    pub participant_identity_inputs: sqlx::types::Json<Vec<String>>,
+    pub participant_proof_identities: sqlx::types::Json<Vec<ProofIdentity>>,
+    // #[ts(type = "string[]")]
+    // pub shy_proof_ids: sqlx::types::Json<Vec<String>>,
+}
 
-    #[ts(type = "string[]")]
-    pub other_proof_ids: sqlx::types::Json<Vec<String>>,
+#[derive(TS, Debug, Serialize, Deserialize, Clone)]
+#[ts(export)]
+pub struct ProofIdentity {
+    pub shy_proof_id: String,
+    pub proof_type_id: String,
+    pub proof_identity_input: String,
+    pub proof_public_key: String,
+    pub proof_sig: String,
 }
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]

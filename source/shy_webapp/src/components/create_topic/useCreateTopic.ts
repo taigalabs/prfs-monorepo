@@ -19,8 +19,8 @@ export function useCreateTopic({
   setError,
   html,
   title,
-  firstProof,
-  otherProofs,
+  // firstProof,
+  proofs,
   subChannelId,
   setStatus,
   channel,
@@ -94,17 +94,17 @@ export function useCreateTopic({
       content: html,
       channel_id: channel.channel_id,
       shy_proof_id,
-      proof_identity_input,
-      proof,
-      public_inputs,
-      author_public_key,
+      // proof_identity_input,
+      // proof,
+      // public_inputs,
+      // author_public_key,
       serial_no,
       author_sig,
       author_sig_msg,
       sub_channel_id: subChannelId,
-      proof_type_id,
-      proof_idx: 0,
-      other_proofs: otherProofs,
+      // proof_type_id,
+      // proof_idx: 0,
+      proofs: proofs,
     });
 
     if (error) {
@@ -124,9 +124,9 @@ export function useCreateTopic({
     channel,
     topicId,
     title,
-    firstProof,
+    // firstProof,
     subChannelId,
-    otherProofs,
+    proofs,
     setError,
     createShyTopic,
     router,
@@ -143,8 +143,8 @@ export interface UseCreateTopicArgs {
   setError: React.Dispatch<React.SetStateAction<string | null>>;
   html: string | null;
   title: string;
-  firstProof: ProofBlob | null;
-  otherProofs: ProofBlob[];
+  // firstProof: ProofBlob | null;
+  proofs: ProofBlob[];
   subChannelId: string;
   setStatus: React.Dispatch<React.SetStateAction<Status>>;
   channel: ShyChannel;

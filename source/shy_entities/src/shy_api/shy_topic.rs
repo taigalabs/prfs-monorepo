@@ -1,7 +1,10 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::entities::{DateTimed, ShyTopic, ShyTopicSyn1};
+use crate::{
+    entities::{DateTimed, ShyTopic, ShyTopicSyn1},
+    ProofIdentity,
+};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -9,20 +12,19 @@ pub struct CreateShyTopicRequest {
     pub title: String,
     pub topic_id: String,
     pub content: String,
-    // pub content_hash: String,
     pub channel_id: String,
-    pub shy_proof_id: String,
-    pub proof_identity_input: String,
-    pub proof: Vec<u8>,
-    pub public_inputs: String,
+    // pub shy_proof_id: String,
+    // pub author_proof_identities: Vec<ProofIdentity>,
+    // pub proof: Vec<u8>,
+    // pub public_inputs: String,
     pub serial_no: String,
-    pub author_public_key: String,
-    pub author_sig: String,
-    pub author_sig_msg: Vec<u8>,
+    // pub author_public_key: String,
+    // pub author_sig: String,
+    // pub author_sig_msg: Vec<u8>,
     pub sub_channel_id: String,
-    pub proof_type_id: String,
-    pub proof_idx: i16,
-    pub other_proofs: Vec<ProofBlob>,
+    // pub proof_type_id: String,
+    // pub proof_idx: i16,
+    pub proofs: Vec<ProofBlob>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
