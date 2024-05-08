@@ -17,7 +17,7 @@ pub struct CreateShyTopicRequest {
     // pub author_proof_identities: Vec<ProofIdentity>,
     // pub proof: Vec<u8>,
     // pub public_inputs: String,
-    pub serial_no: String,
+    // pub serial_no: String,
     // pub author_public_key: String,
     // pub author_sig: String,
     // pub author_sig_msg: Vec<u8>,

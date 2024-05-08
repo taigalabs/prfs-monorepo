@@ -24,12 +24,12 @@ import { ShyTopicProofAction } from "@taigalabs/shy-entities/bindings/ShyTopicPr
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { computeAddress, toUtf8Bytes } from "@taigalabs/prfs-crypto-deps-js/ethers/lib/utils";
 import { keccak256 } from "@taigalabs/prfs-crypto-deps-js/viem";
+import { Editor } from "@tiptap/react";
 import { ProofBlob } from "@taigalabs/shy-entities/bindings/ProofBlob";
 
 import { SHY_APP_ID } from "@/app_id";
 import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
-import { Editor } from "@tiptap/react";
 import { envs } from "@/envs";
 
 const PROOF = "Proof";
@@ -44,6 +44,7 @@ export function useAddProof({
   setHtml,
   handleSucceedAddProof,
   proofIdx,
+  isRequired,
 }: UseAddProofArgs) {
   const dispatch = useAppDispatch();
 
@@ -211,6 +212,7 @@ export function useAddProof({
         author_sig_msg: Array.from(proveReceipt.proofActionSigMsg),
         proof_type_id: proofTypeId,
         proof_idx: proofIdx,
+        is_required: isRequired,
       };
       handleSucceedAddProof(proof);
     },
@@ -237,4 +239,5 @@ export interface UseAddProofArgs {
   setHtml: React.Dispatch<React.SetStateAction<string | null>>;
   handleSucceedAddProof: (proof: ProofBlob) => void;
   proofIdx: number;
+  isRequired: boolean;
 }

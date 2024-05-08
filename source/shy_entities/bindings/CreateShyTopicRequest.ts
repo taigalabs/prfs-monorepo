@@ -6,7 +6,6 @@ export type CreateShyTopicRequest = {
   topic_id: string;
   content: string;
   channel_id: string;
-  serial_no: string;
   sub_channel_id: string;
   proofs: Array<ProofBlob>;
 };

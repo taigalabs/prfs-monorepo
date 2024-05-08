@@ -70,22 +70,22 @@ export function useCreateTopic({
       return;
     }
 
-    if (!firstProof) {
+    if (proofs.length < 1) {
       setError("Proof is not added");
       return;
     }
 
-    const {
-      shy_proof_id,
-      public_inputs,
-      proof_identity_input,
-      proof,
-      author_public_key,
-      serial_no,
-      author_sig,
-      author_sig_msg,
-      proof_type_id,
-    } = firstProof;
+    // const {
+    //   shy_proof_id,
+    //   public_inputs,
+    //   proof_identity_input,
+    //   proof,
+    //   author_public_key,
+    //   serial_no,
+    //   author_sig,
+    //   author_sig_msg,
+    //   proof_type_id,
+    // } = firstProof;
 
     setStatus(Status.InProgress);
     const { error } = await createShyTopic({
@@ -93,14 +93,14 @@ export function useCreateTopic({
       topic_id: topicId,
       content: html,
       channel_id: channel.channel_id,
-      shy_proof_id,
+      // shy_proof_id,
       // proof_identity_input,
       // proof,
       // public_inputs,
       // author_public_key,
-      serial_no,
-      author_sig,
-      author_sig_msg,
+      // serial_no,
+      // author_sig,
+      // author_sig_msg,
       sub_channel_id: subChannelId,
       // proof_type_id,
       // proof_idx: 0,
