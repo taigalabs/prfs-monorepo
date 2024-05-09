@@ -49,6 +49,7 @@ pub async fn create_shy_topic(
     });
 
     let msg = serde_json::to_vec(&action).unwrap();
+
     // if msg != input.author_sig_msg {
     //     let resp = ApiResponse::new_error(
     //         &SHY_API_ERROR_CODES.NOT_MACHING_SIG_MSG,
@@ -165,8 +166,8 @@ pub async fn create_shy_topic(
         channel_id: input.channel_id.to_string(),
         total_reply_count: 0,
         content: input.content.to_string(),
+        author_public_key: input.author_public_key.to_string(),
         // shy_proof_id: input.shy_proof_id.to_string(),
-        // author_public_key: input.author_public_key.to_string(),
         author_proof_identities: JsonType::from(author_proof_identities.clone()),
         // author_sig: input.author_sig.to_string(),
         participant_proof_identities: JsonType::from(author_proof_identities.clone()),

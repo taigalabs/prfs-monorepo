@@ -97,7 +97,7 @@ export function useCreateTopic({
       // proof_identity_input,
       // proof,
       // public_inputs,
-      // author_public_key,
+      author_public_key,
       // serial_no,
       // author_sig,
       // author_sig_msg,

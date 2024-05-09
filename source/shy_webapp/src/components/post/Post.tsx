@@ -2,17 +2,18 @@ import React from "react";
 import dayjs from "dayjs";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
+import { ProofIdentity } from "@taigalabs/shy-entities/bindings/ProofIdentity";
 import { useRouter } from "next/navigation";
+import { Proof } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./Post.module.scss";
-import { toShortDate } from "@/utils/time";
 import { PostWrapper, PostInner } from "./PostComponent";
+import { PostMarkdown } from "./PostMarkdown";
+import ProofDialog from "./ProofDialog";
 import PostMenu from "./PostMenu";
 import CreatePost from "@/components/create_post/CreatePost";
-import { PostMarkdown } from "./PostMarkdown";
-import ProofImage from "../proof_image/ProofImage";
-import ProofDialog from "./ProofDialog";
-import { Proof } from "@taigalabs/prfs-driver-interface";
+import { toShortDate } from "@/utils/time";
+import ProofImage from "@/components/proof_image/ProofImage";
 
 const Post: React.FC<PostContentProps> = ({
   topicId,
@@ -21,12 +22,13 @@ const Post: React.FC<PostContentProps> = ({
   imgUrl,
   expression,
   content,
-  author_proof_identity_inputs,
+  author_proof_identities,
+  // author_proof_identity_inputs,
   updated_at,
   subChannelId,
   handleSucceedPost,
-  proof,
-  proof_type_id,
+  // proof,
+  // proof_type_id,
 }) => {
   const i18n = usePrfsI18N();
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
@@ -69,9 +71,10 @@ const Post: React.FC<PostContentProps> = ({
             <div className={styles.item}>
               <ProofDialog
                 imgUrl={imgUrl}
-                author_proof_identity_inputs={author_proof_identity_inputs}
-                proof={proof}
-                proof_type_id={proof_type_id}
+                author_proof_identities={author_proof_identities}
+                // author_proof_identity_inputs={author_proof_identity_inputs}
+                // proof={proof}
+                // proof_type_id={proof_type_id}
               />
               {/* <div className={styles.proofIdentity}> */}
               {/*   <ProofImage className={styles.proofImage} imgUrl={imgUrl} /> */}
@@ -109,7 +112,8 @@ export default Post;
 
 export interface PostContentProps {
   author_public_key: string;
-  author_proof_identity_inputs: string;
+  author_proof_identities: ProofIdentity[];
+  // author_proof_identity_inputs: string;
   content: string;
   updated_at: string;
   channel: ShyChannel;
@@ -118,6 +122,6 @@ export interface PostContentProps {
   subChannelId: string;
   imgUrl: string;
   expression: string;
-  proof: Proof;
-  proof_type_id: string;
+  // proof: Proof;
+  // proof_type_id: string;
 }

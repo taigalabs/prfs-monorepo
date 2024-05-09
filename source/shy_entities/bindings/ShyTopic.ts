@@ -6,6 +6,7 @@ export type ShyTopic = {
   channel_id: string;
   total_reply_count: number;
   content: string;
+  author_public_key: string;
   sub_channel_id: string;
   total_like_count: bigint;
   author_proof_identities: Record<string, any>[];

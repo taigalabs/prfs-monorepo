@@ -32,23 +32,28 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
   }, [topic]);
 
   const author_proof_identity_inputs = React.useMemo(() => {
-    return topic?.inner.shy_topic.author_proof_identity_inputs.join(", ");
-  }, [topic]);
-
-  const proof = React.useMemo(() => {
     if (topic) {
-      const proof: Proof = {
-        proofBytes: topic.inner.proof,
-        publicInputSer: topic.inner.public_inputs,
-        proofPubKey: topic.inner.proof_public_key,
-      };
-      return proof;
+      const ids = topic?.inner.shy_topic.author_proof_identities as ProofIdentity[];
+      return ids.map(pid => {
+        return pid.proof_identity_input;
+      });
     }
   }, [topic]);
 
+  // const proof = React.useMemo(() => {
+  //   if (topic) {
+  //     const proof: Proof = {
+  //       proofBytes: topic.inner.proof,
+  //       publicInputSer: topic.inner.public_inputs,
+  //       proofPubKey: topic.inner.proof_public_key,
+  //     };
+  //     return proof;
+  //   }
+  // }, [topic]);
+
   return (
     <div className={styles.wrapper}>
-      {topic && proof ? (
+      {topic ? (
         <>
           <div className={styles.titleRow}>
             <div className={styles.inner}>
@@ -65,15 +70,18 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
             topicId={topicId}
             channel={channel}
             author_public_key={topic.inner.shy_topic.author_public_key}
-            author_proof_identity_inputs={author_proof_identity_inputs!}
+            author_proof_identities={
+              topic.inner.shy_topic.author_proof_identities as ProofIdentity[]
+            }
+            // author_proof_identity_inputs={author_proof_identity_inputs!}
             content={topic.inner.shy_topic.content}
             updated_at={topic.updated_at}
             handleSucceedPost={rerender}
             subChannelId={subChannelId}
             imgUrl={topic.inner.img_url}
             expression={topic.inner.expression}
-            proof={proof}
-            proof_type_id={topic.inner.proof_type_id}
+            // proof={proof}
+            // proof_type_id={topic.inner.proof_type_id}
           />
         </>
       ) : (
