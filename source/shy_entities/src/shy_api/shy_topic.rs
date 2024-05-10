@@ -1,10 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::{
-    entities::{DateTimed, ShyTopic, ShyTopicSyn1},
-    ProofIdentity,
-};
+use crate::entities::{DateTimed, ShyTopic, ShyTopicSyn1};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]

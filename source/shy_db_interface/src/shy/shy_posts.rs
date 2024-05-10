@@ -23,7 +23,7 @@ RETURNING post_id
         // .bind(&shy_post.shy_proof_id)
         .bind(&shy_post.author_public_key)
         .bind(&shy_post.author_sig)
-        .bind(&shy_post.author_proof_identities)
+        .bind(&shy_post.author_proof_ids)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -70,7 +70,7 @@ LIMIT $3
                     // shy_proof_id: row.try_get("shy_proof_id")?,
                     author_public_key: row.try_get("author_public_key")?,
                     author_sig: row.try_get("author_sig")?,
-                    author_proof_identities: row.try_get("author_proof_identities")?,
+                    author_proof_ids: row.try_get("author_proof_ids")?,
                 },
                 img_url: row.try_get("img_url")?,
                 expression: row.try_get("expression")?,

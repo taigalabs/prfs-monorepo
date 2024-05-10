@@ -2,7 +2,6 @@ import React from "react";
 import dayjs from "dayjs";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
-import { ProofIdentity } from "@taigalabs/shy-entities/bindings/ProofIdentity";
 import { useRouter } from "next/navigation";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 
@@ -22,7 +21,7 @@ const Post: React.FC<PostContentProps> = ({
   imgUrl,
   expression,
   content,
-  author_proof_identities,
+  author_proof_ids,
   // author_proof_identity_inputs,
   updated_at,
   subChannelId,
@@ -71,7 +70,7 @@ const Post: React.FC<PostContentProps> = ({
             <div className={styles.item}>
               <ProofDialog
                 imgUrl={imgUrl}
-                author_proof_identities={author_proof_identities}
+                author_proof_ids={author_proof_ids}
                 // author_proof_identity_inputs={author_proof_identity_inputs}
                 // proof={proof}
                 // proof_type_id={proof_type_id}
@@ -112,7 +111,7 @@ export default Post;
 
 export interface PostContentProps {
   author_public_key: string;
-  author_proof_identities: ProofIdentity[];
+  author_proof_ids: string[];
   // author_proof_identity_inputs: string;
   content: string;
   updated_at: string;

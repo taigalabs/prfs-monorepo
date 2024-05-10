@@ -8,7 +8,6 @@ import styles from "./PostRow.module.scss";
 import Post from "@/components/post/Post";
 import { ShyPostSyn1 } from "@taigalabs/shy-entities/bindings/ShyPostSyn1";
 import { Proof } from "@taigalabs/prfs-driver-interface";
-import { ProofIdentity } from "@taigalabs/shy-entities/bindings/ProofIdentity";
 
 const PostRow: React.FC<RowProps> = ({ post, channel, handleSucceedPost, subChannelId }) => {
   // const author_proof_identity_inputs = React.useMemo(
@@ -31,7 +30,7 @@ const PostRow: React.FC<RowProps> = ({ post, channel, handleSucceedPost, subChan
       channel={channel}
       author_public_key={post.inner.shy_post.author_public_key}
       content={post.inner.shy_post.content}
-      author_proof_identities={post.inner.shy_post.author_proof_identities as ProofIdentity[]}
+      author_proof_ids={post.inner.shy_post.author_proof_ids as string[]}
       // author_proof_identity_inputs={author_proof_identity_inputs}
       updated_at={post.updated_at}
       handleSucceedPost={handleSucceedPost}

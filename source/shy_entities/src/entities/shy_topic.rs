@@ -15,24 +15,24 @@ pub struct ShyTopic {
     pub sub_channel_id: String,
     pub total_like_count: i64,
 
-    #[ts(type = "Record<string, any>[]")]
-    pub author_proof_identities: sqlx::types::Json<Vec<ProofIdentity>>,
+    #[ts(type = "string[]")]
+    pub author_proof_ids: sqlx::types::Json<Vec<String>>,
 
-    #[ts(type = "Record<string, any>[]")]
-    pub participant_proof_identities: sqlx::types::Json<Vec<ProofIdentity>>,
+    #[ts(type = "string[]")]
+    pub participant_proof_ids: sqlx::types::Json<Vec<String>>,
     // #[ts(type = "string[]")]
     // pub shy_proof_ids: sqlx::types::Json<Vec<String>>,
 }
 
-#[derive(TS, Debug, Serialize, Deserialize, Clone)]
-#[ts(export)]
-pub struct ProofIdentity {
-    pub shy_proof_id: String,
-    pub proof_type_id: String,
-    pub proof_identity_input: String,
-    pub proof_public_key: String,
-    pub proof_sig: String,
-}
+// #[derive(TS, Debug, Serialize, Deserialize, Clone)]
+// #[ts(export)]
+// pub struct ProofIdentity {
+//     pub shy_proof_id: String,
+//     pub proof_type_id: String,
+//     pub proof_identity_input: String,
+//     pub proof_public_key: String,
+//     pub proof_sig: String,
+// }
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]

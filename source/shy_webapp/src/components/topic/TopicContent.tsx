@@ -4,7 +4,6 @@ import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-import { ProofIdentity } from "@taigalabs/shy-entities/bindings/ProofIdentity";
 import { MdGroup } from "@react-icons/all-files/md/MdGroup";
 
 import styles from "./TopicContent.module.scss";
@@ -22,23 +21,23 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
   });
 
   const topic = postData?.payload?.shy_topic;
-  const participant_identity_inputs = React.useMemo(() => {
-    if (topic) {
-      const ids = topic?.inner.shy_topic.participant_proof_identities as ProofIdentity[];
-      return ids.map(pid => {
-        return pid.proof_identity_input;
-      });
-    }
-  }, [topic]);
+  // const participant_identity_inputs = React.useMemo(() => {
+  //   if (topic) {
+  //     const ids = topic?.inner.shy_topic.participant_proof_identities as ProofIdentity[];
+  //     return ids.map(pid => {
+  //       return pid.proof_identity_input;
+  //     });
+  //   }
+  // }, [topic]);
 
-  const author_proof_identity_inputs = React.useMemo(() => {
-    if (topic) {
-      const ids = topic?.inner.shy_topic.author_proof_identities as ProofIdentity[];
-      return ids.map(pid => {
-        return pid.proof_identity_input;
-      });
-    }
-  }, [topic]);
+  // const author_proof_identity_inputs = React.useMemo(() => {
+  //   if (topic) {
+  //     const ids = topic?.inner.shy_topic.author_proof_identities as ProofIdentity[];
+  //     return ids.map(pid => {
+  //       return pid.proof_identity_input;
+  //     });
+  //   }
+  // }, [topic]);
 
   // const proof = React.useMemo(() => {
   //   if (topic) {
@@ -61,7 +60,9 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
               <div className={styles.postMeta}>
                 <button className={styles.participants} type="button">
                   <MdGroup />
-                  <span>{participant_identity_inputs ?? i18n.participants}</span>
+                  <span>
+                    {topic.inner.shy_topic.participant_proof_ids.join(", ") ?? i18n.participants}
+                  </span>
                 </button>
               </div>
             </div>
@@ -70,9 +71,7 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
             topicId={topicId}
             channel={channel}
             author_public_key={topic.inner.shy_topic.author_public_key}
-            author_proof_identities={
-              topic.inner.shy_topic.author_proof_identities as ProofIdentity[]
-            }
+            author_proof_ids={topic.inner.shy_topic.author_proof_ids}
             // author_proof_identity_inputs={author_proof_identity_inputs!}
             content={topic.inner.shy_topic.content}
             updated_at={topic.updated_at}

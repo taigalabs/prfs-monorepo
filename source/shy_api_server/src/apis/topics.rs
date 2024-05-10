@@ -11,7 +11,7 @@ use prfs_db_driver::sqlx;
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::{CreateShyTopicAction, ProofIdentity, ShyTopicProofAction};
+use shy_entities::{CreateShyTopicAction, ShyTopicProofAction};
 use shy_entities::{
     CreateShyTopicRequest, CreateShyTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
     GetShyTopicsRequest, GetShyTopicsResponse,
@@ -102,7 +102,7 @@ pub async fn create_shy_topic(
 
     // let mut other_proof_ids = vec![];
     // let mut author_proof_identity = input.author_proof_identity;
-    let mut author_proof_identities = vec![];
+    let mut author_proof_ids: Vec<String> = vec![];
     for proof in input.proofs {
         if let Err(err) = verify_eth_sig_by_pk(&proof.author_sig, &msg, &proof.author_public_key) {
             let resp = ApiResponse::new_error(
@@ -151,13 +151,7 @@ pub async fn create_shy_topic(
 
         // other_proof_ids.push(proof.shy_proof_id);
         // author_proof_identity.push(other_proof.proof_identity_input);
-        author_proof_identities.push(ProofIdentity {
-            shy_proof_id: proof.shy_proof_id.to_string(),
-            proof_type_id: proof.proof_type_id.to_string(),
-            proof_identity_input: proof.proof_identity_input.to_string(),
-            proof_public_key: proof.author_public_key.to_string(),
-            proof_sig: proof.author_sig.to_string(),
-        });
+        author_proof_ids.push(proof.shy_proof_id.to_string());
     }
 
     let shy_topic = ShyTopic {
@@ -168,9 +162,9 @@ pub async fn create_shy_topic(
         content: input.content.to_string(),
         author_public_key: input.author_public_key.to_string(),
         // shy_proof_id: input.shy_proof_id.to_string(),
-        author_proof_identities: JsonType::from(author_proof_identities.clone()),
+        author_proof_ids: JsonType::from(author_proof_ids.clone()),
         author_sig: input.author_sig.to_string(),
-        participant_proof_identities: JsonType::from(author_proof_identities.clone()),
+        participant_proof_ids: JsonType::from(author_proof_ids.clone()),
         sub_channel_id: input.sub_channel_id.to_string(),
         total_like_count: 0,
         // shy_proof_ids: JsonType::from(other_proof_ids),

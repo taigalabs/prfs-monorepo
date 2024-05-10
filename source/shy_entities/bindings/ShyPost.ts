@@ -7,5 +7,5 @@ export type ShyPost = {
   channel_id: string;
   author_public_key: string;
   author_sig: string;
-  author_proof_identities: Record<string, any>;
+  author_proof_ids: string[];
 };

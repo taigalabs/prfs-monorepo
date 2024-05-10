@@ -10,6 +10,6 @@ export type ShyTopic = {
   author_sig: string;
   sub_channel_id: string;
   total_like_count: bigint;
-  author_proof_identities: Record<string, any>[];
-  participant_proof_identities: Record<string, any>[];
+  author_proof_ids: string[];
+  participant_proof_ids: string[];
 };

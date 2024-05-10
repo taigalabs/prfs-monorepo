@@ -17,11 +17,10 @@ import { Proof } from "@taigalabs/prfs-driver-interface";
 import styles from "./ProofDialog.module.scss";
 import ProofImage from "@/components/proof_image/ProofImage";
 import VerifyProofDialog from "@/components/verify_proof_dialog/VerifyProofDialog";
-import { ProofIdentity } from "@taigalabs/shy-entities/bindings/ProofIdentity";
 
 const ProofDialog: React.FC<PostContentProps> = ({
   imgUrl,
-  author_proof_identities,
+  author_proof_ids,
   // author_proof_identity_inputs,
   // proof,
   // proof_type_id,
@@ -84,7 +83,7 @@ export default ProofDialog;
 
 export interface PostContentProps {
   imgUrl: string;
-  author_proof_identities: ProofIdentity[];
+  author_proof_ids: string[];
   // author_proof_identity_inputs: string;
   // proof: Proof;
   // proof_type_id: string;
