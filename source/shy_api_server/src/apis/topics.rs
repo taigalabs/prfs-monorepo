@@ -11,7 +11,7 @@ use prfs_db_driver::sqlx;
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::{CreateShyTopicAction, ShyTopicProofAction};
+use shy_entities::{CreateShyTopicAction, ShyTopicProofAction, ShyTopicSyn1};
 use shy_entities::{
     CreateShyTopicRequest, CreateShyTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
     GetShyTopicsRequest, GetShyTopicsResponse,
@@ -190,9 +190,7 @@ pub async fn get_shy_topics(
     Json(input): Json<GetShyTopicsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyTopicsResponse>>) {
     let pool = &state.db2.pool;
-    let shy_topics = match shy::get_shy_topic_syn1s(pool, &input.channel_id, input.offset, LIMIT)
-        .await
-    {
+    let shy_topics = match shy::get_shy_topics(pool, &input.channel_id, input.offset, LIMIT).await {
         Ok(r) => r,
         Err(err) => {
             let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
@@ -200,22 +198,32 @@ pub async fn get_shy_topics(
         }
     };
 
-    let shy_proofs = match shy::get_shy_proofs_syn1(pool, public_key) {
-        Ok(p) => p,
-        Err(err) => {
-            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
+    let mut shy_topic_syn1s: Vec<ShyTopicSyn1> = vec![];
+    for topic in &shy_topics {
+        let shy_proofs =
+            match shy::get_shy_proofs_by_proof_ids(pool, &topic.inner.author_proof_ids).await {
+                Ok(p) => p,
+                Err(err) => {
+                    let resp =
+                        ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+                    return (StatusCode::BAD_REQUEST, Json(resp));
+                }
+            };
 
-    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
+        shy_topic_syn1s.push(ShyTopicSyn1 {
+            shy_topic: topic.clone(),
+            shy_proofs,
+        });
+    }
+
+    let next_offset = if shy_topics.len() < LIMIT.try_into().unwrap() {
         None
     } else {
         Some(input.offset + LIMIT)
     };
 
     let resp = ApiResponse::new_success(GetShyTopicsResponse {
-        shy_topics,
+        shy_topic_syn1s,
         next_offset,
     });
     return (StatusCode::OK, Json(resp));
@@ -234,6 +242,23 @@ pub async fn get_shy_topic(
         }
     };
 
-    let resp = ApiResponse::new_success(GetShyTopicResponse { shy_topic });
+    let shy_proofs = match shy::get_shy_proofs_by_proof_ids(pool, &shy_topic.inner.author_proof_ids)
+        .await
+    {
+        Ok(p) => p,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
+    let shy_topic_syn1s = ShyTopicSyn1 {
+        shy_topic,
+        shy_proofs,
+    };
+
+    let resp = ApiResponse::new_success(GetShyTopicResponse {
+        shy_topic: shy_topic_syn1s,
+    });
     return (StatusCode::OK, Json(resp));
 }

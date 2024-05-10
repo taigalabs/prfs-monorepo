@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
+use crate::{DateTimed, ShyProof, ShyProofSyn1};
+
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
 pub struct ShyTopic {
@@ -34,14 +36,15 @@ pub struct ShyTopic {
 //     pub proof_sig: String,
 // }
 
-// #[derive(TS, Debug, Serialize, Deserialize, Clone)]
-// #[ts(export)]
-// pub struct ShyTopicSyn1 {
-//     pub shy_topic: ShyTopic,
-//     pub img_url: String,
-//     pub expression: String,
-//     // pub public_inputs: String,
-//     // pub proof: Vec<u8>,
-//     // pub proof_public_key: String,
-//     // pub proof_type_id: String,
-// }
+#[derive(TS, Debug, Serialize, Deserialize, Clone)]
+#[ts(export)]
+pub struct ShyTopicSyn1 {
+    pub shy_topic: DateTimed<ShyTopic>,
+    pub shy_proofs: Vec<ShyProofSyn1>,
+    // pub img_url: String,
+    // pub expression: String,
+    // pub public_inputs: String,
+    // pub proof: Vec<u8>,
+    // pub proof_public_key: String,
+    // pub proof_type_id: String,
+}
