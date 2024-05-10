@@ -162,9 +162,9 @@ pub async fn create_shy_topic(
         content: input.content.to_string(),
         author_public_key: input.author_public_key.to_string(),
         // shy_proof_id: input.shy_proof_id.to_string(),
-        author_proof_ids: JsonType::from(author_proof_ids.clone()),
+        author_proof_ids: author_proof_ids.clone(),
         author_sig: input.author_sig.to_string(),
-        participant_proof_ids: JsonType::from(author_proof_ids.clone()),
+        participant_proof_ids: author_proof_ids.clone(),
         sub_channel_id: input.sub_channel_id.to_string(),
         total_like_count: 0,
         // shy_proof_ids: JsonType::from(other_proof_ids),
@@ -190,8 +190,18 @@ pub async fn get_shy_topics(
     Json(input): Json<GetShyTopicsRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyTopicsResponse>>) {
     let pool = &state.db2.pool;
-    let rows = match shy::get_shy_topic_syn1s(pool, &input.channel_id, input.offset, LIMIT).await {
+    let shy_topics = match shy::get_shy_topic_syn1s(pool, &input.channel_id, input.offset, LIMIT)
+        .await
+    {
         Ok(r) => r,
+        Err(err) => {
+            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+            return (StatusCode::BAD_REQUEST, Json(resp));
+        }
+    };
+
+    let shy_proofs = match shy::get_shy_proofs_syn1(pool, public_key) {
+        Ok(p) => p,
         Err(err) => {
             let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
             return (StatusCode::BAD_REQUEST, Json(resp));
@@ -205,7 +215,7 @@ pub async fn get_shy_topics(
     };
 
     let resp = ApiResponse::new_success(GetShyTopicsResponse {
-        shy_topics: rows,
+        shy_topics,
         next_offset,
     });
     return (StatusCode::OK, Json(resp));

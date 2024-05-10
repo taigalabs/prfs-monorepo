@@ -16,10 +16,10 @@ pub struct ShyTopic {
     pub total_like_count: i64,
 
     #[ts(type = "string[]")]
-    pub author_proof_ids: sqlx::types::Json<Vec<String>>,
+    pub author_proof_ids: Vec<String>,
 
     #[ts(type = "string[]")]
-    pub participant_proof_ids: sqlx::types::Json<Vec<String>>,
+    pub participant_proof_ids: Vec<String>,
     // #[ts(type = "string[]")]
     // pub shy_proof_ids: sqlx::types::Json<Vec<String>>,
 }
@@ -34,14 +34,14 @@ pub struct ShyTopic {
 //     pub proof_sig: String,
 // }
 
-#[derive(TS, Debug, Serialize, Deserialize, Clone)]
-#[ts(export)]
-pub struct ShyTopicSyn1 {
-    pub shy_topic: ShyTopic,
-    pub img_url: String,
-    pub expression: String,
-    // pub public_inputs: String,
-    // pub proof: Vec<u8>,
-    // pub proof_public_key: String,
-    // pub proof_type_id: String,
-}
+// #[derive(TS, Debug, Serialize, Deserialize, Clone)]
+// #[ts(export)]
+// pub struct ShyTopicSyn1 {
+//     pub shy_topic: ShyTopic,
+//     pub img_url: String,
+//     pub expression: String,
+//     // pub public_inputs: String,
+//     // pub proof: Vec<u8>,
+//     // pub proof_public_key: String,
+//     // pub proof_type_id: String,
+// }
