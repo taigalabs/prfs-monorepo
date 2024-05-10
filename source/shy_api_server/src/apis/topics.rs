@@ -169,7 +169,7 @@ pub async fn create_shy_topic(
         author_public_key: input.author_public_key.to_string(),
         // shy_proof_id: input.shy_proof_id.to_string(),
         author_proof_identities: JsonType::from(author_proof_identities.clone()),
-        // author_sig: input.author_sig.to_string(),
+        author_sig: input.author_sig.to_string(),
         participant_proof_identities: JsonType::from(author_proof_identities.clone()),
         sub_channel_id: input.sub_channel_id.to_string(),
         total_like_count: 0,

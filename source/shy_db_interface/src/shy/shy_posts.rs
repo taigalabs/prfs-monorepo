@@ -10,7 +10,7 @@ pub async fn insert_shy_post(
     let query = r#"
 INSERT INTO shy_posts
 (topic_id, content, post_id, channel_id, shy_proof_id, author_public_key, author_sig,
-author_proof_identity_inputs)
+author_proof_identities)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING post_id
 "#;
@@ -20,10 +20,10 @@ RETURNING post_id
         .bind(&shy_post.content)
         .bind(&shy_post.post_id)
         .bind(&shy_post.channel_id)
-        .bind(&shy_post.shy_proof_id)
+        // .bind(&shy_post.shy_proof_id)
         .bind(&shy_post.author_public_key)
         .bind(&shy_post.author_sig)
-        .bind(&shy_post.author_proof_identity_inputs)
+        .bind(&shy_post.author_proof_identities)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -67,10 +67,10 @@ LIMIT $3
                     topic_id: row.try_get("topic_id")?,
                     content: row.try_get("content")?,
                     channel_id: row.try_get("channel_id")?,
-                    shy_proof_id: row.try_get("shy_proof_id")?,
+                    // shy_proof_id: row.try_get("shy_proof_id")?,
                     author_public_key: row.try_get("author_public_key")?,
                     author_sig: row.try_get("author_sig")?,
-                    author_proof_identity_inputs: row.try_get("author_proof_identity_inputs")?,
+                    author_proof_identities: row.try_get("author_proof_identities")?,
                 },
                 img_url: row.try_get("img_url")?,
                 expression: row.try_get("expression")?,

@@ -40,20 +40,20 @@ pub struct CreateShyPostRequest {
 pub struct CreateShyPostWithProofRequest {
     pub topic_id: String,
     pub channel_id: String,
-    pub shy_proof_id: String,
+    // pub shy_proof_id: String,
     pub post_id: String,
     pub content: String,
     pub author_public_key: String,
     pub author_sig: String,
     pub author_sig_msg: Vec<u8>,
-    pub proof_identity_input: String,
-    pub proof: Vec<u8>,
-    pub public_inputs: String,
-    pub serial_no: String,
+    // pub proof_identity_input: String,
+    // pub proof: Vec<u8>,
+    // pub public_inputs: String,
+    // pub serial_no: String,
     pub sub_channel_id: String,
-    pub proof_type_id: String,
-    pub proof_idx: i16,
-    pub other_proofs: Vec<ProofBlob>,
+    // pub proof_type_id: String,
+    // pub proof_idx: i16,
+    pub proofs: Vec<ProofBlob>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

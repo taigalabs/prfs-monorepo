@@ -86,6 +86,8 @@ export function useCreateTopic({
     //   author_sig_msg,
     //   proof_type_id,
     // } = firstProof;
+    //
+    const { author_public_key, author_sig } = proofs[0];
 
     setStatus(Status.InProgress);
     const { error } = await createShyTopic({
@@ -99,7 +101,7 @@ export function useCreateTopic({
       // public_inputs,
       author_public_key,
       // serial_no,
-      // author_sig,
+      author_sig,
       // author_sig_msg,
       sub_channel_id: subChannelId,
       // proof_type_id,

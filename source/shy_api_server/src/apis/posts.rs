@@ -7,7 +7,7 @@ use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::{CreateShyPostAction, ShyPostProofAction};
+use shy_entities::{CreateShyPostAction, ProofIdentity, ShyPostProofAction};
 use shy_entities::{
     CreateShyPostRequest, CreateShyPostResponse, CreateShyPostWithProofRequest,
     GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse,
@@ -109,9 +109,15 @@ pub async fn create_shy_post(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
-    let author_proof_identity_inputs: Vec<String> = shy_proofs
+    let author_proof_identities: Vec<ProofIdentity> = shy_proofs
         .iter()
-        .map(|p| p.proof_identity_input.to_string())
+        .map(|p| ProofIdentity {
+            shy_proof_id: p.shy_proof_id.to_string(),
+            proof_type_id: p.proof_type_id.to_string(),
+            proof_identity_input: p.proof_identity_input.clone(),
+            proof_public_key: p.public_key.clone(),
+            proof_sig: "".to_string(),
+        })
         .collect();
 
     let shy_post = ShyPost {
@@ -119,10 +125,10 @@ pub async fn create_shy_post(
         topic_id: input.topic_id,
         content: input.content,
         channel_id: input.channel_id,
-        shy_proof_id: input.shy_proof_id,
+        // shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
         author_sig: input.author_sig,
-        author_proof_identity_inputs: JsonType::from(author_proof_identity_inputs),
+        author_proof_identities: JsonType::from(author_proof_identities),
     };
 
     let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
@@ -190,39 +196,44 @@ pub async fn create_shy_post_with_proof(
         return (StatusCode::BAD_REQUEST, Json(resp));
     }
 
-    let _proof_record_resp = match create_prfs_proof_record(
-        &ENVS.prfs_api_server_endpoint,
-        &input.proof,
-        &input.author_public_key,
-    )
-    .await
-    {
-        Ok(r) => r,
-        Err(err) => {
-            let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
+    for proof in input.proofs {
+        let _proof_record_resp = match create_prfs_proof_record(
+            &ENVS.prfs_api_server_endpoint,
+            &proof.proof,
+            &input.author_public_key,
+        )
+        .await
+        {
+            Ok(r) => r,
+            Err(err) => {
+                let resp =
+                    ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
 
-    let shy_proof = ShyProof {
-        shy_proof_id: input.shy_proof_id.to_string(),
-        proof: input.proof,
-        public_inputs: input.public_inputs.to_string(),
-        public_key: input.author_public_key.to_string(),
-        serial_no: input.serial_no,
-        proof_identity_input: input.proof_identity_input.to_string(),
-        proof_type_id: input.proof_type_id,
-        proof_idx: input.proof_idx,
-    };
+        let shy_proof = ShyProof {
+            shy_proof_id: proof.shy_proof_id.to_string(),
+            proof: proof.proof,
+            public_inputs: proof.public_inputs.to_string(),
+            public_key: proof.author_public_key.to_string(),
+            serial_no: proof.serial_no,
+            proof_identity_input: proof.proof_identity_input.to_string(),
+            proof_type_id: proof.proof_type_id,
+            proof_idx: proof.proof_idx,
+        };
 
-    let _proof_id = match shy::insert_shy_proof(&mut tx, &shy_proof).await {
-        Ok(i) => i,
-        Err(err) => {
-            let resp =
-                ApiResponse::new_error(&SHY_API_ERROR_CODES.RECORD_INSERT_FAIL, err.to_string());
-            return (StatusCode::BAD_REQUEST, Json(resp));
-        }
-    };
+        let _proof_id = match shy::insert_shy_proof(&mut tx, &shy_proof).await {
+            Ok(i) => i,
+            Err(err) => {
+                let resp = ApiResponse::new_error(
+                    &SHY_API_ERROR_CODES.RECORD_INSERT_FAIL,
+                    err.to_string(),
+                );
+                return (StatusCode::BAD_REQUEST, Json(resp));
+            }
+        };
+    }
 
     let mut topic = match shy::get_shy_topic__tx(&mut tx, &input.topic_id).await {
         Ok(t) => t,
@@ -241,10 +252,10 @@ pub async fn create_shy_post_with_proof(
         topic_id: input.topic_id,
         content: input.content,
         channel_id: input.channel_id,
-        shy_proof_id: input.shy_proof_id,
+        // shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
         author_sig: input.author_sig.to_string(),
-        author_proof_identity_inputs: JsonType::from(vec![input.proof_identity_input.to_string()]),
+        author_proof_identities: JsonType::from(vec![]),
     };
 
     let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
