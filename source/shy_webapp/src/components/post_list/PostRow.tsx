@@ -35,8 +35,8 @@ const PostRow: React.FC<RowProps> = ({ post, channel, handleSucceedPost, subChan
       updated_at={post.updated_at}
       handleSucceedPost={handleSucceedPost}
       subChannelId={subChannelId}
-      imgUrl={post.inner.img_url}
-      expression={post.inner.expression}
+      // imgUrl={post.inner.img_url}
+      // expression={post.inner.expression}
       // proof={proof}
       // proof_type_id={post.inner.proof_type_id}
     />

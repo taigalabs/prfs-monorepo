@@ -18,8 +18,8 @@ const Post: React.FC<PostContentProps> = ({
   topicId,
   channel,
   author_public_key,
-  imgUrl,
-  expression,
+  // imgUrl,
+  // expression,
   content,
   author_proof_ids,
   // author_proof_identity_inputs,
@@ -68,13 +68,13 @@ const Post: React.FC<PostContentProps> = ({
               <p className={styles.publicKey}>{publicKey}</p>
             </div>
             <div className={styles.item}>
-              <ProofDialog
-                imgUrl={imgUrl}
-                author_proof_ids={author_proof_ids}
-                // author_proof_identity_inputs={author_proof_identity_inputs}
-                // proof={proof}
-                // proof_type_id={proof_type_id}
-              />
+              {/* <ProofDialog */}
+              {/*   imgUrl={imgUrl} */}
+              {/*   author_proof_ids={author_proof_ids} */}
+              {/*   // author_proof_identity_inputs={author_proof_identity_inputs} */}
+              {/*   // proof={proof} */}
+              {/*   // proof_type_id={proof_type_id} */}
+              {/* /> */}
               {/* <div className={styles.proofIdentity}> */}
               {/*   <ProofImage className={styles.proofImage} imgUrl={imgUrl} /> */}
               {/*   <p className={styles.proofIdentityInput}>{author_proof_identity_inputs}</p> */}
@@ -119,8 +119,8 @@ export interface PostContentProps {
   topicId: string;
   handleSucceedPost: React.DispatchWithoutAction;
   subChannelId: string;
-  imgUrl: string;
-  expression: string;
+  // imgUrl: string;
+  // expression: string;
   // proof: Proof;
   // proof_type_id: string;
 }

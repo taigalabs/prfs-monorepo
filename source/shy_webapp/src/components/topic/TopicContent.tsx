@@ -20,8 +20,8 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
     },
   });
 
-  const shy_topic = postData?.payload?.shy_topic_syn1.shy_topic;
-  const shy_proofs = postData?.payload?.shy_topic_syn1.shy_proofs;
+  const shy_topic = postData?.payload?.shy_topic_with_proofs.shy_topic;
+  const shy_proofs = postData?.payload?.shy_topic_with_proofs.shy_proofs;
   // const a  = postData?.payload?.shy_topic;
   // const participant_identity_inputs = React.useMemo(() => {
   //   if (topic) {
