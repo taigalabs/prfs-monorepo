@@ -29,7 +29,8 @@ import { paths } from "@/paths";
 import { SHY_APP_ID } from "@/app_id";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { removeLocalShyCache } from "@/storage/shy_cache";
-import SignInViaPrfs from "./SignInViaPrfs";
+import ShySignInDialog from "./ShySignInDialog";
+// import SignInViaPrfs from "./SignInViaPrfs";
 
 enum Status {
   InProgress,
@@ -98,7 +99,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
       handleClickSignOut={handleClickSignOut}
     />
   ) : (
-    <SignInViaPrfs
+    <ShySignInDialog
       className={styles.signInBtn}
       label={i18n.load_id}
       appId={SHY_APP_ID}

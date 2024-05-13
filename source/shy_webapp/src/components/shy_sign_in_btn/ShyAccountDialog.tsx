@@ -21,12 +21,12 @@ import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_d
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { MdPerson } from "@react-icons/all-files/md/MdPerson";
 
-import styles from "./SignInViaPrfs.module.scss";
+import styles from "./ShyAccountDialog.module.scss";
 import { useShyI18N } from "@/i18n";
 
 const SIGN_IN = "SIGN_IN";
 
-const SignInViaPrfs: React.FC<SignInViaPrfsProps> = ({
+const ShyAccountDialog: React.FC<SignInViaPrfsProps> = ({
   className,
   appId,
   // label,
@@ -147,7 +147,7 @@ const SignInViaPrfs: React.FC<SignInViaPrfsProps> = ({
   );
 };
 
-export default SignInViaPrfs;
+export default ShyAccountDialog;
 
 export interface SignInViaPrfsProps {
   className?: string;
