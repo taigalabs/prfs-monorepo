@@ -12,6 +12,7 @@ import {
   ProofGenSuccessPayload,
   AppSignInResult,
 } from "@taigalabs/prfs-id-sdk-web";
+import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 import {
   useFloating,
   useDismiss,
@@ -32,7 +33,6 @@ import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useViewport } from "@taigalabs/prfs-react-lib/src/hooks/use_viewport";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
-import { MdPerson } from "@react-icons/all-files/md/MdPerson";
 
 import styles from "./ShySignInDialog.module.scss";
 import { useShyI18N } from "@/i18n";
@@ -160,7 +160,7 @@ const ShySignInDialog: React.FC<SignInViaPrfsProps> = ({
         className={styles.base}
       >
         {/* <button type="button" onClick={handleClickSignIn} className={styles.signInBtn}> */}
-        <MdPerson />
+        <FaRegAddressCard />
         {/* </button> */}
       </button>
       {isOpen && (
