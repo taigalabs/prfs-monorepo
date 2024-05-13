@@ -7,17 +7,15 @@ use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit};
 use prfs_common_server_state::ServerState;
 use prfs_crypto::ethers_core::utils::keccak256;
 use prfs_crypto::hex;
-use prfs_db_driver::sqlx;
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::{CreateShyTopicAction, ShyTopicProofAction, ShyTopicSyn1};
+use shy_entities::{CreateShyTopicAction, ShyTopicProofAction, ShyTopicWithProofs};
 use shy_entities::{
     CreateShyTopicRequest, CreateShyTopicResponse, GetShyTopicRequest, GetShyTopicResponse,
     GetShyTopicsRequest, GetShyTopicsResponse,
 };
 use shy_entities::{ShyProof, ShyTopic};
-use sqlx::types::Json as JsonType;
 use std::sync::Arc;
 
 use crate::envs::ENVS;
@@ -198,7 +196,7 @@ pub async fn get_shy_topics(
         }
     };
 
-    let mut shy_topic_syn1s: Vec<ShyTopicSyn1> = vec![];
+    let mut shy_topics_with_proofs: Vec<ShyTopicWithProofs> = vec![];
     for topic in &shy_topics {
         let shy_proofs =
             match shy::get_shy_proofs_by_proof_ids(pool, &topic.inner.author_proof_ids).await {
@@ -210,7 +208,7 @@ pub async fn get_shy_topics(
                 }
             };
 
-        shy_topic_syn1s.push(ShyTopicSyn1 {
+        shy_topics_with_proofs.push(ShyTopicWithProofs {
             shy_topic: topic.clone(),
             shy_proofs,
         });
@@ -223,7 +221,7 @@ pub async fn get_shy_topics(
     };
 
     let resp = ApiResponse::new_success(GetShyTopicsResponse {
-        shy_topic_syn1s,
+        shy_topics_with_proofs,
         next_offset,
     });
     return (StatusCode::OK, Json(resp));
@@ -234,7 +232,7 @@ pub async fn get_shy_topic(
     Json(input): Json<GetShyTopicRequest>,
 ) -> (StatusCode, Json<ApiResponse<GetShyTopicResponse>>) {
     let pool = &state.db2.pool;
-    let shy_topic = match shy::get_shy_topic_syn1(pool, &input.topic_id).await {
+    let shy_topic = match shy::get_shy_topic(pool, &input.topic_id).await {
         Ok(t) => t,
         Err(err) => {
             let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
@@ -252,13 +250,13 @@ pub async fn get_shy_topic(
         }
     };
 
-    let shy_topic_syn1s = ShyTopicSyn1 {
+    let shy_topic_with_proofs = ShyTopicWithProofs {
         shy_topic,
         shy_proofs,
     };
 
     let resp = ApiResponse::new_success(GetShyTopicResponse {
-        shy_topic: shy_topic_syn1s,
+        shy_topic_with_proofs,
     });
     return (StatusCode::OK, Json(resp));
 }

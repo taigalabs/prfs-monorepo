@@ -5,11 +5,11 @@ import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { MdGroup } from "@react-icons/all-files/md/MdGroup";
+import { Proof } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./TopicContent.module.scss";
 import Post from "@/components/post/Post";
 import Loading from "@/components/loading/Loading";
-import { Proof } from "@taigalabs/prfs-driver-interface";
 
 const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, subChannelId }) => {
   const i18n = usePrfsI18N();
@@ -20,7 +20,8 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
     },
   });
 
-  const topic = postData?.payload?.shy_topic;
+  const shy_topic = postData?.payload?.shy_topic_syn1.shy_topic;
+  const shy_proofs = postData?.payload?.shy_topic_syn1.shy_proofs;
   // const a  = postData?.payload?.shy_topic;
   // const participant_identity_inputs = React.useMemo(() => {
   //   if (topic) {
@@ -53,15 +54,17 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
 
   return (
     <div className={styles.wrapper}>
-      {topic ? (
+      {shy_topic && shy_proofs ? (
         <>
           <div className={styles.titleRow}>
             <div className={styles.inner}>
-              <p className={styles.title}>{topic.inner.title}</p>
+              <p className={styles.title}>{shy_topic.inner.title}</p>
               <div className={styles.postMeta}>
                 <button className={styles.participants} type="button">
                   <MdGroup />
-                  <span>{topic.inner.participant_proof_ids.join(", ") ?? i18n.participants}</span>
+                  <span>
+                    {shy_topic.inner.participant_proof_ids.join(", ") ?? i18n.participants}
+                  </span>
                 </button>
               </div>
             </div>
@@ -69,14 +72,15 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
           <Post
             topicId={topicId}
             channel={channel}
-            author_public_key={topic.inner.author_public_key}
-            author_proof_ids={topic.inner.author_proof_ids}
+            author_public_key={shy_topic.inner.author_public_key}
+            author_proof_ids={shy_topic.inner.author_proof_ids}
             // author_proof_identity_inputs={author_proof_identity_inputs!}
-            content={topic.inner.content}
-            updated_at={topic.updated_at}
+            content={shy_topic.inner.content}
+            updated_at={shy_topic.updated_at}
             handleSucceedPost={rerender}
             subChannelId={subChannelId}
-            proofs={}
+            // imgUrl={shy_topic}
+            // proofs={shy_proofs}
             // imgUrl={topic.inner.img_url}
             // expression={topic.inner.expression}
             // proof={proof}

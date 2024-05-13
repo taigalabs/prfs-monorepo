@@ -1,5 +1,5 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use shy_entities::{ShyProof, ShyProofSyn1};
+use shy_entities::{ShyProof, ShyProofWithProofType};
 
 use crate::ShyDbInterfaceError;
 
@@ -68,7 +68,7 @@ ORDER BY proof_idx ASC
 pub async fn get_shy_proofs_by_proof_ids(
     pool: &Pool<Postgres>,
     proof_ids: &Vec<String>,
-) -> Result<Vec<ShyProofSyn1>, ShyDbInterfaceError> {
+) -> Result<Vec<ShyProofWithProofType>, ShyDbInterfaceError> {
     let query = r#"
 SELECT p.*, pt.*
 FROM shy_proofs p
@@ -82,7 +82,7 @@ ORDER BY proof_idx ASC
     let proofs = rows
         .iter()
         .map(|row| {
-            let proof = ShyProofSyn1 {
+            let proof = ShyProofWithProofType {
                 shy_proof_id: row.try_get("shy_proof_id")?,
                 proof: row.try_get("proof")?,
                 public_inputs: row.try_get("public_inputs")?,
@@ -97,7 +97,7 @@ ORDER BY proof_idx ASC
 
             return Ok(proof);
         })
-        .collect::<Result<Vec<ShyProofSyn1>, ShyDbInterfaceError>>()?;
+        .collect::<Result<Vec<ShyProofWithProofType>, ShyDbInterfaceError>>()?;
 
     Ok(proofs)
 }

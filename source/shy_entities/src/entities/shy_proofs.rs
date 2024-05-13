@@ -16,7 +16,7 @@ pub struct ShyProof {
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
-pub struct ShyProofSyn1 {
+pub struct ShyProofWithProofType {
     pub shy_proof_id: String,
     pub proof: Vec<u8>,
     pub public_inputs: String,
