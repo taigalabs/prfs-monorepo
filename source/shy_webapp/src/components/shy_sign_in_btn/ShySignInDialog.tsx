@@ -22,6 +22,7 @@ import {
   FloatingFocusManager,
   FloatingOverlay,
   FloatingPortal,
+  flip,
 } from "@floating-ui/react";
 import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
@@ -35,6 +36,7 @@ import { MdPerson } from "@react-icons/all-files/md/MdPerson";
 
 import styles from "./ShySignInDialog.module.scss";
 import { useShyI18N } from "@/i18n";
+import ShySignInModal from "./ShySignInModal";
 
 const SIGN_IN = "SIGN_IN";
 
@@ -48,10 +50,10 @@ const ShySignInDialog: React.FC<SignInViaPrfsProps> = ({
   const viewport = useViewport();
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
-    strategy: "absolute",
-    placement: "bottom-start",
+    placement: "bottom-end",
     open: isOpen,
     onOpenChange: setIsOpen,
+    middleware: [flip()],
   });
   const dismiss = useDismiss(context);
   const click = useClick(context);
@@ -147,31 +149,25 @@ const ShySignInDialog: React.FC<SignInViaPrfsProps> = ({
     [sk, sessionKey, handleSucceedSignIn, handleSignInError],
   );
 
-  console.log(22, floatingStyles);
+  const floatingStylesExt = viewport && viewport.vw < 768 ? undefined : floatingStyles;
 
   return (
     <>
-      <div className={cn(styles.base, className)} ref={refs.setReference} {...getReferenceProps()}>
-        power123123
+      <button
+        type="button"
+        ref={refs.setReference}
+        {...getReferenceProps()}
+        className={styles.base}
+      >
         {/* <button type="button" onClick={handleClickSignIn} className={styles.signInBtn}> */}
-        {/*   <MdPerson /> */}
+        <MdPerson />
         {/* </button> */}
-      </div>
+      </button>
       {isOpen && (
         <FloatingOverlay className={styles.overlay}>
           <FloatingFocusManager context={context}>
-            <div
-              className={styles.modal}
-              ref={refs.setFloating}
-              style={floatingStyles}
-              {...getFloatingProps()}
-            >
-              power
-              {/* <RawValueModal */}
-              {/*   label={label} */}
-              {/*   handleClickClose={handleClickClose} */}
-              {/*   handleClickSubmit={handleClickSubmit} */}
-              {/* /> */}
+            <div ref={refs.setFloating} style={floatingStylesExt} {...getFloatingProps()}>
+              <ShySignInModal />
             </div>
           </FloatingFocusManager>
         </FloatingOverlay>

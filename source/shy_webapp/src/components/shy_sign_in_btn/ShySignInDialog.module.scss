@@ -1,6 +1,12 @@
 @import "@/styles/layouts.module.scss";
 
-.wrapper {
+.base {
+  color: var(--white-100);
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  display: grid;
+  place-items: center;
 }
 
 .signInBtn {
@@ -32,29 +38,13 @@
   z-index: 11;
 }
 
-.modal {
-  /* margin: 24px 12px; */
-  background-color: white;
-  /* padding: 18px 20px; */
-  /* border-radius: 4px; */
-  /* max-width: 520px; */
-}
-
 @media screen and (min-width: $display_w768) {
   .overlay {
-    background: rgba(0, 0, 0, 0.8);
-    position: fixed;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    z-index: 11;
-  }
-
-  .modal {
-    /* margin: 24px 12px; */
-    background-color: white;
-    /* padding: 18px 20px; */
-    /* border-radius: 4px; */
-    /* max-width: 520px; */
+    background: transparent;
+    position: static;
+    inset: unset;
+    display: block;
+    place-items: none;
+    z-index: 0;
   }
 }
