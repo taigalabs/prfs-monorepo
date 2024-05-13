@@ -19,6 +19,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
+import { MdPerson } from "@react-icons/all-files/md/MdPerson";
 
 import styles from "./SignInViaPrfs.module.scss";
 import { useShyI18N } from "@/i18n";
@@ -28,7 +29,7 @@ const SIGN_IN = "SIGN_IN";
 const SignInViaPrfs: React.FC<SignInViaPrfsProps> = ({
   className,
   appId,
-  label,
+  // label,
   handleSucceedSignIn,
   handleSignInError,
   prfsIdEndpoint,
@@ -126,23 +127,15 @@ const SignInViaPrfs: React.FC<SignInViaPrfsProps> = ({
 
   return (
     <>
-      <Button
-        variant="blue_3"
-        className={cn(styles.btn, className)}
-        noTransition
-        handleClick={handleClickSignIn}
-        noShadow
-      >
-        <div className={styles.wrapper}>
-          {isLoading ? (
-            <Overlay>
-              <Spinner size={18} color="#5c5c5c" />
-            </Overlay>
-          ) : (
-            <span>{label ? label : i18n.sign_in}</span>
-          )}
-        </div>
-      </Button>
+      {isLoading ? (
+        <Overlay>
+          <Spinner size={18} color="#5c5c5c" />
+        </Overlay>
+      ) : (
+        <button type="button" onClick={handleClickSignIn} className={styles.signInBtn}>
+          <MdPerson />
+        </button>
+      )}
       <PrfsIdSessionDialog
         sessionKey={sessionKey}
         isPrfsDialogOpen={isPrfsDialogOpen}
