@@ -1,15 +1,15 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
-  padding: 18px $side_padding;
-  border-bottom: 3px solid var(--bright-gray-35);
+  padding: 0px 12px;
+  border-bottom: 1px solid var(--bright-gray-35);
 }
 
 .row {
   display: flex;
 
   &:not(:first-child) {
-    padding-top: 8px;
+    padding-top: 0.5rem;
   }
 }
 
@@ -29,8 +29,14 @@
 
 .button {
   font-size: 15px;
-  padding: 0 10px;
+  padding: 0px 12px;
   height: 34px;
+  border-radius: 17px;
+}
+
+.subBtn {
+  font-size: 14px;
+  padding: 0px 12px;
 }
 
 .rightAlign {
