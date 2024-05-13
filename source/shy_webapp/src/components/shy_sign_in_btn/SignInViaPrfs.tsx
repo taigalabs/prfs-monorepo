@@ -22,16 +22,10 @@ import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
 import styles from "./SignInViaPrfs.module.scss";
 import { useShyI18N } from "@/i18n";
-// import Button from "../button/Button";
-// import { i18nContext } from "../i18n/i18nContext";
-// import Overlay from "../overlay/Overlay";
-// import Spinner from "../spinner/Spinner";
-// import { usePrfsIdSession } from "../prfs_id_session_dialog/use_prfs_id_session";
-// import PrfsIdSessionDialog from "../prfs_id_session_dialog/PrfsIdSessionDialog";
 
 const SIGN_IN = "SIGN_IN";
 
-const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
+const SignInViaPrfs: React.FC<SignInViaPrfsProps> = ({
   className,
   appId,
   label,
@@ -160,9 +154,9 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   );
 };
 
-export default PrfsIdSignInButton;
+export default SignInViaPrfs;
 
-export interface PrfsIdSignInButtonProps {
+export interface SignInViaPrfsProps {
   className?: string;
   label?: string;
   appId: string;
