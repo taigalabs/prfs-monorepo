@@ -46,7 +46,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
 
   const searchParams = useSearchParams();
 
-  const handleSucceedLoadId = React.useCallback(
+  const handleSucceedSignIn = React.useCallback(
     async (signInResult: AppSignInResult) => {
       if (signInResult) {
         setStatus(Status.InProgress);
@@ -104,9 +104,8 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
       label={i18n.load_id}
       appId={SHY_APP_ID}
       handleSignInError={handleSignInError}
-      handleSucceedSignIn={handleSucceedLoadId}
+      handleSucceedSignIn={handleSucceedSignIn}
       prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
-      isLoading={status === Status.InProgress}
     />
   );
 };

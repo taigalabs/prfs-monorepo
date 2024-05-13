@@ -12,6 +12,17 @@ import {
   ProofGenSuccessPayload,
   AppSignInResult,
 } from "@taigalabs/prfs-id-sdk-web";
+import {
+  useFloating,
+  useDismiss,
+  useRole,
+  useClick,
+  useInteractions,
+  useId,
+  FloatingFocusManager,
+  FloatingOverlay,
+  FloatingPortal,
+} from "@floating-ui/react";
 import { PrivateKey, createRandomKeyPair, decrypt, makeRandInt } from "@taigalabs/prfs-crypto-js";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
@@ -29,12 +40,21 @@ const SIGN_IN = "SIGN_IN";
 const ShySignInDialog: React.FC<SignInViaPrfsProps> = ({
   className,
   appId,
-  // label,
   handleSucceedSignIn,
   handleSignInError,
   prfsIdEndpoint,
-  isLoading,
 }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const { refs, floatingStyles, context } = useFloating({
+    strategy: "absolute",
+    placement: "bottom-start",
+    open: isOpen,
+    onOpenChange: setIsOpen,
+  });
+  const dismiss = useDismiss(context);
+  const click = useClick(context);
+  const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
+
   const i18n = useShyI18N();
 
   const {
@@ -125,16 +145,34 @@ const ShySignInDialog: React.FC<SignInViaPrfsProps> = ({
     [sk, sessionKey, handleSucceedSignIn, handleSignInError],
   );
 
+  console.log(22, floatingStyles);
+
   return (
     <>
-      {isLoading ? (
-        <Overlay>
-          <Spinner size={18} color="#5c5c5c" />
-        </Overlay>
-      ) : (
-        <button type="button" onClick={handleClickSignIn} className={styles.signInBtn}>
-          <MdPerson />
-        </button>
+      <div className={cn(styles.base, className)} ref={refs.setReference} {...getReferenceProps()}>
+        power123123
+        {/* <button type="button" onClick={handleClickSignIn} className={styles.signInBtn}> */}
+        {/*   <MdPerson /> */}
+        {/* </button> */}
+      </div>
+      {isOpen && (
+        <FloatingOverlay className={styles.overlay}>
+          <FloatingFocusManager context={context}>
+            <div
+              className={styles.modal}
+              ref={refs.setFloating}
+              style={floatingStyles}
+              {...getFloatingProps()}
+            >
+              power
+              {/* <RawValueModal */}
+              {/*   label={label} */}
+              {/*   handleClickClose={handleClickClose} */}
+              {/*   handleClickSubmit={handleClickSubmit} */}
+              {/* /> */}
+            </div>
+          </FloatingFocusManager>
+        </FloatingOverlay>
       )}
       <PrfsIdSessionDialog
         sessionKey={sessionKey}
@@ -153,7 +191,7 @@ export interface SignInViaPrfsProps {
   className?: string;
   label?: string;
   appId: string;
-  isLoading?: boolean;
+  // isLoading?: boolean;
   handleSucceedSignIn: (signInResult: AppSignInResult) => void;
   handleSignInError: (err: string) => void;
   prfsIdEndpoint: string;
