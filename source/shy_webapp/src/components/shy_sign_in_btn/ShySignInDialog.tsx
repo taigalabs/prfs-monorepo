@@ -28,6 +28,7 @@ import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_
 import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import { useViewport } from "@taigalabs/prfs-react-lib/src/hooks/use_viewport";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 import { MdPerson } from "@react-icons/all-files/md/MdPerson";
@@ -44,6 +45,7 @@ const ShySignInDialog: React.FC<SignInViaPrfsProps> = ({
   handleSignInError,
   prfsIdEndpoint,
 }) => {
+  const viewport = useViewport();
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     strategy: "absolute",
