@@ -13,6 +13,7 @@ import { makeColor, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import shy_api_error_codes from "@taigalabs/shy-api-error-codes";
+import { MdPerson } from "@react-icons/all-files/md/MdPerson";
 
 import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -90,27 +91,21 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
   }
 
   return shyCredential ? (
-    !noCredentialPopover && (
-      <PrfsCredentialPopover
-        credential={shyCredential}
-        handleInitFail={handleInitFail}
-        handleClickSignOut={handleClickSignOut}
-      />
-    )
+    <PrfsCredentialPopover
+      credential={shyCredential}
+      handleInitFail={handleInitFail}
+      handleClickSignOut={handleClickSignOut}
+    />
   ) : (
-    <>
-      {!noSignInBtn && (
-        <PrfsIdSignInButton
-          className={styles.signInBtn}
-          label={i18n.load_id}
-          appId={SHY_APP_ID}
-          handleSignInError={handleSignInError}
-          handleSucceedSignIn={handleSucceedLoadId}
-          prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
-          isLoading={status === Status.InProgress}
-        />
-      )}
-    </>
+    <PrfsIdSignInButton
+      className={styles.signInBtn}
+      label={i18n.load_id}
+      appId={SHY_APP_ID}
+      handleSignInError={handleSignInError}
+      handleSucceedSignIn={handleSucceedLoadId}
+      prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
+      isLoading={status === Status.InProgress}
+    />
   );
 };
 
