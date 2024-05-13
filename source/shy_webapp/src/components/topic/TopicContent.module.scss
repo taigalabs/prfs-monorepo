@@ -30,16 +30,25 @@
 .participants {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--gray-70);
+  /* border: 1px solid var(--gray-70); */
   color: var(--gray-20);
-  border-radius: 16px;
-  padding: 4px 10px;
+  /* border-radius: 16px; */
+  /* padding: 4px 10px; */
   cursor: pointer;
   font-size: 13px;
 
   svg {
     font-size: 20px;
     padding-right: 3px;
+  }
+}
+
+.proofIdentity {
+  display: flex;
+
+  img {
+    width: 20px;
+    margin-right: 3px;
   }
 }
 

@@ -20,51 +20,33 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
     },
   });
 
-  const shy_topic = postData?.payload?.shy_topic_with_proofs.shy_topic;
-  const shy_proofs = postData?.payload?.shy_topic_with_proofs.shy_proofs;
-  // const a  = postData?.payload?.shy_topic;
-  // const participant_identity_inputs = React.useMemo(() => {
-  //   if (topic) {
-  //     const ids = topic?.inner.shy_topic.participant_proof_identities as ProofIdentity[];
-  //     return ids.map(pid => {
-  //       return pid.proof_identity_input;
-  //     });
-  //   }
-  // }, [topic]);
+  const shy_topic_with_proofs = postData?.payload?.shy_topic_with_proofs;
+  // const shy_proofs = postData?.payload?.shy_topic_with_proofs.shy_proofs;
 
-  // const author_proof_identity_inputs = React.useMemo(() => {
-  //   if (topic) {
-  //     const ids = topic?.inner.shy_topic.author_proof_identities as ProofIdentity[];
-  //     return ids.map(pid => {
-  //       return pid.proof_identity_input;
-  //     });
-  //   }
-  // }, [topic]);
-
-  // const proof = React.useMemo(() => {
-  //   if (topic) {
-  //     const proof: Proof = {
-  //       proofBytes: topic.inner.proof,
-  //       publicInputSer: topic.inner.public_inputs,
-  //       proofPubKey: topic.inner.proof_public_key,
-  //     };
-  //     return proof;
-  //   }
-  // }, [topic]);
+  const proofIdentities = React.useMemo(() => {
+    if (shy_topic_with_proofs) {
+      return shy_topic_with_proofs.shy_proofs.map(proof => {
+        return (
+          <div key={proof.shy_proof_id} className={styles.proofIdentity}>
+            <img src={proof.img_url} />
+            <p>{proof.proof_identity_input}</p>
+          </div>
+        );
+      });
+    } else return null;
+  }, [shy_topic_with_proofs]);
 
   return (
     <div className={styles.wrapper}>
-      {shy_topic && shy_proofs ? (
+      {shy_topic_with_proofs ? (
         <>
           <div className={styles.titleRow}>
             <div className={styles.inner}>
-              <p className={styles.title}>{shy_topic.inner.title}</p>
+              <p className={styles.title}>{shy_topic_with_proofs.shy_topic.inner.title}</p>
               <div className={styles.postMeta}>
                 <button className={styles.participants} type="button">
-                  <MdGroup />
-                  <span>
-                    {shy_topic.inner.participant_proof_ids.join(", ") ?? i18n.participants}
-                  </span>
+                  {/* <MdGroup /> */}
+                  <div>{proofIdentities ?? i18n.participants}</div>
                 </button>
               </div>
             </div>
@@ -72,11 +54,11 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
           <Post
             topicId={topicId}
             channel={channel}
-            author_public_key={shy_topic.inner.author_public_key}
-            author_proof_ids={shy_topic.inner.author_proof_ids}
+            author_public_key={shy_topic_with_proofs.shy_topic.inner.author_public_key}
+            author_proof_ids={shy_topic_with_proofs.shy_topic.inner.author_proof_ids}
             // author_proof_identity_inputs={author_proof_identity_inputs!}
-            content={shy_topic.inner.content}
-            updated_at={shy_topic.updated_at}
+            content={shy_topic_with_proofs.shy_topic.inner.content}
+            updated_at={shy_topic_with_proofs.shy_topic.updated_at}
             handleSucceedPost={rerender}
             subChannelId={subChannelId}
             // imgUrl={shy_topic}

@@ -1,5 +1,11 @@
-use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use shy_entities::{ShyProof, ShyProofWithProofType};
+use prfs_db_driver::{
+    bind_limit::BIND_LIMIT,
+    sqlx::{self, Pool, Postgres, Row, Transaction},
+};
+use shy_entities::{
+    sqlx::{Execute, QueryBuilder},
+    ShyProof, ShyProofWithProofType,
+};
 
 use crate::ShyDbInterfaceError;
 
@@ -69,16 +75,29 @@ pub async fn get_shy_proofs_by_proof_ids(
     pool: &Pool<Postgres>,
     proof_ids: &Vec<String>,
 ) -> Result<Vec<ShyProofWithProofType>, ShyDbInterfaceError> {
-    let query = r#"
+    let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
+        r#"
 SELECT p.*, pt.*
 FROM shy_proofs p
-INNER JOIN shy_proofs f ON f.shy_proof_id = ANY ($1)
-INNER JOIN prfs_proof_types pt ON pt.proof_type_id = f.proof_type_id
-ORDER BY proof_idx ASC
-"#;
+JOIN prfs_proof_types pt ON pt.proof_type_id = p.proof_type_id
+WHERE p.shy_proof_id in (
+"#,
+    );
 
-    let rows = sqlx::query(&query).bind(proof_ids).fetch_all(pool).await?;
+    let mut separated = query_builder.separated(", ");
+    for proof_id in proof_ids {
+        separated.push_bind(proof_id);
+    }
 
+    separated.push_unseparated(
+        r#" 
+) ORDER BY proof_idx ASC
+    "#,
+    );
+
+    let query = query_builder.build();
+
+    let rows = query.fetch_all(pool).await?;
     let proofs = rows
         .iter()
         .map(|row| {
