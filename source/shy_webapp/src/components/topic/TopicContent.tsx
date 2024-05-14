@@ -4,15 +4,15 @@ import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-import { MdGroup } from "@react-icons/all-files/md/MdGroup";
-import { Proof } from "@taigalabs/prfs-driver-interface";
+// import { MdGroup } from "@react-icons/all-files/md/MdGroup";
+// import { Proof } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./TopicContent.module.scss";
-import Post from "@/components/post/Post";
+// import Comment from "@/components/comment/Comment";
 import Loading from "@/components/loading/Loading";
-import { PostMarkdown } from "../post/PostMarkdown";
-import AuthorLabel from "../author/AuthorLabel";
-import AuthorAvatar from "../author/AuthorAvatar";
+import ContentMarkdown from "@/components/content_markdown/ContentMarkdown";
+import AuthorLabel from "@/components/author/AuthorLabel";
+import AuthorAvatar from "@/components/author/AuthorAvatar";
 
 const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, subChannelId }) => {
   const i18n = usePrfsI18N();
@@ -64,7 +64,7 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
             </div>
           </div>
           <div className={styles.body}>
-            <PostMarkdown html={shy_topic_with_proofs.shy_topic.inner.content} />
+            <ContentMarkdown html={shy_topic_with_proofs.shy_topic.inner.content} />
           </div>
           {/* <Post */}
           {/*   topicId={topicId} */}

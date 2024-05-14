@@ -5,7 +5,7 @@ import { ShyPost } from "@taigalabs/shy-entities/bindings/ShyPost";
 import { Dayjs } from "dayjs";
 
 import styles from "./PostRow.module.scss";
-import Post from "@/components/post/Post";
+import Comment from "@/components/comment/Comment";
 import { ShyPostSyn1 } from "@taigalabs/shy-entities/bindings/ShyPostSyn1";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 
@@ -25,7 +25,7 @@ const PostRow: React.FC<RowProps> = ({ post, channel, handleSucceedPost, subChan
   // }, [post]);
 
   return (
-    <Post
+    <Comment
       topicId={post.inner.shy_post.topic_id}
       channel={channel}
       author_public_key={post.inner.shy_post.author_public_key}

@@ -1,12 +1,12 @@
 import React from "react";
 
-import styles from "./PostComponent.module.scss";
+import styles from "./CommentComponents.module.scss";
 
-export const PostWrapper: React.FC<PostInnerProps> = ({ children }) => {
+export const CommentWrapper: React.FC<PostInnerProps> = ({ children }) => {
   return <div className={styles.wrapper}>{children}</div>;
 };
 
-export const PostInner: React.FC<PostInnerProps> = ({ children }) => {
+export const CommentInner: React.FC<PostInnerProps> = ({ children }) => {
   return <div className={styles.inner}>{children}</div>;
 };
 

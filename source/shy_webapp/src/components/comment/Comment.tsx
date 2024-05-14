@@ -5,16 +5,16 @@ import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { useRouter } from "next/navigation";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 
-import styles from "./Post.module.scss";
-import { PostWrapper, PostInner } from "./PostComponent";
-import { PostMarkdown } from "./PostMarkdown";
+import styles from "./Comment.module.scss";
+import { CommentWrapper, CommentInner } from "./CommentComponents";
+import ContentMarkdown from "@/components/content_markdown/ContentMarkdown";
 import ProofDialog from "./ProofDialog";
 import PostMenu from "./PostMenu";
 import CreatePost from "@/components/create_post/CreatePost";
 import { toShortDate } from "@/utils/time";
 import ProofImage from "@/components/proof_image/ProofImage";
 
-const Post: React.FC<PostContentProps> = ({
+const Comment: React.FC<PostContentProps> = ({
   topicId,
   channel,
   author_public_key,
@@ -60,8 +60,8 @@ const Post: React.FC<PostContentProps> = ({
   }, [updated_at]);
 
   return (
-    <PostWrapper>
-      <PostInner>
+    <CommentWrapper>
+      <CommentInner>
         <div className={styles.meta}>
           <div className={styles.left}>
             <div className={styles.item}>
@@ -86,7 +86,7 @@ const Post: React.FC<PostContentProps> = ({
           </div>
         </div>
         <div className={styles.content}>
-          <PostMarkdown className={styles.content} html={content} />
+          <ContentMarkdown className={styles.content} html={content} />
         </div>
         <PostMenu
           content={content}
@@ -102,12 +102,12 @@ const Post: React.FC<PostContentProps> = ({
             subChannelId={subChannelId}
           />
         )}
-      </PostInner>
-    </PostWrapper>
+      </CommentInner>
+    </CommentWrapper>
   );
 };
 
-export default Post;
+export default Comment;
 
 export interface PostContentProps {
   author_public_key: string;

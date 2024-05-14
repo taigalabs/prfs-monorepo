@@ -16,7 +16,7 @@ import {
   InfiniteScrollRowContainerOuter,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
-import TopicFooter from "@/components/topic/TopicFooter";
+// import TopicFooter from "@/components/topic/TopicFooter";
 import Placeholder from "@tiptap/extension-placeholder";
 import ZeroCommentMsg from "./Placeholder";
 

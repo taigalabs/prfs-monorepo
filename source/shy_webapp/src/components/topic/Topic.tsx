@@ -20,7 +20,7 @@ import ChannelMeta from "@/components/channel/ChannelMeta";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import TopicContent from "./TopicContent";
-import PostList from "@/components/post_list/PostList";
+import CommentList from "@/components/comment_list/CommentList";
 import { TopicChannel } from "./TopicComponents";
 
 const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
@@ -53,7 +53,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
                 rerender={rerender}
                 subChannelId={subChannelId}
               />
-              <PostList
+              <CommentList
                 parentRef={parentRef}
                 channel={channel}
                 topicId={topicId}
