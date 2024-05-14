@@ -46,7 +46,7 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
           <div className={styles.titleRow}>
             <div className={styles.inner}>
               <div className={styles.postMeta}>
-                <div>
+                <div className={styles.left}>
                   <AuthorAvatar
                     publicKey={shy_topic_with_proofs.shy_topic.inner.author_public_key}
                   />

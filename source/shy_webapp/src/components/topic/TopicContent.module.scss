@@ -26,6 +26,10 @@
 .postMeta {
   padding-top: 10px;
   display: flex;
+
+  .left {
+    margin-right: 8px;
+  }
 }
 
 .participants {
