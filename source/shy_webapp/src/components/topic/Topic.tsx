@@ -61,7 +61,6 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
                 nonce={nonce}
                 rerender={rerender}
               />
-              {/* <TopicFooter topicId={topicId} channel={channel} subChannelId={subChannelId} /> */}
             </>
           ) : (
             <Loading centerAlign>

@@ -58,6 +58,10 @@
   }
 }
 
+.body {
+  padding: 0 12px;
+}
+
 @media screen and (min-width: $big_display_min_width) {
   .wrapper {
   }

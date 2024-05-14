@@ -63,7 +63,9 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
               <p className={styles.title}>{shy_topic_with_proofs.shy_topic.inner.title}</p>
             </div>
           </div>
-          <PostMarkdown html={shy_topic_with_proofs.shy_topic.inner.content} />
+          <div className={styles.body}>
+            <PostMarkdown html={shy_topic_with_proofs.shy_topic.inner.content} />
+          </div>
           {/* <Post */}
           {/*   topicId={topicId} */}
           {/*   channel={channel} */}

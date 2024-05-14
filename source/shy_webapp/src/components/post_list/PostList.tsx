@@ -17,6 +17,8 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
 import TopicFooter from "@/components/topic/TopicFooter";
+import Placeholder from "@tiptap/extension-placeholder";
+import ZeroCommentMsg from "./Placeholder";
 
 const PostList: React.FC<PostListProps> = ({
   parentRef,
@@ -111,7 +113,7 @@ const PostList: React.FC<PostListProps> = ({
           transform: `translateY(${items[0]?.start ?? 0}px)`,
         }}
       >
-        {status === "success" && items.length === 0 && <DiamondPlaceholder />}
+        {status === "success" && items.length === 0 && <ZeroCommentMsg />}
         {items.map(virtualRow => {
           const isLoaderRow = virtualRow.index > allRows.length - 1;
           const post = allRows[virtualRow.index];
@@ -139,9 +141,9 @@ const PostList: React.FC<PostListProps> = ({
             </div>
           );
         })}
-        {!hasNextPage && (
-          <TopicFooter topicId={topicId} channel={channel} subChannelId={subChannelId} />
-        )}
+        {/* {!hasNextPage && ( */}
+        {/*   <TopicFooter topicId={topicId} channel={channel} subChannelId={subChannelId} /> */}
+        {/* )} */}
       </InfiniteScrollRowContainerInner>
     </InfiniteScrollRowContainerOuter>
   );
