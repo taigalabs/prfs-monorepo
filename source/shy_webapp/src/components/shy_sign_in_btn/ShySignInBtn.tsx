@@ -9,7 +9,7 @@ import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { SignInShyAccountRequest } from "@taigalabs/shy-entities/bindings/SignInShyAccountRequest";
 import { SignUpShyAccountRequest } from "@taigalabs/shy-entities/bindings/SignUpShyAccountRequest";
-import { makeColor, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
+import { makeIdentityColor, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import shy_api_error_codes from "@taigalabs/shy-api-error-codes";
@@ -50,7 +50,7 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
     async (signInResult: AppSignInResult) => {
       if (signInResult) {
         setStatus(Status.InProgress);
-        const avatar_color = makeColor(signInResult.account_id);
+        const avatar_color = makeIdentityColor(signInResult.account_id);
 
         const credential: LocalShyCredential = {
           account_id: signInResult.account_id,

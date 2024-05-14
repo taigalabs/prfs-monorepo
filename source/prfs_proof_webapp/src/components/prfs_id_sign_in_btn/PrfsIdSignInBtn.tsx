@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-lib/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-lib/src/prfs_credential_popover/PrfsCredentialPopover";
 import prfs_api_error_codes from "@taigalabs/prfs-api-error-codes";
-import { makeColor, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
+import { makeIdentityColor, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import { prfsApi3 } from "@taigalabs/prfs-api-js";
 import { SignInPrfsAccountRequest } from "@taigalabs/prfs-entities/bindings/SignInPrfsAccountRequest";
@@ -60,7 +60,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({
       const { error, code } = await signInPrfsAccount({
         account_id: signInResult.account_id,
       });
-      const avatar_color = makeColor(signInResult.account_id);
+      const avatar_color = makeIdentityColor(signInResult.account_id);
       const credential: LocalPrfsProofCredential = {
         account_id: signInResult.account_id,
         public_key: signInResult.public_key,

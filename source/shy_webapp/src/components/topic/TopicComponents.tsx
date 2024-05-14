@@ -3,8 +3,7 @@ import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import Link from "next/link";
 import HoverableText from "@taigalabs/prfs-react-lib/src/hoverable_text/HoverableText";
 
-import styles from "./TopicFooter.module.scss";
-import { paths } from "@/paths";
+import styles from "./TopicComponents.module.scss";
 
 export const TopicChannel: React.FC<TopicChannelProps> = ({ children }) => {
   return <div className={styles.channel}>{children}</div>;

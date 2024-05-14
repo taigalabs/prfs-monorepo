@@ -12,6 +12,7 @@ import Post from "@/components/post/Post";
 import Loading from "@/components/loading/Loading";
 import { PostMarkdown } from "../post/PostMarkdown";
 import AuthorLabel from "../author/AuthorLabel";
+import AuthorAvatar from "../author/AuthorAvatar";
 
 const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, subChannelId }) => {
   const i18n = usePrfsI18N();
@@ -44,14 +45,23 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
         <>
           <div className={styles.titleRow}>
             <div className={styles.inner}>
-              <p className={styles.title}>{shy_topic_with_proofs.shy_topic.inner.title}</p>
               <div className={styles.postMeta}>
-                <AuthorLabel publicKey={shy_topic_with_proofs.shy_topic.inner.author_public_key} />
-                <button className={styles.participants} type="button">
-                  {/* <MdGroup /> */}
-                  <div>{proofIdentities ?? i18n.participants}</div>
-                </button>
+                <div>
+                  <AuthorAvatar
+                    publicKey={shy_topic_with_proofs.shy_topic.inner.author_public_key}
+                  />
+                </div>
+                <div>
+                  <AuthorLabel
+                    publicKey={shy_topic_with_proofs.shy_topic.inner.author_public_key}
+                  />
+                  <button className={styles.participants} type="button">
+                    {/* <MdGroup /> */}
+                    <div>{proofIdentities ?? i18n.participants}</div>
+                  </button>
+                </div>
               </div>
+              <p className={styles.title}>{shy_topic_with_proofs.shy_topic.inner.title}</p>
             </div>
           </div>
           <PostMarkdown html={shy_topic_with_proofs.shy_topic.inner.content} />

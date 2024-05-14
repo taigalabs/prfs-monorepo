@@ -16,7 +16,7 @@ import { SignUpPrfsIdentityRequest } from "@taigalabs/prfs-entities/bindings/Sig
 import {
   PASSWORD_1,
   PrfsIdCredential,
-  makeColor,
+  makeIdentityColor,
   ID,
   PASSWORD_2,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -76,7 +76,7 @@ const CreateIdSummary: React.FC<SignUpProps> = ({
 
       try {
         setStatus(IdCreationStatus.InProgress);
-        const avatar_color = makeColor(id);
+        const avatar_color = makeIdentityColor(id);
         const { error } = await signUpPrfsIdentity({
           identity_id: id,
           avatar_color,
