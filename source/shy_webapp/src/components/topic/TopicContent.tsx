@@ -13,6 +13,8 @@ import Loading from "@/components/loading/Loading";
 import ContentMarkdown from "@/components/content_markdown/ContentMarkdown";
 import AuthorLabel from "@/components/author/AuthorLabel";
 import AuthorAvatar from "@/components/author/AuthorAvatar";
+import ProofDialog from "@/components/comment/ProofDialog";
+import ProofImage from "@/components/proof_image/ProofImage";
 
 const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, subChannelId }) => {
   const i18n = usePrfsI18N();
@@ -24,7 +26,6 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
   });
 
   const shy_topic_with_proofs = postData?.payload?.shy_topic_with_proofs;
-  // const shy_proofs = postData?.payload?.shy_topic_with_proofs.shy_proofs;
 
   const proofIdentities = React.useMemo(() => {
     if (shy_topic_with_proofs) {
@@ -34,6 +35,17 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
             <img src={proof.img_url} />
             <p>{proof.proof_identity_input}</p>
           </div>
+        );
+
+        return (
+          <ProofDialog
+            key={proof.shy_proof_id}
+            imgUrl={proof.img_url}
+            // author_proof_ids={proof.author_proof_ids}
+            // author_proof_identity_inputs={author_proof_identity_inputs} */}
+            // proof={proof} */}
+            // proof_type_id={proof_type_id} */}
+          />
         );
       });
     } else return null;
