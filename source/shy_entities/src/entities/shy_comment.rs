@@ -3,12 +3,11 @@ use ts_rs::TS;
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
-pub struct ShyPost {
-    pub post_id: String,
+pub struct ShyComment {
+    pub comment_id: String,
     pub topic_id: String,
     pub content: String,
     pub channel_id: String,
-    // pub shy_proof_id: String,
     pub author_public_key: String,
     pub author_sig: String,
 
@@ -18,8 +17,8 @@ pub struct ShyPost {
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
-pub struct ShyPostSyn1 {
-    pub shy_post: ShyPost,
+pub struct ShyCommentWithProofs {
+    pub shy_comment: ShyComment,
     pub img_url: String,
     pub expression: String,
     pub public_inputs: String,

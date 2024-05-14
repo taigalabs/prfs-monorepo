@@ -9,8 +9,8 @@ import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import DiamondPlaceholder from "@taigalabs/prfs-react-lib/src/diamond_placeholder/DiamondPlaceholder";
 
-import styles from "./PostList.module.scss";
-import PostRow from "./PostRow";
+import styles from "./CommentList.module.scss";
+import CommenttRow from "./CommentRow";
 import {
   InfiniteScrollRowContainerInner,
   InfiniteScrollRowContainerOuter,
@@ -19,8 +19,9 @@ import Loading from "@/components/loading/Loading";
 // import TopicFooter from "@/components/topic/TopicFooter";
 import Placeholder from "@tiptap/extension-placeholder";
 import ZeroCommentMsg from "./Placeholder";
+import CommentRow from "./CommentRow";
 
-const PostList: React.FC<PostListProps> = ({
+const CommentList: React.FC<PostListProps> = ({
   parentRef,
   channel,
   topicId,
@@ -33,10 +34,10 @@ const PostList: React.FC<PostListProps> = ({
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["get_shy_posts_of_topic", topicId, channel.channel_id, nonce],
+      queryKey: ["get_shy_comments_of_topic", topicId, channel.channel_id, nonce],
       queryFn: async ({ pageParam = 0 }) => {
         return await shyApi2({
-          type: "get_shy_posts_of_topic",
+          type: "get_shy_comments_of_topic",
           topic_id: topicId,
           channel_id: channel.channel_id,
           offset: pageParam,
@@ -116,7 +117,7 @@ const PostList: React.FC<PostListProps> = ({
         {status === "success" && items.length === 0 && <ZeroCommentMsg />}
         {items.map(virtualRow => {
           const isLoaderRow = virtualRow.index > allRows.length - 1;
-          const post = allRows[virtualRow.index];
+          const comment = allRows[virtualRow.index];
 
           return (
             <div
@@ -129,9 +130,9 @@ const PostList: React.FC<PostListProps> = ({
                 ? hasNextPage
                   ? "Loading more..."
                   : "Nothing more to load"
-                : post && (
-                    <PostRow
-                      post={post}
+                : comment && (
+                    <CommentRow
+                      comment={comment}
                       now={now}
                       channel={channel}
                       handleSucceedPost={rerender}
@@ -149,7 +150,7 @@ const PostList: React.FC<PostListProps> = ({
   );
 };
 
-export default PostList;
+export default CommentList;
 
 export interface PostListProps {
   className?: string;

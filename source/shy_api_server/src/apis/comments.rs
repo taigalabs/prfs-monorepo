@@ -7,26 +7,31 @@ use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::{CreateShyPostAction, ShyPostProofAction};
+use shy_entities::{CreateShyCommentAction, ShyCommentProofAction};
 use shy_entities::{
-    CreateShyPostRequest, CreateShyPostResponse, CreateShyPostWithProofRequest,
-    GetShyPostsOfTopicRequest, GetShyPostsOfTopicResponse,
+    CreateShyCommentRequest, CreateShyCommentResponse, CreateShyCommentWithProofsRequest,
+    GetShyCommentsOfTopicRequest, GetShyCommentsOfTopicResponse,
 };
-use shy_entities::{ShyPost, ShyProof};
+use shy_entities::{ShyComment, ShyProof};
 use std::sync::Arc;
 
 use crate::envs::ENVS;
 
 const LIMIT: i32 = 15;
 
-pub async fn get_shy_posts_of_topic(
+pub async fn get_shy_comments_of_topic(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<GetShyPostsOfTopicRequest>,
-) -> (StatusCode, Json<ApiResponse<GetShyPostsOfTopicResponse>>) {
+    Json(input): Json<GetShyCommentsOfTopicRequest>,
+) -> (StatusCode, Json<ApiResponse<GetShyCommentsOfTopicResponse>>) {
     let pool = &state.db2.pool;
 
-    let rows = match shy::get_shy_posts_syn1_of_topic(&pool, &input.topic_id, input.offset, LIMIT)
-        .await
+    let rows = match shy::get_shy_comments_with_proofs_by_topic_id(
+        &pool,
+        &input.topic_id,
+        input.offset,
+        LIMIT,
+    )
+    .await
     {
         Ok(p) => p,
         Err(err) => {
@@ -41,14 +46,14 @@ pub async fn get_shy_posts_of_topic(
         Some(input.offset + LIMIT)
     };
 
-    let resp = ApiResponse::new_success(GetShyPostsOfTopicResponse { rows, next_offset });
+    let resp = ApiResponse::new_success(GetShyCommentsOfTopicResponse { rows, next_offset });
     return (StatusCode::OK, Json(resp));
 }
 
-pub async fn create_shy_post(
+pub async fn create_shy_comment(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<CreateShyPostRequest>,
-) -> (StatusCode, Json<ApiResponse<CreateShyPostResponse>>) {
+    Json(input): Json<CreateShyCommentRequest>,
+) -> (StatusCode, Json<ApiResponse<CreateShyCommentResponse>>) {
     let pool = &state.db2.pool;
     let mut tx = bail_out_tx!(pool, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
@@ -86,9 +91,9 @@ pub async fn create_shy_post(
     };
     topic.inner.total_reply_count += 1;
 
-    let action = ShyPostProofAction::create_shy_post(CreateShyPostAction {
+    let action = ShyCommentProofAction::create_shy_comment(CreateShyCommentAction {
         topic_id: input.topic_id.to_string(),
-        post_id: input.post_id.to_string(),
+        comment_id: input.comment_id.to_string(),
         content: input.content.to_string(),
     });
 
@@ -114,8 +119,8 @@ pub async fn create_shy_post(
         .map(|p| p.shy_proof_id.to_string())
         .collect();
 
-    let shy_post = ShyPost {
-        post_id: input.post_id,
+    let shy_comment = ShyComment {
+        comment_id: input.comment_id,
         topic_id: input.topic_id,
         content: input.content,
         channel_id: input.channel_id,
@@ -125,12 +130,12 @@ pub async fn create_shy_post(
         author_proof_ids: JsonType::from(author_proof_ids),
     };
 
-    let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
+    let comment_id = match shy::insert_shy_comment(&mut tx, &shy_comment).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(
                 &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!("Can't insert shy post, err: {}", err),
+                format!("Can't insert shy comment, err: {}", err),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
@@ -141,7 +146,7 @@ pub async fn create_shy_post(
         Err(err) => {
             let resp = ApiResponse::new_error(
                 &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!("Can't insert shy post, err: {}", err),
+                format!("Can't insert shy comment, err: {}", err),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
@@ -149,20 +154,20 @@ pub async fn create_shy_post(
 
     bail_out_tx_commit!(tx, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
-    let resp = ApiResponse::new_success(CreateShyPostResponse { post_id });
+    let resp = ApiResponse::new_success(CreateShyCommentResponse { comment_id });
     return (StatusCode::OK, Json(resp));
 }
 
-pub async fn create_shy_post_with_proof(
+pub async fn create_shy_comment_with_proofs(
     State(state): State<Arc<ServerState>>,
-    Json(input): Json<CreateShyPostWithProofRequest>,
-) -> (StatusCode, Json<ApiResponse<CreateShyPostResponse>>) {
+    Json(input): Json<CreateShyCommentWithProofsRequest>,
+) -> (StatusCode, Json<ApiResponse<CreateShyCommentResponse>>) {
     let pool = &state.db2.pool;
     let mut tx = bail_out_tx!(pool, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
-    let action = ShyPostProofAction::create_shy_post(CreateShyPostAction {
+    let action = ShyCommentProofAction::create_shy_comment(CreateShyCommentAction {
         topic_id: input.topic_id.to_string(),
-        post_id: input.post_id.to_string(),
+        comment_id: input.comment_id.to_string(),
         content: input.content.to_string(),
     });
 
@@ -244,8 +249,8 @@ pub async fn create_shy_post_with_proof(
     };
     topic.inner.total_reply_count += 1;
 
-    let shy_post = ShyPost {
-        post_id: input.post_id,
+    let shy_comment = ShyComment {
+        comment_id: input.comment_id,
         topic_id: input.topic_id,
         content: input.content,
         channel_id: input.channel_id,
@@ -255,12 +260,12 @@ pub async fn create_shy_post_with_proof(
         author_proof_ids: JsonType::from(author_proof_ids),
     };
 
-    let post_id = match shy::insert_shy_post(&mut tx, &shy_post).await {
+    let comment_id = match shy::insert_shy_comment(&mut tx, &shy_comment).await {
         Ok(i) => i,
         Err(err) => {
             let resp = ApiResponse::new_error(
                 &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!("Can't insert shy post, err: {}", err),
+                format!("Can't insert shy comment, err: {}", err),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
@@ -271,7 +276,7 @@ pub async fn create_shy_post_with_proof(
         Err(err) => {
             let resp = ApiResponse::new_error(
                 &SHY_API_ERROR_CODES.UNKNOWN_ERROR,
-                format!("Can't insert shy post, err: {}", err),
+                format!("Can't insert shy comment, err: {}", err),
             );
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
@@ -279,6 +284,6 @@ pub async fn create_shy_post_with_proof(
 
     bail_out_tx_commit!(tx, &SHY_API_ERROR_CODES.UNKNOWN_ERROR);
 
-    let resp = ApiResponse::new_success(CreateShyPostResponse { post_id });
+    let resp = ApiResponse::new_success(CreateShyCommentResponse { comment_id });
     return (StatusCode::OK, Json(resp));
 }

@@ -2,13 +2,13 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use crate::{
-    entities::{DateTimed, ShyPost},
-    ProofBlob, ShyPostSyn1,
+    entities::{DateTimed, ShyComment},
+    ProofBlob, ShyCommentWithProofs,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetShyPostsOfTopicRequest {
+pub struct GetShyCommentsOfTopicRequest {
     pub topic_id: String,
     pub channel_id: String,
     pub offset: i32,
@@ -16,18 +16,18 @@ pub struct GetShyPostsOfTopicRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetShyPostsOfTopicResponse {
-    pub rows: Vec<DateTimed<ShyPostSyn1>>,
+pub struct GetShyCommentsOfTopicResponse {
+    pub rows: Vec<DateTimed<ShyCommentWithProofs>>,
     pub next_offset: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateShyPostRequest {
+pub struct CreateShyCommentRequest {
     pub topic_id: String,
     pub channel_id: String,
     pub shy_proof_id: String,
-    pub post_id: String,
+    pub comment_id: String,
     pub content: String,
     pub author_public_key: String,
     pub author_sig: String,
@@ -37,11 +37,11 @@ pub struct CreateShyPostRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateShyPostWithProofRequest {
+pub struct CreateShyCommentWithProofsRequest {
     pub topic_id: String,
     pub channel_id: String,
     // pub shy_proof_id: String,
-    pub post_id: String,
+    pub comment_id: String,
     pub content: String,
     pub author_public_key: String,
     pub author_sig: String,
@@ -58,6 +58,6 @@ pub struct CreateShyPostWithProofRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateShyPostResponse {
-    pub post_id: String,
+pub struct CreateShyCommentResponse {
+    pub comment_id: String,
 }

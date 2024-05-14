@@ -10,7 +10,7 @@ import { CommentWrapper, CommentInner } from "./CommentComponents";
 import ContentMarkdown from "@/components/content_markdown/ContentMarkdown";
 import ProofDialog from "./ProofDialog";
 import PostMenu from "./PostMenu";
-import CreatePost from "@/components/create_post/CreatePost";
+import CreateComment from "@/components/create_comment/CreateComment";
 import { toShortDate } from "@/utils/time";
 import ProofImage from "@/components/proof_image/ProofImage";
 
@@ -94,7 +94,7 @@ const Comment: React.FC<PostContentProps> = ({
           handleClickReply={handleClickReply}
         />
         {isReplyOpen && (
-          <CreatePost
+          <CreateComment
             handleClickCancel={handleClickCancel}
             channel={channel}
             topicId={topicId}

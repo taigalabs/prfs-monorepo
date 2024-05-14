@@ -17,13 +17,14 @@ import {
 } from "@taigalabs/prfs-crypto-js";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { GenericProveReceipt, ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { ShyPostProofAction } from "@taigalabs/shy-entities/bindings/ShyPostProofAction";
+import { ShyCommentProofAction } from "@taigalabs/shy-entities/bindings/ShyCommentProofAction";
+import { ShyCommentWithProofs } from "@taigalabs/shy-entities/bindings/ShyCommentWithProofs";
 import { MerkleSigPosRangeV1PresetVals } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PresetVals";
 import { useRouter } from "next/navigation";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
-import { CreateShyPostRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostRequest";
-import { CreateShyPostWithProofRequest } from "@taigalabs/shy-entities/bindings/CreateShyPostWithProofRequest";
+import { CreateShyCommentRequest } from "@taigalabs/shy-entities/bindings/CreateShyCommentRequest";
+import { CreateShyCommentWithProofsRequest } from "@taigalabs/shy-entities/bindings/CreateShyCommentWithProofsRequest";
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
@@ -43,7 +44,7 @@ import { useTextEditor } from "@/components/text_editor/useTextEditor";
 
 const PROOF = "Proof";
 
-const CreatePost: React.FC<CreatePostProps> = ({
+const CreateComment: React.FC<CreatePostProps> = ({
   handleClickCancel,
   channel,
   subChannelId,
@@ -63,21 +64,21 @@ const CreatePost: React.FC<CreatePostProps> = ({
     setSk,
   } = usePrfsIdSession();
   const [error, setError] = React.useState<string | null>(null);
-  const [postId, setPostId] = React.useState<string | null>(null);
+  const [commentId, setCommentId] = React.useState<string | null>(null);
   const [html, setHtml] = React.useState<string | null>(null);
   const { editor } = useTextEditor();
 
   const { mutateAsync: getShyProofs } = useGetShyProofs();
 
   const { mutateAsync: createShyPost } = useMutation({
-    mutationFn: (req: CreateShyPostRequest) => {
-      return shyApi2({ type: "create_shy_post", ...req });
+    mutationFn: (req: CreateShyCommentRequest) => {
+      return shyApi2({ type: "create_shy_comment", ...req });
     },
   });
 
   const { mutateAsync: createShyPostWithProof } = useMutation({
-    mutationFn: (req: CreateShyPostWithProofRequest) => {
-      return shyApi2({ type: "create_shy_post_with_proof", ...req });
+    mutationFn: (req: CreateShyCommentWithProofsRequest) => {
+      return shyApi2({ type: "create_shy_comment_with_proofs", ...req });
     },
   });
 
@@ -104,12 +105,12 @@ const CreatePost: React.FC<CreatePostProps> = ({
     const session_key = createSessionKey();
     const { sk, pkHex } = createRandomKeyPair();
     const json = JSON.stringify({ appId: SHY_APP_ID, topicId });
-    const postId = rand256Hex();
+    const commentId = rand256Hex();
 
-    const proofAction: ShyPostProofAction = {
-      type: "create_shy_post",
+    const proofAction: ShyCommentProofAction = {
+      type: "create_shy_comment",
       topic_id: topicId,
-      post_id: postId,
+      comment_id: commentId,
       content: html,
     };
     const proofActionStr = JSON.stringify(proofAction);
@@ -151,7 +152,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
     setIsPrfsDialogOpen(true);
     setSessionKey(proofGenArgs.session_key);
     setSk(sk);
-    setPostId(postId);
+    setCommentId(commentId);
     setHtml(html);
   }, [
     channel,
@@ -168,7 +169,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
     setSessionKey,
     setIsPrfsDialogOpen,
     openPrfsIdSession,
-    setPostId,
+    setCommentId,
     setHtml,
     editor,
   ]);
@@ -195,7 +196,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
         return;
       }
 
-      if (!postId) {
+      if (!commentId) {
         dispatch(
           setGlobalMsg({
             variant: "error",
@@ -259,7 +260,7 @@ proofs: ${proofs}`,
             channel_id: channel.channel_id,
             shy_proof_id: firstProof.shy_proof_id,
             author_public_key: firstProof.public_key,
-            post_id: postId,
+            comment_id: commentId,
             content: html,
             author_sig: receipt.proofActionSig,
             author_sig_msg: Array.from(receipt.proofActionSigMsg),
@@ -281,7 +282,7 @@ proofs: ${proofs}`,
           channel_id: channel.channel_id,
           // shy_proof_id,
           author_public_key: receipt_.proof.proofPubKey,
-          post_id: postId,
+          comment_id: commentId,
           content: html,
           author_sig: receipt_.proofActionSig,
           author_sig_msg: Array.from(receipt_.proofActionSigMsg),
@@ -323,7 +324,7 @@ proofs: ${proofs}`,
         return;
       }
     },
-    [sk, dispatch, postId, html],
+    [sk, dispatch, commentId, html],
   );
 
   const handleClickClose = React.useCallback(() => {
@@ -353,7 +354,7 @@ proofs: ${proofs}`,
   );
 };
 
-export default CreatePost;
+export default CreateComment;
 
 export interface CreatePostProps {
   handleClickCancel: () => void;

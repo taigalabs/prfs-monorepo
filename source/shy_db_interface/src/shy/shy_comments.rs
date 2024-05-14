@@ -1,29 +1,28 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use shy_entities::{DateTimed, ShyPost, ShyPostSyn1};
+use shy_entities::{DateTimed, ShyComment, ShyCommentWithProofs};
 
 use crate::ShyDbInterfaceError;
 
-pub async fn insert_shy_post(
+pub async fn insert_shy_comment(
     tx: &mut Transaction<'_, Postgres>,
-    shy_post: &ShyPost,
+    shy_comment: &ShyComment,
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
 INSERT INTO shy_posts
-(topic_id, content, post_id, channel_id, shy_proof_id, author_public_key, author_sig,
+(topic_id, content, comment_id, channel_id, shy_proof_id, author_public_key, author_sig,
 author_proof_identities)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING post_id
 "#;
 
     let row = sqlx::query(query)
-        .bind(&shy_post.topic_id)
-        .bind(&shy_post.content)
-        .bind(&shy_post.post_id)
-        .bind(&shy_post.channel_id)
-        // .bind(&shy_post.shy_proof_id)
-        .bind(&shy_post.author_public_key)
-        .bind(&shy_post.author_sig)
-        .bind(&shy_post.author_proof_ids)
+        .bind(&shy_comment.topic_id)
+        .bind(&shy_comment.content)
+        .bind(&shy_comment.comment_id)
+        .bind(&shy_comment.channel_id)
+        .bind(&shy_comment.author_public_key)
+        .bind(&shy_comment.author_sig)
+        .bind(&shy_comment.author_proof_ids)
         .fetch_one(&mut **tx)
         .await?;
 
@@ -34,12 +33,12 @@ RETURNING post_id
     Ok(post_id)
 }
 
-pub async fn get_shy_posts_syn1_of_topic(
+pub async fn get_shy_comments_with_proofs_by_topic_id(
     pool: &Pool<Postgres>,
     topic_id: &String,
     offset: i32,
     limit: i32,
-) -> Result<Vec<DateTimed<ShyPostSyn1>>, ShyDbInterfaceError> {
+) -> Result<Vec<DateTimed<ShyCommentWithProofs>>, ShyDbInterfaceError> {
     let query = r#"
 SELECT p.*, f.*, pt.*
 FROM shy_posts p
@@ -61,9 +60,9 @@ LIMIT $3
     let shy_posts = rows
         .iter()
         .map(|row| {
-            let post_ = ShyPostSyn1 {
-                shy_post: ShyPost {
-                    post_id: row.try_get("post_id")?,
+            let post_ = ShyCommentWithProofs {
+                shy_comment: ShyComment {
+                    comment_id: row.try_get("comment_id")?,
                     topic_id: row.try_get("topic_id")?,
                     content: row.try_get("content")?,
                     channel_id: row.try_get("channel_id")?,
@@ -88,7 +87,7 @@ LIMIT $3
 
             return Ok(post);
         })
-        .collect::<Result<Vec<DateTimed<ShyPostSyn1>>, ShyDbInterfaceError>>()?;
+        .collect::<Result<Vec<DateTimed<ShyCommentWithProofs>>, ShyDbInterfaceError>>()?;
 
     Ok(shy_posts)
 }
