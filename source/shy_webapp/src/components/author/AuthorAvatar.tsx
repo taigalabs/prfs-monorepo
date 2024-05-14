@@ -6,7 +6,7 @@ import styles from "./AuthorAvatar.module.scss";
 
 const AuthorAvatar: React.FC<AuthorProps> = ({ publicKey }) => {
   const label = React.useMemo(() => {
-    return publicKey.length > 6 ? publicKey.substring(4, 6) : publicKey.substring(0, 2);
+    return publicKey.length > 7 ? publicKey.substring(4, 7) : publicKey.substring(0, 3);
   }, [publicKey]);
 
   const color = React.useMemo(() => {

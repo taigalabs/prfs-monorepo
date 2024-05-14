@@ -55,9 +55,8 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
                   <AuthorLabel
                     publicKey={shy_topic_with_proofs.shy_topic.inner.author_public_key}
                   />
-                  <button className={styles.participants} type="button">
-                    {/* <MdGroup /> */}
-                    <div>{proofIdentities ?? i18n.participants}</div>
+                  <button className={styles.proofIdentities} type="button">
+                    <div>{proofIdentities ?? i18n.proofs}</div>
                   </button>
                 </div>
               </div>
