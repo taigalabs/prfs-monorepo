@@ -8,11 +8,11 @@ pub async fn insert_shy_comment(
     shy_comment: &ShyComment,
 ) -> Result<String, ShyDbInterfaceError> {
     let query = r#"
-INSERT INTO shy_posts
+INSERT INTO shy_comments
 (topic_id, content, comment_id, channel_id, shy_proof_id, author_public_key, author_sig,
 author_proof_identities)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-RETURNING post_id
+RETURNING comment_id
 "#;
 
     let row = sqlx::query(query)
@@ -26,11 +26,11 @@ RETURNING post_id
         .fetch_one(&mut **tx)
         .await?;
 
-    let post_id: String = row
-        .try_get("post_id")
-        .map_err(|err| format!("Failed to insert shy post, err: {}", err))?;
+    let comment_id: String = row
+        .try_get("comment_id")
+        .map_err(|err| format!("Failed to insert shy comment, err: {}", err))?;
 
-    Ok(post_id)
+    Ok(comment_id)
 }
 
 pub async fn get_shy_comments_with_proofs_by_topic_id(
@@ -41,7 +41,7 @@ pub async fn get_shy_comments_with_proofs_by_topic_id(
 ) -> Result<Vec<DateTimed<ShyCommentWithProofs>>, ShyDbInterfaceError> {
     let query = r#"
 SELECT p.*, f.*, pt.*
-FROM shy_posts p
+FROM shy_comments p
 INNER JOIN shy_proofs f ON f.shy_proof_id = p.shy_proof_id
 INNER JOIN prfs_proof_types pt ON pt.proof_type_id = f.proof_type_id
 WHERE p.topic_id=$1
@@ -57,10 +57,10 @@ LIMIT $3
         .fetch_all(pool)
         .await?;
 
-    let shy_posts = rows
+    let shy_comments = rows
         .iter()
         .map(|row| {
-            let post_ = ShyCommentWithProofs {
+            let comment_ = ShyCommentWithProofs {
                 shy_comment: ShyComment {
                     comment_id: row.try_get("comment_id")?,
                     topic_id: row.try_get("topic_id")?,
@@ -79,15 +79,15 @@ LIMIT $3
                 proof_type_id: row.try_get("proof_type_id")?,
             };
 
-            let post = DateTimed {
-                inner: post_,
+            let comment = DateTimed {
+                inner: comment_,
                 created_at: row.try_get("created_at")?,
                 updated_at: row.try_get("updated_at")?,
             };
 
-            return Ok(post);
+            return Ok(comment);
         })
         .collect::<Result<Vec<DateTimed<ShyCommentWithProofs>>, ShyDbInterfaceError>>()?;
 
-    Ok(shy_posts)
+    Ok(shy_comments)
 }

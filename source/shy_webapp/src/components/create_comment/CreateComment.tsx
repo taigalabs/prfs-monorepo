@@ -31,7 +31,7 @@ import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
-import styles from "./CreatePost.module.scss";
+import styles from "./CreateComment.module.scss";
 import TextEditor from "@/components/text_editor/TextEditor";
 import CreatePostEditorFooter from "./CreatePostEditorFooter";
 import { envs } from "@/envs";
