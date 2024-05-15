@@ -2,11 +2,10 @@ import React from "react";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { FaReply } from "@react-icons/all-files/fa/FaReply";
 
-import styles from "./PostMenu.module.scss";
-import { paths } from "@/paths";
+import styles from "./CommentMenu.module.scss";
 import Button from "@/components/button/Button";
 
-const PostMenu: React.FC<PostContentProps> = ({ handleClickReply }) => {
+const CommentMenu: React.FC<PostContentProps> = ({ handleClickReply }) => {
   const i18n = usePrfsI18N();
 
   return (
@@ -26,7 +25,7 @@ const PostMenu: React.FC<PostContentProps> = ({ handleClickReply }) => {
   );
 };
 
-export default PostMenu;
+export default CommentMenu;
 
 export interface PostContentProps {
   content: string;

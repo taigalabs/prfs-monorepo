@@ -17,8 +17,7 @@ import {
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
 // import TopicFooter from "@/components/topic/TopicFooter";
-import Placeholder from "@tiptap/extension-placeholder";
-import ZeroCommentMsg from "./Placeholder";
+import ZeroCommentMsg from "./ZeroCommentMsg";
 import CommentRow from "./CommentRow";
 
 const CommentList: React.FC<PostListProps> = ({
@@ -114,7 +113,11 @@ const CommentList: React.FC<PostListProps> = ({
           transform: `translateY(${items[0]?.start ?? 0}px)`,
         }}
       >
-        {status === "success" && items.length === 0 && <ZeroCommentMsg />}
+        {status === "success" && items.length === 0 && (
+          <div className={styles.zeroCommentMsg}>
+            <ZeroCommentMsg />
+          </div>
+        )}
         {items.map(virtualRow => {
           const isLoaderRow = virtualRow.index > allRows.length - 1;
           const comment = allRows[virtualRow.index];

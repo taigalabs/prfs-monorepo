@@ -1,7 +1,7 @@
 import React from "react";
 import { FaPen } from "@react-icons/all-files/fa/FaPen";
 
-import styles from "./Placeholder.module.scss";
+import styles from "./ZeroCommentMsg.module.scss";
 import { useShyI18N } from "@/i18n";
 
 const ZeroCommentMsg: React.FC<RowProps> = ({}) => {

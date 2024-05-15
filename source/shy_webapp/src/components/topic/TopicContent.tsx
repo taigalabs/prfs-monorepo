@@ -15,6 +15,7 @@ import AuthorLabel from "@/components/author/AuthorLabel";
 import AuthorAvatar from "@/components/author/AuthorAvatar";
 import ProofDialog from "@/components/comment/ProofDialog";
 import ProofImage from "@/components/proof_image/ProofImage";
+import CreateComment from "../create_comment/CreateComment";
 
 const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, subChannelId }) => {
   const i18n = usePrfsI18N();
@@ -77,6 +78,13 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
           </div>
           <div className={styles.body}>
             <ContentMarkdown html={shy_topic_with_proofs.shy_topic.inner.content} />
+            <CreateComment
+              handleClickCancel={() => {}}
+              channel={channel}
+              topicId={topicId}
+              handleSucceedPost={() => {}}
+              subChannelId={subChannelId}
+            />
           </div>
           {/* <Post */}
           {/*   topicId={topicId} */}

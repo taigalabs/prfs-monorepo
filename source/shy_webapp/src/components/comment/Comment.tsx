@@ -9,7 +9,7 @@ import styles from "./Comment.module.scss";
 import { CommentWrapper, CommentInner } from "./CommentComponents";
 import ContentMarkdown from "@/components/content_markdown/ContentMarkdown";
 import ProofDialog from "./ProofDialog";
-import PostMenu from "./PostMenu";
+import CommentMenu from "./CommentMenu";
 import CreateComment from "@/components/create_comment/CreateComment";
 import { toShortDate } from "@/utils/time";
 import ProofImage from "@/components/proof_image/ProofImage";
@@ -88,7 +88,7 @@ const Comment: React.FC<PostContentProps> = ({
         <div className={styles.content}>
           <ContentMarkdown className={styles.content} html={content} />
         </div>
-        <PostMenu
+        <CommentMenu
           content={content}
           originalPostAuthorPubkey={publicKey}
           handleClickReply={handleClickReply}

@@ -15,7 +15,7 @@ import EditorMenuBar from "./EditorMenuBar";
 const TextEditor: React.FC<TextEditorProps> = ({ editor, className }) => {
   return (
     <div className={cn(styles.wrapper, className)}>
-      <EditorMenuBar editor={editor} />
+      {/* <EditorMenuBar editor={editor} /> */}
       <EditorContent editor={editor} className={styles.editor} />
     </div>
   );
