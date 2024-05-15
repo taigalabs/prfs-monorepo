@@ -67,6 +67,7 @@ const CreateComment: React.FC<CreatePostProps> = ({
   const [commentId, setCommentId] = React.useState<string | null>(null);
   const [html, setHtml] = React.useState<string | null>(null);
   const { editor } = useTextEditor();
+  const [showMenuBar, setShowMenuBar] = React.useState(false);
 
   const { mutateAsync: getShyProofs } = useGetShyProofs();
 
@@ -336,7 +337,9 @@ proofs: ${proofs}`,
       <div className={styles.wrapper}>
         {error && <ErrorDialog handleClickClose={handleClickClose} error={error} />}
         <div className={styles.inner}>
-          {editor && <TextEditor editor={editor} className={styles.editorWrapper} />}
+          {editor && (
+            <TextEditor editor={editor} className={styles.editorWrapper} showMenuBar={false} />
+          )}
           <CreatePostEditorFooter
             handleClickCancel={handleClickCancel}
             handleClickReply={handleClickReply}

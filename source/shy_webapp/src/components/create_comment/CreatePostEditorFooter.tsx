@@ -11,18 +11,25 @@ const CreatePostEditorFooter: React.FC<EditorFooterProps> = ({
   const i18n = usePrfsI18N();
 
   return (
-    <ul className={styles.wrapper}>
+    <div className={styles.wrapper}>
       <li>
         <Button variant="transparent_1" handleClick={handleClickCancel}>
           {i18n.cancel}
         </Button>
       </li>
-      <li>
-        <Button variant="green_1" handleClick={handleClickReply}>
-          {i18n.reply}
-        </Button>
-      </li>
-    </ul>
+      <ul>
+        <li>
+          <Button variant="transparent_1" handleClick={handleClickCancel}>
+            {i18n.cancel}
+          </Button>
+        </li>
+        <li>
+          <Button variant="green_1" handleClick={handleClickReply}>
+            {i18n.reply}
+          </Button>
+        </li>
+      </ul>
+    </div>
   );
 };
 
