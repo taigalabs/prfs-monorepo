@@ -8,7 +8,7 @@ import Button from "@/components/button/Button";
 const CreatePostEditorFooter: React.FC<EditorFooterProps> = ({
   toggleMenuBar,
   handleClickCancel,
-  handleClickReply,
+  handleClickComment,
 }) => {
   const i18n = usePrfsI18N();
 
@@ -28,8 +28,8 @@ const CreatePostEditorFooter: React.FC<EditorFooterProps> = ({
           </Button>
         </li>
         <li>
-          <Button variant="green_1" handleClick={handleClickReply} className={styles.button}>
-            {i18n.reply}
+          <Button variant="green_1" handleClick={handleClickComment} className={styles.button}>
+            {i18n.comment}
           </Button>
         </li>
       </ul>
@@ -42,5 +42,5 @@ export default CreatePostEditorFooter;
 export interface EditorFooterProps {
   toggleMenuBar: () => void;
   handleClickCancel: () => void;
-  handleClickReply: () => void;
+  handleClickComment: () => void;
 }

@@ -46,7 +46,7 @@ const PROOF = "Proof";
 
 const CreateComment: React.FC<CreatePostProps> = ({
   isActive,
-  handleClickComment,
+  handleOpenComment,
   handleClickCancel,
   channel,
   subChannelId,
@@ -89,7 +89,14 @@ const CreateComment: React.FC<CreatePostProps> = ({
     setShowMenuBar(b => !b);
   }, [setShowMenuBar]);
 
-  const handleClickReply = React.useCallback(async () => {
+  const handleOpenCommentExt = React.useCallback(() => {
+    handleOpenComment();
+    if (editor) {
+      editor.commands.focus();
+    }
+  }, [handleOpenComment, editor]);
+
+  const handleClickComment = React.useCallback(async () => {
     setError(null);
 
     if (!editor) {
@@ -355,7 +362,7 @@ proofs: ${proofs}`,
               <CreatePostEditorFooter
                 toggleMenuBar={toggleMenuBar}
                 handleClickCancel={handleClickCancel}
-                handleClickReply={handleClickReply}
+                handleClickComment={handleClickComment}
               />
             </div>
             <PrfsIdSessionDialog
@@ -367,7 +374,7 @@ proofs: ${proofs}`,
             />
           </div>
         ) : (
-          <div className={styles.addComment} onClick={handleClickComment}>
+          <div className={styles.addComment} onClick={handleOpenCommentExt}>
             {i18n.add_comment}
           </div>
         )}
@@ -380,7 +387,7 @@ export default CreateComment;
 
 export interface CreatePostProps {
   isActive: boolean;
-  handleClickComment: () => void;
+  handleOpenComment: () => void;
   handleClickCancel: () => void;
   handleSucceedPost: () => void;
   topicId: string;

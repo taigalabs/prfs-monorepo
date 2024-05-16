@@ -5,10 +5,10 @@
 
 .inner {
   /* border: 1px solid transparent; */
-  border: 1px solid var(--bright-gray-30);
-  border-radius: 6px;
   margin-top: 8px;
   position: relative;
+  border: 1px solid var(--bright-gray-30);
+  border-radius: 6px;
 
   &:focus-within {
     border: 1px solid var(--gray-70);
@@ -22,8 +22,13 @@
 }
 
 .addComment {
-  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0px 16px;
   color: var(--gray-30);
+  border: 1px solid var(--bright-gray-30);
+  border-radius: 19px;
 }
 
 .btn {

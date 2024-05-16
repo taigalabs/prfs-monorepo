@@ -33,7 +33,7 @@ const Comment: React.FC<PostContentProps> = ({
   const [isCommentActive, setIsCommentActive] = React.useState(false);
   const router = useRouter();
 
-  const handleClickReply = React.useCallback(() => {
+  const handleOpenComment = React.useCallback(() => {
     setIsCommentActive(true);
   }, [setIsCommentActive]);
 
@@ -91,12 +91,12 @@ const Comment: React.FC<PostContentProps> = ({
         <CommentMenu
           content={content}
           originalPostAuthorPubkey={publicKey}
-          handleClickReply={handleClickReply}
+          handleClickReply={handleOpenComment}
         />
         {isCommentActive && (
           <CreateComment
             isActive={true}
-            handleClickComment={handleClickReply}
+            handleOpenComment={handleOpenComment}
             handleClickCancel={handleClickCancel}
             channel={channel}
             topicId={topicId}

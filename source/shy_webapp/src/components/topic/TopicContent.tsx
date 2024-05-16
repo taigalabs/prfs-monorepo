@@ -25,7 +25,7 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
     setIsActive(false);
   }, [setIsActive]);
 
-  const handleClickComment = React.useCallback(() => {
+  const handleOpenComment = React.useCallback(() => {
     setIsActive(true);
   }, [setIsActive]);
 
@@ -86,7 +86,7 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
           <div className={styles.comment}>
             <CreateComment
               isActive={isActive}
-              handleClickComment={handleClickComment}
+              handleOpenComment={handleOpenComment}
               handleClickCancel={handleClickCancel}
               channel={channel}
               topicId={topicId}
