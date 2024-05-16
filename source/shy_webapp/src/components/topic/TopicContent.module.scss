@@ -20,7 +20,7 @@
 }
 
 .postMeta {
-  padding-top: 14px;
+  padding-top: 16px;
   display: flex;
 
   .left {
@@ -59,7 +59,7 @@
 }
 
 .comment {
-  padding: 0 16px;
+  padding: 10px 16px 0;
 }
 
 @media screen and (min-width: $big_display_min_width) {
