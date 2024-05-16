@@ -4,6 +4,16 @@
   display: flex;
   justify-content: space-between;
   padding: 5px;
+
+  .button {
+    font-size: 14px;
+    height: 36px;
+    border-radius: 17px;
+  }
+}
+
+.list {
+  display: flex;
   gap: 12px;
 }
 

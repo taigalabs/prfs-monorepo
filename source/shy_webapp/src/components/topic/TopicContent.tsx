@@ -78,6 +78,8 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
           </div>
           <div className={styles.body}>
             <ContentMarkdown html={shy_topic_with_proofs.shy_topic.inner.content} />
+          </div>
+          <div className={styles.comment}>
             <CreateComment
               handleClickCancel={() => {}}
               channel={channel}

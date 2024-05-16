@@ -12,19 +12,21 @@ const CreatePostEditorFooter: React.FC<EditorFooterProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <li>
-        <Button variant="transparent_1" handleClick={handleClickCancel}>
-          {i18n.cancel}
-        </Button>
-      </li>
-      <ul>
+      <ul className={styles.list}>
         <li>
-          <Button variant="transparent_1" handleClick={handleClickCancel}>
+          <Button variant="transparent_1" handleClick={handleClickCancel} className={styles.button}>
+            {i18n.cancel}
+          </Button>
+        </li>
+      </ul>
+      <ul className={styles.list}>
+        <li>
+          <Button variant="transparent_1" handleClick={handleClickCancel} className={styles.button}>
             {i18n.cancel}
           </Button>
         </li>
         <li>
-          <Button variant="green_1" handleClick={handleClickReply}>
+          <Button variant="green_1" handleClick={handleClickReply} className={styles.button}>
             {i18n.reply}
           </Button>
         </li>
