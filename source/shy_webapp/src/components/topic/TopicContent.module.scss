@@ -32,10 +32,7 @@
   margin-top: 3px;
   display: inline-flex;
   align-items: center;
-  /* border: 1px solid var(--gray-70); */
   color: var(--gray-20);
-  /* border-radius: 16px; */
-  /* padding: 4px 10px; */
   cursor: pointer;
   font-size: 14px;
 
@@ -60,6 +57,25 @@
 
 .comment {
   padding: 10px 16px 0;
+}
+
+.topicMenu {
+  display: flex;
+  font-size: 16px;
+  padding: 0 $side_padding;
+
+  .button {
+    display: flex;
+    align-items: center;
+    background-color: var(--bright-gray-35);
+    padding: 0px 14px;
+    height: 36px;
+    border-radius: 18px;
+
+    > span {
+      margin-left: 4px;
+    }
+  }
 }
 
 @media screen and (min-width: $big_display_min_width) {

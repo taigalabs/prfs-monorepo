@@ -4,11 +4,9 @@ import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-// import { MdGroup } from "@react-icons/all-files/md/MdGroup";
-// import { Proof } from "@taigalabs/prfs-driver-interface";
+import { FaRegArrowAltCircleUp } from "@react-icons/all-files/fa/FaRegArrowAltCircleUp";
 
 import styles from "./TopicContent.module.scss";
-// import Comment from "@/components/comment/Comment";
 import Loading from "@/components/loading/Loading";
 import ContentMarkdown from "@/components/content_markdown/ContentMarkdown";
 import AuthorLabel from "@/components/author/AuthorLabel";
@@ -83,6 +81,12 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
           <div className={styles.body}>
             <ContentMarkdown html={shy_topic_with_proofs.shy_topic.inner.content} />
           </div>
+          <div className={styles.topicMenu}>
+            <button type="button" className={styles.button}>
+              <FaRegArrowAltCircleUp />
+              <span>0</span>
+            </button>
+          </div>
           <div className={styles.comment}>
             <CreateComment
               isActive={isActive}
@@ -94,23 +98,6 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
               subChannelId={subChannelId}
             />
           </div>
-          {/* <Post */}
-          {/*   topicId={topicId} */}
-          {/*   channel={channel} */}
-          {/*   author_public_key={shy_topic_with_proofs.shy_topic.inner.author_public_key} */}
-          {/*   author_proof_ids={shy_topic_with_proofs.shy_topic.inner.author_proof_ids} */}
-          {/*   // author_proof_identity_inputs={author_proof_identity_inputs!} */}
-          {/*   content={shy_topic_with_proofs.shy_topic.inner.content} */}
-          {/*   updated_at={shy_topic_with_proofs.shy_topic.updated_at} */}
-          {/*   handleSucceedPost={rerender} */}
-          {/*   subChannelId={subChannelId} */}
-          {/*   // imgUrl={shy_topic} */}
-          {/*   // proofs={shy_proofs} */}
-          {/*   // imgUrl={topic.inner.img_url} */}
-          {/*   // expression={topic.inner.expression} */}
-          {/*   // proof={proof} */}
-          {/*   // proof_type_id={topic.inner.proof_type_id} */}
-          {/* /> */}
         </>
       ) : (
         <Loading centerAlign>
