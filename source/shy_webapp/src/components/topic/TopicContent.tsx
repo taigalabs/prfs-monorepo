@@ -19,6 +19,16 @@ import CreateComment from "../create_comment/CreateComment";
 
 const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, subChannelId }) => {
   const i18n = usePrfsI18N();
+  const [isActive, setIsActive] = React.useState(false);
+
+  const handleClickCancel = React.useCallback(() => {
+    setIsActive(false);
+  }, [setIsActive]);
+
+  const handleClickComment = React.useCallback(() => {
+    setIsActive(true);
+  }, [setIsActive]);
+
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
     queryKey: ["get_shy_topic", topicId],
     queryFn: async () => {
@@ -56,32 +66,28 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
     <div className={styles.wrapper}>
       {shy_topic_with_proofs ? (
         <>
-          <div className={styles.titleRow}>
-            <div className={styles.inner}>
-              <div className={styles.postMeta}>
-                <div className={styles.left}>
-                  <AuthorAvatar
-                    publicKey={shy_topic_with_proofs.shy_topic.inner.author_public_key}
-                  />
-                </div>
-                <div>
-                  <AuthorLabel
-                    publicKey={shy_topic_with_proofs.shy_topic.inner.author_public_key}
-                  />
-                  <button className={styles.proofIdentities} type="button">
-                    <div>{proofIdentities ?? i18n.proofs}</div>
-                  </button>
-                </div>
+          <div className={styles.header}>
+            <div className={styles.postMeta}>
+              <div className={styles.left}>
+                <AuthorAvatar publicKey={shy_topic_with_proofs.shy_topic.inner.author_public_key} />
               </div>
-              <p className={styles.title}>{shy_topic_with_proofs.shy_topic.inner.title}</p>
+              <div>
+                <AuthorLabel publicKey={shy_topic_with_proofs.shy_topic.inner.author_public_key} />
+                <button className={styles.proofIdentities} type="button">
+                  <div>{proofIdentities ?? i18n.proofs}</div>
+                </button>
+              </div>
             </div>
+            <p className={styles.title}>{shy_topic_with_proofs.shy_topic.inner.title}</p>
           </div>
           <div className={styles.body}>
             <ContentMarkdown html={shy_topic_with_proofs.shy_topic.inner.content} />
           </div>
           <div className={styles.comment}>
             <CreateComment
-              handleClickCancel={() => {}}
+              isActive={isActive}
+              handleClickComment={handleClickComment}
+              handleClickCancel={handleClickCancel}
               channel={channel}
               topicId={topicId}
               handleSucceedPost={() => {}}

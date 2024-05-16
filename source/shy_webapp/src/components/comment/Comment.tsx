@@ -30,25 +30,25 @@ const Comment: React.FC<PostContentProps> = ({
   // proof_type_id,
 }) => {
   const i18n = usePrfsI18N();
-  const [isReplyOpen, setIsReplyOpen] = React.useState(false);
+  const [isCommentActive, setIsCommentActive] = React.useState(false);
   const router = useRouter();
 
   const handleClickReply = React.useCallback(() => {
-    setIsReplyOpen(true);
-  }, [setIsReplyOpen]);
+    setIsCommentActive(true);
+  }, [setIsCommentActive]);
 
   const handleClickCancel = React.useCallback(() => {
-    setIsReplyOpen(false);
-  }, [setIsReplyOpen]);
+    setIsCommentActive(false);
+  }, [setIsCommentActive]);
 
   const handleSucceedPostExtended = React.useCallback(() => {
-    setIsReplyOpen(false);
+    setIsCommentActive(false);
 
     if (handleSucceedPost) {
       handleSucceedPost();
     }
     // router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
-  }, [handleSucceedPost, setIsReplyOpen, router]);
+  }, [handleSucceedPost, setIsCommentActive, router]);
 
   const publicKey = React.useMemo(() => {
     return author_public_key.substring(0, 8) || "";
@@ -93,8 +93,10 @@ const Comment: React.FC<PostContentProps> = ({
           originalPostAuthorPubkey={publicKey}
           handleClickReply={handleClickReply}
         />
-        {isReplyOpen && (
+        {isCommentActive && (
           <CreateComment
+            isActive={true}
+            handleClickComment={handleClickReply}
             handleClickCancel={handleClickCancel}
             channel={channel}
             topicId={topicId}

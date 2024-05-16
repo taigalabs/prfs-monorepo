@@ -7,12 +7,7 @@
   /* border-top: 1px solid var(--gray-70); */
 }
 
-.titleRow {
-  /* padding: 18px 0 15px; */
-  /* border-bottom: 1px solid var(--bright-gray-35); */
-}
-
-.inner {
+.header {
   padding: 0 $side_padding;
 }
 
@@ -21,10 +16,11 @@
   font-size: 22px;
   font-weight: 500;
   word-break: break-all;
+  padding-top: 8px;
 }
 
 .postMeta {
-  padding-top: 10px;
+  padding-top: 14px;
   display: flex;
 
   .left {

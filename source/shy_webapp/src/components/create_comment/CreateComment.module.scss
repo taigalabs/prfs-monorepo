@@ -1,6 +1,10 @@
 @import "@/styles/layouts.module.scss";
 
 .wrapper {
+}
+
+.inner {
+  /* border: 1px solid transparent; */
   border: 1px solid var(--bright-gray-30);
   border-radius: 6px;
   margin-top: 8px;
@@ -10,15 +14,16 @@
     border: 1px solid var(--gray-70);
     border-radius: 6px;
   }
-}
-
-.inner {
-  border: 1px solid transparent;
   /* padding: 5px; */
 
   &:focus-within {
     /* border: 1px solid var(--shy-green-50); */
   }
+}
+
+.addComment {
+  padding: 10px 14px;
+  color: var(--gray-30);
 }
 
 .btn {

@@ -461,6 +461,7 @@ export default {
   multiple_choice: "Multiple choice",
   choices: "Choices",
   add_choice: "Add choice",
+  add_comment: "Add a comment",
   checkboxes: "Checkboxes",
   plural_voting: "Plural voting",
   choose_plural_voting: "Choose if one can vote more than once",

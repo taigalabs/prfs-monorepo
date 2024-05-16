@@ -45,6 +45,8 @@ import { useTextEditor } from "@/components/text_editor/useTextEditor";
 const PROOF = "Proof";
 
 const CreateComment: React.FC<CreatePostProps> = ({
+  isActive,
+  handleClickComment,
   handleClickCancel,
   channel,
   subChannelId,
@@ -339,29 +341,37 @@ proofs: ${proofs}`,
   return (
     <>
       <div className={styles.wrapper}>
-        {error && <ErrorDialog handleClickClose={handleClickClose} error={error} />}
-        <div className={styles.inner}>
-          {editor && (
-            <TextEditor
-              editor={editor}
-              className={styles.editorWrapper}
-              showMenuBar={showMenuBar}
+        {isActive ? (
+          <div>
+            {error && <ErrorDialog handleClickClose={handleClickClose} error={error} />}
+            <div className={styles.inner}>
+              {editor && (
+                <TextEditor
+                  editor={editor}
+                  className={styles.editorWrapper}
+                  showMenuBar={showMenuBar}
+                />
+              )}
+              <CreatePostEditorFooter
+                toggleMenuBar={toggleMenuBar}
+                handleClickCancel={handleClickCancel}
+                handleClickReply={handleClickReply}
+              />
+            </div>
+            <PrfsIdSessionDialog
+              sessionKey={sessionKey}
+              isPrfsDialogOpen={isPrfsDialogOpen}
+              setIsPrfsDialogOpen={setIsPrfsDialogOpen}
+              actionLabel={i18n.create_proof.toLowerCase()}
+              handleSucceedGetSession={handleSucceedGetSession}
             />
-          )}
-          <CreatePostEditorFooter
-            toggleMenuBar={toggleMenuBar}
-            handleClickCancel={handleClickCancel}
-            handleClickReply={handleClickReply}
-          />
-        </div>
+          </div>
+        ) : (
+          <div className={styles.addComment} onClick={handleClickComment}>
+            {i18n.add_comment}
+          </div>
+        )}
       </div>
-      <PrfsIdSessionDialog
-        sessionKey={sessionKey}
-        isPrfsDialogOpen={isPrfsDialogOpen}
-        setIsPrfsDialogOpen={setIsPrfsDialogOpen}
-        actionLabel={i18n.create_proof.toLowerCase()}
-        handleSucceedGetSession={handleSucceedGetSession}
-      />
     </>
   );
 };
@@ -369,6 +379,8 @@ proofs: ${proofs}`,
 export default CreateComment;
 
 export interface CreatePostProps {
+  isActive: boolean;
+  handleClickComment: () => void;
   handleClickCancel: () => void;
   handleSucceedPost: () => void;
   topicId: string;
