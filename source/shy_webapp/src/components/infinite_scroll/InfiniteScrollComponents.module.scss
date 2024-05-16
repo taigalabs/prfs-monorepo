@@ -25,6 +25,7 @@
 .main {
   flex-grow: 1;
   width: 100%;
+  max-width: 756px;
 
   /* border: 1px solid green; */
 }
@@ -84,6 +85,6 @@
   .main {
     flex-grow: 0;
     position: relative;
-    width: 980px;
+    width: 756px;
   }
 }
