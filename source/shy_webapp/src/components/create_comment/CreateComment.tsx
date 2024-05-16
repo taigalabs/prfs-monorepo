@@ -83,6 +83,10 @@ const CreateComment: React.FC<CreatePostProps> = ({
     },
   });
 
+  const toggleMenuBar = React.useCallback(() => {
+    setShowMenuBar(b => !b);
+  }, [setShowMenuBar]);
+
   const handleClickReply = React.useCallback(async () => {
     setError(null);
 
@@ -338,9 +342,14 @@ proofs: ${proofs}`,
         {error && <ErrorDialog handleClickClose={handleClickClose} error={error} />}
         <div className={styles.inner}>
           {editor && (
-            <TextEditor editor={editor} className={styles.editorWrapper} showMenuBar={false} />
+            <TextEditor
+              editor={editor}
+              className={styles.editorWrapper}
+              showMenuBar={showMenuBar}
+            />
           )}
           <CreatePostEditorFooter
+            toggleMenuBar={toggleMenuBar}
             handleClickCancel={handleClickCancel}
             handleClickReply={handleClickReply}
           />
