@@ -17,9 +17,10 @@ import { Proof } from "@taigalabs/prfs-driver-interface";
 import styles from "./ProofDialog.module.scss";
 import ProofImage from "@/components/proof_image/ProofImage";
 import VerifyProofDialog from "@/components/verify_proof_dialog/VerifyProofDialog";
+import { ShyProofWithProofType } from "@taigalabs/shy-entities/bindings/ShyProofWithProofType";
 
 const ProofDialog: React.FC<PostContentProps> = ({
-  imgUrl,
+  proof,
   // author_proof_ids,
   // author_proof_identity_inputs,
   // proof,
@@ -46,9 +47,9 @@ const ProofDialog: React.FC<PostContentProps> = ({
   return (
     <>
       <div ref={refs.setReference} {...getReferenceProps()}>
-        <div className={styles.proofIdentity}>
-          <ProofImage className={styles.proofImage} imgUrl={imgUrl} />
-          {/* <p className={styles.proofIdentityInput}>{author_proof_identity_inputs}</p> */}
+        <div key={proof.shy_proof_id} className={styles.proofIdentity}>
+          <img src={proof.img_url} />
+          <p>{proof.proof_identity_input}</p>
         </div>
       </div>
       <FloatingPortal>
@@ -82,7 +83,8 @@ const ProofDialog: React.FC<PostContentProps> = ({
 export default ProofDialog;
 
 export interface PostContentProps {
-  imgUrl: string;
+  proof: ShyProofWithProofType;
+  // imgUrl: string;
   // author_proof_ids: string[];
   // author_proof_identity_inputs: string;
   // proof: Proof;

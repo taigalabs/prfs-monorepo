@@ -40,17 +40,17 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
   const proofIdentities = React.useMemo(() => {
     if (shy_topic_with_proofs) {
       return shy_topic_with_proofs.shy_proofs.map(proof => {
-        return (
-          <div key={proof.shy_proof_id} className={styles.proofIdentity}>
-            <img src={proof.img_url} />
-            <p>{proof.proof_identity_input}</p>
-          </div>
-        );
+        // return (
+        //   <div key={proof.shy_proof_id} className={styles.proofIdentity}>
+        //     <img src={proof.img_url} />
+        //     <p>{proof.proof_identity_input}</p>
+        //   </div>
+        // );
 
         return (
           <ProofDialog
             key={proof.shy_proof_id}
-            imgUrl={proof.img_url}
+            proof={proof}
             // author_proof_ids={proof.author_proof_ids}
             // author_proof_identity_inputs={author_proof_identity_inputs} */}
             // proof={proof} */}
