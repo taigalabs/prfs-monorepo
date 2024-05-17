@@ -5,6 +5,7 @@ import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { FaRegArrowAltCircleUp } from "@react-icons/all-files/fa/FaRegArrowAltCircleUp";
+import { FaRegCommentAlt } from "@react-icons/all-files/fa/FaRegCommentAlt";
 
 import styles from "./TopicContent.module.scss";
 import Loading from "@/components/loading/Loading";
@@ -13,7 +14,7 @@ import AuthorLabel from "@/components/author/AuthorLabel";
 import AuthorAvatar from "@/components/author/AuthorAvatar";
 import ProofDialog from "@/components/comment/ProofDialog";
 import ProofImage from "@/components/proof_image/ProofImage";
-import CreateComment from "../create_comment/CreateComment";
+import CreateComment from "@/components/create_comment/CreateComment";
 
 const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, subChannelId }) => {
   const i18n = usePrfsI18N();
@@ -84,6 +85,10 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
           <div className={styles.topicMenu}>
             <button type="button" className={styles.button}>
               <FaRegArrowAltCircleUp />
+              <span>0</span>
+            </button>
+            <button type="button" className={styles.button}>
+              <FaRegCommentAlt />
               <span>0</span>
             </button>
           </div>
