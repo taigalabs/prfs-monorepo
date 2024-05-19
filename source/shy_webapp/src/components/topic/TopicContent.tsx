@@ -12,7 +12,7 @@ import Loading from "@/components/loading/Loading";
 import ContentMarkdown from "@/components/content_markdown/ContentMarkdown";
 import AuthorLabel from "@/components/author/AuthorLabel";
 import AuthorAvatar from "@/components/author/AuthorAvatar";
-import ProofDialog from "@/components/comment/ProofDialog";
+import ProofDialog from "@/components/proof_dialog/ProofDialog";
 import ProofImage from "@/components/proof_image/ProofImage";
 import CreateComment from "@/components/create_comment/CreateComment";
 
