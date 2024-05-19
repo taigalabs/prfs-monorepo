@@ -8,7 +8,6 @@ import { Proof } from "@taigalabs/prfs-driver-interface";
 import styles from "./Comment.module.scss";
 import { CommentWrapper, CommentInner } from "./CommentComponents";
 import ContentMarkdown from "@/components/content_markdown/ContentMarkdown";
-import ProofDialog from "./ProofDialog";
 import CommentMenu from "./CommentMenu";
 import CreateComment from "@/components/create_comment/CreateComment";
 import { toShortDate } from "@/utils/time";
