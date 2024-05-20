@@ -46,7 +46,7 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
         <InfiniteScrollMain>
           {channel ? (
             <>
-              <TopicChannel>{channel.label}</TopicChannel>
+              <TopicChannel channel={channel} />
               <TopicContent
                 topicId={topicId}
                 channel={channel}
