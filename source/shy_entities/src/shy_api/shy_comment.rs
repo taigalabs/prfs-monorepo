@@ -17,7 +17,7 @@ pub struct GetShyCommentsOfTopicRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyCommentsOfTopicResponse {
-    pub rows: Vec<DateTimed<ShyCommentWithProofs>>,
+    pub shy_comments_with_proofs: Vec<ShyCommentWithProofs>,
     pub next_offset: Option<i32>,
 }
 

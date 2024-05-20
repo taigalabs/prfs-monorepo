@@ -22,16 +22,18 @@ const CommentRow: React.FC<RowProps> = ({ comment, channel, handleSucceedPost, s
   //   };
   //   return proof;
   // }, [post]);
+  //
+  const shy_comment = comment.shy_comment;
 
   return (
     <Comment
-      topicId={comment.inner.shy_comment.topic_id}
+      topicId={shy_comment.inner.topic_id}
       channel={channel}
-      author_public_key={comment.inner.shy_comment.author_public_key}
-      content={comment.inner.shy_comment.content}
-      author_proof_ids={comment.inner.shy_comment.author_proof_ids as string[]}
+      author_public_key={shy_comment.inner.author_public_key}
+      content={shy_comment.inner.content}
+      author_proof_ids={shy_comment.inner.author_proof_ids as string[]}
       // author_proof_identity_inputs={author_proof_identity_inputs}
-      updated_at={comment.updated_at}
+      updated_at={shy_comment.updated_at}
       handleSucceedPost={handleSucceedPost}
       subChannelId={subChannelId}
       // imgUrl={post.inner.img_url}
@@ -45,7 +47,7 @@ const CommentRow: React.FC<RowProps> = ({ comment, channel, handleSucceedPost, s
 export default CommentRow;
 
 export interface RowProps {
-  comment: DateTimed<ShyCommentWithProofs>;
+  comment: ShyCommentWithProofs;
   now: Dayjs;
   channel: ShyChannel;
   handleSucceedPost: React.DispatchWithoutAction;

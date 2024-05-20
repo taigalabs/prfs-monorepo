@@ -56,7 +56,7 @@ const CommentList: React.FC<PostListProps> = ({
   const allRows = data
     ? data.pages.flatMap(d => {
         if (d.payload) {
-          return d.payload.rows;
+          return d.payload.shy_comments_with_proofs;
         } else {
           [];
         }

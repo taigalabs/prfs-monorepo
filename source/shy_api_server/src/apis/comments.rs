@@ -7,7 +7,7 @@ use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
-use shy_entities::{CreateShyCommentAction, ShyCommentProofAction};
+use shy_entities::{CreateShyCommentAction, ShyCommentProofAction, ShyCommentWithProofs};
 use shy_entities::{
     CreateShyCommentRequest, CreateShyCommentResponse, CreateShyCommentWithProofsRequest,
     GetShyCommentsOfTopicRequest, GetShyCommentsOfTopicResponse,
@@ -25,7 +25,7 @@ pub async fn get_shy_comments_of_topic(
 ) -> (StatusCode, Json<ApiResponse<GetShyCommentsOfTopicResponse>>) {
     let pool = &state.db2.pool;
 
-    let rows = match shy::get_shy_comments_with_proofs_by_topic_id(
+    let shy_comments = match shy::get_shy_comments_by_topic_id(
         &pool,
         &input.topic_id,
         input.offset,
@@ -40,13 +40,34 @@ pub async fn get_shy_comments_of_topic(
         }
     };
 
-    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
+    let mut shy_comments_with_proofs: Vec<ShyCommentWithProofs> = vec![];
+    for comment in &shy_comments {
+        let shy_proofs =
+            match shy::get_shy_proofs_by_proof_ids(pool, &comment.inner.author_proof_ids).await {
+                Ok(p) => p,
+                Err(err) => {
+                    let resp =
+                        ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
+                    return (StatusCode::BAD_REQUEST, Json(resp));
+                }
+            };
+
+        shy_comments_with_proofs.push(ShyCommentWithProofs {
+            shy_comment: comment.clone(),
+            shy_proofs,
+        });
+    }
+
+    let next_offset = if shy_comments_with_proofs.len() < LIMIT.try_into().unwrap() {
         None
     } else {
         Some(input.offset + LIMIT)
     };
 
-    let resp = ApiResponse::new_success(GetShyCommentsOfTopicResponse { rows, next_offset });
+    let resp = ApiResponse::new_success(GetShyCommentsOfTopicResponse {
+        shy_comments_with_proofs,
+        next_offset,
+    });
     return (StatusCode::OK, Json(resp));
 }
 
@@ -127,7 +148,7 @@ pub async fn create_shy_comment(
         // shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
         author_sig: input.author_sig,
-        author_proof_ids: JsonType::from(author_proof_ids),
+        author_proof_ids,
     };
 
     let comment_id = match shy::insert_shy_comment(&mut tx, &shy_comment).await {
@@ -257,7 +278,7 @@ pub async fn create_shy_comment_with_proofs(
         // shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
         author_sig: input.author_sig.to_string(),
-        author_proof_ids: JsonType::from(author_proof_ids),
+        author_proof_ids,
     };
 
     let comment_id = match shy::insert_shy_comment(&mut tx, &shy_comment).await {
