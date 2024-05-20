@@ -12,19 +12,22 @@ import CommentMenu from "./CommentMenu";
 import CreateComment from "@/components/create_comment/CreateComment";
 import { toShortDate } from "@/utils/time";
 import ProofImage from "@/components/proof_image/ProofImage";
+import AuthorAvatar from "../author/AuthorAvatar";
+import { ShyCommentWithProofs } from "@taigalabs/shy-entities/bindings/ShyCommentWithProofs";
 
 const Comment: React.FC<PostContentProps> = ({
   topicId,
   channel,
-  author_public_key,
+  // author_public_key,
   // imgUrl,
   // expression,
-  content,
-  author_proof_ids,
+  // content,
+  // author_proof_ids,
   // author_proof_identity_inputs,
-  updated_at,
+  // updated_at,
   subChannelId,
   handleSucceedPost,
+  shy_comment_with_proofs,
   // proof,
   // proof_type_id,
 }) => {
@@ -49,24 +52,42 @@ const Comment: React.FC<PostContentProps> = ({
     // router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
   }, [handleSucceedPost, setIsCommentActive, router]);
 
-  const publicKey = React.useMemo(() => {
-    return author_public_key.substring(0, 8) || "";
-  }, [author_public_key]);
+  const shy_comment = shy_comment_with_proofs.shy_comment;
+
+  const publicKeyAbbrev = React.useMemo(() => {
+    return shy_comment.inner.author_public_key.substring(0, 8) || "";
+  }, [shy_comment]);
 
   const date = React.useMemo(() => {
     const now = dayjs();
-    return toShortDate(updated_at, now);
-  }, [updated_at]);
+    return toShortDate(shy_comment.updated_at, now);
+  }, [shy_comment]);
+
+  // const proofIdentities = React.useMemo(() => {
+  //   if (shy_commen_with_proofs) {
+  //     const elems = shy_topic_with_proofs.shy_proofs.map(proof => {
+  //       return <ProofDialog key={proof.shy_proof_id} proof={proof} />;
+  //     });
+
+  //     return <div>{elems}</div>;
+  //   } else return null;
+  // }, [shy_topic_with_proofs]);
 
   return (
     <CommentWrapper>
       <CommentInner>
-        <div className={styles.meta}>
+        <div className={styles.header}>
           <div className={styles.left}>
             <div className={styles.item}>
-              <p className={styles.publicKey}>{publicKey}</p>
+              <AuthorAvatar publicKey={shy_comment.inner.author_public_key} />
             </div>
-            <div className={styles.item}>
+          </div>
+          <div className={styles.right}>
+            <div className={styles.row}>
+              <p className={styles.publicKey}>{publicKeyAbbrev}</p>
+              <p className={styles.date}>{date}</p>
+            </div>
+            <div className={styles.row}>
               {/* <ProofDialog */}
               {/*   imgUrl={imgUrl} */}
               {/*   author_proof_ids={author_proof_ids} */}
@@ -80,18 +101,11 @@ const Comment: React.FC<PostContentProps> = ({
               {/* </div> */}
             </div>
           </div>
-          <div className={styles.right}>
-            <p className={styles.date}>{date}</p>
-          </div>
         </div>
         <div className={styles.content}>
-          <ContentMarkdown className={styles.content} html={content} />
+          <ContentMarkdown className={styles.content} html={shy_comment.inner.content} />
         </div>
-        <CommentMenu
-          content={content}
-          originalPostAuthorPubkey={publicKey}
-          handleClickReply={handleOpenComment}
-        />
+        <CommentMenu content={shy_comment.inner.content} handleClickReply={handleOpenComment} />
         {isCommentActive && (
           <CreateComment
             isActive={true}
@@ -111,15 +125,16 @@ const Comment: React.FC<PostContentProps> = ({
 export default Comment;
 
 export interface PostContentProps {
-  author_public_key: string;
-  author_proof_ids: string[];
-  // author_proof_identity_inputs: string;
-  content: string;
-  updated_at: string;
+  shy_comment_with_proofs: ShyCommentWithProofs;
+  // author_public_key: string;
+  // author_proof_ids: string[];
+  // content: string;
+  // updated_at: string;
   channel: ShyChannel;
   topicId: string;
   handleSucceedPost: React.DispatchWithoutAction;
   subChannelId: string;
+  // author_proof_identity_inputs: string;
   // imgUrl: string;
   // expression: string;
   // proof: Proof;

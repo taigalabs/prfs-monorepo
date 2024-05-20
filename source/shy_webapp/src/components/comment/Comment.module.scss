@@ -1,12 +1,10 @@
 @import "@/styles/layouts.module.scss";
 
-.meta {
+.header {
   display: flex;
-  justify-content: space-between;
   font-size: 15px;
 
   .left {
-    flex-grow: 1;
     display: flex;
     align-items: center;
 
@@ -14,18 +12,23 @@
   }
 
   .right {
-    display: flex;
-    align-items: center;
+    // display: flex;
+    // align-items: center;
   }
 
   .item {
     display: inline-block;
     padding-right: 8px;
   }
+
+  .row {
+    display: flex;
+  }
 }
 
 .date {
   color: var(--gray-40);
+  margin-left: 4px;
 }
 
 .proofIdentityInput {

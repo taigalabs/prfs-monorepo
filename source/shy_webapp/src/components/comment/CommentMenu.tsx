@@ -29,6 +29,5 @@ export default CommentMenu;
 
 export interface PostContentProps {
   content: string;
-  originalPostAuthorPubkey: string;
   handleClickReply: () => void;
 }

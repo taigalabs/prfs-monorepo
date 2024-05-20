@@ -29,14 +29,16 @@ const CommentRow: React.FC<RowProps> = ({ comment, channel, handleSucceedPost, s
     <Comment
       topicId={shy_comment.inner.topic_id}
       channel={channel}
-      author_public_key={shy_comment.inner.author_public_key}
-      content={shy_comment.inner.content}
-      author_proof_ids={shy_comment.inner.author_proof_ids as string[]}
-      // author_proof_identity_inputs={author_proof_identity_inputs}
-      updated_at={shy_comment.updated_at}
+      // author_public_key={shy_comment.inner.author_public_key}
+      // content={shy_comment.inner.content}
+      // author_proof_ids={shy_comment.inner.author_proof_ids as string[]}
+      // updated_at={shy_comment.updated_at}
       handleSucceedPost={handleSucceedPost}
       subChannelId={subChannelId}
+      shy_comment_with_proofs={comment}
+
       // imgUrl={post.inner.img_url}
+      // author_proof_identity_inputs={author_proof_identity_inputs}
       // expression={post.inner.expression}
       // proof={proof}
       // proof_type_id={post.inner.proof_type_id}
