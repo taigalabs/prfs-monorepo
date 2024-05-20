@@ -44,6 +44,16 @@ const ProofDialog: React.FC<PostContentProps> = ({
     setIsOpen(false);
   }, [setIsOpen]);
 
+  const _proof = React.useMemo(() => {
+    let p: Proof = {
+      proofBytes: proof.proof,
+      publicInputSer: proof.public_inputs,
+      proofPubKey: proof.public_key,
+    };
+
+    return p;
+  }, [proof]);
+
   return (
     <>
       <div ref={refs.setReference} {...getReferenceProps()}>
@@ -69,7 +79,7 @@ const ProofDialog: React.FC<PostContentProps> = ({
                     <AiOutlineClose />
                   </button>
                 </div>
-                {/* {proof && <ProofDataView proof={proof} />} */}
+                {proof && <ProofDataView proof={_proof} />}
                 <div>{/* <VerifyProofDialog proof={proof} proofTypeId={proof_type_id} /> */}</div>
               </div>
             </FloatingFocusManager>
