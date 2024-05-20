@@ -14,6 +14,8 @@ import { toShortDate } from "@/utils/time";
 import ProofImage from "@/components/proof_image/ProofImage";
 import AuthorAvatar from "../author/AuthorAvatar";
 import { ShyCommentWithProofs } from "@taigalabs/shy-entities/bindings/ShyCommentWithProofs";
+import ProofDialog from "../proof_dialog/ProofDialog";
+import AuthorLabel from "../author/AuthorLabel";
 
 const Comment: React.FC<PostContentProps> = ({
   topicId,
@@ -63,15 +65,13 @@ const Comment: React.FC<PostContentProps> = ({
     return toShortDate(shy_comment.updated_at, now);
   }, [shy_comment]);
 
-  // const proofIdentities = React.useMemo(() => {
-  //   if (shy_commen_with_proofs) {
-  //     const elems = shy_topic_with_proofs.shy_proofs.map(proof => {
-  //       return <ProofDialog key={proof.shy_proof_id} proof={proof} />;
-  //     });
+  const proofIdentities = React.useMemo(() => {
+    const elems = shy_comment_with_proofs.shy_proofs.map(proof => {
+      return <ProofDialog key={proof.shy_proof_id} proof={proof} />;
+    });
 
-  //     return <div>{elems}</div>;
-  //   } else return null;
-  // }, [shy_topic_with_proofs]);
+    return <div>{elems}</div>;
+  }, [shy_comment_with_proofs]);
 
   return (
     <CommentWrapper>
@@ -88,6 +88,9 @@ const Comment: React.FC<PostContentProps> = ({
               <p className={styles.date}>{date}</p>
             </div>
             <div className={styles.row}>
+              <button className={styles.proofIdentities} type="button">
+                <div>{proofIdentities ?? i18n.proofs}</div>
+              </button>
               {/* <ProofDialog */}
               {/*   imgUrl={imgUrl} */}
               {/*   author_proof_ids={author_proof_ids} */}
