@@ -78,7 +78,7 @@ const Comment: React.FC<PostContentProps> = ({
       <CommentInner>
         <div className={styles.header}>
           <div className={styles.left}>
-            <div className={styles.item}>
+            <div className={styles.avatar}>
               <AuthorAvatar publicKey={shy_comment.inner.author_public_key} />
             </div>
           </div>
@@ -92,23 +92,23 @@ const Comment: React.FC<PostContentProps> = ({
                 <div>{proofIdentities ?? i18n.proofs}</div>
               </button>
             </div>
+            <div className={styles.body}>
+              <ContentMarkdown html={shy_comment.inner.content} />
+            </div>
+            <CommentMenu content={shy_comment.inner.content} handleClickReply={handleOpenComment} />
+            {isCommentActive && (
+              <CreateComment
+                isActive={true}
+                handleOpenComment={handleOpenComment}
+                handleClickCancel={handleClickCancel}
+                channel={channel}
+                topicId={topicId}
+                handleSucceedPost={handleSucceedPostExtended}
+                subChannelId={subChannelId}
+              />
+            )}
           </div>
         </div>
-        <div className={styles.body}>
-          <ContentMarkdown html={shy_comment.inner.content} />
-        </div>
-        <CommentMenu content={shy_comment.inner.content} handleClickReply={handleOpenComment} />
-        {isCommentActive && (
-          <CreateComment
-            isActive={true}
-            handleOpenComment={handleOpenComment}
-            handleClickCancel={handleClickCancel}
-            channel={channel}
-            topicId={topicId}
-            handleSucceedPost={handleSucceedPostExtended}
-            subChannelId={subChannelId}
-          />
-        )}
       </CommentInner>
     </CommentWrapper>
   );

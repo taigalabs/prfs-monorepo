@@ -5,20 +5,20 @@
   font-size: 15px;
 
   .left {
-    display: flex;
-    align-items: center;
-
     /* border: 1px solid blue; */
   }
 
   .right {
+    flex-grow: 1;
     // display: flex;
     // align-items: center;
   }
 
-  .item {
-    display: inline-block;
+  .avatar {
+    display: flex;
+    align-items: center;
     padding-right: 8px;
+    height: 40px;
   }
 
   .row {
