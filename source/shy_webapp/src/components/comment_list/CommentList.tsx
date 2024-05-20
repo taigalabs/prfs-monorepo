@@ -24,7 +24,6 @@ const CommentList: React.FC<PostListProps> = ({
   parentRef,
   channel,
   topicId,
-  className,
   subChannelId,
   rerender,
   nonce,
@@ -103,12 +102,12 @@ const CommentList: React.FC<PostListProps> = ({
   const items = virtualizer.getVirtualItems();
   return (
     <InfiniteScrollRowContainerOuter
-      className={cn(className)}
       style={{
         height: `${virtualizer.getTotalSize()}px`,
       }}
     >
       <InfiniteScrollRowContainerInner
+        className={styles.inner}
         style={{
           transform: `translateY(${items[0]?.start ?? 0}px)`,
         }}
@@ -156,7 +155,6 @@ const CommentList: React.FC<PostListProps> = ({
 export default CommentList;
 
 export interface PostListProps {
-  className?: string;
   topicId: string;
   channel: ShyChannel;
   parentRef: React.MutableRefObject<HTMLDivElement | null>;
