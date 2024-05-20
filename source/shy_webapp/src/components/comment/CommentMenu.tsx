@@ -1,6 +1,7 @@
 import React from "react";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
-import { FaReply } from "@react-icons/all-files/fa/FaReply";
+// import { FaReply } from "@react-icons/all-files/fa/FaReply";
+import { FaRegCommentAlt } from "@react-icons/all-files/fa/FaRegCommentAlt";
 
 import styles from "./CommentMenu.module.scss";
 import Button from "@/components/button/Button";
@@ -13,10 +14,10 @@ const CommentMenu: React.FC<PostContentProps> = ({ handleClickReply }) => {
       <div className={styles.wrapper}>
         <ul>
           <li>
-            <Button variant="transparent_1" className={styles.btn} handleClick={handleClickReply}>
-              <FaReply />
+            <button className={styles.btn} onClick={handleClickReply}>
+              <FaRegCommentAlt />
               <span>{i18n.reply}</span>
-            </Button>
+            </button>
             {/* <CreatePost /> */}
           </li>
         </ul>
