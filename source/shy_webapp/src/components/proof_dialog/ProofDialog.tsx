@@ -16,16 +16,9 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./ProofDialog.module.scss";
-import ProofImage from "@/components/proof_image/ProofImage";
 import VerifyProofDialog from "@/components/verify_proof_dialog/VerifyProofDialog";
 
-const ProofDialog: React.FC<PostContentProps> = ({
-  proof,
-  // author_proof_ids,
-  // author_proof_identity_inputs,
-  // proof,
-  // proof_type_id,
-}) => {
+const ProofDialog: React.FC<PostContentProps> = ({ proof }) => {
   const i18n = usePrfsI18N();
 
   const [isOpen, setIsOpen] = React.useState(false);
@@ -96,9 +89,4 @@ export default ProofDialog;
 
 export interface PostContentProps {
   proof: ShyProofWithProofType;
-  // imgUrl: string;
-  // author_proof_ids: string[];
-  // author_proof_identity_inputs: string;
-  // proof: Proof;
-  // proof_type_id: string;
 }

@@ -25,6 +25,8 @@
 
   .left {
     margin-right: 8px;
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -35,19 +37,17 @@
   color: var(--gray-20);
   cursor: pointer;
   font-size: 14px;
+  background-color: var(--bright-gray-32);
+  border-radius: 20px;
+  padding: 2px 7px;
 
   svg {
     font-size: 20px;
     padding-right: 3px;
   }
-}
 
-.proofIdentity {
-  display: flex;
-
-  img {
-    width: 20px;
-    margin-right: 3px;
+  &:hover {
+    background-color: var(--gray-82);
   }
 }
 
