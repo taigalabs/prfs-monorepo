@@ -8,7 +8,6 @@ export type CreateShyCommentWithProofsRequest = {
   content: string;
   author_public_key: string;
   author_sig: string;
-  author_sig_msg: Array<number>;
   sub_channel_id: string;
   proofs: Array<ProofBlob>;
 };

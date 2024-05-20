@@ -10,7 +10,7 @@ pub async fn insert_shy_comment(
     let query = r#"
 INSERT INTO shy_comments
 (topic_id, content, comment_id, channel_id, shy_proof_id, author_public_key, author_sig,
-author_proof_identities)
+author_proof_ids)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING comment_id
 "#;

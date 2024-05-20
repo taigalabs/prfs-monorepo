@@ -98,13 +98,13 @@ pub async fn create_shy_comment(
     });
 
     let msg = serde_json::to_vec(&action).unwrap();
-    if msg != input.author_sig_msg {
-        let resp = ApiResponse::new_error(
-            &SHY_API_ERROR_CODES.NOT_MACHING_SIG_MSG,
-            format!("msg: {:?}", input.author_sig_msg),
-        );
-        return (StatusCode::BAD_REQUEST, Json(resp));
-    }
+    // if msg != input.author_sig_msg {
+    //     let resp = ApiResponse::new_error(
+    //         &SHY_API_ERROR_CODES.NOT_MACHING_SIG_MSG,
+    //         format!("msg: {:?}", input.author_sig_msg),
+    //     );
+    //     return (StatusCode::BAD_REQUEST, Json(resp));
+    // }
 
     if let Err(err) = verify_eth_sig_by_pk(&input.author_sig, &msg, &input.author_public_key) {
         let resp = ApiResponse::new_error(
@@ -179,13 +179,13 @@ pub async fn create_shy_comment_with_proofs(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
-    if msg != input.author_sig_msg {
-        let resp = ApiResponse::new_error(
-            &SHY_API_ERROR_CODES.NOT_MACHING_SIG_MSG,
-            format!("msg: {:?}", input.author_sig_msg),
-        );
-        return (StatusCode::BAD_REQUEST, Json(resp));
-    }
+    // if msg != input.author_sig_msg {
+    //     let resp = ApiResponse::new_error(
+    //         &SHY_API_ERROR_CODES.NOT_MACHING_SIG_MSG,
+    //         format!("msg: {:?}", input.author_sig_msg),
+    //     );
+    //     return (StatusCode::BAD_REQUEST, Json(resp));
+    // }
 
     if let Err(err) = verify_eth_sig_by_pk(&input.author_sig, &msg, &input.author_public_key) {
         let resp = ApiResponse::new_error(

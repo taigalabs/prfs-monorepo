@@ -26,13 +26,15 @@ pub struct GetShyCommentsOfTopicResponse {
 pub struct CreateShyCommentRequest {
     pub topic_id: String,
     pub channel_id: String,
-    pub shy_proof_id: String,
+    // pub shy_proof_id: String,
     pub comment_id: String,
     pub content: String,
     pub author_public_key: String,
     pub author_sig: String,
-    pub author_sig_msg: Vec<u8>,
-    pub other_proofs: Vec<ProofBlob>,
+    pub sub_channel_id: String,
+    // pub shy_proof_ids: Vec<String>,
+    // pub author_sig_msg: Vec<u8>,
+    // pub other_proofs: Vec<ProofBlob>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -45,7 +47,7 @@ pub struct CreateShyCommentWithProofsRequest {
     pub content: String,
     pub author_public_key: String,
     pub author_sig: String,
-    pub author_sig_msg: Vec<u8>,
+    // pub author_sig_msg: Vec<u8>,
     // pub proof_identity_input: String,
     // pub proof: Vec<u8>,
     // pub public_inputs: String,

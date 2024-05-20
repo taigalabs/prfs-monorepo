@@ -28,6 +28,7 @@ import { CreateShyCommentWithProofsRequest } from "@taigalabs/shy-entities/bindi
 import { MerkleSigPosRangeV1PublicInputs } from "@taigalabs/prfs-circuit-interface/bindings/MerkleSigPosRangeV1PublicInputs";
 import { usePrfsIdSession } from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/use_prfs_id_session";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
+import { Editor } from "@tiptap/react";
 import PrfsIdSessionDialog from "@taigalabs/prfs-react-lib/src/prfs_id_session_dialog/PrfsIdSessionDialog";
 import { PrfsIdSession } from "@taigalabs/prfs-entities/bindings/PrfsIdSession";
 
@@ -41,7 +42,6 @@ import { useAppDispatch } from "@/state/hooks";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { useGetShyProofs } from "@/hooks/proof";
 import { useTextEditor } from "@/components/text_editor/useTextEditor";
-import { Editor } from "@tiptap/react";
 
 export const PROOF = "Proof";
 
@@ -234,36 +234,47 @@ export function useCreateComment({
 
       const receipt = payload.receipt[PROOF] as GenericProveReceipt;
       if (receipt.type === "cached_prove_receipt") {
-        receipt.proofActionSigMsg;
-
         const { payload: getShyProofsPayload } = await getShyProofs({
           public_key: receipt.proofPubKey,
         });
+
         if (getShyProofsPayload?.shy_proofs) {
           const proofs = getShyProofsPayload.shy_proofs;
 
-          const firstProof = proofs.find(p => p.proof_idx === 0);
-          if (!firstProof) {
+          if (proofs.length < 1) {
             dispatch(
               setGlobalMsg({
                 variant: "error",
-                message: `Cannot find first proof that is supposed to have been made, \
-proofs: ${proofs}`,
+                message: `Cannot find proof associated with this comment, commentId: ${commentId}`,
               }),
             );
             return;
           }
 
+          //           const firstProof = proofs.find(p => p.proof_idx === 0);
+          //           if (!firstProof) {
+          //             dispatch(
+          //               setGlobalMsg({
+          //                 variant: "error",
+          //                 message: `Cannot find first proof that is supposed to have been made, \
+          // proofs: ${proofs}`,
+          //               }),
+          //             );
+          //             return;
+          //           }
+
           const { payload: _createShyPostPayload } = await createShyPost({
             topic_id: topicId,
             channel_id: channel.channel_id,
-            shy_proof_id: firstProof.shy_proof_id,
-            author_public_key: firstProof.public_key,
+            // shy_proof_id: firstProof.shy_proof_id,
+            author_public_key: receipt.proofPubKey,
             comment_id: commentId,
             content: html,
+            sub_channel_id: subChannelId,
             author_sig: receipt.proofActionSig,
-            author_sig_msg: Array.from(receipt.proofActionSigMsg),
-            other_proofs: [],
+            // shy_proof_ids: proofs.map(p => p.shy_proof_id),
+            // author_sig_msg: Array.from(receipt.proofActionSigMsg),
+            // other_proofs: [],
           });
           handleSucceedPost();
         }
@@ -284,7 +295,7 @@ proofs: ${proofs}`,
           comment_id: commentId,
           content: html,
           author_sig: receipt_.proofActionSig,
-          author_sig_msg: Array.from(receipt_.proofActionSigMsg),
+          // author_sig_msg: Array.from(receipt_.proofActionSigMsg),
           // proof_identity_input: publicInputs.proofIdentityInput,
           // proof: Array.from(receipt.proof.proofBytes),
           // public_inputs: receipt_.proof.publicInputSer,
