@@ -91,22 +91,11 @@ const Comment: React.FC<PostContentProps> = ({
               <button className={styles.proofIdentities} type="button">
                 <div>{proofIdentities ?? i18n.proofs}</div>
               </button>
-              {/* <ProofDialog */}
-              {/*   imgUrl={imgUrl} */}
-              {/*   author_proof_ids={author_proof_ids} */}
-              {/*   // author_proof_identity_inputs={author_proof_identity_inputs} */}
-              {/*   // proof={proof} */}
-              {/*   // proof_type_id={proof_type_id} */}
-              {/* /> */}
-              {/* <div className={styles.proofIdentity}> */}
-              {/*   <ProofImage className={styles.proofImage} imgUrl={imgUrl} /> */}
-              {/*   <p className={styles.proofIdentityInput}>{author_proof_identity_inputs}</p> */}
-              {/* </div> */}
             </div>
           </div>
         </div>
-        <div className={styles.content}>
-          <ContentMarkdown className={styles.content} html={shy_comment.inner.content} />
+        <div className={styles.body}>
+          <ContentMarkdown html={shy_comment.inner.content} />
         </div>
         <CommentMenu content={shy_comment.inner.content} handleClickReply={handleOpenComment} />
         {isCommentActive && (
