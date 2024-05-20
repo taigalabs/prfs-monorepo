@@ -80,7 +80,9 @@ const ProofDialog: React.FC<PostContentProps> = ({
                   </button>
                 </div>
                 {proof && <ProofDataView proof={_proof} />}
-                <div>{/* <VerifyProofDialog proof={proof} proofTypeId={proof_type_id} /> */}</div>
+                <div>
+                  <VerifyProofDialog proof={_proof} proofTypeId={proof.proof_type_id} />
+                </div>
               </div>
             </FloatingFocusManager>
           </FloatingOverlay>
