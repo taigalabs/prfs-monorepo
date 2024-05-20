@@ -28,6 +28,11 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
     setIsActive(true);
   }, [setIsActive]);
 
+  const handleSucceedPost = React.useCallback(() => {
+    setIsActive(false);
+    rerender();
+  }, [rerender, setIsActive]);
+
   const { data: postData, isFetching: postDataIsFetching } = useQuery({
     queryKey: ["get_shy_topic", topicId],
     queryFn: async () => {
@@ -85,7 +90,7 @@ const TopicContent: React.FC<PostContentProps> = ({ topicId, channel, rerender, 
               handleClickCancel={handleClickCancel}
               channel={channel}
               topicId={topicId}
-              handleSucceedPost={() => {}}
+              handleSucceedPost={handleSucceedPost}
               subChannelId={subChannelId}
             />
           </div>
