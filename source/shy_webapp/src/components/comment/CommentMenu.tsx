@@ -18,7 +18,6 @@ const CommentMenu: React.FC<PostContentProps> = ({ handleClickReply }) => {
               <FaRegCommentAlt />
               <span>{i18n.reply}</span>
             </button>
-            {/* <CreatePost /> */}
           </li>
         </ul>
       </div>

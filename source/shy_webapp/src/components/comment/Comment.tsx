@@ -97,15 +97,17 @@ const Comment: React.FC<PostContentProps> = ({
             </div>
             <CommentMenu content={shy_comment.inner.content} handleClickReply={handleOpenComment} />
             {isCommentActive && (
-              <CreateComment
-                isActive={true}
-                handleOpenComment={handleOpenComment}
-                handleClickCancel={handleClickCancel}
-                channel={channel}
-                topicId={topicId}
-                handleSucceedPost={handleSucceedPostExtended}
-                subChannelId={subChannelId}
-              />
+              <div className={styles.comment}>
+                <CreateComment
+                  isActive={true}
+                  handleOpenComment={handleOpenComment}
+                  handleClickCancel={handleClickCancel}
+                  channel={channel}
+                  topicId={topicId}
+                  handleSucceedPost={handleSucceedPostExtended}
+                  subChannelId={subChannelId}
+                />
+              </div>
             )}
           </div>
         </div>
