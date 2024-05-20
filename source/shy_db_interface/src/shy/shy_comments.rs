@@ -42,7 +42,7 @@ pub async fn get_shy_comments_by_topic_id(
 SELECT c.*
 FROM shy_comments c
 WHERE c.topic_id=$1
-ORDER BY p.updated_at ASC
+ORDER BY c.updated_at ASC
 OFFSET $2
 LIMIT $3
 "#;
