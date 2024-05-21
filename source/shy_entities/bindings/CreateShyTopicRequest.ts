@@ -6,16 +6,8 @@ export type CreateShyTopicRequest = {
   topic_id: string;
   content: string;
   channel_id: string;
-  shy_proof_id: string;
-  proof_identity_input: string;
-  proof: Array<number>;
-  public_inputs: string;
-  serial_no: string;
   author_public_key: string;
   author_sig: string;
-  author_sig_msg: Array<number>;
   sub_channel_id: string;
-  proof_type_id: string;
-  proof_idx: number;
-  other_proofs: Array<ProofBlob>;
+  proofs: Array<ProofBlob>;
 };

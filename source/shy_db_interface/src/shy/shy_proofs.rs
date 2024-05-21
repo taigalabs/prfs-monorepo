@@ -1,5 +1,5 @@
 use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
-use shy_entities::ShyProof;
+use shy_entities::{sqlx::QueryBuilder, ShyProof, ShyProofWithProofType};
 
 use crate::ShyDbInterfaceError;
 
@@ -61,6 +61,56 @@ ORDER BY proof_idx ASC
             return Ok(proof);
         })
         .collect::<Result<Vec<ShyProof>, ShyDbInterfaceError>>()?;
+
+    Ok(proofs)
+}
+
+pub async fn get_shy_proofs_by_proof_ids(
+    pool: &Pool<Postgres>,
+    proof_ids: &Vec<String>,
+) -> Result<Vec<ShyProofWithProofType>, ShyDbInterfaceError> {
+    let mut query_builder: QueryBuilder<Postgres> = QueryBuilder::new(
+        r#"
+SELECT p.*, pt.*
+FROM shy_proofs p
+JOIN prfs_proof_types pt ON pt.proof_type_id = p.proof_type_id
+WHERE p.shy_proof_id in (
+"#,
+    );
+
+    let mut separated = query_builder.separated(", ");
+    for proof_id in proof_ids {
+        separated.push_bind(proof_id);
+    }
+
+    separated.push_unseparated(
+        r#" 
+) ORDER BY proof_idx ASC
+    "#,
+    );
+
+    let query = query_builder.build();
+
+    let rows = query.fetch_all(pool).await?;
+    let proofs = rows
+        .iter()
+        .map(|row| {
+            let proof = ShyProofWithProofType {
+                shy_proof_id: row.try_get("shy_proof_id")?,
+                proof: row.try_get("proof")?,
+                public_inputs: row.try_get("public_inputs")?,
+                public_key: row.try_get("public_key")?,
+                serial_no: row.try_get("serial_no")?,
+                proof_identity_input: row.try_get("proof_identity_input")?,
+                proof_type_id: row.try_get("proof_type_id")?,
+                proof_idx: row.try_get("proof_idx")?,
+                img_url: row.try_get("img_url")?,
+                expression: row.try_get("expression")?,
+            };
+
+            return Ok(proof);
+        })
+        .collect::<Result<Vec<ShyProofWithProofType>, ShyDbInterfaceError>>()?;
 
     Ok(proofs)
 }

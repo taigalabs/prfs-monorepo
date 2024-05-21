@@ -29,7 +29,7 @@ export async function makePrfsIdCredential(args: MakeCredentialArgs): Promise<Pr
   };
 }
 
-export function makeColor(str: string) {
+export function makeIdentityColor(str: string) {
   const num = parseInt(str, 16);
   const h = num % 360;
   const s = (num % 80) + 20;

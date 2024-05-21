@@ -12,10 +12,10 @@ import {
 import styles from "./TextEditor.module.scss";
 import EditorMenuBar from "./EditorMenuBar";
 
-const TextEditor: React.FC<TextEditorProps> = ({ editor, className }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ editor, className, showMenuBar }) => {
   return (
     <div className={cn(styles.wrapper, className)}>
-      <EditorMenuBar editor={editor} />
+      {showMenuBar && <EditorMenuBar editor={editor} />}
       <EditorContent editor={editor} className={styles.editor} />
     </div>
   );
@@ -26,4 +26,5 @@ export default TextEditor;
 export interface TextEditorProps {
   editor: Editor;
   className?: string;
+  showMenuBar?: boolean;
 }

@@ -23,8 +23,8 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   const [status, setStatus] = React.useState(Status.Standby);
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [firstProof, setFirstProof] = React.useState<ProofBlob | null>(null);
-  const [otherProofs, setOtherProofs] = React.useState<ProofBlob[]>([]);
+  // const [firstProof, setFirstProof] = React.useState<ProofBlob | null>(null);
+  const [proofs, setProofs] = React.useState<ProofBlob[]>([]);
   const { editor } = useTextEditor();
   const [html, setHtml] = React.useState<string | null>(null);
 
@@ -54,39 +54,43 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     });
   }, [channel.assoc_proof_type_ids]);
 
-  const firstProofIdAbbrev = React.useMemo(() => {
-    if (firstProof) {
-      return abbrev7and5(firstProof.shy_proof_id);
-    } else {
-      return null;
-    }
-  }, [firstProof]);
+  const requiredProofIdsAbbrev = React.useMemo(() => {
+    return proofs
+      .filter(p => p.is_required)
+      .map(p => {
+        if (p.shy_proof_id.length > 15) {
+          return abbrev7and5(proofs[0].shy_proof_id);
+        } else {
+          return p.shy_proof_id;
+        }
+      });
+  }, [proofs]);
 
   const otherProofIdsAbbrev = React.useMemo(() => {
-    if (otherProofs.length > 0) {
-      return otherProofs
-        .map(p => {
-          return abbrev7and5(p.shy_proof_id);
-        })
-        .join(", ");
-    } else {
-      return null;
-    }
-  }, [otherProofs]);
+    return proofs
+      .filter(p => !p.is_required)
+      .map(p => {
+        if (p.shy_proof_id.length > 15) {
+          return abbrev7and5(proofs[0].shy_proof_id);
+        } else {
+          return p.shy_proof_id;
+        }
+      });
+  }, [proofs]);
 
-  const handleSucceedAddFirstProof = React.useCallback(
+  const handleSucceedAddProof = React.useCallback(
     (proof: ProofBlob) => {
-      setFirstProof(proof);
+      setProofs(p => [...p, proof]);
     },
-    [setFirstProof],
+    [setProofs],
   );
 
-  const handleSucceedAddOtherProofs = React.useCallback(
-    (proof: ProofBlob) => {
-      setOtherProofs(oldVal => [...oldVal, proof]);
-    },
-    [setOtherProofs],
-  );
+  // const handleSucceedAddOtherProofs = React.useCallback(
+  //   (proof: ProofBlob) => {
+  //     setOtherProofs(oldVal => [...oldVal, proof]);
+  //   },
+  //   [setOtherProofs],
+  // );
 
   const {
     handleAddProof,
@@ -102,8 +106,9 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     editor,
     setHtml,
     title,
-    handleSucceedAddProof: handleSucceedAddFirstProof,
+    handleSucceedAddProof: handleSucceedAddProof,
     proofIdx: 0,
+    isRequired: true,
   });
 
   const {
@@ -123,8 +128,9 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     title,
     editor,
     setHtml,
-    handleSucceedAddProof: handleSucceedAddOtherProofs,
-    proofIdx: otherProofs.length + 1,
+    handleSucceedAddProof: handleSucceedAddProof,
+    proofIdx: proofs.length,
+    isRequired: false,
   });
 
   const handleChangeTitle = React.useCallback(
@@ -138,8 +144,9 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     setError,
     html,
     title,
-    firstProof,
-    otherProofs,
+    proofs,
+    // firstProof,
+    // otherProofs,
     subChannelId,
     setStatus,
     channel,
@@ -190,9 +197,9 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
           <button onClick={handleAddProof} type="button">
             <HoverableText>{i18n.add_required_proof}</HoverableText>
           </button>
-          {firstProofIdAbbrev && (
+          {requiredProofIdsAbbrev && (
             <div className={styles.proofId}>
-              <p>+ {firstProofIdAbbrev}</p>
+              <p>+ {requiredProofIdsAbbrev}</p>
             </div>
           )}
         </div>
@@ -216,7 +223,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
           </div>
         )}
         <div className={styles.btnRow}>
-          <Button variant="green_1" handleClick={handleCreateTopic} disabled={!firstProof}>
+          <Button variant="green_1" handleClick={handleCreateTopic} disabled={proofs.length < 1}>
             {status === Status.InProgress ? <Spinner /> : i18n.post}
           </Button>
         </div>

@@ -73,7 +73,7 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channel, className, pl
   const allRows = data
     ? data.pages.flatMap(d => {
         if (d.payload) {
-          return d.payload.shy_topics;
+          return d.payload.shy_topics_with_proofs;
         } else {
           [];
         }
@@ -133,7 +133,8 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channel, className, pl
         )}
         {items.map(virtualRow => {
           const isLoaderRow = virtualRow.index > allRows.length - 1;
-          const topic = allRows[virtualRow.index];
+          const shy_topic_with_proofs = allRows[virtualRow.index];
+
           return (
             <div
               className={styles.row}
@@ -145,7 +146,13 @@ const TopicList: React.FC<TopicListProps> = ({ parentRef, channel, className, pl
                 ? hasNextPage
                   ? "Loading more..."
                   : "Nothing more to load"
-                : topic && <TopicRow topic={topic} now={now} channelId={channel.channel_id} />}
+                : shy_topic_with_proofs && (
+                    <TopicRow
+                      shy_topic_with_proofs={shy_topic_with_proofs}
+                      now={now}
+                      channelId={channel.channel_id}
+                    />
+                  )}
             </div>
           );
         })}

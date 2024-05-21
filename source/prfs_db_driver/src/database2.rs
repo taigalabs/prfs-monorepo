@@ -31,7 +31,7 @@ impl Database2 {
             .max_connections(5)
             .connect_with(connect_options)
             .await
-            .unwrap();
+            .expect(&format!("url: {}", pg_endpoint));
 
         println!("{} Postgres, url: {}", "Connected".green(), url);
 

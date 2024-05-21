@@ -1,0 +1,70 @@
+@import "@/styles/layouts.module.scss";
+
+.header {
+  display: flex;
+  font-size: 15px;
+
+  .left {
+    /* border: 1px solid blue; */
+  }
+
+  .right {
+    flex-grow: 1;
+    // display: flex;
+    // align-items: center;
+  }
+
+  .avatar {
+    display: flex;
+    align-items: center;
+    padding-right: 8px;
+    height: 40px;
+  }
+
+  .row {
+    display: flex;
+  }
+}
+
+.date {
+  color: var(--gray-40);
+  margin-left: 4px;
+}
+
+.proofIdentities {
+  margin-top: 3px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--gray-20);
+  cursor: pointer;
+  font-size: 14px;
+  background-color: var(--bright-gray-32);
+  border-radius: 20px;
+  padding: 2px 7px;
+
+  svg {
+    font-size: 20px;
+    padding-right: 3px;
+  }
+
+  &:hover {
+    background-color: var(--gray-82);
+  }
+}
+
+.body {
+  word-break: break-all;
+  padding-top: 8px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--black-28);
+}
+
+.publicKey {
+  color: var(--gray-20);
+  font-weight: 500;
+}
+
+.comment {
+  padding: 16px 0;
+}

@@ -1,0 +1,52 @@
+@import "@/styles/layouts.module.scss";
+
+.base {
+  color: var(--white-100);
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.signInBtn {
+  color: var(--white-100);
+  width: 100%;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  font-weight: 400;
+  width: 40px;
+  height: 40px;
+  transition: all 0.1s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+
+  &:hover {
+    background-color: var(--shy-burgundy-40);
+  }
+
+  &:active {
+    background-color: var(--shy-burgundy-30);
+  }
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  inset: 0;
+  z-index: 11;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+@media screen and (min-width: $display_w768) {
+  .overlay {
+    background: transparent;
+    position: static;
+    inset: unset;
+    display: block;
+    align-items: center;
+    z-index: 0;
+  }
+}

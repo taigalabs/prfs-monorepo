@@ -7,7 +7,7 @@ import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 import styles from "./Topic.module.scss";
-import { useShyCache, useSignedInShyUser } from "@/hooks/user";
+import { useShyCache } from "@/hooks/user";
 import {
   InfiniteScrollMain,
   InfiniteScrollRight,
@@ -16,11 +16,11 @@ import {
   InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
-import ChannelMeta from "@/components/channel/ChannelMeta";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import TopicContent from "./TopicContent";
-import PostList from "@/components/post_list/PostList";
+import CommentList from "@/components/comment_list/CommentList";
+import { TopicChannel } from "./TopicComponents";
 
 const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
@@ -45,14 +45,14 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
         <InfiniteScrollMain>
           {channel ? (
             <>
-              <ChannelMeta channel={channel} noDesc noSubChannel small />
+              <TopicChannel channel={channel} />
               <TopicContent
                 topicId={topicId}
                 channel={channel}
                 rerender={rerender}
                 subChannelId={subChannelId}
               />
-              <PostList
+              <CommentList
                 parentRef={parentRef}
                 channel={channel}
                 topicId={topicId}
@@ -60,7 +60,6 @@ const Topic: React.FC<TopicProps> = ({ topicId, channelId, subChannelId }) => {
                 nonce={nonce}
                 rerender={rerender}
               />
-              {/* <TopicFooter topicId={topicId} channel={channel} subChannelId={subChannelId} /> */}
             </>
           ) : (
             <Loading centerAlign>

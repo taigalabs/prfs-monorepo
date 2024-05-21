@@ -4,7 +4,7 @@ use shy_api_error_codes::bindgen::make_shy_api_error_code_json_binding;
 use std::sync::Arc;
 
 use crate::{
-    apis::{accounts, channels, posts, shy_proofs, topics},
+    apis::{accounts, channels, comments, shy_proofs, topics},
     envs::ENVS,
 };
 
@@ -17,10 +17,10 @@ pub fn make_shy_v0_router() -> Router<Arc<ServerState>> {
 
     let router = Router::new() //
         .route("/create_shy_topic", post(topics::create_shy_topic))
-        .route("/create_shy_post", post(posts::create_shy_post))
+        .route("/create_shy_comment", post(comments::create_shy_comment))
         .route(
-            "/create_shy_post_with_proof",
-            post(posts::create_shy_post_with_proof),
+            "/create_shy_comment_with_proofs",
+            post(comments::create_shy_comment_with_proofs),
         )
         .route("/join_shy_channel", post(channels::join_shy_channel))
         .route("/sign_in_shy_account", post(accounts::sign_in_shy_account))
@@ -29,8 +29,8 @@ pub fn make_shy_v0_router() -> Router<Arc<ServerState>> {
         .route("/get_shy_topic", post(topics::get_shy_topic))
         .route("/get_shy_proofs", post(shy_proofs::get_shy_proofs))
         .route(
-            "/get_shy_posts_of_topic",
-            post(posts::get_shy_posts_of_topic),
+            "/get_shy_comments_of_topic",
+            post(comments::get_shy_comments_of_topic),
         )
         .route("/get_shy_channels", post(channels::get_shy_channels))
         .route("/get_shy_channel", post(channels::get_shy_channel));

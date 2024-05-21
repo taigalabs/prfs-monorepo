@@ -1,0 +1,35 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  background-color: var(--white-100);
+  box-shadow: 0px 2px 15px rgba(26, 26, 27, 0.3);
+  border-radius: 5px 5px 0 0;
+  padding: 6px 0px;
+  width: 100vw;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px 14px;
+
+  &:hover {
+    background-color: var(--bright-gray-50);
+  }
+
+  img + span {
+    margin-left: 4px;
+  }
+}
+
+.prfsLogo {
+  width: 18px;
+}
+
+@media screen and (min-width: $display_w768) {
+  .wrapper {
+    width: 256px;
+    border-radius: 5px;
+  }
+}

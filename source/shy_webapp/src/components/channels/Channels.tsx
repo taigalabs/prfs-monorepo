@@ -18,7 +18,6 @@ import {
   InfiniteScrollRowContainerInner,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
-import ChannelMenu from "./ChannelMenu";
 import Loading from "@/components/loading/Loading";
 import { useShyCache } from "@/hooks/user";
 import GlobalMsgHeader from "@/components/global_msg_header/GlobalMsgHeader";

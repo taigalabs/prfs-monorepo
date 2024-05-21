@@ -1,0 +1,44 @@
+.proofIdentity {
+  display: flex;
+
+  img {
+    width: 20px;
+    margin-right: 3px;
+  }
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.8);
+  display: grid;
+  place-items: center;
+  z-index: 10;
+}
+
+.dialog {
+  margin: 24px 12px;
+  background-color: white;
+  padding: 18px 20px;
+  border-radius: 4px;
+  max-width: 520px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+
+  h1 {
+    font-size: 24px;
+  }
+
+  button {
+    font-size: 24px;
+    outline: none;
+    cursor: pointer;
+  }
+}
+
+.data {
+  font-size: 13px;
+  word-break: break-word;
+}

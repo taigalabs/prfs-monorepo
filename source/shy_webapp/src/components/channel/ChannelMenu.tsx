@@ -17,20 +17,22 @@ const ChannelMenu: React.FC<BoardMenuProps> = ({ channelId }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.row}>
-        <Button className={styles.channelBtn} variant="white_1" isActive>
-          {i18n.general}
-        </Button>
-      </div>
-      <div className={styles.row}>
-        <Button variant="transparent_1" className={styles.button}>
-          <span>{i18n.latest}</span>
-          <IoMdArrowDropdown />
-        </Button>
-        <Link href={postURL} className={cn(styles.rightAlign)}>
+        <Link href={postURL}>
           <Button variant="green_1" className={styles.button}>
             {i18n.new_topic}
           </Button>
         </Link>
+      </div>
+      <div className={styles.row}>
+        <Button variant="transparent_1" className={styles.subBtn}>
+          <span>{i18n.latest}</span>
+          <IoMdArrowDropdown />
+        </Button>
+        {/* <Link href={postURL} className={cn(styles.rightAlign)}> */}
+        {/*   <Button variant="green_1" className={styles.button}> */}
+        {/*     {i18n.new_topic} */}
+        {/*   </Button> */}
+        {/* </Link> */}
       </div>
     </div>
   );

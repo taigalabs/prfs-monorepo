@@ -9,10 +9,11 @@ import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { shyApi2 } from "@taigalabs/shy-api-js";
 import { SignInShyAccountRequest } from "@taigalabs/shy-entities/bindings/SignInShyAccountRequest";
 import { SignUpShyAccountRequest } from "@taigalabs/shy-entities/bindings/SignUpShyAccountRequest";
-import { makeColor, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
+import { makeIdentityColor, AppSignInResult } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useMutation } from "@taigalabs/prfs-react-lib/react_query";
 import shy_api_error_codes from "@taigalabs/shy-api-error-codes";
+import { MdPerson } from "@react-icons/all-files/md/MdPerson";
 
 import styles from "./ShySignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -28,6 +29,8 @@ import { paths } from "@/paths";
 import { SHY_APP_ID } from "@/app_id";
 import { setGlobalMsg } from "@/state/globalMsgReducer";
 import { removeLocalShyCache } from "@/storage/shy_cache";
+import ShySignInDialog from "./ShySignInDialog";
+// import SignInViaPrfs from "./SignInViaPrfs";
 
 enum Status {
   InProgress,
@@ -43,11 +46,11 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
 
   const searchParams = useSearchParams();
 
-  const handleSucceedLoadId = React.useCallback(
+  const handleSucceedSignIn = React.useCallback(
     async (signInResult: AppSignInResult) => {
       if (signInResult) {
         setStatus(Status.InProgress);
-        const avatar_color = makeColor(signInResult.account_id);
+        const avatar_color = makeIdentityColor(signInResult.account_id);
 
         const credential: LocalShyCredential = {
           account_id: signInResult.account_id,
@@ -90,27 +93,20 @@ const ShySignInBtn: React.FC<ShySignInBtnProps> = ({ noCredentialPopover, noSign
   }
 
   return shyCredential ? (
-    !noCredentialPopover && (
-      <PrfsCredentialPopover
-        credential={shyCredential}
-        handleInitFail={handleInitFail}
-        handleClickSignOut={handleClickSignOut}
-      />
-    )
+    <PrfsCredentialPopover
+      credential={shyCredential}
+      handleInitFail={handleInitFail}
+      handleClickSignOut={handleClickSignOut}
+    />
   ) : (
-    <>
-      {!noSignInBtn && (
-        <PrfsIdSignInButton
-          className={styles.signInBtn}
-          label={i18n.load_id}
-          appId={SHY_APP_ID}
-          handleSignInError={handleSignInError}
-          handleSucceedSignIn={handleSucceedLoadId}
-          prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
-          isLoading={status === Status.InProgress}
-        />
-      )}
-    </>
+    <ShySignInDialog
+      className={styles.signInBtn}
+      label={i18n.load_id}
+      appId={SHY_APP_ID}
+      handleSignInError={handleSignInError}
+      handleSucceedSignIn={handleSucceedSignIn}
+      prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
+    />
   );
 };
 

@@ -7,39 +7,78 @@
   /* border-top: 1px solid var(--gray-70); */
 }
 
-.titleRow {
-  padding: 18px 0 15px;
-  border-bottom: 1px solid var(--bright-gray-35);
-}
-
-.inner {
+.header {
   padding: 0 $side_padding;
 }
 
 .title {
   color: var(--black-27);
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 500;
   word-break: break-all;
+  padding: 8px 0;
 }
 
 .postMeta {
   padding-top: 10px;
+  display: flex;
+
+  .left {
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+  }
 }
 
-.participants {
+.proofIdentities {
+  margin-top: 3px;
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--gray-70);
   color: var(--gray-20);
-  border-radius: 16px;
-  padding: 4px 10px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
+  background-color: var(--bright-gray-32);
+  border-radius: 20px;
+  padding: 2px 7px;
 
   svg {
     font-size: 20px;
     padding-right: 3px;
+  }
+
+  &:hover {
+    background-color: var(--gray-82);
+  }
+}
+
+.body {
+  padding: 0 12px;
+}
+
+.comment {
+  padding: 16px 16px 0;
+}
+
+.topicMenu {
+  display: flex;
+  font-size: 16px;
+  padding: 10px $side_padding 0;
+
+  .button {
+    display: flex;
+    align-items: center;
+    background-color: var(--bright-gray-35);
+    padding: 0px 14px;
+    height: 36px;
+    border-radius: 18px;
+
+    &:not(:first-child) {
+      margin-left: 10px;
+    }
+
+    > span {
+      margin-left: 4px;
+    }
   }
 }
 

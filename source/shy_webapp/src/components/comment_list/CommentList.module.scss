@@ -1,0 +1,31 @@
+@import "@/styles/layouts.module.scss";
+
+.inner {
+  padding-top: 16px;
+}
+
+.row {
+  /* min-height: 100px; */
+  /* width: 100%; */
+  /* position: absolute; */
+  /* top: 0; */
+  /* left: 0; */
+
+  /* border: 1px solid red; */
+}
+
+.zeroCommentMsg {
+  padding-top: 24px;
+}
+
+.emptyBoard {
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  color: var(--gray-70);
+}
+
+@media screen and (min-width: $big_display_min_width) {
+}

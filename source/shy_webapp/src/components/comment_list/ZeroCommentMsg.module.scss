@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  padding: 0 12px;
+}
+
+.left {
+  font-size: 20px;
+  padding-right: 15px;
+  display: flex;
+  align-items: center;
+  color: var(--gray-20);
+}
+
+.title {
+  font-weight: 500;
+  font-size: 1.3em;
+}
+
+.content {
+  padding-top: 10px;
+  color: var(--gray-20);
+}
