@@ -1,10 +1,7 @@
 "use client";
 
 import React from "react";
-import { shyApi2 } from "@taigalabs/shy-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { useRouter } from "next/navigation";
-import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./Channel.module.scss";
@@ -24,6 +21,7 @@ import ChannelMeta from "@/components/channel/ChannelMeta";
 import ChannelMenu from "@/components/channel/ChannelMenu";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
+import { useShyChannel } from "@/requests";
 
 const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }) => {
   const i18n = usePrfsI18N();
@@ -31,16 +29,7 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
   const { shyCache, isCacheInitialized } = useShyCache();
 
-  const {
-    data: channelData,
-    isFetching: channelDataIsFetching,
-    error,
-  } = useQuery({
-    queryKey: ["get_shy_channel"],
-    queryFn: async () => {
-      return shyApi2({ type: "get_shy_channel", channel_id: channelId });
-    },
-  });
+  const { data: channelData, isFetching: channelDataIsFetching, error } = useShyChannel(channelId);
   const channel = channelData?.payload?.shy_channel;
 
   React.useEffect(() => {
