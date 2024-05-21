@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { useRouter } from "next/navigation";
-import { Proof } from "@taigalabs/prfs-driver-interface";
+import { ShyCommentWithProofs } from "@taigalabs/shy-entities/bindings/ShyCommentWithProofs";
 
 import styles from "./Comment.module.scss";
 import { CommentWrapper, CommentInner } from "./CommentComponents";
@@ -11,27 +11,15 @@ import ContentMarkdown from "@/components/content_markdown/ContentMarkdown";
 import CommentMenu from "./CommentMenu";
 import CreateComment from "@/components/create_comment/CreateComment";
 import { toShortDate } from "@/utils/time";
-import ProofImage from "@/components/proof_image/ProofImage";
-import AuthorAvatar from "../author/AuthorAvatar";
-import { ShyCommentWithProofs } from "@taigalabs/shy-entities/bindings/ShyCommentWithProofs";
-import ProofDialog from "../proof_dialog/ProofDialog";
-import AuthorLabel from "../author/AuthorLabel";
+import AuthorAvatar from "@/components/author/AuthorAvatar";
+import ProofDialog from "@/components/proof_dialog/ProofDialog";
 
 const Comment: React.FC<PostContentProps> = ({
   topicId,
   channel,
-  // author_public_key,
-  // imgUrl,
-  // expression,
-  // content,
-  // author_proof_ids,
-  // author_proof_identity_inputs,
-  // updated_at,
   subChannelId,
   handleSucceedPost,
   shy_comment_with_proofs,
-  // proof,
-  // proof_type_id,
 }) => {
   const i18n = usePrfsI18N();
   const [isCommentActive, setIsCommentActive] = React.useState(false);
@@ -51,7 +39,6 @@ const Comment: React.FC<PostContentProps> = ({
     if (handleSucceedPost) {
       handleSucceedPost();
     }
-    // router.push(`${paths.c}/${channel.channel_id}/${pathParts.t}/${topicId}`);
   }, [handleSucceedPost, setIsCommentActive, router]);
 
   const shy_comment = shy_comment_with_proofs.shy_comment;
@@ -120,17 +107,8 @@ export default Comment;
 
 export interface PostContentProps {
   shy_comment_with_proofs: ShyCommentWithProofs;
-  // author_public_key: string;
-  // author_proof_ids: string[];
-  // content: string;
-  // updated_at: string;
   channel: ShyChannel;
   topicId: string;
   handleSucceedPost: React.DispatchWithoutAction;
   subChannelId: string;
-  // author_proof_identity_inputs: string;
-  // imgUrl: string;
-  // expression: string;
-  // proof: Proof;
-  // proof_type_id: string;
 }

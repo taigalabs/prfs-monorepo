@@ -3,7 +3,6 @@ use prfs_axum_lib::axum::{extract::State, http::StatusCode, Json};
 use prfs_axum_lib::resp::ApiResponse;
 use prfs_axum_lib::{bail_out_tx, bail_out_tx_commit};
 use prfs_common_server_state::ServerState;
-use prfs_db_driver::sqlx::types::Json as JsonType;
 use prfs_web3_rs::signature::verify_eth_sig_by_pk;
 use shy_api_error_codes::SHY_API_ERROR_CODES;
 use shy_db_interface::shy;
@@ -119,13 +118,6 @@ pub async fn create_shy_comment(
     });
 
     let msg = serde_json::to_vec(&action).unwrap();
-    // if msg != input.author_sig_msg {
-    //     let resp = ApiResponse::new_error(
-    //         &SHY_API_ERROR_CODES.NOT_MACHING_SIG_MSG,
-    //         format!("msg: {:?}", input.author_sig_msg),
-    //     );
-    //     return (StatusCode::BAD_REQUEST, Json(resp));
-    // }
 
     if let Err(err) = verify_eth_sig_by_pk(&input.author_sig, &msg, &input.author_public_key) {
         let resp = ApiResponse::new_error(
@@ -145,7 +137,6 @@ pub async fn create_shy_comment(
         topic_id: input.topic_id,
         content: input.content,
         channel_id: input.channel_id,
-        // shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
         author_sig: input.author_sig,
         author_proof_ids,
@@ -200,13 +191,6 @@ pub async fn create_shy_comment_with_proofs(
             return (StatusCode::BAD_REQUEST, Json(resp));
         }
     };
-    // if msg != input.author_sig_msg {
-    //     let resp = ApiResponse::new_error(
-    //         &SHY_API_ERROR_CODES.NOT_MACHING_SIG_MSG,
-    //         format!("msg: {:?}", input.author_sig_msg),
-    //     );
-    //     return (StatusCode::BAD_REQUEST, Json(resp));
-    // }
 
     if let Err(err) = verify_eth_sig_by_pk(&input.author_sig, &msg, &input.author_public_key) {
         let resp = ApiResponse::new_error(
@@ -275,7 +259,6 @@ pub async fn create_shy_comment_with_proofs(
         topic_id: input.topic_id,
         content: input.content,
         channel_id: input.channel_id,
-        // shy_proof_id: input.shy_proof_id,
         author_public_key: input.author_public_key,
         author_sig: input.author_sig.to_string(),
         author_proof_ids,

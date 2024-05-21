@@ -7,16 +7,13 @@ import dayjs from "dayjs";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 import { ShyChannel } from "@taigalabs/shy-entities/bindings/ShyChannel";
-import DiamondPlaceholder from "@taigalabs/prfs-react-lib/src/diamond_placeholder/DiamondPlaceholder";
 
 import styles from "./CommentList.module.scss";
-import CommenttRow from "./CommentRow";
 import {
   InfiniteScrollRowContainerInner,
   InfiniteScrollRowContainerOuter,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import Loading from "@/components/loading/Loading";
-// import TopicFooter from "@/components/topic/TopicFooter";
 import ZeroCommentMsg from "./ZeroCommentMsg";
 import CommentRow from "./CommentRow";
 

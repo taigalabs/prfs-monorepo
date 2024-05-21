@@ -37,12 +37,10 @@ LIMIT $3
                 author_proof_ids: row.try_get("author_proof_ids")?,
                 author_public_key: row.try_get("author_public_key")?,
                 content: row.try_get("content")?,
-                // shy_proof_id: row.try_get("shy_proof_id")?,
                 author_sig: row.try_get("author_sig")?,
                 participant_proof_ids: row.try_get("participant_proof_ids")?,
                 sub_channel_id: row.try_get("sub_channel_id")?,
                 total_like_count: row.try_get("total_like_count")?,
-                // other_proof_ids: row.try_get("other_proof_ids")?,
             };
 
             let topic = DateTimed {
@@ -73,12 +71,10 @@ pub async fn get_shy_topic(
         author_proof_ids: row.try_get("author_proof_ids")?,
         author_public_key: row.try_get("author_public_key")?,
         content: row.try_get("content")?,
-        // shy_proof_id: row.try_get("shy_proof_id")?,
         author_sig: row.try_get("author_sig")?,
         participant_proof_ids: row.try_get("participant_proof_ids")?,
         sub_channel_id: row.try_get("sub_channel_id")?,
         total_like_count: row.try_get("total_like_count")?,
-        // other_proof_ids: row.try_get("other_proof_ids")?,
     };
     let topic = DateTimed {
         inner: topic,
@@ -109,12 +105,10 @@ pub async fn get_shy_topic__tx(
         author_proof_ids: row.try_get("author_proof_ids")?,
         author_public_key: row.try_get("author_public_key")?,
         content: row.try_get("content")?,
-        // shy_proof_id: row.try_get("shy_proof_id")?,
         author_sig: row.try_get("author_sig")?,
         participant_proof_ids: row.try_get("participant_proof_ids")?,
         sub_channel_id: row.try_get("sub_channel_id")?,
         total_like_count: row.try_get("total_like_count")?,
-        // other_proof_ids: row.try_get("other_proof_ids")?,
     };
     let topic = DateTimed {
         inner: topic,
@@ -146,14 +140,11 @@ RETURNING topic_id
         .bind(&shy_topic.topic_id)
         .bind(&shy_topic.channel_id)
         .bind(&shy_topic.title)
-        // .bind(&shy_topic.author_public_key)
         .bind(&shy_topic.total_reply_count)
         .bind(&shy_topic.content)
-        // .bind(&shy_topic.shy_proof_id)
         .bind(&shy_topic.participant_proof_ids)
         .bind(&shy_topic.sub_channel_id)
         .bind(&shy_topic.total_like_count)
-        // .bind(&shy_topic.other_proof_ids)
         .bind(&shy_topic.author_proof_ids)
         .bind(&shy_topic.author_public_key)
         .bind(&shy_topic.author_sig)

@@ -15,9 +15,6 @@ const TopicRow: React.FC<RowProps> = ({ shy_topic_with_proofs, now, channelId })
     return toShortDate(shy_topic_with_proofs.shy_topic.updated_at, now);
   }, [shy_topic_with_proofs]);
 
-  // const author_proof_identity_inputs =
-  //   topic.inner.shy_topic?.author_proof_identity_inputs.join(", ");
-
   const shy_topic = shy_topic_with_proofs.shy_topic;
 
   return (
@@ -32,7 +29,6 @@ const TopicRow: React.FC<RowProps> = ({ shy_topic_with_proofs, now, channelId })
       </div>
       <div className={styles.meta}>
         <div className={styles.left}>
-          {/* <div className={cn(styles.proofIdentity, styles.col)}>{author_proof_identity_inputs}</div> */}
           <div className={cn(styles.totalReplyCount, styles.col)}>
             <FaReply />
             <span>{shy_topic.inner.total_reply_count}</span>

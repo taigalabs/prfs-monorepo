@@ -57,31 +57,11 @@ LIMIT $3
     let shy_comments = rows
         .iter()
         .map(|row| {
-            // let comment_ = ShyCommentWithProofs {
-            //     shy_comment: ShyComment {
-            //         comment_id: row.try_get("comment_id")?,
-            //         topic_id: row.try_get("topic_id")?,
-            //         content: row.try_get("content")?,
-            //         channel_id: row.try_get("channel_id")?,
-            //         // shy_proof_id: row.try_get("shy_proof_id")?,
-            //         author_public_key: row.try_get("author_public_key")?,
-            //         author_sig: row.try_get("author_sig")?,
-            //         author_proof_ids: row.try_get("author_proof_ids")?,
-            //     },
-            //     img_url: row.try_get("img_url")?,
-            //     expression: row.try_get("expression")?,
-            //     public_inputs: row.try_get("public_inputs")?,
-            //     proof: row.try_get("proof")?,
-            //     proof_public_key: row.try_get("public_key")?,
-            //     proof_type_id: row.try_get("proof_type_id")?,
-            // };
-
             let shy_comment = ShyComment {
                 comment_id: row.try_get("comment_id")?,
                 topic_id: row.try_get("topic_id")?,
                 content: row.try_get("content")?,
                 channel_id: row.try_get("channel_id")?,
-                // shy_proof_id: row.try_get("shy_proof_id")?,
                 author_public_key: row.try_get("author_public_key")?,
                 author_sig: row.try_get("author_sig")?,
                 author_proof_ids: row.try_get("author_proof_ids")?,

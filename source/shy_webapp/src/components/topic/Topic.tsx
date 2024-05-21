@@ -7,7 +7,7 @@ import { useQuery } from "@taigalabs/prfs-react-lib/react_query";
 import { useRerender } from "@taigalabs/prfs-react-lib/src/hooks/use_rerender";
 
 import styles from "./Topic.module.scss";
-import { useShyCache, useSignedInShyUser } from "@/hooks/user";
+import { useShyCache } from "@/hooks/user";
 import {
   InfiniteScrollMain,
   InfiniteScrollRight,
@@ -16,7 +16,6 @@ import {
   InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
-import ChannelMeta from "@/components/channel/ChannelMeta";
 import Loading from "@/components/loading/Loading";
 import { useHandleScroll } from "@/hooks/scroll";
 import TopicContent from "./TopicContent";

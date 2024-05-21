@@ -1,11 +1,5 @@
-use prfs_db_driver::{
-    bind_limit::BIND_LIMIT,
-    sqlx::{self, Pool, Postgres, Row, Transaction},
-};
-use shy_entities::{
-    sqlx::{Execute, QueryBuilder},
-    ShyProof, ShyProofWithProofType,
-};
+use prfs_db_driver::sqlx::{self, Pool, Postgres, Row, Transaction};
+use shy_entities::{sqlx::QueryBuilder, ShyProof, ShyProofWithProofType};
 
 use crate::ShyDbInterfaceError;
 

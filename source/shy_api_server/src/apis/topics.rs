@@ -48,58 +48,6 @@ pub async fn create_shy_topic(
 
     let msg = serde_json::to_vec(&action).unwrap();
 
-    // if msg != input.author_sig_msg {
-    //     let resp = ApiResponse::new_error(
-    //         &SHY_API_ERROR_CODES.NOT_MACHING_SIG_MSG,
-    //         format!("msg: {:?}, author_sig_msg: {:?}", msg, input.author_sig_msg),
-    //     );
-    //     return (StatusCode::BAD_REQUEST, Json(resp));
-    // }
-
-    // if let Err(err) = verify_eth_sig_by_pk(&input.author_sig, &msg, &input.author_public_key) {
-    //     let resp = ApiResponse::new_error(
-    //         &SHY_API_ERROR_CODES.INVALID_SIG,
-    //         format!("sig: {}, err: {}", input.author_sig, err),
-    //     );
-    //     return (StatusCode::BAD_REQUEST, Json(resp));
-    // }
-
-    // let _proof_record_resp = match create_prfs_proof_record(
-    //     &ENVS.prfs_api_server_endpoint,
-    //     &input.proof,
-    //     &input.author_public_key,
-    // )
-    // .await
-    // {
-    //     Ok(r) => r,
-    //     Err(err) => {
-    //         let resp = ApiResponse::new_error(&SHY_API_ERROR_CODES.UNKNOWN_ERROR, err.to_string());
-    //         return (StatusCode::BAD_REQUEST, Json(resp));
-    //     }
-    // };
-
-    // let shy_proof = ShyProof {
-    //     shy_proof_id: input.shy_proof_id.to_string(),
-    //     proof: input.proof,
-    //     public_inputs: input.public_inputs.to_string(),
-    //     public_key: input.author_public_key.to_string(),
-    //     serial_no: input.serial_no,
-    //     proof_identity_input: input.proof_identity_input.to_string(),
-    //     proof_type_id: input.proof_type_id,
-    //     proof_idx: input.proof_idx,
-    // };
-
-    // match shy::insert_shy_proof(&mut tx, &shy_proof).await {
-    //     Ok(i) => i,
-    //     Err(err) => {
-    //         let resp =
-    //             ApiResponse::new_error(&SHY_API_ERROR_CODES.RECORD_INSERT_FAIL, err.to_string());
-    //         return (StatusCode::BAD_REQUEST, Json(resp));
-    //     }
-    // };
-
-    // let mut other_proof_ids = vec![];
-    // let mut author_proof_identity = input.author_proof_identity;
     let mut author_proof_ids: Vec<String> = vec![];
     for proof in input.proofs {
         if let Err(err) = verify_eth_sig_by_pk(&proof.author_sig, &msg, &proof.author_public_key) {
@@ -159,13 +107,11 @@ pub async fn create_shy_topic(
         total_reply_count: 0,
         content: input.content.to_string(),
         author_public_key: input.author_public_key.to_string(),
-        // shy_proof_id: input.shy_proof_id.to_string(),
         author_proof_ids: author_proof_ids.clone(),
         author_sig: input.author_sig.to_string(),
         participant_proof_ids: author_proof_ids.clone(),
         sub_channel_id: input.sub_channel_id.to_string(),
         total_like_count: 0,
-        // shy_proof_ids: JsonType::from(other_proof_ids),
     };
 
     let topic_id = match shy::insert_shy_topic(&mut tx, &shy_topic).await {
