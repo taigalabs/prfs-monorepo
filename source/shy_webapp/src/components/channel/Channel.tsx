@@ -5,7 +5,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePrfsI18N } from "@taigalabs/prfs-i18n/react";
 
 import styles from "./Channel.module.scss";
-import { useShyCache, useSignedInShyUser } from "@/hooks/user";
+import { useShyCache } from "@/hooks/user";
 import {
   InfiniteScrollMain,
   InfiniteScrollRight,
@@ -14,8 +14,6 @@ import {
   InfiniteScrollLeft,
 } from "@/components/infinite_scroll/InfiniteScrollComponents";
 import GlobalHeader from "@/components/global_header/GlobalHeader";
-import CreateTopicForm from "@/components/create_topic/CreateTopicForm";
-import { paths, searchParamKeys } from "@/paths";
 import TopicList from "@/components/topic_list/TopicList";
 import ChannelMeta from "@/components/channel/ChannelMeta";
 import ChannelMenu from "@/components/channel/ChannelMenu";
@@ -59,18 +57,12 @@ const Channel: React.FC<ChannelProps> = ({ channelId, isNewTopic, subChannelId }
           {channel ? (
             <>
               <ChannelMeta channel={channel} />
-              {isNewTopic ? (
-                <CreateTopicForm channel={channel} subChannelId={subChannelId} />
-              ) : (
-                <>
-                  <ChannelMenu channelId={channel.channel_id} />
-                  <TopicList
-                    parentRef={parentRef}
-                    channel={channel}
-                    placeholder={boardPlaceholderElem}
-                  />
-                </>
-              )}
+              <ChannelMenu channelId={channel.channel_id} />
+              <TopicList
+                parentRef={parentRef}
+                channel={channel}
+                placeholder={boardPlaceholderElem}
+              />
             </>
           ) : (
             <div className={styles.noChannelFound}>{i18n.no_channel_found}</div>
