@@ -23,7 +23,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
   const [status, setStatus] = React.useState(Status.Standby);
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  // const [firstProof, setFirstProof] = React.useState<ProofBlob | null>(null);
   const [proofs, setProofs] = React.useState<ProofBlob[]>([]);
   const { editor } = useTextEditor();
   const [html, setHtml] = React.useState<string | null>(null);
@@ -85,13 +84,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     [setProofs],
   );
 
-  // const handleSucceedAddOtherProofs = React.useCallback(
-  //   (proof: ProofBlob) => {
-  //     setOtherProofs(oldVal => [...oldVal, proof]);
-  //   },
-  //   [setOtherProofs],
-  // );
-
   const {
     handleAddProof,
     handleSucceedAddProofSession,
@@ -145,8 +137,6 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
     html,
     title,
     proofs,
-    // firstProof,
-    // otherProofs,
     subChannelId,
     setStatus,
     channel,

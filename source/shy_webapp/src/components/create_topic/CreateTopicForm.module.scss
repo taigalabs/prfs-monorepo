@@ -21,13 +21,15 @@
 .titleInput {
   width: 100%;
   font-size: 15px;
-  border-bottom: 1px solid var(--bright-gray-30);
+  border: 1px solid var(--bright-gray-30);
+  border-radius: 14px;
   color: var(--shy-gray-20);
   padding: 0.5em 0.65em;
   outline: none;
 
+  &:hover,
   &:focus {
-    border-bottom: 1px solid var(--gray-50);
+    border: 1px solid var(--gray-50);
   }
 }
 
