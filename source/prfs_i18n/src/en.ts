@@ -182,6 +182,7 @@ export default {
   create_a_post: "Create a post",
   create_a_topic: "Create a topic",
   what_is_this_discussion_about_in_one_sentence: "What is this discussion about in one sentence?",
+  title: "Title",
   abort: "Abort",
   proof_label: "Proof label",
   short_id: "Short id",

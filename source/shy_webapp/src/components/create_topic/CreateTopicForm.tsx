@@ -160,7 +160,7 @@ const CreateTopicForm: React.FC<CreateTopicFormProps> = ({ channel, subChannelId
           <input
             className={styles.titleInput}
             type="text"
-            placeholder={i18n.what_is_this_discussion_about_in_one_sentence}
+            placeholder={i18n.title}
             value={title}
             onChange={handleChangeTitle}
           />
