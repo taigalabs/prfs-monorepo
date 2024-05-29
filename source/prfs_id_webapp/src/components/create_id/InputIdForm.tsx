@@ -11,7 +11,7 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
-import styles from "./CreateIdForm.module.scss";
+import styles from "./InputIdForm.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   DefaultInnerPadding,
@@ -30,7 +30,7 @@ const ID_CONFIRM = "id_confirm";
 const PASSWORD_1_CONFIRM = "password_1_confirm";
 const PASSWORD_2_CONFIRM = "password_2_confirm";
 
-const CreateIdForm: React.FC<InputCreateIdCredentialProps> = ({
+const InputIdForm: React.FC<InputCreateIdCredentialProps> = ({
   formData,
   setFormData,
   formErrors,
@@ -193,7 +193,7 @@ const CreateIdForm: React.FC<InputCreateIdCredentialProps> = ({
   );
 };
 
-export default CreateIdForm;
+export default InputIdForm;
 
 export interface InputCreateIdCredentialProps {
   formData: IdCreateForm;

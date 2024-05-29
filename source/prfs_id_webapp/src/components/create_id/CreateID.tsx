@@ -7,10 +7,12 @@ import styles from "./PrfsIdCreateID.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { IdCreateForm, makeEmptyIDCreateFormErrors, makeEmptyIdCreateForm } from "@/identity";
 import CreateIdSummary from "./CreateIdSummary";
-import CreateIdForm from "./CreateIdForm";
+import InputIdForm from "./InputIdForm";
 
 enum CreateIDStep {
-  CreateIdForm,
+  InputId,
+  InputPassword,
+  Secret,
   CreateIdSummary,
 }
 
@@ -18,7 +20,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  const [step, setStep] = React.useState(CreateIDStep.CreateIdForm);
+  const [step, setStep] = React.useState(CreateIDStep.InputId);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   const handleChangeValue = React.useCallback(
@@ -38,25 +40,27 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
     [formData, setFormData],
   );
 
-  const handleGotoCreateIdSuccess = React.useCallback(() => {
-    setStep(CreateIDStep.CreateIdSummary);
+  const handleGotoNext = React.useCallback(() => {
+    setStep(s => s + 1);
   }, [formData, setFormErrors, setStep]);
 
-  const handleGotoInputCredential = React.useCallback(() => {
-    setStep(CreateIDStep.CreateIdForm);
+  const handleGotoPrev = React.useCallback(() => {
+    setStep(s => {
+      return s > 0 ? s - 1 : s;
+    });
   }, [setStep]);
 
   const content = React.useMemo(() => {
     switch (step) {
-      case CreateIDStep.CreateIdForm: {
+      case CreateIDStep.InputId: {
         return (
-          <CreateIdForm
+          <InputIdForm
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
             setFormErrors={setFormErrors}
             handleClickSignIn={handleClickSignIn}
-            handleClickNext={handleGotoCreateIdSuccess}
+            handleClickNext={handleGotoNext}
             setCredential={setCredential}
           />
         );
@@ -67,7 +71,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
             <CreateIdSummary
               credential={credential}
               formData={formData}
-              handleClickPrev={handleGotoInputCredential}
+              handleClickPrev={handleGotoPrev}
               handleClickSignIn={handleClickSignIn}
               handleSucceedSignIn={handleSucceedSignIn}
             />
@@ -77,7 +81,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
       default:
         <div>Invalid step</div>;
     }
-  }, [step, handleGotoInputCredential, handleGotoCreateIdSuccess, handleChangeValue, formErrors]);
+  }, [step, handleGotoPrev, handleGotoNext, handleChangeValue, formErrors]);
 
   return <>{content}</>;
 };
