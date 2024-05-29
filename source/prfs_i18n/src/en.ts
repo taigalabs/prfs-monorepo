@@ -277,6 +277,7 @@ export default {
   how_to_choose_right_id: "How to choose a right Id",
   how_is_the_password_generated: "How is the password generated",
   what_happens_when_registering_id: "What happens when registering identity",
+  what_is_a_secret: "What is a secret",
   what_is_id: "What is an ID",
   what_is_the_role_of_password: "What is the role of password",
   create_id: "Create ID",

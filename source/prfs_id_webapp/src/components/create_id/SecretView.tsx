@@ -81,15 +81,20 @@ const SecretView: React.FC<SignUpProps> = ({
     },
   });
 
-  const handleClickShowPassword = React.useCallback(() => {
-    setShowPassword(val => !val);
-  }, [setShowPassword]);
+  // const handleClickShowPassword = React.useCallback(() => {
+  //   setShowPassword(val => !val);
+  // }, [setShowPassword]);
 
   const handleClickCopyPassword = React.useCallback(() => {
     // const { id, password_1, password_2 } = formData;
     // const pw = `${id}${password_1}${password_2}`;
     copy(secret);
   }, [secret]);
+
+  const handleClickNextExt = React.useCallback(() => {
+    copy("Clipboard is emptied");
+    handleClickNext();
+  }, [handleClickNext]);
 
   const handleClickSignUp = React.useCallback(async () => {
     // if (credential) {
@@ -189,7 +194,7 @@ const SecretView: React.FC<SignUpProps> = ({
           </div>
           <DefaultInputGuide>
             <Link href={`${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}/identity`} target="_blank">
-              {i18n.what_happens_when_registering_id}
+              {i18n.what_is_a_secret}
             </Link>
           </DefaultInputGuide>
           <DefaultModuleBtnRow className={styles.btnRow} noSidePadding>
@@ -220,7 +225,7 @@ const SecretView: React.FC<SignUpProps> = ({
               className={styles.createBtn}
               rounded
               noTransition
-              handleClick={handleClickNext}
+              handleClick={handleClickNextExt}
               noShadow
             >
               {i18n.next}

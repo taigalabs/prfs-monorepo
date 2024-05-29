@@ -44,7 +44,6 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
 
   const handleGotoNext = React.useCallback(() => {
     setStep(s => s + 1);
-    console.log(11);
   }, [formData, setFormErrors, setStep]);
 
   const handleGotoPrev = React.useCallback(() => {
