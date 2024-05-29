@@ -278,7 +278,7 @@ export default {
   how_is_the_password_generated: "How is the password generated",
   what_happens_when_registering_id: "What happens when registering identity",
   what_is_id: "What is an ID",
-  why_we_ask_for_two_passwords: "Why we ask for two passwords",
+  what_is_the_role_of_password: "What is the role of password",
   create_id: "Create ID",
   already_have_id: "Already have ID",
   generator: "Generator",

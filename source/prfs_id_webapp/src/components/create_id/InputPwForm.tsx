@@ -209,7 +209,7 @@ const InputPwForm: React.FC<InputCreateIdCredentialProps> = ({
                 href={`${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}/identity`}
                 target="_blank"
               >
-                {i18n.why_we_ask_for_two_passwords}
+                {i18n.what_is_the_role_of_password}
               </Link>
             </DefaultInputGuide>
           </DefaultModuleInputArea>
