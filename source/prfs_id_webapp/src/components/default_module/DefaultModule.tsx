@@ -52,9 +52,15 @@ export const DefaultModuleBtnRow: React.FC<DefaultModuleInputAreaProps> = ({
   children,
   className,
   noSidePadding,
+  noTopPadding,
 }) => {
   return (
-    <div className={cn(styles.btnRow, className, { [styles.noSidePadding]: noSidePadding })}>
+    <div
+      className={cn(styles.btnRow, className, {
+        [styles.noSidePadding]: noSidePadding,
+        [styles.noTopPadding]: noTopPadding,
+      })}
+    >
       {children}
     </div>
   );

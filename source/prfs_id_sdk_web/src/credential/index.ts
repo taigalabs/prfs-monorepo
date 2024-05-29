@@ -4,9 +4,11 @@ import { makeEncryptKey } from "@taigalabs/prfs-crypto-js";
 
 export const PW_PREFIX_LEN = 6;
 export const ID = "id";
-export const PASSWORD_1 = "password_1";
-export const PASSWORD_2 = "password_2";
-export const PASSWORD_2_PREFIX = "password_2_prefix";
+export const PASSWORD = "password";
+export const SECRET = "secret";
+// export const PASSWORD_PREFIX = "password_2_prefix";
+// export const PASSWORD_2 = "password_2";
+// export const PASSWORD_2_PREFIX = "password_2_prefix";
 
 export async function makePrfsIdCredential(args: MakeCredentialArgs): Promise<PrfsIdCredential> {
   const { id: id_, password_1, password_2 } = args;

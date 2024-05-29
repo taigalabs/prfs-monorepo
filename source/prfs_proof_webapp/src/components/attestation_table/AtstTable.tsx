@@ -6,17 +6,16 @@ import { atstApi, prfsApi3 } from "@taigalabs/prfs-api-js";
 import { useRouter } from "next/navigation";
 import { GetPrfsAttestationsByAtstGroupIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAttestationsByAtstGroupIdRequest";
 import { PrfsAtstGroupId } from "@taigalabs/prfs-entities/bindings/PrfsAtstGroupId";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./AtstTable.module.scss";
 import {
-  AppTableHeader,
-  AppTableBody2,
   AppTableWrapper,
   AppTableLoading,
+  AppTableBody,
 } from "@/components/app_table_components/AppTableComponents";
-import { AppTableHeaderCell } from "@/components/app_table_components/AppTableCellComponents";
-import { useI18N } from "@/i18n/use_i18n";
 import AtstTableRow, { AtstHeaderRow } from "./AtstTableRow";
+import { useAppTableBodyHeight } from "@/components/app_table_components/useAppTable";
 
 function usePrfsAtstGroup(atst_group_id: string) {
   return useQuery({
@@ -28,11 +27,13 @@ function usePrfsAtstGroup(atst_group_id: string) {
 }
 
 const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_group_id }) => {
-  const i18n = useI18N();
+  const bodyRef = React.useRef<HTMLDivElement | null>(null);
+  const parentRef = React.useRef<HTMLDivElement | null>(null);
   const router = useRouter();
-  const [isNavigating, setIsNavigating] = React.useState(false);
   const { data: prfsAtstGroupData, isPending: prfsAtstGroupDataIsPending } =
     usePrfsAtstGroup(atst_group_id);
+  const atstGroup = prfsAtstGroupData?.payload?.atst_group;
+  const { bodyHeight } = useAppTableBodyHeight(bodyRef);
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -46,7 +47,6 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
           type: "get_prfs_attestations_by_atst_group_id",
           ...req,
         });
-        // return fetchServerPage(10, pageParam);
       },
       initialPageParam: 0,
       getNextPageParam: lastPage => {
@@ -56,7 +56,6 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
           return null;
         }
       },
-      // getNextPageParam: (_lastGroup, groups) => groups.length,
     });
 
   const allRows = data
@@ -65,7 +64,6 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
       })
     : [];
 
-  const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
@@ -91,63 +89,71 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
     rowVirtualizer.getVirtualItems(),
   ]);
 
-  const atstGroup = prfsAtstGroupData?.payload?.atst_group;
-
   return (
-    <AppTableWrapper innerRef={parentRef}>
+    <AppTableWrapper>
       <AtstHeaderRow atstGroup={atstGroup} />
-
-      {status === "pending" || prfsAtstGroupDataIsPending ? (
-        <AppTableLoading>Loading...</AppTableLoading>
+      {status === "pending" ? (
+        <AppTableLoading>
+          <Spinner />
+        </AppTableLoading>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
-        <AppTableBody2
-          innerRef={parentRef}
-          style={{
-            height: `500px`,
-            width: `100%`,
-            overflow: "auto",
-          }}
-        >
+        <AppTableBody innerRef={bodyRef}>
           <div
+            ref={parentRef}
+            className="List"
             style={{
-              height: `${rowVirtualizer.getTotalSize()}px`,
-              width: "100%",
-              position: "relative",
+              height: bodyHeight,
+              width: `100%`,
+              overflow: "auto",
             }}
           >
-            {rowVirtualizer.getVirtualItems().map(row => {
-              const isLoaderRow = row.index > allRows.length - 1;
-              const atst = allRows[row.index];
+            <div
+              style={{
+                height: `${rowVirtualizer.getTotalSize()}px`,
+                width: "100%",
+                position: "relative",
+              }}
+            >
+              {rowVirtualizer.getVirtualItems().map(row => {
+                const isLoaderRow = row.index > allRows.length - 1;
+                const atst = allRows[row.index];
 
-              if (isLoaderRow) {
-                return hasNextPage ? <div key={row.key}>Loading more...</div> : null;
-              }
+                if (isLoaderRow) {
+                  return hasNextPage ? (
+                    <div key={row.key}>
+                      <AppTableLoading>
+                        <Spinner />
+                      </AppTableLoading>
+                    </div>
+                  ) : null;
+                }
 
-              return (
-                atstGroup && (
-                  <AtstTableRow
-                    key={row.key}
-                    atstGroup={atstGroup}
-                    atst={atst}
-                    router={router}
-                    setIsNavigating={setIsNavigating}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: `${row.size}px`,
-                      transform: `translateY(${row.start}px)`,
-                    }}
-                  />
-                )
-              );
-            })}
+                return (
+                  atstGroup && (
+                    <AtstTableRow
+                      key={row.key}
+                      atstGroup={atstGroup}
+                      atst={atst}
+                      router={router}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: `${row.size}px`,
+                        transform: `translateY(${row.start}px)`,
+                      }}
+                    />
+                  )
+                );
+              })}
+            </div>
           </div>
-        </AppTableBody2>
+        </AppTableBody>
       )}
+      {/* <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div> */}
     </AppTableWrapper>
   );
 };

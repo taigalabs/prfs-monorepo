@@ -10,7 +10,6 @@ use prfs_entities::{
 use std::sync::Arc;
 
 const LIMIT: i32 = 10;
-const LIMIT_: usize = 10;
 
 pub async fn get_prfs_attestations_by_atst_group_id(
     State(state): State<Arc<ServerState>>,
@@ -18,7 +17,7 @@ pub async fn get_prfs_attestations_by_atst_group_id(
 ) -> (StatusCode, Json<ApiResponse<GetPrfsAttestationsResponse>>) {
     let pool = &state.db2.pool;
 
-    let mut rows = match prfs::get_prfs_attestations_by_atst_group_id(
+    let rows = match prfs::get_prfs_attestations_by_atst_group_id(
         &pool,
         &input.atst_group_id,
         input.offset,
@@ -36,11 +35,10 @@ pub async fn get_prfs_attestations_by_atst_group_id(
         }
     };
 
-    let next_offset = if rows.len() > LIMIT_ {
-        rows.truncate(LIMIT_);
-        Some(input.offset + LIMIT)
-    } else {
+    let next_offset = if rows.len() == 0 {
         None
+    } else {
+        Some(input.offset + 1)
     };
 
     let resp = ApiResponse::new_success(GetPrfsAttestationsResponse { rows, next_offset });
