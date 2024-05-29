@@ -88,8 +88,8 @@ const SecretView: React.FC<SignUpProps> = ({
   const handleClickCopyPassword = React.useCallback(() => {
     // const { id, password_1, password_2 } = formData;
     // const pw = `${id}${password_1}${password_2}`;
-    // copy(pw);
-  }, [formData]);
+    copy(secret);
+  }, [secret]);
 
   const handleClickSignUp = React.useCallback(async () => {
     // if (credential) {

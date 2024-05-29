@@ -36,8 +36,9 @@ const InputPwForm: React.FC<InputCreateIdCredentialProps> = ({
   setFormData,
   formErrors,
   setFormErrors,
-  handleClickSignIn,
-  handleClickNext,
+  // handleClickSignIn,
+  handleClickSignUp,
+  // handleClickNext,
   setCredential,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -78,11 +79,47 @@ const InputPwForm: React.FC<InputCreateIdCredentialProps> = ({
       //   password_2: formData[PASSWORD_2]!,
       // });
       // console.log("credential", credential);
-
       // setCredential(credential);
-      handleClickNext();
+      // handleClickNext();
+      handleClickSignUp();
     }
-  }, [handleClickNext, setCredential, dispatch, setFormErrors]);
+  }, [setCredential, dispatch, setFormErrors, handleClickSignUp]);
+
+  // const handleClickSignUp = React.useCallback(async () => {
+  //   // if (credential) {
+  //   //   const { id } = credential;
+  //   //   try {
+  //   //     setStatus(IdCreationStatus.InProgress);
+  //   //     const avatar_color = makeIdentityColor(id);
+  //   //     const { error } = await signUpPrfsIdentity({
+  //   //       identity_id: id,
+  //   //       avatar_color,
+  //   //       public_key: credential.public_key,
+  //   //     });
+  //   //     setStatus(IdCreationStatus.Standby);
+  //   //     if (error) {
+  //   //       dispatch(
+  //   //         setGlobalMsg({
+  //   //           variant: "error",
+  //   //           message: error.toString(),
+  //   //         }),
+  //   //       );
+  //   //       return;
+  //   //     } else {
+  //   //       persistPrfsIdCredentialEncrypted(credential);
+  //   //       handleSucceedSignIn(credential);
+  //   //     }
+  //   //   } catch (err: any) {
+  //   //     dispatch(
+  //   //       setGlobalMsg({
+  //   //         variant: "error",
+  //   //         message: err.toString(),
+  //   //       }),
+  //   //     );
+  //   //     return;
+  //   //   }
+  //   // }
+  // }, [formData, router, signUpPrfsIdentity, dispatch]);
 
   return (
     <DefaultInnerPadding>
@@ -166,17 +203,18 @@ const InputPwForm: React.FC<InputCreateIdCredentialProps> = ({
             </DefaultInputGuide>
           </DefaultModuleInputArea>
           <DefaultModuleBtnRow noSidePadding>
-            <Button
-              className={styles.btn}
-              rounded
-              type="button"
-              variant="transparent_blue_3"
-              noTransition
-              handleClick={handleClickSignIn}
-              noShadow
-            >
-              {i18n.already_have_id}
-            </Button>
+            {/* <Button */}
+            {/*   className={styles.btn} */}
+            {/*   rounded */}
+            {/*   type="button" */}
+            {/*   variant="transparent_blue_3" */}
+            {/*   noTransition */}
+            {/*   handleClick={handleClickSignIn} */}
+            {/*   noShadow */}
+            {/* > */}
+            {/*   {i18n.already_have_id} */}
+            {/* </Button> */}
+            <div />
             <Button
               type="button"
               variant="blue_3"
@@ -201,7 +239,7 @@ export interface InputCreateIdCredentialProps {
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   formErrors: IdCreateForm;
   setFormErrors: React.Dispatch<React.SetStateAction<IdCreateForm>>;
-  handleClickNext: () => void;
-  handleClickSignIn: () => void;
+  // handleClickNext: () => void;
+  handleClickSignUp: () => void;
   setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;
 }
