@@ -79,13 +79,12 @@
 
 .subtitle {
   padding: 7px 0 1px;
-  font-size: 1.17em;
+  font-size: 1.12em;
 }
 
 .btnRow {
   display: flex;
   justify-content: space-between;
-  padding-top: 32px;
 
   > a {
     display: inline-flex;
@@ -100,6 +99,10 @@
   &:not(.noSidePadding) {
     padding-left: $small_side_padding;
     padding-right: $small_side_padding;
+  }
+
+  &:not(.noTopPadding) {
+    padding-top: 32px;
   }
 }
 

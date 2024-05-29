@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { PASSWORD_2_PREFIX, PW_PREFIX_LEN, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import { PASSWORD, PW_PREFIX_LEN, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { decrypt, toUtf8Bytes } from "@taigalabs/prfs-crypto-js";
 import { abbrev7and5 } from "@taigalabs/prfs-ts-utils";
@@ -99,7 +99,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     const credential = Object.values(storedCredentials).find(
       cred => cred.id === selectedCredentialId,
     );
-    const pw2Prefix = formData.password_2_prefix;
+    const pw2Prefix = formData.password_prefix;
     setErrorMsg("");
 
     if (credential && pw2Prefix) {
@@ -222,10 +222,10 @@ local_encrypt_key: ${credentialObj.local_encrypt_key}`,
                   <Input
                     className={styles.input}
                     type="password"
-                    name={PASSWORD_2_PREFIX}
-                    error={formErrors[PASSWORD_2_PREFIX]}
+                    name={PASSWORD}
+                    error={formErrors[PASSWORD]}
                     label={pw2PrefixLabel}
-                    value={formData[PASSWORD_2_PREFIX]}
+                    value={formData[PASSWORD]}
                     handleChangeValue={handleChangePw2Prefix}
                     handleKeyDown={handleKeyDown}
                   />

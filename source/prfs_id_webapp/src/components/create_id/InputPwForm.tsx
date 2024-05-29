@@ -4,14 +4,15 @@ import Link from "next/link";
 import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 import {
   ID,
-  PASSWORD_1,
-  PASSWORD_2,
+  PASSWORD,
+  // PASSWORD_CONFIRM,
+  // PASSWORD_2,
   PrfsIdCredential,
   makePrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
 
-import styles from "./InputIdForm.module.scss";
+import styles from "./InputPwForm.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   DefaultInnerPadding,
@@ -22,15 +23,15 @@ import {
   DefaultModuleSubtitle,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
-import { IdCreateForm, validateIdCreateForm } from "@/identity";
+import { IdCreateForm, validateId, validateIdCreateForm } from "@/identity";
 import { useAppDispatch } from "@/state/hooks";
 import { envs } from "@/envs";
 
 const ID_CONFIRM = "id_confirm";
-const PASSWORD_1_CONFIRM = "password_1_confirm";
-const PASSWORD_2_CONFIRM = "password_2_confirm";
+const PASSWORD_CONFIRM = "password_confirm";
+// const PASSWORD_2_CONFIRM = "password_2_confirm";
 
-const InputIdForm: React.FC<InputCreateIdCredentialProps> = ({
+const InputPwForm: React.FC<InputCreateIdCredentialProps> = ({
   formData,
   setFormData,
   formErrors,
@@ -67,17 +68,18 @@ const InputIdForm: React.FC<InputCreateIdCredentialProps> = ({
   );
 
   const enhancedHandleClickNext = React.useCallback(async () => {
-    const isValid = validateIdCreateForm(formData, setFormErrors);
+    // const isValid = validateIdCreateForm(formData, setFormErrors);
+    const isValid = validateId(formData, setFormErrors);
 
     if (isValid) {
-      const credential = await makePrfsIdCredential({
-        id: formData[ID]!,
-        password_1: formData[PASSWORD_1]!,
-        password_2: formData[PASSWORD_2]!,
-      });
-      console.log("credential", credential);
+      // const credential = await makePrfsIdCredential({
+      //   id: formData[ID]!,
+      //   password_1: formData[PASSWORD_1]!,
+      //   password_2: formData[PASSWORD_2]!,
+      // });
+      // console.log("credential", credential);
 
-      setCredential(credential);
+      // setCredential(credential);
       handleClickNext();
     }
   }, [handleClickNext, setCredential, dispatch, setFormErrors]);
@@ -85,76 +87,75 @@ const InputIdForm: React.FC<InputCreateIdCredentialProps> = ({
   return (
     <DefaultInnerPadding>
       <div className={styles.main}>
-        {/* <AppLogoArea subLabel="ID" /> */}
         <Fade>
           <DefaultModuleHeader noSidePadding>
             <DefaultModuleTitle>{i18n.create_an_identity}</DefaultModuleTitle>
             <DefaultModuleSubtitle>{i18n.create_a_strong_password}</DefaultModuleSubtitle>
           </DefaultModuleHeader>
           <DefaultModuleInputArea>
+            {/* <div className={styles.inputGroup}> */}
+            {/*   <Input */}
+            {/*     className={styles.input} */}
+            {/*     name={ID} */}
+            {/*     error={formErrors[ID]} */}
+            {/*     label={i18n.email_or_id_or_wallet_addr} */}
+            {/*     value={formData[ID]} */}
+            {/*     type="text" */}
+            {/*     handleChangeValue={handleChangeValue} */}
+            {/*   /> */}
+            {/*   <Input */}
+            {/*     name={ID_CONFIRM} */}
+            {/*     error={formErrors[ID_CONFIRM]} */}
+            {/*     label={i18n.confirm} */}
+            {/*     value={formData[ID_CONFIRM]} */}
+            {/*     type="text" */}
+            {/*     handleChangeValue={handleChangeValue} */}
+            {/*   /> */}
+            {/* </div> */}
+            {/* <DefaultInputGuide> */}
+            {/*   <Link */}
+            {/*     href={`${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}/identity`} */}
+            {/*     target="_blank" */}
+            {/*   > */}
+            {/*     {i18n.how_to_choose_right_id} */}
+            {/*   </Link> */}
+            {/* </DefaultInputGuide> */}
             <div className={styles.inputGroup}>
               <Input
-                className={styles.input}
-                name={ID}
-                error={formErrors[ID]}
-                label={i18n.email_or_id_or_wallet_addr}
-                value={formData[ID]}
-                type="text"
-                handleChangeValue={handleChangeValue}
-              />
-              <Input
-                name={ID_CONFIRM}
-                error={formErrors[ID_CONFIRM]}
-                label={i18n.confirm}
-                value={formData[ID_CONFIRM]}
-                type="text"
-                handleChangeValue={handleChangeValue}
-              />
-            </div>
-            <DefaultInputGuide>
-              <Link
-                href={`${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}/identity`}
-                target="_blank"
-              >
-                {i18n.how_to_choose_right_id}
-              </Link>
-            </DefaultInputGuide>
-            <div className={styles.inputGroup}>
-              <Input
-                name={PASSWORD_1}
-                error={formErrors[PASSWORD_1]}
-                label={i18n.password_1}
-                value={formData[PASSWORD_1]}
+                name={PASSWORD}
+                error={formErrors[PASSWORD]}
+                label={i18n.password}
+                value={formData[PASSWORD]}
                 type="password"
                 handleChangeValue={handleChangeValue}
               />
               <Input
-                name={PASSWORD_1_CONFIRM}
-                error={formErrors[PASSWORD_1_CONFIRM]}
+                name={PASSWORD_CONFIRM}
+                error={formErrors[PASSWORD_CONFIRM]}
                 label={i18n.confirm}
-                value={formData[PASSWORD_1_CONFIRM]}
-                type="password"
-                handleChangeValue={handleChangeValue}
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <Input
-                name={PASSWORD_2}
-                error={formErrors[PASSWORD_2]}
-                label={i18n.password_2}
-                value={formData[PASSWORD_2]}
-                type="password"
-                handleChangeValue={handleChangeValue}
-              />
-              <Input
-                name={PASSWORD_2_CONFIRM}
-                error={formErrors[PASSWORD_2_CONFIRM]}
-                label={i18n.confirm}
-                value={formData[PASSWORD_2_CONFIRM]}
+                value={formData[PASSWORD_CONFIRM]}
                 type="password"
                 handleChangeValue={handleChangeValue}
               />
             </div>
+            {/* <div className={styles.inputGroup}> */}
+            {/*   <Input */}
+            {/*     name={PASSWORD_2} */}
+            {/*     error={formErrors[PASSWORD_2]} */}
+            {/*     label={i18n.password_2} */}
+            {/*     value={formData[PASSWORD_2]} */}
+            {/*     type="password" */}
+            {/*     handleChangeValue={handleChangeValue} */}
+            {/*   /> */}
+            {/*   <Input */}
+            {/*     name={PASSWORD_2_CONFIRM} */}
+            {/*     error={formErrors[PASSWORD_2_CONFIRM]} */}
+            {/*     label={i18n.confirm} */}
+            {/*     value={formData[PASSWORD_2_CONFIRM]} */}
+            {/*     type="password" */}
+            {/*     handleChangeValue={handleChangeValue} */}
+            {/*   /> */}
+            {/* </div> */}
             <DefaultInputGuide>
               <Link
                 href={`${envs.NEXT_PUBLIC_PRFS_DOCS_WEBSITE_ENDPOINT}/identity`}
@@ -164,7 +165,7 @@ const InputIdForm: React.FC<InputCreateIdCredentialProps> = ({
               </Link>
             </DefaultInputGuide>
           </DefaultModuleInputArea>
-          <DefaultModuleBtnRow className={styles.btnRow} noSidePadding>
+          <DefaultModuleBtnRow noSidePadding>
             <Button
               className={styles.btn}
               rounded
@@ -193,7 +194,7 @@ const InputIdForm: React.FC<InputCreateIdCredentialProps> = ({
   );
 };
 
-export default InputIdForm;
+export default InputPwForm;
 
 export interface InputCreateIdCredentialProps {
   formData: IdCreateForm;

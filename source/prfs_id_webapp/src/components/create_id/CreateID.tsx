@@ -6,13 +6,15 @@ import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import styles from "./PrfsIdCreateID.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { IdCreateForm, makeEmptyIDCreateFormErrors, makeEmptyIdCreateForm } from "@/identity";
-import CreateIdSummary from "./CreateIdSummary";
-import InputIdForm from "./InputIdForm";
+// import CreateIdSummary from "./CreateIdSummary";
+import SecretView from "./SecretView";
+import InputPwForm from "./InputPwForm";
 
 enum CreateIDStep {
-  InputId,
-  InputPassword,
+  // InputId,
   Secret,
+  InputPassword,
+  // Secret,
   CreateIdSummary,
 }
 
@@ -20,7 +22,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  const [step, setStep] = React.useState(CreateIDStep.InputId);
+  const [step, setStep] = React.useState(CreateIDStep.Secret);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   const handleChangeValue = React.useCallback(
@@ -42,6 +44,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
 
   const handleGotoNext = React.useCallback(() => {
     setStep(s => s + 1);
+    console.log(11);
   }, [formData, setFormErrors, setStep]);
 
   const handleGotoPrev = React.useCallback(() => {
@@ -52,9 +55,22 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
 
   const content = React.useMemo(() => {
     switch (step) {
-      case CreateIDStep.InputId: {
+      case CreateIDStep.Secret: {
         return (
-          <InputIdForm
+          <SecretView
+            formData={formData}
+            setFormData={setFormData}
+            // formErrors={formErrors}
+            // setFormErrors={setFormErrors}
+            handleClickSignIn={handleClickSignIn}
+            handleClickNext={handleGotoNext}
+            // setCredential={setCredential}
+          />
+        );
+      }
+      case CreateIDStep.InputPassword: {
+        return (
+          <InputPwForm
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
@@ -65,19 +81,17 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedSig
           />
         );
       }
-      case CreateIDStep.CreateIdSummary: {
-        return (
-          credential && (
-            <CreateIdSummary
-              credential={credential}
-              formData={formData}
-              handleClickPrev={handleGotoPrev}
-              handleClickSignIn={handleClickSignIn}
-              handleSucceedSignIn={handleSucceedSignIn}
-            />
-          )
-        );
-      }
+      // case CreateIDStep.CreateIdSummary: {
+      //   return (
+      //     <CreateIdSummary
+      //       credential={credential!}
+      //       formData={formData}
+      //       handleClickPrev={handleGotoPrev}
+      //       handleClickSignIn={handleClickSignIn}
+      //       handleSucceedSignIn={handleSucceedSignIn}
+      //     />
+      //   );
+      // }
       default:
         <div>Invalid step</div>;
     }
