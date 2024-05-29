@@ -6,9 +6,10 @@ const MINIMUM_PW_LEN = 20;
 export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
   // id: "",
   // id_confirm: "",
+  secret: "",
   password: "",
   password_confirm: "",
-  password_prefix: "",
+  // password_prefix: "",
   // password_2: "",
   // password_2_confirm: "",
   // password_2_prefix: "",
@@ -17,9 +18,10 @@ export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
 export const makeEmptyIDCreateFormErrors: () => IdCreateForm = () => ({
   // id: "",
   // id_confirm: "",
+  secret: "",
   password: "",
   password_confirm: "",
-  password_prefix: "",
+  // password_prefix: "",
   // password_2: "",
   // password_2_confirm: "",
   // password_2_prefix: "",
@@ -28,11 +30,12 @@ export const makeEmptyIDCreateFormErrors: () => IdCreateForm = () => ({
 export interface IdCreateForm {
   // id: string | null;
   // id_confirm: string | null;
+  secret: string | null;
   password: string | null;
   password_confirm: string | null;
   // password_2: string | null;
   // password_2_confirm: string | null;
-  password_prefix: string | null;
+  // password_prefix: string | null;
 }
 
 function checkPassword(str: string | null): [boolean, string] {

@@ -8,6 +8,7 @@ import {
   // PASSWORD_CONFIRM,
   // PASSWORD_2,
   PrfsIdCredential,
+  SECRET,
   makePrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
 import Input from "@taigalabs/prfs-react-lib/src/input/Input";
@@ -126,7 +127,7 @@ const InputPwForm: React.FC<InputCreateIdCredentialProps> = ({
       <div className={styles.main}>
         <Fade>
           <DefaultModuleHeader noSidePadding>
-            <DefaultModuleTitle>{i18n.create_an_identity}</DefaultModuleTitle>
+            <DefaultModuleTitle>{i18n.enter_password}</DefaultModuleTitle>
             <DefaultModuleSubtitle>{i18n.create_a_strong_password}</DefaultModuleSubtitle>
           </DefaultModuleHeader>
           <DefaultModuleInputArea>
@@ -157,6 +158,16 @@ const InputPwForm: React.FC<InputCreateIdCredentialProps> = ({
             {/*     {i18n.how_to_choose_right_id} */}
             {/*   </Link> */}
             {/* </DefaultInputGuide> */}
+            <div className={styles.inputGroup}>
+              <Input
+                name={SECRET}
+                error={formErrors[SECRET]}
+                label={i18n.secret}
+                value={formData[SECRET]}
+                type="text"
+                handleChangeValue={handleChangeValue}
+              />
+            </div>
             <div className={styles.inputGroup}>
               <Input
                 name={PASSWORD}

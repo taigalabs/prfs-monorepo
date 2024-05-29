@@ -169,11 +169,11 @@ const SecretView: React.FC<SignUpProps> = ({
             <div className={styles.labelArea}>
               <p>{i18n.secret}</p>
               <div className={styles.btnArea}>
-                <div className={styles.showPasswordBtn} onClick={handleClickShowPassword}>
-                  <Tooltip label={i18n.show} offset={6}>
-                    <IoMdEye />
-                  </Tooltip>
-                </div>
+                {/* <div className={styles.showPasswordBtn} onClick={handleClickShowPassword}> */}
+                {/*   <Tooltip label={i18n.show} offset={6}> */}
+                {/*     <IoMdEye /> */}
+                {/*   </Tooltip> */}
+                {/* </div> */}
                 <div className={styles.showPasswordBtn} onClick={handleClickCopyPassword}>
                   <Tooltip label={i18n.copy} offset={6}>
                     <AiOutlineCopy />

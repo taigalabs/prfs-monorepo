@@ -5,6 +5,7 @@ import { makeEncryptKey } from "@taigalabs/prfs-crypto-js";
 export const PW_PREFIX_LEN = 6;
 export const ID = "id";
 export const PASSWORD = "password";
+export const SECRET = "secret";
 // export const PASSWORD_PREFIX = "password_2_prefix";
 // export const PASSWORD_2 = "password_2";
 // export const PASSWORD_2_PREFIX = "password_2_prefix";
