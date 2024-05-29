@@ -1,12 +1,9 @@
 @import "@/styles/layouts.module.scss";
 
-.main {
-  flex-grow: 1;
-}
-
 .wrapper {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .noRecord {
@@ -49,8 +46,9 @@
 }
 
 .tableBody {
-  width: 100%;
-  overflow: auto;
+  /* width: 100%; */
+  /* overflow: auto; */
+  height: 100%;
 }
 
 .tableBody2 {

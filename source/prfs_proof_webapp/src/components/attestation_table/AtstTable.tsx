@@ -13,10 +13,12 @@ import {
   AppTableBody2,
   AppTableWrapper,
   AppTableLoading,
+  AppTableBody,
 } from "@/components/app_table_components/AppTableComponents";
 import { AppTableHeaderCell } from "@/components/app_table_components/AppTableCellComponents";
 import { useI18N } from "@/i18n/use_i18n";
 import AtstTableRow, { AtstHeaderRow } from "./AtstTableRow";
+import { useAppTableBodyHeight } from "../app_table_components/useAppTable";
 
 function usePrfsAtstGroup(atst_group_id: string) {
   return useQuery({
@@ -27,12 +29,150 @@ function usePrfsAtstGroup(atst_group_id: string) {
   });
 }
 
+async function fetchServerPage(
+  limit: number,
+  offset: number = 0,
+): Promise<{ rows: string[]; nextOffset: number }> {
+  const rows = new Array(limit).fill(0).map((e, i) => `Async loaded row #${i + offset * limit}`);
+
+  await new Promise(r => setTimeout(r, 500));
+
+  return { rows, nextOffset: offset + 1 };
+}
+
 const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_group_id }) => {
+  const bodyRef = React.useRef<HTMLDivElement | null>(null);
+  const parentRef = React.useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
+  const { data: prfsAtstGroupData, isPending: prfsAtstGroupDataIsPending } =
+    usePrfsAtstGroup(atst_group_id);
+  const atstGroup = prfsAtstGroupData?.payload?.atst_group;
+  const [isNavigating, setIsNavigating] = React.useState(false);
+  const { bodyHeight } = useAppTableBodyHeight(bodyRef);
+
+  const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["get_prfs_attestations", nonce, atst_group_id],
+      queryFn: async ({ pageParam }) => {
+        const req: GetPrfsAttestationsByAtstGroupIdRequest = {
+          atst_group_id: atst_group_id as PrfsAtstGroupId,
+          offset: pageParam as number,
+        };
+        return atstApi({
+          type: "get_prfs_attestations_by_atst_group_id",
+          ...req,
+        });
+      },
+      initialPageParam: 0,
+      getNextPageParam: lastPage => {
+        if (lastPage.payload) {
+          return lastPage.payload.next_offset;
+        } else {
+          return null;
+        }
+      },
+    });
+
+  const allRows = data
+    ? data.pages.flatMap(d => {
+        return d.payload ? d.payload.rows : [];
+      })
+    : [];
+
+  const rowVirtualizer = useVirtualizer({
+    count: hasNextPage ? allRows.length + 1 : allRows.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 56,
+    overscan: 5,
+  });
+
+  React.useEffect(() => {
+    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
+
+    if (!lastItem) {
+      return;
+    }
+
+    if (lastItem.index >= allRows.length - 1 && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [
+    hasNextPage,
+    fetchNextPage,
+    allRows.length,
+    isFetchingNextPage,
+    rowVirtualizer.getVirtualItems(),
+  ]);
+
+  return (
+    <AppTableWrapper>
+      <AtstHeaderRow atstGroup={atstGroup} />
+      {status === "pending" ? (
+        <AppTableLoading>Loading...</AppTableLoading>
+      ) : status === "error" ? (
+        <span>Error: {(error as Error).message}</span>
+      ) : (
+        <AppTableBody innerRef={bodyRef}>
+          <div
+            ref={parentRef}
+            className="List"
+            style={{
+              height: bodyHeight,
+              width: `100%`,
+              overflow: "auto",
+            }}
+          >
+            <div
+              style={{
+                height: `${rowVirtualizer.getTotalSize()}px`,
+                width: "100%",
+                position: "relative",
+              }}
+            >
+              {rowVirtualizer.getVirtualItems().map(row => {
+                const isLoaderRow = row.index > allRows.length - 1;
+                const atst = allRows[row.index];
+
+                if (isLoaderRow) {
+                  return hasNextPage ? <div key={row.key}>Loading...</div> : null;
+                }
+
+                return (
+                  atstGroup && (
+                    <AtstTableRow
+                      key={row.key}
+                      atstGroup={atstGroup}
+                      atst={atst}
+                      router={router}
+                      setIsNavigating={setIsNavigating}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: `${row.size}px`,
+                        transform: `translateY(${row.start}px)`,
+                      }}
+                    />
+                  )
+                );
+              })}
+            </div>
+          </div>
+        </AppTableBody>
+      )}
+      {/* <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div> */}
+    </AppTableWrapper>
+  );
+};
+
+const GroupMemberAtstTable2: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_group_id }) => {
   const i18n = useI18N();
   const router = useRouter();
   const [isNavigating, setIsNavigating] = React.useState(false);
   const { data: prfsAtstGroupData, isPending: prfsAtstGroupDataIsPending } =
     usePrfsAtstGroup(atst_group_id);
+  const atstGroup = prfsAtstGroupData?.payload?.atst_group;
 
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -91,12 +231,9 @@ const GroupMemberAtstTable: React.FC<TwitterAccAtstTableProps> = ({ nonce, atst_
     rowVirtualizer.getVirtualItems(),
   ]);
 
-  const atstGroup = prfsAtstGroupData?.payload?.atst_group;
-
   return (
     <AppTableWrapper innerRef={parentRef}>
       <AtstHeaderRow atstGroup={atstGroup} />
-
       {status === "pending" || prfsAtstGroupDataIsPending ? (
         <AppTableLoading>Loading...</AppTableLoading>
       ) : status === "error" ? (

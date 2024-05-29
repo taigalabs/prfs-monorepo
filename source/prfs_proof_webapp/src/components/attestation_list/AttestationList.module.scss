@@ -3,10 +3,12 @@
 .table {
   overflow-y: hidden;
   padding: 0 14px;
+  /* flex-grow: 1; */
+  height: 100%;
 
-  > div {
-    height: 100%;
-  }
+  /* > div { */
+  /*   height: 100%; */
+  /* } */
 }
 
 @media not screen and (min-width: $big_display_min_width) {
