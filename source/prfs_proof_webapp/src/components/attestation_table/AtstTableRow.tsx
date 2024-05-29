@@ -82,7 +82,9 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router, setIsNavigating,
     (e: React.MouseEvent) => {
       e.preventDefault();
 
-      setIsNavigating(true);
+      if (setIsNavigating) {
+        setIsNavigating(true);
+      }
       router.push(url);
     },
     [url, router, setIsNavigating],
@@ -141,7 +143,7 @@ export interface AtstRowProps {
   atstGroup: PrfsAtstGroup;
   style: React.CSSProperties;
   router: AppRouterInstance;
-  setIsNavigating: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsNavigating?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface AtstHeaderRowProps {

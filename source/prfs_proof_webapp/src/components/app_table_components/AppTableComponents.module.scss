@@ -21,7 +21,9 @@
 }
 
 .loading {
-  padding: 0 16px;
+  height: 80px;
+  display: grid;
+  place-items: center;
 }
 
 .title {

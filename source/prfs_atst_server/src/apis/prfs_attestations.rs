@@ -10,7 +10,6 @@ use prfs_entities::{
 use std::sync::Arc;
 
 const LIMIT: i32 = 10;
-// const LIMIT_: usize = 10;
 
 pub async fn get_prfs_attestations_by_atst_group_id(
     State(state): State<Arc<ServerState>>,
