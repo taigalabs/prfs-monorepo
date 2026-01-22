@@ -5,9 +5,13 @@
 A high-performance, client-side cryptographic module for generating **Zero-Knowledge Proofs (ZKP)**. This project allows users to authenticate via familiar flows (like Google Sign-In) to generate the proof locally in the browser, ensuring the raw credential never touches a server.
 
 ## Demo
-[![Prfs - Demo](documentation/prfs_1.png)](https://drive.google.com/file/d/1GGG9Cuun56-7v7Wo_jrv6leu4k5gNLH5/view)
+<img src="https://github.com/taigalabs/prfs-monorepo/raw/main/documentation/prfs_1.png" alt="Prfs - Demo" width="500" height="300">
 
-[![Shy - Demo](documentation/shy_1.png)](https://drive.google.com/file/d/1uNj1EhtIi4FKXwl-i646aver1o6AQUzG/view)
+[Prfs - Demo](https://drive.google.com/file/d/1GGG9Cuun56-7v7Wo_jrv6leu4k5gNLH5/view)
+
+<img src="https://github.com/taigalabs/prfs-monorepo/raw/main/documentation/shy_1.png" alt="Prfs - Demo" width="500" height="300">
+
+[Shy - Demo](https://drive.google.com/file/d/1uNj1EhtIi4FKXwl-i646aver1o6AQUzG/view)
 
 ## 🚀 Key Features
 
@@ -24,7 +28,7 @@ A high-performance, client-side cryptographic module for generating **Zero-Knowl
 
 ---
 
-## 📐 Architecture
+## Architecture
 
 The system bridges the gap between traditional Web2 identity and Web3 privacy:
 
@@ -41,22 +45,8 @@ Unlike Groth16, Spartan does not require a per-circuit trusted setup. It offers:
 - **Proof Size**: Polylogarithmic $\tilde{O}(\log^2 N)$.
 - **Verification**: Extremely fast, suitable for on-chain or off-chain check.
 
----
 
-## 🔬 Technical Deep Dive: secp256k1 Optimization
-
-Generating proofs for **secp256k1** in a ZK circuit is computationally expensive due to the large field size and the complexity of elliptic curve scalar multiplication. 
-
-Prfs optimizes this by:
-- **Efficient BigInt Arithmetic**: Utilizing specialized R1CS constraints for foreign-field arithmetic to handle secp256k1's 256-bit prime field.
-- **Precomputed Tables**: Leveraging precomputed points where possible to reduce the number of constraints required for point addition and doubling.
-- **Circom Integration**: Using Circom to define the circuit logic for ECDSA verification, which is then compiled and executed via the Spartan prover in Rust/WASM.
-
-
-
----
-
-## ⚡ Performance
+## Performance ⚡
 
 By optimizing the `secp256k1` scalar multiplication inside the Spartan R1CS, we achieve industry-leading performance for browser-based proving:
 
@@ -67,5 +57,15 @@ By optimizing the `secp256k1` scalar multiplication inside the Spartan R1CS, we 
 | **Spartan Proving** | SNARK Generation | **< 6s** |
 | **Verification** | Succinct Check | ~10ms |
 
+Executed in Chrome (WASM) on a consumer-grade machine: CPU: AMD Ryzen 9 5900X (12-Core, 3.7GHz), RAM: 64GB
+
 ---
 
+## Tribute
+
+The early works of Personae Labs (specifically their research into efficient ECDSA verification in 
+ZK) have heavily inspired this project and underpin the architecture of the proof-generation module.
+
+## References
+- Setty, Srinath. "Spartan: Efficient and general-purpose zkSNARKs without trusted setup." (2019). 
+IACR ePrint 2019/550.
