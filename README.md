@@ -38,15 +38,15 @@ The system bridges the gap between traditional Web2 identity and Web3 privacy:
 4. **Verification**: A succinct proof is outputted, allowing any third party to verify the credential's validity without seeing the secret data.
 
 
-
-### Spartan Performance Advantage
-Unlike Groth16, Spartan does not require a per-circuit trusted setup. It offers:
+### Spartan Proof Algorithm (2019)
+Unlike [Groth16](https://eprint.iacr.org/2016/260.pdf), Spartan does not require a per-circuit 
+trusted setup. Spartan proposes:
 - **Prover Time**: Linear to the number of constraints $O(N)$.
 - **Proof Size**: Polylogarithmic $\tilde{O}(\log^2 N)$.
 - **Verification**: Extremely fast, suitable for on-chain or off-chain check.
 
 
-## Performance ⚡
+## ⚡ Performance 
 
 By optimizing the `secp256k1` scalar multiplication inside the Spartan R1CS, we achieve industry-leading performance for browser-based proving:
 
@@ -63,8 +63,9 @@ Executed in Chrome (WASM) on a consumer-grade machine: CPU: AMD Ryzen 9 5900X (1
 
 ## Tribute
 
-The early works of Personae Labs (specifically their research into efficient ECDSA verification in 
-ZK) have heavily inspired this project and underpin the architecture of the proof-generation module.
+The [early works](https://github.com/personaelabs/spartan-ecdsa) of Personae Labs (specifically 
+their research into efficient ECDSA verification in ZK) have heavily inspired this project 
+and underpin the architecture of the proof-generation module.
 
 ## References
 - Setty, Srinath. "Spartan: Efficient and general-purpose zkSNARKs without trusted setup." (2019). 
